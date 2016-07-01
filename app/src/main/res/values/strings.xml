@@ -1,3 +1,81 @@
 <resources>
-    <string name="app_name">XiaoShangXing</string>
+    <string name="app_name">校上行</string>
+
+    <!--登录注册相关-->
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="account">账号</string>
+    <string name="password">密码</string>
+    <string name="phoneNumber">手机号</string>
+    <string name="inputPassword">请填写密码</string>
+    <string name="retrievePassword">找回密码</string>
+    <string name="newUserRegister">新用户注册</string>
+    <string name="cancle">取消</string>
+    <string name="back">返回</string>
+    <string name="makesure">确认</string>
+
+    <string name="inputyounumber">请输入你的手机号</string>
+    <string name="country">国家/地区</string>
+    <string name="china">中国</string>
+    <string name="phone_head">+86</string>
+    <string name="inputnumber">请填写手机号</string>
+    <string name="agreen_protocol">轻触上面的"注册"按钮,既表示你同意</string>
+    <string name="protocol">《校上行软件许可及服务协议》</string>
+
+
+    <string name="input_vertify_code">短信验证码已发送,请填写验\n证码</string>
+    <string name="vertify_code">验证码</string>
+    <string name="please_input_vertify_code">请输入验证码</string>
+    <string name="submit">提交</string>
+    <string name="recieve_message_time">接受短信大约需要60秒</string>
+
+    <string name="please_set_you_password">请设置你的登录密码</string>
+    <string name="please_set_8_16_password">请设置8-16位密码</string>
+    <string name="complete_register">完成注册</string>
+    <string name="retrieve_by_message">通过短信验证码找回</string>
+
+    <string name="next">下一步</string>
+    <string name="set_xsx_password">设置校上行密码</string>
+    <string name="complete">完成</string>
+
+
+    <string name="set_xsx_password_notice">请设置校上行密码,之后你可以使用手机号\n+86+
+    校上行密码登录校上行</string>
+    <string name="comfirm_code">确认密码</string>
+    <string name="re_comfirm_code">请再次确认密码</string>
+    <string name="retrieve_by_emain">使用邮箱验证找回</string>
+    <string name="retrieve_by_emain2">邮箱验证找回</string>
+    <string name="you_have_no_email">你还没有绑定邮箱</string>
+    <string name="you_have_no_email_notice">绑定邮箱可以登录校上行,并提升校上行的安全性</string>
+    <string name="appeal_by_self">人工申诉</string>
+    <string name="sended_email_notice">一封邮件已发送至:@@,\n
+    请登录你的邮箱查收邮件并验证</string>
+
+    <string name="retreive_by_appeal">申诉找回密码</string>
+    <string name="ture_name">真实姓名</string>
+    <string name="please_input_ture_name">请输入你的真实姓名</string>
+    <string name="phoneNumber2">手机号码</string>
+    <string name="comfirm_phoneNumber">请确保此联系方式能联系到你</string>
+    <string name="ID">身份证号</string>
+    <string name="ID_notice">请输入此账号实名认证的身份证号</string>
+    <string name="the_school">所在学校</string>
+    <string name="studentID">学号</string>
+    <string name="EC">学历</string>
+    <string name="goSchoolTime">入学年份</string>
+    <string name="registerTime">注册时间</string>
+    <string name="appealNow">立即申诉</string>
+    <string name="appealToRetrievePassword">申诉找回密码</string>
+    <string name="appeal_ok">申诉完成</string>
+    <string name="appeal_ok_notice">你的申请已提交审核,我们会尽快处理,\n
+    申诉结果将会通过你的手机号发送给你.\n感谢你的支持</string>
+
+    <string name="select_school">选择学校</string>
+    <string name="appeal_open">申请开通</string>
+    <string name="thanks_for_support">感谢您对校上行的支持</string>
+    <string name="please_input_you_school">请输入你的学校的全称</string>
+    <string name="nearby_school">附近学校</string>
+
+
+
+
 </resources>

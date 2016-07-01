@@ -57,7 +57,7 @@ public class XSXApplication extends Application {
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-
+                MyLog.d(activity, "destroyed");
             }
         });
     }

@@ -3,4 +3,79 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="menu_item_normal">#c9ffffff</color>
+    <color name="menu_item_pressed">#d5dadada</color>
+    <color name="menu_text">#f12162ff</color>
+
+
+
+    <!--透明-->
+    <color name="transparent">#00000000</color>
+    <!--半透明-->
+    <color name="halftransparent">#666666</color>
+
+
+
+    <!--标准绿-->
+    <color name="green1">#45C01A</color>
+    <!--描边绿-->
+    <color name="green2">#06bc04</color>
+
+    <!--可点击文字-->
+    <color name="blue1">#576b95</color>
+    <!--弹窗文字-->
+    <color name="blue2">#007AFF</color>
+    <!--校历未来活动-->
+    <color name="blue3">#00aeef</color>
+    <!--光标-->
+    <color name="blue4">#446cf2</color>
+
+
+    <!--小块红，文字红，描边红-->
+    <color name="red1">#e33933</color>
+    <!--大按钮底红色-->
+    <color name="red2">#ec5050</color>
+
+
+    <!--白-->
+    <color name="w0">#FFFFFF</color>
+    <!--标签栏底色-->
+    <color name="w1">#f9f9f9</color>
+    <!--评论底色-->
+    <color name="w2">#f1f1f1</color>
+    <!--默认背景色-->
+    <color name="w3">#efeff5</color>
+
+
+    <!--最常用灰-->
+    <color name="g0">#888888</color>
+    <!--分割线,灰按钮描边-->
+    <color name="g1">#d9d9d9</color>
+    <!--文字浅灰-->
+    <color name="g2">#b2b2b2</color>
+    <!--输入框描边-->
+    <color name="g3">#7a7e83</color>
+    <!--登录灰-->
+    <color name="gray_login">#aaaaaa</color>
+
+
+    <!--黑-->
+    <color name="b0">#000000</color>
+    <!--近黑文字-->
+    <color name="b1">#353535</color>
+    <!--导航栏底色-->
+    <color name="b2">#393a3f</color>
+    <!--弹窗底色-->
+    <color name="b3">#4c5154</color>
+    <!--深色文字-->
+    <color name="b4">#575757</color>
+    <!--无按钮弹窗 90%-->
+    <color name="b5">#4c4c4c</color>
+    <!--长按弹出按钮底色-->
+    <color name="b6">#2d2d2d</color>
+
+
+
+
 </resources>

@@ -3,9 +3,148 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:statusBarColor">@color/b2</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:screenOrientation">portrait</item>
+    </style>
+
+    <!--字体大小为16sp 颜色为黑色-->
+    <style name="black_16sp">
+        <item name="android:textColor">@color/b0</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--字体大小为15sp 颜色为黑色-->
+    <style name="black_15sp">
+        <item name="android:textColor">@color/b0</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!--字体大小为16sp 颜色为白色-->
+    <style name="white_16sp">
+        <item name="android:textColor">@color/w0</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--字体大小为15sp 颜色为蓝1-->
+    <style name="blue1_15sp">
+        <item name="android:textColor">@color/blue1</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!--字体大小为15sp 颜色为go-->
+    <style name="g0_15sp">
+        <item name="android:textColor">@color/g0</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!--字体大小为15sp 颜色为绿1-->
+    <style name="green1_15sp">
+        <item name="android:textColor">@color/green1</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!--字体大小为23sp 颜色为黑-->
+    <style name="black_23sp">
+        <item name="android:textColor">@color/b0</item>
+        <item name="android:textSize">23sp</item>
+    </style>
+
+    <!--输入手机号-->
+    <style name="input_phoneNumber" parent="black_16sp">
+        <item name="android:textCursorDrawable">@drawable/cursor_blue4</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">11</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColorHint">@color/gray_login</item>
+    </style>
+
+    <!--输入验证码-->
+    <style name="input_vertify_code" parent="black_15sp">
+        <item name="android:inputType">number</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_blue4</item>
+        <item name="android:maxLength">6</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColorHint">@color/gray_login</item>
+    </style>
+
+    <!--输入密码-->
+    <style name="input_passworder" parent="black_16sp">
+        <item name="android:inputType">textWebPassword</item>
+        <item name="android:textCursorDrawable">@drawable/cursor_blue4</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColorHint">@color/gray_login</item>
+    </style>
+
+    <!--长按钮-->
+    <style name="long_btn" parent="white_16sp">
+        <item name="android:layout_width">@dimen/x996</item>
+        <item name="android:layout_height">@dimen/y120</item>
+        <item name="android:background">@drawable/btn_circular_green1</item>
+        <item name="android:alpha">0.5</item>
+        <item name="android:enabled">false</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <!--进度-->
+    <style name="Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="progress_bar_style" parent="@android:style/Widget.ProgressBar">
+        <item name="android:indeterminateDrawable">@mipmap/loading</item>
+    </style>
+
+    <!--透明弹窗-->
+    <style name="Dialog_tran" parent="android:style/Theme.Dialog">
+        <!--背景颜色及透明程度-->
+        <item name="android:windowBackground">@drawable/dialog_ciecular_b5</item>
+        <item name="android:windowFrame">@null</item><!--边框-->
+    </style>
+
+    <style name="ActionSheetDialog" parent="android:Theme.Dialog">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!--申诉找回密码条目布局-->
+    <style name="appeal_item_layput" >
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/y126</item>
+    </style>
+
+    <!--申诉找回密码条目名称-->
+    <style name="appeal_item_name" parent="black_16sp" >
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!--申诉找回密码条目内容-->
+    <style name="appeal_item_content" parent="black_15sp">
+        <item name="android:layout_marginStart">@dimen/x84</item>
+        <item name="android:textColorHint">@color/gray_login</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="statusBarStyle" parent="@android:style/Theme.DeviceDefault.Light">
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
 </resources>
