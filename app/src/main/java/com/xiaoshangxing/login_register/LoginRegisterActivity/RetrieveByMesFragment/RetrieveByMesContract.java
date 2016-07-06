@@ -29,6 +29,16 @@ public class RetrieveByMesContract {
         **describe:弹出确认对话框
         */
         void showSure();
+
+        /*
+        **describe:弹出未注册对话框
+        */
+        void showUnRegiter();
+
+        /*
+        **describe:跳转到注册界面
+        */
+        void gotoRegiter();
     }
 
     public interface Presenter extends IBasePresenter {

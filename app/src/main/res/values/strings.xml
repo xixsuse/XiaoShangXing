@@ -75,7 +75,8 @@
     <string name="please_input_you_school">请输入你的学校的全称</string>
     <string name="nearby_school">附近学校</string>
 
-
-
+    <!--校友圈-->
+    <string name="viewpager_indicator">%1$d/%2$d</string>
+    <string name="reply">回复</string>
 
 </resources>

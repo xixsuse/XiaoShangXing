@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.StateColor;
 
 public class StartActivity extends BaseActivity implements View.OnClickListener, StartActivityContract.View {
 
@@ -23,7 +24,8 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //设置全屏无标题栏
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        StateColor.fullScreen(this,getResources().getColor(R.color.w0));
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_start);
         setmPresenter(new StartActivityPresenter(this, this));
         mPresenter.startWait();

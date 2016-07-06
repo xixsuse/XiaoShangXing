@@ -2,13 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/textview"
-        android:textColor="@color/b0"
-        android:textSize="25sp"
-        android:text="玩命开发中..."
-        android:gravity="center"
+    <!--<TextView-->
+        <!--android:id="@+id/textview"-->
+        <!--android:textColor="@color/b0"-->
+        <!--android:textSize="16sp"-->
+        <!--android:text="玩命开发中..."-->
+        <!--android:gravity="center"-->
+        <!--android:background="@drawable/qipao"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+    <!--<View-->
+        <!--android:visibility="gone"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:background="@drawable/qipao"-->
+        <!--android:layout_width="200dp"-->
+        <!--android:layout_height="80dp">-->
+
+    <!--</View>-->
+    <FrameLayout
+        android:id="@+id/main_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 
 </LinearLayout>

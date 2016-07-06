@@ -1,5 +1,6 @@
 package com.xiaoshangxing.login_register.LoginRegisterActivity.InputAccountFragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -13,8 +14,11 @@ import android.widget.EditText;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.NoEmailFragment.NoEmailFragment;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.SendEmailFragment.SendEmailFragment;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.LocationUtil;
 
 /**
  * Created by FengChaoQun
@@ -111,6 +115,39 @@ public class InputAccountFragment extends BaseFragment implements InputAccountCo
     @Override
     public void savePhoneNumber() {
         ((LoginRegisterActivity) getActivity()).setPhoneNumer(getPhoneNumber());
+    }
+
+    @Override
+    public void showNoRegister() {
+        final DialogUtils.Dialog_Center dialog_center=new DialogUtils.Dialog_Center(getActivity());
+        Dialog dialog= dialog_center.Message("该手机号尚未注册,是否\n前往注册?").
+                Button("取消","去注册")
+                .MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
+                    @Override
+                    public void onButton1() {
+                        dialog_center.close();
+                    }
+
+                    @Override
+                    public void onButton2() {
+                        dialog_center.close();
+                        gotoRegister();
+                    }
+                }).create();
+        dialog.show();
+        LocationUtil.setWidth(getActivity(), dialog,
+                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+    }
+
+    @Override
+    public void gotoRegister() {
+        RgInputPhoNumberFragment frag = ((LoginRegisterActivity) getActivity()).getRgInputPhoNumberFragment();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                        R.anim.slide_in_left, R.anim.slide_out_left)
+                .replace(R.id.loginregisterContent, frag)
+                .addToBackStack(RgInputPhoNumberFragment.TAG)
+                .commit();
     }
 
     @Override

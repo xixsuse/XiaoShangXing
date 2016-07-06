@@ -87,19 +87,57 @@ public class RetrieveByMesFragment extends BaseFragment implements RetrieveByMes
                     @Override
                     public void onButton2() {
                         dialogUtils.close();
-                        ((LoginRegisterActivity) getActivity()).setPhoneNumer(getPhoneNumber());
-                        RgInputVertifyCodeFragment frag = ((LoginRegisterActivity) getActivity()).getRgInputVertifyCodeFragment();
-                        getFragmentManager().beginTransaction()
-                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                        R.anim.slide_in_left, R.anim.slide_out_left)
-                                .replace(R.id.loginregisterContent, frag)
-                                .addToBackStack(RgInputPhoNumberFragment.TAG)
-                                .commit();
+                        //test
+                        if (getPhoneNumber().equals("88888888888")){
+                            ((LoginRegisterActivity) getActivity()).setPhoneNumer(getPhoneNumber());
+                            RgInputVertifyCodeFragment frag = ((LoginRegisterActivity) getActivity()).getRgInputVertifyCodeFragment();
+                            getFragmentManager().beginTransaction()
+                                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                                            R.anim.slide_in_left, R.anim.slide_out_left)
+                                    .replace(R.id.loginregisterContent, frag)
+                                    .addToBackStack(RgInputPhoNumberFragment.TAG)
+                                    .commit();
+                        }else {
+                            showUnRegiter();
+                        }
 
                     }
                 }).create();
         alertDialog.show();
         LocationUtil.setWidth(getActivity(), alertDialog,
+                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+    }
+
+    @Override
+    public void gotoRegiter() {
+        RgInputPhoNumberFragment frag = ((LoginRegisterActivity) getActivity()).getRgInputPhoNumberFragment();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                        R.anim.slide_in_left, R.anim.slide_out_left)
+                .replace(R.id.loginregisterContent, frag)
+                .addToBackStack(RgInputPhoNumberFragment.TAG)
+                .commit();
+    }
+
+    @Override
+    public void showUnRegiter() {
+        final DialogUtils.Dialog_Center dialog_center=new DialogUtils.Dialog_Center(getActivity());
+        Dialog dialog= dialog_center.Message("该手机号尚未注册,是否\n前往注册?").
+                    Button("取消","去注册")
+                .MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
+                    @Override
+                    public void onButton1() {
+                        dialog_center.close();
+                    }
+
+                    @Override
+                    public void onButton2() {
+                        dialog_center.close();
+                        gotoRegiter();
+                    }
+                }).create();
+        dialog.show();
+        LocationUtil.setWidth(getActivity(), dialog,
                 getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
     }
 

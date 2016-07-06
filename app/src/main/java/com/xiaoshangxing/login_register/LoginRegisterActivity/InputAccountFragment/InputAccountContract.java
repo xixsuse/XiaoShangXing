@@ -30,6 +30,17 @@ public class InputAccountContract {
        **describe:储存号码
        */
         void savePhoneNumber();
+
+        /*
+        **describe:弹出未注册对话框
+        */
+        void showNoRegister();
+
+        /*
+        **describe:跳转到注册界面
+        */
+        void gotoRegister();
+
     }
 
     public interface Presenter extends IBasePresenter {
