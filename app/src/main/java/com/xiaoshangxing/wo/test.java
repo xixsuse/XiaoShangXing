@@ -7,5 +7,8 @@ public class test {
     void main(){
 
     }
+    void run(){
+
+    }
 
 }
