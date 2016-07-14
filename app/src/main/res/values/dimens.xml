@@ -10,4 +10,8 @@
     <dimen name="image_11sp">11sp</dimen>
     <dimen name="image_10sp">10sp</dimen>
 
+    <dimen name="tag_corner_radius">20.0dip</dimen>
+    <dimen name="tag_horizontal_spacing">8.0dip</dimen>
+    <dimen name="tag_vertical_spacing">6.0dip</dimen>
+
 </resources>

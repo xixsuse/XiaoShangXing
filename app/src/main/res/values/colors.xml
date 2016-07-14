@@ -75,7 +75,8 @@
     <!--长按弹出按钮底色-->
     <color name="b6">#2d2d2d</color>
 
-
+    <color name="albumback">#E1E0DE</color>
+    <color name="plugin_camera_black">#000000</color>
 
 
 </resources>

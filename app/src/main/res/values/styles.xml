@@ -16,6 +16,12 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <!--字体大小为17sp 颜色为黑色-->
+    <style name="black_17sp">
+        <item name="android:textColor">@color/b0</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
     <!--字体大小为15sp 颜色为黑色-->
     <style name="black_15sp">
         <item name="android:textColor">@color/b0</item>
@@ -40,10 +46,21 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="g0_13sp">
+        <item name="android:textColor">@color/g0</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <!--字体大小为15sp 颜色为绿1-->
     <style name="green1_15sp">
         <item name="android:textColor">@color/green1</item>
         <item name="android:textSize">15sp</item>
+    </style>
+
+    <!--字体大小为16sp 颜色为绿1-->
+    <style name="green1_16sp">
+        <item name="android:textColor">@color/green1</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <!--字体大小为23sp 颜色为黑-->

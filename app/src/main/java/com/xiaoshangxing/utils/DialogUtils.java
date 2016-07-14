@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -16,6 +18,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -548,7 +552,182 @@ public class DialogUtils {
             return this;
         }
 
+    }
 
+    /**
+     * 屏幕中心弹出对话框（带按钮有编辑框）
+     */
+    public static class Dialog_WithEditText {
+        private Activity activity;
+        private String title;
+        private String message;
+        private String button1 = "确定";
+        private String button2;
+        int button_count = 1;
+        private Dialog dialog;
+        private EditText editText;
+        private ImageView clear;
+
+        private buttonOnClick mbuttonOnClick;
+
+
+        public Dialog_WithEditText(Activity activity) {
+            this.activity = activity;
+        }
+
+        public Activity getActivity() {
+            return activity;
+        }
+
+        public void setActivity(Activity activity) {
+            this.activity = activity;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public Dialog_WithEditText Title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public String getMessage() {
+            return this.message;
+        }
+
+        public Dialog_WithEditText Message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public String getButton1() {
+            return button1;
+        }
+
+
+        public String getButton2() {
+            return button2;
+        }
+
+        public Dialog_WithEditText Button(String button1) {
+            this.button1 = button1;
+            this.button_count = 1;
+            return this;
+        }
+
+        public Dialog_WithEditText Button(String button1, String button2) {
+            this.button1 = button1;
+            this.button2 = button2;
+            this.button_count = 2;
+            return this;
+        }
+        public String getText(){
+            return editText.getText().toString();
+        }
+
+        public int getButton_count() {
+            return button_count;
+        }
+
+
+        public buttonOnClick getMbuttonOnClick() {
+            return mbuttonOnClick;
+        }
+
+        public Dialog_WithEditText MbuttonOnClick(buttonOnClick mbuttonOnClick) {
+            this.mbuttonOnClick = mbuttonOnClick;
+            return this;
+        }
+
+        public Dialog create() {
+            dialog = new Dialog(activity, R.style.ActionSheetDialog);
+            LinearLayout linearLayout = (LinearLayout) activity.
+                    getLayoutInflater().inflate(R.layout.dialog_withedittext, null);
+            TextView title = (TextView) linearLayout.findViewById(R.id.dialog_title);
+            TextView message = (TextView) linearLayout.findViewById(R.id.dialog_message);
+            Button btn = (Button) linearLayout.findViewById(R.id.dialog_button);
+            LinearLayout twoButton = (LinearLayout) linearLayout.findViewById(R.id.dialog_twoButton);
+            Button btn1 = (Button) linearLayout.findViewById(R.id.dialog_button1);
+            Button btn2 = (Button) linearLayout.findViewById(R.id.dialog_button2);
+            editText = (EditText) linearLayout.findViewById(R.id.dialog_edittext);
+            clear = (ImageView) linearLayout.findViewById(R.id.dialog_clear);
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (s.toString().length() > 0) clear.setVisibility(View.VISIBLE);
+                    else clear.setVisibility(View.GONE);
+                }
+            });
+            clear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    editText.setText("");
+                }
+            });
+
+            if (!TextUtils.isEmpty(getTitle())) {
+                title.setText(getTitle());
+                title.setVisibility(View.VISIBLE);
+                message.setTextSize(13);
+            }
+
+            if (!TextUtils.isEmpty(getMessage())) {
+                message.setText(getMessage());
+            }
+
+            if (button_count == 1) {
+                twoButton.setVisibility(View.GONE);
+                btn.setText(getButton1());
+                btn.setVisibility(View.VISIBLE);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mbuttonOnClick.onButton1();
+                    }
+                });
+            } else {
+                btn1.setText(getButton1());
+                btn2.setText(getButton2());
+                btn1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mbuttonOnClick.onButton1();
+                    }
+                });
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mbuttonOnClick.onButton2();
+                    }
+                });
+            }
+
+            dialog.setContentView(linearLayout);
+            //        alertDialog.setCancelable(false);
+            return dialog;
+        }
+
+
+        public interface buttonOnClick {
+            void onButton1();
+
+            void onButton2();
+        }
+
+        public void close() {
+            dialog.dismiss();
+        }
     }
 }
 

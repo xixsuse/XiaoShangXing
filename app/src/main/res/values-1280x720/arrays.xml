@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="report_reasons">
+        <item> 色情低俗</item>
+        <item> 广告骚扰</item>
+        <item> 政治敏感</item>
+        <item> 谣言</item>
+        <item> 欺诈骗钱</item>
+        <item> 违法（暴力恐怖、违禁品等）</item>
+        <item> 售假举报</item>
+    </string-array>
+
+    <string-array name="nodisturb">
+        <item> 开启</item>
+        <item> 只在夜间开启</item>
+        <item> 关闭</item>
+    </string-array>
+    <declare-styleable name="RoundedImageView">
+        <attr name="corner_radius" format="dimension" />
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="mutate_background" format="boolean" />
+        <attr name="oval" format="boolean" />
+        <attr name="android:scaleType" />
+    </declare-styleable>
+
+    <declare-styleable name="FlowLayout">
+        <attr name="horizontalSpacing" format="dimension" />
+        <attr name="verticalSpacing" format="dimension" />
+        <attr name="orientation" format="enum">
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
+        </attr>
+        <attr name="debugDraw" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="FlowLayout_LayoutParams">
+        <attr name="layout_newLine" format="boolean" />
+        <attr name="layout_horizontalSpacing" format="dimension" />
+        <attr name="layout_verticalSpacing" format="dimension" />
+    </declare-styleable>
+</resources>
