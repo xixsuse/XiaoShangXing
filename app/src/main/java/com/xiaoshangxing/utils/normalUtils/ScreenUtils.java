@@ -54,7 +54,6 @@ public class ScreenUtils
 
 	/**
 	 * 获得状态栏的高度
-	 * 
 	 * @param context
 	 * @return
 	 */
