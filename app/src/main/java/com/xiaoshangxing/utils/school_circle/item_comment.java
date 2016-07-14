@@ -1,6 +1,7 @@
 package com.xiaoshangxing.utils.school_circle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.wo.myState.myStateActivity;
 
 /**
  * Created by FengChaoQun
@@ -58,6 +60,8 @@ public class Item_Comment {
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
+                Intent intent=new Intent(context,myStateActivity.class);
+                context.startActivity(intent);
                 Log.d("name",reply_person);
             }
 
@@ -77,6 +81,8 @@ public class Item_Comment {
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
+                Intent intent=new Intent(context,myStateActivity.class);
+                context.startActivity(intent);
                 Log.d("name",reply_person);
             }
 
@@ -94,6 +100,8 @@ public class Item_Comment {
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
+                Intent intent=new Intent(context,myStateActivity.class);
+                context.startActivity(intent);
                 Log.d("name",replyed_person);
             }
 

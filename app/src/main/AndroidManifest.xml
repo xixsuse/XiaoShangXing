@@ -34,15 +34,25 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".wo.inform.test">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+        <activity android:name=".wo.myState.myStateActivity">
         </activity>
+        <activity android:name=".wo.myState.DetailsActivity"></activity>
+
+        <activity android:name=".wo.school_circle.NewsActivity.NewsActivity"></activity>
         <activity android:name=".wo.school_circle.check_photo.ImagePagerActivity">
 
+        </activity>
+
+        <activity android:name=".wo.myState.check_photo.myStateImagePagerActivity">
+
+        </activity>
+
+        <activity android:name=".wo.roll.rollActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
     </application>
 

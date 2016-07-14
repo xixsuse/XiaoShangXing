@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.xiaoshangxing.utils.normalUtils.MyLog;
+
 import java.util.LinkedList;
 import java.util.List;
 

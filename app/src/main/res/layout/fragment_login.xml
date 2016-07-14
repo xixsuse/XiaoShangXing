@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <!--头像-->
-    <com.xiaoshangxing.utils.CirecleImage
+    <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/ci_headPortrait"
         android:layout_marginTop="@dimen/y196"
         android:layout_centerHorizontal="true"

@@ -1,6 +1,7 @@
 package com.xiaoshangxing.utils.school_circle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.wo.myState.myStateActivity;
 
 /**
  * Created by FengChaoQun
@@ -44,6 +46,8 @@ public class PraisePeople {
             @Override
             public void onClick(View widget) {
                 Log.d("name",name);
+                Intent intent=new Intent(context,myStateActivity.class);
+                context.startActivity(intent);
             }
 
             @Override

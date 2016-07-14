@@ -78,5 +78,17 @@
     <!--校友圈-->
     <string name="viewpager_indicator">%1$d/%2$d</string>
     <string name="reply">回复</string>
+    <string name="send">发送</string>
+    <string name="mystate">我的动态</string>
+
+    <string name="today">今天</string>
+    <string name="say_something">说点什么吧...</string>
+    <string name="detail">详情</string>
+    <string name="delete">删除</string>
+    <string name="comment">评论</string>
+    <string name="message">消息</string>
+    <string name="empty">清空</string>
+
+    <string name="longtext">listView是一种可以显示一系列项目并能进行滚动显示的View。在每行里，既可以是简单的文本，也可以是复杂的结构。一般情况下，你都需要保证ListView运行得很好</string>
 
 </resources>

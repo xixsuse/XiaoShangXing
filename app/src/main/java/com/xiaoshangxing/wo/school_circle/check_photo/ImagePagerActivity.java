@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
@@ -54,6 +55,7 @@ public class ImagePagerActivity extends FragmentActivity {
 			public void onPageSelected(int arg0) {
 				CharSequence text = getString(R.string.viewpager_indicator, arg0 + 1, mPager.getAdapter().getCount());
 				indicator.setText(text);
+				Log.d("select",""+arg0);
 			}
 
 		});

@@ -21,7 +21,7 @@ import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActiv
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RetrieveByMesFragment.RetrieveByMesFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.CirecleImage;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.utils.LocationUtil;

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.utils;
+package com.xiaoshangxing.utils.layout;
 
 import android.content.Context;
 import android.graphics.Bitmap;

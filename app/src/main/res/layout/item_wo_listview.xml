@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
     <!--头像-->
-    <com.xiaoshangxing.utils.CirecleImage
+    <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/head_image"
         android:src="@mipmap/cirecleiamge_default"
         android:layout_width="@dimen/x108"
@@ -77,8 +77,18 @@
         <ImageView
             android:id="@+id/just_one"
             android:maxWidth="@dimen/x516"
+            android:maxHeight="@dimen/y600"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <!--地点-->
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/y18"
+            android:text="无锡·江南大学北区"
+            android:textSize="12sp" />
 
         <RelativeLayout
             android:layout_marginTop="@dimen/y18"
@@ -91,15 +101,34 @@
                 android:textSize="12sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <!--赞按钮-->
+            <!--权限列表-->
             <ImageView
+                android:id="@+id/permission"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x18"
+                android:layout_toRightOf="@+id/time"
+                android:src="@mipmap/permission" />
+            <!--删除-->
+            <TextView
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x18"
+                android:layout_toRightOf="@+id/permission"
+                android:text="@string/delete"
+                android:textColor="@color/blue1"
+                android:textSize="12sp" />
+            <!--赞按钮-->
+            <CheckBox
                 android:id="@+id/praise"
+                android:layout_width="@dimen/x44"
                 android:layout_marginRight="@dimen/x80"
                 android:layout_toLeftOf="@+id/comment"
-                android:background="@mipmap/heart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </ImageView>
+                android:layout_height="@dimen/y38"
+                android:background="@drawable/wo_praise_selector"
+                android:button="@null"></CheckBox>
             <!--评论按钮-->
             <ImageView
                 android:id="@+id/comment"
@@ -112,6 +141,7 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:paddingStart="@dimen/x10"
             android:layout_marginTop="@dimen/y18"
             android:id="@+id/comment_layout"
             android:orientation="vertical"
@@ -119,13 +149,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--点赞的人-->
-            <!--<com.xiaoshangxing.wo.school_circle.PredicateLayout-->
-                <!--android:id="@+id/praise_people"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content">-->
-
-            <!--</com.xiaoshangxing.wo.school_circle.PredicateLayout>-->
             <LinearLayout
                 android:id="@+id/praise_people"
                 android:orientation="vertical"

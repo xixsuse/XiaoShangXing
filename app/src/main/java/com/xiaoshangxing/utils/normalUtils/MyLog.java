@@ -1,4 +1,4 @@
-package com.xiaoshangxing.utils;
+package com.xiaoshangxing.utils.normalUtils;
 
 import android.util.Log;
 

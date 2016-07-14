@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:padding="16dp"
         android:orientation="horizontal"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"

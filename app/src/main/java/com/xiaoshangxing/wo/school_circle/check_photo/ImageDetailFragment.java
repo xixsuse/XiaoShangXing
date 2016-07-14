@@ -3,6 +3,7 @@ package com.xiaoshangxing.wo.school_circle.check_photo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,10 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.xiaoshangxing.R;
 
+import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.photoview.PhotoViewAttacher;
+
+import java.io.File;
 
 
 /**
@@ -72,6 +76,8 @@ public class ImageDetailFragment extends Fragment {
 						mAttacher.update();
 					}
 				});
+		File file=Glide.getPhotoCacheDir(getContext());
+		Log.d("length",""+ FileUtils.getFormatSize(FileUtils.getFolderSize(file)));
 
 //		mImageView.setImageResource(R.mipmap.test);
 	}
