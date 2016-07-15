@@ -15,10 +15,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.about.AboutActivity;
 import com.xiaoshangxing.setting.currency.CurrencyActivity;
 import com.xiaoshangxing.setting.feedback.FeedbackActivity;
 import com.xiaoshangxing.setting.mailboxbind.MailBoxBindActivity;
+import com.xiaoshangxing.setting.mailboxbind.ModifyMailBoxActivity;
+import com.xiaoshangxing.setting.modifypassword.ModifyPassWordActivity;
 import com.xiaoshangxing.setting.newNotice.NewNoticeActivity;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.privacy.PrivacyActivity;
@@ -103,7 +107,10 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void BindMailBox(View view) {
-        Intent intent = new Intent(this, MailBoxBindActivity.class);
+//        Intent intent = new Intent(this, MailBoxBindActivity.class);
+//        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        Intent intent = new Intent(this, ModifyMailBoxActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
@@ -125,7 +132,7 @@ public class SettingActivity extends BaseActivity {
         final DialogUtils.Dialog_WithEditText dialogUtils = new DialogUtils.Dialog_WithEditText(this);
         final Dialog alertDialog = dialogUtils.Title("验证原密码")
                 .Message("为保障您的数据安全，修改密码前请填写\n原密码。")
-                .Button("取消", "解除绑定").MbuttonOnClick(new DialogUtils.Dialog_WithEditText.buttonOnClick() {
+                .Button("取消", "确定").MbuttonOnClick(new DialogUtils.Dialog_WithEditText.buttonOnClick() {
                     @Override
                     public void onButton1() {
                         dialogUtils.close();
@@ -134,9 +141,19 @@ public class SettingActivity extends BaseActivity {
                     @Override
                     public void onButton2() {
                         Log.d("qqq","    "+dialogUtils.getText());
+                        Intent intent = new Intent(SettingActivity.this, ModifyPassWordActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+                        dialogUtils.close();
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(this, alertDialog, getResources().getDimensionPixelSize(R.dimen.x780));
+      //  LocationUtil.setWidth(this, alertDialog, getResources().getDimensionPixelSize(R.dimen.x780));
+    }
+
+    public void about(View view) {
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

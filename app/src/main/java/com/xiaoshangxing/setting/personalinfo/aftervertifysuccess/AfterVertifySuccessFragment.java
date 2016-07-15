@@ -1,4 +1,4 @@
-package com.xiaoshangxing.setting.privacy.privacySecondFragment;
+package com.xiaoshangxing.setting.personalinfo.aftervertifysuccess;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,17 +11,18 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseFragment;
 
 /**
- * Created by 15828 on 2016/7/14.
+ * Created by 15828 on 2016/7/15.
  */
-public class PrivacySecondFragment extends BaseFragment implements View.OnClickListener{
+public class AfterVertifySuccessFragment extends BaseFragment implements View.OnClickListener{
     private View mView;
-    private TextView cancel;
+    private TextView back;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.frag_setting_privacysecond,container,false);
-        cancel = (TextView) mView.findViewById(R.id.privacysecond_cancel);
-        cancel.setOnClickListener(this);
+        mView = inflater.inflate(R.layout.frag_setting_aftervertify,container,false);
+        back = (TextView) mView.findViewById(R.id.back);
+        back.setOnClickListener(this);
+
         return mView;
     }
 

@@ -72,6 +72,12 @@
         </activity>
         <activity android:name=".setting.currency.CurrencyActivity">
         </activity>
+        <activity android:name=".setting.about.AboutActivity">
+        </activity>
+        <activity android:name=".setting.modifypassword.ModifyPassWordActivity">
+        </activity>
+        <activity android:name=".setting.mailboxbind.ModifyMailBoxActivity">
+        </activity>
 
 
 

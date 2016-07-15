@@ -13,7 +13,8 @@ import com.xiaoshangxing.setting.personalinfo.TagView.TagViewFragment;
 import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
-import com.xiaoshangxing.setting.personalinfo.vertify.VertifyFragment;
+import com.xiaoshangxing.setting.personalinfo.vertify.vertifyFragment.VertifyFragment;
+import com.xiaoshangxing.setting.personalinfo.vertify.vertifySuccessFragment.VertifySucessFragment;
 import com.xiaoshangxing.utils.BaseActivity;
 
 /**
@@ -22,13 +23,14 @@ import com.xiaoshangxing.utils.BaseActivity;
 public class PersonalInfoActivity extends BaseActivity {
     private int imagCoverWidth, imagCoverHeight;
     private boolean isbacked = false;
+    private boolean isVertified = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_personinfo);
         mFragmentManager.beginTransaction()
-                .replace(R.id.setting_personinfo_Content, new PersonalInfoFragment())
+                .add(R.id.setting_personinfo_Content, new PersonalInfoFragment(), PersonalInfoFragment.TAG)
                 .commit();
     }
 
@@ -84,9 +86,15 @@ public class PersonalInfoActivity extends BaseActivity {
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
-                .addToBackStack(null)
-                .replace(R.id.setting_personinfo_Content, new VertifyFragment())
+                .addToBackStack(VertifyFragment.TAG)
+                .replace(R.id.setting_personinfo_Content, new VertifyFragment(), VertifyFragment.TAG)
                 .commit();
+//        mFragmentManager.beginTransaction()
+//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+//                        R.anim.slide_in_left, R.anim.slide_out_left)
+//                .addToBackStack(null)
+//                .replace(R.id.setting_personinfo_Content, new AfterVertifySuccessFragment())
+//                .commit();
     }
 
     public void back(View view) {
@@ -114,6 +122,10 @@ public class PersonalInfoActivity extends BaseActivity {
         this.isbacked = isbacked;
     }
 
+    public void setVertified(boolean vertified) {
+        isVertified = vertified;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -130,7 +142,14 @@ public class PersonalInfoActivity extends BaseActivity {
             isbacked = false;
             return true;
         }
+        VertifySucessFragment fragment1 = (VertifySucessFragment) mFragmentManager.findFragmentByTag(VertifySucessFragment.TAG);
+        if (isVertified) {
+            fragment1.onKeyDown(keyCode, event);
+            isVertified = false;
+            return true;
+        }
         return super.onKeyDown(keyCode, event);
+
     }
 
 

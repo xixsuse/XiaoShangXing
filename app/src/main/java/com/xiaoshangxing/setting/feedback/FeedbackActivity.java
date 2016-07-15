@@ -50,4 +50,8 @@ public class FeedbackActivity extends BaseActivity {
     public void back(View view) {
         finish();
     }
+
+    public void Commit(View view) {
+
+    }
 }

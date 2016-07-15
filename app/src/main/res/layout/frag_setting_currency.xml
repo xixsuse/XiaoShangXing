@@ -42,11 +42,11 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:onClick="ChatBackground"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
-        android:onClick="blacklist"
         android:orientation="horizontal">
 
         <TextView
@@ -93,7 +93,6 @@
         android:layout_height="@dimen/y144"
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
-        android:onClick="blacklist"
         android:orientation="horizontal">
 
         <TextView
