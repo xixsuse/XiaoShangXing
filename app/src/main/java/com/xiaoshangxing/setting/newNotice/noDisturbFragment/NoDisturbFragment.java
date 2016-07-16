@@ -2,6 +2,7 @@ package com.xiaoshangxing.setting.newNotice.noDisturbFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 /**
  * Created by 15828 on 2016/7/13.
@@ -27,10 +30,15 @@ public class NoDisturbFragment extends BaseFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_newnotice_nodisturb,container,false);
         strings = getResources().getStringArray(R.array.NoDisturb);
-        mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_report, strings);
+        mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_nodisturb, strings);
         listView = (ListView) mView.findViewById(R.id.list_nodisturb);
         listView.setAdapter(mAdapter);
+        int i = DataSetting.NoDisturbList(getActivity());
+        Log.d("qqq","i   "+i);
+        listView.setItemChecked(i,true);
         listView.setOnItemClickListener(this);
+
+
         back = (TextView) mView.findViewById(R.id.nodisturb_back);
         back.setOnClickListener(this);
         return mView;
@@ -38,7 +46,7 @@ public class NoDisturbFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+          SPUtils.put(getActivity(),"nodisturbList",position);
     }
 
     @Override

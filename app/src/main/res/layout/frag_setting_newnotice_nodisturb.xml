@@ -48,6 +48,13 @@
         android:divider="@color/g1"
         android:dividerHeight="@dimen/y1">
     </ListView>
+    <TextView
+        style="@style/g0_13sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y42"
+        android:layout_marginStart="@dimen/x48"
+        android:text="@string/nodisturb_text" />
 
 
 </LinearLayout>

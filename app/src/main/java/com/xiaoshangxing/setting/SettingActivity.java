@@ -94,11 +94,11 @@ public class SettingActivity extends BaseActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
-    public void Feedbak(View view) {
-        Intent intent = new Intent(this, FeedbackActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-    }
+//    public void Feedbak(View view) {
+//        Intent intent = new Intent(this, FeedbackActivity.class);
+//        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+//    }
 
     public void NewNotice(View view) {
         Intent intent = new Intent(this, NewNoticeActivity.class);
@@ -107,12 +107,12 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void BindMailBox(View view) {
-//        Intent intent = new Intent(this, MailBoxBindActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-        Intent intent = new Intent(this, ModifyMailBoxActivity.class);
+        Intent intent = new Intent(this, MailBoxBindActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+//        Intent intent = new Intent(this, ModifyMailBoxActivity.class);
+//        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     public void Privacy(View view) {

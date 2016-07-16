@@ -111,8 +111,9 @@
                 android:layout_marginEnd="@dimen/x48"
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
+
         <RelativeLayout
-            android:onClick="ReportAndComplaint"
+            android:onClick="FeedBack"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144">
 
@@ -121,7 +122,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/reportandcomplaint" />
+                android:text="@string/feedback" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x48"
+                android:src="@mipmap/right_arrow" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y144">
+
+            <TextView
+                style="@style/black_16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/checkupdate" />
 
             <ImageView
                 android:layout_width="wrap_content"

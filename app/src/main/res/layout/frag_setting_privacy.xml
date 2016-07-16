@@ -145,6 +145,7 @@
             android:text="@string/privacy3" />
 
         <com.xiaoshangxing.utils.SwitchView
+            android:id="@+id/privacy_allow"
             android:layout_width="40dp"
             android:layout_height="25dp"
             android:layout_alignParentEnd="true"

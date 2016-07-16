@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.feedback.FeedbackActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.wo.inform.report.ReportActivity;
 
@@ -23,11 +24,11 @@ public class AboutActivity extends BaseActivity {
         finish();
     }
 
-    public void ReportAndComplaint(View view) {
-        Intent intent = new Intent(this, ReportActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-    }
+//    public void ReportAndComplaint(View view) {
+//        Intent intent = new Intent(this, ReportActivity.class);
+//        startActivity(intent);
+//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+//    }
 
     public void FunctionIntroduction(View view) {
 
@@ -36,4 +37,12 @@ public class AboutActivity extends BaseActivity {
     public void evaluate(View view) {
 
     }
+
+    public void FeedBack(View view) {
+        Intent intent = new Intent(this, FeedbackActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
+
 }

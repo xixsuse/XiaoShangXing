@@ -80,7 +80,7 @@
             android:layout_marginEnd="@dimen/x48"
             android:layout_gravity="center_vertical"
             android:clickable="true"
-            android:src="@mipmap/setting_vertify_agree"
+            android:src="@mipmap/delete"
             android:visibility="gone"/>
     </LinearLayout>
 

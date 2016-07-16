@@ -201,6 +201,8 @@
     <string name="VertifyAgreement">服务协议</string>
     <string name="VertifyAgreement2">在读大学生验证服务协议</string>
     <string name="VertifyAgreement3">这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容</string>
+    <string name="checkupdate">检查更新</string>
+    <string name="nodisturb_text">如果只在夜间开启，则只在22：00—8：00间生效</string>
 
     <string name="digits_password">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ@</string>
 
