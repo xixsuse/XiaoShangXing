@@ -10,7 +10,7 @@
         <item> 售假举报</item>
     </string-array>
 
-    <string-array name="nodisturb">
+    <string-array name="NoDisturb">
         <item> 开启</item>
         <item> 只在夜间开启</item>
         <item> 关闭</item>

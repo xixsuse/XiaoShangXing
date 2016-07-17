@@ -76,6 +76,7 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("name",hometown);
         editor.apply();
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     @Override

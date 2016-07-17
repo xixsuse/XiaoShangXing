@@ -24,6 +24,7 @@ public class SwitchView extends View {
 	private final RectF bRectF = new RectF();
 	private float sAnim, bAnim;
 	private RadialGradient shadowGradient;
+	private boolean isOn;
 
 	/**
 	 * state switch on
@@ -290,8 +291,13 @@ public class SwitchView extends View {
 	 * @param isOn
 	 */
 	public void setState(boolean isOn) {
+		this.isOn = isOn;
 		final int wich = isOn ? STATE_SWITCH_ON : STATE_SWITCH_OFF;
 		refreshState(wich);
+	}
+
+	public boolean getState2() {
+		return  isOn;
 	}
 
 	/**

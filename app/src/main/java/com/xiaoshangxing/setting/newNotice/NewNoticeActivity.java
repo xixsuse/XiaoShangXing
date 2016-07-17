@@ -29,6 +29,7 @@ public class NewNoticeActivity extends BaseActivity {
 
     public void nodisturb(View view) {
         mFragmentManager.beginTransaction()
+                .addToBackStack(null)
                 .replace(R.id.setting_newnotice_Content, new NoDisturbFragment())
                 .commit();
     }

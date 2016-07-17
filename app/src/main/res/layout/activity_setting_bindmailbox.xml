@@ -64,13 +64,24 @@
         <EditText
             android:id="@+id/bindmailbox_edittext"
             style="@style/black_16sp"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/transparent"
             android:hint="@string/yourmaibox"
             android:inputType="textEmailAddress"
+            android:digits="@string/digits_password"
             android:paddingEnd="@dimen/x48"
             android:paddingStart="@dimen/x48" />
+        <ImageView
+            android:id="@+id/mailbox_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/x48"
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:src="@mipmap/delete"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <TextView

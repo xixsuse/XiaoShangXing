@@ -43,6 +43,7 @@
         android:id="@+id/feedback_editText"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y556"
+        android:layout_marginTop="@dimen/y48"
         android:paddingTop="@dimen/y30"
         android:paddingStart="@dimen/x48"
         android:paddingEnd="@dimen/x48"
@@ -53,6 +54,7 @@
         android:background="@color/w1"/>
 
     <LinearLayout
+        android:onClick="Commit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y120"
         android:layout_marginTop="@dimen/y60">

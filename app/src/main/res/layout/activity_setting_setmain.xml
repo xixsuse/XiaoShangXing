@@ -209,7 +209,7 @@
         android:divider="@drawable/toolbar_divider"
         android:showDividers="middle">
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
             android:orientation="horizontal">
@@ -229,10 +229,11 @@
                 android:layout_marginEnd="@dimen/x48"
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
-
+-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
+            android:onClick="about"
             android:orientation="horizontal">
 
             <TextView

@@ -24,6 +24,8 @@ import java.io.ByteArrayInputStream;
  * Created by tianyang on 2016/7/9.
  */
 public class PersonalInfoFragment extends BaseFragment {
+    public static final String TAG = BaseFragment.TAG + "-PersonalInfoFragment";
+
     private View mView;
     private TextView hometown;
     private ImageView imgCover;

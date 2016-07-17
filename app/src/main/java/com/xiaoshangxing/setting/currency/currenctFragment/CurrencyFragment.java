@@ -7,20 +7,37 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.SwitchView;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 /**
  * Created by 15828 on 2016/7/14.
  */
 public class CurrencyFragment extends BaseFragment implements View.OnClickListener{
     private View mView;
+    private SwitchView receivemode;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_currency, container, false);
+        receivemode = (SwitchView) mView.findViewById(R.id.currency_receivemode);
+        receivemode.setState(DataSetting.IsReceiveMode(getActivity()));
+        receivemode.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
+            @Override
+            public void toggleToOn() {
+                SPUtils.put(getActivity(),"currency_receivemode",true);
+                receivemode.setState(true);
+            }
 
-
+            @Override
+            public void toggleToOff() {
+                SPUtils.put(getActivity(),"currency_receivemode",false);
+                receivemode.setState(false);
+            }
+        });
         return mView;
     }
 

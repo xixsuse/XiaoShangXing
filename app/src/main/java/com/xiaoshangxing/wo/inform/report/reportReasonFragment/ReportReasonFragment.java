@@ -49,6 +49,7 @@ public class ReportReasonFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.toolbar_report_cancel:
+                getActivity().finish();
                 break;
             case R.id.toolbar_report_next:
                 int position = listView.getCheckedItemPosition();

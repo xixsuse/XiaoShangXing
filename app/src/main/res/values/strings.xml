@@ -177,9 +177,34 @@
     <string name="privacy2">不看他（她）的校友圈</string>
     <string name="oldboy">校友圈</string>
     <string name="privacy3">允许校友查看十张照片</string>
+    <string name="xsx110">校上行1.1.0</string>
+    <string name="evaluate">去评价</string>
+    <string name="functionintro">功能介绍</string>
+    <string name="reportandcomplaint">举报与投诉</string>
+    <string name="modifypassword">修改校上行密码</string>
+    <string name="modify1">请输入绑定手机号</string>
+    <string name="modify2">请设置校上行密码</string>
+    <string name="modify3">请再次输入</string>
+    <string name="confirmmodify">确认修改</string>
+    <string name="choosebackgroud">选择背景图</string>
+    <string name="takeonepicture">拍一张</string>
+    <string name="choosefromalbum">从手机相册选取</string>
+    <string name="usebackground">将聊天背景应用到所有聊天场景</string>
+    <string name="choosebackground">选择背景图</string>
+    <string name="vertifyfinish">您已完成实名认证</string>
+    <string name="realname">真实姓名</string>
+    <string name="IDnumber">身份证号</string>
+    <string name="school">学校</string>
+    <string name="education">学历</string>
+    <string name="EnrollmentYear">入学年份</string>
+    <string name="VertifyTime">验证时间</string>
+    <string name="VertifyAgreement">服务协议</string>
+    <string name="VertifyAgreement2">在读大学生验证服务协议</string>
+    <string name="VertifyAgreement3">这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容</string>
+    <string name="checkupdate">检查更新</string>
+    <string name="nodisturb_text">如果只在夜间开启，则只在22：00—8：00间生效</string>
+
+    <string name="digits_password">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ@</string>
 
 
-    <string name="xiaoshang">校上</string>
-    <string name="yujian">遇见</string>
-    <string name="wo">我</string>
 </resources>
