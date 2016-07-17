@@ -206,5 +206,8 @@
 
     <string name="digits_password">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ@</string>
 
+    <string name="xiaoshang">校上</string>
+    <string name="yujian">遇见</string>
+    <string name="wo">我</string>
 
 </resources>
