@@ -1,6 +1,7 @@
 package com.xiaoshangxing.setting.personalinfo.showheadimg;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -28,9 +29,15 @@ import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.image.ImageFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.UUID;
+
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by tianyang on 2016/7/11.
@@ -144,6 +151,8 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                         return;
                     }
                     Uri uri = data.getData();
+                    Log.d("uri", "" + uri);
+                    uri = geturi(data);
                     String[] proj = {MediaStore.Images.Media.DATA};
                     Cursor actualimagecursor = getActivity().managedQuery(uri, proj, null, null, null);
                     int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -154,6 +163,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                     bBitmap = FileUtil.rotaingImageView(degree, bBitmap);
                     bigImg.setImageBitmap(bBitmap);
                     CommonUtils.cutPhoto(getActivity(), data.getData(), true, mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
+
                 }
                 break;
             case ACTIVITY_CAMERA_REQUESTCODE:
@@ -168,13 +178,14 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                     String mCoverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW;
                     bBitmap = BitmapFactory.decodeFile(mCoverPath);
                     bigImg.setImageBitmap(bBitmap);
+
                 }
                 break;
             case ACTIVITY_MODIFY_PHOTO_REQUESTCODE:
                 Log.d("qqq", "aaaa...");
                 String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
                 sBitmap = BitmapFactory.decodeFile(coverPath);
-                saveBitmap();
+//                saveBitmap();
                 //     imgCover.setImageBitmap(bitmap);
 
                 //接下来是完成上传功能
@@ -206,5 +217,46 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
         editor.apply();
     }
 
+    /**
+     * 解决小米手机上获取图片路径为null的情况
+     *
+     * @param intent
+     * @return
+     */
+    public Uri geturi(android.content.Intent intent) {
+        Uri uri = intent.getData();
+        String type = intent.getType();
+        if (uri.getScheme().equals("file") && (type.contains("image/"))) {
+            String path = uri.getEncodedPath();
+            if (path != null) {
+                path = Uri.decode(path);
+                ContentResolver cr = getActivity().getContentResolver();
+                StringBuffer buff = new StringBuffer();
+                buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=")
+                        .append("'" + path + "'").append(")");
+                Cursor cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        new String[]{MediaStore.Images.ImageColumns._ID},
+                        buff.toString(), null, null);
+                int index = 0;
+                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
+                    index = cur.getColumnIndex(MediaStore.Images.ImageColumns._ID);
+                    // set _id value
+                    index = cur.getInt(index);
+                }
+                if (index == 0) {
+                    // do nothing
+                } else {
+                    Uri uri_temp = Uri
+                            .parse("content://media/external/images/media/"
+                                    + index);
+                    if (uri_temp != null) {
+                        uri = uri_temp;
+                    }
+                }
+            }
+        }
+        Log.d("uri2", "" + uri);
+        return uri;
+    }
 
 }

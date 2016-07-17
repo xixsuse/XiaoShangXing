@@ -10,6 +10,14 @@
         <item name="android:screenOrientation">portrait</item>
     </style>
 
+    <style name="main_radiobutton">
+        <item name="android:gravity">center_horizontal</item>
+        <!--<item name="android:layout_weight">1</item>-->
+        <item name="android:button">@null</item>
+        <item name="android:background">@color/transparent</item>
+        <item name="android:textColor">@drawable/selector_radiobutton_textcolor</item>
+    </style>
+
     <!--字体大小为16sp 颜色为黑色-->
     <style name="black_16sp">
         <item name="android:textColor">@color/b0</item>

@@ -177,4 +177,9 @@
     <string name="privacy2">不看他（她）的校友圈</string>
     <string name="oldboy">校友圈</string>
     <string name="privacy3">允许校友查看十张照片</string>
+
+
+    <string name="xiaoshang">校上</string>
+    <string name="yujian">遇见</string>
+    <string name="wo">我</string>
 </resources>

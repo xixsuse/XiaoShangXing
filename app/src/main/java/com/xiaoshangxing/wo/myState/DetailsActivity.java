@@ -15,14 +15,15 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.wo.myState.check_photo.myStateNoScrollGridAdapter;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.wo.school_circle.NoScrollGridView;
@@ -81,6 +82,8 @@ public class DetailsActivity extends BaseActivity {
     TextView send;
     @Bind(R.id.permission)
     ImageView permission;
+    @Bind(R.id.scrollView)
+    ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,13 +132,34 @@ public class DetailsActivity extends BaseActivity {
             cirecleImage.setLayoutParams(params);
             cirecleImage.setPadding(getResources().getDimensionPixelSize(R.dimen.x20), 0, 0, 0);
 
-//            CirecleImage cirecleImage=(CirecleImage) getLayoutInflater().inflate(R.layout.util_circle_image_96,null);
-//            cirecleImage.setImageResource(R.mipmap.cirecleiamge_default);
+            cirecleImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(DetailsActivity.this,myStateActivity.class);
+                    startActivity(intent);
+                }
+            });
+
             praisePeople.addView(cirecleImage);
+
             Comment_layout comment_layout = new Comment_layout(this);
             comments.addView(comment_layout.getView());
-//            TextView textView=new TextView(this);
-//            textView.setText("5555555555");
+            comment_layout.getView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    int[] xy = new int[2];
+//                    v.getLocationOnScreen(xy);
+//                    int[] xy2 = new int[2];
+//                    commentInput.getLocationOnScreen(xy2);
+//                    int destination = xy[1] + v.getHeight() + xy2[1] - xy2[1];
+//                    scrollView.smoothScrollBy(0,destination);
+                    commentInput.setFocusable(true);
+                    commentInput.setFocusableInTouchMode(true);
+                    commentInput.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) DetailsActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+            });
 
         }
         commentInput.addTextChangedListener(new TextWatcher() {
@@ -188,7 +212,7 @@ public class DetailsActivity extends BaseActivity {
                         center.close();
                     }
                 });
-                Dialog dialog= center.create();
+                Dialog dialog = center.create();
                 dialog.show();
                 LocationUtil.setWidth(this, dialog,
                         getResources().getDimensionPixelSize(R.dimen.x780));

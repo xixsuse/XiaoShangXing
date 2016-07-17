@@ -17,9 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.school_circle.Item_Comment;
 import com.xiaoshangxing.utils.school_circle.PraisePeople;
 import com.xiaoshangxing.wo.WoFragment;
@@ -145,16 +145,13 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
                 woFragment.showEdittext(context);
                 final int[] xy = new int[2];
                 v.getLocationOnScreen(xy);
-                Log.d("y", "" + xy[1]);
                 final int layoutHeight = viewholder.comment_layout.getHeight();
                 final View mv = v;
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         int editextLocation = woFragment.get_Editext_Height();
-                        Log.d("edittext88", "'" + editextLocation);
                         int destination = xy[1] + mv.getHeight() + layoutHeight - editextLocation;
-                        Log.d("destination", "'" + destination);
                         woFragment.moveListview(destination);
                     }
                 }, 300);

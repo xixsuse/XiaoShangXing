@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.SettingActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
@@ -189,10 +190,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                     y2 = event.getY();
                     if (y1 - y2 > 15 & !is_titleMove) {
                         hideTitle();
-                        Log.d("action", "up" + is_titleMove);
                     } else if (y2 - y1 > 5 & !is_titleMove) {
                         showTitle();
-                        Log.d("action", "down");
                     }
                 }
 
@@ -268,7 +267,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                 startActivity(new_intent);
                 break;
             case R.id.set:
-                Toast.makeText(getContext(), "set", Toast.LENGTH_SHORT).show();
+                Intent setIntent=new Intent(getContext(), SettingActivity.class);
+                startActivity(setIntent);
                 break;
             case R.id.publish:
                 Toast.makeText(getContext(), "publish", Toast.LENGTH_SHORT).show();
@@ -397,7 +397,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         if (!is_titleMove) {
             int[] xy = new int[2];
             title.getLocationOnScreen(xy);
-            Log.d("y", "" + xy[1]);
             if (xy[1] >= 0) {
                 ValueAnimator animator = ValueAnimator.ofInt(0, title.getHeight());
                 animator.setDuration(1000);
