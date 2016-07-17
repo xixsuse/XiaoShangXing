@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Printer;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -85,6 +87,7 @@ public class DetailsActivity extends BaseActivity {
     @Bind(R.id.scrollView)
     ScrollView scrollView;
 
+    private Handler handler=new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,25 +145,42 @@ public class DetailsActivity extends BaseActivity {
 
             praisePeople.addView(cirecleImage);
 
-            Comment_layout comment_layout = new Comment_layout(this);
+            final Comment_layout comment_layout = new Comment_layout(this);
             comments.addView(comment_layout.getView());
             comment_layout.getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    int[] xy = new int[2];
-//                    v.getLocationOnScreen(xy);
-//                    int[] xy2 = new int[2];
-//                    commentInput.getLocationOnScreen(xy2);
-//                    int destination = xy[1] + v.getHeight() + xy2[1] - xy2[1];
-//                    scrollView.smoothScrollBy(0,destination);
+
                     commentInput.setFocusable(true);
                     commentInput.setFocusableInTouchMode(true);
                     commentInput.requestFocus();
                     InputMethodManager imm = (InputMethodManager) DetailsActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+
+                    final  View mv=v;
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int[] xy = new int[2];
+                            mv.getLocationOnScreen(xy);
+                            int[] xy2 = new int[2];
+                            commentInput.getLocationOnScreen(xy2);
+                            int destination = xy[1] + mv.getHeight()  - xy2[1];
+                            scrollView.smoothScrollBy(0,destination+10);
+                        }
+                    },300);
+
                 }
             });
 
+                View cirecleImage1=comment_layout.getView().findViewById(R.id.head_image);
+                cirecleImage1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(DetailsActivity.this,myStateActivity.class);
+                        startActivity(intent);
+                    }
+                });
         }
         commentInput.addTextChangedListener(new TextWatcher() {
             @Override
