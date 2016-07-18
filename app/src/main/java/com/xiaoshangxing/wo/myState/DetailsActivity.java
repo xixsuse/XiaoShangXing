@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Printer;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -42,7 +41,6 @@ import butterknife.OnClick;
  * on 2016/7/9
  */
 public class DetailsActivity extends BaseActivity {
-
 
     @Bind(R.id.back)
     LinearLayout back;

@@ -1,6 +1,7 @@
 package com.xiaoshangxing;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.wo.WoFragment;
+import com.xiaoshangxing.xiaoshang.XiaoShangFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,22 +45,37 @@ public class MainActivity extends BaseActivity {
 
     private int current;
 
+    private WoFragment woFragment;
+    private XiaoShangFragment xiaoShangFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
 
-
+        initAllFragments();
         BaseFragment frag = (BaseFragment) mFragmentManager.findFragmentById(R.id.loginregisterContent);
         if (frag != null) {
             return;
         }
-        frag = WoFragment.newInstance();
+//        frag = WoFragment.newInstance();
+//        mFragmentManager.beginTransaction().add(R.id.main_fragment,
+//                frag, WoFragment.TAG).commit();
+        frag = new XiaoShangFragment();
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
                 frag, WoFragment.TAG).commit();
 
         setWo(true);
+    }
+
+    private void initAllFragments() {
+        Fragment frag;
+        frag = mFragmentManager.findFragmentByTag(WoFragment.TAG);
+        woFragment = (frag == null) ? WoFragment.newInstance() : (WoFragment) frag;
+
+        frag = mFragmentManager.findFragmentByTag(XiaoShangFragment.TAG);
+        xiaoShangFragment = (frag == null) ? XiaoShangFragment.newInstance() : (XiaoShangFragment) frag;
+
     }
 
     @OnClick({R.id.xiaoshang_lay, R.id.yujian_lay, R.id.wolay})
@@ -100,6 +117,9 @@ public class MainActivity extends BaseActivity {
         if (is) {
             imageWo.setImageResource(R.mipmap.wo_on);
             wo.setTextColor(getResources().getColor(R.color.green1));
+
+            mFragmentManager.beginTransaction().replace(R.id.main_fragment,
+                    woFragment, XiaoShangFragment.TAG).commit();
             current = 3;
         } else {
             imageWo.setImageResource(R.mipmap.wo_off);
@@ -124,6 +144,9 @@ public class MainActivity extends BaseActivity {
         if (is) {
             imageXiaoshang.setImageResource(R.mipmap.xiaoshang_on);
             xiaoshang.setTextColor(getResources().getColor(R.color.green1));
+
+            mFragmentManager.beginTransaction().replace(R.id.main_fragment,
+                    xiaoShangFragment, XiaoShangFragment.TAG).commit();
             current = 1;
         } else {
             imageXiaoshang.setImageResource(R.mipmap.xiaoshang_off);

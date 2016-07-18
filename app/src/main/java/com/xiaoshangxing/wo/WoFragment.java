@@ -343,7 +343,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     public void moveListview(int px) {
-        listView.scrollListBy(px);
+//        listView.scrollListBy(px);
+        listView.smoothScrollBy(px,px);
     }
 
     public int get_Editext_Height() {
