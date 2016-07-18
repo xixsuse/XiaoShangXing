@@ -50,7 +50,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setImgCover();
+//        setImgCover();
     }
 
     private void setImgCover() {

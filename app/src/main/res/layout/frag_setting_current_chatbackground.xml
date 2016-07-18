@@ -72,6 +72,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:onClick="ChooseFromAlbum"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144">
 
@@ -91,6 +92,7 @@
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
         <RelativeLayout
+            android:onClick="ChooseFromPhone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144">
 
@@ -124,5 +126,13 @@
             android:layout_centerInParent="true"
             android:text="@string/usebackground" />
     </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/chatbackground_img"
+        android:layout_width="50dp"
+        android:layout_height="80dp"
+        android:src="@mipmap/cirecleiamge_default"
+        android:scaleType="fitCenter"/>
 
 </LinearLayout>

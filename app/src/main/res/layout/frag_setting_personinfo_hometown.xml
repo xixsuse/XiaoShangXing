@@ -117,9 +117,11 @@
         <Button
             android:id="@+id/hometown_complete"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144"
-            android:background="@color/w3"
+            android:layout_height="@dimen/y120"
+            android:background="@drawable/buttonstyle_green1"
             style="@style/black_16sp"
+            android:layout_marginStart="@dimen/x48"
+            android:layout_marginEnd="@dimen/x48"
             android:layout_marginTop="@dimen/y48"
             android:layout_marginBottom="@dimen/y48"
             android:text="@string/complete"/>

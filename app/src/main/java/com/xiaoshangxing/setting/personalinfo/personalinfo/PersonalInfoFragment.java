@@ -40,8 +40,8 @@ public class PersonalInfoFragment extends BaseFragment {
         para = imgCover.getLayoutParams();
         mActivity.setImagCoverHeight(para.height);
         mActivity.setImagCoverWidth(para.width);
-        setImgCover();
-        getHometown();
+//        setImgCover();
+//        getHometown();
         return mView;
     }
 

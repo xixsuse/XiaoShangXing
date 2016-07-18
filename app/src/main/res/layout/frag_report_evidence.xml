@@ -82,7 +82,8 @@
             android:layout_marginTop="@dimen/x48"
             android:numColumns="3"
             android:scrollbars="none"
-            android:verticalSpacing="@dimen/x20"></GridView>
+            android:verticalSpacing="@dimen/x20">
+        </GridView>
     </RelativeLayout>
 
 

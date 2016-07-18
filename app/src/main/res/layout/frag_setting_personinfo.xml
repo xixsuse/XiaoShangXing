@@ -8,6 +8,12 @@
 
     <include layout="@layout/toolbar_setting_personinfo" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/g1">
+    </View>
+
     <LinearLayout
         android:id="@+id/linear1"
         android:layout_width="wrap_content"
@@ -16,7 +22,7 @@
         android:background="@color/w1"
         android:divider="@drawable/toolbar_divider"
         android:orientation="vertical"
-        android:showDividers="middle|beginning">
+        android:showDividers="middle">
 
         <RelativeLayout
             android:layout_width="match_parent"

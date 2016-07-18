@@ -639,8 +639,8 @@ public class WheelView extends View {
 		centerDrawable.draw(canvas);
 		//*/
 		Paint paint = new Paint();
-	//paint.setColor(getResources().getColor(R.color.g1));
-		paint.setColor(Color.parseColor("#C7C7C7"));
+	paint.setColor(getResources().getColor(R.color.g1));
+	//	paint.setColor(Color.parseColor("#C7C7C7"));
 		// 设置线宽
 		paint.setStrokeWidth((float) 3);
 		// 绘制上边直线

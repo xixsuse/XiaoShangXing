@@ -57,8 +57,7 @@
             android:layout_marginEnd="@dimen/x24"
             android:layout_gravity="center_vertical"
             android:clickable="true"
-            android:src="@mipmap/delete"
-            android:visibility="gone" />
+            android:src="@mipmap/delete" />
     </LinearLayout>
 
     <!--分割线-->

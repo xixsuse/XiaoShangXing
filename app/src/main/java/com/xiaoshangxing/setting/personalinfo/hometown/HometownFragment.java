@@ -72,10 +72,10 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         String hometown = mCurrentProviceName+" "+mCurrentCityName;
         textView.setText(hometown);
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("hometown",Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("name",hometown);
-        editor.apply();
+//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("hometown",Activity.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putString("name",hometown);
+//        editor.apply();
         getActivity().getSupportFragmentManager().popBackStack();
     }
 
@@ -93,9 +93,9 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
         mViewProvince.setViewAdapter(new ArrayWheelAdapter<String>(getActivity(),mProvinceDatas));
         mViewProvince.setVisibleItems(7);
         mViewCity.setVisibleItems(7);
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("hometown",Activity.MODE_PRIVATE);
-        String name = sharedPreferences.getString("name","");
-        if(!name.equals("")) textView.setText(name);
+//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("hometown",Activity.MODE_PRIVATE);
+//        String name = sharedPreferences.getString("name","");
+//        if(!name.equals("")) textView.setText(name);
         updateCities();
         updateAreas();
     }
