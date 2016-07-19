@@ -203,7 +203,6 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
                 context.startActivity(intent);
             }
         });
-
         return view;
     }
 

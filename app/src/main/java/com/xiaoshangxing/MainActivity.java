@@ -2,9 +2,9 @@ package com.xiaoshangxing;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,11 +42,14 @@ public class MainActivity extends BaseActivity {
     TextView wo;
     @Bind(R.id.wolay)
     RelativeLayout wolay;
+    @Bind(R.id.radio_layout)
+    LinearLayout radioLayout;
 
     private int current;
 
     private WoFragment woFragment;
     private XiaoShangFragment xiaoShangFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +113,6 @@ public class MainActivity extends BaseActivity {
                 }
                 break;
         }
-        Log.d("current",""+current);
     }
 
     private void setWo(boolean is) {
@@ -152,9 +154,6 @@ public class MainActivity extends BaseActivity {
             imageXiaoshang.setImageResource(R.mipmap.xiaoshang_off);
             xiaoshang.setTextColor(getResources().getColor(R.color.g0));
         }
-
     }
-
-
 
 }

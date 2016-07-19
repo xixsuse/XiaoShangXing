@@ -28,6 +28,8 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.SettingActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
@@ -36,7 +38,6 @@ import com.xiaoshangxing.wo.myState.myStateActivity;
 import com.xiaoshangxing.wo.school_circle.NewsActivity.NewsActivity;
 import com.xiaoshangxing.wo.school_circle.Wo_listview_adpter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +82,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     private ImageView set, publish;
 
+    private int screenHeight;
+
 
     public static WoFragment newInstance() {
         return new WoFragment();
@@ -92,6 +95,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         mView = view;
         handler = new Handler();
         initView();
+        setHead();
         return view;
     }
 
@@ -160,6 +164,22 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                 } else {
                     send.setBackground(getResources().getDrawable(R.drawable.btn_circular_g1));
                     send.setEnabled(false);
+                }
+            }
+        });
+
+        //监听键盘高度  让输入框保持在键盘上面
+        screenHeight = ScreenUtils.getScreenHeight(getContext());
+        KeyBoardUtils.observeSoftKeyboard(getActivity(), new KeyBoardUtils.OnSoftKeyboardChangeListener() {
+            @Override
+            public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
+
+                if (softKeybardHeight > 100) {
+                    comment_input_layout.layout(0, screenHeight - softKeybardHeight - comment_input_layout.getHeight(),
+                            comment_input_layout.getWidth(),
+                            screenHeight - softKeybardHeight);
+                    Log.d("keyboard", "" + softKeybardHeight);
+                    Log.d("height", "" + screenHeight);
                 }
             }
         });
@@ -284,7 +304,10 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void setHead() {
-
+        Glide.with(getContext()).
+                load("http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg")
+                .animate(R.anim.fade_in)
+                .into(headImage);
     }
 
     @Override
@@ -340,11 +363,13 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 
+//        KeyBoardUtils.openKeybord(comment_input_layout,getContext());
+
     }
 
     public void moveListview(int px) {
 //        listView.scrollListBy(px);
-        listView.smoothScrollBy(px,px);
+        listView.smoothScrollBy(px, Math.abs(px));
     }
 
     public int get_Editext_Height() {
