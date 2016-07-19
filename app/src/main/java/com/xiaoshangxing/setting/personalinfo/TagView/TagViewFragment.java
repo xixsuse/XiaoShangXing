@@ -1,5 +1,6 @@
 package com.xiaoshangxing.setting.personalinfo.TagView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +21,8 @@ import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.utils.TagView.TagListView;
 import com.xiaoshangxing.setting.utils.TagView.TagView;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.LocationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,15 +114,31 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
         switch (v.getId()) {
             case R.id.tagView_save:
                 if (!editText.getText().toString().equals("")) {
-                    Tag tag = new Tag();
+                    final Tag tag = new Tag();
                     tag.setId(0);
                     tag.setChecked(true);
                     tag.setTitle(editText.getText().toString());
                     if (Same(editText.getText().toString()))
                         Toast.makeText(getActivity(), "标签名不能相同", Toast.LENGTH_SHORT).show();
                     else {
-                        mTags.add(tag);
-                        mTagListView.addTag(tag);
+                        final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(getActivity());
+                        final Dialog alertDialog = dialogUtils.Message("保存本次编辑？")
+                                .Button("不保存", "保存").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                                    @Override
+                                    public void onButton1() {
+                                        dialogUtils.close();
+                                    }
+
+                                    @Override
+                                    public void onButton2() {
+                                        mTags.add(tag);
+                                        mTagListView.addTag(tag);
+                                        dialogUtils.close();
+                                    }
+                                }).create();
+                        alertDialog.show();
+                        LocationUtil.setWidth(getActivity(), alertDialog,
+                                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
                     }
                     editText.setText("");
                     InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);

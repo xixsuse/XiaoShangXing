@@ -59,15 +59,30 @@ public class CommonUtils {
             //只能设置成false，k920无法返回
             intent.putExtra("return-data", false);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtil.getHeadPhotoFileTemp()));
-            intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+            intent.putExtra("*+---", Bitmap.CompressFormat.PNG.toString());
             intent.putExtra("noFaceDetection", true);
         } else {
             // 是否保留比例
-            intent.putExtra("scale", "true");
-            intent.putExtra("output", Uri.fromFile(FileUtil.getWallPaperFile()));
+//            intent.putExtra("scale", "true");
+//            intent.putExtra("output", Uri.fromFile(FileUtil.getWallPaperFile()));
+            intent.putExtra("aspectX", width / 10);
+            intent.putExtra("aspectY", height / 10);
+            // outputX outputY 是裁剪图片宽高
+            intent.putExtra("outputX", width);
+            intent.putExtra("outputY", height);
+
+            intent.putExtra("scale", true);
+            //只能设置成false，k920无法返回
+            intent.putExtra("return-data", false);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtil.getHeadPhotoFileTemp()));
+            intent.putExtra("*+---", Bitmap.CompressFormat.PNG.toString());
+            intent.putExtra("noFaceDetection", true);
+
+
         }
         ActivityUtil.startActivityForResultIntent(activity, intent, null,
                 ShowHeadimgFragment.ACTIVITY_MODIFY_PHOTO_REQUESTCODE, false);
     }
+
 
 }

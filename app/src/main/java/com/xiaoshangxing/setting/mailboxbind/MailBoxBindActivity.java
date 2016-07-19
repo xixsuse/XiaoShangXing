@@ -1,5 +1,6 @@
 package com.xiaoshangxing.setting.mailboxbind;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogUtils;
 
 /**
  * Created by 15828 on 2016/7/13.
@@ -65,6 +67,24 @@ public class MailBoxBindActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.mailbox_clear:
                 editText.setText("");
+            case R.id.mailboxbind_send:
+                String text = editText.getText().toString();
+                String text2 = "一封验证邮件已发送至：\n" + text + "，请登录\n你的邮箱查收邮件并验证。";
+                final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+                final Dialog alertDialog = dialogUtils.Message(text2)
+                        .Button("确定").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                            @Override
+                            public void onButton1() {
+                                finish();
+                            }
+
+                            @Override
+                            public void onButton2() {
+
+                            }
+                        }).create();
+                alertDialog.show();
+                break;
             default:
                 break;
         }

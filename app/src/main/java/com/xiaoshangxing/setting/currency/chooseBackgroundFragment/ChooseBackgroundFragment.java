@@ -30,7 +30,6 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
     private View mView;
     private TextView back;
     private GridView gridView;
-    private BaseAdapter baseAdapter;
 
     @Nullable
     @Override
@@ -46,7 +45,6 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
 
         Adapter baseAdapter = new Adapter(data);
         gridView.setAdapter(baseAdapter);
-
         back.setOnClickListener(this);
         return mView;
     }
@@ -115,8 +113,6 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
             return convertView;
         }
     }
-
-    ;
 
 
 }

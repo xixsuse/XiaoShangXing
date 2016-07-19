@@ -729,6 +729,160 @@ public class DialogUtils {
             dialog.dismiss();
         }
     }
+
+    /**
+     * 屏幕中心弹出对话框（带按钮） Message black_16sp
+     */
+    public static class Dialog_Center2 {
+        private Context activity;
+        private String title;
+        private String message;
+        private String button1 = "确定";
+        private String button2;
+        int button_count = 1;
+        private Dialog dialog;
+
+        private buttonOnClick mbuttonOnClick;
+
+
+        public Dialog_Center2(Context activity) {
+            this.activity = activity;
+        }
+
+        public Context getActivity() {
+            return activity;
+        }
+
+        public void setActivity(Activity activity) {
+            this.activity = activity;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public Dialog_Center2 Title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public String getMessage() {
+            return this.message;
+        }
+
+        public Dialog_Center2 Message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public String getButton1() {
+            return button1;
+        }
+
+
+        public String getButton2() {
+            return button2;
+        }
+
+        public Dialog_Center2 Button(String button1) {
+            this.button1 = button1;
+            this.button_count = 1;
+            return this;
+        }
+
+        public Dialog_Center2 Button(String button1, String button2) {
+            this.button1 = button1;
+            this.button2 = button2;
+            this.button_count = 2;
+            return this;
+        }
+
+        public int getButton_count() {
+            return button_count;
+        }
+
+
+        public buttonOnClick getMbuttonOnClick() {
+            return mbuttonOnClick;
+        }
+
+        public Dialog_Center2 MbuttonOnClick(buttonOnClick mbuttonOnClick) {
+            this.mbuttonOnClick = mbuttonOnClick;
+            return this;
+        }
+
+        public Dialog create() {
+            dialog = new Dialog(activity, R.style.ActionSheetDialog);
+            LinearLayout linearLayout = (LinearLayout) View
+                    .inflate(activity, R.layout.dialog_util2, null);
+
+            TextView title = (TextView) linearLayout.findViewById(R.id.dialog_title);
+            TextView message = (TextView) linearLayout.findViewById(R.id.dialog_message);
+            Button btn = (Button) linearLayout.findViewById(R.id.dialog_button);
+            LinearLayout twoButton = (LinearLayout) linearLayout.findViewById(R.id.dialog_twoButton);
+            Button btn1 = (Button) linearLayout.findViewById(R.id.dialog_button1);
+            Button btn2 = (Button) linearLayout.findViewById(R.id.dialog_button2);
+
+            if (!TextUtils.isEmpty(getTitle())) {
+                title.setText(getTitle());
+                title.setVisibility(View.VISIBLE);
+                message.setTextSize(13);
+            }
+
+            if (!TextUtils.isEmpty(getMessage())) {
+                message.setText(getMessage());
+            }
+
+            if (button_count == 1) {
+                twoButton.setVisibility(View.GONE);
+                btn.setText(getButton1());
+                btn.setVisibility(View.VISIBLE);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mbuttonOnClick.onButton1();
+                    }
+                });
+            } else {
+                btn1.setText(getButton1());
+                btn2.setText(getButton2());
+                btn1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mbuttonOnClick.onButton1();
+                    }
+                });
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mbuttonOnClick.onButton2();
+
+                    }
+                });
+            }
+
+            dialog.setContentView(linearLayout);
+            //        alertDialog.setCancelable(false);
+            return dialog;
+        }
+
+
+        public interface buttonOnClick {
+            void onButton1();
+
+            void onButton2();
+        }
+
+        public void close() {
+            dialog.dismiss();
+        }
+    }
+
+
+
+
+
+
 }
 
 
