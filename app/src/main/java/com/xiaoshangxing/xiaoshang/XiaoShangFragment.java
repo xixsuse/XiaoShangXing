@@ -1,10 +1,11 @@
 package com.xiaoshangxing.xiaoshang;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,12 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by FengChaoQun
@@ -53,8 +53,10 @@ public class XiaoShangFragment extends BaseFragment {
     private int currentImage;
     private boolean isMoving;
     private Handler handler = new Handler();
+    private Runnable runnable;
+    private ValueAnimator animator;
 
-    private int image_width,divider,padding_start,total;
+    private int image_width, divider, padding_start, total, tuchlength;
 
     @Nullable
     @Override
@@ -62,17 +64,23 @@ public class XiaoShangFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.activity_test, null);
         mview = view;
         ButterKnife.bind(this, view);
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                isMoving = false;
+            }
+        };
         init();
         return view;
     }
 
     private void init() {
-        image_width=getResources().getDimensionPixelSize(R.dimen.x808);
-        divider=getResources().getDimensionPixelSize(R.dimen.x48);
-        padding_start=getResources().getDimensionPixelSize(R.dimen.x136);
-        total=image_width*5+divider*4+padding_start*2;
+        image_width = getResources().getDimensionPixelSize(R.dimen.x808);
+        divider = getResources().getDimensionPixelSize(R.dimen.x48);
+        padding_start = getResources().getDimensionPixelSize(R.dimen.x136);
+        total = image_width * 5 + divider * 4 + padding_start * 2;
 
-        Log.d("length",""+image_width+":"+divider+":"+padding_start+":"+total);
+        Log.d("length", "" + image_width + ":" + divider + ":" + padding_start + ":" + total);
 
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -90,7 +98,7 @@ public class XiaoShangFragment extends BaseFragment {
 //                                    tuchUp(currentImage);
 //                                }
 //                            }, 250);
-                            int des=(int)(current-event.getX());
+                            int des = (int) (current - event.getX());
                             jujiment(des);
                             return true;
 //                        case MotionEvent.ACTION_MOVE:
@@ -107,46 +115,53 @@ public class XiaoShangFragment extends BaseFragment {
         tuch.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                tuchlength = tuch.getWidth();
+                final int item = tuchlength / 5;
+
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         current = event.getX();
-//                        int des1=(int) current;
-//                        if (des1<=150){
-//                            setPosition(1);
-//                        }else if (des1<=300){
-//                            setPosition(2);
-//                        }else if (des1<=450){
-//                            setPosition(3);
-//                        }else if (des1<=600){
-//                            setPosition(4);
-//                        }else if (des1<=750){
-//                            setPosition(5);
-//                        }
+                        int des1 = (int) current;
+                        if (des1 <= item) {
+                            setPosition(1);
+                        } else if (des1 <= item * 2) {
+                            setPosition(2);
+                        } else if (des1 <= item * 3) {
+                            setPosition(3);
+                        } else if (des1 <= item * 4) {
+                            setPosition(4);
+                        } else if (des1 <= item * 5) {
+                            setPosition(5);
+                        }
                         return true;
                     case MotionEvent.ACTION_MOVE:
                         float i = event.getX() - current;
 //                        if (i > 0 && event.getX() > (currentImage * 150 - 150) ||
 //                                i < 0 && event.getX() < (currentImage * 150)) {
-                        float sca = (float) total / tuch.getWidth();
-                        scrollView.smoothScrollBy((int) (i * sca), 0);
-                        current = event.getX();
+                        if (Math.abs(i) > 1) {
+                            float sca = (float) total / tuch.getWidth();
+                            scrollView.smoothScrollBy((int) (i * sca), 0);
+                            current = event.getX();
+                        }
+
+                        instantSetImage((int) (event.getX()));
+
 //                        }
                         break;
                     case MotionEvent.ACTION_UP:
                         final int des = (int) event.getX();
-                        final int item=tuch.getWidth()/5;
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 if (des <= item) {
                                     setFoucus(1);
-                                } else if (des <= item*2) {
+                                } else if (des <= item * 2) {
                                     setFoucus(2);
-                                } else if (des <= item*3) {
+                                } else if (des <= item * 3) {
                                     setFoucus(3);
-                                } else if (des <= item*4) {
+                                } else if (des <= item * 4) {
                                     setFoucus(4);
-                                } else if (des <= item*5) {
+                                } else if (des <= item * 5) {
                                     setFoucus(5);
                                 }
                             }
@@ -200,6 +215,22 @@ public class XiaoShangFragment extends BaseFragment {
         }
     }
 
+    private void instantSetImage(int loaction) {
+        tuchlength = tuch.getWidth();
+        final int item = tuchlength / 5;
+        if (loaction <= item) {
+            setImagePosition(1);
+        } else if (loaction <= item * 2) {
+            setImagePosition(2);
+        } else if (loaction <= item * 3) {
+            setImagePosition(3);
+        } else if (loaction <= item * 4) {
+            setImagePosition(4);
+        } else if (loaction <= item * 5) {
+            setImagePosition(5);
+        }
+    }
+
     private void setFoucus(final int position) {
         if (isMoving) {
             return;
@@ -235,10 +266,10 @@ public class XiaoShangFragment extends BaseFragment {
 
         setImagePosition(position);
 
-        final ValueAnimator animator = ValueAnimator.ofInt(0, xy[0] - padding_start);
+        animator = ValueAnimator.ofInt(0, xy[0] - padding_start);
         int abs = Math.abs(xy[0] - padding_start);
-        abs = abs > 250 ? abs : 250;
-        animator.setDuration(abs <= 500 ? abs : 500);
+        abs = abs > 150 ? abs : 150;
+        animator.setDuration(abs <= 300 ? abs : 300);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -249,19 +280,15 @@ public class XiaoShangFragment extends BaseFragment {
         });
         currentImage = position;
         animator.start();
-//        isMoving=true;
-//        Log.d("set ismoving","true");
 //        animator.addListener(new Animator.AnimatorListener() {
 //            @Override
 //            public void onAnimationStart(Animator animation) {
-//
+//                isMoving = true;
 //            }
 //
 //            @Override
 //            public void onAnimationEnd(Animator animation) {
-//                text.setText(""+currentImage);
 //                isMoving=false;
-//
 //                Log.d("set ismoving","false");
 //            }
 //
@@ -277,18 +304,44 @@ public class XiaoShangFragment extends BaseFragment {
 //            }
 //        });
         isMoving = true;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                isMoving = false;
-            }
-        },750);
+        handler.postDelayed(runnable, abs);
 
 
     }
 
-    private void setImagePosition(int position){
-        switch (position){
+    private void setPosition(final int position) {
+
+        int[] xy = new int[2];
+        switch (position) {
+            case 1:
+                first.getLocationOnScreen(xy);
+                break;
+            case 2:
+                second.getLocationOnScreen(xy);
+                break;
+            case 3:
+                third.getLocationOnScreen(xy);
+                break;
+            case 4:
+                forth.getLocationOnScreen(xy);
+                break;
+            case 5:
+                five.getLocationOnScreen(xy);
+                break;
+        }
+
+        setImagePosition(position);
+
+
+        scrollView.smoothScrollBy(xy[0] - padding_start, 0);
+
+        currentImage = position;
+
+
+    }
+
+    private void setImagePosition(int position) {
+        switch (position) {
             case 1:
                 tuch.setImageResource(R.mipmap.xiaoshang_select1);
                 title.setText("校历资讯");
@@ -326,24 +379,44 @@ public class XiaoShangFragment extends BaseFragment {
                     setFoucus(currentImage - 1);
                     Log.d("current", "to" + (currentImage));
                 }
+            } else {
+                gotoOther(currentImage);
             }
         }
 
     }
 
+    private void gotoOther(int position) {
+        switch (position) {
+            case 3:
+                Intent help_intent = new Intent(getContext(), ShoolfellowHelpActivity.class);
+                getContext().startActivity(help_intent);
+                break;
+        }
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
-    @OnClick(R.id.xiaoshang_notice)
-    public void onClick() {
-    }
 
     @Override
     public void onResume() {
         super.onResume();
+        isMoving = false;
         setImagePosition(currentImage);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+//        if (animator!=null){
+//            animator.cancel();
+//        }
+
+    }
+
+
 }

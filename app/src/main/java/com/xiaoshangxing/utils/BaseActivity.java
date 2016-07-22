@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import com.xiaoshangxing.R;
+
 /**
  * Created by FengChaoQun
  * on 2016/6/11
@@ -31,6 +33,7 @@ public class BaseActivity extends AppCompatActivity {
         **describe:默认隐藏标题栏
         */
         hideTitle(true);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     protected void hideTitle(boolean hideTitle) {

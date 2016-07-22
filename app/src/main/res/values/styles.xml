@@ -145,14 +145,14 @@
     </style>
 
     <!--申诉找回密码条目布局-->
-    <style name="appeal_item_layput" >
+    <style name="appeal_item_layput">
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/y126</item>
     </style>
 
     <!--申诉找回密码条目名称-->
-    <style name="appeal_item_name" parent="black_16sp" >
+    <style name="appeal_item_name" parent="black_16sp">
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -172,4 +172,28 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
+    <!--校友互帮弹出菜单-->
+    <style name="popwindow_anim">
+        <item name="android:windowEnterAnimation">@anim/popwindow_show</item>
+    </style>
+
+    <!--校友互帮弹出菜单-->
+    <style name="publish_anim">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="AppTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"
+        />
 </resources>

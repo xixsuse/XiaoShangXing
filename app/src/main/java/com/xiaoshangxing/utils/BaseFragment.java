@@ -19,6 +19,7 @@ public class BaseFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mActivity = (BaseActivity) getActivity();
         mContext = mActivity;
+
     }
 
 }

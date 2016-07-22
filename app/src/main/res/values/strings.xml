@@ -210,5 +210,18 @@
     <string name="xiaoshang">校上</string>
     <string name="yujian">遇见</string>
     <string name="wo">我</string>
+    <string name="shoolfellowhelp">校友互帮</string>
+    <string name="myshoolfellowhelp">我的互帮</string>
+    <string name="transmit">转发</string>
+    <string name="praise">赞</string>
+    <string name="helpdetail">互帮详情</string>
+    <string name="webprovide">网页由mp.xiaoshangxing.com提供</string>
+    <string name="sharetoxsx">分享到\n校友圈</string>
+    <string name="iwant_publish">我要发布</string>
+    <string name="ipublished">已发布</string>
+    <string name="more">更多...</string>
+    <string name="no_published_help">你还没有发布互帮,快去发布你的互帮吧</string>
+
+
 
 </resources>

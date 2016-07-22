@@ -2,7 +2,6 @@ package com.xiaoshangxing.wo.myState;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,7 +30,7 @@ import butterknife.OnClick;
 public class myStateActivity extends BaseActivity {
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.news_list)
+    @Bind(R.id.more)
     ImageView newsList;
     private ListView listView;
     private RelativeLayout headView;
@@ -88,13 +87,13 @@ public class myStateActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.back, R.id.news_list})
+    @OnClick({R.id.back, R.id.more})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
                 finish();
                 break;
-            case R.id.news_list:
+            case R.id.more:
                 Intent news_intent=new Intent(myStateActivity.this, NewsActivity.class);
                 startActivity(news_intent);
                 break;

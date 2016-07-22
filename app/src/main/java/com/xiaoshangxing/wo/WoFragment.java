@@ -116,7 +116,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
         //headview footview
         headView = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.util_wo_header, null);
-        footerview = getActivity().getLayoutInflater().inflate(R.layout.util_wo_footer, null);
+        footerview = getActivity().getLayoutInflater().inflate(R.layout.footer, null);
         name1 = (TextView) headView.findViewById(R.id.name1);
         name2 = (TextView) headView.findViewById(R.id.name2);
         headImage = (ImageView) headView.findViewById(R.id.head_image);
@@ -327,12 +327,12 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         ptrFrameLayout.setDurationToCloseHeader(2000);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-        ptrFrameLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ptrFrameLayout.autoRefresh(false);
-            }
-        }, 100);
+//        ptrFrameLayout.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                ptrFrameLayout.autoRefresh(false);
+//            }
+//        }, 100);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {

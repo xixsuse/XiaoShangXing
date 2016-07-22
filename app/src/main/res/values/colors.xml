@@ -9,12 +9,10 @@
     <color name="menu_text">#f12162ff</color>
 
 
-
     <!--透明-->
     <color name="transparent">#00000000</color>
     <!--半透明-->
     <color name="halftransparent">#666666</color>
-
 
 
     <!--标准绿-->
@@ -77,6 +75,8 @@
 
     <color name="albumback">#E1E0DE</color>
     <color name="plugin_camera_black">#000000</color>
+
+    <color name="black_overlay">#66000000</color>
 
 
 </resources>

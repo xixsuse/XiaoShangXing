@@ -45,7 +45,7 @@
 
         <!--消息列表-->
         <ImageView
-            android:id="@+id/news_list"
+            android:id="@+id/more"
             android:layout_centerVertical="true"
             android:src="@mipmap/bell"
             android:layout_alignParentEnd="true"
