@@ -1,6 +1,5 @@
 package com.xiaoshangxing.xiaoshang;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
