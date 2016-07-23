@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import butterknife.Bind;
@@ -49,7 +50,7 @@ public class XiaoShangFragment extends BaseFragment {
 
     private float current, result, current2;
     private int start = 0;
-    private int currentImage;
+    private int currentImage=1;
     private boolean isMoving;
     private Handler handler = new Handler();
     private Runnable runnable;
@@ -74,6 +75,7 @@ public class XiaoShangFragment extends BaseFragment {
     }
 
     private void init() {
+        setImagePosition(currentImage);
         image_width = getResources().getDimensionPixelSize(R.dimen.x808);
         divider = getResources().getDimensionPixelSize(R.dimen.x48);
         padding_start = getResources().getDimensionPixelSize(R.dimen.x136);
@@ -235,16 +237,6 @@ public class XiaoShangFragment extends BaseFragment {
             return;
         }
         int[] xy = new int[2];
-//        first.getLocationOnScreen(xy);
-//        Log.d("first", "" + xy[0]);
-//        second.getLocationOnScreen(xy);
-//        Log.d("second", "" + xy[0]);
-//        third.getLocationOnScreen(xy);
-//        Log.d("third", "" + xy[0]);
-//        forth.getLocationOnScreen(xy);
-//        Log.d("forth", "" + xy[0]);
-//        five.getLocationOnScreen(xy);
-//        Log.d("five", "" + xy[0]);
         switch (position) {
             case 1:
                 first.getLocationOnScreen(xy);
@@ -387,6 +379,10 @@ public class XiaoShangFragment extends BaseFragment {
 
     private void gotoOther(int position) {
         switch (position) {
+            case 2:
+                Intent rewaed_intent=new Intent(getContext(), ShoolRewardActivity.class);
+                getContext().startActivity(rewaed_intent);
+                break;
             case 3:
                 Intent help_intent = new Intent(getContext(), ShoolfellowHelpActivity.class);
                 getContext().startActivity(help_intent);
