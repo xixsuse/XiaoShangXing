@@ -168,7 +168,7 @@ public class MyShoolHelpFragment extends BaseFragment {
             hideMenu.setVisibility(View.VISIBLE);
             activity.setHideMenu(true);
         } else {
-            hideMenu.setVisibility(View.INVISIBLE);
+            hideMenu.setVisibility(View.GONE);
             activity.setHideMenu(false);
         }
     }

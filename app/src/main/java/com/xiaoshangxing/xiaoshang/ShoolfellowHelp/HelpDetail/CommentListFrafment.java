@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.Random;
 public class CommentListFrafment extends Fragment {
     private RecyclerView recyclerView;
     private TextView emptyText;
+    private boolean isCollect;//记录是否是collect界面
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class CommentListFrafment extends Fragment {
         return view;
     }
 
+    public void setCollect(boolean collect) {
+        isCollect = collect;
+    }
+
     class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>
     {
 
@@ -62,11 +68,19 @@ public class CommentListFrafment extends Fragment {
             holder.text=(TextView)view.findViewById(R.id.text);
             holder.headImage=(CirecleImage)view.findViewById(R.id.head_image);
 
+
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HelpDetailActivity activity=(HelpDetailActivity) getActivity();
-                    activity.showOrHideInputBox();
+                    if (isCollect){
+                        RewardDetailActivity activity=(RewardDetailActivity) getActivity();
+                        activity.showOrHideInputBox();
+                    }else {
+                        HelpDetailActivity activity=(HelpDetailActivity) getActivity();
+                        activity.showOrHideInputBox();
+                    }
+
+
                 }
             });
             emptyText.setOnClickListener(new View.OnClickListener() {

@@ -7,7 +7,7 @@
 
     <!--导航栏-->
     <RelativeLayout
-        android:id="@+id/title"
+        android:id="@+id/title_lay"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_144"
         android:background="@color/w0"
@@ -32,19 +32,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x12"
-                android:text="@string/xiaoshang"
+                android:text="@string/cancle"
                 android:textColor="@color/b0"
                 android:textSize="15sp" />
 
         </LinearLayout>
-        <!--互帮详情-->
+        <!--悬赏详情-->
         <TextView
-            android:id="@+id/myState"
+            android:id="@+id/title"
             style="@style/black_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/helpdetail" />
+            android:text="@string/rewaid_detail" />
 
         <!--点点点-->
         <ImageView
@@ -61,7 +61,7 @@
         android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title">
+        android:layout_below="@+id/title_lay">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -128,6 +128,28 @@
                         android:text="时间"
                         android:textColor="@color/g0"
                         android:textSize="10sp" />
+
+                    <!--收藏-->
+                    <CheckBox
+                        android:id="@+id/collect"
+                        android:layout_marginTop="@dimen/y20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/x24"
+                        android:background="@drawable/selector_reward_collect"
+                        android:button="@null"
+                        android:focusable="false" />
+                    <!--价格-->
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y36"
+                        android:layout_toStartOf="@+id/collect"
+                        android:text="￥100"
+                        android:textColor="@color/red1"
+                        android:textSize="13sp" />
                 </RelativeLayout>
 
                 <!--文字内容-->
@@ -304,7 +326,6 @@
                 android:layout_weight="1">
 
                 <LinearLayout
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -345,7 +366,6 @@
                 android:layout_weight="1">
 
                 <LinearLayout
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"

@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -53,6 +54,8 @@ public class HelpDetailActivity extends BaseActivity {
     TextView myState;
     @Bind(R.id.more)
     ImageView more;
+    @Bind(R.id.title)
+    RelativeLayout title;
     @Bind(R.id.head_image)
     CirecleImage headImage;
     @Bind(R.id.name)
@@ -65,6 +68,8 @@ public class HelpDetailActivity extends BaseActivity {
     TextView text;
     @Bind(R.id.button)
     ImageView button;
+    @Bind(R.id.detail)
+    LinearLayout detail;
     @Bind(R.id.transmit_text)
     TextView transmitText;
     @Bind(R.id.comment_text)
@@ -73,28 +78,79 @@ public class HelpDetailActivity extends BaseActivity {
     TextView praiseText;
     @Bind(R.id.cursor)
     View cursor;
+    @Bind(R.id.app_bar)
+    AppBarLayout appBar;
     @Bind(R.id.viewpager)
     ViewPager viewpager;
     @Bind(R.id.coordinator)
     CoordinatorLayout coordinator;
-    @Bind(R.id.transmit)
-    LinearLayout transmit;
-    @Bind(R.id.comment)
-    LinearLayout comment;
+    ;
     @Bind(R.id.praiseOrCancel)
     TextView praiseOrCancel;
-    @Bind(R.id.praise)
-    LinearLayout praise;
     @Bind(R.id.comment_input)
     EditText commentInput;
     @Bind(R.id.emotion)
     ImageView emotion;
+    @Bind(R.id.input_layout)
+    RelativeLayout inputLayout;
     @Bind(R.id.send)
     TextView send;
     @Bind(R.id.comment_input_layout)
     RelativeLayout commentInputLayout;
-    @Bind(R.id.detail)
-    LinearLayout detail;
+    @Bind(R.id.transmit)
+    RelativeLayout transmit;
+    @Bind(R.id.comment)
+    RelativeLayout comment;
+    @Bind(R.id.praise)
+    RelativeLayout praise;
+//    @Bind(R.id.back)
+//    LinearLayout back;
+//    @Bind(R.id.title)
+//    TextView myState;
+//    @Bind(R.id.more)
+//    ImageView more;
+//    @Bind(R.id.head_image)
+//    CirecleImage headImage;
+//    @Bind(R.id.name)
+//    TextView name;
+//    @Bind(R.id.college)
+//    TextView college;
+//    @Bind(R.id.time)
+//    TextView time;
+//    @Bind(R.id.text)
+//    TextView text;
+//    @Bind(R.id.button)
+//    ImageView button;
+//    @Bind(R.id.transmit_text)
+//    TextView transmitText;
+//    @Bind(R.id.comment_text)
+//    TextView commentText;
+//    @Bind(R.id.praise_text)
+//    TextView praiseText;
+//    @Bind(R.id.cursor)
+//    View cursor;
+//    @Bind(R.id.viewpager)
+//    ViewPager viewpager;
+//    @Bind(R.id.coordinator)
+//    CoordinatorLayout coordinator;
+//    @Bind(R.id.praiseOrCancel)
+//    TextView praiseOrCancel;
+//    @Bind(R.id.comment_input)
+//    EditText commentInput;
+//    @Bind(R.id.emotion)
+//    ImageView emotion;
+//    @Bind(R.id.send)
+//    TextView send;
+//    @Bind(R.id.comment_input_layout)
+//    RelativeLayout commentInputLayout;
+//    @Bind(R.id.detail)
+//    LinearLayout detail;
+//    @Bind(R.id.transmit)
+//    RelativeLayout transmit;
+//    @Bind(R.id.comment)
+//    RelativeLayout comment;
+//    @Bind(R.id.praise)
+//    RelativeLayout praise;
 
     private int currentItem = 2;
     private List<Fragment> fragments = new ArrayList<Fragment>();

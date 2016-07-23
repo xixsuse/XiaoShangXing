@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity {
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
                 frag, WoFragment.TAG).commit();
 
-        setWo(true);
+        setXiaoshang(true);
     }
 
     private void initAllFragments() {

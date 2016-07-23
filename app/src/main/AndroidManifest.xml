@@ -65,6 +65,19 @@
         <activity android:name=".xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity">
         </activity>
 
+        <activity android:name=".xiaoshang.ShoolReward.ShoolRewardActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity">
+
+        </activity>
+
     </application>
 
 </manifest>

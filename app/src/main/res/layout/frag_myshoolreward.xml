@@ -32,19 +32,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x12"
-                android:text="@string/cancle"
+                android:text="@string/back"
                 android:textColor="@color/b0"
                 android:textSize="15sp" />
 
         </LinearLayout>
-        <!--我的互帮-->
+        <!--我的悬赏-->
         <TextView
             android:id="@+id/title"
             style="@style/black_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/myshoolfellowhelp" />
+            android:text="@string/myreward" />
 
     </RelativeLayout>
 
@@ -63,7 +63,6 @@
         cube_ptr:ptr_resistance="1.7">
 
         <ListView
-            android:layout_marginBottom="@dimen/y126"
             android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

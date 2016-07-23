@@ -223,5 +223,9 @@
     <string name="no_published_help">你还没有发布互帮,快去发布你的互帮吧</string>
 
 
+    <string name="shoolreward">校内悬赏</string>
+    <string name="myreward">我的悬赏</string>
+    <string name="rewaid_detail">悬赏详情</string>
+    <string name="collect">收藏</string>
 
 </resources>
