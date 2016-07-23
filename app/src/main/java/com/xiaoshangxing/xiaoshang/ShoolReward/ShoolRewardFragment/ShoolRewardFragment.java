@@ -267,10 +267,6 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         }, 1000);
     }
 
-    @Override
-    public void showTransmitDialog() {
-
-    }
 
     @Override
     public void setmPresenter(@Nullable ShoolRewardContract.Presenter presenter) {

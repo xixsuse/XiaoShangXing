@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -50,7 +51,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/20
  */
-public class RewardDetailActivity extends BaseActivity {
+public class RewardDetailActivity extends BaseActivity implements RewardContract.view {
     public static final String TAG = BaseFragment.TAG + "-HelpDetailActivity";
     @Bind(R.id.back)
     LinearLayout back;
@@ -286,7 +287,7 @@ public class RewardDetailActivity extends BaseActivity {
     }
 
     //    控制滑块滑动到指定位置
-    private void moveToPosition(int position) {
+    public void moveToPosition(int position) {
         int[] xy = new int[2];
         switch (position) {
             case 1:
@@ -313,7 +314,7 @@ public class RewardDetailActivity extends BaseActivity {
         Log.d("x", "" + xy[0]);
     }
 
-    private void moveImediate(int position) {
+    public void moveImediate(int position) {
         int[] xy = new int[2];
         switch (position) {
             case 1:
@@ -330,7 +331,7 @@ public class RewardDetailActivity extends BaseActivity {
                 cursor.getWidth() + xy[0], cursor.getBottom());
     }
 
-    private void showShareDialog() {
+    public void showShareDialog() {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View view = View.inflate(this, R.layout.util_help_share_dialog, null);
         dialog.setContentView(view);
@@ -389,4 +390,8 @@ public class RewardDetailActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void setmPresenter(@Nullable RewardContract.Presenter presenter) {
+
+    }
 }

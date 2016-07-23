@@ -31,10 +31,6 @@ public class ShoolRewardContract {
         */
         void noticeDialog(String message);
 
-        /*
-        **describe:转发弹窗
-        */
-        void showTransmitDialog();
     }
 
     public interface Presenter extends IBasePresenter {

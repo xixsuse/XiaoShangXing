@@ -37,7 +37,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/21
  */
-public class MyShoolRewardFragment extends BaseFragment {
+public class MyShoolRewardFragment extends BaseFragment implements MyRewardContract.View {
     public static final String TAG = BaseFragment.TAG + "-MyShoolHelpFragment";
     @Bind(R.id.back)
     LinearLayout back;
@@ -172,6 +172,7 @@ public class MyShoolRewardFragment extends BaseFragment {
             activity.setHideMenu(true);
         } else {
             hideMenu.setVisibility(View.GONE);
+            adpter.showSelectCircle(false);
             activity.setHideMenu(false);
         }
     }
@@ -203,6 +204,11 @@ public class MyShoolRewardFragment extends BaseFragment {
             noContent.setVisibility(View.INVISIBLE);
             listview.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void setmPresenter(@Nullable MyRewardContract.Presenter presenter) {
+
     }
 
     @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete})

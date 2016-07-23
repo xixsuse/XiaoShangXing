@@ -35,7 +35,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/21
  */
-public class CollectFragment extends BaseFragment {
+public class CollectFragment extends BaseFragment implements CollectContract.View {
     public static final String TAG = BaseFragment.TAG + "-collectFragment";
     @Bind(R.id.back)
     LinearLayout back;
@@ -174,6 +174,7 @@ public class CollectFragment extends BaseFragment {
             activity.setCollect(true);
         } else {
             hideMenu.setVisibility(View.GONE);
+            adpter.showSelectCircle(false);
             activity.setCollect(false);
         }
     }
@@ -205,6 +206,11 @@ public class CollectFragment extends BaseFragment {
             noContent.setVisibility(View.INVISIBLE);
             listview.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void setmPresenter(@Nullable CollectContract.Presenter presenter) {
+
     }
 
     @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete})

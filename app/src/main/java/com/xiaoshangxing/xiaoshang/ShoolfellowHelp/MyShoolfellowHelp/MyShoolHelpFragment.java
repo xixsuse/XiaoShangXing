@@ -9,7 +9,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,7 +33,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/21
  */
-public class MyShoolHelpFragment extends BaseFragment {
+public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.View {
     public static final String TAG = BaseFragment.TAG + "-MyShoolHelpFragment";
     @Bind(R.id.back)
     LinearLayout back;
@@ -85,39 +84,6 @@ public class MyShoolHelpFragment extends BaseFragment {
 
     }
 
-    private void showMenu(View v) {
-
-        View menu = View.inflate(getContext(), R.layout.popup_myhelp_bottom, null);
-        final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setAnimationStyle(R.style.popwindow_anim);
-
-        menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        int mShowMorePopupWindowWidth = menu.getMeasuredWidth();
-
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setTouchable(true);
-
-        popupWindow.showAsDropDown(v,
-                -mShowMorePopupWindowWidth + this.getResources().getDimensionPixelSize(R.dimen.x30) + v.getWidth(),
-                3);
-
-        View publish = menu.findViewById(R.id.publish);
-        View published = menu.findViewById(R.id.published);
-        publish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        published.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-    }
 
     private void initFresh() {
         final StoreHouseHeader header = new StoreHouseHeader(getContext());
@@ -155,6 +121,11 @@ public class MyShoolHelpFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void setmPresenter(@Nullable MyhelpContract.Presenter presenter) {
+
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -169,6 +140,7 @@ public class MyShoolHelpFragment extends BaseFragment {
             activity.setHideMenu(true);
         } else {
             hideMenu.setVisibility(View.GONE);
+            adpter.showSelectCircle(false);
             activity.setHideMenu(false);
         }
     }
