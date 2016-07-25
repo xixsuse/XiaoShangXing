@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">校上行</string>
+    <string name="app_name">test</string>
 
     <!--登录注册相关-->
     <string name="login">登录</string>
@@ -204,8 +204,10 @@
     <string name="checkupdate">检查更新</string>
     <string name="nodisturb_text">如果只在夜间开启，则只在22：00—8：00间生效</string>
     <string name="download">下载</string>
+    <string name="privacy_text1">把通讯录的某个好友放在这里，选择“公开”这个可见范围\n发照片他（她）将无法看见。</string>
+    <string name="privacy_text2">把通讯录的某个好友放在这里，他（她）更新的照片将不会\n在你的校友圈中出现。</string>
 
-    <string name="digits_password">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ@</string>
+    <string name="digits_password">,._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXY!Z@#%$^*()_+-~{}[]\/</string>
 
     <string name="xiaoshang">校上</string>
     <string name="yujian">遇见</string>

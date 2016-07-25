@@ -24,11 +24,11 @@
 
 
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--     <intent-filter>
+                     <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                     <category android:name="android.intent.category.LAUNCHER" />
+                 </intent-filter>-->
         </activity>
 
         <activity android:name=".wo.myState.myStateActivity">
@@ -53,13 +53,18 @@
 
         <activity android:name=".wo.inform.report.ReportActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
+            <!--      <intent-filter>
+                      <action android:name="android.intent.action.MAIN" />
+
+                      <category android:name="android.intent.category.LAUNCHER" />
+                  </intent-filter>-->
         </activity>
         <activity android:name=".setting.SettingActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".setting.personalinfo.PersonalInfoActivity">
         </activity>

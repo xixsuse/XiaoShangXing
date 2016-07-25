@@ -50,12 +50,17 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
         mTagListView.setTags(mTags);
         save = (TextView) mView.findViewById(R.id.tagView_save);
         back = (TextView) mView.findViewById(R.id.tagview_back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+        back.setOnClickListener(this);
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.showSoftInput(mView,InputMethodManager.SHOW_FORCED);
+//                imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+//
+//                getActivity().getSupportFragmentManager().popBackStack();
+//            }
+//        });
         editText = (EditText) mView.findViewById(R.id.tagView_editText);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -121,28 +126,12 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
                     if (Same(editText.getText().toString()))
                         Toast.makeText(getActivity(), "标签名不能相同", Toast.LENGTH_SHORT).show();
                     else {
-                        final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(getActivity());
-                        final Dialog alertDialog = dialogUtils.Message("保存本次编辑？")
-                                .Button("不保存", "保存").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
-                                    @Override
-                                    public void onButton1() {
-                                        dialogUtils.close();
-                                    }
-
-                                    @Override
-                                    public void onButton2() {
-                                        mTags.add(tag);
-                                        mTagListView.addTag(tag);
-                                        dialogUtils.close();
-                                    }
-                                }).create();
-                        alertDialog.show();
-                        LocationUtil.setWidth(getActivity(), alertDialog,
-                                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+                        mTags.add(tag);
+                        mTagListView.addTag(tag);
                     }
                     editText.setText("");
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 }
                 break;
             case R.id.tagView_restView:
@@ -150,6 +139,39 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
                 mTagListView.setDeleteMode(flag);
                 mTagListView.setTags(mTags);
                 mActivity.setIsbacked(false);
+                break;
+            case R.id.tagview_back:
+                if (!editText.getText().toString().equals("")) {
+                    final Tag tag = new Tag();
+                    tag.setId(0);
+                    tag.setChecked(true);
+                    tag.setTitle(editText.getText().toString());
+                    final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(getActivity());
+                    final Dialog alertDialog = dialogUtils.Message("保存本次编辑？")
+                            .Button("不保存", "保存").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                                @Override
+                                public void onButton1() {
+                                    dialogUtils.close();
+                                    getActivity().getSupportFragmentManager().popBackStack();
+                                }
+
+                                @Override
+                                public void onButton2() {
+                                    mTags.add(tag);
+                                    mTagListView.addTag(tag);
+                                    dialogUtils.close();
+                                    getActivity().getSupportFragmentManager().popBackStack();
+                                }
+                            }).create();
+                    alertDialog.show();
+                    LocationUtil.setWidth(getActivity(), alertDialog,
+                            getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+                } else {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                    imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
                 break;
             default:
                 break;

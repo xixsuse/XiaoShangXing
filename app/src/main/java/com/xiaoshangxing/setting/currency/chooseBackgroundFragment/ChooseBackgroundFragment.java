@@ -30,6 +30,8 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
     private View mView;
     private TextView back;
     private GridView gridView;
+    private ArrayList<RelativeLayout> completeViews = new ArrayList<RelativeLayout>();
+
 
     @Nullable
     @Override
@@ -45,6 +47,16 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
 
         Adapter baseAdapter = new Adapter(data);
         gridView.setAdapter(baseAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                for (int i = 0; i < parent.getCount(); i++) {
+                    Log.d("qqq", "count  " + position + "   " + parent.getCount());
+                    completeViews.get(i).setVisibility(View.GONE);
+                }
+                completeViews.get(position).setVisibility(View.VISIBLE);
+            }
+        });
         back.setOnClickListener(this);
         return mView;
     }
@@ -63,6 +75,7 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
 
     class Adapter extends BaseAdapter {
         List<Bitmap> data;
+
         public Adapter(List<Bitmap> data) {
             super();
             this.data = data;
@@ -85,7 +98,6 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            Log.d("qqq", "  " + position);
             final ViewHolder holder;
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(R.layout.item_background_gridview, parent, false);
@@ -93,6 +105,7 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
                 holder.image = (ImageView) convertView.findViewById(R.id.background_grida_image);
                 holder.complete = (RelativeLayout) convertView.findViewById(R.id.background_grida_complete);
                 holder.textView = (TextView) convertView.findViewById(R.id.background_grida_text);
+                completeViews.add(holder.complete);
 //                    holder.image.setFocusable(false);
                 convertView.setTag(holder);
             } else {
@@ -100,16 +113,16 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
             }
             Bitmap b = data.get(position);
             holder.image.setImageBitmap(b);
-            holder.image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("qqq","0nclick...");
-                        if (holder.complete.getVisibility() == View.GONE) {
-                            holder.complete.setVisibility(View.VISIBLE);
-                            holder.textView.setVisibility(View.GONE);
-                        }
-                    }
-            });
+//            holder.image.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Log.d("qqq","0nclick...");
+//                        if (holder.complete.getVisibility() == View.GONE) {
+//                            holder.complete.setVisibility(View.VISIBLE);
+//                            holder.textView.setVisibility(View.GONE);
+//                        }
+//                    }
+//            });
             return convertView;
         }
     }

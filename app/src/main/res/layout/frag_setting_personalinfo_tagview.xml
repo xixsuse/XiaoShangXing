@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/w1">
+    android:background="@color/w1"
+    android:orientation="vertical">
+
     <View
         android:id="@+id/tagView_restView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:clickable="true">
-    </View>
+        android:clickable="true"
+        android:orientation="vertical"></View>
 
     <RelativeLayout
         android:id="@+id/setting_tagview_toolbar"
@@ -44,21 +44,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/tag"
-           />
+            android:text="@string/tag" />
 
         <TextView
             android:id="@+id/tagView_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/x48"
+            android:alpha="0.5"
             android:clickable="true"
             android:text="@string/save"
-            android:textSize="16sp"
             android:textColor="@color/green1"
-            android:alpha="0.5"/>
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <TextView
@@ -66,29 +65,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/setting_tagview_toolbar"
-        android:layout_marginStart="@dimen/x48"
-        android:layout_marginEnd="@dimen/x48"
-        android:layout_marginTop="@dimen/y48"
         android:layout_marginBottom="@dimen/y18"
+        android:layout_marginEnd="@dimen/x48"
+        android:layout_marginStart="@dimen/x48"
+        android:layout_marginTop="@dimen/y48"
         android:text="@string/tag_text"
         android:textColor="@color/g0"
         android:textSize="13.0sp" />
+
     <LinearLayout
         android:id="@+id/tagview_linear"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
         android:layout_below="@id/tagView_text"
-        android:minHeight="@dimen/y144"
-        android:background="@color/w3">
+        android:background="@color/w3"
+        android:minHeight="@dimen/y144">
+
         <EditText
+            android:id="@+id/tagView_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:maxLength="9"
-            android:id="@+id/tagView_editText"
+            android:background="#00000000"
             android:hint="@string/addtag"
+            android:maxLength="9"
             android:paddingLeft="@dimen/x48"
-            android:background="#00000000"/>
+            android:textCursorDrawable="@drawable/cursor_blue4" />
     </LinearLayout>
 
     <TextView
@@ -96,23 +98,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tagview_linear"
-        android:layout_marginStart="@dimen/x48"
         android:layout_marginEnd="@dimen/x48"
+        android:layout_marginStart="@dimen/x48"
         android:layout_marginTop="@dimen/y42"
         android:text="@string/alltags"
         android:textColor="@color/g0"
         android:textSize="13.0sp" />
 
-    <com.xiaoshangxing.setting.utils.TagView.TagListView
-        xmlns:f="http://schemas.android.com/apk/res-auto"
+    <com.xiaoshangxing.setting.utils.TagView.TagListView xmlns:f="http://schemas.android.com/apk/res-auto"
         android:id="@+id/tagview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tag_title"
-        android:paddingStart="@dimen/x48"
-        android:paddingEnd="@dimen/x48"
-        android:paddingTop="@dimen/y30"
         android:paddingBottom="@dimen/y48"
+        android:paddingEnd="@dimen/x48"
+        android:paddingStart="@dimen/x48"
+        android:paddingTop="@dimen/y30"
         f:horizontalSpacing="@dimen/tag_horizontal_spacing"
         f:orientation="horizontal"
         f:verticalSpacing="@dimen/tag_vertical_spacing" />

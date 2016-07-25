@@ -63,15 +63,15 @@ public class GalleryFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_camera_gallery, container, false);
 
-        send_bt = (Button) mView.findViewById(Res.getWidgetID("send_button"));
-        del_bt = (Button) mView.findViewById(Res.getWidgetID("gallery_del"));
+        send_bt = (Button) mView.findViewById(R.id.send_button);
+        del_bt = (Button) mView.findViewById(R.id.gallery_del);
         send_bt.setOnClickListener(new GallerySendListener());
         del_bt.setOnClickListener(new DelListener());
         intent = getActivity().getIntent();
 
         isShowOkBt();
         // 为发送按钮设置文字
-        pager = (ViewPagerFixed) mView.findViewById(Res.getWidgetID("gallery01"));
+        pager = (ViewPagerFixed) mView.findViewById(R.id.gallery01);
         pager.setOnPageChangeListener(pageChangeListener);
         for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
             initListViews(Bimp.tempSelectBitmap.get(i).getBitmap());
@@ -119,14 +119,14 @@ public class GalleryFragment extends BaseFragment {
         public void onClick(View v) {
             if (listViews.size() == 1) {
                 Bimp.tempSelectBitmap.clear();
-                Bimp.max = 0;
+                //  Bimp.max = 0;
                 send_bt.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
                 Intent intent = new Intent("data.broadcast.action");
                 getActivity().sendBroadcast(intent);
                 getActivity().getSupportFragmentManager().popBackStack();
             } else {
                 Bimp.tempSelectBitmap.remove(location);
-                Bimp.max--;
+                // Bimp.max--;
                 pager.removeAllViews();
                 listViews.remove(location);
                 adapter.setListViews(listViews);

@@ -65,22 +65,24 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/transparent"
             android:gravity="top"
             android:hint="@string/introduceOneself"
-            android:paddingStart="@dimen/x48"
             android:paddingEnd="@dimen/x48"
-            android:background="@color/transparent"
+            android:paddingStart="@dimen/x48"
+            android:textCursorDrawable="@drawable/cursor_blue4"
             android:textSize="16sp" />
+
         <TextView
             android:id="@+id/qianming_count"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="30"
-            android:textSize="15sp"
-            android:textColor="@color/g0"
+            android:gravity="bottom|end"
             android:paddingBottom="@dimen/y30"
             android:paddingEnd="@dimen/x48"
-            android:gravity="bottom|end"/>
+            android:text="30"
+            android:textColor="@color/g0"
+            android:textSize="15sp" />
     </LinearLayout>
 
 

@@ -22,8 +22,6 @@
     <TextView
         android:id="@+id/dialog_message"
         style="@style/black_16sp"
-        android:paddingStart="@dimen/x24"
-        android:paddingEnd="@dimen/x24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -31,6 +29,8 @@
         android:background="@color/transparent"
         android:gravity="center_horizontal"
         android:paddingBottom="13dp"
+        android:paddingEnd="@dimen/x24"
+        android:paddingStart="@dimen/x24"
         android:paddingTop="5dp"
         android:text="Message" />
 
@@ -48,16 +48,19 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/transparent" />
+            android:background="@color/transparent"
+            android:digits="@string/digits_password"
+            android:textCursorDrawable="@drawable/cursor_blue4" />
 
         <ImageView
             android:id="@+id/dialog_clear"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/x24"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/x24"
             android:clickable="true"
-            android:src="@mipmap/delete" />
+            android:src="@mipmap/delete"
+            android:visibility="gone" />
     </LinearLayout>
 
     <!--分割线-->

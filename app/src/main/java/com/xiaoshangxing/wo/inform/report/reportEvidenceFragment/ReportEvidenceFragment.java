@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -53,9 +54,9 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         reportActivity = (ReportActivity) getActivity();
 
         if (reportActivity.isCanceled()) {
-            Log.d("qqq","   "+ reportActivity.isCanceled());
+            Log.d("qqq", "   " + reportActivity.isCanceled());
             Bimp.tempSelectBitmap.clear();
-            Bimp.max = 0;
+            // Bimp.max = 0;
             reportActivity.setCanceled(false);
         }
         back = (TextView) mView.findViewById(R.id.toolbar_reportevidence_back);
@@ -80,19 +81,21 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         noScrollgridview = (GridView) mView.findViewById(R.id.report_evidence_gridview);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
         adapter = new GridAdapter(getActivity());
-        adapter.update();
+        //   adapter.update();
+        adapter.notifyDataSetChanged();
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {//查看某个照片
 
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-                                    long arg3) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 //    if (arg2 == Bimp.tempSelectBitmap.size()) {
                /* Intent intent = new Intent(getActivity(),
                         AlbumFragment.class);
                 startActivity(intent);
                 getActivity().getSupportFragmentManager().popBackStack();*/
                 //     Toast.makeText(getActivity(), Bimp.tempSelectBitmap.get(arg2).imagePath, Toast.LENGTH_LONG).show();
-
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
@@ -123,9 +126,9 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
             inflater = LayoutInflater.from(context);
         }
 
-        public void update() {
-            loading();
-        }
+//        public void update() {
+//            loading();
+//        }
 
         public int getCount() {
             if (Bimp.tempSelectBitmap.size() == 9) {
@@ -191,31 +194,32 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
             }
         };
 
-        public void loading() {
-            new Thread(new Runnable() {
-                public void run() {
-                    while (true) {
-                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
-                            Message message = new Message();
-                            message.what = 1;
-                            handler.sendMessage(message);
-                            break;
-                        } else {
-                            Bimp.max += 1;
-                            Message message = new Message();
-                            message.what = 1;
-                            handler.sendMessage(message);
-                        }
-                    }
-                }
-            }).start();
-        }
+//        public void loading() {
+//            new Thread(new Runnable() {
+//                public void run() {
+//                    while (true) {
+//                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
+//                            Message message = new Message();
+//                            message.what = 1;
+//                            handler.sendMessage(message);
+//                            break;
+//                        } else {
+//                            Bimp.max += 1;
+//                            Message message = new Message();
+//                            message.what = 1;
+//                            handler.sendMessage(message);
+//                        }
+//                    }
+//                }
+//            }).start();
+//        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        adapter.update();
+        adapter.notifyDataSetChanged();
+        // adapter.update();
     }
 
     @Override
@@ -223,9 +227,15 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         switch (v.getId()) {
             case R.id.toolbar_reportevidence_back:
                 //   Toast.makeText(getActivity(),"back",Toast.LENGTH_SHORT).show();
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
             case R.id.toolbar_reportevidence_submit:
+                InputMethodManager imm2 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm2.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                imm2.hideSoftInputFromWindow(mView.getWindowToken(), 0);
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,

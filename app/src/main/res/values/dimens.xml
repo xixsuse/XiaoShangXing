@@ -13,5 +13,6 @@
     <dimen name="tag_corner_radius">20.0dip</dimen>
     <dimen name="tag_horizontal_spacing">8.0dip</dimen>
     <dimen name="tag_vertical_spacing">6.0dip</dimen>
+    <dimen name="ui_10_dip">10dip</dimen>
 
 </resources>

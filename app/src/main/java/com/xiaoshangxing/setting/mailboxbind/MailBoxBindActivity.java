@@ -67,6 +67,7 @@ public class MailBoxBindActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.mailbox_clear:
                 editText.setText("");
+                break;
             case R.id.mailboxbind_send:
                 String text = editText.getText().toString();
                 String text2 = "一封验证邮件已发送至：\n" + text + "，请登录\n你的邮箱查收邮件并验证。";

@@ -56,8 +56,8 @@
             android:text="@string/city" />
 
         <TextView
-            style="@style/g0_13sp"
             android:id="@+id/hometown_text"
+            style="@style/g0_13sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -100,31 +100,32 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/y100"
             android:orientation="horizontal">
+
             <com.xiaoshangxing.setting.utils.city_choosing.WheelView
                 android:id="@+id/id_province"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" >
-            </com.xiaoshangxing.setting.utils.city_choosing.WheelView>
+                android:layout_weight="1"></com.xiaoshangxing.setting.utils.city_choosing.WheelView>
+
             <com.xiaoshangxing.setting.utils.city_choosing.WheelView
                 android:id="@+id/id_city"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" >
-            </com.xiaoshangxing.setting.utils.city_choosing.WheelView>
+                android:layout_weight="1"></com.xiaoshangxing.setting.utils.city_choosing.WheelView>
         </LinearLayout>
 
         <Button
             android:id="@+id/hometown_complete"
+            style="@style/black_16sp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y120"
-            android:background="@drawable/buttonstyle_green1"
-            style="@style/black_16sp"
-            android:layout_marginStart="@dimen/x48"
-            android:layout_marginEnd="@dimen/x48"
-            android:layout_marginTop="@dimen/y48"
             android:layout_marginBottom="@dimen/y48"
-            android:text="@string/complete"/>
+            android:layout_marginEnd="@dimen/x48"
+            android:layout_marginStart="@dimen/x48"
+            android:layout_marginTop="@dimen/y48"
+            android:background="@drawable/buttonstyle_green1"
+            android:text="@string/complete"
+            android:textColor="@color/w0" />
     </LinearLayout>
 
 </RelativeLayout>
