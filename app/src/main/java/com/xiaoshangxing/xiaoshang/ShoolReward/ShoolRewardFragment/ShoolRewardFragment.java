@@ -203,12 +203,20 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     @Override
     public void gotoCollect() {
         ShoolRewardActivity activity = (ShoolRewardActivity) getActivity();
-        CollectFragment fragment = activity.getCollectFragment();
+//        CollectFragment fragment = activity.getCollectFragment();
+//        getFragmentManager().beginTransaction()
+//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+//                        R.anim.slide_in_left, R.anim.slide_out_left)
+//                .replace(R.id.main_fragment, fragment, CollectFragment.TAG)
+//                .addToBackStack(null).commit();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
-                .replace(R.id.main_fragment, fragment, CollectFragment.TAG)
-                .addToBackStack(null).commit();
+                .hide(activity.getShoolRewardFragment())
+                .show(activity.getCollectFragment())
+                .hide(activity.getMyShoolRewardFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -219,12 +227,20 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     @Override
     public void gotoPublished() {
         ShoolRewardActivity activity = (ShoolRewardActivity) getActivity();
-        MyShoolRewardFragment fragment = activity.getMyShoolRewardFragment();
+//        MyShoolRewardFragment fragment = activity.getMyShoolRewardFragment();
+//        getFragmentManager().beginTransaction()
+//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+//                        R.anim.slide_in_left, R.anim.slide_out_left)
+//                .replace(R.id.main_fragment, fragment, MyShoolHelpFragment.TAG)
+//                .addToBackStack(null).commit();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
-                .replace(R.id.main_fragment, fragment, MyShoolHelpFragment.TAG)
-                .addToBackStack(null).commit();
+                .hide(activity.getShoolRewardFragment())
+                .hide(activity.getCollectFragment())
+                .show(activity.getMyShoolRewardFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

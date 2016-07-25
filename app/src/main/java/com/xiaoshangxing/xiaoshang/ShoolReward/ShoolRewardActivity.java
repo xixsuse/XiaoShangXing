@@ -38,9 +38,9 @@ public class ShoolRewardActivity extends BaseActivity {
 
         initAllFrafments();
 
-        frag = getShoolRewardFragment();
-        mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                frag, ShoolfellowHelpFragment.TAG).commit();
+//        frag = getShoolRewardFragment();
+//        mFragmentManager.beginTransaction().add(R.id.main_fragment,
+//                frag, ShoolfellowHelpFragment.TAG).commit();
 //        frag = getMyShoolHelpFragment();
 //        mFragmentManager.beginTransaction().add(R.id.main_fragment,
 //                frag, MyShoolHelpFragment.TAG).commit();
@@ -57,6 +57,19 @@ public class ShoolRewardActivity extends BaseActivity {
 
         frag = mFragmentManager.findFragmentByTag(CollectFragment.TAG);
         collectFragment = (frag == null) ? CollectFragment.newInstance() : (CollectFragment) frag;
+
+
+        mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                collectFragment, ShoolfellowHelpFragment.TAG).commit();
+
+        mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                myShoolRewardFragment, ShoolfellowHelpFragment.TAG).commit();
+
+        mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                shoolRewardFragment, MyShoolHelpFragment.TAG).commit();
+
+        mFragmentManager.beginTransaction().hide(collectFragment).hide(myShoolRewardFragment)
+                .show(shoolRewardFragment).commit();
     }
 
     public ShoolRewardFragment getShoolRewardFragment() {

@@ -31,17 +31,13 @@ public class ShoolfellowHelpActivity extends BaseActivity {
             return;
         }
 
-        initAllFrafments();
+        initAllFragments();
 
-        frag = getShoolfellowHelpFragment();
-        mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                frag, ShoolfellowHelpFragment.TAG).commit();
-//        frag = getMyShoolHelpFragment();
-//        mFragmentManager.beginTransaction().add(R.id.main_fragment,
-//                frag, MyShoolHelpFragment.TAG).commit();
+
+
     }
 
-    private void initAllFrafments() {
+    private void initAllFragments() {
         Fragment frag;
 
         frag = mFragmentManager.findFragmentByTag(ShoolfellowHelpFragment.TAG);
@@ -49,6 +45,13 @@ public class ShoolfellowHelpActivity extends BaseActivity {
 
         frag = mFragmentManager.findFragmentByTag(MyShoolHelpFragment.TAG);
         myShoolHelpFragment = (frag == null) ? MyShoolHelpFragment.newInstance() : (MyShoolHelpFragment) frag;
+
+        frag = getMyShoolHelpFragment();
+        mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                frag, MyShoolHelpFragment.TAG).commit();
+        frag = getShoolfellowHelpFragment();
+        mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                frag, ShoolfellowHelpFragment.TAG).commit();
     }
 
     public ShoolfellowHelpFragment getShoolfellowHelpFragment() {

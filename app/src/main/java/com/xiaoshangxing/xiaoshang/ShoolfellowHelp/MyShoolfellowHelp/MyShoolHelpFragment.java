@@ -52,6 +52,8 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     @Bind(R.id.no_content)
     TextView noContent;
 
+    private int currentItem;
+
     public static MyShoolHelpFragment newInstance() {
         return new MyShoolHelpFragment();
     }

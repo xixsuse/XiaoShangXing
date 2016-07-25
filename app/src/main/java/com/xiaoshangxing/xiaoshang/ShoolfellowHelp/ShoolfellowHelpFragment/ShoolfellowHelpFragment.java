@@ -194,8 +194,11 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
-                .replace(R.id.main_fragment, fragment, MyShoolHelpFragment.TAG)
-                .addToBackStack(null).commit();
+                .hide(this)
+//                .add(R.id.main_fragment, fragment, MyShoolHelpFragment.TAG)
+                .show(fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

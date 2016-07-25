@@ -182,7 +182,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 }
                 break;
             case ACTIVITY_MODIFY_PHOTO_REQUESTCODE:
-                Log.d("qqq", "aaaa...");
                 String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
                 sBitmap = BitmapFactory.decodeFile(coverPath);
 //                saveBitmap();
