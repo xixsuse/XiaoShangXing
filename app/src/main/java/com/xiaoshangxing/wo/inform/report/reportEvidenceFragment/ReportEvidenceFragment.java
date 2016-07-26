@@ -53,12 +53,12 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         Log.d("qqq", "onCreate...");
         reportActivity = (ReportActivity) getActivity();
 
-        if (reportActivity.isCanceled()) {
-            Log.d("qqq", "   " + reportActivity.isCanceled());
-            Bimp.tempSelectBitmap.clear();
-            // Bimp.max = 0;
-            reportActivity.setCanceled(false);
-        }
+//        if (reportActivity.isCanceled()) {
+//            Log.d("qqq", "   " + reportActivity.isCanceled());
+//            Bimp.tempSelectBitmap.clear();
+//            // Bimp.max = 0;
+//            reportActivity.setCanceled(false);
+//        }
         back = (TextView) mView.findViewById(R.id.toolbar_reportevidence_back);
         submit = (TextView) mView.findViewById(R.id.toolbar_reportevidence_submit);
         reportNotice = (TextView) mView.findViewById(R.id.report_evidence_notice);

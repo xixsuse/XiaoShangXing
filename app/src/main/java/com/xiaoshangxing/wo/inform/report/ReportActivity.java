@@ -15,7 +15,7 @@ import com.xiaoshangxing.wo.inform.report.reportReasonFragment.ReportReasonFragm
 public class ReportActivity extends BaseActivity {
     public static final String TAG = BaseActivity.TAG + "-LoginRegisterActivity";
     private String reportText,folderName;
-    private boolean isCanceled;
+//    private boolean isCanceled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +46,14 @@ public class ReportActivity extends BaseActivity {
         return folderName;
     }
 
-    public void setCanceled(boolean canceled) {
-        isCanceled = canceled;
-        Log.d("qqq","setting..."+isCanceled);
-    }
-
-    public boolean isCanceled() {
-        return isCanceled;
-    }
+//    public void setCanceled(boolean canceled) {
+//        isCanceled = canceled;
+//        Log.d("qqq","setting..."+isCanceled);
+//    }
+//
+//    public boolean isCanceled() {
+//        return isCanceled;
+//    }
 
     @Override
     protected void onDestroy() {

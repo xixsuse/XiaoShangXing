@@ -133,7 +133,8 @@ public class AlbumFragment extends BaseFragment {
     // 取消按钮的监听
     private class CancelListener implements OnClickListener {
         public void onClick(View v) {
-            reportActivity.setCanceled(true);
+//            reportActivity.setCanceled(true);
+            Bimp.tempSelectBitmap.clear();
             getActivity().getSupportFragmentManager().popBackStack();
         }
     }

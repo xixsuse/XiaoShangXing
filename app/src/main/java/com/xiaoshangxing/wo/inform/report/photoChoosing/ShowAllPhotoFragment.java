@@ -114,7 +114,8 @@ public class ShowAllPhotoFragment extends BaseFragment {
     private class CancelListener implements OnClickListener {// 取消按钮的监听
 
         public void onClick(View v) {
-            reportActivity.setCanceled(true);
+//            reportActivity.setCanceled(true);
+            Bimp.tempSelectBitmap.clear();
             getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
         }
     }

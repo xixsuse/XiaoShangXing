@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
 import com.xiaoshangxing.setting.utils.photo_choosing.Res;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.wo.inform.report.ReportActivity;
@@ -50,7 +51,8 @@ public class ImageFileFragment extends BaseFragment {
     private class CancelListener implements OnClickListener {// 取消按钮的监听
 
         public void onClick(View v) {
-            reportActivity.setCanceled(true);
+//            reportActivity.setCanceled(true);
+            Bimp.tempSelectBitmap.clear();
             getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
 
         }
