@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.wo.inform.report.reportEvidenceFragment.ReportEvidenceFragment;
 import com.xiaoshangxing.wo.inform.report.reportReasonFragment.ReportReasonFragment;
@@ -52,5 +53,12 @@ public class ReportActivity extends BaseActivity {
 
     public boolean isCanceled() {
         return isCanceled;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("qqq", "destory..");
+        Bimp.tempSelectBitmap.clear();
     }
 }

@@ -118,5 +118,4 @@
         f:orientation="horizontal"
         f:verticalSpacing="@dimen/tag_vertical_spacing" />
 
-
 </RelativeLayout>

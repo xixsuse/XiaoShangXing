@@ -1,4 +1,4 @@
-package com.xiaoshangxing.setting.personalinfo.TagView;
+package com.xiaoshangxing.setting.utils.TagView;
 
 import java.io.Serializable;
 

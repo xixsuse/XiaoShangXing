@@ -39,6 +39,7 @@ public class NewNoticeFrament extends BaseFragment {
         layout4 = (RelativeLayout) mView.findViewById(R.id.newnotice_lay4);
 
         setUpData();
+
         newnotice_accept.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {

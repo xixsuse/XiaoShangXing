@@ -94,7 +94,7 @@
 
     <string name="report">投诉</string>
     <string name="report_reason">请选择举报原因</string>
-    <string name="report_notice">举报须知</string>
+    <string name="report_notice">投诉须知</string>
     <string name="report_notice_content">你应保证你的举报行为基于善意，并代表你本人真实\n意思。校上行作为中立的平台服务者，收到你举报\n后，会尽快按照相关法律法规的规定独立判断进行处\n理。校上行将会采取合理的措施保护你的个人信息；\n除法律法规规定的情形外，未经用户许可校上行不会\n向第三方公开、透露你的个人信息。</string>
     <string name="submitted">已提交</string>
     <string name="report_evidence">请举证（留言可选填）</string>
@@ -212,5 +212,23 @@
     <string name="xiaoshang">校上</string>
     <string name="yujian">遇见</string>
     <string name="wo">我</string>
+
+    <string name="moreinfo">更多资料</string>
+    <string name="moreinfo_text1">这是一行个性签名</string>
+    <string name="moreinfo_text2">这是三十个字的个性签名这是三十个字的个性签名这是三十个字的个</string>
+    <string name="moreinfo_jihua">他的计划</string>
+    <string name="moreinfo_hubang">他的互帮</string>
+    <string name="moreinfo_xuanshang">他的悬赏</string>
+    <string name="moreinfo_xianzhi">他的闲置</string>
+    <string name="setinfo">资料设置</string>
+    <string name="StarMarkfriends">设为星标好友</string>
+    <string name="crush">暗恋他</string>
+    <string name="setinfo_text">此功能三个月只可对你的所有好友使用1次，若对方也在暗恋着你，系统将会对双方发出详细通知；若对方未暗恋你，对方只会收到“有人暗恋你”的信息提示。</string>
+    <string name="addtoblacklist">加入黑名单</string>
+    <string name="persondata">个人资料</string>
+    <string name="sayhello">打个招呼</string>
+    <string name="focus">留心</string>
+    <string name="dynamic">动态</string>
+    <string name="more">更多</string>
 
 </resources>

@@ -60,11 +60,11 @@
                   </intent-filter>-->
         </activity>
         <activity android:name=".setting.SettingActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!-- <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>-->
         </activity>
         <activity android:name=".setting.personalinfo.PersonalInfoActivity">
         </activity>
@@ -83,6 +83,15 @@
         <activity android:name=".setting.modifypassword.ModifyPassWordActivity">
         </activity>
         <activity android:name=".setting.mailboxbind.ModifyMailBoxActivity">
+        </activity>
+        <activity android:name=".yujian.info.MoreInfoActivity"></activity>
+        <activity android:name=".yujian.info.SetInfoActivity"></activity>
+        <activity android:name=".yujian.info.PersonInfoActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
 
