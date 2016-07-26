@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.inform.report.photoChoosing;
+package com.xiaoshangxing.utils.photoChoosing;
 
 
 import android.os.Bundle;
@@ -31,13 +31,11 @@ public class ImageFileFragment extends BaseFragment {
     private FolderAdapter folderAdapter;
     private Button bt_cancel;
     private View mView;
-    private ReportActivity reportActivity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_camera_image_file, container, false);
-        reportActivity = (ReportActivity) getActivity();
         bt_cancel = (Button) mView.findViewById(Res.getWidgetID("cancel"));
         bt_cancel.setOnClickListener(new CancelListener());
         GridView gridView = (GridView) mView.findViewById(Res.getWidgetID("fileGridView"));
@@ -53,8 +51,8 @@ public class ImageFileFragment extends BaseFragment {
         public void onClick(View v) {
 //            reportActivity.setCanceled(true);
             Bimp.tempSelectBitmap.clear();
-            getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
-
+//            getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
+            getActivity().finish();
         }
     }
 

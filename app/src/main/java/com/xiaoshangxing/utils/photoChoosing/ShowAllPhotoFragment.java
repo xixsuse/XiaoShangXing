@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.inform.report.photoChoosing;
+package com.xiaoshangxing.utils.photoChoosing;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -53,19 +53,20 @@ public class ShowAllPhotoFragment extends BaseFragment {
 
     public static ArrayList<ImageItem> dataList = new ArrayList<ImageItem>();
     private View mView;
-    private ReportActivity reportActivity;
+    //    private ReportActivity reportActivity;
+    private PhotoChoosingActivity mActivity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_camera_show_all_photo, container, false);
-        reportActivity = (ReportActivity) getActivity();
+        mActivity = (PhotoChoosingActivity) getActivity();
         back = (Button) mView.findViewById(Res.getWidgetID("showallphoto_back"));
         cancel = (Button) mView.findViewById(Res.getWidgetID("showallphoto_cancel"));
         preview = (Button) mView.findViewById(Res.getWidgetID("showallphoto_preview"));
         okButton = (Button) mView.findViewById(Res.getWidgetID("showallphoto_ok_button"));
         headTitle = (TextView) mView.findViewById(Res.getWidgetID("showallphoto_headtitle"));
-        String folderName = reportActivity.getFolderName();
+        String folderName = mActivity.getFolderName();
         if (folderName.length() > 8) {
             folderName = folderName.substring(0, 9) + "...";
         }
@@ -96,7 +97,7 @@ public class ShowAllPhotoFragment extends BaseFragment {
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                                 R.anim.slide_in_left, R.anim.slide_out_left)
                         .addToBackStack(GalleryFragment.TAG)
-                        .replace(R.id.reportContent, new GalleryFragment(), GalleryFragment.TAG)
+                        .replace(R.id.photoChooseContent, new GalleryFragment(), GalleryFragment.TAG)
                         .commit();
             }
         }
@@ -116,7 +117,8 @@ public class ShowAllPhotoFragment extends BaseFragment {
         public void onClick(View v) {
 //            reportActivity.setCanceled(true);
             Bimp.tempSelectBitmap.clear();
-            getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
+//            getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
+            getActivity().finish();
         }
     }
 
@@ -173,7 +175,8 @@ public class ShowAllPhotoFragment extends BaseFragment {
 //							intent);
 //				}
 
-                getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
+//                getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
+                getActivity().finish();
 
             }
         });

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.inform.report.photoChoosing;
+package com.xiaoshangxing.utils.photoChoosing;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -139,7 +139,8 @@ public class GalleryFragment extends BaseFragment {
     // 完成按钮的监听
     private class GallerySendListener implements OnClickListener {
         public void onClick(View v) {
-            getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
+//            getActivity().getSupportFragmentManager().popBackStack(ReportEvidenceFragment.TAG, 0);
+            getActivity().finish();
         }
 
     }

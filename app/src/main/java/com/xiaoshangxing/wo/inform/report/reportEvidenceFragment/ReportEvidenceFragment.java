@@ -2,6 +2,7 @@ package com.xiaoshangxing.wo.inform.report.reportEvidenceFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -27,8 +28,9 @@ import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
 import com.xiaoshangxing.setting.utils.photo_choosing.PublicWay;
 import com.xiaoshangxing.setting.utils.photo_choosing.Res;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.photoChoosing.PhotoChoosingActivity;
 import com.xiaoshangxing.wo.inform.report.ReportActivity;
-import com.xiaoshangxing.wo.inform.report.photoChoosing.AlbumFragment;
+import com.xiaoshangxing.utils.photoChoosing.AlbumFragment;
 import com.xiaoshangxing.wo.inform.report.reportCommitFragment.ReportCommitFragment;
 import com.xiaoshangxing.wo.inform.report.reportNoticeFragment.ReportNoticeFragment;
 
@@ -96,13 +98,15 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
                 imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                R.anim.slide_in_left, R.anim.slide_out_left)
-                        .addToBackStack(null)
-                        .replace(R.id.reportContent, new AlbumFragment())
-                        .commit();
+//                getActivity().getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+//                                R.anim.slide_in_left, R.anim.slide_out_left)
+//                        .addToBackStack(null)
+//                        .replace(R.id.reportContent, new AlbumFragment())
+//                        .commit();
+                Intent intent = new Intent(getActivity(), PhotoChoosingActivity.class);
+                getActivity().startActivity(intent);
             }
         });
     }
@@ -183,16 +187,6 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
             public ImageView image;
         }
 
-        Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case 1:
-                        adapter.notifyDataSetChanged();
-                        break;
-                }
-                super.handleMessage(msg);
-            }
-        };
 
 //        public void loading() {
 //            new Thread(new Runnable() {
@@ -263,7 +257,6 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onDestroyView() {
-
         reportActivity.setReportText(reportText.getText().toString());
         super.onDestroyView();
     }

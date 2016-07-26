@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.inform.report.photoChoosing;
+package com.xiaoshangxing.utils.photoChoosing;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,7 +31,8 @@ import java.util.ArrayList;
 public class FolderAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ReportActivity reportActivity;
+    //    private ReportActivity reportActivity;
+    private PhotoChoosingActivity mActivity;
     //	private Intent mIntent;
     private DisplayMetrics dm;
     BitmapCache cache;
@@ -40,7 +41,7 @@ public class FolderAdapter extends BaseAdapter {
     public FolderAdapter(Context c) {
         cache = new BitmapCache();
         mContext = c;
-        reportActivity = (ReportActivity) mContext;
+        mActivity = (PhotoChoosingActivity) mContext;
         dm = new DisplayMetrics();
         ((Activity) mContext).getWindowManager().getDefaultDisplay()
                 .getMetrics(dm);
@@ -49,7 +50,7 @@ public class FolderAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return com.xiaoshangxing.wo.inform.report.photoChoosing.AlbumFragment.contentList.size();
+        return com.xiaoshangxing.utils.photoChoosing.AlbumFragment.contentList.size();
     }
 
     @Override
@@ -127,7 +128,7 @@ public class FolderAdapter extends BaseAdapter {
 
             // 给fileNum设置文件夹内图片数量
             //holder.fileNum.setText("" + fileNum.get(position));
-            holder.fileNum.setText("" + com.xiaoshangxing.wo.inform.report.photoChoosing.AlbumFragment.contentList.get(position).count);
+            holder.fileNum.setText("" + com.xiaoshangxing.utils.photoChoosing.AlbumFragment.contentList.get(position).count);
 
         } else
             path = "android_hybrid_camera_default";
@@ -135,7 +136,7 @@ public class FolderAdapter extends BaseAdapter {
             holder.imageView.setImageResource(Res.getDrawableID("plugin_camera_no_pictures"));
         else {
 //			holder.imageView.setImageBitmap( AlbumFragment.contentList.get(position).imageList.get(0).getBitmap());
-            final ImageItem item = com.xiaoshangxing.wo.inform.report.photoChoosing.AlbumFragment.contentList.get(position).imageList.get(0);
+            final ImageItem item = com.xiaoshangxing.utils.photoChoosing.AlbumFragment.contentList.get(position).imageList.get(0);
             holder.imageView.setTag(item.imagePath);
             cache.displayBmp(holder.imageView, item.thumbnailPath, item.imagePath,
                     callback);
@@ -158,15 +159,15 @@ public class FolderAdapter extends BaseAdapter {
         }
 
         public void onClick(View v) {
-            ShowAllPhotoFragment.dataList = (ArrayList<ImageItem>) com.xiaoshangxing.wo.inform.report.photoChoosing.AlbumFragment.contentList.get(position).imageList;
-            String folderName = com.xiaoshangxing.wo.inform.report.photoChoosing.AlbumFragment.contentList.get(position).bucketName;
-            reportActivity.setFolderName(folderName);
-            reportActivity.getSupportFragmentManager()
+            ShowAllPhotoFragment.dataList = (ArrayList<ImageItem>) com.xiaoshangxing.utils.photoChoosing.AlbumFragment.contentList.get(position).imageList;
+            String folderName = com.xiaoshangxing.utils.photoChoosing.AlbumFragment.contentList.get(position).bucketName;
+            mActivity.setFolderName(folderName);
+            mActivity.getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                             R.anim.slide_in_left, R.anim.slide_out_left)
                     .addToBackStack(null)
-                    .replace(R.id.reportContent, new ShowAllPhotoFragment())
+                    .replace(R.id.photoChooseContent, new ShowAllPhotoFragment())
                     .commit();
             choose_back.setVisibility(v.VISIBLE);
         }

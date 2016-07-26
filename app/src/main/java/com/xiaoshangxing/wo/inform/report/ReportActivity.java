@@ -14,7 +14,8 @@ import com.xiaoshangxing.wo.inform.report.reportReasonFragment.ReportReasonFragm
  */
 public class ReportActivity extends BaseActivity {
     public static final String TAG = BaseActivity.TAG + "-LoginRegisterActivity";
-    private String reportText,folderName;
+    private String reportText;
+//    private String folderName;
 //    private boolean isCanceled;
 
     @Override
@@ -38,13 +39,13 @@ public class ReportActivity extends BaseActivity {
         return reportText;
     }
 
-    public void setFolderName(String folderName) {
-        this.folderName = folderName;
-    }
-
-    public String getFolderName() {
-        return folderName;
-    }
+//    public void setFolderName(String folderName) {
+//        this.folderName = folderName;
+//    }
+//
+//    public String getFolderName() {
+//        return folderName;
+//    }
 
 //    public void setCanceled(boolean canceled) {
 //        isCanceled = canceled;

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.inform.report.photoChoosing;
+package com.xiaoshangxing.utils.photoChoosing;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -63,7 +63,6 @@ public class AlbumFragment extends BaseFragment {
     public static List<ImageBucket> contentList;
     public static Bitmap bitmap;
     private View mView;
-    private ReportActivity reportActivity;
 
 
     @Nullable
@@ -101,7 +100,7 @@ public class AlbumFragment extends BaseFragment {
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                                 R.anim.slide_in_left, R.anim.slide_out_left)
                         .addToBackStack(GalleryFragment.TAG)
-                        .replace(R.id.reportContent, new GalleryFragment(), GalleryFragment.TAG)
+                        .replace(R.id.photoChooseContent, new GalleryFragment(), GalleryFragment.TAG)
                         .commit();
 
             }
@@ -112,7 +111,8 @@ public class AlbumFragment extends BaseFragment {
     // 完成按钮的监听
     private class AlbumSendListener implements OnClickListener {
         public void onClick(View v) {
-            getActivity().getSupportFragmentManager().popBackStack();
+//            getActivity().getSupportFragmentManager().popBackStack();
+            getActivity().finish();
         }
 
     }
@@ -125,7 +125,7 @@ public class AlbumFragment extends BaseFragment {
                     .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                             R.anim.slide_in_left, R.anim.slide_out_left)
                     .addToBackStack(ImageFileFragment.TAG)
-                    .replace(R.id.reportContent, new ImageFileFragment(), ImageFileFragment.TAG)
+                    .replace(R.id.photoChooseContent, new ImageFileFragment(), ImageFileFragment.TAG)
                     .commit();
         }
     }
@@ -135,14 +135,14 @@ public class AlbumFragment extends BaseFragment {
         public void onClick(View v) {
 //            reportActivity.setCanceled(true);
             Bimp.tempSelectBitmap.clear();
-            getActivity().getSupportFragmentManager().popBackStack();
+//            getActivity().getSupportFragmentManager().popBackStack();
+            getActivity().finish();
         }
     }
 
 
     // 初始化，给一些对象赋值
     private void init() {
-        reportActivity = (ReportActivity) getActivity();
         helper = AlbumHelper.getHelper();
         helper.init(getActivity().getApplicationContext());
 
