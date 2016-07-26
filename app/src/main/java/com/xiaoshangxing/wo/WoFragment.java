@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.setting.SettingActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
@@ -291,6 +292,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                 startActivity(setIntent);
                 break;
             case R.id.publish:
+                Intent piblish_intent=new Intent(getContext(), InputActivity.class);
+                startActivity(piblish_intent);
                 Toast.makeText(getContext(), "publish", Toast.LENGTH_SHORT).show();
                 break;
         }

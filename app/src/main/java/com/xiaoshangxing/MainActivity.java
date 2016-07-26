@@ -80,8 +80,15 @@ public class MainActivity extends BaseActivity {
         frag = mFragmentManager.findFragmentByTag(XiaoShangFragment.TAG);
         xiaoShangFragment = (frag == null) ? XiaoShangFragment.newInstance() : (XiaoShangFragment) frag;
 
-        mFragmentManager.beginTransaction().add(R.id.main_fragment,xiaoShangFragment,XiaoShangFragment.TAG)
-                .add(R.id.main_fragment,woFragment,WoFragment.TAG).commit();
+        if (!xiaoShangFragment.isAdded()){
+            mFragmentManager.beginTransaction().add(R.id.main_fragment,xiaoShangFragment,XiaoShangFragment.TAG)
+                    .commit();
+        }
+        if (!woFragment.isAdded()){
+            mFragmentManager.beginTransaction().add(R.id.main_fragment,woFragment,WoFragment.TAG)
+                    .commit();
+        }
+
 
 //        mFragmentManager.beginTransaction().show(xiaoShangFragment).hide(woFragment).commit();
 

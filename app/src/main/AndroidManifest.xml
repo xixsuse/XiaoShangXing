@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".utils.XSXApplication"
@@ -55,26 +57,30 @@
 
         <!-- 互帮 -->
         <activity android:name=".xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
 
         <activity android:name=".xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity">
         </activity>
 
         <activity android:name=".xiaoshang.ShoolReward.ShoolRewardActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
 
         <activity android:name=".xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity">
+
+        </activity>
+
+        <activity android:name=".input_activity.InputActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".input_activity.check_photo.inputSelectPhotoPagerActivity">
+
+        </activity>
+
+        <activity android:name=".utils.photoChoosing.PhotoChoosingActivity">
 
         </activity>
 

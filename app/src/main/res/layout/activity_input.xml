@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w0"
+    android:orientation="vertical">
+
+    <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
+        android:padding="16sp"
+        android:textSize="16sp"
+        android:textColor="@color/g0"
+        android:hint="这一刻的想法..."
+        android:id="@+id/emotion_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/select_lay" />
+
+    <!--选择栏-->
+    <LinearLayout
+        android:id="@+id/select_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/emot_picture"
+        android:orientation="vertical">
+
+        <include layout="@layout/line_horizontal_g1">
+
+        </include>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_144"
+            android:background="@color/w1"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/delete"
+                style="@style/input_select"
+                android:paddingStart="@dimen/width_48"
+                android:src="@mipmap/cha" />
+
+            <ImageView
+                android:id="@+id/emotion"
+                style="@style/input_select"
+                android:src="@drawable/selector_emot" />
+
+            <ImageView
+                android:id="@+id/notice_someone"
+                style="@style/input_select"
+                android:src="@mipmap/noticesomeone" />
+
+            <ImageView
+                android:id="@+id/forbid_someone"
+                style="@style/input_select"
+                android:src="@mipmap/forbidsomeone" />
+
+            <ImageView
+                android:id="@+id/location"
+                style="@style/input_select"
+                android:src="@mipmap/location_grey" />
+
+            <ImageView
+                android:id="@+id/picture"
+                style="@style/input_select"
+                android:src="@drawable/selector_picture" />
+
+            <ImageView
+                android:id="@+id/camera"
+                style="@style/input_select"
+                android:src="@mipmap/camera" />
+
+            <ImageButton
+                android:id="@+id/send"
+                android:background="@color/transparent"
+                style="@style/input_select"
+                android:alpha="0.3"
+                android:paddingEnd="@dimen/width_48"
+                android:src="@mipmap/plane_green" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--表情图片-->
+    <LinearLayout
+        android:background="@color/w0"
+        android:id="@+id/emot_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <!--表情-->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/emot_lay"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <android.support.v4.view.ViewPager
+                android:paddingStart="@dimen/width_48"
+                android:paddingEnd="@dimen/width_48"
+                android:paddingBottom="@dimen/y30"
+                android:paddingTop="@dimen/y30"
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y432">
+
+            </android.support.v4.view.ViewPager>
+
+
+
+            <!--表情类型-->
+            <RelativeLayout
+                android:background="@color/w1"
+                android:id="@+id/emot_type"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y108">
+
+                <LinearLayout
+                    android:id="@+id/normal_emot"
+                    android:layout_width="@dimen/x152"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@mipmap/emot_grey_total"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/favorite"
+                    android:layout_toEndOf="@+id/normal_emot"
+                    android:layout_width="@dimen/x152"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@mipmap/heart_grey_total"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/delete_emot"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/width_48"
+                    android:layout_width="@dimen/x152"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/delete_emot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </RelativeLayout>
+
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!--图片-->
+        <LinearLayout
+            android:background="@color/w0"
+            android:id="@+id/picture_lay"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y612">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <!--下方布局-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_144">
+
+                <TextView
+                    android:id="@+id/album"
+                    android:text="@string/album"
+                    android:paddingStart="@dimen/width_48"
+                    android:layout_centerVertical="true"
+                    style="@style/black_16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/complete"
+                    android:text="@string/complete"
+                    android:textColor="@color/green1"
+                    android:textSize="16sp"
+                    android:layout_alignParentEnd="true"
+                    android:paddingEnd="@dimen/width_48"
+                    android:layout_centerVertical="true"
+                    style="@style/black_16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <FrameLayout
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/complete"
+                    android:id="@+id/picture_count_lay"
+                    android:layout_width="@dimen/x66"
+                    android:layout_height="@dimen/y66">
+
+                    <com.xiaoshangxing.utils.layout.CirecleImage
+                        android:background="@color/green1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:id="@+id/picture_count"
+                        android:textColor="@color/w0"
+                        android:textSize="14sp"
+                        android:text="0"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </FrameLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
