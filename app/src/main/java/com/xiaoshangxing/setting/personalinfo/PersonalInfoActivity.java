@@ -149,7 +149,6 @@ public class PersonalInfoActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-
     }
 
 

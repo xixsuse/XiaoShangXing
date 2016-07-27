@@ -69,22 +69,22 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        setBigImg();
+        //    setBigImg();
         img.setOnClickListener(this);
         return mView;
     }
 
-    private void setBigImg() {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("headImg", Activity.MODE_PRIVATE);
-        //第一步:取出字符串形式的Bitmap
-        String imageString = sharedPreferences.getString("bigImage", "");
-        //第二步:利用Base64将字符串转换为ByteArrayInputStream
-        byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
-        //第三步:利用ByteArrayInputStream生成Bitmap
-        Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
-        bigImg.setImageBitmap(bitmap);
-    }
+//    private void setBigImg() {
+//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("headImg", Activity.MODE_PRIVATE);
+//        //第一步:取出字符串形式的Bitmap
+//        String imageString = sharedPreferences.getString("bigImage", "");
+//        //第二步:利用Base64将字符串转换为ByteArrayInputStream
+//        byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT);
+//        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
+//        //第三步:利用ByteArrayInputStream生成Bitmap
+//        Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
+//        bigImg.setImageBitmap(bitmap);
+//    }
 
     @Override
     public void onClick(View v) {
@@ -161,8 +161,9 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                     int degree = FileUtil.readPictureDegree(img_path);
                     bBitmap = BitmapFactory.decodeFile(img_path);
                     bBitmap = FileUtil.rotaingImageView(degree, bBitmap);
-                    bigImg.setImageBitmap(bBitmap);
-                    CommonUtils.cutPhoto(getActivity(), data.getData(), true, mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
+//                    bigImg.setImageBitmap(bBitmap);
+                    CommonUtils.cutPhoto(getActivity(), data.getData(), true,
+                            mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
 
                 }
                 break;
@@ -174,10 +175,11 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                     Bitmap cameraBitmap = BitmapFactory.decodeFile(FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW, bitmapOptions);
                     cameraBitmap = FileUtil.rotaingImageView(degree, cameraBitmap);
                     FileUtil.saveCutBitmapForCache(getActivity(), cameraBitmap);
-                    CommonUtils.cutPhoto(getActivity(), Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), true, mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
+                    CommonUtils.cutPhoto(getActivity(), Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), true,
+                            mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
                     String mCoverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW;
                     bBitmap = BitmapFactory.decodeFile(mCoverPath);
-                    bigImg.setImageBitmap(bBitmap);
+//                    bigImg.setImageBitmap(bBitmap);
 
                 }
                 break;
@@ -185,7 +187,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
                 sBitmap = BitmapFactory.decodeFile(coverPath);
 //                saveBitmap();
-                //     imgCover.setImageBitmap(bitmap);
+                //      bigImg.setImageBitmap(sBitmap);
 
                 //接下来是完成上传功能
 //                HttpUtil.uploadCover(this, UrlContainer.UP_LIVE_COVER + "?uid="

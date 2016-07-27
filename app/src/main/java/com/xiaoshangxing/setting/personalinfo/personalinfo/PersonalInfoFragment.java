@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class PersonalInfoFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_personinfo,container,false);
+        Log.d("qqq", "onCreate....");
         mActivity = (PersonalInfoActivity) getActivity();
         imgCover = (ImageView) mView.findViewById(R.id.setting_personinfo_headView);
         ViewGroup.LayoutParams para;

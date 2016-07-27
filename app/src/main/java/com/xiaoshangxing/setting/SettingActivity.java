@@ -156,4 +156,8 @@ public class SettingActivity extends BaseActivity {
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
+
+    public void SettingBack(View view) {
+        finish();
+    }
 }

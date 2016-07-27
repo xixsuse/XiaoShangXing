@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class GrideViewAdapter extends BaseAdapter {
+public class ShowSelectPictureAdapter extends BaseAdapter {
 
 	/** 上下文 */
 	private Context ctx;
@@ -26,7 +26,7 @@ public class GrideViewAdapter extends BaseAdapter {
 	private InputActivity activity;
 	private HashMap<String, Integer> hashMap = new HashMap<>();
 	private List<EmojiBean> list=new ArrayList<EmojiBean>();
-	public GrideViewAdapter(Context ctx, InputActivity activity) {
+	public ShowSelectPictureAdapter(Context ctx, InputActivity activity) {
 		this.ctx = ctx;
 		this.activity=activity;
 		hashMap= DefQqEmoticons.sQqEmoticonHashMap;

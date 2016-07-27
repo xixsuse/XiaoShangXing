@@ -1,5 +1,6 @@
 package com.xiaoshangxing.setting.personalinfo.TagView;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,9 +18,11 @@ import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
+import com.xiaoshangxing.setting.utils.TagView.Tag;
 import com.xiaoshangxing.setting.utils.TagView.TagListView;
-import com.xiaoshangxing.setting.utils.TagView.TagView;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.LocationUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,13 +50,30 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
         mTagListView.setTags(mTags);
         save = (TextView) mView.findViewById(R.id.tagView_save);
         back = (TextView) mView.findViewById(R.id.tagview_back);
-        back.setOnClickListener(new View.OnClickListener() {
+        back.setOnClickListener(this);
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.showSoftInput(mView,InputMethodManager.SHOW_FORCED);
+//                imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+//
+//                getActivity().getSupportFragmentManager().popBackStack();
+//            }
+//        });
+        editText = (EditText) mView.findViewById(R.id.tagView_editText);
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                // return (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
+                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    save();
+                    return true;
+                }
+                return false;
             }
         });
-        editText = (EditText) mView.findViewById(R.id.tagView_editText);
+
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -84,7 +104,8 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
     }
 
     @Override
-    public void onTagClick(TagView tagView, Tag tag) {
+    public void onTagClick(TextView tagView, Tag tag) {
+        Log.d("qqq", "click....");
         if (flag) {
             mTags.remove(tag);
             mTagListView.removeTag(tag);
@@ -98,7 +119,8 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
     }
 
     @Override
-    public void onTagLongClick(TagView tagView, Tag tag) {
+    public void onTagLongClick(TextView tagView, Tag tag) {
+        Log.d("qqq", "longclicking...");
         flag = true;
         mTagListView.setDeleteMode(flag);
         mTagListView.setTags(mTags);
@@ -106,31 +128,74 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
     }
 
 
+    public void save() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+        imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+        if (!editText.getText().toString().equals("")) {
+            Tag tag = new Tag();
+            tag.setId(0);
+            tag.setChecked(true);
+            tag.setTitle(editText.getText().toString());
+            Log.d("qqq", editText.getText().toString());
+
+            if (Same(editText.getText().toString()))
+                Toast.makeText(getActivity(), "标签名不能相同", Toast.LENGTH_SHORT).show();
+            else {
+                mTags.add(tag);
+                mTagListView.addTag(tag);
+            }
+            editText.setText("");
+//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tagView_save:
-                if (!editText.getText().toString().equals("")) {
-                    Tag tag = new Tag();
-                    tag.setId(0);
-                    tag.setChecked(true);
-                    tag.setTitle(editText.getText().toString());
-                    if (Same(editText.getText().toString()))
-                        Toast.makeText(getActivity(), "标签名不能相同", Toast.LENGTH_SHORT).show();
-                    else {
-                        mTags.add(tag);
-                        mTagListView.addTag(tag);
-                    }
-                    editText.setText("");
-                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                }
+                save();
                 break;
             case R.id.tagView_restView:
                 flag = false;
                 mTagListView.setDeleteMode(flag);
                 mTagListView.setTags(mTags);
                 mActivity.setIsbacked(false);
+                break;
+            case R.id.tagview_back:
+                if (!editText.getText().toString().equals("")) {
+                    final Tag tag = new Tag();
+                    tag.setId(0);
+                    tag.setChecked(true);
+                    tag.setTitle(editText.getText().toString());
+                    final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(getActivity());
+                    final Dialog alertDialog = dialogUtils.Message("保存本次编辑？")
+                            .Button("不保存", "保存").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                                @Override
+                                public void onButton1() {
+                                    dialogUtils.close();
+                                    getActivity().getSupportFragmentManager().popBackStack();
+                                }
+
+                                @Override
+                                public void onButton2() {
+                                    mTags.add(tag);
+                                    mTagListView.addTag(tag);
+                                    dialogUtils.close();
+                                    getActivity().getSupportFragmentManager().popBackStack();
+                                }
+                            }).create();
+                    alertDialog.show();
+                    LocationUtil.setWidth(getActivity(), alertDialog,
+                            getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+                } else {
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                    imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
                 break;
             default:
                 break;

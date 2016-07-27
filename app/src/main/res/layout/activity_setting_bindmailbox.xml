@@ -68,20 +68,22 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/transparent"
+            android:digits="@string/digits_password"
             android:hint="@string/yourmaibox"
             android:inputType="textEmailAddress"
-            android:digits="@string/digits_password"
             android:paddingEnd="@dimen/x48"
-            android:paddingStart="@dimen/x48" />
+            android:paddingStart="@dimen/x48"
+            android:textCursorDrawable="@drawable/cursor_blue4" />
+
         <ImageView
             android:id="@+id/mailbox_clear"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/x48"
             android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/x48"
             android:clickable="true"
             android:src="@mipmap/delete"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.wo.inform.report.reportEvidenceFragment.ReportEvidenceFragment;
 import com.xiaoshangxing.wo.inform.report.reportReasonFragment.ReportReasonFragment;
@@ -13,8 +14,9 @@ import com.xiaoshangxing.wo.inform.report.reportReasonFragment.ReportReasonFragm
  */
 public class ReportActivity extends BaseActivity {
     public static final String TAG = BaseActivity.TAG + "-LoginRegisterActivity";
-    private String reportText,folderName;
-    private boolean isCanceled;
+    private String reportText;
+//    private String folderName;
+//    private boolean isCanceled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,20 +39,27 @@ public class ReportActivity extends BaseActivity {
         return reportText;
     }
 
-    public void setFolderName(String folderName) {
-        this.folderName = folderName;
-    }
+//    public void setFolderName(String folderName) {
+//        this.folderName = folderName;
+//    }
+//
+//    public String getFolderName() {
+//        return folderName;
+//    }
 
-    public String getFolderName() {
-        return folderName;
-    }
+//    public void setCanceled(boolean canceled) {
+//        isCanceled = canceled;
+//        Log.d("qqq","setting..."+isCanceled);
+//    }
+//
+//    public boolean isCanceled() {
+//        return isCanceled;
+//    }
 
-    public void setCanceled(boolean canceled) {
-        isCanceled = canceled;
-        Log.d("qqq","setting..."+isCanceled);
-    }
-
-    public boolean isCanceled() {
-        return isCanceled;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("qqq", "destory..");
+        Bimp.tempSelectBitmap.clear();
     }
 }

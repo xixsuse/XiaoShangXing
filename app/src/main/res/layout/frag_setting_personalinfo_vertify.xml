@@ -85,7 +85,8 @@
                 android:background="@color/transparent"
                 android:digits="@string/digits_password"
                 android:hint="@string/vertify_account1"
-                android:paddingStart="@dimen/x123" />
+                android:paddingStart="@dimen/x123"
+                android:textCursorDrawable="@drawable/cursor_blue4" />
         </LinearLayout>
 
         <LinearLayout
@@ -110,7 +111,8 @@
                 android:digits="@string/digits_password"
                 android:hint="@string/vertify_passwd1"
                 android:inputType="textPassword"
-                android:paddingStart="@dimen/x123" />
+                android:paddingStart="@dimen/x123"
+                android:textCursorDrawable="@drawable/cursor_blue4" />
         </LinearLayout>
     </LinearLayout>
 

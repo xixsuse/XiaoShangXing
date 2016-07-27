@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.inform.report.photoChoosing;
+package com.xiaoshangxing.utils.photoChoosing;
 
 import android.app.Activity;
 import android.content.Context;

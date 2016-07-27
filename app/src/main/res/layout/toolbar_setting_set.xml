@@ -20,6 +20,7 @@
         android:layout_toRightOf="@+id/toolbar_setting_leftarrow"
         android:layout_marginLeft="@dimen/x12"
         android:text="@string/back"
+        android:onClick="SettingBack"
         android:clickable="true"
         style="@style/black_16sp" />
 

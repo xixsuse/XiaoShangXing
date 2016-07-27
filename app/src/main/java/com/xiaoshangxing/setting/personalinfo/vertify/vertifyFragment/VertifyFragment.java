@@ -1,5 +1,6 @@
 package com.xiaoshangxing.setting.personalinfo.vertify.vertifyFragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
@@ -7,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -101,9 +103,15 @@ public class VertifyFragment extends BaseFragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.vertify_back:
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
             case R.id.vertify_submit:
+                InputMethodManager imm2 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm2.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                imm2.hideSoftInputFromWindow(mView.getWindowToken(), 0);
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
@@ -118,6 +126,9 @@ public class VertifyFragment extends BaseFragment implements View.OnClickListene
                         .commit();
                 break;
             case R.id.VertifyAgreement:
+                InputMethodManager imm3 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm3.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                imm3.hideSoftInputFromWindow(mView.getWindowToken(), 0);
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,

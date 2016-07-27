@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,7 +29,8 @@ import com.xiaoshangxing.utils.BaseActivity;
 public class CurrencyActivity extends BaseActivity {
     public static final int ACTIVITY_ALBUM_REQUESTCODE = 1000;
     public static final int ACTIVITY_CAMERA_REQUESTCODE = 1001;
-    private Bitmap btmap_album, btmap_phone;
+    public static final int ACTIVITY_MODIFY_PHOTO_REQUESTCODE = 2002;
+    private Bitmap btmap_album, btmap_phone, mBitmap;
     private ImageView mImageView;
 
     @Override
@@ -106,9 +108,14 @@ public class CurrencyActivity extends BaseActivity {
                     int degree = FileUtil.readPictureDegree(img_path);
                     btmap_album = BitmapFactory.decodeFile(img_path);
                     btmap_album = FileUtil.rotaingImageView(degree, btmap_album);
-                    mImageView.setImageBitmap(btmap_album);
-                    FileUtil.deleteTempAndRaw();
+//                    mImageView.setImageBitmap(btmap_album);
+//                    FileUtil.deleteTempAndRaw();
+                    WindowManager wm = this.getWindowManager();
+                    int width = wm.getDefaultDisplay().getWidth();
+                    int height = wm.getDefaultDisplay().getHeight();
+                    CommonUtils.cutPhoto(this, data.getData(), false, width, height);
                 }
+
                 break;
             case ACTIVITY_CAMERA_REQUESTCODE:
                 if (resultCode == Activity.RESULT_OK) {
@@ -120,15 +127,23 @@ public class CurrencyActivity extends BaseActivity {
                     FileUtil.saveCutBitmapForCache(this, cameraBitmap);
                     String mCoverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW;
                     btmap_phone = BitmapFactory.decodeFile(mCoverPath);
-                    mImageView.setImageBitmap(btmap_phone);
-                    FileUtil.deleteTempAndRaw();
+//                    mImageView.setImageBitmap(btmap_phone);
+//                    FileUtil.deleteTempAndRaw();
+                    WindowManager wm = this.getWindowManager();
+                    int width = wm.getDefaultDisplay().getWidth();
+                    int height = wm.getDefaultDisplay().getHeight();
+                    CommonUtils.cutPhoto(this, Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), false, width, height);
                 }
                 break;
+            case ACTIVITY_MODIFY_PHOTO_REQUESTCODE:
+                Log.d("qqq", "aaaa...");
+                String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
+                mBitmap = BitmapFactory.decodeFile(coverPath);
+                mImageView.setImageBitmap(mBitmap);
             default:
+
                 break;
         }
     }
-
-
 
 }
