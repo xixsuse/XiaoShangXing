@@ -80,7 +80,7 @@ public class HelpDetailActivity extends BaseActivity {
     View cursor;
     @Bind(R.id.app_bar)
     AppBarLayout appBar;
-    @Bind(R.id.viewpager)
+    @Bind(R.id.scrollview)
     ViewPager viewpager;
     @Bind(R.id.coordinator)
     CoordinatorLayout coordinator;

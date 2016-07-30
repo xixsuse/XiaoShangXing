@@ -27,7 +27,6 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
-
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
@@ -36,7 +35,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".wo.myState.myStateActivity"></activity>
-        <activity android:name=".wo.myState.DetailsActivity"></activity>
+        <activity
+            android:name=".wo.myState.DetailsActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity android:name=".wo.school_circle.NewsActivity.NewsActivity"></activity>
         <activity android:name=".wo.school_circle.check_photo.ImagePagerActivity"></activity>
         <activity android:name=".wo.myState.check_photo.myStateImagePagerActivity"></activity>
@@ -82,6 +90,19 @@
 
         <activity android:name=".utils.photoChoosing.PhotoChoosingActivity">
 
+        </activity>
+
+        <activity android:name=".input_activity.check_photo.ReviewPictureActivity">
+
+        </activity>
+
+        <activity android:name=".SelectPerson.SelectPersonActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
 
     </application>

@@ -1,5 +1,6 @@
 package com.xiaoshangxing.utils;
 
+import android.net.Uri;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -7,12 +8,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 /**
  * Created by FengChaoQun
  * on 2016/7/11
  */
 public class FileUtils {
+
+    public static String CameraPhotoPath="/sdcard/XSX";
 
     public static boolean copyFileTo(File srcFile, File destFile) throws IOException {
 
@@ -134,5 +138,19 @@ public class FileUtils {
         }
         BigDecimal result4 = new BigDecimal(teraBytes);
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "TB";
+    }
+
+
+    public static String getCameraPhotoPath(){
+        File file=new File(CameraPhotoPath);
+        if (!file.exists()){
+            file.mkdirs();
+        }
+        return CameraPhotoPath;
+    }
+
+    public static Uri newPhotoPath(){
+        File file=new File(getCameraPhotoPath(), UUID.randomUUID().toString() + ".jpg");
+        return Uri.fromFile(file);
     }
 }

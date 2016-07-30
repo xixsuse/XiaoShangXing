@@ -22,7 +22,7 @@
             android:layout_height="@dimen/y72"
             android:layout_alignParentEnd="true"
             android:layout_margin="6dp"
-            android:background="@drawable/selector_myhelp"
+            android:background="@drawable/selector_picture_input"
             android:button="@null"
             android:focusable="false" />
     </RelativeLayout>

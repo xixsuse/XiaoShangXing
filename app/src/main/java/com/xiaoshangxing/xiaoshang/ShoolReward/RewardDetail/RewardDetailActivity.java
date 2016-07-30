@@ -79,7 +79,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardContract
     TextView praiseText;
     @Bind(R.id.cursor)
     View cursor;
-    @Bind(R.id.viewpager)
+    @Bind(R.id.scrollview)
     ViewPager viewpager;
     @Bind(R.id.coordinator)
     CoordinatorLayout coordinator;

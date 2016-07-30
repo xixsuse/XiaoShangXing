@@ -61,7 +61,7 @@ public class AlbumFragment extends BaseFragment {
     private ArrayList<ImageItem> dataList;
     private AlbumHelper helper;
     public static List<ImageBucket> contentList;
-    public static Bitmap bitmap;
+//    public static Bitmap bitmap;
     private View mView;
 
 
@@ -73,7 +73,7 @@ public class AlbumFragment extends BaseFragment {
         //注册一个广播，这个广播主要是用于在GalleryActivity进行预览时，防止当所有图片都删除完后，再回到该页面时被取消选中的图片仍处于选中状态
         IntentFilter filter = new IntentFilter("data.broadcast.action");
         getActivity().registerReceiver(broadcastReceiver, filter);
-        bitmap = BitmapFactory.decodeResource(getResources(), Res.getDrawableID("plugin_camera_no_pictures"));
+//        bitmap = BitmapFactory.decodeResource(getResources(), Res.getDrawableID("plugin_camera_no_pictures"));
         init();
         initListener();
         //这个函数主要用来控制预览和完成按钮的状态
@@ -151,6 +151,8 @@ public class AlbumFragment extends BaseFragment {
         for (int i = 0; i < contentList.size(); i++) {
             dataList.addAll(contentList.get(i).imageList);
         }
+
+        Res.init(getContext());
 
         back = (Button) mView.findViewById(Res.getWidgetID("back"));
         cancel = (Button) mView.findViewById(Res.getWidgetID("cancel"));
@@ -240,5 +242,11 @@ public class AlbumFragment extends BaseFragment {
     public void onStart() {
         isShowOkBt();
         super.onStart();
+    }
+
+    @Override
+    public void onDestroy() {
+        getActivity().unregisterReceiver(broadcastReceiver);
+        super.onDestroy();
     }
 }

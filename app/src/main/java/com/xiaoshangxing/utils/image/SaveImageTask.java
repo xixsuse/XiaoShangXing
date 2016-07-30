@@ -46,7 +46,7 @@ public class SaveImageTask extends AsyncTask<String, Void, File> {
             return;
         }
         String path = result.getPath();
-        File file = new File("/sdcard/data/data/" + UUID.randomUUID().toString() + ".jpg");
+        File file = new File("/sdcard/XSX" + UUID.randomUUID().toString() + ".jpg");
         try {
             FileUtils.copyFileTo(result, file);
             Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();

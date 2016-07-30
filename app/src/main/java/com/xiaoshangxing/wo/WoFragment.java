@@ -6,31 +6,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.setting.SettingActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
-import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
-import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
@@ -55,10 +49,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private List<String> list = new ArrayList<String>();
     private Wo_listview_adpter adpter;
 
-    private View comment_input_layout, input_layout;
-    private EditText comment_input;
-    private ImageView emotin;
-    private TextView send;
     private RelativeLayout title;
 
     private int[] xy = new int[2];
@@ -83,7 +73,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     private ImageView set, publish;
 
-    private int screenHeight;
+
+    private MainActivity activity;
+    private InputBoxLayout inputBoxLayout;
 
 
     public static WoFragment newInstance() {
@@ -101,19 +93,17 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initView(){
+        activity = (MainActivity) getActivity();
+        inputBoxLayout=activity.getInputBoxLayout();
         listView=(ListView)mView.findViewById(R.id.listview);
         ptrFrameLayout=(PtrFrameLayout)mView.findViewById(R.id.reflesh_layout);
         divider_line=mView.findViewById(R.id.line);
-        comment_input_layout = mView.findViewById(R.id.comment_input_layout);
-        comment_input = (EditText) mView.findViewById(R.id.comment_input);
-        input_layout = mView.findViewById(R.id.input_layout);
-        emotin = (ImageView) mView.findViewById(R.id.emotion);
-        send = (TextView) mView.findViewById(R.id.send);
         title = (RelativeLayout) mView.findViewById(R.id.title);
         set = (ImageView) mView.findViewById(R.id.set);
         set.setOnClickListener(this);
         publish = (ImageView) mView.findViewById(R.id.publish);
         publish.setOnClickListener(this);
+
 
         //headview footview
         headView = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.util_wo_header, null);
@@ -127,8 +117,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         headImage.setOnClickListener(this);
         news.setOnClickListener(this);
 
-        emotin.setOnClickListener(this);
-        send.setOnClickListener(this);
+//        emotin.setOnClickListener(this);
+//        send.setOnClickListener(this);
 
         //实现双击title返回第一条动态
         title.setOnTouchListener(new View.OnTouchListener() {
@@ -145,45 +135,45 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             }
         });
 
-        //监听输入框内容
-        comment_input.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (comment_input.getText().length() > 0) {
-                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_green1));
-                    send.setEnabled(true);
-                } else {
-                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_g1));
-                    send.setEnabled(false);
-                }
-            }
-        });
+//        //监听输入框内容
+//        comment_input.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (comment_input.getText().length() > 0) {
+//                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_green1));
+//                    send.setEnabled(true);
+//                } else {
+//                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_g1));
+//                    send.setEnabled(false);
+//                }
+//            }
+//        });
 
         //监听键盘高度  让输入框保持在键盘上面
-        screenHeight = ScreenUtils.getScreenHeight(getContext());
-        KeyBoardUtils.observeSoftKeyboard(getActivity(), new KeyBoardUtils.OnSoftKeyboardChangeListener() {
-            @Override
-            public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
-
-                if (softKeybardHeight > 100) {
-                    comment_input_layout.layout(0, screenHeight - softKeybardHeight - comment_input_layout.getHeight(),
-                            comment_input_layout.getWidth(),
-                            screenHeight - softKeybardHeight);
-                    Log.d("keyboard", "" + softKeybardHeight);
-                    Log.d("height", "" + screenHeight);
-                }
-            }
-        });
+//        screenHeight = ScreenUtils.getScreenHeight(getContext());
+//        KeyBoardUtils.observeSoftKeyboard(getActivity(), new KeyBoardUtils.OnSoftKeyboardChangeListener() {
+//            @Override
+//            public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
+//
+//                if (softKeybardHeight > 100) {
+//                    comment_input_layout.layout(0, screenHeight - softKeybardHeight - comment_input_layout.getHeight(),
+//                            comment_input_layout.getWidth(),
+//                            screenHeight - softKeybardHeight);
+//                    Log.d("keyboard", "" + softKeybardHeight);
+//                    Log.d("height", "" + screenHeight);
+//                }
+//            }
+//        });
 
         //设置listview头
         listView.addHeaderView(headView);
@@ -215,12 +205,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                         showTitle();
                     }
                 }
-
-
 //                隐藏评论框
-                if (comment_input_layout.getVisibility() == View.VISIBLE) {
                     hideEdittext();
-                }
                 return false;
             }
         });
@@ -259,26 +245,19 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             }
         });
 
-        comment_input_layout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                comment_input_layout.getLocationOnScreen(xy);
-            }
-        });
+//        comment_input_layout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+//            @Override
+//            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+//                comment_input_layout.getLocationOnScreen(xy);
+//            }
+//        });
 
     }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.emotion:
-                Toast.makeText(getContext(), "emotion", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.send:
-                InputMethodManager imm2 = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm2.hideSoftInputFromWindow(comment_input.getWindowToken(), 0);
-                comment_input.setText("");
-                break;
             case R.id.head_image:
                 Intent intent = new Intent(getActivity(), myStateActivity.class);
                 getActivity().startActivity(intent);
@@ -288,13 +267,10 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                 startActivity(new_intent);
                 break;
             case R.id.set:
-                Intent setIntent=new Intent(getContext(), SettingActivity.class);
-                startActivity(setIntent);
+                gotoSet();
                 break;
             case R.id.publish:
-                Intent piblish_intent=new Intent(getContext(), InputActivity.class);
-                startActivity(piblish_intent);
-                Toast.makeText(getContext(), "publish", Toast.LENGTH_SHORT).show();
+                gotopublish();
                 break;
         }
     }
@@ -356,27 +332,15 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     public void showEdittext(Context context) {
-        comment_input_layout.setVisibility(View.VISIBLE);
-        comment_input_layout.setFocusable(true);
-        input_layout.setFocusable(true);
-        //输入框自获取焦点 并弹出输入键盘
-        comment_input.setFocusable(true);
-        comment_input.setFocusableInTouchMode(true);
-        comment_input.requestFocus();
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-
-//        KeyBoardUtils.openKeybord(comment_input_layout,getContext());
-
+        inputBoxLayout.showOrHideLayout(true);
     }
 
     public void moveListview(int px) {
-//        listView.scrollListBy(px);
         listView.smoothScrollBy(px, Math.abs(px));
     }
 
     public int get_Editext_Height() {
-        return xy[1];
+        return inputBoxLayout.getEdittext_height();
     }
 
     @Override
@@ -386,20 +350,20 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void gotoSet() {
-
+        Intent setIntent = new Intent(getContext(), SettingActivity.class);
+        startActivity(setIntent);
     }
 
     @Override
     public void gotopublish() {
-
+        Intent piblish_intent = new Intent(getContext(), InputActivity.class);
+        startActivity(piblish_intent);
     }
 
 
     @Override
     public void hideEdittext() {
-        comment_input_layout.setVisibility(View.INVISIBLE);
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+        inputBoxLayout.showOrHideLayout(false);
     }
 
     @Override
@@ -410,7 +374,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public String getEdittextText() {
-        return comment_input.getText().toString();
+        return null;
     }
 
     @Override
@@ -446,11 +410,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                         is_titleMove = false;
                     }
                 }, 1000);
-
             }
         }
-
-
     }
 
     @Override
@@ -479,8 +440,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                     }
                 }, 1000);
             }
-
-
         }
     }
 

@@ -79,18 +79,6 @@
             android:src="@mipmap/three_dot_white" />
     </RelativeLayout>
 
-    <!--显示图片位置-->
-    <!--<TextView-->
-    <!--android:id="@+id/indicator"-->
-    <!--android:layout_below="@+id/title"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="bottom"-->
-    <!--android:gravity="center"-->
-    <!--android:textSize="18sp"-->
-    <!--android:textColor="@android:color/white"-->
-    <!--android:text="@string/viewpager_indicator"-->
-    <!--android:background="@android:color/transparent" />-->
 
     <!--下方详情入口-->
     <RelativeLayout

@@ -5,6 +5,7 @@
     android:background="@color/w0"
     android:orientation="vertical">
 
+    <!--输入框-->
     <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
         android:padding="16sp"
         android:textSize="16sp"
@@ -15,6 +16,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/select_lay" />
 
+
+
     <!--选择栏-->
     <LinearLayout
         android:id="@+id/select_lay"
@@ -22,6 +25,28 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/emot_picture"
         android:orientation="vertical">
+
+        <!--图片展示-->
+        <GridView
+            android:layout_above="@+id/select_lay"
+            android:id="@+id/show_select"
+            android:focusable="true"
+            android:paddingStart="@dimen/width_48"
+            android:paddingEnd="@dimen/width_48"
+            android:paddingBottom="@dimen/y36"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y120"
+            android:numColumns="9"
+            android:columnWidth="@dimen/x84"
+            android:fadingEdge="none"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:cacheColorHint="@color/transparent"
+            android:listSelector="@color/transparent"
+            android:transcriptMode="normal"
+            android:stretchMode="columnWidth"
+            android:orientation="horizontal">
+        </GridView>
 
         <include layout="@layout/line_horizontal_g1">
 
@@ -92,7 +117,6 @@
 
         <!--表情-->
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/emot_lay"
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -102,7 +126,7 @@
                 android:paddingEnd="@dimen/width_48"
                 android:paddingBottom="@dimen/y30"
                 android:paddingTop="@dimen/y30"
-                android:id="@+id/scrollView"
+                android:id="@+id/scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y432">
 
@@ -167,6 +191,7 @@
         <!--图片-->
         <LinearLayout
             android:background="@color/w0"
+            android:visibility="gone"
             android:id="@+id/picture_lay"
             android:orientation="vertical"
             android:layout_width="match_parent"

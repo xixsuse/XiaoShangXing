@@ -42,7 +42,7 @@ public class XiaoShangFragment extends BaseFragment {
     ImageView forth;
     @Bind(R.id.five)
     ImageView five;
-    @Bind(R.id.scrollView)
+    @Bind(R.id.scrollview)
     HorizontalScrollView scrollView;
     @Bind(R.id.tuch)
     ImageView tuch;
@@ -410,7 +410,6 @@ public class XiaoShangFragment extends BaseFragment {
 //        if (animator!=null){
 //            animator.cancel();
 //        }
-
     }
 
 

@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -21,7 +20,6 @@ import com.xiaoshangxing.wo.school_circle.check_photo.HackyViewPager;
 import com.xiaoshangxing.wo.school_circle.check_photo.ImageDetailFragment;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -57,7 +55,8 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
 
 
     private ArrayList<String> urls;
-    private List<Integer> selectPosition=new ArrayList<Integer>();
+    //    private List<Integer> selectPosition=new ArrayList<Integer>();
+    private List<String> select_image_urls = new ArrayList<String>();
     private int currentItem;
 
     @Override
@@ -69,7 +68,7 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
 
         pagerPosition = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
         urls = getIntent().getStringArrayListExtra(EXTRA_IMAGE_URLS);
-        selectPosition=getIntent().getIntegerArrayListExtra(SELECT_PICTURE);
+        select_image_urls = getIntent().getStringArrayListExtra(SELECT_PICTURE);
 
         mPager = (HackyViewPager) findViewById(R.id.pager);
         ImagePagerAdapter mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), urls);
@@ -83,23 +82,23 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (checkbox.isChecked()){
-                    if (selectPosition.size()>=9){
+                    if (select_image_urls.size() >= 9) {
                         Toast.makeText(inputSelectPhotoPagerActivity.this, "最多只能选择九张图片", Toast.LENGTH_SHORT).show();
                         checkbox.setChecked(false);
                     }else {
-                        selectPosition.add(currentItem);
+                        select_image_urls.add(urls.get(currentItem));
                     }
                 }else {
-                    if (selectPosition.contains(currentItem)){
-                        selectPosition.remove(currentItem);
+                    if (select_image_urls.contains(urls.get(currentItem))) {
+                        select_image_urls.remove(urls.get(currentItem));
                     }
                 }
 
-                setCount(selectPosition.size());
+                setCount(select_image_urls.size());
             }
         });
 
-        setCount(selectPosition.size());
+        setCount(select_image_urls.size());
 
         // 更新下标
         mPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -131,7 +130,7 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
     }
 
     private void setCheckBox(int position){
-        if (selectPosition.contains(position)){
+        if (select_image_urls.contains(urls.get(position))) {
             checkbox.setChecked(true);
         }else {
             checkbox.setChecked(false);
@@ -158,49 +157,21 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
             case R.id.checkbox:
                 break;
             case R.id.complete:
-//                getBack();
                 finish();
                 break;
         }
     }
 
-    private void getBack(){
-        Intent intent=new Intent();
-        ArrayList<String> select_picture_urls=new ArrayList<String>();
-        for (int i=0;i<selectPosition.size();i++){
-            select_picture_urls.add(urls.get(selectPosition.get(i)));
-        }
-
-        ArrayList<Integer> select_picture_position=new ArrayList<Integer>();
-        for (int i=0;i<selectPosition.size();i++){
-            select_picture_position.add(selectPosition.get(i));
-        }
-        intent.putExtra(InputActivity.SELECT_IMAGE_POSITION,select_picture_position);
-        intent.putExtra(InputActivity.SELECT_IMAGE_URLS,select_picture_urls);
-        setResult(InputActivity.SELECT_PHOTO_RESULT,intent);
-        finish();
-    }
-
-//    @Override
-//    public void onBackPressed() {
-//        getBack();
-//    }
 
     @Override
     public void finish() {
         Intent intent=new Intent();
-        ArrayList<String> select_picture_urls=new ArrayList<String>();
-        for (int i=0;i<selectPosition.size();i++){
-            select_picture_urls.add(urls.get(selectPosition.get(i)));
+        ArrayList<String> select_picture_urls2 = new ArrayList<String>();
+        for (int i = 0; i < select_image_urls.size(); i++) {
+            select_picture_urls2.add(select_image_urls.get(i));
         }
-
-        ArrayList<Integer> select_picture_position=new ArrayList<Integer>();
-        for (int i=0;i<selectPosition.size();i++){
-            select_picture_position.add(selectPosition.get(i));
-        }
-        intent.putExtra(InputActivity.SELECT_IMAGE_POSITION,select_picture_position);
-        intent.putExtra(InputActivity.SELECT_IMAGE_URLS,select_picture_urls);
-        setResult(InputActivity.SELECT_PHOTO_RESULT,intent);
+        intent.putExtra(InputActivity.SELECT_IMAGE_URLS, select_picture_urls2);
+        setResult(InputActivity.SELECT_PHOTO_RESULT_1, intent);
         super.finish();
     }
 

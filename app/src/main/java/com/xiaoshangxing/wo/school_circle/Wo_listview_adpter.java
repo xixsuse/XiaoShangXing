@@ -29,6 +29,7 @@ import com.xiaoshangxing.wo.school_circle.check_photo.ImagePagerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by FengChaoQun
@@ -76,12 +77,15 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             viewholder.comment_layout = (LinearLayout) view.findViewById(R.id.comment_layout);
             viewholder.praise_people = (LinearLayout) view.findViewById(R.id.praise_people);
             viewholder.comments = (LinearLayout) view.findViewById(R.id.comments);
+            viewholder.transmit_content = (LinearLayout) view.findViewById(R.id.transmit_content);
+            viewholder.transmit_image = (CirecleImage) view.findViewById(R.id.transmit_image);
+            viewholder.transmit_text = (TextView) view.findViewById(R.id.transmit_text);
+
             view.setTag(viewholder);
         } else {
             view = convertView;
             viewholder = (wo_viewholder) view.getTag();
         }
-
 
 //测试图片
         String[] urls2 = {"http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg",
@@ -100,7 +104,6 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             imageUrls.add(urls2[i]);
         }
 
-
         viewholder.photos1.setAdapter(new NoScrollGridAdapter(context, imageUrls));
         viewholder.photos1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,9 +115,30 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             }
         });
 
-
         if (viewholder.praise_people.getChildCount() != 0) {
                 viewholder.praise_people.removeAllViews();
+        }
+
+        viewholder.just_one.setImageResource(R.mipmap.test);
+//        测试图片及转发显示
+        Random random = new Random();
+        int ran = random.nextInt(3);
+        switch (ran) {
+            case 0:
+                viewholder.photos1.setVisibility(View.VISIBLE);
+                viewholder.just_one.setVisibility(View.GONE);
+                viewholder.transmit_content.setVisibility(View.GONE);
+                break;
+            case 1:
+                viewholder.photos1.setVisibility(View.GONE);
+                viewholder.just_one.setVisibility(View.VISIBLE);
+                viewholder.transmit_content.setVisibility(View.GONE);
+                break;
+            case 2:
+                viewholder.photos1.setVisibility(View.GONE);
+                viewholder.just_one.setVisibility(View.GONE);
+                viewholder.transmit_content.setVisibility(View.VISIBLE);
+                break;
         }
 //        测试点赞的人
         PraisePeople praisePeople = new PraisePeople(context);
@@ -248,5 +272,8 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
         private LinearLayout comment_layout;
         private LinearLayout praise_people;
         private LinearLayout comments;
+        private LinearLayout transmit_content;
+        private CirecleImage transmit_image;
+        private TextView transmit_text;
     }
 }

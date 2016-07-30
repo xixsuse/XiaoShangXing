@@ -105,6 +105,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
+                <!--转发内容-->
+                <LinearLayout
+                    android:id="@+id/transmit_content"
+                    android:padding="6dp"
+                    android:orientation="horizontal"
+                    android:background="@color/g1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.xiaoshangxing.utils.layout.CirecleImage
+                        android:id="@+id/transmit_image"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/cirecleiamge_default"
+                        android:layout_width="@dimen/x84"
+                        android:layout_height="@dimen/y84" />
+
+                    <TextView
+                        android:id="@+id/transmit_text"
+                        android:text="@string/longtext"
+                        android:layout_marginStart="@dimen/x18"
+                        android:textSize="13sp"
+                        android:textColor="@color/b0"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
                 <!--地点-->
                 <TextView
                     android:id="@+id/location"

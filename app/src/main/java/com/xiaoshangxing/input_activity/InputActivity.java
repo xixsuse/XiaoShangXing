@@ -1,10 +1,14 @@
 package com.xiaoshangxing.input_activity;
 
-import android.content.Context;
+import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,8 +21,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -26,15 +28,25 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
-import com.xiaoshangxing.input_activity.EmotAndPicture.GrideViewAdapter;
+import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.PictureAdapter;
+import com.xiaoshangxing.input_activity.EmotAndPicture.ShowSelectPictureAdapter;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
+import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
+import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
+import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.utils.photoChoosing.PhotoChoosingActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -67,7 +79,7 @@ public class InputActivity extends BaseActivity {
     ImageView camera;
     @Bind(R.id.select_lay)
     LinearLayout selectLay;
-    @Bind(R.id.scrollView)
+    @Bind(R.id.scrollview)
     ViewPager viewPager;
     @Bind(R.id.normal_emot)
     LinearLayout normalEmot;
@@ -95,10 +107,13 @@ public class InputActivity extends BaseActivity {
     FrameLayout pictureCountLay;
     @Bind(R.id.picture_lay)
     LinearLayout pictureLay;
+    @Bind(R.id.show_select)
+    GridView showSelect;
     private List<View> viewlist = new ArrayList<View>();
     private List<String> iamgeurls = new ArrayList<String>();
     private List<String> select_image_urls = new ArrayList<String>();
     private PictureAdapter adapter;
+    private ShowSelectPictureAdapter showSelectPictureAdapter;
 
     private GridView gridView;
 
@@ -106,11 +121,14 @@ public class InputActivity extends BaseActivity {
     public static int EMOTION = 1;
     public static int PICTURE = 2;
 
-    public static int SELECT_PHOTO_RESULT;
+    public static int SELECT_PHOTO_RESULT_1 = 10000;
+    public static int SELECT_PHOTO_RESULT_2 = 20000;
+    public static int TAKE_PHOTO = 30000;
+    public static int REVIEW_PHOTO = 40000;
     public static String SELECT_IMAGE_URLS = "select_image_urls";
-    public static String SELECT_IMAGE_POSITION = "select_image_position";
 
     private int current;
+    private Uri came_photo_path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,24 +136,25 @@ public class InputActivity extends BaseActivity {
         setContentView(R.layout.activity_input);
         ButterKnife.bind(this);
         initEmotView();
+        initShowSelect();
         initPictureView();
         initKeyboard();
     }
 
     private void initEmotView() {
         gridView = (GridView) View.inflate(this, R.layout.gridelayout, null);
-        final GrideViewAdapter adapter = new GrideViewAdapter(this, this);
+        final EmotionGrideViewAdapter adapter = new EmotionGrideViewAdapter(this/*, this*/);
+        adapter.setMcallBack(new EmotionGrideViewAdapter.callBack() {
+            @Override
+            public void callback(String emot) {
+                inputEmot(emot);
+            }
+        });
         gridView.setAdapter(adapter);
         TextView textView = new TextView(this);
         textView.setText("55555");
         viewlist.add(gridView);
         viewlist.add(textView);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
 
         PagerAdapter pagerAdapter = new PagerAdapter() {
 
@@ -233,8 +252,6 @@ public class InputActivity extends BaseActivity {
                     selectLay.layout(0, screenHeight - softKeybardHeight - selectLay.getHeight(),
                             selectLay.getWidth(),
                             screenHeight - softKeybardHeight);
-                    Log.d("keyboard", "" + softKeybardHeight);
-                    Log.d("height", "" + screenHeight);
                 }
             }
         });
@@ -243,8 +260,13 @@ public class InputActivity extends BaseActivity {
         emotionEdittext.setFocusable(true);
         emotionEdittext.setFocusableInTouchMode(true);
         emotionEdittext.requestFocus();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        KeyBoardUtils.openKeybord(emotionEdittext, this);
+    }
+
+    private void initShowSelect() {
+        showSelectPictureAdapter = new ShowSelectPictureAdapter(this, this);
+        showSelect.setAdapter(showSelectPictureAdapter);
+        reset();
     }
 
     private void selectItem(int position) {
@@ -326,10 +348,22 @@ public class InputActivity extends BaseActivity {
     private void reset() {
         emotion.setSelected(false);
         picture.setSelected(false);
+        initKeyboard();
     }
 
     public void setSelectCount(int count) {
         pictureCount.setText("" + count);
+    }
+
+    public List<String> getSelect_image_urls() {
+        return select_image_urls;
+    }
+
+    public void setSelect_image_urls(List<String> list) {
+        this.select_image_urls = list;
+        adapter.setSelect_image_urls(list);
+        initShowSelect();
+        addToBitm(list);
     }
 
     @OnClick({R.id.emotion_edittext, R.id.delete, R.id.emotion, R.id.notice_someone,
@@ -341,13 +375,16 @@ public class InputActivity extends BaseActivity {
                 reset();
                 break;
             case R.id.delete:
+                showSureDialog();
                 break;
             case R.id.emotion:
                 showEmot(EMOTION);
                 break;
             case R.id.notice_someone:
+                gotoSelectPerson();
                 break;
             case R.id.forbid_someone:
+                gotoSelectPerson();
                 break;
             case R.id.location:
                 break;
@@ -355,6 +392,7 @@ public class InputActivity extends BaseActivity {
                 showEmot(PICTURE);
                 break;
             case R.id.camera:
+                openCamera();
                 break;
             case R.id.send:
                 break;
@@ -368,21 +406,164 @@ public class InputActivity extends BaseActivity {
                 emotionEdittext.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
                 break;
             case R.id.album:
-//                Intent album_intent=new Intent(InputActivity.this, PhotoChoosingActivity.class);
-//                startActivity(album_intent);
+                addToBitm(adapter.getSelect_image_urls());
+                Intent album_intent = new Intent(InputActivity.this, PhotoChoosingActivity.class);
+                startActivityForResult(album_intent, SELECT_PHOTO_RESULT_2);
                 break;
             case R.id.complete:
+                setSelect_image_urls(adapter.getSelect_image_urls());
                 break;
         }
     }
 
+    public void showSureDialog() {
+        final DialogUtils.Dialog_Center center = new DialogUtils.Dialog_Center(this);
+        center.Message("退出此次编辑?");
+        center.Button("退出", "继续编辑");
+        center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
+            @Override
+            public void onButton1() {
+                finish();
+                center.close();
+            }
+
+            @Override
+            public void onButton2() {
+                center.close();
+            }
+        });
+        Dialog dialog = center.create();
+        dialog.show();
+        LocationUtil.setWidth(this, dialog,
+                getResources().getDimensionPixelSize(R.dimen.x780));
+    }
+
+    public void gotoSelectPerson(){
+        Intent intent=new Intent(InputActivity.this, SelectPersonActivity.class);
+        startActivity(intent);
+    }
+
+    private void openCamera() {
+        if (CommonUtils.isExistCamera(this)) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 调用android自带的照相机
+            came_photo_path = FileUtils.newPhotoPath();
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, came_photo_path);
+            intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
+            startActivityForResult(intent, TAKE_PHOTO);
+        } else {
+            Toast.makeText(this,
+                    getResources().getString(R.string.user_no_camera),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public List<String> merge2list(List<String> host, List<String> client) {
+        for (int i = 0; i < client.size(); i++) {
+            if (!host.contains(client.get(i))) {
+                host.add(client.get(i));
+            }
+        }
+        return host;
+    }
+
+    public void addToBitm(List<String> list) {
+        for (int i = 0; i < list.size(); i++) {
+            ImageItem imageItem = new ImageItem();
+            imageItem.setImagePath(list.get(i));
+            imageItem.setSelected(true);
+            if (!Bimp.tempSelectBitmap.contains(imageItem)) {
+                Bimp.tempSelectBitmap.add(imageItem);
+            }
+        }
+    }
+
+    /**
+     * 解决小米手机上获取图片路径为null的情况
+     *
+     * @param intent
+     * @return
+     */
+    public Uri geturi(android.content.Intent intent) {
+        Uri uri = intent.getData();
+        String type = intent.getType();
+        if (uri.getScheme().equals("file") && (type.contains("image/"))) {
+            String path = uri.getEncodedPath();
+            if (path != null) {
+                path = Uri.decode(path);
+                ContentResolver cr = getContentResolver();
+                StringBuffer buff = new StringBuffer();
+                buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=")
+                        .append("'" + path + "'").append(")");
+                Cursor cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        new String[]{MediaStore.Images.ImageColumns._ID},
+                        buff.toString(), null, null);
+                int index = 0;
+                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
+                    index = cur.getColumnIndex(MediaStore.Images.ImageColumns._ID);
+                    // set _id value
+                    index = cur.getInt(index);
+                }
+                if (index == 0) {
+                    // do nothing
+                } else {
+                    Uri uri_temp = Uri
+                            .parse("content://media/external/images/media/"
+                                    + index);
+                    if (uri_temp != null) {
+                        uri = uri_temp;
+                    }
+                }
+            }
+        }
+        return uri;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SELECT_PHOTO_RESULT) {
-            select_image_urls = data.getStringArrayListExtra(SELECT_IMAGE_URLS);
-            adapter.setSelectPosition(data.getIntegerArrayListExtra(SELECT_IMAGE_POSITION));
-            Log.d("select_image", "" + select_image_urls.toString());
+        if (requestCode == SELECT_PHOTO_RESULT_1) {
+            setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
+        } else if (requestCode == SELECT_PHOTO_RESULT_2) {
+            ArrayList<String> selectPicture = new ArrayList<String>();
+            for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
+                selectPicture.add(Bimp.tempSelectBitmap.get(i).imagePath);
+            }
+            setSelect_image_urls(selectPicture);
+
+        } else if (requestCode == REVIEW_PHOTO) {
+            setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
+        } else if (requestCode == TAKE_PHOTO) {
+            if (resultCode == RESULT_OK) {
+                List<String> temp = new ArrayList<String>();
+                temp.add(came_photo_path.toString());
+                setSelect_image_urls(merge2list(select_image_urls, temp));
+                Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                intent.setData(came_photo_path);
+                sendBroadcast(intent);
+            }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        Bimp.tempSelectBitmap.clear();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        KeyBoardUtils.closeKeybord(emotionEdittext, this);
+        super.onPause();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            showSureDialog();
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
+
     }
 }
 

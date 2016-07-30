@@ -15,12 +15,13 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_144"
-        android:paddingEnd="@dimen/width_48"
-        android:paddingStart="@dimen/width_48">
+        >
 
         <!--返回-->
         <LinearLayout
             android:id="@+id/back"
+            android:paddingStart="@dimen/width_48"
+            android:background="@color/w0"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -29,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/left_arrow_white" />
+                android:src="@mipmap/left_arrow_black" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -37,24 +38,17 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x12"
                 android:text="@string/back"
-                android:textColor="@color/w0"
+                android:textColor="@color/b0"
                 android:textSize="15sp" />
 
         </LinearLayout>
-        <!--时间-->
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="昨天15:30"
-                android:textColor="@color/w0"
-                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/indicator"
@@ -64,99 +58,21 @@
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:text="@string/viewpager_indicator"
-                android:textColor="@android:color/white"
-                android:textSize="13sp" />
+                android:textColor="@color/b0"
+                android:textSize="16sp" />
         </LinearLayout>
 
 
         <!--more-->
         <ImageView
-            android:id="@+id/more"
+            android:paddingEnd="@dimen/width_48"
+            android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/three_dot_white" />
+            android:src="@mipmap/trash_black" />
     </RelativeLayout>
-
-
-    <!--下方详情入口-->
-    <RelativeLayout
-        android:id="@+id/details_entry_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y126"
-        android:layout_alignParentBottom="true">
-
-        <!--评论 赞的数目-->
-        <LinearLayout
-            android:id="@+id/detail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal"
-            android:paddingEnd="@dimen/width_48">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/praise_white" />
-            <!--赞人数-->
-            <TextView
-                android:id="@+id/praise_people_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="2"
-                android:textColor="@color/w0"
-                android:textSize="15sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/comment_white" />
-            <!--赞人数-->
-            <TextView
-                android:id="@+id/comment_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="2"
-                android:textColor="@color/w0"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-    </RelativeLayout>
-
-    <!--文字内容-->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/details_entry_layout">
-
-        <View
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:alpha="0.3"
-            android:background="@color/b1"></View>
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:maxLines="7"
-            android:paddingBottom="@dimen/y18"
-            android:paddingEnd="@dimen/width_48"
-            android:paddingStart="@dimen/width_48"
-            android:paddingTop="@dimen/y18"
-            android:text="@string/longtext"
-            android:textColor="@color/w0"
-            android:textSize="13sp" />
-    </FrameLayout>
 
 
 </RelativeLayout>

@@ -1,17 +1,13 @@
 package com.xiaoshangxing.wo.myState;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
@@ -72,27 +69,28 @@ public class DetailsActivity extends BaseActivity {
     LinearLayout comments;
     @Bind(R.id.comment_layout)
     LinearLayout commentLayout;
-    @Bind(R.id.comment_input)
-    EditText commentInput;
-    @Bind(R.id.emotion)
-    ImageView emotion;
-    @Bind(R.id.input_layout)
-    RelativeLayout inputLayout;
-    @Bind(R.id.send)
-    TextView send;
+//    @Bind(R.id.comment_input)
+//    EditText commentInput;
+//    @Bind(R.id.emotion)
+//    ImageView emotion;
+//    @Bind(R.id.input_layout)
+//    RelativeLayout inputLayout;
+//    @Bind(R.id.send)
+//    TextView send;
     @Bind(R.id.permission)
     ImageView permission;
-    @Bind(R.id.scrollView)
+    @Bind(R.id.scrollview)
     ScrollView scrollView;
 
     private Handler handler=new Handler();
+    private InputBoxLayout inputBoxLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         ButterKnife.bind(this);
-
         initView();
+        initInputBox();
     }
 
     private void initView() {
@@ -149,11 +147,7 @@ public class DetailsActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
 
-                    commentInput.setFocusable(true);
-                    commentInput.setFocusableInTouchMode(true);
-                    commentInput.requestFocus();
-                    InputMethodManager imm = (InputMethodManager) DetailsActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                    inputBoxLayout.showOrHideLayout(true);
 
                     final  View mv=v;
                     handler.postDelayed(new Runnable() {
@@ -161,9 +155,9 @@ public class DetailsActivity extends BaseActivity {
                         public void run() {
                             int[] xy = new int[2];
                             mv.getLocationOnScreen(xy);
-                            int[] xy2 = new int[2];
-                            commentInput.getLocationOnScreen(xy2);
-                            int destination = xy[1] + mv.getHeight()  - xy2[1];
+//                            int[] xy2 = new int[2];
+//                            commentInput.getLocationOnScreen(xy2);
+                            int destination = xy[1] + mv.getHeight()  - inputBoxLayout.getEdittext_height();
                             scrollView.smoothScrollBy(0,destination+10);
                         }
                     },300);
@@ -180,29 +174,26 @@ public class DetailsActivity extends BaseActivity {
                     }
                 });
         }
-        commentInput.addTextChangedListener(new TextWatcher() {
+
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (commentInput.getText().length() > 0) {
-                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_green1));
-                    send.setEnabled(true);
-                } else {
-                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_g1));
-                    send.setEnabled(false);
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction()==MotionEvent.ACTION_DOWN){
+                    inputBoxLayout.remainEdittext();
+                }else if (event.getAction()==MotionEvent.ACTION_MOVE){
+                    inputBoxLayout.remainEdittext();
                 }
+                return false;
             }
         });
 
+    }
+
+    private void initInputBox(){
+        RelativeLayout relativeLayout=(RelativeLayout)findViewById(R.id.edit_and_emot);
+        inputBoxLayout=new InputBoxLayout(this,relativeLayout,this);
+        inputBoxLayout.setRootVisible(View.VISIBLE);
+        inputBoxLayout.setEmotion_layVisible(View.GONE);
     }
 
     @OnClick({R.id.back, R.id.head_image, R.id.delete, R.id.praise, R.id.comment, R.id.emotion, R.id.send})
@@ -238,19 +229,14 @@ public class DetailsActivity extends BaseActivity {
             case R.id.praise:
                 break;
             case R.id.comment:
-                commentInput.setFocusable(true);
-                commentInput.setFocusableInTouchMode(true);
-                commentInput.requestFocus();
-                InputMethodManager imm = (InputMethodManager) DetailsActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                commentInput.setFocusable(true);
+//                commentInput.setFocusableInTouchMode(true);
+//                commentInput.requestFocus();
+//                InputMethodManager imm = (InputMethodManager) DetailsActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                inputBoxLayout.showOrHideLayout(true);
                 break;
-            case R.id.emotion:
-                break;
-            case R.id.send:
-                InputMethodManager imm2 = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm2.hideSoftInputFromWindow(commentInput.getWindowToken(), 0);
-                commentInput.setText("");
-                break;
+
         }
     }
 

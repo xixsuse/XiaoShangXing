@@ -23,12 +23,13 @@ public class EmotionGrideViewAdapter extends BaseAdapter {
 	/** 上下文 */
 	private Context ctx;
 
-	private InputActivity activity;
+//	private InputActivity activity;
 	private HashMap<String, Integer> hashMap = new HashMap<>();
 	private List<EmojiBean> list=new ArrayList<EmojiBean>();
-	public EmotionGrideViewAdapter(Context ctx, InputActivity activity) {
+	private callBack mcallBack;
+	public EmotionGrideViewAdapter(Context ctx/*, InputActivity activity*/) {
 		this.ctx = ctx;
-		this.activity=activity;
+//		this.activity=activity;
 		hashMap= DefQqEmoticons.sQqEmoticonHashMap;
 		Iterator iterator=hashMap.entrySet().iterator();
 		while (iterator.hasNext()){
@@ -68,7 +69,10 @@ public class EmotionGrideViewAdapter extends BaseAdapter {
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				activity.inputEmot(iconName);
+				if (mcallBack!=null){
+					mcallBack.callback(iconName);
+				}
+//				activity.inputEmot(iconName);
 			}
 		});
 		return view;
@@ -78,7 +82,14 @@ public class EmotionGrideViewAdapter extends BaseAdapter {
 		return list;
 	}
 
+	public void setMcallBack(callBack mcallBack) {
+		this.mcallBack = mcallBack;
+	}
+
 	public void setList(List<EmojiBean> list) {
 		this.list = list;
+	}
+	public static interface callBack{
+		void callback(String emot);
 	}
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">test</string>
+    <string name="app_name">校上行</string>
 
     <!--登录注册相关-->
     <string name="login">登录</string>
@@ -249,6 +249,7 @@
     <string name="sayhello">打个招呼</string>
     <string name="focus">留心</string>
     <string name="dynamic">动态</string>
-    <string name="more">更多</string>
+
+    <string name="select_person">选择联系人</string>
 
 </resources>

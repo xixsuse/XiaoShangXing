@@ -6,12 +6,12 @@
     android:orientation="vertical">
 
     <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
-        android:id="@+id/item_grida_image"
-        android:layout_width="@dimen/x228"
-        android:layout_height="@dimen/x228"
+        android:id="@+id/image"
+        android:layout_width="@dimen/x84"
+        android:layout_height="@dimen/x84"
         android:scaleType="centerCrop"
         android:src="@mipmap/greyblock"
-        app:corner_radius="6dp">
+        app:corner_radius="4dp">
     </com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>
 
 </LinearLayout>

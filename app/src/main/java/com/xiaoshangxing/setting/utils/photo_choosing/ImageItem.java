@@ -58,7 +58,14 @@ public class ImageItem implements Serializable {
 	public void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
-	
-	
-	
+
+	@Override
+	public boolean equals(Object o) {
+		ImageItem imageItem=(ImageItem)o;
+		if (imageItem.getImagePath().equals(getImagePath())){
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

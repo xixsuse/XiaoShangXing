@@ -1,6 +1,8 @@
 package com.xiaoshangxing.input_activity.EmotAndPicture;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,6 +13,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionEdittext.DefQqEmoticons;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmojiBean;
 import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.input_activity.check_photo.ReviewPictureActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,20 +25,12 @@ public class ShowSelectPictureAdapter extends BaseAdapter {
 
 	/** 上下文 */
 	private Context ctx;
-
+	private List<String> list=new ArrayList<String>();
 	private InputActivity activity;
-	private HashMap<String, Integer> hashMap = new HashMap<>();
-	private List<EmojiBean> list=new ArrayList<EmojiBean>();
 	public ShowSelectPictureAdapter(Context ctx, InputActivity activity) {
 		this.ctx = ctx;
 		this.activity=activity;
-		hashMap= DefQqEmoticons.sQqEmoticonHashMap;
-		Iterator iterator=hashMap.entrySet().iterator();
-		while (iterator.hasNext()){
-			Map.Entry entry=(Map.Entry)iterator.next();
-			EmojiBean bean=new EmojiBean((int)entry.getValue(),(String)entry.getKey());
-			list.add(bean);
-		}
+		this.list=activity.getSelect_image_urls();
 	}
 
 	@Override
@@ -57,28 +52,30 @@ public class ShowSelectPictureAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = View.inflate(ctx, R.layout.item_imageview_84, null);
-		ImageView imageView = (ImageView) view.findViewById(R.id.iv_image);
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		View view = View.inflate(ctx, R.layout.item_rounde_84_4, null);
+		ImageView imageView = (ImageView) view.findViewById(R.id.image);
 		Glide.with(ctx).
-				load(list.get(position).icon)
+				load(list.get(position))
 				.animate(R.anim.fade_in)
 				.into(imageView);
-		final String iconName=list.get(position).emoji;
+
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				activity.inputEmot(iconName);
+				Intent intent=new Intent(ctx, ReviewPictureActivity.class);
+				intent.putExtra(ReviewPictureActivity.EXTRA_IMAGE_INDEX,position);
+				intent.putExtra(ReviewPictureActivity.EXTRA_IMAGE_URLS,(ArrayList<String>)list);
+				activity.startActivityForResult(intent,InputActivity.REVIEW_PHOTO);
 			}
 		});
+
 		return view;
 	}
 
-	public List<EmojiBean> getList() {
-		return list;
+	public void refresh(){
+		list=activity.getSelect_image_urls();
+		notifyDataSetChanged();
 	}
 
-	public void setList(List<EmojiBean> list) {
-		this.list = list;
-	}
 }

@@ -123,7 +123,7 @@
                     android:visibility="invisible"
                     android:id="@+id/checkbox"
                     android:button="@null"
-                    android:background="@drawable/selector_myhelp"
+                    android:background="@drawable/selector_myhelp_more"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginBottom="@dimen/y12"

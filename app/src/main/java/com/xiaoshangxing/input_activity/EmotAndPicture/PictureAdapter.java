@@ -26,8 +26,7 @@ import java.util.List;
 public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHolder> {
     private Context context;
     private List<String> list = new ArrayList<String>();
-    private List<Integer> selectPosition=new ArrayList<Integer>();
-    private List<String> selectPhoto=new ArrayList<String>();
+    private List<String> select_image_urls =new ArrayList<String>();
 
     private InputActivity activity;
 
@@ -35,6 +34,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
         this.context = context;
         this.list = list;
         this.activity=activity;
+        select_image_urls =activity.getSelect_image_urls();
     }
 
     @Override
@@ -55,7 +55,13 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
                 .animate(R.anim.fade_in)
                 .into(holder.imageView);
 
-        if (selectPosition.contains(position)){
+//        if (selectPosition.contains(position)){
+//            holder.checkBox.setChecked(true);
+//        }else {
+//            holder.checkBox.setChecked(false);
+//        }
+
+        if (select_image_urls.contains(list.get(position))){
             holder.checkBox.setChecked(true);
         }else {
             holder.checkBox.setChecked(false);
@@ -65,16 +71,17 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 if (holder.checkBox.isChecked()){
-                    if (selectPosition.size()>=9){
+                    if (select_image_urls.size()>=9){
                         Toast.makeText(context, "最多只能选择九张图片", Toast.LENGTH_SHORT).show();
                         holder.checkBox.setChecked(false);
                     }else {
-                        selectPosition.add(position);
+//                        selectPosition.add(position);
+                        select_image_urls.add(list.get(position));
                     }
 
                 }else {
-                    if (selectPosition.contains(position)){
-                        selectPosition.remove(position);
+                    if (select_image_urls.contains(list.get(position))){
+                        select_image_urls.remove(list.get(position));
                     }
                 }
                 activity.setSelectCount(getSelectCount());
@@ -86,11 +93,11 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
             public void onClick(View v) {
                 Intent intent=new Intent(context,inputSelectPhotoPagerActivity.class);
                 ArrayList<String> urls=(ArrayList<String>) list;
-                ArrayList<Integer> selected=(ArrayList<Integer>) selectPosition;
+                ArrayList<String> selected=(ArrayList<String>) select_image_urls;
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, urls);
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
                 intent.putExtra(inputSelectPhotoPagerActivity.SELECT_PICTURE, selected);
-                activity.startActivityForResult(intent,InputActivity.SELECT_PHOTO_RESULT);
+                activity.startActivityForResult(intent,InputActivity.SELECT_PHOTO_RESULT_1);
             }
         });
 
@@ -102,14 +109,19 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
         return list.size();
     }
 
-    public void setSelectPosition(ArrayList<Integer> select){
-        selectPosition=select;
-        activity.setSelectCount(getSelectCount());
-        notifyDataSetChanged();
-    }
 
     public int getSelectCount(){
-        return selectPosition.size();
+        return select_image_urls.size();
+    }
+
+    public List<String> getSelect_image_urls() {
+        return select_image_urls;
+    }
+
+    public void setSelect_image_urls(List<String> select_image_urls) {
+        this.select_image_urls = select_image_urls;
+        notifyDataSetChanged();
+        activity.setSelectCount(getSelectCount());
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -121,4 +133,6 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
             super(view);
         }
     }
+
+
 }
