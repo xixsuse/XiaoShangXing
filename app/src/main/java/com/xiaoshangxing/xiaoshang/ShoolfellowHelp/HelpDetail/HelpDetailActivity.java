@@ -3,6 +3,7 @@ package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.LocationUtil;
@@ -244,7 +246,10 @@ public class HelpDetailActivity extends BaseActivity {
             case R.id.transmit:
                 break;
             case R.id.comment:
-                showInputBox(true);
+//                showInputBox(true);
+                Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
+                intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+                startActivity(intent);
                 break;
             case R.id.praise:
                 PraiseOrCancel();
@@ -348,6 +353,10 @@ public class HelpDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(HelpDetailActivity.this, "分享到xsx", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
+                intent.putExtra(InputActivity.EDIT_STATE, InputActivity.TRANSMIT);
+                intent.putExtra(InputActivity.TRANSMIT_TYPE, InputActivity.SHOOLFELLOW_HELP);
+                startActivity(intent);
                 dialog.dismiss();
             }
         });

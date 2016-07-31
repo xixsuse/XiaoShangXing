@@ -3,6 +3,7 @@ package com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -24,9 +25,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.LocationUtil;
@@ -244,7 +245,10 @@ public class RewardDetailActivity extends BaseActivity implements RewardContract
             case R.id.transmit:
                 break;
             case R.id.comment:
-                showInputBox(true);
+//                showInputBox(true);
+                Intent comment_input=new Intent(RewardDetailActivity.this,InputActivity.class);
+                comment_input.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
+                startActivity(comment_input);
                 break;
             case R.id.praise:
                 PraiseOrCancel();
@@ -347,7 +351,10 @@ public class RewardDetailActivity extends BaseActivity implements RewardContract
         xsx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(RewardDetailActivity.this, "分享到xsx", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RewardDetailActivity.this, InputActivity.class);
+                intent.putExtra(InputActivity.EDIT_STATE, InputActivity.TRANSMIT);
+                intent.putExtra(InputActivity.TRANSMIT_TYPE, InputActivity.SHOOL_REWARD);
+                startActivity(intent);
                 dialog.dismiss();
             }
         });

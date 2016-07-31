@@ -31,6 +31,7 @@ import butterknife.OnClick;
  */
 public class inputSelectPhotoPagerActivity extends FragmentActivity {
     private static final String STATE_POSITION = "STATE_POSITION";
+    public static final String LIMIT = "LIMIT";
     public static final String EXTRA_IMAGE_INDEX = "image_index";
     public static final String EXTRA_IMAGE_URLS = "image_urls";
     public static final String SELECT_PICTURE = "select_picture";
@@ -58,6 +59,7 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
     //    private List<Integer> selectPosition=new ArrayList<Integer>();
     private List<String> select_image_urls = new ArrayList<String>();
     private int currentItem;
+    private int limit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
         setContentView(R.layout.image_detail_select);
         ButterKnife.bind(this);
 
+        limit=getIntent().getIntExtra(LIMIT,9);
 
         pagerPosition = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
         urls = getIntent().getStringArrayListExtra(EXTRA_IMAGE_URLS);
@@ -82,8 +85,8 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (checkbox.isChecked()){
-                    if (select_image_urls.size() >= 9) {
-                        Toast.makeText(inputSelectPhotoPagerActivity.this, "最多只能选择九张图片", Toast.LENGTH_SHORT).show();
+                    if (select_image_urls.size() >= limit) {
+                        Toast.makeText(inputSelectPhotoPagerActivity.this, "最多只能选择"+limit+"张图片", Toast.LENGTH_SHORT).show();
                         checkbox.setChecked(false);
                     }else {
                         select_image_urls.add(urls.get(currentItem));

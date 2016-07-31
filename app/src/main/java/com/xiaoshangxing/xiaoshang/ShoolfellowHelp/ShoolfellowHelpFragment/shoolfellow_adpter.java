@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.login_register.StartActivity.StartActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 
@@ -91,7 +93,10 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
                 transmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Intent intent=new Intent(context, InputActivity.class);
+                        intent.putExtra(InputActivity.EDIT_STATE,InputActivity.TRANSMIT);
+                        intent.putExtra(InputActivity.TRANSMIT_TYPE,InputActivity.SHOOLFELLOW_HELP);
+                        context.startActivity(intent);
                         popupWindow.dismiss();
                     }
                 });

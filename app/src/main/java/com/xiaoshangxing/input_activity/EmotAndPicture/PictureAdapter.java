@@ -27,6 +27,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
     private Context context;
     private List<String> list = new ArrayList<String>();
     private List<String> select_image_urls =new ArrayList<String>();
+    private int limit=9;
 
     private InputActivity activity;
 
@@ -35,6 +36,9 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
         this.list = list;
         this.activity=activity;
         select_image_urls =activity.getSelect_image_urls();
+        if (activity.current_state==InputActivity.XIANZHI){
+            limit=3;
+        }
     }
 
     @Override
@@ -71,8 +75,8 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 if (holder.checkBox.isChecked()){
-                    if (select_image_urls.size()>=9){
-                        Toast.makeText(context, "最多只能选择九张图片", Toast.LENGTH_SHORT).show();
+                    if (select_image_urls.size()>=limit){
+                        Toast.makeText(context, "最多只能选择"+limit+"张图片", Toast.LENGTH_SHORT).show();
                         holder.checkBox.setChecked(false);
                     }else {
 //                        selectPosition.add(position);
@@ -97,6 +101,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, urls);
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
                 intent.putExtra(inputSelectPhotoPagerActivity.SELECT_PICTURE, selected);
+                intent.putExtra(inputSelectPhotoPagerActivity.LIMIT,limit);
                 activity.startActivityForResult(intent,InputActivity.SELECT_PHOTO_RESULT_1);
             }
         });

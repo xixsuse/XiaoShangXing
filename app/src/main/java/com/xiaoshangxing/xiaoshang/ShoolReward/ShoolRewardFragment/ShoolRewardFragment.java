@@ -1,6 +1,7 @@
 package com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardFragment;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.SelectSchoolFreagment.SelectSchoolFragment;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -181,6 +183,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gotoPublish();
                 popupWindow.dismiss();
             }
         });
@@ -221,7 +224,9 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
     @Override
     public void gotoPublish() {
-
+        Intent intent=new Intent(getContext(), InputActivity.class);
+        intent.putExtra(InputActivity.EDIT_STATE,InputActivity.SHOOL_REWARD);
+        startActivity(intent);
     }
 
     @Override

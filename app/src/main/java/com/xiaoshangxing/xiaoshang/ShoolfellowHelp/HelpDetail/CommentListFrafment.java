@@ -1,5 +1,6 @@
 package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 
@@ -73,11 +75,19 @@ public class CommentListFrafment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (isCollect){
-                        RewardDetailActivity activity=(RewardDetailActivity) getActivity();
-                        activity.showOrHideInputBox();
+//                        RewardDetailActivity activity=(RewardDetailActivity) getActivity();
+//                        activity.showOrHideInputBox();
+                        Intent comment_input=new Intent(getContext(),InputActivity.class);
+                        comment_input.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
+                        comment_input.putExtra(InputActivity.COMMENT_OBJECT,"校上行");
+                        startActivity(comment_input);
                     }else {
-                        HelpDetailActivity activity=(HelpDetailActivity) getActivity();
-                        activity.showOrHideInputBox();
+//                        HelpDetailActivity activity=(HelpDetailActivity) getActivity();
+//                        activity.showOrHideInputBox();
+                        Intent comment_input=new Intent(getContext(),InputActivity.class);
+                        comment_input.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
+                        comment_input.putExtra(InputActivity.COMMENT_OBJECT,"校上行");
+                        startActivity(comment_input);
                     }
 
 

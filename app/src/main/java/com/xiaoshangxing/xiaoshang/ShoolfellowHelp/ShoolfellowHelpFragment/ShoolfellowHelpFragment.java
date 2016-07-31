@@ -1,5 +1,6 @@
 package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
@@ -168,6 +170,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                gotoPublish();
                 popupWindow.dismiss();
             }
         });
@@ -184,7 +187,9 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
     @Override
     public void gotoPublish() {
-
+        Intent intent=new Intent(getContext(), InputActivity.class);
+        intent.putExtra(InputActivity.EDIT_STATE,InputActivity.SHOOLFELLOW_HELP);
+        startActivity(intent);
     }
 
     @Override

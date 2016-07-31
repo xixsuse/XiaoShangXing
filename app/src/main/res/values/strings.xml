@@ -251,5 +251,6 @@
     <string name="dynamic">动态</string>
 
     <string name="select_person">选择联系人</string>
+    <string name="plan_name">计划名称:</string>
 
 </resources>

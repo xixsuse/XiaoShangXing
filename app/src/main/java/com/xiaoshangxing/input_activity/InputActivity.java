@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -30,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
@@ -37,13 +39,18 @@ import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.PictureAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.ShowSelectPictureAdapter;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
+import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
+import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
+import com.xiaoshangxing.setting.utils.city_choosing.WheelView;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
 import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
+import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.utils.photoChoosing.PhotoChoosingActivity;
@@ -109,6 +116,46 @@ public class InputActivity extends BaseActivity {
     LinearLayout pictureLay;
     @Bind(R.id.show_select)
     GridView showSelect;
+    @Bind(R.id.people_limit)
+    EditText peopleLimit;
+    @Bind(R.id.time_limit)
+    EditText timeLimit;
+    @Bind(R.id.people_time_limit_lay)
+    LinearLayout peopleTimeLimitLay;
+    @Bind(R.id.plan_name)
+    EditText planName;
+    @Bind(R.id.plan_name_count)
+    TextView planNameCount;
+    @Bind(R.id.plan_name_lay)
+    LinearLayout planNameLay;
+    @Bind(R.id.select_location)
+    WheelView selectLocation;
+    @Bind(R.id.select_location_imag)
+    ImageView selectLocationImag;
+    @Bind(R.id.selected_location)
+    TextView selectedLocation;
+    @Bind(R.id.price)
+    EditText price;
+    @Bind(R.id.select_location_imag1)
+    RoundedImageView selectLocationImag1;
+    @Bind(R.id.select_location_imag2)
+    RoundedImageView selectLocationImag2;
+    @Bind(R.id.select_location_imag3)
+    RoundedImageView selectLocationImag3;
+    @Bind(R.id.xianzhi_lay)
+    RelativeLayout xianzhiLay;
+    @Bind(R.id.transmit_type_image)
+    CirecleImage transmitTypeImage;
+    @Bind(R.id.transmit_type_text)
+    TextView transmitTypeText;
+    @Bind(R.id.transmit_content)
+    TextView transmitContent;
+    @Bind(R.id.transmit_lay)
+    LinearLayout transmitLay;
+    @Bind(R.id.reward_price)
+    EditText rewardPrice;
+    @Bind(R.id.reward_lay)
+    LinearLayout rewardLay;
     private List<View> viewlist = new ArrayList<View>();
     private List<String> iamgeurls = new ArrayList<String>();
     private List<String> select_image_urls = new ArrayList<String>();
@@ -127,6 +174,20 @@ public class InputActivity extends BaseActivity {
     public static int REVIEW_PHOTO = 40000;
     public static String SELECT_IMAGE_URLS = "select_image_urls";
 
+    public static String EDIT_STATE = "EDIT_STATE";
+    public int current_state;                 //当前处于的发布状态
+    public static final int PUBLISH_STATE = 80001;    //发布动态
+    public static final int SHOOLFELLOW_HELP = 80002; //发布校友互帮
+    public static final int SHOOL_REWARD = 80003; //发布校内悬赏
+    public static final int LANCH_PLAN = 80004; //发布计划
+    public static final int XIANZHI = 80005; //发布闲置
+    public static final int TRANSMIT = 80006; //转发
+    public static final int COMMENT = 80007; //评论
+    public static final String COMMENT_OBJECT = "COMMENT_OBJECT";
+
+    public static String TRANSMIT_TYPE = "TRANSMIT_TYPE";
+
+
     private int current;
     private Uri came_photo_path;
 
@@ -135,10 +196,50 @@ public class InputActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
         ButterKnife.bind(this);
+        initState();
         initEmotView();
         initShowSelect();
         initPictureView();
         initKeyboard();
+        initLocation();
+    }
+
+
+    private void initState() {
+        Intent intent = getIntent();
+        current_state = intent.getIntExtra(EDIT_STATE, 80001);
+        switch (intent.getIntExtra(EDIT_STATE, 80001)) {
+            case PUBLISH_STATE:
+                break;
+            case SHOOLFELLOW_HELP:
+                location.setVisibility(View.INVISIBLE);
+                picture.setVisibility(View.INVISIBLE);
+                camera.setVisibility(View.INVISIBLE);
+                emotionEdittext.setHint("输入互帮内容...");
+                break;
+            case SHOOL_REWARD:
+                emotionEdittext.setHint("输入悬赏内容...");
+                rewardLay.setVisibility(View.VISIBLE);
+                location.setVisibility(View.INVISIBLE);
+                picture.setVisibility(View.INVISIBLE);
+                camera.setVisibility(View.INVISIBLE);
+                break;
+            case LANCH_PLAN:
+                initLanchPlan();
+                break;
+            case XIANZHI:
+                emotionEdittext.setHint("输入闲置内容...");
+                showSelect.setVisibility(View.GONE);
+                xianzhiLay.setVisibility(View.VISIBLE);
+                location.setVisibility(View.GONE);
+                break;
+            case TRANSMIT:
+                initTransmit();
+                break;
+            case COMMENT:
+                initComment();
+                break;
+        }
     }
 
     private void initEmotView() {
@@ -266,7 +367,131 @@ public class InputActivity extends BaseActivity {
     private void initShowSelect() {
         showSelectPictureAdapter = new ShowSelectPictureAdapter(this, this);
         showSelect.setAdapter(showSelectPictureAdapter);
+        switch (select_image_urls.size()) {
+            case 1:
+                Glide.with(this).
+                        load(select_image_urls.get(0))
+                        .animate(R.anim.fade_in)
+                        .into(selectLocationImag1);
+                selectLocationImag2.setImageResource(R.mipmap.greyblock);
+                selectLocationImag3.setImageResource(R.mipmap.greyblock);
+                break;
+            case 2:
+                Glide.with(this).
+                        load(select_image_urls.get(0))
+                        .animate(R.anim.fade_in)
+                        .into(selectLocationImag1);
+                Glide.with(this).
+                        load(select_image_urls.get(1))
+                        .animate(R.anim.fade_in)
+                        .into(selectLocationImag2);
+                selectLocationImag3.setImageResource(R.mipmap.greyblock);
+                break;
+            case 3:
+                Glide.with(this).
+                        load(select_image_urls.get(0))
+                        .animate(R.anim.fade_in)
+                        .into(selectLocationImag1);
+                Glide.with(this).
+                        load(select_image_urls.get(1))
+                        .animate(R.anim.fade_in)
+                        .into(selectLocationImag2);
+                Glide.with(this).
+                        load(select_image_urls.get(2))
+                        .animate(R.anim.fade_in)
+                        .into(selectLocationImag3);
+                break;
+        }
+
+
         reset();
+    }
+
+    private void initLanchPlan() {
+        emotionEdittext.setHint("输入计划内容...");
+        planNameLay.setVisibility(View.VISIBLE);
+        peopleTimeLimitLay.setVisibility(View.VISIBLE);
+        location.setVisibility(View.INVISIBLE);
+        picture.setVisibility(View.INVISIBLE);
+        camera.setVisibility(View.INVISIBLE);
+        planName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int i = s.length();
+                planNameCount.setText("" + (10 - i));
+            }
+        });
+    }
+
+    private void initLocation() {
+        final String[] location = new String[10];
+        for (int i = 0; i < 10; i++) {
+            location[i] = "园区" + i;
+        }
+        selectLocation.setViewAdapter(new ArrayWheelAdapter<String>(this, location));
+        selectLocation.setVisibleItems(6);
+        selectLocation.addChangingListener(new OnWheelChangedListener() {
+            @Override
+            public void onChanged(WheelView wheel, int oldValue, int newValue) {
+                selectedLocation.setText(location[newValue]);
+            }
+        });
+        selectedLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectLocationImag.performClick();
+            }
+        });
+    }
+
+    private void initTransmit() {
+        emotionEdittext.setHint("顺便说点什么...");
+        location.setVisibility(View.INVISIBLE);
+        picture.setVisibility(View.INVISIBLE);
+        camera.setVisibility(View.INVISIBLE);
+        transmitLay.setVisibility(View.VISIBLE);
+        int type = getIntent().getIntExtra(TRANSMIT_TYPE, 0);
+        switch (type) {
+            case SHOOLFELLOW_HELP:
+                transmitTypeImage.setImageResource(R.mipmap.shool_help_log);
+                transmitTypeText.setText("校友互帮|");
+                break;
+            case SHOOL_REWARD:
+                transmitTypeImage.setImageResource(R.mipmap.school_reward_log);
+                transmitTypeText.setText("校内悬赏|");
+                break;
+            case LANCH_PLAN:
+                transmitTypeImage.setImageResource(R.mipmap.launch_plan_log);
+                transmitTypeText.setText("计划发起|");
+                break;
+            case XIANZHI:
+                transmitTypeImage.setImageResource(R.mipmap.xianzhi_log);
+                transmitTypeText.setText("闲置出售|");
+                break;
+        }
+    }
+
+    private void initComment() {
+        emotionEdittext.setHint("输入评论内容...");
+        location.setVisibility(View.INVISIBLE);
+        picture.setVisibility(View.INVISIBLE);
+        camera.setVisibility(View.INVISIBLE);
+        noticeSomeone.setVisibility(View.INVISIBLE);
+        forbidSomeone.setVisibility(View.INVISIBLE);
+        String text = getIntent().getStringExtra(COMMENT_OBJECT);
+        if (!TextUtils.isEmpty(text)) {
+            emotionEdittext.setHint("回复" + text);
+        }
     }
 
     private void selectItem(int position) {
@@ -317,12 +542,14 @@ public class InputActivity extends BaseActivity {
                     KeyBoardUtils.openKeybord(emotionEdittext, this);
                     emotion.setSelected(false);
                     picture.setSelected(false);
+                    selectLocation.setVisibility(View.GONE);
                     current = 0;
                 } else {
                     pictureLay.setVisibility(View.GONE);
                     emotLay.setVisibility(View.VISIBLE);
                     emotion.setSelected(true);
                     picture.setSelected(false);
+                    selectLocation.setVisibility(View.GONE);
                     KeyBoardUtils.closeKeybord(emotionEdittext, this);
                     current = 1;
                 }
@@ -332,12 +559,14 @@ public class InputActivity extends BaseActivity {
                     KeyBoardUtils.openKeybord(emotionEdittext, this);
                     picture.setSelected(false);
                     emotion.setSelected(false);
+                    selectLocation.setVisibility(View.GONE);
                     current = 0;
                 } else {
                     pictureLay.setVisibility(View.VISIBLE);
                     emotLay.setVisibility(View.GONE);
                     emotion.setSelected(false);
                     picture.setSelected(true);
+                    selectLocation.setVisibility(View.GONE);
                     KeyBoardUtils.closeKeybord(emotionEdittext, this);
                     current = 2;
                 }
@@ -368,7 +597,8 @@ public class InputActivity extends BaseActivity {
 
     @OnClick({R.id.emotion_edittext, R.id.delete, R.id.emotion, R.id.notice_someone,
             R.id.forbid_someone, R.id.location, R.id.picture, R.id.camera, R.id.send,
-            R.id.normal_emot, R.id.favorite, R.id.delete_emot, R.id.album, R.id.complete})
+            R.id.normal_emot, R.id.favorite, R.id.delete_emot, R.id.album, R.id.complete,
+            R.id.select_location_imag})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.emotion_edittext:
@@ -413,6 +643,14 @@ public class InputActivity extends BaseActivity {
             case R.id.complete:
                 setSelect_image_urls(adapter.getSelect_image_urls());
                 break;
+            case R.id.select_location_imag:
+                pictureLay.setVisibility(View.GONE);
+                emotLay.setVisibility(View.GONE);
+                selectLocation.setVisibility(View.VISIBLE);
+                emotion.setSelected(false);
+                picture.setSelected(false);
+                KeyBoardUtils.closeKeybord(emotionEdittext, this);
+                break;
         }
     }
 
@@ -438,8 +676,8 @@ public class InputActivity extends BaseActivity {
                 getResources().getDimensionPixelSize(R.dimen.x780));
     }
 
-    public void gotoSelectPerson(){
-        Intent intent=new Intent(InputActivity.this, SelectPersonActivity.class);
+    public void gotoSelectPerson() {
+        Intent intent = new Intent(InputActivity.this, SelectPersonActivity.class);
         startActivity(intent);
     }
 
@@ -483,7 +721,7 @@ public class InputActivity extends BaseActivity {
      * @param intent
      * @return
      */
-    public Uri geturi(android.content.Intent intent) {
+    public Uri geturi(Intent intent) {
         Uri uri = intent.getData();
         String type = intent.getType();
         if (uri.getScheme().equals("file") && (type.contains("image/"))) {
@@ -564,6 +802,10 @@ public class InputActivity extends BaseActivity {
             return super.onKeyDown(keyCode, event);
         }
 
+    }
+
+    @OnClick(R.id.select_location_imag)
+    public void onClick() {
     }
 }
 
