@@ -1,5 +1,6 @@
 package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
@@ -80,7 +83,7 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         View view = new View(getContext());
         listview.addHeaderView(view);
 
-        adpter = new myshoolfellow_adpter(getContext(), 1, list, this);
+        adpter = new myshoolfellow_adpter(getContext(), 1, list, this,(ShoolfellowHelpActivity)getActivity());
         listview.setAdapter(adpter);
 
 
@@ -147,6 +150,13 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         }
     }
 
+    private void gotoSelectPerson(){
+        ShoolfellowHelpActivity activity=(ShoolfellowHelpActivity)getActivity();
+        Intent intent=new Intent(getContext(), SelectPersonActivity.class);
+        intent.putExtra(SelectPersonActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_HELP_TRANSMIT);
+        activity.startActivityForResult(intent,ShoolfellowHelpActivity.SELECTPERSON);
+    }
+
     public void showDeleteSureDialog() {
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
         dialogMenu2.addMenuItem("删除");
@@ -185,6 +195,7 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
             case R.id.hide_trasmit:
                 adpter.showSelectCircle(false);
                 showHideMenu(false);
+                gotoSelectPerson();
                 break;
             case R.id.hide_delete:
                 adpter.showSelectCircle(false);

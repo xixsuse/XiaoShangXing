@@ -15,8 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment.ShoolfellowHelpFragment;
 
 import java.util.List;
@@ -31,15 +34,17 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
     List<String> strings;
     private MyShoolHelpFragment fragment;
     private boolean showselect;
+    private ShoolfellowHelpActivity activity;
 
 
     public myshoolfellow_adpter(Context context, int resource, List<String> objects,
-                                MyShoolHelpFragment fragment  ) {
+                                MyShoolHelpFragment fragment,ShoolfellowHelpActivity activity  ) {
         super(context, resource, objects);
         this.context = context;
         this.strings = objects;
         this.resource = resource;
         this.fragment=fragment;
+        this.activity=activity;
     }
 
     @Override
@@ -142,6 +147,9 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
         transmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent=new Intent(getContext(), SelectPersonActivity.class);
+                intent.putExtra(SelectPersonActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_HELP_TRANSMIT);
+                activity.startActivityForResult(intent,ShoolfellowHelpActivity.SELECTPERSON);
                 popupWindow.dismiss();
             }
         });

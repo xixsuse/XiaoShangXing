@@ -25,15 +25,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.CommentListFrafment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.DepthPageTransformer;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.FixedSpeedScroller;
@@ -243,11 +247,14 @@ public class RewardDetailActivity extends BaseActivity implements RewardContract
                 viewpager.setCurrentItem(2);
                 break;
             case R.id.transmit:
+                Intent intent=new Intent(RewardDetailActivity.this, SelectPersonActivity.class);
+                intent.putExtra(SelectPersonActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_REWARD_TRANSMIT);
+                startActivityForResult(intent,ShoolRewardActivity.SELECT_PERSON);
                 break;
             case R.id.comment:
 //                showInputBox(true);
-                Intent comment_input=new Intent(RewardDetailActivity.this,InputActivity.class);
-                comment_input.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
+                Intent comment_input = new Intent(RewardDetailActivity.this, InputActivity.class);
+                comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
                 startActivity(comment_input);
                 break;
             case R.id.praise:
@@ -400,5 +407,52 @@ public class RewardDetailActivity extends BaseActivity implements RewardContract
     @Override
     public void setmPresenter(@Nullable RewardContract.Presenter presenter) {
 
+    }
+
+    private void showTransmitDialog() {
+        final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
+        View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
+        dialog.setContentView(dialogView);
+        TextView cancle = (TextView) dialogView.findViewById(R.id.cancel);
+        TextView send = (TextView) dialogView.findViewById(R.id.send);
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogUtils.Dialog_No_Button dialog_no_button =
+                        new DialogUtils.Dialog_No_Button(RewardDetailActivity.this, "已分享");
+                final Dialog notice_dialog = dialog_no_button.create();
+                notice_dialog.show();
+                LocationUtil.setWidth(RewardDetailActivity.this, notice_dialog,
+                        getResources().getDimensionPixelSize(R.dimen.x420));
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        notice_dialog.dismiss();
+                    }
+                }, 500);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ShoolRewardActivity.SELECT_PERSON) {
+            if (data!=null){
+                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
+                    showTransmitDialog();
+                } else {
+                    Toast.makeText(RewardDetailActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 }

@@ -59,9 +59,6 @@
             android:layout_above="@+id/select_lay" />
     </LinearLayout>
 
-
-
-
     <!--选择栏-->
     <LinearLayout
         android:id="@+id/select_lay"
@@ -528,8 +525,5 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
-
-
-
 
 </RelativeLayout>

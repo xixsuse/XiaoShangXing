@@ -1,21 +1,21 @@
 package com.xiaoshangxing.SelectPerson;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +27,11 @@ import java.util.List;
  */
 public class SelectPersonActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = BaseActivity.TAG + "-SelectPersonActivity";
-
+    public static final String TRANSMIT_TYPE="TRANSMIT_TYPE";
+    public static final String SELECT_PERSON="SELECT_PERSON";
+    public static final int SCHOOL_HELP_TRANSMIT=80001;
+    public static final int SCHOOL_REWARD_TRANSMIT=80002;
+    private int current_type;
     private ListView sortListView;
     private SideBar sideBar;
     private TextView dialog;
@@ -109,6 +113,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         adapter = new SortAdapter(this, SourceDateList,limit,this);
         sortListView.setAdapter(adapter);
 
+        current_type=getIntent().getIntExtra(TRANSMIT_TYPE,SCHOOL_HELP_TRANSMIT);
     }
 
 
@@ -210,7 +215,23 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.sure:
+                sure();
+                finish();
+                break;
+        }
+    }
 
+    private void sure(){
+        switch (current_type){
+            case SCHOOL_HELP_TRANSMIT:
+                Intent help_intent=new Intent();
+                help_intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
+                setResult(ShoolfellowHelpActivity.SELECTPERSON,help_intent);
+                break;
+            case SCHOOL_REWARD_TRANSMIT:
+                Intent reward_intent=new Intent();
+                reward_intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
+                setResult(ShoolRewardActivity.SELECT_PERSON,reward_intent);
                 break;
         }
     }

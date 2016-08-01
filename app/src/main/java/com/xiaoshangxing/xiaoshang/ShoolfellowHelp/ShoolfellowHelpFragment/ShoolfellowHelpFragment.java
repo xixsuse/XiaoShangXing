@@ -1,5 +1,6 @@
 package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -74,7 +75,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         for (int i = 0; i <= 10; i++) {
             list.add("" + i);
         }
-        adpter = new shoolfellow_adpter(getContext(), 1, list, this);
+        adpter = new shoolfellow_adpter(getContext(), 1, list, this,(ShoolfellowHelpActivity)getActivity());
         listview.setAdapter(adpter);
 
         headview = View.inflate(getContext(), R.layout.headview_help_list, null);
@@ -183,8 +184,6 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         });
     }
 
-
-
     @Override
     public void gotoPublish() {
         Intent intent=new Intent(getContext(), InputActivity.class);
@@ -210,6 +209,8 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     public void toastErro() {
 
     }
+
+
 
     @Override
     public void setmPresenter(@Nullable ShoolHelpContract.Presenter presenter) {

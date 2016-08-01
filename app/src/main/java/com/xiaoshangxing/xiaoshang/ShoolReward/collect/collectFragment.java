@@ -61,6 +61,7 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
     private collect_adpter adpter;
     private List<String> list = new ArrayList<String>();
     private View view;
+    private ShoolRewardActivity activity;
 
     @Nullable
     @Override
@@ -80,15 +81,14 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
         View view = new View(getContext());
         listview.addHeaderView(view);
 
-        adpter = new collect_adpter(getContext(), 1, list, this);
+        activity=(ShoolRewardActivity)getActivity();
+        adpter = new collect_adpter(getContext(), 1, list, this,activity);
         listview.setAdapter(adpter);
 
         title.setText("收藏");
     }
 
     private void showMenu(View v) {
-
-
     }
 
     private void initFresh() {
@@ -222,6 +222,7 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
             case R.id.hide_trasmit:
                 adpter.showSelectCircle(false);
                 showHideMenu(false);
+                activity.gotoSelectPerson();
                 break;
             case R.id.hide_delete:
                 adpter.showSelectCircle(false);

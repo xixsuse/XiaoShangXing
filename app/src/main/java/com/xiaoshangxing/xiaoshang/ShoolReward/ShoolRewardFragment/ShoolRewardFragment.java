@@ -84,7 +84,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         for (int i = 0; i <= 10; i++) {
             list.add("" + i);
         }
-        adpter = new shoolreward_adpter(getContext(), 1, list, this);
+        adpter = new shoolreward_adpter(getContext(), 1, list,this, (ShoolRewardActivity)getActivity());
         listview.setAdapter(adpter);
 
         headview = View.inflate(getContext(), R.layout.headview_help_list, null);
@@ -93,8 +93,6 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         dotsTextView.start();
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
-
-
     }
 
     private void initFresh() {

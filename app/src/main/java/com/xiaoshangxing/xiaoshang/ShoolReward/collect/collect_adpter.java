@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.ShoolReward.MyShoolReward.MyShoolRewardFragment;
+import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 
 import java.util.List;
 
@@ -27,15 +28,17 @@ public class collect_adpter extends ArrayAdapter<String> {
     List<String> strings;
     private CollectFragment fragment;
     private boolean showselect;
+    private ShoolRewardActivity activity;
 
 
     public collect_adpter(Context context, int resource, List<String> objects,
-                          CollectFragment fragment  ) {
+                          CollectFragment fragment,ShoolRewardActivity activity  ) {
         super(context, resource, objects);
         this.context = context;
         this.strings = objects;
         this.resource = resource;
         this.fragment=fragment;
+        this.activity=activity;
     }
 
     @Override
@@ -149,6 +152,7 @@ public class collect_adpter extends ArrayAdapter<String> {
         transmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                activity.gotoSelectPerson();
                 popupWindow.dismiss();
             }
         });

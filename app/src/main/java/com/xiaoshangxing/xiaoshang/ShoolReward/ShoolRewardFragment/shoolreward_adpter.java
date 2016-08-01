@@ -11,11 +11,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
+import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by FengChaoQun
@@ -26,15 +30,16 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
     private int resource;
     List<String> strings;
     private ShoolRewardFragment fragment;
-
+    private ShoolRewardActivity activity;
 
     public shoolreward_adpter(Context context, int resource, List<String> objects,
-                              ShoolRewardFragment fragment) {
+                              ShoolRewardFragment fragment,ShoolRewardActivity activity) {
         super(context, resource, objects);
         this.context = context;
         this.strings = objects;
         this.resource = resource;
         this.fragment = fragment;
+        this.activity=activity;
     }
 
     @Override
@@ -52,6 +57,7 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
             viewholder.price = (TextView) convertView.findViewById(R.id.price);
             viewholder.button = (ImageView) convertView.findViewById(R.id.button);
             viewholder.down_arrow = (ImageView) convertView.findViewById(R.id.down_arrow);
+            viewholder.finish=(ImageView)convertView.findViewById(R.id.finish);
             convertView.setTag(viewholder);
 
         } else {
@@ -101,9 +107,10 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
                 transmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, InputActivity.class);
-                        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-                        context.startActivity(intent);
+//                        Intent intent=new Intent(getContext(), SelectPersonActivity.class);
+//                        intent.putExtra(SelectPersonActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_REWARD_TRANSMIT);
+//                        activity.startActivityForResult(intent,ShoolRewardActivity.SELECT_PERSON);
+                        activity.gotoSelectPerson();
                         popupWindow.dismiss();
                     }
                 });
@@ -127,12 +134,22 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
                             praiseOrCancle.setText("赞");
                             Toast.makeText(context, "取消", Toast.LENGTH_SHORT).show();
                         }
-
                         popupWindow.dismiss();
                     }
                 });
             }
         });
+
+//        test
+        Random random=new Random();
+        int ran=random.nextInt(2);
+        if (ran==0){
+            viewholder.finish.setVisibility(View.VISIBLE);
+            viewholder.price.setTextColor(context.getResources().getColor(R.color.g0));
+        }else {
+            viewholder.finish.setVisibility(View.GONE);
+            viewholder.price.setTextColor(context.getResources().getColor(R.color.red1));
+        }
 
         return convertView;
     }
@@ -141,7 +158,7 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
     private static class mystate_viewholder {
         private CirecleImage headImage;
         private TextView name, college, time, text, price;
-        private ImageView button, down_arrow;
+        private ImageView button, down_arrow,finish;
     }
 
 

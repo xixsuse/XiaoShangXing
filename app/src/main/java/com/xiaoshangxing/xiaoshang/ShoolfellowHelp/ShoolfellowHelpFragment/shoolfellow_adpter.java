@@ -11,12 +11,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.login_register.StartActivity.StartActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by FengChaoQun
@@ -27,15 +29,17 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
     private int resource;
     List<String> strings;
     private ShoolfellowHelpFragment fragment;
+    private ShoolfellowHelpActivity activity;
 
 
     public shoolfellow_adpter(Context context, int resource, List<String> objects,
-                              ShoolfellowHelpFragment fragment) {
+                              ShoolfellowHelpFragment fragment,ShoolfellowHelpActivity activity) {
         super(context, resource, objects);
         this.context = context;
         this.strings = objects;
         this.resource = resource;
         this.fragment = fragment;
+        this.activity=activity;
     }
 
     @Override
@@ -51,6 +55,7 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
             viewholder.time = (TextView) convertView.findViewById(R.id.time);
             viewholder.text = (TextView) convertView.findViewById(R.id.text);
             viewholder.button = (ImageView) convertView.findViewById(R.id.button);
+            viewholder.finish=(ImageView)convertView.findViewById(R.id.finish);
             convertView.setTag(viewholder);
 
         } else {
@@ -93,10 +98,9 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
                 transmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(context, InputActivity.class);
-                        intent.putExtra(InputActivity.EDIT_STATE,InputActivity.TRANSMIT);
-                        intent.putExtra(InputActivity.TRANSMIT_TYPE,InputActivity.SHOOLFELLOW_HELP);
-                        context.startActivity(intent);
+                        Intent intent=new Intent(context, SelectPersonActivity.class);
+                        intent.putExtra(InputActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_HELP_TRANSMIT);
+                        activity.startActivityForResult(intent,ShoolfellowHelpActivity.SELECTPERSON);
                         popupWindow.dismiss();
                     }
                 });
@@ -126,7 +130,14 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
                 });
             }
         });
-
+//        test
+        Random random=new Random();
+        int ran=random.nextInt(2);
+        if (ran==0){
+            viewholder.finish.setVisibility(View.VISIBLE);
+        }else {
+            viewholder.finish.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
@@ -134,7 +145,7 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
     private static class mystate_viewholder {
         private CirecleImage headImage;
         private TextView name, college, time, text;
-        private ImageView button;
+        private ImageView button,finish;
     }
 
 

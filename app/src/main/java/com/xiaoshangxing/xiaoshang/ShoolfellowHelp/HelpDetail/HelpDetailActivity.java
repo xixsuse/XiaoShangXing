@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -35,6 +36,7 @@ import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -244,6 +246,9 @@ public class HelpDetailActivity extends BaseActivity {
                 viewpager.setCurrentItem(2);
                 break;
             case R.id.transmit:
+                Intent intent_selectperson=new Intent(HelpDetailActivity.this, SelectPersonActivity.class);
+                intent_selectperson.putExtra(SelectPersonActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_HELP_TRANSMIT);
+                startActivityForResult(intent_selectperson, ShoolfellowHelpActivity.SELECTPERSON);
                 break;
             case R.id.comment:
 //                showInputBox(true);
@@ -396,6 +401,40 @@ public class HelpDetailActivity extends BaseActivity {
             showInputBox(false);
         } else {
             showInputBox(true);
+        }
+    }
+
+    private void showTransmitDialog(){
+        final Dialog dialog=new Dialog(this,R.style.ActionSheetDialog);
+        View dialogView=View.inflate(this,R.layout.school_help_transmit_dialog,null);
+        dialog.setContentView(dialogView);
+        TextView cancle=(TextView) dialogView.findViewById(R.id.cancel);
+        TextView send=(TextView) dialogView.findViewById(R.id.send);
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode== ShoolfellowHelpActivity.SELECTPERSON ){
+            if (data!=null){
+                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size()>0){
+                    showTransmitDialog();
+                }else {
+                    Toast.makeText(HelpDetailActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 

@@ -63,6 +63,7 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     private myshoolreward_adpter adpter;
     private List<String> list = new ArrayList<String>();
     private View view;
+    private ShoolRewardActivity activity;
 
     @Nullable
     @Override
@@ -82,9 +83,10 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
         View view = new View(getContext());
         listview.addHeaderView(view);
 
-        adpter = new myshoolreward_adpter(getContext(), 1, list, this);
+        adpter = new myshoolreward_adpter(getContext(), 1, list, this,(ShoolRewardActivity)getActivity());
         listview.setAdapter(adpter);
 
+        activity=(ShoolRewardActivity)getActivity();
 
     }
 
@@ -220,6 +222,7 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
             case R.id.hide_trasmit:
                 adpter.showSelectCircle(false);
                 showHideMenu(false);
+                activity.gotoSelectPerson();
                 break;
             case R.id.hide_delete:
                 adpter.showSelectCircle(false);
