@@ -27,12 +27,12 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".wo.myState.myStateActivity"></activity>
         <activity
@@ -97,12 +97,15 @@
         </activity>
 
         <activity android:name=".SelectPerson.SelectPersonActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+        </activity>
+
+        <activity android:name=".xiaoshang.MessageNotice.MessageNoticeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
     </application>

@@ -43,8 +43,9 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     private RecyclerView recyclerView;
     private SelectedPersonAdapter selectedPersonAdapter;
     private List<String> selectPerson=new ArrayList<String>();
+    private int noLimit = 1000;
+    private int limit;
 
-    private int limit=10;
 
     private TextView cancel;
     private TextView sure;
@@ -52,8 +53,8 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_person);
+        limit = getIntent().getIntExtra("limit", noLimit);
         initView();
-        limit=getIntent().getIntExtra("limit",10);
         refreshCount();
     }
 
@@ -205,7 +206,12 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void refreshCount(){
-        sure.setText("确认("+selectPerson.size()+"/"+limit+")");
+        if (limit == noLimit) {
+            sure.setText("确认(" + selectPerson.size() + ")");
+        } else {
+            sure.setText("确认(" + selectPerson.size() + "/" + limit + ")");
+        }
+
     }
 
     @Override

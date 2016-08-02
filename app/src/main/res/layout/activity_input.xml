@@ -29,6 +29,7 @@
                 android:layout_weight="1"
                 style="@style/input_box"
                 android:maxLength="10"
+                android:textColor="@color/b0"
                 android:layout_gravity="center_vertical"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
@@ -51,7 +52,7 @@
             android:textCursorDrawable="@drawable/cursor_blue4"
             android:padding="16sp"
             android:textSize="16sp"
-            android:textColor="@color/g0"
+            android:textColor="@color/b0"
             android:hint="这一刻的想法..."
             android:id="@+id/emotion_edittext"
             android:layout_width="match_parent"

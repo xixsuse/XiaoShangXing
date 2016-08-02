@@ -252,5 +252,6 @@
 
     <string name="select_person">选择联系人</string>
     <string name="plan_name">计划名称:</string>
+    <string name="response">回复</string>
 
 </resources>

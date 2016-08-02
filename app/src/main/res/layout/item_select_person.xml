@@ -38,7 +38,7 @@
             android:layout_width="@dimen/x84"
             android:layout_height="@dimen/y84"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/selector_myhelp_more"
+            android:background="@drawable/selector_selectperson"
             android:layout_gravity="center_vertical"
             android:button="@null"
             android:focusable="false" />

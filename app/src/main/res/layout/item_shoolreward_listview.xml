@@ -136,5 +136,4 @@
         android:layout_width="@dimen/x184"
         android:layout_height="@dimen/y150" />
 
-
 </RelativeLayout>
