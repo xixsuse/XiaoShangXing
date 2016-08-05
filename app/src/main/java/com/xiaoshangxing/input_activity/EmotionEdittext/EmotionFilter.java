@@ -39,6 +39,8 @@ public class EmotionFilter {
         }
     }
 
+
+
 //    public static Spannable spannableFilter(Context context, Spannable spannable, CharSequence text, int fontSize, EmojiDisplayListener emojiDisplayListener) {
 //        Matcher m = getMatcher(text);
 //        if (m != null) {

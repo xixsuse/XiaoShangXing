@@ -19,8 +19,8 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
-import com.xiaoshangxing.wo.school_circle.check_photo.HackyViewPager;
-import com.xiaoshangxing.wo.school_circle.check_photo.ImageDetailFragment;
+import com.xiaoshangxing.wo.WoFrafment.check_photo.HackyViewPager;
+import com.xiaoshangxing.wo.WoFrafment.check_photo.ImageDetailFragment;
 
 import java.util.ArrayList;
 

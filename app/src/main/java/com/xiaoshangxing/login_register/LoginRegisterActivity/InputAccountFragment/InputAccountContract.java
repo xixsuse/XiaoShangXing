@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/24
  */
-public class InputAccountContract {
+public interface InputAccountContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         void clickOnBack();
 
         String getPhoneNumber();
@@ -43,7 +43,7 @@ public class InputAccountContract {
 
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
         void isContentOK();
 
         void clickOnButton();

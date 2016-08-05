@@ -9,11 +9,11 @@ import com.xiaoshangxing.utils.IBaseView;
  */
 public interface LoginFragmentContract {
 
-    public interface View extends IBaseView<Presenter> {
+   interface View extends IBaseView<Presenter> {
         /*
         **describe:显示用户头像
         */
-        void showHeadPotrait(int id);
+        void showHeadPotrait(boolean is);
 
         /*
         **describe:设置账号
@@ -35,7 +35,7 @@ public interface LoginFragmentContract {
         /*
         **describe:弹出验证失败对话框
         */
-        void showFailDialog();
+        void showFailDialog(String error);
 
         /*
        **describe:跳转到注册界面
@@ -46,16 +46,14 @@ public interface LoginFragmentContract {
        **describe:显示找回密码菜单
        */
         void showRetrievePasswordMenu();
-
         /*
-        **describe:显示、关闭LoadingDialog
+        **describe:跳转到主页面
         */
-        void showLoadingDialog();
+        void gotoMainActivity();
 
-        void hideLoadingDialog();
     }
 
-    public interface Presenter extends IBasePresenter {
+   interface Presenter extends IBasePresenter {
         /*
         **describe:内容是否齐全
         */

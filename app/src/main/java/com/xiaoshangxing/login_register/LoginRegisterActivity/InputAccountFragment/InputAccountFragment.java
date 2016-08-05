@@ -25,7 +25,7 @@ import com.xiaoshangxing.utils.LocationUtil;
  * on 2016/6/24
  */
 public class InputAccountFragment extends BaseFragment implements InputAccountContract.View, View.OnClickListener {
-    public static final String TAG = BaseFragment.TAG + "-InputEmailFragment";
+    public static final String TAG = BaseFragment.TAG + "-InputAccountFragment";
 
     private View mView;
     private InputAccountContract.Presenter mPresenter;

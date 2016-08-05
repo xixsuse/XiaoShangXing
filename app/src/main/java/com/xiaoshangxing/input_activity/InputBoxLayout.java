@@ -160,8 +160,6 @@ public class InputBoxLayout implements View.OnClickListener {
             public Object instantiateItem(ViewGroup container, int position) {
                 // TODO Auto-generated method stub
                 container.addView(viewlist.get(position));
-
-
                 return viewlist.get(position);
             }
         };
@@ -212,7 +210,6 @@ public class InputBoxLayout implements View.OnClickListener {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         } else {
-            Log.d("hideedit", "ok");
             emotion_lay.setVisibility(View.GONE);
             edit_and_emot.setVisibility(View.GONE);
             comment_input_layout.setVisibility(View.INVISIBLE);
@@ -240,7 +237,6 @@ public class InputBoxLayout implements View.OnClickListener {
                 }
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-
                 break;
             case R.id.normal_emot:
                 viewPager.setCurrentItem(0);
@@ -279,6 +275,7 @@ public class InputBoxLayout implements View.OnClickListener {
     public void setRootVisible( int type){
         edit_and_emot.setVisibility(type);
     }
+
     public void setInputLayVisible(int type){
         comment_input_layout.setVisibility(type);
     }

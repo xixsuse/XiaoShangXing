@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputVertifyCodeFragment.RgInputVertifyCodeFragment;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -33,8 +34,6 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
     private TextView tv_cancer;
     private EditText et_phoneNumber;
     private Button btn_register;
-    private LoadingDialog mLoadingDialog;
-
 
     public static RgInputPhoNumberFragment newInstance() {
         return new RgInputPhoNumberFragment();
@@ -47,14 +46,10 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
         mView = view;
         initView();
         setmPresenter(new RgInputPhoNumPresenter(this, mContext, getActivity(), getActivity().getFragmentManager()));
-
         return view;
     }
 
     private void initView() {
-
-        mLoadingDialog = new LoadingDialog(getContext());
-
         tv_cancer = (TextView) mView.findViewById(R.id.cancel);
         tv_cancer.setOnClickListener(this);
         btn_register = (Button) mView.findViewById(R.id.btn_register);
@@ -76,7 +71,6 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
                 mPresenter.isContentOK();
             }
         });
-
     }
 
     @Override
@@ -96,16 +90,6 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
     }
 
     @Override
-    public void showLoadingDialog() {
-        mLoadingDialog.show();
-    }
-
-    @Override
-    public void hideLoadingDialog() {
-        mLoadingDialog.dismiss();
-    }
-
-    @Override
     public void showRegisteredDialog() {
         final DialogUtils.Dialog_Center dialogUtils = new DialogUtils.Dialog_Center(mActivity);
         final Dialog alertDialog = dialogUtils.Message("该手机号已经注册,是否直接\n登录校上行?")
@@ -118,8 +102,8 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
                     @Override
                     public void onButton2() {
                         Intent intent = new Intent(mContext, LoginRegisterActivity.class);
-                        intent.putExtra("type", LoginRegisterActivity.FIRST_COME);
-                        intent.putExtra("number", getPhoneNum());
+                        intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.LOGIN);
+                        intent.putExtra(LoginFragment.LOGIN_WITH_NUMBER, getPhoneNum());
                         getActivity().startActivity(intent);
                         getActivity().finish();
                     }
@@ -143,15 +127,7 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
                     @Override
                     public void onButton2() {
                         dialogUtils.close();
-                        ((LoginRegisterActivity) getActivity()).setPhoneNumer(getPhoneNum());
-                        RgInputVertifyCodeFragment frag = ((LoginRegisterActivity) getActivity()).getRgInputVertifyCodeFragment();
-                        getFragmentManager().beginTransaction()
-                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                        R.anim.slide_in_left, R.anim.slide_out_left)
-                                .replace(R.id.loginregisterContent, frag)
-                                .addToBackStack(RgInputPhoNumberFragment.TAG)
-                                .commit();
-
+                        mPresenter.sureSendVertifyCode();
                     }
                 }).create();
         alertDialog.show();
@@ -165,6 +141,18 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
     }
 
     @Override
+    public void gotoInputVertifyCode() {
+        ((LoginRegisterActivity) getActivity()).setPhoneNumer(getPhoneNum());
+        RgInputVertifyCodeFragment frag = ((LoginRegisterActivity) getActivity()).getRgInputVertifyCodeFragment();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                        R.anim.slide_in_left, R.anim.slide_out_left)
+                .replace(R.id.loginregisterContent, frag)
+                .addToBackStack(RgInputPhoNumberFragment.TAG)
+                .commit();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancel:
@@ -175,6 +163,4 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
                 break;
         }
     }
-
-
 }

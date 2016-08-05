@@ -12,7 +12,6 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
 
     public RgInputVertifyCodePresenter(final RgInputVertifyCodeContract.View mView) {
         this.mView = mView;
-
         countDownTimer = new CountDownTimer(6000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {

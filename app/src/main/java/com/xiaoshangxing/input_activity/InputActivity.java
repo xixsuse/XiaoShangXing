@@ -196,6 +196,7 @@ public class InputActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
         ButterKnife.bind(this);
+        overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
         initState();
         initEmotView();
         initShowSelect();

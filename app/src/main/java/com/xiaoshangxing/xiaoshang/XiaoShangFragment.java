@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.xiaoshang.MessageNotice.MessageNoticeActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
@@ -169,6 +170,14 @@ public class XiaoShangFragment extends BaseFragment {
                         }, 250);
                 }
                 return false;
+            }
+        });
+
+        xiaoshangNotice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent notice_intent=new Intent(getContext(), MessageNoticeActivity.class);
+                startActivity(notice_intent);
             }
         });
     }
@@ -394,15 +403,12 @@ public class XiaoShangFragment extends BaseFragment {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-
     @Override
     public void onResume() {
         super.onResume();
         isMoving = false;
         setImagePosition(currentImage);
     }
-
     @Override
     public void onPause() {
         super.onPause();

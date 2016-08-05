@@ -15,7 +15,7 @@
         <LinearLayout
             android:id="@+id/back"
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
             <ImageView
@@ -38,7 +38,7 @@
         <TextView
             style="@style/black_16sp"
             android:layout_centerInParent="true"
-            android:id="@+id/myState"
+            android:id="@+id/title"
             android:text="@string/mystate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

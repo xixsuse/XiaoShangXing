@@ -220,7 +220,6 @@ public class RgInputVertifyCodeFragment extends BaseFragment implements RgInputV
                     case 0:
                         mPresenter.stopCountTime();
                         mPresenter.startCountTime();
-                        Toast.makeText(getContext(), "重新获取验证码", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

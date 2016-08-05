@@ -1,14 +1,23 @@
 package com.xiaoshangxing.utils.normalUtils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 public class SPUtils
 {
+	public static final String DEFAULT="DEFAULT";//默认字符
+	/*
+	**describe:登录注册有关键值对
+	*/
+	public static final String IS_FIRS_COME = "IS_FIRS_COME";//记录是否为第一次进入APP
+	public static final String IS_QUIT = "IS_QUIT";//记录是否有退出账号的操作
+	public static final String CURRENT_COUNT = "CURRENT_COUNT";//记录当前存储的账号
+	public static final String CURRENT_COUNT_HEAD = "CURRENT_COUNT_HEAD";//记录当前存储的账号的头像
+
 	public SPUtils()
 	{
 		/* cannot be instantiated */

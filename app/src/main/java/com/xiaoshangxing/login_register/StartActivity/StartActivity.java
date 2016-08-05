@@ -2,16 +2,19 @@ package com.xiaoshangxing.login_register.StartActivity;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
 
+import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.StateColor;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 public class StartActivity extends BaseActivity implements View.OnClickListener, StartActivityContract.View {
 
@@ -23,9 +26,6 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //设置全屏无标题栏
-        StateColor.fullScreen(this,getResources().getColor(R.color.w0));
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_start);
         setmPresenter(new StartActivityPresenter(this, this));
         mPresenter.startWait();
@@ -41,29 +41,52 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         btn_login.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_login:
-                mPresenter.clickOnLogin();
-                break;
-            case R.id.btn_register:
-                mPresenter.clickOnRegister();
-                break;
-        }
-    }
-
     /*
-    **describe:跳转到
+    **describe:跳转到登录注册页面 并关闭该页面
     */
     @Override
     public void intentLoginRegisterActivity() {
-
+        Intent intent = new Intent(this, LoginRegisterActivity.class);
+        intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.LOGIN);
+        intent.putExtra(LoginFragment.LOGIN_WITH_NUMBER,
+                (String) SPUtils.get(this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT));
+        startActivity(intent);
+        finish();
     }
 
     /*
-    **describe:显示按钮
+    **describe:跳转到主页面 并关闭该页面
     */
+    @Override
+    public void intentMainActivity() {
+        Intent main_intent = new Intent(this, MainActivity.class);
+        startActivity(main_intent);
+        finish();
+    }
+
+    /*
+    **describe:跳转到登录页面
+    */
+    @Override
+    public void gotoLogin() {
+        Intent intent = new Intent(this, LoginRegisterActivity.class);
+        intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.LOGIN);
+        startActivity(intent);
+    }
+
+    /*
+    **describe:跳转到注册页面
+    */
+    @Override
+    public void gotoRegister() {
+        Intent intent = new Intent(this, LoginRegisterActivity.class);
+        intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.REGISTER);
+        startActivity(intent);
+    }
+
+    /*
+     **describe:显示按钮
+     */
     @Override
     public void showButton() {
         initButton();
@@ -85,6 +108,18 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
             }
 
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_login:
+                mPresenter.clickOnLogin();
+                break;
+            case R.id.btn_register:
+                mPresenter.clickOnRegister();
+                break;
+        }
     }
 
     public void setmPresenter(@Nullable StartActivityContract.Presenter presenter) {

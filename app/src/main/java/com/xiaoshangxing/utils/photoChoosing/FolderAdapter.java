@@ -17,7 +17,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.utils.photo_choosing.BitmapCache;
 import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
 import com.xiaoshangxing.setting.utils.photo_choosing.Res;
-import com.xiaoshangxing.wo.inform.report.ReportActivity;
+import com.xiaoshangxing.report.ReportActivity;
 
 import java.util.ArrayList;
 

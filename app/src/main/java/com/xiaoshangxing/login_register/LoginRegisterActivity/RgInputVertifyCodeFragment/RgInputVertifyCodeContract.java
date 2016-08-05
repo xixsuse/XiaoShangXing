@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/23
  */
-public class RgInputVertifyCodeContract {
+public interface RgInputVertifyCodeContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
 
         /*
         **describe:设置手机号
@@ -73,7 +73,7 @@ public class RgInputVertifyCodeContract {
 
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
 
         /*
         **describe:点击提交按钮

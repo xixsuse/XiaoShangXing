@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.check_photo.inputSelectPhotoPagerActivity;
-import com.xiaoshangxing.wo.school_circle.check_photo.ImagePagerActivity;
+import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 
 import java.util.ArrayList;
 import java.util.List;

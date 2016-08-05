@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/25
  */
-public class AppealContract {
+public interface AppealContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         void clickOnBack();
 
         void setButtonState(boolean state);
@@ -33,7 +33,7 @@ public class AppealContract {
         String getRegisterTime();
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
         void isContentOK();
 
         void clickOnAppeal();

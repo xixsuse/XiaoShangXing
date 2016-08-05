@@ -28,9 +28,9 @@ import com.xiaoshangxing.utils.BaseFragment;
  */
 public class LoginRegisterActivity extends BaseActivity {
     public static final String TAG = BaseActivity.TAG + "-LoginRegisterActivity";
-    public static final int FIRST_COME = 10000;
-    public static final int RE_LOGIN = 10001;
-    public static final int REGISTER = 20000;
+    public static final String INTENT_TYPE = "INTENT_TYPE";//判断是显示注册还是登录
+    public static final int LOGIN = 10001;//再次登录
+    public static final int REGISTER = 20000;//注册
 
     private LoginFragment loginFragment;
     private RgInputPhoNumberFragment rgInputPhoNumberFragment;
@@ -59,21 +59,14 @@ public class LoginRegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_login_register);
-
-//        SetStatusBarDarkMode.setStatusBarDarkModeForAll(true,this);
-//        StateColor.setStateColor(this,getResources().getColor(R.color.b2));
-//        StateColor.fullScreen(this,getResources().getColor(R.color.w0));
         BaseFragment frag = (BaseFragment) mFragmentManager.findFragmentById(R.id.loginregisterContent);
         if (frag != null) {
             return;
         }
         initAllViews();
-
-        int type = getIntent().getIntExtra("type", 10000);
-        if (type == 10000) {
+        int type = getIntent().getIntExtra(INTENT_TYPE, LOGIN);
+        if (type == LOGIN) {
             frag = getLoginFragment();
             mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
                     frag, LoginFragment.TAG).commit();
@@ -108,11 +101,7 @@ public class LoginRegisterActivity extends BaseActivity {
             frag = getRgInputPhoNumberFragment();
             mFragmentManager.beginTransaction().add(R.id.loginregisterContent, frag, RgInputPhoNumberFragment.TAG).commit();
         }
-
-
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
-
 
     public void initAllViews() {
         Fragment frag;
@@ -171,13 +160,11 @@ public class LoginRegisterActivity extends BaseActivity {
         frag = mFragmentManager.findFragmentByTag(SerchFragment.TAG);
         serchFragment = (frag == null) ?
                 SerchFragment.newInstance() : (SerchFragment) frag;
-
     }
 
     public void resetRgInputVertifyCodeFragment() {
         rgInputVertifyCodeFragment = RgInputVertifyCodeFragment.newInstance();
     }
-
 
     public LoginFragment getLoginFragment() {
         return loginFragment;
@@ -284,8 +271,8 @@ public class LoginRegisterActivity extends BaseActivity {
     }
 
     /*
-                **describe:有的fragment需要截获back键事件
-                */
+     **describe:有的fragment需要截获back键事件
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -304,5 +291,8 @@ public class LoginRegisterActivity extends BaseActivity {
 
     }
 
-
+    @Override
+    public String toString() {
+        return TAG;
+    }
 }

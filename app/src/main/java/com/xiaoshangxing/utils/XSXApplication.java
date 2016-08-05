@@ -6,8 +6,10 @@ import android.os.Bundle;
 
 import com.xiaoshangxing.utils.normalUtils.MyLog;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by FengChaoQun
@@ -15,7 +17,8 @@ import java.util.List;
  */
 public class XSXApplication extends Application {
 
-    private List<Activity> mList = new LinkedList<Activity>();
+//    private List<Activity> mList = new LinkedList<Activity>();
+    private Map<String,Activity> mList=new HashMap<String, Activity>();
     private int activityCount = 0;
 
     @Override
@@ -49,7 +52,7 @@ public class XSXApplication extends Application {
 
             @Override
             public void onActivityStopped(Activity activity) {
-                activityCount--;
+
             }
 
             @Override
@@ -59,17 +62,19 @@ public class XSXApplication extends Application {
 
             @Override
             public void onActivityDestroyed(Activity activity) {
+                activityCount--;
                 MyLog.d(activity, "destroyed");
             }
         });
     }
 
     /*
-    **describe:添加Activity到链表中
+    **describe:添加Activity到Map中
     */
 
     public void addActivity(Activity activity){
-        mList.add(activity);
+//        mList.add(activity);
+        mList.put(activity.toString(),activity);
         activityCount++;
     }
 
@@ -78,12 +83,24 @@ public class XSXApplication extends Application {
     */
     public void exit() {
         try {
-            for (Activity activity : mList) {
-                if (activity != null)
-                    activity.finish();
+//            for (Activity activity : mList) {
+//                if (activity != null)
+//                    activity.finish();
+//            }
+            for(Map.Entry<String, Activity> entry:mList.entrySet()){
+                entry.getValue().finish();
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /*
+    **describe:finish某个activity
+    */
+    public void finish_activity(String tag){
+        if (mList.containsKey(tag)){
+            mList.get(tag).finish();
         }
     }
 }

@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/7/13
  */
-public class myStateImagePagerContract {
+public interface myStateImagePagerContract {
 
-    public interface View extends IBaseView<Presenter>{
+    interface View extends IBaseView<Presenter> {
         /*
         **describe:设置时间
         */
@@ -30,10 +30,7 @@ public class myStateImagePagerContract {
         **describe:设置点赞和评论数目
         */
         void setPraiseandComment();
-        /*
-        **describe:发送给好友
-        */
-        void sendToFriend();
+
         /*
         **describe:弹出确认删除图片对话框
         */
@@ -41,10 +38,23 @@ public class myStateImagePagerContract {
 
     }
 
-    public interface Presenter extends IBasePresenter{
+    interface Presenter extends IBasePresenter {
         /*
         **describe:保存到本地
         */
         void save();
+
+        /*
+       **describe:发送给好友
+       */
+        void sendToFriend();
+        /*
+        **describe:保存图片到本地
+        */
+        void saveImage(String url);
+        /*
+        **describe:删除图片
+        */
+        void deleteImage();
     }
 }

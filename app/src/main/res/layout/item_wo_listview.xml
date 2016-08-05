@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingTop="@dimen/height_48"
     android:paddingStart="@dimen/width_48"
     android:paddingEnd="@dimen/width_48"
@@ -7,7 +8,6 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
 
     <LinearLayout
         android:orientation="vertical"
@@ -19,7 +19,6 @@
             android:layout_width="@dimen/x108"
             android:layout_height="@dimen/y108"
             android:src="@mipmap/cirecleiamge_default" />
-
         <View
             android:layout_marginTop="@dimen/y18"
             android:layout_gravity="center_horizontal"
@@ -28,8 +27,6 @@
             android:layout_height="match_parent">
         </View>
     </LinearLayout>
-
-
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -72,17 +69,18 @@
                 </LinearLayout>
 
                 <!--说说文字内容-->
-                <TextView
+                <com.xiaoshangxing.utils.layout.MoreTextView
                     android:id="@+id/text"
                     android:layout_marginTop="@dimen/y36"
                     android:text="今天我们被采访啦，心情十分激动啊有木有！！这照片拍的，我们是多么认真呀，祝我们的项目越来越好哦！新的队员们，期待和你们早日见面^^~"
                     android:textSize="13sp"
                     android:textColor="@color/b1"
+                    app:trimLines="6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
                 <!--图片-->
-                <com.xiaoshangxing.wo.school_circle.NoScrollGridView
+                <com.xiaoshangxing.wo.WoFrafment.NoScrollGridView
                     android:id="@+id/photos1"
                     android:numColumns="3"
                     android:columnWidth="@dimen/x228"
@@ -95,13 +93,15 @@
                     android:layout_height="wrap_content">
 
 
-                </com.xiaoshangxing.wo.school_circle.NoScrollGridView>
+                </com.xiaoshangxing.wo.WoFrafment.NoScrollGridView>
 
 
                 <ImageView
                     android:id="@+id/just_one"
                     android:maxWidth="@dimen/x516"
                     android:maxHeight="@dimen/y600"
+                    android:layout_gravity="center_horizontal"
+                    android:scaleType="fitCenter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
@@ -160,7 +160,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginStart="@dimen/x48"
+                        android:paddingStart="@dimen/x48"
                         android:layout_toRightOf="@+id/time"
                         android:src="@mipmap/permission" />
                     <!--删除-->
@@ -168,7 +168,7 @@
                         android:id="@+id/delete"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/x48"
+                        android:paddingStart="@dimen/x48"
                         android:layout_toRightOf="@+id/permission"
                         android:text="@string/delete"
                         android:textColor="@color/blue1"
@@ -201,7 +201,7 @@
                     android:background="@drawable/comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
+                    <!--赞的人-->
                     <LinearLayout
                         android:id="@+id/praise_people"
                         android:orientation="vertical"
@@ -238,11 +238,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
-
-
-
-
-
 
 
 </LinearLayout>

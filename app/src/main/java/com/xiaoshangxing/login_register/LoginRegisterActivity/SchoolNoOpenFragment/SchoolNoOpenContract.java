@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/25
  */
-public class SchoolNoOpenContract {
+public interface SchoolNoOpenContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         void clickOnCancle();
 
         void setSchool(String school);
@@ -17,7 +17,7 @@ public class SchoolNoOpenContract {
         void showSuccess();
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
         void clickOnButton();
     }
 }

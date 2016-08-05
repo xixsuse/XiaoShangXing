@@ -58,7 +58,7 @@ public class SendEmailFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.complete:
                 Intent intent = new Intent(getContext(), LoginRegisterActivity.class);
-                intent.putExtra("type", 10000);
+                intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.LOGIN);
                 getActivity().startActivity(intent);
                 getActivity().finish();
         }

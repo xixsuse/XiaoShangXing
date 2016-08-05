@@ -9,7 +9,7 @@ import com.xiaoshangxing.utils.IBaseView;
  */
 public interface StartActivityContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         /*
         **describe:显示按钮
         */
@@ -19,9 +19,24 @@ public interface StartActivityContract {
         **describe:跳转到LoginRegisterActivity
         */
         void intentLoginRegisterActivity();
+
+        /*
+        **describe:跳转到主界面
+        */
+        void intentMainActivity();
+
+        /*
+        **describe:跳转到登录页面
+        */
+        void gotoLogin();
+
+        /*
+        **describe:跳转到注册页面
+        */
+        void gotoRegister();
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
         /*
         **describe:开始等待计时
         */
@@ -31,6 +46,11 @@ public interface StartActivityContract {
         **describe:是否第一次进入APP
         */
         boolean isFirstCome();
+
+        /*
+        **describe:最近是否有退出操作
+        */
+        boolean isQuit();
 
         void clickOnLogin();
 

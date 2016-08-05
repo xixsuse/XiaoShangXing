@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +25,7 @@ import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
 import com.xiaoshangxing.setting.utils.photo_choosing.PublicWay;
 import com.xiaoshangxing.setting.utils.photo_choosing.Res;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.wo.inform.report.ReportActivity;
+import com.xiaoshangxing.report.ReportActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -87,25 +87,31 @@ public class RetrieveByMesFragment extends BaseFragment implements RetrieveByMes
                     @Override
                     public void onButton2() {
                         dialogUtils.close();
-                        //test
-                        if (getPhoneNumber().equals("88888888888")){
-                            ((LoginRegisterActivity) getActivity()).setPhoneNumer(getPhoneNumber());
-                            RgInputVertifyCodeFragment frag = ((LoginRegisterActivity) getActivity()).getRgInputVertifyCodeFragment();
-                            getFragmentManager().beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                            R.anim.slide_in_left, R.anim.slide_out_left)
-                                    .replace(R.id.loginregisterContent, frag)
-                                    .addToBackStack(RgInputPhoNumberFragment.TAG)
-                                    .commit();
-                        }else {
-                            showUnRegiter();
-                        }
+//                        //test
+//                        if (getPhoneNumber().equals("88888888888")){
+//
+//                        }else {
+//                            showUnRegiter();
+//                        }
+                        mPresenter.clickOnSure();
 
                     }
                 }).create();
         alertDialog.show();
         LocationUtil.setWidth(getActivity(), alertDialog,
                 getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+    }
+
+    @Override
+    public void gotoInputCode() {
+        ((LoginRegisterActivity) getActivity()).setPhoneNumer(getPhoneNumber());
+        RgInputVertifyCodeFragment frag = ((LoginRegisterActivity) getActivity()).getRgInputVertifyCodeFragment();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                        R.anim.slide_in_left, R.anim.slide_out_left)
+                .replace(R.id.loginregisterContent, frag)
+                .addToBackStack(RgInputPhoNumberFragment.TAG)
+                .commit();
     }
 
     @Override
@@ -185,5 +191,9 @@ public class RetrieveByMesFragment extends BaseFragment implements RetrieveByMes
         ((LoginRegisterActivity) getActivity()).setIs_RetrieveByMesFragment(true);
     }
 
-
+    @Override
+    public void onStop() {
+        ((LoginRegisterActivity) getActivity()).setIs_RetrieveByMesFragment(false);
+        super.onStop();
+    }
 }

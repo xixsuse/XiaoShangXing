@@ -2,19 +2,20 @@ package com.xiaoshangxing.wo.myState;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
+import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 import com.xiaoshangxing.wo.myState.check_photo.myStateImagePagerActivity;
-import com.xiaoshangxing.wo.school_circle.NewsActivity.NewsActivity;
-import com.xiaoshangxing.wo.school_circle.check_photo.ImagePagerActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,25 +23,35 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.http.PUT;
 
 /**
  * Created by FengChaoQun
  * on 2016/7/9
  */
-public class myStateActivity extends BaseActivity {
+public class myStateActivity extends BaseActivity implements StateContract.View {
+    public static final String TYPE = "TYPE";
+    public static final int SELF = 1000;
+    public static final int OTHRE = 2000;
+    private int current_type;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.more)
     ImageView newsList;
+    @Bind(R.id.title)
+    TextView title;
     private ListView listView;
     private RelativeLayout headView;
     private List<String> list = new ArrayList<String>();
+    private StateContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mystate);
         ButterKnife.bind(this);
+        setmPresenter(new StatePresenter(this,this));
+        typeOfState();
         initView();
     }
 
@@ -49,14 +60,18 @@ public class myStateActivity extends BaseActivity {
         headView = (RelativeLayout) getLayoutInflater().inflate(R.layout.util_mystate_header, null);
         listView.addHeaderView(headView);
         headView.setEnabled(false);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                new String[]{"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"});
+        mPresenter.LoadData();
+    }
+
+    @Override
+    public void refreshData() {
 
         for (int i = 0; i < 12; i++) {
             list.add("hh");
         }
 
-        String[] urls2 = {"http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg",
+        String[] urls2 = {
+                "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg",
                 "http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg",
                 "http://img.my.csdn.net/uploads/201407/26/1406383291_8239.jpg",
                 "http://img.my.csdn.net/uploads/201410/19/1413698867_8323.jpg",
@@ -72,12 +87,12 @@ public class myStateActivity extends BaseActivity {
             imageUrls.add(urls2[i]);
         }
 
-        Mystate_adpter mystate_adpter = new Mystate_adpter(this, 1, list);
+        Mystate_adpter mystate_adpter = new Mystate_adpter(this, 1, list,this);
         listView.setAdapter(mystate_adpter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position>0){
+                if (position > 0) {
                     Intent intent = new Intent(myStateActivity.this, myStateImagePagerActivity.class);
                     intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, imageUrls);
                     intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
@@ -87,6 +102,40 @@ public class myStateActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void setmPresenter(@Nullable StateContract.Presenter presenter) {
+        this.mPresenter=presenter;
+    }
+
+    @Override
+    public void gotoNews() {
+        Intent news_intent = new Intent(myStateActivity.this, NewsActivity.class);
+        startActivity(news_intent);
+    }
+
+    @Override
+    public void typeOfState() {
+        current_type = getIntent().getIntExtra(TYPE, 0);
+        switch (current_type) {
+            case SELF:
+                title.setText("我的动态");
+                newsList.setVisibility(View.VISIBLE);
+                break;
+            case OTHRE:
+                title.setText("动态");
+                newsList.setVisibility(View.GONE);
+                break;
+            default:
+                showToast("跳转异常...");
+//                finish();
+                break;
+        }
+    }
+
+    public int getCurrent_type() {
+        return current_type;
+    }
+
     @OnClick({R.id.back, R.id.more})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -94,8 +143,7 @@ public class myStateActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.more:
-                Intent news_intent=new Intent(myStateActivity.this, NewsActivity.class);
-                startActivity(news_intent);
+                gotoNews();
                 break;
         }
     }

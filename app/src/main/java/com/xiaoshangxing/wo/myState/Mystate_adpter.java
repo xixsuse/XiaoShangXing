@@ -1,6 +1,7 @@
 package com.xiaoshangxing.wo.myState;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.wo.WoFragment;
+import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 
 import java.util.List;
 import java.util.Random;
@@ -28,12 +30,14 @@ public class Mystate_adpter extends ArrayAdapter<String> {
     WoFragment woFragment;
 
     private Handler mHandler;
+    private myStateActivity activity;
 
-    public Mystate_adpter(Context context, int resource, List<String> objects) {
+    public Mystate_adpter(Context context, int resource, List<String> objects,myStateActivity activity) {
         super(context, resource, objects);
         this.context = context;
         this.strings = objects;
         this.resource = resource;
+        this.activity=activity;
         mHandler = new Handler();
     }
 
@@ -109,18 +113,20 @@ public class Mystate_adpter extends ArrayAdapter<String> {
                 break;
         }
         if (position==0){
-            viewholder.saySomething.setVisibility(View.VISIBLE);
+            if (activity.getCurrent_type()==myStateActivity.SELF){
+                viewholder.saySomething.setVisibility(View.VISIBLE);
+                viewholder.saySomething.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent publish_intent=new Intent(context, InputActivity.class);
+                        publish_intent.putExtra(InputActivity.EDIT_STATE,InputActivity.PUBLISH_STATE);
+                        context.startActivity(publish_intent);
+                    }
+                });
+            }
         }
         viewholder.month.setText("七月");
         viewholder.location.setText("江南大学");
-
-        viewholder.saySomething.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "saysometing", Toast.LENGTH_SHORT).show();
-            }
-        });
-
 
         return view;
     }

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--校友圈评论框-->
+    <!--评论框-->
     <RelativeLayout
         android:visibility="gone"
         android:id="@+id/edit_and_emot"

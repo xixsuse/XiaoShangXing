@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
 
-    <com.xiaoshangxing.wo.school_circle.check_photo.HackyViewPager
+    <com.xiaoshangxing.wo.WoFrafment.check_photo.HackyViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

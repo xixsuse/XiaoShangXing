@@ -30,6 +30,8 @@ import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import java.io.ByteArrayInputStream;
 
@@ -79,6 +81,9 @@ public class SettingActivity extends BaseActivity {
             @Override
             public void onItemSelected(int position, String item) {
                 Toast.makeText(SettingActivity.this, item, Toast.LENGTH_SHORT).show();
+                SPUtils.put(SettingActivity.this,SPUtils.IS_QUIT,true);
+                XSXApplication xsxApplication=(XSXApplication)getApplication();
+                finish();
             }
 
             @Override

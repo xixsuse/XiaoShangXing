@@ -24,4 +24,13 @@ public class RetrieveByMesPresenter implements RetrieveByMesContract.Presenter {
     public void clickOnNext() {
         mView.showSure();
     }
+
+    @Override
+    public void clickOnSure() {
+        if (true){
+            mView.gotoInputCode();
+        }else {
+            mView.showUnRegiter();
+        }
+    }
 }

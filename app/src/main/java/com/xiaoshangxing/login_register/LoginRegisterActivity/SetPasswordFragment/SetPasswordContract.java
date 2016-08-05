@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/24
  */
-public class SetPasswordContract {
+public interface SetPasswordContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         /*
         **describe:点击取消
         */
@@ -40,7 +40,7 @@ public class SetPasswordContract {
 //        void gotoSelectSchool ();
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
         /*
         **describe:判断输入内容是否合法
         */

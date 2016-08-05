@@ -38,7 +38,11 @@ public class RgInputPhoNumPresenter implements RgInputPhoNumContract.Presenter {
         } else {
             mView.showSureDialog();
         }
+    }
 
+    @Override
+    public void sureSendVertifyCode() {
+        mView.gotoInputVertifyCode();
     }
 
     @Override

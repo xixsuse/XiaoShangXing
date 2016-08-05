@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/25
  */
-public class NoEmailContract {
+public interface NoEmailContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         /*
         **describe:弹出未实名认证对话框
         */
@@ -26,7 +26,7 @@ public class NoEmailContract {
         String getPhoneNUmber();
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
 
         void clickOnAppeal();
     }

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -94,7 +95,7 @@ public class AlterPasswordFragment extends BaseFragment implements AlterPassword
 
     @Override
     public void setPhoneNumber(String phoneNumber) {
-        notice.getText().toString().replace("+86", phoneNumber);
+        notice.setText(notice.getText().toString().replace("+86", phoneNumber));
         tv_phonenumber.setText(phoneNumber);
     }
 
@@ -149,8 +150,8 @@ public class AlterPasswordFragment extends BaseFragment implements AlterPassword
     @Override
     public void gotoLogin() {
         Intent intent = new Intent(getContext(), LoginRegisterActivity.class);
-        intent.putExtra("type", 10000);
-        intent.putExtra("number", tv_phonenumber.getText().toString());
+        intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.LOGIN);
+        intent.putExtra(LoginFragment.LOGIN_WITH_NUMBER, tv_phonenumber.getText().toString());
         getActivity().startActivity(intent);
         getActivity().finish();
     }

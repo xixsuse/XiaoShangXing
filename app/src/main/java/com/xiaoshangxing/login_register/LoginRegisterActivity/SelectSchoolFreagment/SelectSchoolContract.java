@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/25
  */
-public class SelectSchoolContract {
+public interface SelectSchoolContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         void clickOnSerch();
 
         void clickOnCurrent();
@@ -26,7 +26,7 @@ public class SelectSchoolContract {
         void setCurrentSchool(String school);
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
         void clickOnReflesh();
 
         void isSchoolAccess(String name);

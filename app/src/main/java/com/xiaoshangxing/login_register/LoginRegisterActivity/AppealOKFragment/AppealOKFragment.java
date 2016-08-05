@@ -51,7 +51,7 @@ public class AppealOKFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.complete:
                 Intent intent = new Intent(getContext(), LoginRegisterActivity.class);
-                intent.putExtra("type", LoginRegisterActivity.FIRST_COME);
+                intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.LOGIN);
                 getActivity().startActivity(intent);
                 getActivity().finish();
         }

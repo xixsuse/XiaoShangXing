@@ -17,7 +17,8 @@ import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.wo.WoFragment;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
+import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.xiaoshang.XiaoShangFragment;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ import butterknife.OnClick;
  * on 2016/6/21
  */
 public class MainActivity extends BaseActivity {
+    public static final String TAG = BaseActivity.TAG + "-MainActivity";
+
     @Bind(R.id.image_xiaoshang)
     ImageView imageXiaoshang;
     @Bind(R.id.xiaoshang)
@@ -79,7 +82,6 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
-//        initWoInput();
         initInputBox();
         initAllFragments();
     }
@@ -89,165 +91,9 @@ public class MainActivity extends BaseActivity {
         inputBoxLayout=new InputBoxLayout(this,relativeLayout,this);
     }
 
-//    private void initWoInput() {
-//        viewPager = (ViewPager) findViewById(R.id.viewpager);
-//        emotion_lay = (LinearLayout) findViewById(R.id.emot_lay);
-//
-//        comment_input_layout = (RelativeLayout) findViewById(R.id.comment_input_layout);
-//        emoticonsEditText = (EmoticonsEditText) findViewById(R.id.comment_input);
-//        send = (TextView) findViewById(R.id.send);
-//        emot = (ImageView) findViewById(R.id.emotion);
-//        edit_and_emot = (RelativeLayout) findViewById(R.id.edit_and_emot);
-//        normal_emot = findViewById(R.id.normal_emot);
-//        favorite = findViewById(R.id.favorite);
-//        delete_emot=findViewById(R.id.delete_emot);
-//        //监听键盘高度  让输入框保持在键盘上面
-//        screenHeight = ScreenUtils.getScreenHeight(this);
-//        KeyBoardUtils.observeSoftKeyboard(this, new KeyBoardUtils.OnSoftKeyboardChangeListener() {
-//            @Override
-//            public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
-//
-//                if (softKeybardHeight > 100) {
-//                    comment_input_layout.layout(0, screenHeight - softKeybardHeight - comment_input_layout.getHeight(),
-//                            comment_input_layout.getWidth(),
-//                            screenHeight - softKeybardHeight);
-//                    Log.d("keyboard", "" + softKeybardHeight);
-//                    Log.d("height", "" + screenHeight);
-//                }
-//            }
-//        });
-//
-//        //监听输入框内容
-//        emoticonsEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (emoticonsEditText.getText().length() > 0) {
-//                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_green1));
-//                    send.setEnabled(true);
-//                } else {
-//                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_g1));
-//                    send.setEnabled(false);
-//                }
-//            }
-//        });
-//
-//        gridView = (GridView) View.inflate(this, R.layout.gridelayout, null);
-//        adapter = new EmotionGrideViewAdapter(this);
-//        adapter.setMcallBack(new EmotionGrideViewAdapter.callBack() {
-//            @Override
-//            public void callback(String emot) {
-//                emoticonsEditText.append(emot);
-//            }
-//        });
-//        gridView.setAdapter(adapter);
-//        TextView textView = new TextView(this);
-//        textView.setText("55555");
-//        viewlist.add(gridView);
-//        viewlist.add(textView);
-//
-//        PagerAdapter pagerAdapter = new PagerAdapter() {
-//
-//            @Override
-//            public boolean isViewFromObject(View arg0, Object arg1) {
-//                // TODO Auto-generated method stub
-//                return arg0 == arg1;
-//            }
-//
-//            @Override
-//            public int getCount() {
-//                // TODO Auto-generated method stub
-//                return 2;
-//            }
-//
-//            @Override
-//            public void destroyItem(ViewGroup container, int position,
-//                                    Object object) {
-//                // TODO Auto-generated method stub
-//                container.removeView(viewlist.get(position));
-//            }
-//
-//            @Override
-//            public Object instantiateItem(ViewGroup container, int position) {
-//                // TODO Auto-generated method stub
-//                container.addView(viewlist.get(position));
-//
-//
-//                return viewlist.get(position);
-//            }
-//        };
-//
-//        viewPager.setAdapter(pagerAdapter);
-//        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                selectItem(position);
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-//        viewPager.setCurrentItem(0);
-//        selectItem(0);
-//
-//    }
-//
-//    private void selectItem(int position) {
-//        switch (position) {
-//            case 0:
-//                normal_emot.setBackgroundColor(getResources().getColor(R.color.w2));
-//                favorite.setBackgroundColor(getResources().getColor(R.color.w1));
-//                break;
-//            case 1:
-//                normal_emot.setBackgroundColor(getResources().getColor(R.color.w1));
-//                favorite.setBackgroundColor(getResources().getColor(R.color.w2));
-//                break;
-//        }
-//    }
-//
-//    public void showOrHideLayout(boolean is) {
-////        if (is) {
-////            edit_and_emot.setVisibility(View.VISIBLE);
-////            comment_input_layout.setVisibility(View.VISIBLE);
-////            //输入框自获取焦点 并弹出输入键盘
-////            emoticonsEditText.setFocusable(true);
-////            emoticonsEditText.setFocusableInTouchMode(true);
-////            emoticonsEditText.requestFocus();
-////            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-////            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-////        } else {
-////            Log.d("hideedit", "ok");
-////            edit_and_emot.setVisibility(View.GONE);
-////            comment_input_layout.setVisibility(View.INVISIBLE);
-////            KeyBoardUtils.closeKeybord(emoticonsEditText, this);
-////        }
-//        inputBoxLayout.showOrHideLayout(is);
-//    }
-//
-//    public int getEdittext_height() {
-////        int xy[] = new int[2];
-////        comment_input_layout.getLocationOnScreen(xy);
-////        return xy[1];
-//       return inputBoxLayout.getEdittext_height();
-//    }
-//
     private void initAllFragments() {
+        SPUtils.put(this, SPUtils.IS_FIRS_COME, false);//当这个页面打开时，表明不是第一次进入APP了
+        SPUtils.put(this, SPUtils.IS_QUIT, false);//当这个页面打开时，清除退出记录
         Fragment frag;
         frag = mFragmentManager.findFragmentByTag(WoFragment.TAG);
         woFragment = (frag == null) ? WoFragment.newInstance() : (WoFragment) frag;
@@ -263,9 +109,6 @@ public class MainActivity extends BaseActivity {
             mFragmentManager.beginTransaction().add(R.id.main_fragment,woFragment,WoFragment.TAG)
                     .commit();
         }
-
-
-//        mFragmentManager.beginTransaction().show(xiaoShangFragment).hide(woFragment).commit();
 
         setXiaoshang(true);
     }
@@ -332,6 +175,7 @@ public class MainActivity extends BaseActivity {
 //                    woFragment, XiaoShangFragment.TAG).commit();
             mFragmentManager.beginTransaction().hide(xiaoShangFragment).show(woFragment)
                     .commit();
+            woFragment.autoRefresh();
             current = 3;
         } else {
             imageWo.setImageResource(R.mipmap.wo_off);
@@ -370,5 +214,10 @@ public class MainActivity extends BaseActivity {
 
     public InputBoxLayout getInputBoxLayout() {
         return inputBoxLayout;
+    }
+
+    @Override
+    public String toString() {
+        return TAG;
     }
 }

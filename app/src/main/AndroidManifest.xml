@@ -4,8 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".utils.XSXApplication"
@@ -15,6 +15,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".login_register.StartActivity.StartActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity android:name=".login_register.LoginRegisterActivity.LoginRegisterActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+        </activity>
+        <activity android:name=".wo.myState.myStateActivity" />
+        <activity
+            android:name=".wo.myState.DetailsActivity.DetailsActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -23,91 +45,49 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".login_register.LoginRegisterActivity.LoginRegisterActivity"></activity>
+        <activity android:name=".wo.NewsActivity.NewsActivity" />
+        <activity android:name=".wo.WoFrafment.check_photo.ImagePagerActivity" />
+        <activity android:name=".wo.myState.check_photo.myStateImagePagerActivity" />
+        <activity android:name=".wo.roll.rollActivity" />
         <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity android:name=".wo.myState.myStateActivity"></activity>
-        <activity
-            android:name=".wo.myState.DetailsActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity android:name=".wo.school_circle.NewsActivity.NewsActivity"></activity>
-        <activity android:name=".wo.school_circle.check_photo.ImagePagerActivity"></activity>
-        <activity android:name=".wo.myState.check_photo.myStateImagePagerActivity"></activity>
-        <activity android:name=".wo.roll.rollActivity"></activity>
-        <activity
-            android:name=".wo.inform.report.ReportActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
-        <activity android:name=".setting.SettingActivity"></activity>
-        <activity android:name=".setting.personalinfo.PersonalInfoActivity"></activity>
-        <activity android:name=".setting.feedback.FeedbackActivity"></activity>
-        <activity android:name=".setting.newNotice.NewNoticeActivity"></activity>
-        <activity android:name=".setting.mailboxbind.MailBoxBindActivity"></activity>
-        <activity android:name=".setting.privacy.PrivacyActivity"></activity>
-        <activity android:name=".setting.currency.CurrencyActivity"></activity>
-        <activity android:name=".setting.about.AboutActivity"></activity>
-        <activity android:name=".setting.modifypassword.ModifyPassWordActivity"></activity>
-        <activity android:name=".setting.mailboxbind.ModifyMailBoxActivity"></activity>
+            android:name=".report.ReportActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".setting.SettingActivity" />
+        <activity android:name=".setting.personalinfo.PersonalInfoActivity" />
+        <activity android:name=".setting.feedback.FeedbackActivity" />
+        <activity android:name=".setting.newNotice.NewNoticeActivity" />
+        <activity android:name=".setting.mailboxbind.MailBoxBindActivity" />
+        <activity android:name=".setting.privacy.PrivacyActivity" />
+        <activity android:name=".setting.currency.CurrencyActivity" />
+        <activity android:name=".setting.about.AboutActivity" />
+        <activity android:name=".setting.modifypassword.ModifyPassWordActivity" />
+        <activity android:name=".setting.mailboxbind.ModifyMailBoxActivity" />
 
         <!-- 互帮 -->
-        <activity android:name=".xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity">
-        </activity>
-
-        <activity android:name=".xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity">
-        </activity>
-
-        <activity android:name=".xiaoshang.ShoolReward.ShoolRewardActivity">
-        </activity>
-
-        <activity android:name=".xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity">
-
-        </activity>
-
-        <activity android:name=".input_activity.InputActivity"
+        <activity android:name=".xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity"></activity>
+        <activity android:name=".xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity"></activity>
+        <activity android:name=".xiaoshang.ShoolReward.ShoolRewardActivity"></activity>
+        <activity android:name=".xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity"></activity>
+        <activity
+            android:name=".input_activity.InputActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".input_activity.check_photo.inputSelectPhotoPagerActivity"></activity>
+        <activity android:name=".utils.photoChoosing.PhotoChoosingActivity"></activity>
+        <activity android:name=".input_activity.check_photo.ReviewPictureActivity"></activity>
+        <activity android:name=".SelectPerson.SelectPersonActivity"></activity>
+        <activity android:name=".xiaoshang.MessageNotice.MessageNoticeActivity"></activity>
+        <activity android:name=".TestActivity">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
-        <activity android:name=".input_activity.check_photo.inputSelectPhotoPagerActivity">
-
-        </activity>
-
-        <activity android:name=".utils.photoChoosing.PhotoChoosingActivity">
-
-        </activity>
-
-        <activity android:name=".input_activity.check_photo.ReviewPictureActivity">
-
-        </activity>
-
-        <activity android:name=".SelectPerson.SelectPersonActivity">
-        </activity>
-
-        <activity android:name=".xiaoshang.MessageNotice.MessageNoticeActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
     </application>
 
 </manifest>

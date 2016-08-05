@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/22
  */
-public class RgInputPhoNumContract {
+public interface RgInputPhoNumContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         /*
         **describe:设置按钮可否点击
         */
@@ -31,14 +31,13 @@ public class RgInputPhoNumContract {
         void showSureDialog();
 
         /*
-         **describe:显示、关闭LoadingDialog
-         */
-        void showLoadingDialog();
+        **describe:前往输入验证码界面
+        */
+        void gotoInputVertifyCode();
 
-        void hideLoadingDialog();
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
         /*
         **describe:内容是否合法
         */
@@ -48,6 +47,11 @@ public class RgInputPhoNumContract {
         **describe:点击注册按钮
         */
         void clickOnRegister();
+
+        /*
+        **describe:确定发送验证码
+        */
+        void sureSendVertifyCode();
 
         /*
         **describe:点击取消按钮

@@ -9,7 +9,7 @@ import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.SwitchView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
-import com.xiaoshangxing.wo.inform.report.ReportActivity;
+import com.xiaoshangxing.report.ReportActivity;
 
 /**
  * Created by 15828 on 2016/7/25.

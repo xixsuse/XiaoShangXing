@@ -24,8 +24,7 @@ import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
 import com.xiaoshangxing.setting.utils.photo_choosing.PublicWay;
 import com.xiaoshangxing.setting.utils.photo_choosing.Res;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.wo.inform.report.ReportActivity;
-import com.xiaoshangxing.wo.inform.report.reportEvidenceFragment.ReportEvidenceFragment;
+import com.xiaoshangxing.report.ReportActivity;
 
 import java.util.ArrayList;
 

@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/24
  */
-public class RetrieveByMesContract {
+public interface RetrieveByMesContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         /*
         **describe:返回
         */
@@ -31,6 +31,11 @@ public class RetrieveByMesContract {
         void showSure();
 
         /*
+        **describe:前往输入验证码界面
+        */
+        void gotoInputCode();
+
+        /*
         **describe:弹出未注册对话框
         */
         void showUnRegiter();
@@ -41,10 +46,12 @@ public class RetrieveByMesContract {
         void gotoRegiter();
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
         void isContentOK();
 
         void clickOnNext();
+
+        void clickOnSure();
 
     }
 }

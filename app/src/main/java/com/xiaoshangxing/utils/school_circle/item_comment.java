@@ -9,9 +9,11 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.wo.myState.myStateActivity;
 
 /**
@@ -20,7 +22,7 @@ import com.xiaoshangxing.wo.myState.myStateActivity;
  */
 public class Item_Comment {
     private Context context;
-    private TextView textView;
+    private EmotinText textView;
     private String reply_person,reply_text,replyed_person;
     private SpannableString spannableString;
 
@@ -45,7 +47,7 @@ public class Item_Comment {
     }
 
     private void  init(){
-        this.textView=new TextView(context);
+        this.textView=new EmotinText(context);
         textView.setTextSize(13);
         textView.setTextColor(context.getResources().getColor(R.color.b0));
     }

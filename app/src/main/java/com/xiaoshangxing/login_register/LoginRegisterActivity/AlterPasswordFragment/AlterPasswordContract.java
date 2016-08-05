@@ -7,9 +7,9 @@ import com.xiaoshangxing.utils.IBaseView;
  * Created by FengChaoQun
  * on 2016/6/24
  */
-public class AlterPasswordContract {
+public interface AlterPasswordContract {
 
-    public interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         void clickOnCancle();
 
         /*
@@ -45,7 +45,7 @@ public class AlterPasswordContract {
         void showAlterSuccess();
     }
 
-    public interface Presenter extends IBasePresenter {
+    interface Presenter extends IBasePresenter {
         void isContentOK();
 
         void clickOnComplete();

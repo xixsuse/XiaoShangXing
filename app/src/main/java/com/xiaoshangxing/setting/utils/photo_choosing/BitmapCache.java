@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.xiaoshangxing.wo.inform.report.reportEvidenceFragment.ReportEvidenceFragment;
+import com.xiaoshangxing.report.reportEvidenceFragment.ReportEvidenceFragment;
 
 import java.io.BufferedInputStream;
 import java.io.File;

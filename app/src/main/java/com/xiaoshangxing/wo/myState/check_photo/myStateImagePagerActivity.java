@@ -9,20 +9,21 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.utils.LocationUtil;
-import com.xiaoshangxing.utils.image.SaveImageTask;
-import com.xiaoshangxing.wo.myState.DetailsActivity;
-import com.xiaoshangxing.wo.school_circle.check_photo.HackyViewPager;
-import com.xiaoshangxing.wo.school_circle.check_photo.ImageDetailFragment;
+import com.xiaoshangxing.wo.WoFrafment.check_photo.HackyViewPager;
+import com.xiaoshangxing.wo.WoFrafment.check_photo.ImageDetailFragment;
+import com.xiaoshangxing.wo.myState.DetailsActivity.DetailsActivity;
 
 import java.util.ArrayList;
+
+import rx.Subscription;
 
 /**
  * 图片查看器
@@ -37,15 +38,26 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
     private TextView indicator;
 
     private View back, more, detail, backgroud;
-    private TextView time, text;
+    private TextView time;
+    private EmotinText text;
 
     private ArrayList<String> urls;
+    private myStateImagePagerContract.Presenter mPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_detail_mystate);
+        setmPresenter(new myStateImagePresenter(this, this));
+        initView();
 
+        if (savedInstanceState != null) {
+            pagerPosition = savedInstanceState.getInt(STATE_POSITION);
+        }
+
+    }
+
+    private void initView() {
         back = findViewById(R.id.back);
         back.setOnClickListener(this);
         more = findViewById(R.id.more);
@@ -53,8 +65,7 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
         detail = findViewById(R.id.details_entry_layout);
         detail.setOnClickListener(this);
         time = (TextView) findViewById(R.id.time);
-        text = (TextView) findViewById(R.id.text);
-
+        text = (EmotinText) findViewById(R.id.text);
 
         backgroud = findViewById(R.id.background);
 
@@ -87,14 +98,9 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
                 CharSequence text = getString(R.string.viewpager_indicator, arg0 + 1, mPager.getAdapter().getCount());
                 indicator.setText(text);
                 pagerPosition = arg0;
-                Log.d("select", "" + arg0);
-                Log.d("url", urls.get(pagerPosition));
             }
 
         });
-        if (savedInstanceState != null) {
-            pagerPosition = savedInstanceState.getInt(STATE_POSITION);
-        }
 
         mPager.setCurrentItem(pagerPosition);
     }
@@ -119,12 +125,10 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
             public void onItemSelected(int position, String item) {
                 switch (position) {
                     case 0:
-                        Toast.makeText(myStateImagePagerActivity.this, "发送给好友", Toast.LENGTH_SHORT).show();
+                        mPresenter.sendToFriend();
                         break;
                     case 1:
-                        Toast.makeText(myStateImagePagerActivity.this, "保存到手机", Toast.LENGTH_SHORT).show();
-                        SaveImageTask s = new SaveImageTask(myStateImagePagerActivity.this);
-                        s.execute(urls.get(pagerPosition));
+                        mPresenter.saveImage(urls.get(pagerPosition));
                         break;
                     case 2:
                         showMakesureDialog();
@@ -156,11 +160,6 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
     }
 
     @Override
-    public void sendToFriend() {
-
-    }
-
-    @Override
     public void showMakesureDialog() {
         final DialogUtils.Dialog_Center dialog_center = new DialogUtils.Dialog_Center(this);
         if (true) {
@@ -173,13 +172,12 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
         dialog_center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
             @Override
             public void onButton1() {
-                Toast.makeText(myStateImagePagerActivity.this, "删除", Toast.LENGTH_SHORT).show();
+                mPresenter.deleteImage();
                 dialog_center.close();
             }
 
             @Override
             public void onButton2() {
-                Toast.makeText(myStateImagePagerActivity.this, "取消", Toast.LENGTH_SHORT).show();
                 dialog_center.close();
             }
         });
@@ -191,7 +189,7 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
 
     @Override
     public void setmPresenter(@Nullable myStateImagePagerContract.Presenter presenter) {
-
+        this.mPresenter = presenter;
     }
 
     @Override
@@ -212,6 +210,41 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
                 finish();
                 break;
         }
+
+    }
+
+    @Override
+    public void showLoadingDialog(String text) {
+
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+
+    }
+
+    @Override
+    public void unsubscribe() {
+
+    }
+
+    @Override
+    public void setSubscription(Subscription subscription) {
+
+    }
+
+    @Override
+    public Subscription getSubscription() {
+        return null;
+    }
+
+    @Override
+    public void setonDismiss(LoadingDialog.onDismiss on) {
+
+    }
+
+    @Override
+    public void showToast(String toast) {
 
     }
 

@@ -27,6 +27,7 @@ public class LoadingDialog extends Dialog {
     private LayoutInflater inflater;
     private LayoutParams lp;
     private TextView loadtext;
+    private onDismiss onDismiss;
 
     public LoadingDialog(Context context) {
         super(context, R.style.Dialog);
@@ -69,7 +70,23 @@ public class LoadingDialog extends Dialog {
 
     }
 
+    @Override
+    public void dismiss() {
+        if (onDismiss!=null){
+            onDismiss.doBeforDismiss();
+        }
+        super.dismiss();
+    }
+
+    public void setOnDismiss(onDismiss on){
+        this.onDismiss=on;
+    }
+
     public void setLoadText(String content) {
         loadtext.setText(content);
+    }
+
+    public interface onDismiss{
+        void doBeforDismiss();
     }
 }

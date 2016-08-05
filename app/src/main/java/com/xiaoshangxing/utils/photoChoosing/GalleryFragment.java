@@ -23,7 +23,6 @@ import com.xiaoshangxing.setting.utils.photo_choosing.PublicWay;
 import com.xiaoshangxing.setting.utils.photo_choosing.Res;
 import com.xiaoshangxing.setting.utils.photo_choosing.ViewPagerFixed;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.wo.inform.report.reportEvidenceFragment.ReportEvidenceFragment;
 
 import java.util.ArrayList;
 import java.util.List;

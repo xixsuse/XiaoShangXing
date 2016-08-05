@@ -1,13 +1,12 @@
 package com.xiaoshangxing.login_register.StartActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.NonNull;
 
-import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 /**
  * Created by FengChaoQun
@@ -17,7 +16,6 @@ public class StartActivityPresenter implements StartActivityContract.Presenter {
     private StartActivityContract.View mView;
     private myHandler handler;
     private Context context;
-
 
     public StartActivityPresenter(@NonNull StartActivityContract.View view, Context context) {
         this.mView = view;
@@ -46,22 +44,22 @@ public class StartActivityPresenter implements StartActivityContract.Presenter {
 
     @Override
     public boolean isFirstCome() {
-        return true;
+        return (boolean) SPUtils.get(context, SPUtils.IS_FIRS_COME, true);
+    }
+
+    @Override
+    public boolean isQuit() {
+        return (boolean) SPUtils.get(context, SPUtils.IS_QUIT, true);
     }
 
     @Override
     public void clickOnLogin() {
-        Intent intent = new Intent(context, LoginRegisterActivity.class);
-        intent.putExtra("type", LoginRegisterActivity.FIRST_COME);
-        intent.putExtra("number", "88888888888");
-        context.startActivity(intent);
+        mView.gotoLogin();
     }
 
     @Override
     public void clickOnRegister() {
-        Intent intent = new Intent(context, LoginRegisterActivity.class);
-        intent.putExtra("type", LoginRegisterActivity.REGISTER);
-        context.startActivity(intent);
+        mView.gotoRegister();
     }
 
     private class myHandler extends Handler {
@@ -74,10 +72,12 @@ public class StartActivityPresenter implements StartActivityContract.Presenter {
             if (isFirstCome()) {
                 mView.showButton();
             } else {
-                mView.intentLoginRegisterActivity();
+                if (isQuit()) {
+                    mView.intentLoginRegisterActivity();
+                } else {
+                    mView.intentMainActivity();
+                }
             }
-
         }
     }
-
 }

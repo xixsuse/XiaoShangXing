@@ -21,6 +21,9 @@ import com.xiaoshangxing.wo.myState.myStateActivity;
  */
 public class CirecleImage extends ImageView {
     private Context context;
+    public static final int PERSON_INFO = 1000;
+    public static final int PERSON_STATE = 2000;
+    private int intent_type;
     /**
      * 获取屏幕密度
      */
@@ -29,6 +32,7 @@ public class CirecleImage extends ImageView {
      * �?
      */
     private float roundness;
+
 
     public CirecleImage(Context context) {
         super(context);
@@ -84,7 +88,6 @@ public class CirecleImage extends ImageView {
 
         canvas.drawBitmap(composedBitmap, 0, 0, new Paint());
 
-        setOnClickListener(clickListener);
     }
 
     public float getRoundness() {
@@ -98,6 +101,28 @@ public class CirecleImage extends ImageView {
     private void init() {
         // 括号中的数字是调整图片弧度的 调成100为圆形图�? 调成15为圆角图�?
         setRoundness(100);
+    }
+
+    public void setIntent_type(int intent_type) {
+        this.intent_type = intent_type;
+        switch (intent_type) {
+            case PERSON_INFO:
+
+                break;
+            case PERSON_STATE:
+                intent_type = PERSON_STATE;
+                setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent state_intent = new Intent(context, myStateActivity.class);
+//                        state_intent.putExtra(myStateActivity.TYPE,myStateActivity.OTHRE);
+                        state_intent.putExtra(myStateActivity.TYPE, myStateActivity.SELF);
+                        context.startActivity(state_intent);
+                    }
+                });
+                break;
+        }
+
     }
 
     @Override
@@ -116,4 +141,5 @@ public class CirecleImage extends ImageView {
             context.startActivity(intent);
         }
     };
+
 }

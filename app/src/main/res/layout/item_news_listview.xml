@@ -44,7 +44,7 @@
                 android:src="@mipmap/blue_heart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <TextView
+            <com.xiaoshangxing.input_activity.EmotionText.EmotinText
                 android:visibility="gone"
                 android:id="@+id/comment_text"
                 android:maxLines="1"
@@ -84,7 +84,7 @@
             android:background="@color/w2"
             android:scaleType="centerCrop" />
 
-        <TextView
+        <com.xiaoshangxing.input_activity.EmotionText.EmotinText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
