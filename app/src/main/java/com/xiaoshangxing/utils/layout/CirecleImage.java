@@ -125,21 +125,7 @@ public class CirecleImage extends ImageView {
 
     }
 
-    @Override
-    public void setOnClickListener(OnClickListener clickListener) {
-        super.setOnClickListener(clickListener);
+    public int getIntent_type() {
+        return intent_type;
     }
-
-    public void setClickListener(OnClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
-    private OnClickListener clickListener=new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent=new Intent(context, myStateActivity.class);
-            context.startActivity(intent);
-        }
-    };
-
 }

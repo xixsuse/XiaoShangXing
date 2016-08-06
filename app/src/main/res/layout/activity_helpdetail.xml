@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x12"
-                android:text="@string/xiaoshang"
+                android:text="@string/back"
                 android:textColor="@color/b0"
                 android:textSize="15sp" />
 
@@ -131,7 +131,7 @@
                 </RelativeLayout>
 
                 <!--文字内容-->
-                <TextView
+                <com.xiaoshangxing.input_activity.EmotionText.EmotinText
                     android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/y364"
@@ -374,8 +374,5 @@
 
     </LinearLayout>
 
-    <include layout="@layout/util_input_box">
-
-    </include>
 
 </RelativeLayout>

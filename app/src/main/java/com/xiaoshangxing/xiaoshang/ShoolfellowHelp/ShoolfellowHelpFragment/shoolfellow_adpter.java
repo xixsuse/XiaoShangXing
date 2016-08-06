@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
@@ -53,7 +54,7 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
             viewholder.name = (TextView) convertView.findViewById(R.id.name);
             viewholder.college = (TextView) convertView.findViewById(R.id.college);
             viewholder.time = (TextView) convertView.findViewById(R.id.time);
-            viewholder.text = (TextView) convertView.findViewById(R.id.text);
+            viewholder.text = (EmotinText) convertView.findViewById(R.id.text);
             viewholder.button = (ImageView) convertView.findViewById(R.id.button);
             viewholder.finish=(ImageView)convertView.findViewById(R.id.finish);
             convertView.setTag(viewholder);
@@ -69,8 +70,6 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
                 if (fragment.isRefreshing()) {
                     return;
                 }
-                float density = getContext().getResources().getDisplayMetrics().density;
-
                 View menu = View.inflate(context, R.layout.shoolfellow_popupmenu, null);
                 final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -99,8 +98,7 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(context, SelectPersonActivity.class);
-                        intent.putExtra(InputActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_HELP_TRANSMIT);
-                        activity.startActivityForResult(intent,ShoolfellowHelpActivity.SELECTPERSON);
+                        activity.startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
                         popupWindow.dismiss();
                     }
                 });
@@ -144,7 +142,8 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
 
     private static class mystate_viewholder {
         private CirecleImage headImage;
-        private TextView name, college, time, text;
+        private TextView name, college, time;
+        private EmotinText text;
         private ImageView button,finish;
     }
 

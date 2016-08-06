@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,7 +41,7 @@ import butterknife.OnClick;
  */
 public class ShoolRewardFragment extends BaseFragment implements ShoolRewardContract.View {
 
-    public static final String TAG = BaseFragment.TAG + "-ShoolfellowHelpFragment";
+    public static final String TAG = BaseFragment.TAG + "-ShoolRewardFragment";
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
@@ -56,36 +57,62 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     private shoolreward_adpter adpter;
     private List<String> list = new ArrayList<String>();
     private View headview, footview;
+    private ShoolRewardContract.Presenter mPresenter;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
 
     public static ShoolRewardFragment newInstance() {
         return new ShoolRewardFragment();
     }
 
     private boolean isRefreshing;
+    private boolean isLoading;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mview = inflater.inflate(R.layout.frag_shoolreward, null);
         ButterKnife.bind(this, mview);
+        setmPresenter(new ShoolRewardPresenter(this, getContext()));
+        refreshPager();
+        mPresenter.isNeedRefresh();
         initFresh();
         initView();
         return mview;
     }
 
     private void initView() {
-        for (int i = 0; i <= 10; i++) {
-            list.add("" + i);
-        }
-        adpter = new shoolreward_adpter(getContext(), 1, list,this, (ShoolRewardActivity)getActivity());
-        listview.setAdapter(adpter);
-
         headview = View.inflate(getContext(), R.layout.headview_help_list, null);
         footview = View.inflate(getContext(), R.layout.footer, null);
-        DotsTextView dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
+        dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
         dotsTextView.start();
+        loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
+        headview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickOnRule();
+            }
+        });
+        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 5) {
+                    if (!isLoading) {
+                        mPresenter.LoadMore();
+                    }
+                }
+                if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                    showFooter();
+                }
+            }
+        });
     }
 
     private void initFresh() {
@@ -115,6 +142,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 isRefreshing = true;
+                mPresenter.RefreshData();
                 ptrFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -144,12 +172,18 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         }
     }
 
+    @Override
     public boolean isRefreshing() {
         return isRefreshing;
     }
 
-    public void showPublishMenu(View v) {
+    @Override
+    public boolean isLoading() {
+        return isLoading;
+    }
 
+    @Override
+    public void showPublishMenu(View v) {
         View menu = View.inflate(getContext(), R.layout.popupmenu_rewardpubulish, null);
         final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -197,12 +231,6 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     @Override
     public void gotoCollect() {
         ShoolRewardActivity activity = (ShoolRewardActivity) getActivity();
-//        CollectFragment fragment = activity.getCollectFragment();
-//        getFragmentManager().beginTransaction()
-//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-//                        R.anim.slide_in_left, R.anim.slide_out_left)
-//                .replace(R.id.main_fragment, fragment, CollectFragment.TAG)
-//                .addToBackStack(null).commit();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
@@ -223,12 +251,6 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     @Override
     public void gotoPublished() {
         ShoolRewardActivity activity = (ShoolRewardActivity) getActivity();
-//        MyShoolRewardFragment fragment = activity.getMyShoolRewardFragment();
-//        getFragmentManager().beginTransaction()
-//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-//                        R.anim.slide_in_left, R.anim.slide_out_left)
-//                .replace(R.id.main_fragment, fragment, MyShoolHelpFragment.TAG)
-//                .addToBackStack(null).commit();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
@@ -240,8 +262,48 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     }
 
     @Override
-    public void toastErro() {
+    public void setRefreshState(boolean is) {
+        isRefreshing = is;
+    }
 
+    @Override
+    public void setLoadState(boolean is) {
+        isLoading = is;
+    }
+
+    @Override
+    public void refreshPager() {
+        for (int i = 0; i <= 10; i++) {
+            list.add("" + i);
+        }
+        adpter = new shoolreward_adpter(getContext(), 1, list, this, (ShoolRewardActivity) getActivity());
+        listview.setAdapter(adpter);
+    }
+
+    @Override
+    public void autoRefresh() {
+        if (ptrFrameLayout != null) {
+            if (mPresenter.isNeedRefresh()) {
+                ptrFrameLayout.autoRefresh();
+            }
+        }
+    }
+
+    @Override
+    public void showNoData() {
+        dotsTextView.stop();
+        loadingText.setText("没有动态啦");
+    }
+
+    @Override
+    public void showFooter() {
+        dotsTextView.start();
+        loadingText.setText("加载中");
+    }
+
+    @Override
+    public void clickOnRule() {
+        showToast("公告规则");
     }
 
     @Override
@@ -251,7 +313,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                noticeDialog("已收藏");
+                mPresenter.collect();
             }
 
             @Override
@@ -279,9 +341,8 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         }, 1000);
     }
 
-
     @Override
     public void setmPresenter(@Nullable ShoolRewardContract.Presenter presenter) {
-
+        this.mPresenter = presenter;
     }
 }

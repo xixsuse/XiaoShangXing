@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.Name;
 
 import java.util.Random;
 
@@ -46,28 +47,13 @@ public class PraiseListFrafment extends Fragment {
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             View view=LayoutInflater.from(
-                    getContext()).inflate(R.layout.item_comment_list_recycleview, parent,
+                    getContext()).inflate(R.layout.item_praise_list_recycleview, parent,
                     false);
             MyViewHolder holder = new MyViewHolder(view);
             holder.view=view;
-            holder.name=(TextView)view.findViewById(R.id.name);
+            holder.name=(Name) view.findViewById(R.id.name);
             holder.college=(TextView)view.findViewById(R.id.college);
             holder.headImage=(CirecleImage)view.findViewById(R.id.head_image);
-
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HelpDetailActivity activity=(HelpDetailActivity) getActivity();
-                    activity.showInputBox(false);
-                }
-            });
-            emptyText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HelpDetailActivity activity=(HelpDetailActivity) getActivity();
-                    activity.showInputBox(false);
-                }
-            });
             return holder;
         }
 
@@ -86,7 +72,8 @@ public class PraiseListFrafment extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder
         {
 
-            TextView name,college;
+            TextView college;
+            Name name;
             CirecleImage headImage;
             View view;
             public MyViewHolder(View view)

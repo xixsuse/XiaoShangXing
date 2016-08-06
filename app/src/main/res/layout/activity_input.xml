@@ -290,7 +290,7 @@
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/reward_price"
-                android:hint="人数"
+                android:hint="价格"
                 android:textColorHint="@color/g2"
                 android:layout_marginStart="@dimen/width_48"
                 android:paddingStart="@dimen/x42"

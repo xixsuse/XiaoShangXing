@@ -18,7 +18,7 @@
             android:layout_centerVertical="true"
             android:src="@mipmap/cirecleiamge_default" />
         <!--姓名-->
-        <TextView
+        <com.xiaoshangxing.utils.layout.Name
             android:id="@id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
     </RelativeLayout>
 
     <!--文字内容-->
-    <TextView
+    <com.xiaoshangxing.input_activity.EmotionText.EmotinText
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y364"
@@ -69,7 +69,7 @@
         android:textColor="@color/b0"
         android:textSize="14sp" />
 
-    <!--评论按钮-->
+    <!--按钮-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y84">

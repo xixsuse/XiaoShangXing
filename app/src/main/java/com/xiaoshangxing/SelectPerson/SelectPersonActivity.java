@@ -27,11 +27,13 @@ import java.util.List;
  */
 public class SelectPersonActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = BaseActivity.TAG + "-SelectPersonActivity";
-    public static final String TRANSMIT_TYPE="TRANSMIT_TYPE";
+
+//    public static final String TRANSMIT_TYPE="TRANSMIT_TYPE";
     public static final String SELECT_PERSON="SELECT_PERSON";
-    public static final int SCHOOL_HELP_TRANSMIT=80001;
-    public static final int SCHOOL_REWARD_TRANSMIT=80002;
-    private int current_type;
+//    public static final int SCHOOL_HELP_TRANSMIT=80001;
+//    public static final int SCHOOL_REWARD_TRANSMIT=80002;
+    public static final int SELECT_PERSON_CODE=9000;
+//    private int current_type;
     private ListView sortListView;
     private SideBar sideBar;
     private TextView dialog;
@@ -114,7 +116,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         adapter = new SortAdapter(this, SourceDateList,limit,this);
         sortListView.setAdapter(adapter);
 
-        current_type=getIntent().getIntExtra(TRANSMIT_TYPE,SCHOOL_HELP_TRANSMIT);
+//        current_type=getIntent().getIntExtra(TRANSMIT_TYPE,SCHOOL_HELP_TRANSMIT);
     }
 
 
@@ -198,10 +200,6 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     }
 
     public void showOverLimit(){
-//        Toast toast=new Toast(this);
-//        toast.setText("最多只能选择"+limit+"人");
-//        toast.setGravity(Gravity.CENTER,0,0);
-//        toast.show();
         Toast.makeText(SelectPersonActivity.this, "最多只能选择"+limit+"人", Toast.LENGTH_SHORT).show();
     }
 
@@ -228,17 +226,21 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void sure(){
-        switch (current_type){
-            case SCHOOL_HELP_TRANSMIT:
-                Intent help_intent=new Intent();
-                help_intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
-                setResult(ShoolfellowHelpActivity.SELECTPERSON,help_intent);
-                break;
-            case SCHOOL_REWARD_TRANSMIT:
-                Intent reward_intent=new Intent();
-                reward_intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
-                setResult(ShoolRewardActivity.SELECT_PERSON,reward_intent);
-                break;
-        }
+//        switch (current_type){
+//            case SCHOOL_HELP_TRANSMIT:
+//                Intent help_intent=new Intent();
+//                help_intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
+//                setResult(ShoolfellowHelpActivity.SELECTPERSON,help_intent);
+//                break;
+//            case SCHOOL_REWARD_TRANSMIT:
+//                Intent reward_intent=new Intent();
+//                reward_intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
+//                setResult(ShoolRewardActivity.SELECT_PERSON,reward_intent);
+//                break;
+//        }
+
+        Intent intent=new Intent();
+        intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
+        setResult(SELECT_PERSON_CODE,intent);
     }
 }

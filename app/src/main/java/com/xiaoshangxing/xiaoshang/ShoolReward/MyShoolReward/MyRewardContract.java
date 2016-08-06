@@ -23,6 +23,10 @@ public class MyRewardContract {
         **describe:没有内容时
         */
         void showNoContentText(boolean is);
+        /*
+        **describe:刷新数据
+        */
+        void refreshData();
     }
 
     public interface Presenter extends IBasePresenter {
@@ -35,5 +39,9 @@ public class MyRewardContract {
         **describe:结束或取消
         */
         void completeOrCancle();
+        /*
+        **describe:加载数据
+        */
+        void refreshData();
     }
 }

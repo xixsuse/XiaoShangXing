@@ -12,8 +12,10 @@ import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
@@ -50,10 +52,10 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
             convertView = View.inflate(context, R.layout.item_shoolreward_listview, null);
             viewholder = new mystate_viewholder();
             viewholder.headImage = (CirecleImage) convertView.findViewById(R.id.head_image);
-            viewholder.name = (TextView) convertView.findViewById(R.id.name);
+            viewholder.name = (Name) convertView.findViewById(R.id.name);
             viewholder.college = (TextView) convertView.findViewById(R.id.college);
             viewholder.time = (TextView) convertView.findViewById(R.id.time);
-            viewholder.text = (TextView) convertView.findViewById(R.id.text);
+            viewholder.text = (EmotinText) convertView.findViewById(R.id.text);
             viewholder.price = (TextView) convertView.findViewById(R.id.price);
             viewholder.button = (ImageView) convertView.findViewById(R.id.button);
             viewholder.down_arrow = (ImageView) convertView.findViewById(R.id.down_arrow);
@@ -78,7 +80,6 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
                 if (fragment.isRefreshing()) {
                     return;
                 }
-                float density = getContext().getResources().getDisplayMetrics().density;
 
                 View menu = View.inflate(context, R.layout.shoolfellow_popupmenu, null);
                 final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -107,9 +108,6 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
                 transmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent intent=new Intent(getContext(), SelectPersonActivity.class);
-//                        intent.putExtra(SelectPersonActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_REWARD_TRANSMIT);
-//                        activity.startActivityForResult(intent,ShoolRewardActivity.SELECT_PERSON);
                         activity.gotoSelectPerson();
                         popupWindow.dismiss();
                     }
@@ -157,7 +155,9 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
 
     private static class mystate_viewholder {
         private CirecleImage headImage;
-        private TextView name, college, time, text, price;
+        private TextView  college, time, price;
+        private EmotinText text;
+        private Name name;
         private ImageView button, down_arrow,finish;
     }
 

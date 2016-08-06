@@ -13,8 +13,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 
 import java.util.ArrayList;
@@ -37,15 +39,12 @@ public class CommentListFrafment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new HomeAdapter());
         emptyText=(TextView)view.findViewById(R.id.empty_text);
-        Random random=new Random();
-        if (random.nextInt(4)==1){
-            recyclerView.setVisibility(View.GONE);
-            emptyText.setVisibility(View.VISIBLE);
-            emptyText.setText("赶紧评论一下");
-        }
-
-
-
+//        Random random=new Random();
+//        if (random.nextInt(4)==1){
+//            recyclerView.setVisibility(View.GONE);
+//            emptyText.setVisibility(View.VISIBLE);
+//            emptyText.setText("赶紧评论一下");
+//        }
         return view;
     }
 
@@ -60,14 +59,14 @@ public class CommentListFrafment extends Fragment {
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
         {
             View view=LayoutInflater.from(
-                    getContext()).inflate(R.layout.item_praise_list_recycleview, parent,
+                    getContext()).inflate(R.layout.item_comment_list_recycleview, parent,
                     false);
             MyViewHolder holder = new MyViewHolder(view);
             holder.view=view;
-            holder.name=(TextView)view.findViewById(R.id.name);
+            holder.name=(Name) view.findViewById(R.id.name);
             holder.college=(TextView)view.findViewById(R.id.college);
             holder.time=(TextView)view.findViewById(R.id.time);
-            holder.text=(TextView)view.findViewById(R.id.text);
+            holder.text=(EmotinText) view.findViewById(R.id.text);
             holder.headImage=(CirecleImage)view.findViewById(R.id.head_image);
 
 
@@ -75,29 +74,16 @@ public class CommentListFrafment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (isCollect){
-//                        RewardDetailActivity activity=(RewardDetailActivity) getActivity();
-//                        activity.showOrHideInputBox();
                         Intent comment_input=new Intent(getContext(),InputActivity.class);
                         comment_input.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
                         comment_input.putExtra(InputActivity.COMMENT_OBJECT,"校上行");
                         startActivity(comment_input);
                     }else {
-//                        HelpDetailActivity activity=(HelpDetailActivity) getActivity();
-//                        activity.showOrHideInputBox();
                         Intent comment_input=new Intent(getContext(),InputActivity.class);
                         comment_input.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
                         comment_input.putExtra(InputActivity.COMMENT_OBJECT,"校上行");
                         startActivity(comment_input);
                     }
-
-
-                }
-            });
-            emptyText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HelpDetailActivity activity=(HelpDetailActivity) getActivity();
-                    activity.showInputBox(false);
                 }
             });
             return holder;
@@ -118,7 +104,9 @@ public class CommentListFrafment extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder
         {
 
-            TextView name,college,time,text;
+            TextView college,time;
+            EmotinText text;
+            Name name;
             CirecleImage headImage;
             View view;
 

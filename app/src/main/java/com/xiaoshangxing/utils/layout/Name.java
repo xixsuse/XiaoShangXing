@@ -15,7 +15,9 @@ import com.xiaoshangxing.wo.myState.myStateActivity;
  */
 public class Name extends TextView {
     private Context context;
-    private boolean is_clickable;
+    public static final int PERSON_INFO = 1000;
+    public static final int PERSON_STATE = 2000;
+    private int intent_type;
     public Name(Context context) {
         super(context);
         init(context);
@@ -33,36 +35,32 @@ public class Name extends TextView {
 
     private void init(Context context){
         this.context=context;
-        setColor(getResources().getColor(R.color.blue1));
-        if (is_clickable){
-            setOnClickListener(clickListener);
+    }
+
+    public void setIntent_type(int intent_type) {
+        this.intent_type = intent_type;
+        switch (intent_type) {
+            case PERSON_INFO:
+
+                break;
+            case PERSON_STATE:
+                intent_type = PERSON_STATE;
+                setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent state_intent = new Intent(context, myStateActivity.class);
+//                        state_intent.putExtra(myStateActivity.TYPE,myStateActivity.OTHRE);
+                        state_intent.putExtra(myStateActivity.TYPE, myStateActivity.SELF);
+                        context.startActivity(state_intent);
+                    }
+                });
+                break;
         }
+
     }
 
-    private void setColor(int color){
-        setTextColor(color);
+    public int getIntent_type() {
+        return intent_type;
     }
 
-    @Override
-    public void setOnClickListener(OnClickListener clickListener) {
-        super.setOnClickListener(clickListener);
-    }
-
-    public void setClickListener(OnClickListener clickListener) {
-        this.clickListener = clickListener;
-        invalidate();
-    }
-
-    private OnClickListener clickListener=new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent=new Intent(context, myStateActivity.class);
-            context.startActivity(intent);
-        }
-    };
-
-    public void setIs_clickable(boolean is_clickable) {
-        this.is_clickable = is_clickable;
-        invalidate();
-    }
 }

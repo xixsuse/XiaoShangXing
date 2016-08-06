@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
@@ -37,7 +36,9 @@ import butterknife.OnClick;
  * on 2016/7/21
  */
 public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.View {
+
     public static final String TAG = BaseFragment.TAG + "-MyShoolHelpFragment";
+
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
@@ -55,8 +56,6 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     @Bind(R.id.no_content)
     TextView noContent;
 
-    private int currentItem;
-
     public static MyShoolHelpFragment newInstance() {
         return new MyShoolHelpFragment();
     }
@@ -64,31 +63,33 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     private myshoolfellow_adpter adpter;
     private List<String> list = new ArrayList<String>();
     private View view;
+    private MyhelpContract.Presenter mPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_myshoolhelp, null);
         ButterKnife.bind(this, view);
+        setmPresenter(new MyHelpPresenter(this, getContext()));
         initFresh();
         initView();
         return view;
     }
 
     private void initView() {
+        View view = new View(getContext());
+        listview.addHeaderView(view);
+        refreshData();
+    }
+
+    @Override
+    public void refreshData() {
         for (int i = 0; i <= 10; i++) {
             list.add("" + i);
         }
-
-        View view = new View(getContext());
-        listview.addHeaderView(view);
-
-        adpter = new myshoolfellow_adpter(getContext(), 1, list, this,(ShoolfellowHelpActivity)getActivity());
+        adpter = new myshoolfellow_adpter(getContext(), 1, list, this, (ShoolfellowHelpActivity) getActivity());
         listview.setAdapter(adpter);
-
-
     }
-
 
     private void initFresh() {
         final StoreHouseHeader header = new StoreHouseHeader(getContext());
@@ -128,9 +129,8 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
 
     @Override
     public void setmPresenter(@Nullable MyhelpContract.Presenter presenter) {
-
+        this.mPresenter = presenter;
     }
-
 
     @Override
     public void onDestroyView() {
@@ -138,6 +138,7 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         ButterKnife.unbind(this);
     }
 
+    @Override
     public void showHideMenu(boolean is) {
         ShoolfellowHelpActivity activity=(ShoolfellowHelpActivity)getActivity();
         if (is) {
@@ -151,19 +152,23 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     }
 
     private void gotoSelectPerson(){
+        adpter.showSelectCircle(false);
+        showHideMenu(false);
         ShoolfellowHelpActivity activity=(ShoolfellowHelpActivity)getActivity();
         Intent intent=new Intent(getContext(), SelectPersonActivity.class);
-        intent.putExtra(SelectPersonActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_HELP_TRANSMIT);
-        activity.startActivityForResult(intent,ShoolfellowHelpActivity.SELECTPERSON);
+        activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
     public void showDeleteSureDialog() {
+        adpter.showSelectCircle(false);
+        showHideMenu(false);
+
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
         dialogMenu2.addMenuItem("删除");
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-
+                mPresenter.delete();
             }
 
             @Override
@@ -193,13 +198,9 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
                 getFragmentManager().popBackStack();
                 break;
             case R.id.hide_trasmit:
-                adpter.showSelectCircle(false);
-                showHideMenu(false);
                 gotoSelectPerson();
                 break;
             case R.id.hide_delete:
-                adpter.showSelectCircle(false);
-                showHideMenu(false);
                 showDeleteSureDialog();
                 break;
         }

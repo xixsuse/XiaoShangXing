@@ -166,7 +166,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                 return false;
             }
         });
-
     }
 
     private void initInputBox() {
@@ -187,7 +186,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         intent.putExtra(rollActivity.TYPE, rollActivity.NOTICE);
         startActivity(intent);
     }
-
 
     @Override
     public void showSureDelete() {
@@ -234,7 +232,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
             case R.id.comment:
                 inputBoxLayout.showOrHideLayout(true);
                 break;
-
         }
     }
 

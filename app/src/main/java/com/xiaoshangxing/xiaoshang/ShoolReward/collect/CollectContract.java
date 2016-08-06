@@ -39,9 +39,10 @@ public class CollectContract {
         */
         void transmit();
         void delete();
+
         /*
-        **describe:结束或取消
+        **describe:取消收藏
         */
-        void completeOrCancle();
+        void unCollect();
     }
 }

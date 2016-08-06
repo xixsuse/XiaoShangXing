@@ -2,25 +2,19 @@ package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment.ShoolfellowHelpFragment;
 
 import java.util.List;
 
@@ -55,10 +49,10 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
             convertView = View.inflate(context, R.layout.item_myshoolfellowhelp_listview, null);
             viewholder = new mystate_viewholder();
             viewholder.headImage = (CirecleImage) convertView.findViewById(R.id.head_image);
-            viewholder.name = (TextView) convertView.findViewById(R.id.name);
+            viewholder.name = (Name) convertView.findViewById(R.id.name);
             viewholder.college = (TextView) convertView.findViewById(R.id.college);
             viewholder.time = (TextView) convertView.findViewById(R.id.time);
-            viewholder.text = (TextView) convertView.findViewById(R.id.text);
+            viewholder.text = (EmotinText) convertView.findViewById(R.id.text);
             viewholder.iscomplete = (CheckBox) convertView.findViewById(R.id.iscomplete);
             viewholder.checkBox=(CheckBox)convertView.findViewById(R.id.checkbox);
             convertView.setTag(viewholder);
@@ -78,9 +72,8 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-               showMenu(v);
+                showMenu(v);
                 v.setBackgroundColor(context.getResources().getColor(R.color.g1));
-//                v.setAlpha(0.9f);
                 return true;
             }
         });
@@ -93,15 +86,17 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
 
     private static class mystate_viewholder {
         private CirecleImage headImage;
-        private TextView name, college, time, text;
+        private TextView college, time;
+        private Name name;
+        private EmotinText text;
         private CheckBox checkBox,iscomplete;
     }
 
     private void showMenu(View v){
-       final View view=v;
+
+        final View view = v;
         int []xy=new int[2];
         v.getLocationInWindow(xy);
-        Log.d("y",""+xy[1]);
         View menu;
         if (xy[1]<=context.getResources().getDimensionPixelSize(R.dimen.y300)){
              menu= View.inflate(getContext(),R.layout.popup_myhelp_up,null);
@@ -148,8 +143,7 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getContext(), SelectPersonActivity.class);
-                intent.putExtra(SelectPersonActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_HELP_TRANSMIT);
-                activity.startActivityForResult(intent,ShoolfellowHelpActivity.SELECTPERSON);
+                activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
                 popupWindow.dismiss();
             }
         });
@@ -176,6 +170,5 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
     public void showSelectCircle(boolean is){
         showselect=is;
         notifyDataSetChanged();
-        Log.d("notify","ok");
     }
 }

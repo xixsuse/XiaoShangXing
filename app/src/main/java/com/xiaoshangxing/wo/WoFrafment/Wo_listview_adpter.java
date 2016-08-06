@@ -248,7 +248,7 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, rollActivity.class);
-                intent.putExtra(rollActivity.TYPE, rollActivity.FORBIDDEN);
+                intent.putExtra(rollActivity.TYPE, rollActivity.NOTICE);
                 context.startActivity(intent);
             }
         });

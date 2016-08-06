@@ -2,25 +2,19 @@ package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail;
 
 import android.animation.ValueAnimator;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,13 +23,13 @@ import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
-import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.lang.reflect.Field;
@@ -50,8 +44,9 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/20
  */
-public class HelpDetailActivity extends BaseActivity {
+public class HelpDetailActivity extends BaseActivity implements HelpDetailContract.View {
     public static final String TAG = BaseFragment.TAG + "-HelpDetailActivity";
+
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.myState)
@@ -69,9 +64,7 @@ public class HelpDetailActivity extends BaseActivity {
     @Bind(R.id.time)
     TextView time;
     @Bind(R.id.text)
-    TextView text;
-    @Bind(R.id.button)
-    ImageView button;
+    EmotinText text;
     @Bind(R.id.detail)
     LinearLayout detail;
     @Bind(R.id.transmit_text)
@@ -82,37 +75,21 @@ public class HelpDetailActivity extends BaseActivity {
     TextView praiseText;
     @Bind(R.id.cursor)
     View cursor;
-    @Bind(R.id.app_bar)
-    AppBarLayout appBar;
     @Bind(R.id.scrollview)
     ViewPager viewpager;
-    @Bind(R.id.coordinator)
-    CoordinatorLayout coordinator;
-    ;
-    @Bind(R.id.praiseOrCancel)
-    TextView praiseOrCancel;
-    @Bind(R.id.comment_input)
-    EditText commentInput;
-    @Bind(R.id.emotion)
-    ImageView emotion;
-    @Bind(R.id.input_layout)
-    RelativeLayout inputLayout;
-    @Bind(R.id.send)
-    TextView send;
-    @Bind(R.id.comment_input_layout)
-    RelativeLayout commentInputLayout;
     @Bind(R.id.transmit)
     RelativeLayout transmit;
     @Bind(R.id.comment)
     RelativeLayout comment;
+    @Bind(R.id.praiseOrCancel)
+    TextView praiseOrCancel;
     @Bind(R.id.praise)
     RelativeLayout praise;
 
     private int currentItem = 2;
     private List<Fragment> fragments = new ArrayList<Fragment>();
+    private HelpDetailContract.Presenter mPresenter;
 
-    private int screenHeight;
-    private boolean isInputBox;
     private Handler handler = new Handler();
 
     @Override
@@ -120,6 +97,7 @@ public class HelpDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_helpdetail);
         ButterKnife.bind(this);
+        setmPresenter(new HelpDetailPresenter(this, this));
         init();
         moveImediate(currentItem);
     }
@@ -135,7 +113,7 @@ public class HelpDetailActivity extends BaseActivity {
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                showInputBox(false);
+
             }
 
             @Override
@@ -155,8 +133,6 @@ public class HelpDetailActivity extends BaseActivity {
                 moveToPosition(2);
             }
         }, 300);
-
-
         /*
         **describe:通过反射修改viewpager的滑动速度
         */
@@ -168,62 +144,13 @@ public class HelpDetailActivity extends BaseActivity {
             field.set(viewpager, scroller);
             scroller.setmDuration(300);
         } catch (Exception e) {
-
+            e.printStackTrace();
+            Log.d("修改viewpager滑动速度", "失败");
         }
-
-        //监听键盘高度  让输入框保持在键盘上面
-        screenHeight = ScreenUtils.getScreenHeight(this);
-        KeyBoardUtils.observeSoftKeyboard(this, new KeyBoardUtils.OnSoftKeyboardChangeListener() {
-            @Override
-            public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
-
-                if (softKeybardHeight > 100) {
-                    commentInputLayout.layout(0, screenHeight - softKeybardHeight - commentInputLayout.getHeight(),
-                            commentInputLayout.getWidth(),
-                            screenHeight - softKeybardHeight);
-                    Log.d("keyboard", "" + softKeybardHeight);
-                    Log.d("height", "" + screenHeight);
-                }
-//                moveImediate(currentItem);
-            }
-        });
-
-        //监听输入框内容
-        commentInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (commentInput.getText().length() > 0) {
-                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_green1));
-                    send.setEnabled(true);
-                } else {
-                    send.setBackground(getResources().getDrawable(R.drawable.btn_circular_g1));
-                    send.setEnabled(false);
-                }
-            }
-        });
-
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showInputBox(false);
-            }
-        });
+        setCount(10, 20, 30);
     }
 
-    @OnClick({R.id.back, R.id.more, R.id.name, R.id.button,
-            R.id.comment_input, R.id.emotion, R.id.send, R.id.transmit_text,
-            R.id.comment_text, R.id.praise_text, R.id.transmit, R.id.comment,
-            R.id.praise, R.id.detail})
+    @OnClick({R.id.back, R.id.more, R.id.transmit_text, R.id.comment_text, R.id.praise_text, R.id.transmit, R.id.comment, R.id.praiseOrCancel, R.id.praise})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -231,10 +158,6 @@ public class HelpDetailActivity extends BaseActivity {
                 break;
             case R.id.more:
                 showShareDialog();
-                break;
-            case R.id.name:
-                break;
-            case R.id.button:
                 break;
             case R.id.transmit_text:
                 viewpager.setCurrentItem(0);
@@ -246,58 +169,23 @@ public class HelpDetailActivity extends BaseActivity {
                 viewpager.setCurrentItem(2);
                 break;
             case R.id.transmit:
-                Intent intent_selectperson=new Intent(HelpDetailActivity.this, SelectPersonActivity.class);
-                intent_selectperson.putExtra(SelectPersonActivity.TRANSMIT_TYPE,SelectPersonActivity.SCHOOL_HELP_TRANSMIT);
-                startActivityForResult(intent_selectperson, ShoolfellowHelpActivity.SELECTPERSON);
+                gotoSelectPeson();
                 break;
             case R.id.comment:
-//                showInputBox(true);
-                Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
-                intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-                startActivity(intent);
+                gotoInput();
+                break;
+            case R.id.praiseOrCancel:
                 break;
             case R.id.praise:
-                PraiseOrCancel();
-                break;
-            case R.id.comment_input:
-                break;
-            case R.id.emotion:
-                break;
-            case R.id.send:
-                break;
-            case R.id.detail:
-                showInputBox(false);
+                mPresenter.praise();
                 break;
         }
     }
 
-
-    public class FragAdapter extends FragmentPagerAdapter {
-
-        private List<Fragment> mFragments;
-
-        public FragAdapter(FragmentManager fm, List<Fragment> fragments) {
-            super(fm);
-            // TODO Auto-generated constructor stub
-            mFragments = fragments;
-        }
-
-        @Override
-        public Fragment getItem(int arg0) {
-            // TODO Auto-generated method stub
-            return mFragments.get(arg0);
-        }
-
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return mFragments.size();
-        }
-
-    }
 
     //    控制滑块滑动到指定位置
-    private void moveToPosition(int position) {
+    @Override
+    public void moveToPosition(int position) {
         int[] xy = new int[2];
         switch (position) {
             case 1:
@@ -324,7 +212,8 @@ public class HelpDetailActivity extends BaseActivity {
         Log.d("x", "" + xy[0]);
     }
 
-    private void moveImediate(int position) {
+    @Override
+    public void moveImediate(int position) {
         int[] xy = new int[2];
         switch (position) {
             case 1:
@@ -341,7 +230,8 @@ public class HelpDetailActivity extends BaseActivity {
                 cursor.getWidth() + xy[0], cursor.getBottom());
     }
 
-    private void showShareDialog() {
+    @Override
+    public void showShareDialog() {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View view = View.inflate(this, R.layout.util_help_share_dialog, null);
         dialog.setContentView(view);
@@ -357,7 +247,6 @@ public class HelpDetailActivity extends BaseActivity {
         xsx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HelpDetailActivity.this, "分享到xsx", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
                 intent.putExtra(InputActivity.EDIT_STATE, InputActivity.TRANSMIT);
                 intent.putExtra(InputActivity.TRANSMIT_TYPE, InputActivity.SHOOLFELLOW_HELP);
@@ -369,7 +258,13 @@ public class HelpDetailActivity extends BaseActivity {
         LocationUtil.bottom_FillWidth(this, dialog);
     }
 
-    private void PraiseOrCancel() {
+    @Override
+    public void setmPresenter(@Nullable HelpDetailContract.Presenter presenter) {
+        this.mPresenter = presenter;
+    }
+
+    @Override
+    public void setPraise() {
         if (praiseOrCancel.getText().equals("赞")) {
             praiseOrCancel.setText("取消");
         } else {
@@ -377,39 +272,25 @@ public class HelpDetailActivity extends BaseActivity {
         }
     }
 
-    public void showInputBox(boolean is) {
-        if (is) {
-            commentInputLayout.setVisibility(View.VISIBLE);
-            commentInputLayout.setFocusable(true);
-            //输入框自获取焦点 并弹出输入键盘
-            commentInput.setFocusable(true);
-            commentInput.setFocusableInTouchMode(true);
-            commentInput.requestFocus();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-            isInputBox = true;
-        } else {
-            commentInputLayout.setVisibility(View.GONE);
-            KeyBoardUtils.closeKeybord(commentInput, this);
-            isInputBox = false;
-            commentInput.setText("");
-        }
+    @Override
+    public void gotoSelectPeson() {
+        Intent intent_selectperson = new Intent(HelpDetailActivity.this, SelectPersonActivity.class);
+        startActivityForResult(intent_selectperson, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
-    public void showOrHideInputBox() {
-        if (isInputBox) {
-            showInputBox(false);
-        } else {
-            showInputBox(true);
-        }
+    @Override
+    public void gotoInput() {
+        Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
+        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+        startActivity(intent);
     }
 
-    private void showTransmitDialog(){
-        final Dialog dialog=new Dialog(this,R.style.ActionSheetDialog);
-        View dialogView=View.inflate(this,R.layout.school_help_transmit_dialog,null);
+    private void showTransmitDialog() {
+        final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
+        View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
         dialog.setContentView(dialogView);
-        TextView cancle=(TextView) dialogView.findViewById(R.id.cancel);
-        TextView send=(TextView) dialogView.findViewById(R.id.send);
+        TextView cancle = (TextView) dialogView.findViewById(R.id.cancel);
+        TextView send = (TextView) dialogView.findViewById(R.id.send);
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -419,23 +300,73 @@ public class HelpDetailActivity extends BaseActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mPresenter.transmit();
                 dialog.dismiss();
             }
         });
         dialog.show();
+        LocationUtil.setWidth(this,dialog,getResources().getDimensionPixelSize(R.dimen.x900));
+    }
+
+    @Override
+    public void setCount(int transmit, int comment, int praise) {
+        transmitText.setText("转发" + transmit);
+        commentText.setText("评论" + comment);
+        praiseText.setText("赞" + praise);
+    }
+
+    @Override
+    public void showTransmitSuccess() {
+        DialogUtils.Dialog_No_Button dialog_no_button =
+                new DialogUtils.Dialog_No_Button(HelpDetailActivity.this, "已分享");
+        final Dialog notice_dialog = dialog_no_button.create();
+        notice_dialog.show();
+        LocationUtil.setWidth(HelpDetailActivity.this, notice_dialog,
+                getResources().getDimensionPixelSize(R.dimen.x420));
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                notice_dialog.dismiss();
+            }
+        }, 500);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode== ShoolfellowHelpActivity.SELECTPERSON ){
-            if (data!=null){
-                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size()>0){
+        if (requestCode ==SelectPersonActivity.SELECT_PERSON_CODE) {
+            if (data != null) {
+                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
                     showTransmitDialog();
-                }else {
+                } else {
                     Toast.makeText(HelpDetailActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
                 }
             }
         }
+    }
+
+    public class FragAdapter extends FragmentPagerAdapter {
+
+        private List<Fragment> mFragments;
+
+        public FragAdapter(FragmentManager fm, List<Fragment> fragments) {
+            super(fm);
+            // TODO Auto-generated constructor stub
+            mFragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int arg0) {
+            // TODO Auto-generated method stub
+            return mFragments.get(arg0);
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return mFragments.size();
+        }
+
     }
 
 }

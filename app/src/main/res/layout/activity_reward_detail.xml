@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x12"
-                android:text="@string/cancle"
+                android:text="@string/back"
                 android:textColor="@color/b0"
                 android:textSize="15sp" />
 
@@ -93,7 +93,7 @@
                         android:layout_centerVertical="true"
                         android:src="@mipmap/cirecleiamge_default" />
                     <!--姓名-->
-                    <TextView
+                    <com.xiaoshangxing.utils.layout.Name
                         android:id="@id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
                 </RelativeLayout>
 
                 <!--文字内容-->
-                <TextView
+                <com.xiaoshangxing.input_activity.EmotionText.EmotinText
                     android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/y364"
@@ -394,8 +394,5 @@
 
     </LinearLayout>
 
-    <include layout="@layout/util_input_box">
-
-    </include>
 
 </RelativeLayout>

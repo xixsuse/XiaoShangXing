@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.Name;
 
 import java.util.Random;
 
@@ -49,35 +51,18 @@ public class TransmitListFrafment extends Fragment {
                     getContext()).inflate(R.layout.item_transmit_list_recycleview, parent,
                     false);
             MyViewHolder holder = new MyViewHolder(view);
-            holder.view=view;
-            holder.name=(TextView)view.findViewById(R.id.name);
+            holder.name=(Name) view.findViewById(R.id.name);
             holder.college=(TextView)view.findViewById(R.id.college);
             holder.time=(TextView)view.findViewById(R.id.time);
             holder.transmitLoction=(TextView)view.findViewById(R.id.transmit_loaction);
-            holder.text=(TextView)view.findViewById(R.id.text);
+            holder.text=(EmotinText) view.findViewById(R.id.text);
             holder.headImage=(CirecleImage)view.findViewById(R.id.head_image);
-
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HelpDetailActivity activity=(HelpDetailActivity) getActivity();
-                    activity.showInputBox(false);
-                }
-            });
-            emptyText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HelpDetailActivity activity=(HelpDetailActivity) getActivity();
-                    activity.showInputBox(false);
-                }
-            });
             return holder;
         }
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position)
         {
-
         }
 
         @Override
@@ -89,9 +74,10 @@ public class TransmitListFrafment extends Fragment {
         class MyViewHolder extends RecyclerView.ViewHolder
         {
 
-            TextView name,college,time,transmitLoction,text;
+            TextView college, time, transmitLoction;
+            Name name;
+            EmotinText text;
             CirecleImage headImage;
-            View view;
             public MyViewHolder(View view)
             {
                 super(view);

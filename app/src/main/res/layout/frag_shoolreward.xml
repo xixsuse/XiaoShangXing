@@ -36,7 +36,7 @@
                 android:textSize="15sp" />
 
         </LinearLayout>
-        <!--校友互帮-->
+
         <TextView
             android:id="@+id/title"
             style="@style/black_16sp"

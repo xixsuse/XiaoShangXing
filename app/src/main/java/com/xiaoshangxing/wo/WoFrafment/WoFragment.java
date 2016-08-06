@@ -182,7 +182,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) <= 3) {
+                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 5) {
                     if (!is_loadMore) {
                         mPresenter.LoadMore();
                     }

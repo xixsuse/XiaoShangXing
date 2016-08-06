@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x12"
-                android:text="@string/cancle"
+                android:text="@string/back"
                 android:textColor="@color/b0"
                 android:textSize="15sp" />
 

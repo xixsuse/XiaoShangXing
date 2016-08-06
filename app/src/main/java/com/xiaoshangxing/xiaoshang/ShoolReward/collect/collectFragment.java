@@ -37,6 +37,7 @@ import butterknife.OnClick;
  */
 public class CollectFragment extends BaseFragment implements CollectContract.View {
     public static final String TAG = BaseFragment.TAG + "-collectFragment";
+
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
@@ -62,12 +63,14 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
     private List<String> list = new ArrayList<String>();
     private View view;
     private ShoolRewardActivity activity;
+    private CollectContract.Presenter mPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_myshoolreward, null);
         ButterKnife.bind(this, view);
+        setmPresenter(new CollectPresenter(this,getContext()));
         initFresh();
         initView();
         return view;
@@ -86,9 +89,6 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
         listview.setAdapter(adpter);
 
         title.setText("收藏");
-    }
-
-    private void showMenu(View v) {
     }
 
     private void initFresh() {
@@ -133,7 +133,7 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                noticeDialog("已收藏");
+                mPresenter.unCollect();
             }
 
             @Override
@@ -160,7 +160,6 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
         }, 1000);
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -180,12 +179,15 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
     }
 
     public void showDeleteSureDialog() {
+        adpter.showSelectCircle(false);
+        showHideMenu(false);
+
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
         dialogMenu2.addMenuItem("删除");
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-
+                mPresenter.delete();
             }
 
             @Override
@@ -210,7 +212,7 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
 
     @Override
     public void setmPresenter(@Nullable CollectContract.Presenter presenter) {
-
+        this.mPresenter=presenter;
     }
 
     @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete})
@@ -225,8 +227,6 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
                 activity.gotoSelectPerson();
                 break;
             case R.id.hide_delete:
-                adpter.showSelectCircle(false);
-                showHideMenu(false);
                 showDeleteSureDialog();
                 break;
         }

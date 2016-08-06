@@ -2,12 +2,15 @@ package com.xiaoshangxing.wo.roll;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.wo.myState.myStateActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,7 @@ public class rollActivity extends BaseActivity {
     public static final String TYPE="TYPE";
     public static final int FORBIDDEN=1000;
     public static final int NOTICE=2000;
+    private int current_type;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
@@ -47,13 +51,31 @@ public class rollActivity extends BaseActivity {
         roll_listview_adpter adpter=new roll_listview_adpter(this,1,list);
         listview.setAdapter(adpter);
 
-        int type=getIntent().getIntExtra("type",1000);
-        if (type==NOTICE){
-            title.setText("提醒谁看");
-        }else {
-            title.setText("不给谁看");
-        }
+        initType();
 
+    }
+
+    private void initType() {
+        current_type = getIntent().getIntExtra(TYPE, 0);
+        switch (current_type) {
+            case NOTICE:
+                title.setText("提醒谁看");
+                listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent state_intent = new Intent(rollActivity.this, myStateActivity.class);
+                        state_intent.putExtra(myStateActivity.TYPE, myStateActivity.OTHRE);
+                        startActivity(state_intent);
+                    }
+                });
+                break;
+            case FORBIDDEN:
+                title.setText("不给谁看");
+                break;
+            default:
+                showToast("跳转错误");
+                break;
+        }
     }
 
     @OnClick(R.id.back)

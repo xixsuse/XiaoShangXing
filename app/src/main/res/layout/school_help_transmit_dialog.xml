@@ -14,7 +14,7 @@
         android:layout_marginStart="@dimen/x80"
         android:layout_marginEnd="@dimen/x60"
         android:layout_marginTop="@dimen/y60"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/x900"
         android:layout_height="@dimen/y234">
 
         <!--姓名学院-->

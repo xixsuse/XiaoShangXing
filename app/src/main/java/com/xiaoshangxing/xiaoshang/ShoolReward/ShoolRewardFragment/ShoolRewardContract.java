@@ -19,8 +19,6 @@ public class ShoolRewardContract {
         void gotoPublished();
         void gotoCollect();
 
-        void toastErro();
-
         /*
         **describe:显示收藏与否弹窗
         */
@@ -31,23 +29,73 @@ public class ShoolRewardContract {
         */
         void noticeDialog(String message);
 
+        /*
+       **describe:设置刷新状态
+       */
+        void setRefreshState(boolean is);
+
+        /*
+        **describe:获取刷新状态
+        */
+        boolean isRefreshing();
+
+        /*
+        **describe:设置加载状态
+        */
+        void setLoadState(boolean is);
+
+        /*
+        **describe:获取加载状态
+        */
+        boolean isLoading();
+
+        /*
+        **describe:刷新页面
+        */
+        void refreshPager();
+
+        /*
+        **describe:自动下拉刷新
+        */
+        void autoRefresh();
+
+        /*
+        **describe:没有数据了
+        */
+        void showNoData();
+
+        /*
+       **describe:显示listview尾
+       */
+        void showFooter();
+
+        /*
+        **describe:点击公告规则
+        */
+        void clickOnRule();
+
     }
 
     public interface Presenter extends IBasePresenter {
 
         /*
-        **describe:刷新数据
+        **describe:判断是否需要自动刷新
         */
-        void refreshDate();
+        boolean isNeedRefresh();
+
         /*
-        **describe:加载更多数据
+        **describe:刷新
         */
-        void loadMore();
+        void RefreshData();
+
         /*
-        **describe:转发 评论 赞
+        **describe:加载更多
         */
-        void transmit();
-        void comment();
-        void praise();
+        void LoadMore();
+
+        /*
+        **describe:收藏
+        */
+        void collect();
     }
 }

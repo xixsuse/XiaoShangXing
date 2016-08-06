@@ -2,7 +2,6 @@ package com.xiaoshangxing.xiaoshang.ShoolReward.MyShoolReward;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,8 +21,6 @@ import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
 import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp.myshoolfellow_adpter;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,64 +60,33 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     private List<String> list = new ArrayList<String>();
     private View view;
     private ShoolRewardActivity activity;
+    private MyRewardContract.Presenter mPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_myshoolreward, null);
         ButterKnife.bind(this, view);
+        setmPresenter(new MyRewardPresenter(this, getContext()));
         initFresh();
         initView();
         return view;
     }
 
     private void initView() {
+        View view = new View(getContext());
+        listview.addHeaderView(view);
+        activity=(ShoolRewardActivity)getActivity();
+        refreshData();
+    }
+
+    @Override
+    public void refreshData() {
         for (int i = 0; i <= 10; i++) {
             list.add("" + i);
         }
-
-        View view = new View(getContext());
-        listview.addHeaderView(view);
-
-        adpter = new myshoolreward_adpter(getContext(), 1, list, this,(ShoolRewardActivity)getActivity());
+        adpter = new myshoolreward_adpter(getContext(), 1, list, this, (ShoolRewardActivity) getActivity());
         listview.setAdapter(adpter);
-
-        activity=(ShoolRewardActivity)getActivity();
-
-    }
-
-    private void showMenu(View v) {
-
-        View menu = View.inflate(getContext(), R.layout.popup_myhelp_bottom, null);
-        final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setFocusable(true);
-        popupWindow.setAnimationStyle(R.style.popwindow_anim);
-
-        menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        int mShowMorePopupWindowWidth = menu.getMeasuredWidth();
-
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setTouchable(true);
-
-        popupWindow.showAsDropDown(v,
-                -mShowMorePopupWindowWidth + this.getResources().getDimensionPixelSize(R.dimen.x30) + v.getWidth(),
-                3);
-
-        View publish = menu.findViewById(R.id.publish);
-        View published = menu.findViewById(R.id.published);
-        publish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        published.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
     }
 
     private void initFresh() {
@@ -160,13 +125,13 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
         });
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
+    @Override
     public void showHideMenu(boolean is) {
         ShoolRewardActivity activity=(ShoolRewardActivity)getActivity();
         if (is) {
@@ -179,13 +144,17 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
         }
     }
 
+    @Override
     public void showDeleteSureDialog() {
+        adpter.showSelectCircle(false);
+        showHideMenu(false);
+
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
         dialogMenu2.addMenuItem("删除");
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-
+                mPresenter.delete();
             }
 
             @Override
@@ -210,7 +179,7 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
 
     @Override
     public void setmPresenter(@Nullable MyRewardContract.Presenter presenter) {
-
+        this.mPresenter = presenter;
     }
 
     @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete})
@@ -225,8 +194,6 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
                 activity.gotoSelectPerson();
                 break;
             case R.id.hide_delete:
-                adpter.showSelectCircle(false);
-                showHideMenu(false);
                 showDeleteSureDialog();
                 break;
         }

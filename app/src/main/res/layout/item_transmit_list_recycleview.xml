@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <!--姓名-->
-            <TextView
+            <com.xiaoshangxing.utils.layout.Name
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 android:text="转发到校友圈:"
                 android:textColor="@color/g0" />
             <!--文字内容-->
-            <TextView
+            <com.xiaoshangxing.input_activity.EmotionText.EmotinText
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

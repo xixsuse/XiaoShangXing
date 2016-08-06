@@ -1,6 +1,5 @@
 package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -54,36 +54,64 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     private shoolfellow_adpter adpter;
     private List<String> list = new ArrayList<String>();
     private View headview, footview;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
+
+    private ShoolHelpContract.Presenter mPresenter;
 
     public static ShoolfellowHelpFragment newInstance() {
         return new ShoolfellowHelpFragment();
     }
 
     private boolean isRefreshing;
+    private boolean isLoading;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mview = inflater.inflate(R.layout.frag_shoolfellowhelp, null);
         ButterKnife.bind(this, mview);
+        setmPresenter(new ShoolHelpPresenter(this, getContext()));
         initFresh();
         initView();
+        autoRefresh();
         return mview;
     }
 
     private void initView() {
-        for (int i = 0; i <= 10; i++) {
-            list.add("" + i);
-        }
-        adpter = new shoolfellow_adpter(getContext(), 1, list, this,(ShoolfellowHelpActivity)getActivity());
-        listview.setAdapter(adpter);
-
         headview = View.inflate(getContext(), R.layout.headview_help_list, null);
         footview = View.inflate(getContext(), R.layout.footer, null);
-        DotsTextView dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
+        dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
+        loadingText = (TextView) footview.findViewById(R.id.text);
         dotsTextView.start();
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
+
+        headview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickOnRule();
+            }
+        });
+
+        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 5) {
+                    if (!isLoading) {
+                        mPresenter.LoadMore();
+                    }
+                }
+                if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                    showFooter();
+                }
+            }
+        });
     }
 
     private void initFresh() {
@@ -113,6 +141,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 isRefreshing = true;
+                mPresenter.RefreshData();
                 ptrFrameLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -125,27 +154,6 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @OnClick({R.id.back, R.id.more})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.back:
-                getActivity().finish();
-                break;
-            case R.id.more:
-                showPublishMenu(view);
-                break;
-        }
-    }
-
-    public boolean isRefreshing() {
-        return isRefreshing;
-    }
-
     public void showPublishMenu(View v) {
 
         View menu = View.inflate(getContext(), R.layout.popupmenu_pubulish, null);
@@ -206,14 +214,74 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     }
 
     @Override
-    public void toastErro() {
-
+    public void setRefreshState(boolean is) {
+        isRefreshing = is;
     }
 
+    @Override
+    public void setLoadState(boolean is) {
+        isLoading = is;
+    }
 
+    @Override
+    public void refreshPager() {
+        for (int i = 0; i <= 10; i++) {
+            list.add("" + i);
+        }
+        adpter = new shoolfellow_adpter(getContext(), 1, list, this, (ShoolfellowHelpActivity) getActivity());
+        listview.setAdapter(adpter);
+    }
+
+    @Override
+    public void autoRefresh() {
+        if (ptrFrameLayout != null) {
+            if (mPresenter.isNeedRefresh()) {
+                ptrFrameLayout.autoRefresh();
+            }
+        }
+    }
+
+    @Override
+    public void showNoData() {
+        dotsTextView.stop();
+        loadingText.setText("没有动态啦");
+    }
+
+    @Override
+    public void showFooter() {
+        dotsTextView.start();
+        loadingText.setText("加载中");
+    }
+
+    @Override
+    public void clickOnRule() {
+        showToast("公告规则");
+    }
 
     @Override
     public void setmPresenter(@Nullable ShoolHelpContract.Presenter presenter) {
+        this.mPresenter = presenter;
+    }
 
+    public boolean isRefreshing() {
+        return isRefreshing;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick({R.id.back, R.id.more})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                getActivity().finish();
+                break;
+            case R.id.more:
+                showPublishMenu(view);
+                break;
+        }
     }
 }
