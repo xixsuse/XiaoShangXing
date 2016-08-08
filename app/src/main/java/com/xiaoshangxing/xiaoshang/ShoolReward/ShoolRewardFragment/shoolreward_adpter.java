@@ -11,14 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
-import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.util.List;
 import java.util.Random;
@@ -138,6 +135,14 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
             }
         });
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RewardDetailActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
 //        test
         Random random=new Random();
         int ran=random.nextInt(2);
@@ -152,7 +157,6 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
         return convertView;
     }
 
-
     private static class mystate_viewholder {
         private CirecleImage headImage;
         private TextView  college, time, price;
@@ -160,6 +164,4 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
         private Name name;
         private ImageView button, down_arrow,finish;
     }
-
-
 }

@@ -71,6 +71,11 @@ public interface RgInputVertifyCodeContract {
          */
         void gotoWhere();
 
+        /*
+        **describe:获取手机号码
+        */
+        String getPhone();
+
     }
 
     interface Presenter extends IBasePresenter {

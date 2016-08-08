@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
@@ -18,11 +17,9 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.xiaoshang.ShoolReward.MyShoolReward.MyShoolRewardFragment;
-import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardFragment.ShoolRewardContract;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardFragment.ShoolRewardFragment;
 import com.xiaoshangxing.xiaoshang.ShoolReward.collect.CollectFragment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp.MyShoolHelpFragment;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment.ShoolHelpContract;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment.ShoolfellowHelpFragment;
 
 /**
@@ -43,7 +40,7 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shoolfellowhelp);
+        setContentView(R.layout.activity_only_fraglayout);
         setmPresenter(new RewardPresenter(this,this));
         BaseFragment frag = (BaseFragment) mFragmentManager.findFragmentById(R.id.main_fragment);
         if (frag != null) {

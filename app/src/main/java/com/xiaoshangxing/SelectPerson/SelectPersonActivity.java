@@ -220,27 +220,14 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.sure:
                 sure();
-                finish();
                 break;
         }
     }
 
     private void sure(){
-//        switch (current_type){
-//            case SCHOOL_HELP_TRANSMIT:
-//                Intent help_intent=new Intent();
-//                help_intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
-//                setResult(ShoolfellowHelpActivity.SELECTPERSON,help_intent);
-//                break;
-//            case SCHOOL_REWARD_TRANSMIT:
-//                Intent reward_intent=new Intent();
-//                reward_intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
-//                setResult(ShoolRewardActivity.SELECT_PERSON,reward_intent);
-//                break;
-//        }
-
         Intent intent=new Intent();
         intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
         setResult(SELECT_PERSON_CODE,intent);
+        finish();
     }
 }

@@ -1,6 +1,7 @@
 package com.xiaoshangxing.Network.api;
 
 import com.xiaoshangxing.Network.BaseUrl;
+import com.xiaoshangxing.Network.Bean.CheckCode;
 import com.xiaoshangxing.Network.Bean.Login;
 
 import okhttp3.ResponseBody;
@@ -11,10 +12,10 @@ import rx.Observable;
 
 /**
  * Created by FengChaoQun
- * on 2016/8/3
+ * on 2016/8/6
  */
-public interface LoginApi {
-    @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST(BaseUrl.LOGIN)
-    Observable<ResponseBody>login(@Body Login login);
+public interface CheckCodeApi {
+        @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
+        @POST(BaseUrl.CHECK_CODE)
+        Observable<ResponseBody> login(@Body CheckCode checkCode);
 }

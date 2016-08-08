@@ -1,13 +1,12 @@
 package com.xiaoshangxing.xiaoshang.ShoolReward.collect;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -16,7 +15,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.xiaoshang.ShoolReward.MyShoolReward.MyShoolRewardFragment;
+import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 
 import java.util.List;
@@ -88,6 +87,14 @@ public class collect_adpter extends ArrayAdapter<String> {
                         .getDrawable(R.drawable.circular_8_g1_nostroke));
                 return true;
 
+            }
+        });
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RewardDetailActivity.class);
+                context.startActivity(intent);
             }
         });
 

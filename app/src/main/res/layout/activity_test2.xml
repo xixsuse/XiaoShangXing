@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".TestActivity">
-   <com.xiaoshangxing.utils.layout.MoreTextView
+
+   <Button
+       android:id="@+id/button1"
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:id="@+id/mtv_text"
-       app:trimLines="2"/>
-
-   <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
-       android:layout_below="@+id/mtv_text"
-       android:editable="false"
-       android:id="@+id/text"
-       android:layout_width="wrap_content"
+       android:layout_height="wrap_content" />
+   <Button
+       android:id="@+id/button2"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+   <Button
+       android:id="@+id/button3"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+   <Button
+       android:id="@+id/button4"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+   <Button
+       android:id="@+id/button5"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+   <Button
+       android:id="@+id/button6"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+   <Button
+       android:id="@+id/button7"
+       android:layout_width="match_parent"
        android:layout_height="wrap_content" />
 
-   <TextView
-       android:id="@+id/text2"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content" />
 
-   <com.xiaoshangxing.input_activity.EmotionText.EmotinText
-       android:layout_alignParentBottom="true"
-       android:text="[ebt]"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content" />
-</RelativeLayout>
+</LinearLayout>

@@ -120,6 +120,11 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordCont
     }
 
     @Override
+    public String getPhone() {
+        return ((LoginRegisterActivity) getActivity()).getPhoneNumer();
+    }
+
+    @Override
     public String getPassword() {
         return et_password.getText().toString();
     }

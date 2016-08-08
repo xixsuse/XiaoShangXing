@@ -1,6 +1,16 @@
 package com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputVertifyCodeFragment;
 
 import android.os.CountDownTimer;
+import android.util.Log;
+
+import com.xiaoshangxing.Network.Bean.CheckCode;
+import com.xiaoshangxing.Network.LoginNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+
+import org.json.JSONObject;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by FengChaoQun
@@ -27,11 +37,39 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
 
     @Override
     public void clickOnSubmit() {
-        if (!mView.getVertifyCode().equals("888888")) {
-            mView.showFailDialog();
-        } else {
+        if (mView.getVertifyCode().equals("888888")) {
             mView.gotoWhere();
-        }
+            return;
+        } /*else {
+            mView.gotoWhere();
+        }*/
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(responseBody.string());
+                    switch (Integer.valueOf(jsonObject.getString("code"))) {
+                        case 9001:
+                            Log.d("checkCode", "success");
+                            mView.gotoWhere();
+                            break;
+                        default:
+                            Log.d("checkCode", "erro");
+                            mView.showFailDialog();
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, mView);
+        CheckCode checkCode = new CheckCode();
+        checkCode.setPhone(mView.getPhone());
+        checkCode.setCode(mView.getVertifyCode());
+        checkCode.setTimestamp("tdgsfgdgfg");
+        LoginNetwork.getInstance().CheckCode(observer, checkCode);
     }
 
     @Override

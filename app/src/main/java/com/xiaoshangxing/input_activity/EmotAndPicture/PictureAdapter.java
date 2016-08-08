@@ -3,6 +3,7 @@ package com.xiaoshangxing.input_activity.EmotAndPicture;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
         this.list = list;
         this.activity=activity;
         select_image_urls =activity.getSelect_image_urls();
-        if (activity.current_state==InputActivity.XIANZHI){
+        if (activity.getCurrent_state()==InputActivity.XIANZHI){
             limit=3;
         }
     }
@@ -59,12 +60,6 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
                 .animate(R.anim.fade_in)
                 .into(holder.imageView);
 
-//        if (selectPosition.contains(position)){
-//            holder.checkBox.setChecked(true);
-//        }else {
-//            holder.checkBox.setChecked(false);
-//        }
-
         if (select_image_urls.contains(list.get(position))){
             holder.checkBox.setChecked(true);
         }else {
@@ -79,7 +74,6 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
                         Toast.makeText(context, "最多只能选择"+limit+"张图片", Toast.LENGTH_SHORT).show();
                         holder.checkBox.setChecked(false);
                     }else {
-//                        selectPosition.add(position);
                         select_image_urls.add(list.get(position));
                     }
 
@@ -105,8 +99,6 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
                 activity.startActivityForResult(intent,InputActivity.SELECT_PHOTO_RESULT_1);
             }
         });
-
-
     }
 
     @Override

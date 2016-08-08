@@ -1,5 +1,6 @@
 package com.xiaoshangxing.xiaoshang;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +29,7 @@ import butterknife.ButterKnife;
  * on 2016/7/18
  */
 public class XiaoShangFragment extends BaseFragment {
-    public static final String TAG = BaseFragment.TAG + "-XiaoShang";
+    public static final String TAG = BaseFragment.TAG + "-XiaoShangFragment";
     @Bind(R.id.xiaoshang_notice)
     ImageView xiaoshangNotice;
     @Bind(R.id.title)
@@ -82,8 +83,6 @@ public class XiaoShangFragment extends BaseFragment {
         padding_start = getResources().getDimensionPixelSize(R.dimen.x136);
         total = image_width * 5 + divider * 4 + padding_start * 2;
 
-        Log.d("length", "" + image_width + ":" + divider + ":" + padding_start + ":" + total);
-
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -94,20 +93,9 @@ public class XiaoShangFragment extends BaseFragment {
                             current2 = event.getX();
                             return true;
                         case MotionEvent.ACTION_UP:
-//                            handler.postDelayed(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    tuchUp(currentImage);
-//                                }
-//                            }, 250);
                             int des = (int) (current - event.getX());
                             jujiment(des);
                             return true;
-//                        case MotionEvent.ACTION_MOVE:
-//                            int x = (int) (current2 - event.getX());
-//                            myMove(x);
-//                            current2 = event.getX();
-//                            break;
                     }
                 }
                 return true;
@@ -138,17 +126,12 @@ public class XiaoShangFragment extends BaseFragment {
                         return true;
                     case MotionEvent.ACTION_MOVE:
                         float i = event.getX() - current;
-//                        if (i > 0 && event.getX() > (currentImage * 150 - 150) ||
-//                                i < 0 && event.getX() < (currentImage * 150)) {
                         if (Math.abs(i) > 1) {
                             float sca = (float) total / tuch.getWidth();
                             scrollView.smoothScrollBy((int) (i * sca), 0);
                             current = event.getX();
                         }
-
                         instantSetImage((int) (event.getX()));
-
-//                        }
                         break;
                     case MotionEvent.ACTION_UP:
                         final int des = (int) event.getX();
@@ -264,12 +247,12 @@ public class XiaoShangFragment extends BaseFragment {
                 break;
         }
 
-        setImagePosition(position);
-
+//        setImagePosition(position);
+        Log.d("goto" + position, "" + xy[0]);
         animator = ValueAnimator.ofInt(0, xy[0] - padding_start);
         int abs = Math.abs(xy[0] - padding_start);
         abs = abs > 150 ? abs : 150;
-        animator.setDuration(abs <= 300 ? abs : 300);
+        animator.setDuration(abs <= 300 ? abs : 300 /*3000*/);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -279,34 +262,35 @@ public class XiaoShangFragment extends BaseFragment {
             }
         });
         currentImage = position;
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                isMoving = true;
+                Log.d("animator", "animator start");
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+//                isMoving=false;
+                setImagePosition(position);
+                handler.postDelayed(runnable, 200);
+                Log.d("animator", "animator end");
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                Log.d("animator", "animator cancel");
+                isMoving = false;
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         animator.start();
-//        animator.addListener(new Animator.AnimatorListener() {
-//            @Override
-//            public void onAnimationStart(Animator animation) {
-//                isMoving = true;
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animation) {
-//                isMoving=false;
-//                Log.d("set ismoving","false");
-//            }
-//
-//            @Override
-//            public void onAnimationCancel(Animator animation) {
-//                Log.d("erro","animator cancel");
-//                isMoving=false;
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animation) {
-//
-//            }
-//        });
-        isMoving = true;
-        handler.postDelayed(runnable, abs);
-
-
+//        isMoving = true;
+//        handler.postDelayed(runnable, abs);
     }
 
     private void setPosition(final int position) {

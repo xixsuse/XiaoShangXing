@@ -31,21 +31,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
 import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.PictureAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.ShowSelectPictureAdapter;
+import com.xiaoshangxing.input_activity.EmotAndPicture.TimeComparator;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
+import com.xiaoshangxing.input_activity.album.AlbumActivity;
 import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
 import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
 import com.xiaoshangxing.setting.utils.city_choosing.WheelView;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
 import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
-import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
@@ -53,10 +53,10 @@ import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
-import com.xiaoshangxing.utils.photoChoosing.PhotoChoosingActivity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -68,8 +68,45 @@ import butterknife.OnClick;
  * on 2016/7/25
  */
 public class InputActivity extends BaseActivity {
+
+    @Bind(R.id.plan_name)
+    EmoticonsEditText planName;
+    @Bind(R.id.plan_name_count)
+    TextView planNameCount;
+    @Bind(R.id.plan_name_lay)
+    LinearLayout planNameLay;
     @Bind(R.id.emotion_edittext)
     EmoticonsEditText emotionEdittext;
+    @Bind(R.id.show_select)
+    GridView showSelect;
+    @Bind(R.id.select_location_imag)
+    ImageView selectLocationImag;
+    @Bind(R.id.selected_location)
+    TextView selectedLocation;
+    @Bind(R.id.price)
+    EditText price;
+    @Bind(R.id.show_xianzhi_select)
+    GridView showXianzhiSelect;
+    @Bind(R.id.xianzhi_lay)
+    RelativeLayout xianzhiLay;
+    @Bind(R.id.people_limit)
+    EditText peopleLimit;
+    @Bind(R.id.time_limit)
+    EditText timeLimit;
+    @Bind(R.id.people_time_limit_lay)
+    LinearLayout peopleTimeLimitLay;
+    @Bind(R.id.transmit_type_image)
+    CirecleImage transmitTypeImage;
+    @Bind(R.id.transmit_type_text)
+    TextView transmitTypeText;
+    @Bind(R.id.transmit_content)
+    TextView transmitContent;
+    @Bind(R.id.transmit_lay)
+    LinearLayout transmitLay;
+    @Bind(R.id.reward_price)
+    EditText rewardPrice;
+    @Bind(R.id.reward_lay)
+    LinearLayout rewardLay;
     @Bind(R.id.delete)
     ImageView delete;
     @Bind(R.id.emotion)
@@ -84,6 +121,8 @@ public class InputActivity extends BaseActivity {
     ImageView picture;
     @Bind(R.id.camera)
     ImageView camera;
+    @Bind(R.id.send)
+    ImageButton send;
     @Bind(R.id.select_lay)
     LinearLayout selectLay;
     @Bind(R.id.scrollview)
@@ -96,10 +135,6 @@ public class InputActivity extends BaseActivity {
     RelativeLayout deleteEmot;
     @Bind(R.id.emot_type)
     RelativeLayout emotType;
-    @Bind(R.id.emot_picture)
-    LinearLayout emotPicture;
-    @Bind(R.id.send)
-    ImageButton send;
     @Bind(R.id.emot_lay)
     LinearLayout emotLay;
     @Bind(R.id.recycleView)
@@ -114,48 +149,11 @@ public class InputActivity extends BaseActivity {
     FrameLayout pictureCountLay;
     @Bind(R.id.picture_lay)
     LinearLayout pictureLay;
-    @Bind(R.id.show_select)
-    GridView showSelect;
-    @Bind(R.id.people_limit)
-    EditText peopleLimit;
-    @Bind(R.id.time_limit)
-    EditText timeLimit;
-    @Bind(R.id.people_time_limit_lay)
-    LinearLayout peopleTimeLimitLay;
-    @Bind(R.id.plan_name)
-    EditText planName;
-    @Bind(R.id.plan_name_count)
-    TextView planNameCount;
-    @Bind(R.id.plan_name_lay)
-    LinearLayout planNameLay;
     @Bind(R.id.select_location)
     WheelView selectLocation;
-    @Bind(R.id.select_location_imag)
-    ImageView selectLocationImag;
-    @Bind(R.id.selected_location)
-    TextView selectedLocation;
-    @Bind(R.id.price)
-    EditText price;
-    @Bind(R.id.select_location_imag1)
-    RoundedImageView selectLocationImag1;
-    @Bind(R.id.select_location_imag2)
-    RoundedImageView selectLocationImag2;
-    @Bind(R.id.select_location_imag3)
-    RoundedImageView selectLocationImag3;
-    @Bind(R.id.xianzhi_lay)
-    RelativeLayout xianzhiLay;
-    @Bind(R.id.transmit_type_image)
-    CirecleImage transmitTypeImage;
-    @Bind(R.id.transmit_type_text)
-    TextView transmitTypeText;
-    @Bind(R.id.transmit_content)
-    TextView transmitContent;
-    @Bind(R.id.transmit_lay)
-    LinearLayout transmitLay;
-    @Bind(R.id.reward_price)
-    EditText rewardPrice;
-    @Bind(R.id.reward_lay)
-    LinearLayout rewardLay;
+    @Bind(R.id.emot_picture)
+    LinearLayout emotPicture;
+
     private List<View> viewlist = new ArrayList<View>();
     private List<String> iamgeurls = new ArrayList<String>();
     private List<String> select_image_urls = new ArrayList<String>();
@@ -169,12 +167,13 @@ public class InputActivity extends BaseActivity {
     public static int PICTURE = 2;
 
     public static int SELECT_PHOTO_RESULT_1 = 10000;
-    public static int SELECT_PHOTO_RESULT_2 = 20000;
+    public static int SELECT_PHOTO_FROM_ALBUM = 20000;
     public static int TAKE_PHOTO = 30000;
     public static int REVIEW_PHOTO = 40000;
     public static String SELECT_IMAGE_URLS = "select_image_urls";
 
     public static String EDIT_STATE = "EDIT_STATE";
+    public static String LIMIT = "LIMIT";
     public int current_state;                 //当前处于的发布状态
     public static final int PUBLISH_STATE = 80001;    //发布动态
     public static final int SHOOLFELLOW_HELP = 80002; //发布校友互帮
@@ -187,9 +186,10 @@ public class InputActivity extends BaseActivity {
 
     public static String TRANSMIT_TYPE = "TRANSMIT_TYPE";
 
-
     private int current;
     private Uri came_photo_path;
+    private int limit;
+    private EmotionGrideViewAdapter emotionGrideViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,15 +199,17 @@ public class InputActivity extends BaseActivity {
         overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
         initState();
         initEmotView();
-        initShowSelect();
         initPictureView();
         initKeyboard();
         initLocation();
+        initShowSelect();
     }
-
 
     private void initState() {
         Intent intent = getIntent();
+        if (getIntent().getIntExtra(LIMIT,0)!=0){
+            limit=getIntent().getIntExtra(LIMIT,9);
+        }
         current_state = intent.getIntExtra(EDIT_STATE, 80001);
         switch (intent.getIntExtra(EDIT_STATE, 80001)) {
             case PUBLISH_STATE:
@@ -245,14 +247,14 @@ public class InputActivity extends BaseActivity {
 
     private void initEmotView() {
         gridView = (GridView) View.inflate(this, R.layout.gridelayout, null);
-        final EmotionGrideViewAdapter adapter = new EmotionGrideViewAdapter(this/*, this*/);
-        adapter.setMcallBack(new EmotionGrideViewAdapter.callBack() {
+        emotionGrideViewAdapter = new EmotionGrideViewAdapter(this/*, this*/);
+        emotionGrideViewAdapter.setMcallBack(new EmotionGrideViewAdapter.callBack() {
             @Override
             public void callback(String emot) {
                 inputEmot(emot);
             }
         });
-        gridView.setAdapter(adapter);
+        gridView.setAdapter(emotionGrideViewAdapter);
         TextView textView = new TextView(this);
         textView.setText("55555");
         viewlist.add(gridView);
@@ -335,11 +337,9 @@ public class InputActivity extends BaseActivity {
         recycleView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recycleView.setItemAnimator(new DefaultItemAnimator());
         recycleView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL_LIST));
-
         getDatas();
         adapter = new PictureAdapter(this, iamgeurls, this);
         recycleView.setAdapter(adapter);
-
     }
 
     private void initKeyboard() {
@@ -368,43 +368,7 @@ public class InputActivity extends BaseActivity {
     private void initShowSelect() {
         showSelectPictureAdapter = new ShowSelectPictureAdapter(this, this);
         showSelect.setAdapter(showSelectPictureAdapter);
-        switch (select_image_urls.size()) {
-            case 1:
-                Glide.with(this).
-                        load(select_image_urls.get(0))
-                        .animate(R.anim.fade_in)
-                        .into(selectLocationImag1);
-                selectLocationImag2.setImageResource(R.mipmap.greyblock);
-                selectLocationImag3.setImageResource(R.mipmap.greyblock);
-                break;
-            case 2:
-                Glide.with(this).
-                        load(select_image_urls.get(0))
-                        .animate(R.anim.fade_in)
-                        .into(selectLocationImag1);
-                Glide.with(this).
-                        load(select_image_urls.get(1))
-                        .animate(R.anim.fade_in)
-                        .into(selectLocationImag2);
-                selectLocationImag3.setImageResource(R.mipmap.greyblock);
-                break;
-            case 3:
-                Glide.with(this).
-                        load(select_image_urls.get(0))
-                        .animate(R.anim.fade_in)
-                        .into(selectLocationImag1);
-                Glide.with(this).
-                        load(select_image_urls.get(1))
-                        .animate(R.anim.fade_in)
-                        .into(selectLocationImag2);
-                Glide.with(this).
-                        load(select_image_urls.get(2))
-                        .animate(R.anim.fade_in)
-                        .into(selectLocationImag3);
-                break;
-        }
-
-
+        showXianzhiSelect.setAdapter(showSelectPictureAdapter);
         reset();
     }
 
@@ -432,6 +396,22 @@ public class InputActivity extends BaseActivity {
                 planNameCount.setText("" + (10 - i));
             }
         });
+        planName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                planName.setFocusable(true);
+                planName.setFocusableInTouchMode(true);
+                planName.requestFocus();
+                KeyBoardUtils.openKeybord(planName, InputActivity.this);
+            }
+        });
+
+//        emotionGrideViewAdapter.setMcallBack(new EmotionGrideViewAdapter.callBack() {
+//            @Override
+//            public void callback(String emot) {
+//                planName.append(emot);
+//            }
+//        });
     }
 
     private void initLocation() {
@@ -528,6 +508,7 @@ public class InputActivity extends BaseActivity {
         File file = new File(path);
         File[] files = file.listFiles();
         Log.d("ddd", String.valueOf(files.length));
+        Arrays.sort(files, new TimeComparator());
         Matrix m = new Matrix();
         m.postRotate(90);
         for (File mfile : files) {
@@ -539,7 +520,7 @@ public class InputActivity extends BaseActivity {
     private void showEmot(int position) {
         switch (position) {
             case 1:
-                if (current == 1) {
+                if (current == EMOTION) {
                     KeyBoardUtils.openKeybord(emotionEdittext, this);
                     emotion.setSelected(false);
                     picture.setSelected(false);
@@ -556,7 +537,7 @@ public class InputActivity extends BaseActivity {
                 }
                 break;
             case 2:
-                if (current == 2) {
+                if (current == PICTURE) {
                     KeyBoardUtils.openKeybord(emotionEdittext, this);
                     picture.setSelected(false);
                     emotion.setSelected(false);
@@ -637,9 +618,17 @@ public class InputActivity extends BaseActivity {
                 emotionEdittext.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
                 break;
             case R.id.album:
-                addToBitm(adapter.getSelect_image_urls());
-                Intent album_intent = new Intent(InputActivity.this, PhotoChoosingActivity.class);
-                startActivityForResult(album_intent, SELECT_PHOTO_RESULT_2);
+//                addToBitm(adapter.getSelect_image_urls());
+//                Intent album_intent = new Intent(InputActivity.this, PhotoChoosingActivity.class);
+//                startActivityForResult(album_intent, SELECT_PHOTO_FROM_ALBUM);
+                Intent album_intent = new Intent(InputActivity.this, AlbumActivity.class);
+                if (limit!=0){
+                    album_intent.putExtra(AlbumActivity.LIMIT,limit);
+                }else {
+                    album_intent.putExtra(AlbumActivity.LIMIT,9);
+                }
+                album_intent.putExtra(AlbumActivity.SELECTED,(ArrayList<String>)select_image_urls);
+                startActivityForResult(album_intent, SELECT_PHOTO_FROM_ALBUM);
                 break;
             case R.id.complete:
                 setSelect_image_urls(adapter.getSelect_image_urls());
@@ -757,16 +746,21 @@ public class InputActivity extends BaseActivity {
         return uri;
     }
 
+    public int getCurrent_state() {
+        return current_state;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SELECT_PHOTO_RESULT_1) {
             setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
-        } else if (requestCode == SELECT_PHOTO_RESULT_2) {
-            ArrayList<String> selectPicture = new ArrayList<String>();
-            for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
-                selectPicture.add(Bimp.tempSelectBitmap.get(i).imagePath);
-            }
-            setSelect_image_urls(selectPicture);
+        } else if (requestCode == SELECT_PHOTO_FROM_ALBUM) {
+//            ArrayList<String> selectPicture = new ArrayList<String>();
+//            for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
+//                selectPicture.add(Bimp.tempSelectBitmap.get(i).imagePath);
+//            }
+//            setSelect_image_urls(selectPicture);
+            setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
 
         } else if (requestCode == REVIEW_PHOTO) {
             setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));

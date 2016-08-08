@@ -307,8 +307,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void gotopublish() {
-        Intent piblish_intent = new Intent(getContext(), InputActivity.class);
-        startActivity(piblish_intent);
+        Intent publish_intent = new Intent(getContext(), InputActivity.class);
+        publish_intent.putExtra(InputActivity.LIMIT,9);
+        startActivity(publish_intent);
     }
 
     @Override

@@ -112,7 +112,6 @@ public class AlbumFragment extends BaseFragment {
 //            getActivity().getSupportFragmentManager().popBackStack();
             getActivity().finish();
         }
-
     }
 
     // 返回按钮监听，返回到相册页面

@@ -1,6 +1,7 @@
 package com.xiaoshangxing.xiaoshang.ShoolReward.MyShoolReward;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 
 import java.util.List;
@@ -76,6 +78,14 @@ public class myshoolreward_adpter extends ArrayAdapter<String> {
                 viewholder.cardview.setBackground(context.getResources()
                         .getDrawable(R.drawable.circular_8_g1_nostroke));
                 return true;
+            }
+        });
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RewardDetailActivity.class);
+                context.startActivity(intent);
             }
         });
 

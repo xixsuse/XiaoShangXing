@@ -1,5 +1,16 @@
 package com.xiaoshangxing.login_register.LoginRegisterActivity.SetPasswordFragment;
 
+import android.util.Log;
+
+import com.xiaoshangxing.Network.Bean.Register;
+import com.xiaoshangxing.Network.LoginNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+
+import org.json.JSONObject;
+
+import okhttp3.ResponseBody;
+
 /**
  * Created by FengChaoQun
  * on 2016/6/24
@@ -22,21 +33,33 @@ public class SetPasswordFragmentPresenter implements SetPasswordContract.Present
 
     @Override
     public void clickOnCompleteButton() {
-
-//        String str=mView.getPassword();
-//        boolean isok=false;
-//
-//        for(int i=str.length();--i>=0;){
-//            int chr=str.charAt(i);
-//            if(chr<48 || chr>57){
-//                isok=true;
-//                break;
-//            }
-//
-//        }
-
-
-        mView.showRegisterSuccess();
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(responseBody.string());
+                    switch (Integer.valueOf((String) jsonObject.get("code"))) {
+                        case 9000:
+                            Log.d("register", "success");
+                            mView.showRegisterSuccess();
+                            break;
+                        default:
+                            Log.d("register", "erro");
+                            mView.showToast("注册失败，请重新尝试");
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, mView);
+        Register register = new Register();
+        register.setPhone(mView.getPhone());
+        register.setPassword(mView.getPassword());
+        register.setTimestamp("12");
+        LoginNetwork.getInstance().Register(observer, register);
 
     }
 }

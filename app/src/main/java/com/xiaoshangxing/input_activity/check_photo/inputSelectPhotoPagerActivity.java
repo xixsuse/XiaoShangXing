@@ -179,9 +179,6 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
     }
 
     private class ImagePagerAdapter extends FragmentStatePagerAdapter {
-
-
-
         public ArrayList<String> fileList;
 
         public ImagePagerAdapter(FragmentManager fm, ArrayList<String> fileList) {

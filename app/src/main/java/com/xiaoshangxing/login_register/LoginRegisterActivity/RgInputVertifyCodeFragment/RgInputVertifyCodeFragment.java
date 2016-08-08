@@ -90,6 +90,11 @@ public class RgInputVertifyCodeFragment extends BaseFragment implements RgInputV
     }
 
     @Override
+    public String getPhone() {
+        return ((LoginRegisterActivity) getActivity()).getPhoneNumer();
+    }
+
+    @Override
     public void setPhoneNumber(String phoneNumber) {
         tv_phoneNumber.setText(phoneNumber);
     }

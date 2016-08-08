@@ -1,7 +1,11 @@
 package com.xiaoshangxing.Network;
 
+import com.xiaoshangxing.Network.Bean.CheckCode;
 import com.xiaoshangxing.Network.Bean.Login;
+import com.xiaoshangxing.Network.Bean.Register;
+import com.xiaoshangxing.Network.api.CheckCodeApi;
 import com.xiaoshangxing.Network.api.LoginApi;
+import com.xiaoshangxing.Network.api.RegisterApi;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -15,6 +19,8 @@ import rx.schedulers.Schedulers;
  */
 public class LoginNetwork {
     private LoginApi mloginApi;
+    private RegisterApi registerApi;
+    private CheckCodeApi checkCodeApi;
 
     private LoginNetwork() {
 
@@ -35,6 +41,22 @@ public class LoginNetwork {
             mloginApi = Network.getRetrofit().create(LoginApi.class);
         }
         Observable<ResponseBody> observable = mloginApi.login(login);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void Register(Subscriber<ResponseBody> subscriber, Register register){
+        if (registerApi == null) {
+            registerApi = Network.getRetrofit().create(RegisterApi.class);
+        }
+        Observable<ResponseBody> observable = registerApi.login(register);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void CheckCode(Subscriber<ResponseBody> subscriber, CheckCode checkCode){
+        if (checkCodeApi == null) {
+            checkCodeApi = Network.getRetrofit().create(CheckCodeApi.class);
+        }
+        Observable<ResponseBody> observable = checkCodeApi.login(checkCode);
         toSubscribe(observable, subscriber);
     }
 

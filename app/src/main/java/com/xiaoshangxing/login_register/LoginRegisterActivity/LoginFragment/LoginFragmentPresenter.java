@@ -138,8 +138,6 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                             }
                             break;
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

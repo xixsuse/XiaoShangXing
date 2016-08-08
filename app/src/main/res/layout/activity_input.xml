@@ -24,7 +24,7 @@
                 android:text="@string/plan_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            <EditText
+            <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
                 android:id="@+id/plan_name"
                 android:layout_weight="1"
                 style="@style/input_box"
@@ -139,46 +139,66 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_centerVertical="true"
-                android:orientation="horizontal"
+            <!--闲置图片展示-->
+            <GridView
+                android:id="@+id/show_xianzhi_select"
+                android:focusable="true"
                 android:layout_alignParentEnd="true"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/x308"
+                android:layout_height="match_parent"
+                android:numColumns="3"
+                android:columnWidth="@dimen/x84"
+                android:fadingEdge="none"
+                android:scrollbars="none"
+                android:overScrollMode="never"
+                android:cacheColorHint="@color/transparent"
+                android:listSelector="@color/transparent"
+                android:transcriptMode="normal"
+                android:stretchMode="columnWidth"
+                android:orientation="horizontal">
+            </GridView>
 
-                <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
-                    android:id="@+id/select_location_imag1"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="@dimen/x84"
-                    android:layout_height="@dimen/x84"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/greyblock"
-                    app:corner_radius="4dp">
-                </com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>
+            <!--<LinearLayout-->
+                <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent">-->
 
-                <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
-                    android:id="@+id/select_location_imag2"
-                    android:layout_marginStart="@dimen/x28"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="@dimen/x84"
-                    android:layout_height="@dimen/x84"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/greyblock"
-                    app:corner_radius="4dp">
-                </com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>
+                <!--<com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView-->
+                    <!--android:id="@+id/select_location_imag1"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_width="@dimen/x84"-->
+                    <!--android:layout_height="@dimen/x84"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:src="@mipmap/greyblock"-->
+                    <!--app:corner_radius="4dp">-->
+                <!--</com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>-->
 
-                <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
-                    android:id="@+id/select_location_imag3"
-                    android:layout_marginStart="@dimen/x28"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="@dimen/x84"
-                    android:layout_height="@dimen/x84"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/greyblock"
-                    app:corner_radius="4dp">
-                </com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>
-            </LinearLayout>
+                <!--<com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView-->
+                    <!--android:id="@+id/select_location_imag2"-->
+                    <!--android:layout_marginStart="@dimen/x28"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_width="@dimen/x84"-->
+                    <!--android:layout_height="@dimen/x84"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:src="@mipmap/greyblock"-->
+                    <!--app:corner_radius="4dp">-->
+                <!--</com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>-->
+
+                <!--<com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView-->
+                    <!--android:id="@+id/select_location_imag3"-->
+                    <!--android:layout_marginStart="@dimen/x28"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:layout_width="@dimen/x84"-->
+                    <!--android:layout_height="@dimen/x84"-->
+                    <!--android:scaleType="centerCrop"-->
+                    <!--android:src="@mipmap/greyblock"-->
+                    <!--app:corner_radius="4dp">-->
+                <!--</com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>-->
+            <!--</LinearLayout>-->
 
         </RelativeLayout>
 
@@ -311,8 +331,6 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-
-
 
         <include layout="@layout/line_horizontal_g1">
 

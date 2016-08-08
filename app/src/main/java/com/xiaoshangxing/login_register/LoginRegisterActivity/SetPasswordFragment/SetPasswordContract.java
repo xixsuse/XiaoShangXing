@@ -35,6 +35,10 @@ public interface SetPasswordContract {
         */
         void showRegisterSuccess();
         /*
+        **describe:获取电话号码
+        */
+        String getPhone();
+        /*
        **describe:跳转到选择学校界面
        */
 //        void gotoSelectSchool ();

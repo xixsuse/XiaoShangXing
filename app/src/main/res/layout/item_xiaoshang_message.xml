@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <!--姓名-->
-                <TextView
+                <com.xiaoshangxing.utils.layout.Name
                     android:id="@+id/name"
                     android:textColor="@color/blue1"
                     android:textSize="16sp"
@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <!--评论内容-->
-                <TextView
+                <com.xiaoshangxing.input_activity.EmotionText.EmotinText
                     android:textColor="@color/b0"
                     android:textSize="13sp"
                     android:text="聊聊具体时间??"
@@ -145,7 +145,7 @@
                     android:id="@+id/responsed_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <TextView
+                <com.xiaoshangxing.input_activity.EmotionText.EmotinText
                     android:textColor="@color/b0"
                     android:textSize="13sp"
                     android:text="这周五可以?"
@@ -174,7 +174,7 @@
                     android:id="@+id/piblished_person"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <TextView
+                <com.xiaoshangxing.input_activity.EmotionText.EmotinText
                     android:textSize="13sp"
                     android:textColor="@color/g0"
                     android:layout_gravity="center_vertical"

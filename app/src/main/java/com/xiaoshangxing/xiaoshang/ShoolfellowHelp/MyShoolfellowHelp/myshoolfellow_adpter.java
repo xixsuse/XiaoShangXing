@@ -14,6 +14,7 @@ import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.util.List;
@@ -75,6 +76,14 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
                 showMenu(v);
                 v.setBackgroundColor(context.getResources().getColor(R.color.g1));
                 return true;
+            }
+        });
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RewardDetailActivity.class);
+                context.startActivity(intent);
             }
         });
 

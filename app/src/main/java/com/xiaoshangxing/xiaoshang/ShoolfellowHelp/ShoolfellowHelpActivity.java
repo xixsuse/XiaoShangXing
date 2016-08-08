@@ -37,7 +37,7 @@ public class ShoolfellowHelpActivity extends BaseActivity implements HelpContrac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shoolfellowhelp);
+        setContentView(R.layout.activity_only_fraglayout);
         setmPresenter(new HelpPresenter(this, this));
         BaseFragment frag = (BaseFragment) mFragmentManager.findFragmentById(R.id.main_fragment);
         if (frag != null) {
