@@ -44,13 +44,23 @@ public class SetPasswordFragmentPresenter implements SetPasswordContract.Present
                             Log.d("register", "success");
                             mView.showRegisterSuccess();
                             break;
+                        case 9003:
+                            Log.d("register","error");
+                            mView.showToast("该账号已存在，请前往注册。");
                         default:
                             Log.d("register", "erro");
-                            mView.showToast("注册失败，请重新尝试");
+                            String msg;
+                            if (jsonObject.get("msg") instanceof JSONObject) {
+                                msg= (jsonObject.getJSONObject("msg")).getString("token");
+                            } else {
+                                msg= jsonObject.getString("msg");
+                            }
+                            mView.showToast(msg);
                             break;
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                    mView.showToast("数据解析异常");
                 }
             }
         };

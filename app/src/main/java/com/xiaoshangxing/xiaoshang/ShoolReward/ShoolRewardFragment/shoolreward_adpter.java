@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
@@ -113,7 +114,8 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
                 comment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, RewardDetailActivity.class);
+                        Intent intent = new Intent(context, InputActivity.class);
+                        intent.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
                         context.startActivity(intent);
                         popupWindow.dismiss();
                     }

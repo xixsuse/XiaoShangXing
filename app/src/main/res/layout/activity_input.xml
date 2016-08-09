@@ -7,9 +7,11 @@
 
     <!--输入框-->
     <LinearLayout
+        android:layout_above="@+id/select_lay"
         android:orientation="vertical"
+        android:layout_marginBottom="@dimen/y96"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
         <!--计划名称-->
         <LinearLayout
             android:visibility="gone"
@@ -48,6 +50,7 @@
         <include layout="@layout/line_horizontal_g1">
 
         </include>
+
         <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
             android:textCursorDrawable="@drawable/cursor_blue4"
             android:padding="16sp"

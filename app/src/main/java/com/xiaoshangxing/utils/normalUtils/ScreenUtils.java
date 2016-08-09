@@ -5,8 +5,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+
+import java.lang.reflect.Method;
 
 /**
  * 获得屏幕相关的辅助类
@@ -38,7 +41,7 @@ public class ScreenUtils
 	}
 
 	/**
-	 * 获得屏幕宽度
+	 * 获得屏幕高度
 	 * 
 	 * @param context
 	 * @return
@@ -121,5 +124,38 @@ public class ScreenUtils
 		return bp;
 
 	}
+	//获取屏幕原始尺寸高度，包括虚拟功能键高度
+	public static int getTotalHeight(Context context){
+		int dpi = 0;
+		WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = windowManager.getDefaultDisplay();
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		@SuppressWarnings("rawtypes")
+		Class c;
+		try {
+			c = Class.forName("android.view.Display");
+			@SuppressWarnings("unchecked")
+			Method method = c.getMethod("getRealMetrics",DisplayMetrics.class);
+			method.invoke(display, displayMetrics);
+			dpi=displayMetrics.heightPixels;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return dpi;
+	}
+
+	/**
+	 * 获取 虚拟按键的高度
+	 * @param context
+	 * @return
+	 */
+	public static  int getBottomStatusHeight(Context context){
+		int totalHeight = getTotalHeight(context);
+
+		int contentHeight = getScreenHeight(context);
+
+		return totalHeight  - contentHeight;
+	}
+
 
 }

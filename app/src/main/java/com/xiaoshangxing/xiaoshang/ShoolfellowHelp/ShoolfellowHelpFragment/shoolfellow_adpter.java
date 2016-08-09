@@ -107,7 +107,8 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
                 comment.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, HelpDetailActivity.class);
+                        Intent intent = new Intent(context, InputActivity.class);
+                        intent.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
                         context.startActivity(intent);
                         popupWindow.dismiss();
                     }

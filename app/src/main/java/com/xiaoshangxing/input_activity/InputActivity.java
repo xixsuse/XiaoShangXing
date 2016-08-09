@@ -345,7 +345,7 @@ public class InputActivity extends BaseActivity {
     private void initKeyboard() {
 
         //监听键盘高度  让输入框保持在键盘上面
-        screenHeight = ScreenUtils.getScreenHeight(this);
+        screenHeight = ScreenUtils.getTotalHeight(this);
         KeyBoardUtils.observeSoftKeyboard(this, new KeyBoardUtils.OnSoftKeyboardChangeListener() {
             @Override
             public void onSoftKeyBoardChange(int softKeybardHeight, boolean visible) {
@@ -354,6 +354,8 @@ public class InputActivity extends BaseActivity {
                     selectLay.layout(0, screenHeight - softKeybardHeight - selectLay.getHeight(),
                             selectLay.getWidth(),
                             screenHeight - softKeybardHeight);
+                    Log.d("tttt","screenHeight:"+screenHeight+"softKeybardHeight:"+softKeybardHeight
+                    +"selectLay:"+selectLay.getHeight()+"total"+ScreenUtils.getTotalHeight(InputActivity.this));
                 }
             }
         });

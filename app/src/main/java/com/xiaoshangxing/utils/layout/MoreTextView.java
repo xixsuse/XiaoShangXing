@@ -136,7 +136,8 @@ public class MoreTextView extends LinearLayout {
                 if (trimLines > 0 && trimLines < allLine) {
                     //需要全文和收起
                     if (collapsed) {
-                        showTextView.setHeight(showTextView.getLineHeight() * trimLines + 2);
+//                        showTextView.setHeight(showTextView.getLineHeight() * trimLines + 2);
+                        showTextView.setMaxLines(trimLines);
                     }
 
                     if (collapseTextView == null) {
@@ -148,7 +149,7 @@ public class MoreTextView extends LinearLayout {
                         LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,
                                 LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM);
                         collapseTextView.setLayoutParams(lp);
-                        collapseTextView.setOnClickListener(collapseListener);
+                        collapseTextView.setOnClickListener(mycollapseListener);
                         addView(collapseTextView);
 
                     }
@@ -157,6 +158,19 @@ public class MoreTextView extends LinearLayout {
             }
         });
     }
+
+    private OnClickListener mycollapseListener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (collapsed) {
+                showTextView.setMaxLines(1000);
+            } else {
+                showTextView.setMaxLines(trimLines);
+            }
+            collapsed = !collapsed;
+            collapseTextView.setText(collapsed ? expandedText : collapsedText);
+        }
+    };
 
     private OnClickListener collapseListener = new OnClickListener() {
         @Override
@@ -168,13 +182,15 @@ public class MoreTextView extends LinearLayout {
             if (collapsed) {
                 //是放大
                 deltaValue = textViewHeight - startValue;
+//                showTextView.setMaxLines(1000);
 
             } else {
                 deltaValue = showTextView.getLineHeight() * trimLines - startValue;
+//                showTextView.setMaxLines(trimLines);
             }
             Animation animation = new Animation() {
                 protected void applyTransformation(float interpolatedTime, Transformation t) {
-                    showTextView.setHeight((int) (startValue + deltaValue * interpolatedTime) + 2);
+                    showTextView.setHeight((int) (startValue + deltaValue * interpolatedTime) + 20);
                 }
             };
             animation.setDuration(Math.abs(deltaValue));
@@ -198,6 +214,7 @@ public class MoreTextView extends LinearLayout {
             });
             showTextView.startAnimation(animation);
 //            showTextView.setHeight((int) (startValue + deltaValue )+2);
+
         }
     };
 }

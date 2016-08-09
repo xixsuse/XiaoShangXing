@@ -21,11 +21,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.CollapsedTextView;
 import com.xiaoshangxing.utils.layout.MoreTextView;
+import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.utils.school_circle.Item_Comment;
 import com.xiaoshangxing.utils.school_circle.PraisePeople;
 import com.xiaoshangxing.wo.myState.myStateActivity;
@@ -67,7 +70,7 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             view = View.inflate(context, R.layout.item_wo_listview, null);
             viewholder = new wo_viewholder();
             viewholder.head = (CirecleImage) view.findViewById(R.id.head_image);
-            viewholder.name = (TextView) view.findViewById(R.id.name);
+            viewholder.name = (Name) view.findViewById(R.id.name);
             viewholder.college = (TextView) view.findViewById(R.id.college);
             viewholder.text = (MoreTextView) view.findViewById(R.id.text);
             viewholder.photos1 = (NoScrollGridView) view.findViewById(R.id.photos1);
@@ -83,7 +86,7 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             viewholder.comments = (LinearLayout) view.findViewById(R.id.comments);
             viewholder.transmit_content = (LinearLayout) view.findViewById(R.id.transmit_content);
             viewholder.transmit_image = (CirecleImage) view.findViewById(R.id.transmit_image);
-            viewholder.transmit_text = (TextView) view.findViewById(R.id.transmit_text);
+            viewholder.transmit_text = (EmotinText) view.findViewById(R.id.transmit_text);
             view.setTag(viewholder);
         } else {
             view = convertView;
@@ -318,7 +321,7 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
 
     private static class wo_viewholder{
         private CirecleImage head;
-        private TextView name;
+        private Name name;
         private TextView college;
         private MoreTextView text;
         private NoScrollGridView photos1;
@@ -334,6 +337,6 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
         private LinearLayout comments;
         private LinearLayout transmit_content;
         private CirecleImage transmit_image;
-        private TextView transmit_text;
+        private EmotinText transmit_text;
     }
 }
