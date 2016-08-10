@@ -6,7 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.uuch.adlibrary.AdConstant;
+import com.uuch.adlibrary.AdManager;
+import com.uuch.adlibrary.bean.AdInfo;
+import com.uuch.adlibrary.transformer.DepthPageTransformer;
 import com.xiaoshangxing.input_activity.InputActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,11 +36,18 @@ public class TestActivity extends AppCompatActivity {
     @Bind(R.id.button7)
     Button button7;
 
+    private List<AdInfo> advList = null;
+    private AdManager adManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test2);
         ButterKnife.bind(this);
+        initData();
+        adManager = new AdManager(this, advList);
+        adManager.setOverScreen(true)
+                .setPageTransformer(new DepthPageTransformer());
 
     }
 
@@ -61,9 +75,23 @@ public class TestActivity extends AppCompatActivity {
                 intent.putExtra(InputActivity.EDIT_STATE,InputActivity.TRANSMIT);
                 break;
             case R.id.button7:
-                intent.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
+//                intent.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
+                adManager.showAdDialog(AdConstant.ANIM_DOWN_TO_UP);
                 break;
         }
-        startActivity(intent);
+//        startActivity(intent);
+    }
+
+    private void initData() {
+
+
+        advList = new ArrayList<>();
+        AdInfo adInfo = new AdInfo();
+        adInfo.setActivityImg("https://raw.githubusercontent.com/yipianfengye/android-adDialog/master/images/testImage1.png");
+        advList.add(adInfo);
+
+        adInfo = new AdInfo();
+        adInfo.setActivityImg("https://raw.githubusercontent.com/yipianfengye/android-adDialog/master/images/testImage2.png");
+        advList.add(adInfo);
     }
 }

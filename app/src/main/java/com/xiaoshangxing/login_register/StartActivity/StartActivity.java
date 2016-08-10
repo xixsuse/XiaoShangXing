@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.xiaoshangxing.MainActivity;
+import com.xiaoshangxing.Network.Bean.Login;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
@@ -21,6 +25,8 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     public static final String TAG = BaseActivity.TAG + "-StartActivity";
     private Button btn_login;
     private Button btn_register;
+    private ImageView login_imag;
+    private RelativeLayout flash;
     private StartActivityContract.Presenter mPresenter;
 
     @Override
@@ -28,6 +34,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         setmPresenter(new StartActivityPresenter(this, this));
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         mPresenter.startWait();
     }
 
@@ -39,6 +46,8 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         btn_register.setOnClickListener(this);
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
+        flash=(RelativeLayout)findViewById(R.id.flash_lay);
+        login_imag=(ImageView)findViewById(R.id.login_img);
     }
 
     /*
@@ -90,6 +99,10 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void showButton() {
         initButton();
+
+        flash.setBackgroundColor(getResources().getColor(R.color.flash_gray));
+        login_imag.setVisibility(View.VISIBLE);
+
         btn_login.setVisibility(View.VISIBLE);
         btn_register.setVisibility(View.VISIBLE);
         //淡入

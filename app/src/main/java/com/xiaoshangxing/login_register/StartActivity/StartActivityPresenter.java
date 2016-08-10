@@ -25,21 +25,22 @@ public class StartActivityPresenter implements StartActivityContract.Presenter {
 
     @Override
     public void startWait() {
-        handler = new myHandler(Looper.myLooper());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Message message = handler.obtainMessage();
-                message.arg1 = 1;
-                handler.sendMessage(message);
-
-            }
-        }).start();
+//        handler = new myHandler(Looper.myLooper());
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(1000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                Message message = handler.obtainMessage();
+//                message.arg1 = 1;
+//                handler.sendMessage(message);
+//
+//            }
+//        }).start();
+        mView.showButton();
     }
 
     @Override
@@ -69,15 +70,16 @@ public class StartActivityPresenter implements StartActivityContract.Presenter {
 
         @Override
         public void handleMessage(Message msg) {
-            if (isFirstCome()) {
-                mView.showButton();
-            } else {
-                if (isQuit()) {
-                    mView.intentLoginRegisterActivity();
-                } else {
-                    mView.intentMainActivity();
-                }
-            }
+//            if (isFirstCome()) {
+//                mView.showButton();
+//            } else {
+//                if (isQuit()) {
+//                    mView.intentLoginRegisterActivity();
+//                } else {
+//                    mView.intentMainActivity();
+//                }
+//            }
+            mView.showButton();
         }
     }
 }

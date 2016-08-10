@@ -8,6 +8,8 @@ import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.Images.Thumbnails;
 import android.util.Log;
 
+import com.xiaoshangxing.input_activity.album.SortImage;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -219,6 +221,19 @@ public class AlbumHelper {
 			tmpList.add(entry.getValue());
 		}
 		return tmpList;
+	}
+
+	public ImageBucket getTotalImage(boolean is){
+
+		List<ImageBucket> imageBuckets=getImagesBucketList(is);
+		ArrayList<ImageItem> imageItems=new ArrayList<>();
+		for (int i=0;i<imageBuckets.size();i++){
+			imageItems.addAll(imageBuckets.get(i).imageList);
+		}
+		ImageBucket imageBucket=new ImageBucket();
+		imageBucket.imageList=imageItems;
+		SortImage.SortImages(imageBucket);
+		return imageBucket;
 	}
 
 	String getOriginalImagePath(String image_id) {

@@ -15,13 +15,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.about.AboutActivity;
 import com.xiaoshangxing.setting.currency.CurrencyActivity;
-import com.xiaoshangxing.setting.feedback.FeedbackActivity;
 import com.xiaoshangxing.setting.mailboxbind.MailBoxBindActivity;
-import com.xiaoshangxing.setting.mailboxbind.ModifyMailBoxActivity;
 import com.xiaoshangxing.setting.modifypassword.ModifyPassWordActivity;
 import com.xiaoshangxing.setting.newNotice.NewNoticeActivity;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
@@ -29,7 +26,6 @@ import com.xiaoshangxing.setting.privacy.PrivacyActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
@@ -75,7 +71,7 @@ public class SettingActivity extends BaseActivity {
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = mActionSheet.getWindow().getAttributes();
-        lp.width = (int) (display.getWidth()); //设置宽度
+        lp.width = (display.getWidth()); //设置宽度
         mActionSheet.getWindow().setAttributes(lp);
         mActionSheet.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
@@ -83,7 +79,8 @@ public class SettingActivity extends BaseActivity {
                 Toast.makeText(SettingActivity.this, item, Toast.LENGTH_SHORT).show();
                 SPUtils.put(SettingActivity.this,SPUtils.IS_QUIT,true);
                 XSXApplication xsxApplication=(XSXApplication)getApplication();
-                finish();
+                xsxApplication.exit();
+//                finish();
             }
 
             @Override

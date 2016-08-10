@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.utils.photo_choosing.AlbumHelper;
 import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
+import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
 import com.xiaoshangxing.utils.BaseFragment;
 
 import java.util.ArrayList;
@@ -40,6 +41,8 @@ public class AlbumListFragment extends BaseFragment {
     private AlbumHelper helper;
     public List<ImageBucket> contentList;
     private AlbumListAdpter albumListAdpter;
+    private ArrayList<ImageItem> dataList = new ArrayList<>();
+    private ImageBucket totalImageBucket = new ImageBucket();
 
     @Nullable
     @Override
@@ -58,9 +61,26 @@ public class AlbumListFragment extends BaseFragment {
         helper = AlbumHelper.getHelper();
         helper.init(getContext());
         contentList = helper.getImagesBucketList(false);
-//        for (int i = 0; i < contentList.size(); i++) {
-//            dataList.addAll(contentList.get(i).imageList);
-//        }
+        for (int i = 0; i < contentList.size(); i++) {
+            SortImage.SortImages(contentList.get(i));
+        }
+//最近照片
+        if (!contentList.contains(totalImageBucket)) {
+//            for (int i = 0; i < contentList.size(); i++) {
+//                dataList.addAll(contentList.get(i).imageList);
+//            }
+            totalImageBucket=helper.getTotalImage(false);
+//            totalImageBucket.imageList = dataList;
+            totalImageBucket.bucketName = "最近照片";
+            SortImage.SortImages(totalImageBucket);
+            if (totalImageBucket.imageList.size() > 100) {
+                totalImageBucket.imageList =
+                        totalImageBucket.imageList.subList(0, 100);
+            }
+            totalImageBucket.count = totalImageBucket.imageList.size();
+            contentList.add(0, totalImageBucket);
+        }
+
 //        ImageItem imageList[] = (ImageItem[]) dataList.toArray();
 //        Arrays.sort(imageList, new RencentImageComparator());
 //        ImageBucket rencent = new ImageBucket();
@@ -87,11 +107,14 @@ public class AlbumListFragment extends BaseFragment {
                 AlbumActivity activity = (AlbumActivity) getActivity();
                 activity.setCurrent_imagebucket(contentList.get(position - 1));
                 AlbumDetailFragment fragment = AlbumDetailFragment.newInstance();
+                AlbumListFragment albumListFragment = activity.getAlbumListFragment();
 
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                                 R.anim.slide_in_left, R.anim.slide_out_left)
-                        .replace(R.id.main_fragment, fragment)
+//                        .replace(R.id.main_fragment, fragment)
+                        .hide(albumListFragment)
+                        .add(R.id.main_fragment, fragment)
                         .addToBackStack(null)
                         .commit();
             }
@@ -107,5 +130,6 @@ public class AlbumListFragment extends BaseFragment {
 
     @OnClick(R.id.cancel)
     public void onClick() {
+        getActivity().finish();
     }
 }

@@ -44,7 +44,9 @@ import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
 import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
 import com.xiaoshangxing.setting.utils.city_choosing.WheelView;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
+import com.xiaoshangxing.setting.utils.photo_choosing.AlbumHelper;
 import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
+import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
 import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -354,8 +356,6 @@ public class InputActivity extends BaseActivity {
                     selectLay.layout(0, screenHeight - softKeybardHeight - selectLay.getHeight(),
                             selectLay.getWidth(),
                             screenHeight - softKeybardHeight);
-                    Log.d("tttt","screenHeight:"+screenHeight+"softKeybardHeight:"+softKeybardHeight
-                    +"selectLay:"+selectLay.getHeight()+"total"+ScreenUtils.getTotalHeight(InputActivity.this));
                 }
             }
         });
@@ -505,16 +505,23 @@ public class InputActivity extends BaseActivity {
     }
 
     public void getDatas() {
-        String path = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/Camera";
-        Log.d("CameraPath", path);
-        File file = new File(path);
-        File[] files = file.listFiles();
-        Log.d("ddd", String.valueOf(files.length));
-        Arrays.sort(files, new TimeComparator());
-        Matrix m = new Matrix();
-        m.postRotate(90);
-        for (File mfile : files) {
-            iamgeurls.add(mfile.getPath());
+//        String path = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/Camera";
+//        Log.d("CameraPath", path);
+//        File file = new File(path);
+//        File[] files = file.listFiles();
+//        Log.d("ddd", String.valueOf(files.length));
+//        Arrays.sort(files, new TimeComparator());
+//        Matrix m = new Matrix();
+//        m.postRotate(90);
+//        for (File mfile : files) {
+//            iamgeurls.add(mfile.getPath());
+//        }
+        AlbumHelper albumHelper=AlbumHelper.getHelper();
+        albumHelper.init(this);
+        ImageBucket imageBucket= albumHelper.getTotalImage(false);
+        ArrayList<ImageItem> imageItems=(ArrayList<ImageItem>) imageBucket.imageList;
+        for (ImageItem i:imageItems){
+            iamgeurls.add(i.imagePath);
         }
 
     }

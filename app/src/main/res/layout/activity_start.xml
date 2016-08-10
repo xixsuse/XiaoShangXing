@@ -1,42 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/flash_lay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_start"
+    android:background="@mipmap/flash"
     tools:context=".login_register.StartActivity.StartActivity">
+
+    <!--图片-->
+    <ImageView
+        android:id="@+id/login_img"
+        android:layout_width="@dimen/x888"
+        android:layout_height="@dimen/y1386"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/y186"
+        android:elevation="20dp"
+        android:src="@mipmap/login"
+        android:visibility="invisible" />
 
     <!--登录按钮-->
     <Button
         android:id="@+id/btn_login"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/x66"
-        android:layout_marginBottom="@dimen/x66"
-        android:layout_width="@dimen/x372"
-        android:layout_height="@dimen/x144"
+        android:layout_width="@dimen/x408"
+        android:layout_height="@dimen/x162"
+        android:layout_marginBottom="@dimen/x120"
+        android:layout_marginStart="@dimen/x96"
         android:background="@drawable/btn_circular_green1"
         android:text="@string/login"
+        android:textStyle="bold"
         android:textColor="@color/w0"
         android:textSize="20sp"
         android:visibility="invisible"
         />
 
-    <!--登录按钮-->
+    <!--注册按钮-->
     <Button
         android:id="@+id/btn_register"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/x66"
-        android:layout_marginBottom="@dimen/x66"
-        android:layout_width="@dimen/x372"
-        android:layout_height="@dimen/x144"
+        android:layout_width="@dimen/x408"
+        android:layout_height="@dimen/x162"
+        android:layout_marginBottom="@dimen/x120"
+        android:layout_marginEnd="@dimen/x96"
         android:background="@drawable/btn_circular_white_register"
         android:text="@string/register"
+        android:textStyle="bold"
         android:textColor="@color/b1"
         android:textSize="20sp"
         android:visibility="invisible"
         />
-
 
 </RelativeLayout>

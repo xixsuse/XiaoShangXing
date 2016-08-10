@@ -13,8 +13,12 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
+import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
 import com.xiaoshangxing.utils.BaseFragment;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -73,6 +77,7 @@ public class AlbumDetailFragment extends BaseFragment {
         activity=(AlbumActivity)getActivity();
         limit = activity.getLimit();
         imageBucket = activity.getCurrent_imagebucket();
+        SortImage.SortImages(imageBucket);
         select_image_urls =activity.getSelect_image_urls();
         albumDetailAdapter = new AlbumDetailAdapter(getContext(), limit,
                 select_image_urls, imageBucket, this,(AlbumActivity)getActivity());
@@ -123,4 +128,29 @@ public class AlbumDetailFragment extends BaseFragment {
         super.onResume();
         setSelect_image_urls(activity.getSelect_image_urls());
     }
+
+//    public void SortImages(ImageBucket imageBucket){
+//        List<ImageItem> imageItems=imageBucket.imageList;
+//        ImageItem [] lists=new ImageItem[imageItems.size()];
+//        imageItems.toArray(lists);
+//        Arrays.sort(imageItems.toArray(lists),new TimeComparator());
+//        imageItems.clear();
+//        for (int i=0;i<lists.length;i++){
+//            imageItems.add(i,lists[i]);
+//        }
+//        imageBucket.imageList=imageItems;
+//    }
+//
+//    private class TimeComparator implements Comparator<ImageItem> {
+//
+//        public int compare(ImageItem o1, ImageItem o2) {
+//            File file1=new File(o1.imagePath);
+//            File file2=new File(o2.imagePath);
+//            if (file1.lastModified()>file2.lastModified()){
+//                return -1;
+//            }else {
+//                return 1;
+//            }
+//        }
+//    }
 }

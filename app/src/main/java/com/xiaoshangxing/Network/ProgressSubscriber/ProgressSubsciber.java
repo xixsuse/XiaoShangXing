@@ -43,9 +43,9 @@ public class ProgressSubsciber<T> extends Subscriber<T> {
     public void onError(Throwable e) {
         baseView.hideLoadingDialog();
         if (e instanceof SocketTimeoutException) {
-            baseView.showToast("网络中断，请检查您的网络状态");
+            baseView.showToast("网络异常，请检查您的网络状态");
         } else if (e instanceof ConnectException) {
-            baseView.showToast("网络中断，请检查您的网络状态");
+            baseView.showToast("网络异常，请检查您的网络状态");
         } else {
             baseView.showToast("请求错误");
             e.printStackTrace();
