@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/w3"
     android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/setting_feedback_toolbar"
         android:layout_width="match_parent"
@@ -28,8 +29,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/x12"
             android:layout_toRightOf="@+id/hometown_feedback_leftarrow"
-            android:onClick="back"
             android:clickable="true"
+            android:onClick="back"
             android:text="@string/back" />
 
         <TextView
@@ -39,35 +40,38 @@
             android:layout_centerInParent="true"
             android:text="@string/feedback" />
     </RelativeLayout>
+
     <EditText
         android:id="@+id/feedback_editText"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y556"
         android:layout_marginTop="@dimen/y48"
-        android:paddingTop="@dimen/y30"
-        android:paddingStart="@dimen/x48"
-        android:paddingEnd="@dimen/x48"
-        android:textSize="14sp"
-        android:textColor="@color/b0"
-        android:hint="@string/feed"
+        android:background="@color/transparent"
         android:gravity="top"
-        android:background="@color/w1"/>
+        android:hint="@string/feed"
+        android:paddingEnd="@dimen/x48"
+        android:paddingStart="@dimen/x48"
+        android:paddingTop="@dimen/y30"
+        android:textColor="@color/b0"
+        android:textCursorDrawable="@drawable/cursor_blue4"
+        android:textSize="14sp" />
 
     <LinearLayout
-        android:onClick="Commit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y120"
-        android:layout_marginTop="@dimen/y60">
+        android:layout_marginTop="@dimen/y60"
+        android:onClick="Commit">
+
         <Button
             android:id="@+id/feedback_submit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/x48"
             android:layout_marginEnd="@dimen/y48"
+            android:layout_marginStart="@dimen/x48"
             android:alpha="0.5"
+            android:background="@drawable/buttonstyle_green1"
             android:text="@string/submit"
-            android:textSize="17sp"
             android:textColor="@color/w0"
-            android:background="@drawable/buttonstyle_green1" />
+            android:textSize="17sp" />
     </LinearLayout>
 </LinearLayout>

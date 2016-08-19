@@ -23,7 +23,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-
             android:text="@string/focus"
             android:textColor="@color/b4"
             android:textSize="14sp" />

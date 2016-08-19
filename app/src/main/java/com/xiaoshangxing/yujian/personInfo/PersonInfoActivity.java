@@ -1,9 +1,8 @@
-package com.xiaoshangxing.yujian.info;
+package com.xiaoshangxing.yujian.personInfo;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
@@ -33,10 +32,8 @@ public class PersonInfoActivity extends BaseActivity {
         img4 = (RoundedImageView) findViewById(R.id.dynamic_image4);
 
         tagContent = "标签1  标签2  标签3  标签4  标签5";
-        if (tagContent != null) {
-            String s = tagContent.substring(0, 21) + "...";
-            tag.setText(s);
-        } else tag.setText("");
+        tag.setText(tagContent);
+
 
 
     }

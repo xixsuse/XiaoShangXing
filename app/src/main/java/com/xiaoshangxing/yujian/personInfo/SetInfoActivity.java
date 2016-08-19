@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.info;
+package com.xiaoshangxing.yujian.personInfo;
 
 import android.content.Intent;
 import android.os.Bundle;

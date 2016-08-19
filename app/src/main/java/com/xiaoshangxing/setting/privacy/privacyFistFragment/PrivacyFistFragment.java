@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by 15828 on 2016/7/14.
  */
-public class PrivacyFistFragment extends BaseFragment implements View.OnClickListener {
+public class  PrivacyFistFragment extends BaseFragment implements View.OnClickListener {
     private View mView;
     private TextView cancel, complete;
     private GridView gridView;
@@ -57,6 +57,7 @@ public class PrivacyFistFragment extends BaseFragment implements View.OnClickLis
                 if (data.size() != 0) {
                     Log.d("qqq", "..." + adapter.getCount() + "...." + position);
                     if (position == adapter.getCount() - 1) {
+                        //data!=null 点击删除键
                         for (int i = 0; i < adapter.getCount() - 2; i++) {
                             if (adapter.getRedDeleteViews().get(i).getVisibility() == View.GONE) {
                                 adapter.getRedDeleteViews().get(i).setVisibility(View.VISIBLE);
@@ -67,8 +68,10 @@ public class PrivacyFistFragment extends BaseFragment implements View.OnClickLis
                             }
                         }
                     } else if (position == adapter.getCount() - 2) {
+                        //  data!=null isAdded=true 点击添加键
                         if (isAdded) data.add(bitmap1);
                     } else {
+                        //isAdded=false 点击好友图标进行删除
                         if (!isAdded) {
                             data.remove(position);
                             Log.d("qqq", "...222" + adapter.getCount() + "...." + position);
@@ -90,8 +93,6 @@ public class PrivacyFistFragment extends BaseFragment implements View.OnClickLis
                     adapter.notifyDataSetChanged();
                     Log.d("qqq", "...count" + adapter.getCount());
                 }
-
-
             }
         });
 
