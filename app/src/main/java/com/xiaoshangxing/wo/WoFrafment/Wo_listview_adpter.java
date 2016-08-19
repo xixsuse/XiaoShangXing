@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
+import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;

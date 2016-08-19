@@ -36,7 +36,7 @@
         android:layout_height="wrap_content" />
 
     <!--评论内容-->
-    <com.xiaoshangxing.input_activity.EmotionText.EmotinText
+    <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
         android:id="@+id/text"
         android:layout_below="@+id/name"
         android:layout_toRightOf="@+id/head_image"

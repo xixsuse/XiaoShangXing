@@ -17,7 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
+import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;

@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
+import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 
 import java.util.List;

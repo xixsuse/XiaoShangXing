@@ -101,7 +101,7 @@
                 </LinearLayout>
 
                 <!--说说文字内容-->
-                <com.xiaoshangxing.input_activity.EmotionText.EmotinText
+                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
                     android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

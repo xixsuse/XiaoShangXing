@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
+import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.utils.LocationUtil;

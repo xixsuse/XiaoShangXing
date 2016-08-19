@@ -19,7 +19,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class EmoticonsEditText extends EditText {
-    private List<EmotionFilter> mFilterList=new ArrayList();
+
     EmoticonsEditText.OnBackKeyClickListener onBackKeyClickListener;
     EmoticonsEditText.OnSizeChangedListener onSizeChangedListener;
 
@@ -33,7 +33,7 @@ public class EmoticonsEditText extends EditText {
 
     public EmoticonsEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        mFilterList.add(new EmotionFilter());
+
         addTextChangedListener(new TextWatcher() {
             private int start;
             private int count;
@@ -94,20 +94,7 @@ public class EmoticonsEditText extends EditText {
     }
 
 
-    public void addEmoticonFilter(EmotionFilter emoticonFilter) {
-        if(this.mFilterList == null) {
-            this.mFilterList = new ArrayList();
-        }
 
-        this.mFilterList.add(emoticonFilter);
-    }
-
-    public void removedEmoticonFilter(EmotionFilter emoticonFilter) {
-        if(this.mFilterList != null && this.mFilterList.contains(emoticonFilter)) {
-            this.mFilterList.remove(emoticonFilter);
-        }
-
-    }
 
     public boolean dispatchKeyEventPreIme(KeyEvent event) {
         if(this.onBackKeyClickListener != null) {

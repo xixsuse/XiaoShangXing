@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <!--评论内容-->
-                <com.xiaoshangxing.input_activity.EmotionText.EmotinText
+                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
                     android:textColor="@color/b0"
                     android:textSize="13sp"
                     android:text="聊聊具体时间??"
@@ -145,7 +145,7 @@
                     android:id="@+id/responsed_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <com.xiaoshangxing.input_activity.EmotionText.EmotinText
+                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
                     android:textColor="@color/b0"
                     android:textSize="13sp"
                     android:text="这周五可以?"
@@ -174,7 +174,7 @@
                     android:id="@+id/piblished_person"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
-                <com.xiaoshangxing.input_activity.EmotionText.EmotinText
+                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
                     android:textSize="13sp"
                     android:textColor="@color/g0"
                     android:layout_gravity="center_vertical"

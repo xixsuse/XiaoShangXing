@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
-import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -18,9 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.MoonUtil;
-import com.xiaoshangxing.input_activity.EmotionText.EmotTextUtil;
-import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
+import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 
 
 /**

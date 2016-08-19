@@ -15,8 +15,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.xiaoshangxing.input_activity.EmotionEdittext.DefQqEmoticons;
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

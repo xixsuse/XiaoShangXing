@@ -143,7 +143,7 @@
             android:alpha="0.3"
             android:background="@color/b1"></View>
 
-        <com.xiaoshangxing.input_activity.EmotionText.EmotinText
+        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

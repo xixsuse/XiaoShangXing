@@ -1,4 +1,4 @@
-package com.xiaoshangxing.input_activity.EmotionText;
+package com.xiaoshangxing.input_activity.EmotionEdittext;
 
 import android.content.Context;
 import android.text.Spannable;

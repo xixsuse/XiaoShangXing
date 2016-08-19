@@ -121,7 +121,7 @@
                         android:layout_width="@dimen/x84"
                         android:layout_height="@dimen/y84" />
 
-                    <com.xiaoshangxing.input_activity.EmotionText.EmotinText
+                    <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
                         android:id="@+id/transmit_text"
                         android:text="@string/longtext"
                         android:layout_marginStart="@dimen/x18"

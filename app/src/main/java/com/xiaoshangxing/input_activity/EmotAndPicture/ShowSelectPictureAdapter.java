@@ -2,7 +2,6 @@ package com.xiaoshangxing.input_activity.EmotAndPicture;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,16 +9,11 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionEdittext.DefQqEmoticons;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmojiBean;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.check_photo.ReviewPictureActivity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class ShowSelectPictureAdapter extends BaseAdapter {
 
