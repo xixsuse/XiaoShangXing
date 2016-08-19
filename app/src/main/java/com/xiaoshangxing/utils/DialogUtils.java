@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -875,6 +876,143 @@ public class DialogUtils {
 
         public void close() {
             dialog.dismiss();
+        }
+    }
+
+
+    public static class DialogShowShareOtherSdk extends Dialog implements View.OnClickListener{
+
+
+        private ImageView ib_AK_zfxyq;
+        private ImageView ib_AK_zfwx;
+        private ImageView ib_AK_zfwb;
+        private ImageView ib_AK_zfqq;
+        private ImageView transmitFriends;
+        private Button btn_surround_info_cancel;
+        private Context mContext;
+        private LinearLayout shareFriendsLinear;
+        private Animation mShowAnim;
+        private Animation mDismissAnim;
+        private boolean isDismissing;
+        private final boolean showShareFriends;
+        View view;
+
+        private OnShareListener mListener;
+
+        public DialogShowShareOtherSdk(Context context,boolean isShareFriends,OnShareListener onShareListener){
+            super(context,R.style.ActionSheetDialog);
+            this.showShareFriends = isShareFriends;
+            this.mContext = context;
+            this.mListener = onShareListener;
+            initView();
+        }
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.ib_zfhy:
+                    mListener.onShareFriends();
+                    dismiss();
+                    break;
+                case R.id.ib_AK_zfxyq:
+                    mListener.onShareXyq();
+                    dismiss();
+                    break;
+                case R.id.ib_AK_zfwx:
+                    mListener.onShareWeiChat();
+                    dismiss();
+                    break;
+                case R.id.ib_AK_zfwb:
+                    mListener.onShareWeibo();
+                    dismiss();
+                    break;
+                case R.id.ib_AK_zfqq:
+                    mListener.onShareQQ();
+                    dismiss();
+                    break;
+                case R.id.btn_surround_info_cancel:
+                    dismiss();
+                    break;
+            }
+        }
+
+        public interface OnShareListener{
+            void onShareFriends();
+            void onShareXyq();
+            void onShareQQ();
+            void onShareWeiChat();
+            void onShareWeibo();
+        }
+
+        private void initView(){
+            view = LayoutInflater.from(mContext).inflate(R.layout.dialog_share_wb_wx,null);
+            getWindow().setGravity(Gravity.BOTTOM);
+
+            this.show();
+            this.setContentView(view);
+            shareFriendsLinear = (LinearLayout)view.findViewById(R.id.ll_shareFriends);
+            if (showShareFriends){
+                shareFriendsLinear.setVisibility(View.VISIBLE);
+            }else {
+                shareFriendsLinear.setVisibility(View.GONE);
+            }
+            transmitFriends = (ImageView)view.findViewById(R.id.ib_zfhy);
+            transmitFriends.setOnClickListener(this);
+            ib_AK_zfxyq = (ImageView)view.findViewById(R.id.ib_AK_zfxyq);
+            ib_AK_zfxyq.setOnClickListener(this);
+            ib_AK_zfwx = (ImageView) view.findViewById(R.id.ib_AK_zfwx);
+            ib_AK_zfwx.setOnClickListener(this);
+            ib_AK_zfwb = (ImageView) view.findViewById(R.id.ib_AK_zfwb);
+            ib_AK_zfwb.setOnClickListener(this);
+            ib_AK_zfqq = (ImageView) view.findViewById(R.id.ib_AK_zfqq);
+            ib_AK_zfqq.setOnClickListener(this);
+            btn_surround_info_cancel = (Button) view.findViewById(R.id.btn_surround_info_cancel);
+            btn_surround_info_cancel.setOnClickListener(this);
+            initAnim(mContext);
+
+        }
+        private void initAnim(Context context) {
+            mShowAnim = AnimationUtils.loadAnimation(context, R.anim.translate_up);
+            mDismissAnim = AnimationUtils.loadAnimation(context, R.anim.translate_down);
+            mDismissAnim.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    dismissMe();
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+
+                }
+            });
+        }
+        @Override
+        public void dismiss() {
+            if (isDismissing) {
+                return;
+            }
+            isDismissing = true;
+            view.startAnimation(mDismissAnim);
+        }
+
+        private void dismissMe() {
+            super.dismiss();
+            isDismissing = false;
+        }
+
+
+
+        @Override
+        public boolean onKeyDown(int keyCode, KeyEvent event) {
+            if (keyCode == KeyEvent.KEYCODE_MENU) {
+                dismiss();
+                return true;
+            }
+            return super.onKeyDown(keyCode, event);
         }
     }
 

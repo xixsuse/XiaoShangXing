@@ -24,6 +24,7 @@ import com.xiaoshangxing.yujian.chatInfo.groupMembers.GroupMembersActivity;
 import com.xiaoshangxing.yujian.chatInfo.groupName.GroupNameActivity;
 import com.xiaoshangxing.yujian.chatInfo.groupNotice.GroupNoticeEditActivity;
 import com.xiaoshangxing.yujian.chatInfo.groupNotice.GroupNoticeShowActivity;
+import com.xiaoshangxing.yujian.chatInfo.setBackground.SetBackgroundActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,6 +152,8 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
     public void SetChatBackGround(View view) {
+//        Intent intent = new Intent(this, SetBackgroundActivity.class);
+//        startActivity(intent);
     }
 
     public void TransferMainRight(View view) {

@@ -14,6 +14,7 @@ import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.yujian.chatInfo.deleteMember.DeleteMemberActivity;
+import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
 import java.util.List;
 
@@ -79,6 +80,14 @@ class Adapter extends BaseAdapter {
         } else if (data.size() != 0) {
             holder.img.setImageBitmap(data.get(position).getBitmap());
             holder.name.setText(data.get(position).getName());
+            holder.img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, PersonInfoActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+
         }
 
         return convertView;

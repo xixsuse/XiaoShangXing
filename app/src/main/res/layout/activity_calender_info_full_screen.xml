@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calender_full"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w1"
+    style="@style/Theme.AppCompat.NoActionBar"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:textSize="52px"
+            android:textColor="@color/b0"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.xiaoshangxing.setting.utils.photo_choosing;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.Albums;
 import android.provider.MediaStore.Images.Media;
 import android.provider.MediaStore.Images.Thumbnails;
@@ -26,9 +27,9 @@ public class AlbumHelper {
 	List<HashMap<String, String>> albumList = new ArrayList<HashMap<String, String>>();
 	HashMap<String, ImageBucket> bucketList = new HashMap<String, ImageBucket>();
 
-	private static AlbumHelper instance;
+	public static AlbumHelper instance;
 
-	private AlbumHelper() {
+	public AlbumHelper() {
 	}
 
 	public static AlbumHelper getHelper() {
@@ -141,7 +142,7 @@ public class AlbumHelper {
 
 		String columns[] = new String[] { Media._ID, Media.BUCKET_ID,
 				Media.PICASA_ID, Media.DATA, Media.DISPLAY_NAME, Media.TITLE,
-				Media.SIZE, Media.BUCKET_DISPLAY_NAME };
+				Media.SIZE, Media.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATE_MODIFIED};
 		Cursor cur = cr.query(Media.EXTERNAL_CONTENT_URI, columns, null, null,
 				null);
 		if (cur.moveToFirst()) {
@@ -155,6 +156,8 @@ public class AlbumHelper {
 			int bucketIdIndex = cur.getColumnIndexOrThrow(Media.BUCKET_ID);
 			int picasaIdIndex = cur.getColumnIndexOrThrow(Media.PICASA_ID);
 			int totalNum = cur.getCount();
+			int modifyIndex = cur.getColumnIndex(MediaStore.MediaColumns.DATE_MODIFIED);
+
 
 			do {
 				String _id = cur.getString(photoIDIndex);
@@ -165,7 +168,7 @@ public class AlbumHelper {
 				String bucketName = cur.getString(bucketDisplayNameIndex);
 				String bucketId = cur.getString(bucketIdIndex);
 				String picasaId = cur.getString(picasaIdIndex);
-
+				long modifyDate = cur.getLong(modifyIndex);
 				Log.i(TAG, _id + ", bucketId: " + bucketId + ", picasaId: "
 						+ picasaId + " name:" + name + " path:" + path
 						+ " title: " + title + " size: " + size + " bucket: "
@@ -183,6 +186,7 @@ public class AlbumHelper {
 				imageItem.imageId = _id;
 				imageItem.imagePath = path;
 				imageItem.thumbnailPath = thumbnailList.get(_id);
+				imageItem.setModifyTime(modifyDate);
 				bucket.imageList.add(imageItem);
 
 			} while (cur.moveToNext());

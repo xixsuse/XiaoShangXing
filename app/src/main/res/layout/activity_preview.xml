@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_preview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.xiaoshangxing.xiaoshang.idlesale.SelectImageFromSd.PreviewActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#2f2c2e"
+        android:id="@+id/rl_mytitle"
+        >
+        <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/back"
+            android:layout_marginLeft="24px"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/left_arrow_white"
+            android:text="返回"
+            android:textSize="48px"
+            android:drawablePadding="12px"
+            android:gravity="left|center_vertical"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"
+            />
+        <ImageView
+            android:id="@+id/ib_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/picture_select_selected"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:padding="48px"/>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/id_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+</LinearLayout>
