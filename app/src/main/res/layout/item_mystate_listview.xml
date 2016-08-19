@@ -238,14 +238,14 @@
                         android:id="@+id/good_image"
                         android:layout_width="@dimen/y126"
                         android:layout_height="@dimen/x126"
-                        android:src="@mipmap/cirecleiamge_default" />
+                        android:src="@mipmap/cirecleimage_default" />
 
                     <!--人物图片-->
                     <com.xiaoshangxing.utils.layout.CirecleImage
                         android:id="@+id/person_image"
                         android:layout_width="@dimen/y126"
                         android:layout_height="@dimen/x126"
-                        android:src="@mipmap/cirecleiamge_default" />
+                        android:src="@mipmap/cirecleimage_default" />
                 </FrameLayout>
 
                 <!--文字-->

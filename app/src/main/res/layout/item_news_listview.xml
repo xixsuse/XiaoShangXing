@@ -11,7 +11,7 @@
         android:layout_height="@dimen/y152"
         android:layout_centerVertical="true"
         android:layout_marginTop="@dimen/y38"
-        android:src="@mipmap/cirecleiamge_default" />
+        android:src="@mipmap/cirecleimage_default" />
 
 
     <LinearLayout

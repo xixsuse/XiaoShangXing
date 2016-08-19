@@ -2,9 +2,11 @@ package com.xiaoshangxing.Network;
 
 import com.xiaoshangxing.Network.Bean.CheckCode;
 import com.xiaoshangxing.Network.Bean.Login;
+import com.xiaoshangxing.Network.Bean.Publish;
 import com.xiaoshangxing.Network.Bean.Register;
 import com.xiaoshangxing.Network.api.CheckCodeApi;
 import com.xiaoshangxing.Network.api.LoginApi;
+import com.xiaoshangxing.Network.api.PublishApi;
 import com.xiaoshangxing.Network.api.RegisterApi;
 
 import okhttp3.ResponseBody;
@@ -21,6 +23,7 @@ public class LoginNetwork {
     private LoginApi mloginApi;
     private RegisterApi registerApi;
     private CheckCodeApi checkCodeApi;
+    private PublishApi publishApi;
 
     private LoginNetwork() {
 
@@ -57,6 +60,14 @@ public class LoginNetwork {
             checkCodeApi = Network.getRetrofit().create(CheckCodeApi.class);
         }
         Observable<ResponseBody> observable = checkCodeApi.login(checkCode);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void Publish(Subscriber<ResponseBody> subscriber, Publish publish) {
+        if (publishApi == null) {
+            publishApi = Network.getRetrofit().create(PublishApi.class);
+        }
+        Observable<ResponseBody> observable = publishApi.publish(publish);
         toSubscribe(observable, subscriber);
     }
 

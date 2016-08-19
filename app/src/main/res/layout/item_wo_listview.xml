@@ -18,7 +18,7 @@
             android:id="@+id/head_image"
             android:layout_width="@dimen/x108"
             android:layout_height="@dimen/y108"
-            android:src="@mipmap/cirecleiamge_default" />
+            android:src="@mipmap/cirecleimage_default" />
         <View
             android:layout_marginTop="@dimen/y18"
             android:layout_gravity="center_horizontal"
@@ -117,7 +117,7 @@
                     <com.xiaoshangxing.utils.layout.CirecleImage
                         android:id="@+id/transmit_image"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/cirecleiamge_default"
+                        android:src="@mipmap/cirecleimage_default"
                         android:layout_width="@dimen/x84"
                         android:layout_height="@dimen/y84" />
 

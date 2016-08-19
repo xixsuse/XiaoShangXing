@@ -6,7 +6,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,7 +125,14 @@ public class InputBoxLayout implements View.OnClickListener {
         adapter.setMcallBack(new EmotionGrideViewAdapter.callBack() {
             @Override
             public void callback(String emot) {
-                emoticonsEditText.append(emot);
+//                emoticonsEditText.append(emot);
+                Editable mEditable = emoticonsEditText.getText();
+                //在光标位置插入图片标志
+                int start = emoticonsEditText.getSelectionStart();
+                int end = emoticonsEditText.getSelectionEnd();
+                start = (start < 0 ? 0 : start);
+                end = (start < 0 ? 0 : end);
+                mEditable.replace(start, end, emot);
             }
         });
         gridView.setAdapter(adapter);

@@ -80,9 +80,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private MainActivity activity;
     private InputBoxLayout inputBoxLayout;
 
-    public static WoFragment newInstance() {
-        return new WoFragment();
-    }
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,6 +90,10 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         initView();
         setHead();
         return view;
+    }
+
+    public static WoFragment newInstance() {
+        return new WoFragment();
     }
 
     private void initView(){

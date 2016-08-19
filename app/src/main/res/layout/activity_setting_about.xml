@@ -50,7 +50,7 @@
             android:layout_height="@dimen/x180"
             android:layout_marginTop="@dimen/y200"
             android:layout_gravity="center"
-            android:src="@mipmap/cirecleiamge_default"/>
+            android:src="@mipmap/cirecleimage_default"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

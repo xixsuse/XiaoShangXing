@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -16,7 +18,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.MoonUtil;
 import com.xiaoshangxing.input_activity.EmotionText.EmotTextUtil;
+import com.xiaoshangxing.input_activity.EmotionText.EmotinText;
 
 
 /**
@@ -59,7 +63,7 @@ public class MoreTextView extends LinearLayout {
     /**
      * 显示文本的TextView
      */
-    private TextView showTextView;
+    private EmotinText showTextView;
     /**
      * 全文和收起的TextView
      */
@@ -87,7 +91,7 @@ public class MoreTextView extends LinearLayout {
     }
 
     private void initView(Context context, AttributeSet attrs) {
-        showTextView = new TextView(context);
+        showTextView = new EmotinText(context);
         setOrientation(VERTICAL);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MoreTextView);
         textColor = typedArray.getColor(R.styleable.MoreTextView_textColor, Color.BLACK);
@@ -111,8 +115,11 @@ public class MoreTextView extends LinearLayout {
 
     public void setText(CharSequence text) {
         globalLayout();
+//        SpannableString spannableString= MoonUtil.makeSpannableStringTags(getContext(),
+//                text.toString(),0.6f, ImageSpan.ALIGN_BOTTOM,MoonUtil.getFontHeight(showTextView));
         showTextView.setText(text);
-        EmotTextUtil.spannableEmoticonFilter(showTextView, text.toString());
+
+//        EmotTextUtil.spannableEmoticonFilter(showTextView, text.toString());
     }
 
     /**
@@ -138,6 +145,7 @@ public class MoreTextView extends LinearLayout {
                     if (collapsed) {
 //                        showTextView.setHeight(showTextView.getLineHeight() * trimLines + 2);
                         showTextView.setMaxLines(trimLines);
+                        showTextView.setEllipsize(TextUtils.TruncateAt.END);
                     }
 
                     if (collapseTextView == null) {

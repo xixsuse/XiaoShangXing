@@ -4,6 +4,7 @@
     package="com.xiaoshangxing">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -12,17 +13,17 @@
         tools:replace="android:name"
         android:name=".utils.XSXApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <activity android:name=".login_register.StartActivity.FlashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".login_register.StartActivity.StartActivity">
             <!--<intent-filter>-->
@@ -36,24 +37,24 @@
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
 
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".wo.myState.myStateActivity" />
         <activity
             android:name=".wo.myState.DetailsActivity.DetailsActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".wo.NewsActivity.NewsActivity" />
         <activity android:name=".wo.WoFrafment.check_photo.ImagePagerActivity" />
@@ -92,19 +93,16 @@
         <activity android:name=".input_activity.check_photo.ReviewPictureActivity"></activity>
         <activity android:name=".SelectPerson.SelectPersonActivity"></activity>
         <activity android:name=".xiaoshang.MessageNotice.MessageNoticeActivity"></activity>
-        <activity android:name=".input_activity.album.AlbumActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-
+        <activity android:name=".input_activity.album.AlbumActivity"></activity>
         <activity android:name=".TestActivity">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
             <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+
     </application>
+
+
 
 </manifest>

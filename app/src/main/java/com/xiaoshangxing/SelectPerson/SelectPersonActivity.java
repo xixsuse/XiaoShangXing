@@ -187,6 +187,9 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         this.selectPerson.add(name);
         selectedPersonAdapter.setSelectPerson(this.selectPerson);
         selectedPersonAdapter.notifyDataSetChanged();
+        if (selectedPersonAdapter.getSelectCount()>8){
+            recyclerView.smoothScrollToPosition(selectedPersonAdapter.getSelectCount());
+        }
         refreshCount();
     }
 

@@ -10,7 +10,7 @@
         android:layout_centerHorizontal="true"
         android:layout_width="@dimen/x228"
         android:layout_height="@dimen/y228"
-        android:src="@mipmap/cirecleiamge_default"
+        android:src="@mipmap/cirecleimage_default"
         />
 
     <!--账号密码输入-->

@@ -16,7 +16,7 @@
 
     <com.xiaoshangxing.utils.layout.CirecleImage
     android:layout_marginStart="@dimen/x15"
-    android:src="@mipmap/cirecleiamge_default"
+    android:src="@mipmap/cirecleimage_default"
     android:layout_centerVertical="true"
     android:id="@+id/news_head"
     android:layout_width="@dimen/x96"

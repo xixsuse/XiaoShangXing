@@ -20,6 +20,7 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.xiaoshang.XiaoShangFragment;
+import com.xiaoshangxing.yujian.YujianFragment.YuJianFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,7 @@ public class MainActivity extends BaseActivity {
 
     private WoFragment woFragment;
     private XiaoShangFragment xiaoShangFragment;
+    private YuJianFragment yuJianFragment;
 
     private GridView gridView;
     private List<View> viewlist = new ArrayList<View>();
@@ -101,6 +103,9 @@ public class MainActivity extends BaseActivity {
         frag = mFragmentManager.findFragmentByTag(XiaoShangFragment.TAG);
         xiaoShangFragment = (frag == null) ? XiaoShangFragment.newInstance() : (XiaoShangFragment) frag;
 
+        frag = mFragmentManager.findFragmentByTag(yuJianFragment.TAG);
+        yuJianFragment = (frag == null) ? yuJianFragment.newInstance() : (YuJianFragment) frag;
+
         if (!xiaoShangFragment.isAdded()){
             mFragmentManager.beginTransaction().add(R.id.main_fragment,xiaoShangFragment,XiaoShangFragment.TAG)
                     .commit();
@@ -110,7 +115,13 @@ public class MainActivity extends BaseActivity {
                     .commit();
         }
 
-        setXiaoshang(true);
+        if (!yuJianFragment.isAdded()){
+            mFragmentManager.beginTransaction().add(R.id.main_fragment,yuJianFragment,YuJianFragment.TAG)
+                    .commit();
+        }
+
+//        setXiaoshang(true);
+        setYUjian(true);
     }
 
     @OnClick({R.id.xiaoshang_lay, R.id.yujian_lay, R.id.wolay, R.id.emotion, R.id.normal_emot, R.id.favorite
@@ -173,7 +184,7 @@ public class MainActivity extends BaseActivity {
 
 //            mFragmentManager.beginTransaction().replace(R.id.main_fragment,
 //                    woFragment, XiaoShangFragment.TAG).commit();
-            mFragmentManager.beginTransaction().hide(xiaoShangFragment).show(woFragment)
+            mFragmentManager.beginTransaction().hide(xiaoShangFragment).hide(yuJianFragment).show(woFragment)
                     .commit();
             woFragment.autoRefresh();
             current = 3;
@@ -188,6 +199,8 @@ public class MainActivity extends BaseActivity {
         if (is) {
             imageYujian.setImageResource(R.mipmap.yujian_on);
             yujian.setTextColor(getResources().getColor(R.color.green1));
+            mFragmentManager.beginTransaction().hide(woFragment).hide(xiaoShangFragment).show(yuJianFragment)
+                    .commit();
             current = 2;
         } else {
             imageYujian.setImageResource(R.mipmap.yujian_off);
@@ -203,7 +216,7 @@ public class MainActivity extends BaseActivity {
 
 //            mFragmentManager.beginTransaction().replace(R.id.main_fragment,
 //                    xiaoShangFragment, XiaoShangFragment.TAG).commit();
-            mFragmentManager.beginTransaction().hide(woFragment).show(xiaoShangFragment)
+            mFragmentManager.beginTransaction().hide(woFragment).hide(yuJianFragment).show(xiaoShangFragment)
                     .commit();
             current = 1;
         } else {

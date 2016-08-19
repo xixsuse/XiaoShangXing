@@ -26,12 +26,10 @@ import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.CollapsedTextView;
 import com.xiaoshangxing.utils.layout.MoreTextView;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.utils.school_circle.Item_Comment;
 import com.xiaoshangxing.utils.school_circle.PraisePeople;
-import com.xiaoshangxing.wo.myState.myStateActivity;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 
@@ -127,7 +125,7 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
                 viewholder.praise_people.removeAllViews();
         }
 
-        viewholder.just_one.setImageResource(R.mipmap.cirecleiamge_default);
+        viewholder.just_one.setImageResource(R.mipmap.cirecleimage_default);
         Glide.with(context)
                 .load(R.mipmap.test)
                 .asBitmap()
@@ -189,7 +187,7 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             viewholder.comments.removeAllViews();
         }
 
-        Item_Comment comment = new Item_Comment(context, "御天证道", "哇哇哇哇哇哇哇哇哇哇哇哇"+"[ebt]");
+        Item_Comment comment = new Item_Comment(context, "御天证道", "哇哇哇哇哇哇哇哇哇哇哇哇"+"[可爱]");
         Item_Comment comment2 = new Item_Comment(context, "王振华", "孙璐阳", "和哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈和");
         viewholder.comments.addView(comment.getTextView());
         viewholder.comments.addView(comment2.getTextView());

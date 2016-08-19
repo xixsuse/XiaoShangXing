@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w0"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title_lay"
+        android:paddingStart="@dimen/width_48"
+        android:paddingEnd="@dimen/width_48"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y222">
+
+        <!--校友-->
+        <ImageView
+            android:id="@+id/schoolfellow"
+            android:src="@mipmap/schoolmate"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--搜索-->
+        <RelativeLayout
+            android:id="@+id/serch_layout"
+            android:layout_centerInParent="true"
+            android:background="@drawable/et_circular_4_white"
+            android:layout_width="@dimen/x756"
+            android:layout_height="@dimen/y90">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:src="@mipmap/serch"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_marginStart="@dimen/x18"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/serch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <!--好友-->
+        <ImageView
+            android:id="@+id/friend"
+            android:src="@mipmap/friend"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <!--无网络-->
+    <FrameLayout
+        android:id="@+id/no_net_lay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y126">
+
+        <View
+            android:alpha="0.2"
+            android:background="@color/red2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </View>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:src="@mipmap/red_notice"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x64"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginStart="@dimen/width_48"
+                android:textSize="14sp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/no_net"
+                android:textColor="@color/b4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout
+        android:id="@+id/reflesh_layout"
+        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        cube_ptr:ptr_duration_to_close="200"
+        cube_ptr:ptr_duration_to_close_header="1000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+        cube_ptr:ptr_resistance="1.7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
+    </com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout>
+
+</LinearLayout>

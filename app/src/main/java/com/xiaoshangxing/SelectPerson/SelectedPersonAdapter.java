@@ -40,7 +40,7 @@ public class SelectedPersonAdapter extends RecyclerView.Adapter<SelectedPersonAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.head.setImageResource(R.mipmap.cirecleiamge_default);
+        holder.head.setImageResource(R.mipmap.cirecleimage_default);
     }
 
     @Override

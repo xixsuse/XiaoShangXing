@@ -273,6 +273,11 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         ButterKnife.unbind(this);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
     @OnClick({R.id.back, R.id.more})
     public void onClick(View view) {
         switch (view.getId()) {

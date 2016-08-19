@@ -89,7 +89,7 @@
     <string name="message">消息</string>
     <string name="empty">清空</string>
 
-    <string name="longtext">listView是一种可以显示一系列项目并能进行滚动显示的View。在每行里，既可以是简单的文本，也可以是复杂的结构。一般情况下，你都需要保证ListView运行得很好[ebt]</string>
+    <string name="longtext">listView是一种可以显示一系列项目并能进行滚动显示的View。[可爱]在每行里，既可以是简单的文本，也可以是复杂的结构。一般情况下，你都需要保证ListView运行得很好</string>
 
 
     <string name="report">投诉</string>
@@ -253,5 +253,9 @@
     <string name="select_person">选择联系人</string>
     <string name="plan_name">计划名称:</string>
     <string name="response">回复</string>
+
+    <!--遇见-->
+    <string name="serch">搜索</string>
+    <string name="no_net">当前网络不可用,请检查你的网络设置</string>
 
 </resources>

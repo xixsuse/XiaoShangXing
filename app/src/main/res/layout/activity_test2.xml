@@ -35,5 +35,10 @@
        android:layout_width="match_parent"
        android:layout_height="wrap_content" />
 
+   <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
+       android:id="@+id/input"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
 
 </LinearLayout>

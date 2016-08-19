@@ -20,11 +20,17 @@ public class XSXApplication extends Application {
 //    private List<Activity> mList = new LinkedList<Activity>();
     private Map<String,Activity> mList=new HashMap<String, Activity>();
     private int activityCount = 0;
+    private static XSXApplication instance;
 
+    public static XSXApplication getInstance() {
+        return instance;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
-
+        if (instance == null) {
+            instance = this;
+        }
         /*
         **describe:集中监视Activity生命周期
         */

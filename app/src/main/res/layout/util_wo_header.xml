@@ -42,7 +42,7 @@
     <!--头像-->
     <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/head_image"
-        android:src="@mipmap/cirecleiamge_default"
+        android:src="@mipmap/cirecleimage_default"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_width="@dimen/x228"
@@ -78,7 +78,7 @@
         <com.xiaoshangxing.utils.layout.CirecleImage
             android:id="@+id/news_head"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/cirecleiamge_default"
+            android:src="@mipmap/cirecleimage_default"
             android:layout_width="@dimen/x96"
             android:layout_height="@dimen/y96" />
 

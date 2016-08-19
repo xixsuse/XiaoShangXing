@@ -64,7 +64,7 @@
                 android:id="@+id/head_image"
                 android:layout_width="@dimen/x120"
                 android:layout_height="@dimen/y120"
-                android:src="@mipmap/cirecleiamge_default" />
+                android:src="@mipmap/cirecleimage_default" />
 
             <!--右侧布局-->
             <LinearLayout

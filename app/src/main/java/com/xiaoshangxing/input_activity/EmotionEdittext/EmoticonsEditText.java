@@ -6,9 +6,13 @@ package com.xiaoshangxing.input_activity.EmotionEdittext;
  */
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.EditText;
+
+import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.MoonUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,6 +34,25 @@ public class EmoticonsEditText extends EditText {
     public EmoticonsEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mFilterList.add(new EmotionFilter());
+        addTextChangedListener(new TextWatcher() {
+            private int start;
+            private int count;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                this.start = start;
+                this.count = count;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                MoonUtil.replaceEmoticons(getContext(), s, start, count);
+            }
+        });
     }
 
 
@@ -70,18 +93,6 @@ public class EmoticonsEditText extends EditText {
 
     }
 
-    protected final void onTextChanged(CharSequence arg0, int start, int lengthBefore, int after) {
-        super.onTextChanged(arg0, start, lengthBefore, after);
-        if(this.mFilterList != null) {
-            Iterator i$ = this.mFilterList.iterator();
-
-            while(i$.hasNext()) {
-                EmotionFilter emoticonFilter = (EmotionFilter)i$.next();
-                emoticonFilter.filter(this, arg0, start, lengthBefore, after);
-            }
-
-        }
-    }
 
     public void addEmoticonFilter(EmotionFilter emoticonFilter) {
         if(this.mFilterList == null) {

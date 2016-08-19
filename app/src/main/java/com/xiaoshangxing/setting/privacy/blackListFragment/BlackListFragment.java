@@ -47,7 +47,7 @@ public class BlackListFragment extends BaseFragment implements View.OnClickListe
         for (int i = 0; i < 20; i++) {
             HashMap<String, Object> itemData = new HashMap<String, Object>();
             itemData.put("Name", "姓名" + i);
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleiamge_default);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleimage_default);
             itemData.put("Bitmap", bitmap);
             data.add(itemData);
         }

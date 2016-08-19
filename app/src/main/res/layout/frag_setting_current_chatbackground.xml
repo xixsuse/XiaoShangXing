@@ -132,7 +132,7 @@
         android:id="@+id/chatbackground_img"
         android:layout_width="50dp"
         android:layout_height="80dp"
-        android:src="@mipmap/cirecleiamge_default"
+        android:src="@mipmap/cirecleimage_default"
         android:scaleType="fitCenter"/>
 
 </LinearLayout>

@@ -120,7 +120,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
         for (int i = 0; i <= 20; i++) {
             CirecleImage cirecleImage = new CirecleImage(this);
-            cirecleImage.setImageResource(R.mipmap.cirecleiamge_default);
+            cirecleImage.setImageResource(R.mipmap.cirecleimage_default);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     getResources().getDimensionPixelSize(R.dimen.x96),
                     getResources().getDimensionPixelSize(R.dimen.y96));

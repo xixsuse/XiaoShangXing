@@ -37,7 +37,7 @@ public class PrivacySecondFragment extends BaseFragment implements View.OnClickL
         cancel.setOnClickListener(this);
         complete.setOnClickListener(this);
         gridView = (GridView) mView.findViewById(R.id.privacySecond_gridview);
-        final Bitmap bitmap1 = BitmapFactory.decodeResource(getActivity().getResources(), R.mipmap.cirecleiamge_default);
+        final Bitmap bitmap1 = BitmapFactory.decodeResource(getActivity().getResources(), R.mipmap.cirecleimage_default);
         final PrivacyGridAdapter adapter = new PrivacyGridAdapter(getActivity(), data);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

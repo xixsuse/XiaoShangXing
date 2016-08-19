@@ -62,7 +62,7 @@
         android:id="@+id/head_image"
         android:layout_marginStart="@dimen/x63"
         android:layout_marginTop="@dimen/height_48"
-        android:src="@mipmap/cirecleiamge_default"
+        android:src="@mipmap/cirecleimage_default"
         android:layout_width="@dimen/x76"
         android:layout_height="@dimen/y76" />
 

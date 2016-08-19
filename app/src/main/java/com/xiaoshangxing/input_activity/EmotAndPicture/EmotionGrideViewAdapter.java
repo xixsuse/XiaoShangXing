@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionEdittext.DefQqEmoticons;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmojiBean;
+import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.EmojiManager;
 import com.xiaoshangxing.input_activity.InputActivity;
 
 import java.util.ArrayList;
@@ -42,7 +43,8 @@ public class EmotionGrideViewAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return list.size();
+//		return list.size();
+		return EmojiManager.getDisplayCount();
 	}
 
 	@Override
@@ -58,19 +60,20 @@ public class EmotionGrideViewAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = View.inflate(ctx, R.layout.item_imageview_84, null);
 		ImageView imageView = (ImageView) view.findViewById(R.id.iv_image);
 		Glide.with(ctx).
-				load(list.get(position).icon)
+//				load(list.get(position).icon)
+		load("file:///android_asset/"+EmojiManager.getDisplayPath(ctx,position))
 				.animate(R.anim.fade_in)
 				.into(imageView);
-		final String iconName=list.get(position).emoji;
+//		imageView.setBackground(EmojiManager.getDisplayDrawable(ctx,position));
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (mcallBack!=null){
-					mcallBack.callback(iconName);
+					mcallBack.callback(EmojiManager.getDisplayText(position));
 				}
 //				activity.inputEmot(iconName);
 			}

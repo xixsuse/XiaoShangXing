@@ -179,7 +179,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
                 MyGlide.with(this, url, headPortrait);
             }
         } else {
-            headPortrait.setImageResource(R.mipmap.cirecleiamge_default);
+            headPortrait.setImageResource(R.mipmap.cirecleimage_default);
         }
 
     }

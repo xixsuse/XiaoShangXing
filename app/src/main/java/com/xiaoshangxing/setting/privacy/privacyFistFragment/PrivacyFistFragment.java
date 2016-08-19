@@ -39,7 +39,7 @@ public class PrivacyFistFragment extends BaseFragment implements View.OnClickLis
         complete.setOnClickListener(this);
         gridView = (GridView) mView.findViewById(R.id.privacyfirst_gridview);
 
-        final Bitmap bitmap1 = BitmapFactory.decodeResource(getActivity().getResources(), R.mipmap.cirecleiamge_default);
+        final Bitmap bitmap1 = BitmapFactory.decodeResource(getActivity().getResources(), R.mipmap.cirecleimage_default);
         dataTest1 = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             dataTest1.add(bitmap1);
