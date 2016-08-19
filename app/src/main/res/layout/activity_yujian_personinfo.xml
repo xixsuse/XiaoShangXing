@@ -132,10 +132,10 @@
         android:orientation="horizontal">
 
         <Button
-            android:onClick="SayHello"
             android:layout_width="@dimen/x300"
             android:layout_height="@dimen/y84"
             android:background="@drawable/buttonstyle"
+            android:onClick="SayHello"
             android:text="@string/sayhello"
             android:textColor="@color/b4"
             android:textSize="14sp" />
@@ -199,12 +199,14 @@
             <TextView
                 android:id="@+id/personinfo_tag_content"
                 style="@style/green1_16sp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/x60"
+                android:layout_marginEnd="@dimen/x180"
                 android:layout_marginStart="@dimen/x72"
-                android:layout_toRightOf="@id/personinfo_tag" />
+                android:layout_toRightOf="@id/personinfo_tag"
+                android:ellipsize="end"
+                android:singleLine="true" />
 
             <ImageView
                 android:layout_width="wrap_content"

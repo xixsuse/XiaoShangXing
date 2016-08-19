@@ -35,6 +35,7 @@
 
         <CheckBox
             android:id="@+id/checkbox"
+            android:enabled="false"
             android:layout_width="@dimen/x84"
             android:layout_height="@dimen/y84"
             android:layout_alignParentEnd="true"

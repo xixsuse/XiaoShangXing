@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/y168"
+    android:minHeight="@dimen/y168"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/deleteMember_Checkbox"
+        android:layout_width="@dimen/x84"
+        android:layout_height="@dimen/y84"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/selector_selectperson"
+        android:clickable="false"
+        android:button="@null"
+        android:focusable="false" />
+
+    <com.xiaoshangxing.utils.layout.CirecleImage
+        android:id="@+id/deleteMember_Img"
+        android:layout_width="@dimen/x132"
+        android:layout_height="@dimen/x132"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/x48" />
+
+    <TextView
+        android:id="@+id/deleteMember_Text"
+        style="@style/black_16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/x52"
+        android:gravity="center_vertical" />
+
+
+</LinearLayout>

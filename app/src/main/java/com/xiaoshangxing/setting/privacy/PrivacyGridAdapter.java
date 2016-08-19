@@ -3,6 +3,7 @@ package com.xiaoshangxing.setting.privacy;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +64,7 @@ public class PrivacyGridAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_privacy_adapter, parent, false);
             holder = new ViewHolder();
-            holder.add = (ImageView) convertView.findViewById(R.id.privacy_add);
+            holder.add = (RoundedImageView) convertView.findViewById(R.id.privacy_add);
             holder.redDelete = (ImageView) convertView.findViewById(R.id.privacy_reddelete);
             redDeleteViews.add(holder.redDelete);
             convertView.setTag(holder);
@@ -84,7 +86,7 @@ public class PrivacyGridAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        public ImageView add;
+        public RoundedImageView add;
         public ImageView redDelete;
     }
 

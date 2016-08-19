@@ -9,26 +9,26 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        tools:replace="android:name"
         android:name=".utils.XSXApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:name">
 
         <activity android:name=".login_register.StartActivity.FlashActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--         <intent-filter>
+                         <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                         <category android:name="android.intent.category.LAUNCHER" />
+                     </intent-filter>-->
         </activity>
         <activity android:name=".login_register.StartActivity.StartActivity">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
         <activity android:name=".login_register.LoginRegisterActivity.LoginRegisterActivity" />
@@ -63,7 +63,7 @@
             android:name=".report.ReportActivity"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity android:name=".setting.SettingActivity" />
-        <activity android:name=".setting.personalinfo.PersonalInfoActivity" />
+        <activity android:name=".setting.personalinfo.PersonalInfoActivity"/>
         <activity android:name=".setting.feedback.FeedbackActivity" />
         <activity android:name=".setting.newNotice.NewNoticeActivity" />
         <activity android:name=".setting.mailboxbind.MailBoxBindActivity" />
@@ -104,6 +104,43 @@
             <!--<action android:name="android.intent.action.MAIN" />-->
             <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
+        </activity>
+
+
+
+
+       <!-- 遇见-->
+        <activity android:name=".yujian.personInfo.PersonInfoActivity">
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+        </activity>
+        <activity android:name=".yujian.personInfo.MoreInfoActivity"/>
+        <activity android:name=".yujian.personInfo.SetInfoActivity"/>
+
+        <activity android:name=".yujian.chatInfo.ChatInfoActivity">
+            <!--  <intent-filter>
+                  <action android:name="android.intent.action.MAIN" />
+
+                  <category android:name="android.intent.category.LAUNCHER" />
+              </intent-filter>-->
+        </activity>
+        <activity android:name=".yujian.chatInfo.groupCode.GroupCodeActivity" />
+        <activity android:name=".yujian.chatInfo.groupName.GroupNameActivity" />
+        <activity android:name=".yujian.chatInfo.groupNotice.GroupNoticeEditActivity" />
+        <activity android:name=".yujian.chatInfo.groupNotice.GroupNoticeShowActivity" />
+        <activity android:name=".yujian.chatInfo.groupMembers.GroupMembersActivity" />
+        <activity android:name=".yujian.chatInfo.deleteMember.DeleteMemberActivity" />
+        <activity android:name=".yujian.chatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity" />
+
+        <activity android:name=".yujian.xiaoyou.XiaoYouActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -66,7 +66,7 @@ public class MyCodeFragment extends BaseFragment implements View.OnClickListener
 
                     @Override
                     public void onCancel() {
-                          Toast.makeText(getActivity(), "onCancel", Toast.LENGTH_SHORT).show();
+                         // Toast.makeText(getActivity(), "onCancel", Toast.LENGTH_SHORT).show();
                     }
                 });
             default:

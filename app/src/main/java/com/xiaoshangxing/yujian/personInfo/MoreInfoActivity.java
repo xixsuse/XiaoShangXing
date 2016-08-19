@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.info;
+package com.xiaoshangxing.yujian.personInfo;
 
 import android.os.Bundle;
 import android.view.Gravity;
