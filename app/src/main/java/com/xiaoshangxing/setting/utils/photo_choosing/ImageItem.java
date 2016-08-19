@@ -19,7 +19,15 @@ public class ImageItem implements Serializable {
 		this.imageName = imageName;
 	}
 	public boolean isSelected = false;
-	
+	private long modifyTime;
+
+	public long getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(long modifyTime) {
+		this.modifyTime = modifyTime;
+	}
 	public String getImageId() {
 		return imageId;
 	}

@@ -51,6 +51,7 @@
         android:showDividers="middle">
 
         <RelativeLayout
+            android:id="@+id/ChooseBackground"
             android:onClick="ChooseBackground"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144">

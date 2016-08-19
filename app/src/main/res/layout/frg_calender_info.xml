@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w3"
+  >
+
+    <include layout="@layout/title_calender"
+
+        android:id="@+id/title"
+        android:layout_height="@dimen/y144"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"></include>
+    <RelativeLayout
+        android:id="@+id/ll_myll"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/rl_mytitle"
+        android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.RecyclerView
+
+        android:id="@+id/rv_calender_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x48"
+        android:layout_marginRight="@dimen/x46"
+        android:layout_marginTop="@dimen/y2"
+
+        >
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_calender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/x36"
+        android:paddingRight="@dimen/x36"
+        android:background="@color/w1"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y100">
+            <TextView
+                android:id="@+id/tv_currentMonth"
+                android:layout_width="wrap_content"
+                android:textSize="20dp"
+                android:text="10月"
+                android:textColor="@color/red1"
+                android:layout_marginTop="@dimen/y30"
+                android:layout_height="wrap_content" />
+            <ImageButton
+                android:id="@+id/ib_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y42"
+                android:layout_marginRight="@dimen/x10"
+                android:paddingRight="@dimen/x10"
+                android:src="@mipmap/down_arrow_grey"
+                android:background="@android:color/transparent"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+    <com.xiaoshangxing.xiaoshang.schoolcalender.SchoolCalenderInfoFragment.calender.WeekDayView
+        android:id="@+id/calender"
+        android:layout_height="@dimen/y120"
+        android:layout_width="match_parent"
+        />
+    <com.xiaoshangxing.xiaoshang.schoolcalender.SchoolCalenderInfoFragment.calender.MonthDateView
+        android:id="@+id/calender_day"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y720" />
+        <TextView
+            android:id="@+id/tv_nextMonth"
+            android:layout_width="wrap_content"
+            android:textSize="20dp"
+            android:text="11月"
+            android:textColor="@color/g0"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_calenderDate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y126"
+
+        android:layout_alignParentBottom="true"
+        android:background="@color/w1"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/calender_black"
+            android:layout_width="@dimen/x52"
+            android:layout_height="@dimen/y44"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/calender_black"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x48"/>
+        <TextView
+            android:id="@+id/tv_nowDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/g0"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/calender_black"
+            android:layout_marginLeft="@dimen/x24"
+            android:textSize="15dp"
+            android:layout_gravity="center_vertical"
+            />
+        <TextView
+            android:id="@+id/tv_date_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/g0"
+            android:layout_marginLeft="@dimen/x38"
+            android:textSize="15dp"
+            android:layout_toRightOf="@+id/tv_nowDate"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            />
+        <ImageButton
+            android:id="@+id/ib_arrow_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/x46"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/up_arrowgrey"/>
+    </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

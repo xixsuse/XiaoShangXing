@@ -116,9 +116,19 @@
         <activity android:name=".yujian.chatInfo.groupMembers.GroupMembersActivity" />
         <activity android:name=".yujian.chatInfo.deleteMember.DeleteMemberActivity" />
         <activity android:name=".yujian.chatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity" />
+        <activity android:name=".yujian.chatInfo.setBackground.SetBackgroundActivity"/>
 
         <activity android:name=".yujian.xiaoyou.XiaoYouActivity">
         </activity>
+
+        <activity android:name=".xiaoshang.schoolcalender.SchoolCalenderActivity"/>
+        <activity android:name=".xiaoshang.planpropose.PlanProposeActivity"/>
+        <activity android:name=".xiaoshang.idlesale.IdleSaleActivity"/>
+        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.AllIPhotosActivity"/>
+        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.SelectPhotoPagerActivity"/>
+        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.PreviewActivity"/>
+        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivity.ImageDirectoryActivity"/>
+        
 
     </application>
 

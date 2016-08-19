@@ -20,6 +20,9 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.xiaoshang.MessageNotice.MessageNoticeActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
+import com.xiaoshangxing.xiaoshang.idlesale.IdleSaleActivity;
+import com.xiaoshangxing.xiaoshang.planpropose.PlanProposeActivity;
+import com.xiaoshangxing.xiaoshang.schoolcalender.SchoolCalenderActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,7 +55,7 @@ public class XiaoShangFragment extends BaseFragment {
 
     private float current, result, current2;
     private int start = 0;
-    private int currentImage=1;
+    private int currentImage = 1;
     private boolean isMoving;
     private Handler handler = new Handler();
     private Runnable runnable;
@@ -159,7 +162,7 @@ public class XiaoShangFragment extends BaseFragment {
         xiaoshangNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent notice_intent=new Intent(getContext(), MessageNoticeActivity.class);
+                Intent notice_intent = new Intent(getContext(), MessageNoticeActivity.class);
                 startActivity(notice_intent);
             }
         });
@@ -372,27 +375,43 @@ public class XiaoShangFragment extends BaseFragment {
 
     private void gotoOther(int position) {
         switch (position) {
+            case 1:
+                Intent schoolCalender = new Intent(getContext(), SchoolCalenderActivity.class);
+                getContext().startActivity(schoolCalender);
+                break;
             case 2:
-                Intent rewaed_intent=new Intent(getContext(), ShoolRewardActivity.class);
+                Intent rewaed_intent = new Intent(getContext(), ShoolRewardActivity.class);
                 getContext().startActivity(rewaed_intent);
                 break;
             case 3:
                 Intent help_intent = new Intent(getContext(), ShoolfellowHelpActivity.class);
                 getContext().startActivity(help_intent);
                 break;
+            case 4:
+                Intent planPropose = new Intent(getContext(), PlanProposeActivity.class);
+                getContext().startActivity(planPropose);
+                break;
+            case 5:
+                Intent idleSale = new Intent(getContext(), IdleSaleActivity.class);
+                getActivity().startActivity(idleSale);
+                break;
+
         }
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
     @Override
     public void onResume() {
         super.onResume();
         isMoving = false;
         setImagePosition(currentImage);
     }
+
     @Override
     public void onPause() {
         super.onPause();
