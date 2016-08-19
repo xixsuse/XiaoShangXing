@@ -63,7 +63,7 @@
             android:layout_marginEnd="@dimen/x24"
             android:layout_marginStart="@dimen/x48"
             android:scaleType="centerCrop"
-            android:src="@mipmap/cirecleiamge_default" />
+            android:src="@mipmap/cirecleimage_default" />
 
         <LinearLayout
             android:layout_width="match_parent"

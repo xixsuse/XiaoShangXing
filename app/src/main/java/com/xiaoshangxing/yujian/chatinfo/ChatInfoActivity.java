@@ -68,7 +68,7 @@ public class ChatInfoActivity extends BaseActivity {
         setContentView(R.layout.activity_yujian_chatinfo);
         ButterKnife.bind(this);
 
-        final Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleiamge_default);
+        final Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleimage_default);
         String name = "姓名";
         for (int i = 0; i < 5; i++) {
             Member member = new Member();

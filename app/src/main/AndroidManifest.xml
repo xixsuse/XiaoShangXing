@@ -101,6 +101,25 @@
             <!--</intent-filter>-->
         </activity>
 
+        <!-- 遇见-->
+        <activity android:name=".yujian.personInfo.PersonInfoActivity">
+        </activity>
+        <activity android:name=".yujian.personInfo.MoreInfoActivity"/>
+        <activity android:name=".yujian.personInfo.SetInfoActivity"/>
+
+        <activity android:name=".yujian.chatInfo.ChatInfoActivity">
+        </activity>
+        <activity android:name=".yujian.chatInfo.groupCode.GroupCodeActivity" />
+        <activity android:name=".yujian.chatInfo.groupName.GroupNameActivity" />
+        <activity android:name=".yujian.chatInfo.groupNotice.GroupNoticeEditActivity" />
+        <activity android:name=".yujian.chatInfo.groupNotice.GroupNoticeShowActivity" />
+        <activity android:name=".yujian.chatInfo.groupMembers.GroupMembersActivity" />
+        <activity android:name=".yujian.chatInfo.deleteMember.DeleteMemberActivity" />
+        <activity android:name=".yujian.chatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity" />
+
+        <activity android:name=".yujian.xiaoyou.XiaoYouActivity">
+        </activity>
+
     </application>
 
 

@@ -29,6 +29,8 @@ import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
 import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
+import com.xiaoshangxing.yujian.chatInfo.ChatInfoActivity;
+import com.xiaoshangxing.yujian.xiaoyou.XiaoYouActivity;
 import com.yanzhenjie.recyclerview.swipe.Closeable;
 import com.yanzhenjie.recyclerview.swipe.OnSwipeMenuItemClickListener;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenu;
@@ -254,10 +256,14 @@ public class YuJianFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.schoolfellow:
+                Intent fellow_intent=new Intent(getContext(), XiaoYouActivity.class);
+                startActivity(fellow_intent);
                 break;
             case R.id.serch_layout:
                 break;
             case R.id.friend:
+                Intent chatIntent=new Intent(getContext(), ChatInfoActivity.class);
+                startActivity(chatIntent);
                 break;
         }
     }

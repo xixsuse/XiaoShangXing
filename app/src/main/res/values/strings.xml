@@ -258,4 +258,26 @@
     <string name="serch">搜索</string>
     <string name="no_net">当前网络不可用,请检查你的网络设置</string>
 
+    <string name="chatinfo">聊天信息</string>
+    <string name="allGroupMember">全部群成员</string>
+    <string name="groupChatName">群聊名称</string>
+    <string name="groupCode">群二维码</string>
+    <string name="groupNotice">群公告</string>
+    <string name="topChat">置顶聊天</string>
+    <string name="noDisturb">消息免打扰</string>
+    <string name="saveToFriend_GroupChat">保存到好友群聊</string>
+    <string name="setChatBackground">设置当前聊天背景</string>
+    <string name="transferMainRight">群主管理权转让</string>
+    <string name="cleanChatRecord">清空聊天记录</string>
+    <string name="deleteAndQuit">删除并退出</string>
+    <string name="groupCode_text">该校上行二维码将在%s失效</string>
+    <string name="savePicture">保存图片</string>
+    <string name="onlyGroupManagerCanEdit">仅群主可编辑</string>
+    <string name="groupMembers">群成员</string>
+    <string name="add">添加</string>
+    <string name="search">搜索</string>
+    <string name="deleteMember">删除成员</string>
+    <string name="ChooseNewGroupMaster">选择新群主</string>
+    <string name="xiaoyou">校友</string>
+
 </resources>

@@ -99,7 +99,7 @@ public class XiaoYouActivity extends BaseActivity {
 
 
         //模拟数据
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleiamge_default);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleimage_default);
         Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.mipmap.img_sheji);
         data0.add(new XiaoyouBean("至善学院", "宁静致远，至于至善", bitmap1));
         data0.add(new XiaoyouBean("食品学院", "勤业，创新，争先，共赢", bitmap1));

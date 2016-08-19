@@ -75,7 +75,7 @@ public class ChooseNewGroupMasterActivity extends BaseActivity {
         String[] strings = getResources().getStringArray(R.array.date);
         for (int i = 0; i < strings.length; i++) {
             Member member = new Member();
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleiamge_default);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleimage_default);
             member.setBitmap(bitmap);
             member.setName(strings[i]);
             dataList.add(member);
