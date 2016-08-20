@@ -1017,7 +1017,33 @@ public class DialogUtils {
     }
 
 
+    //dialog_liuxin
+    public static class Dialog_Linxin {
+        private Activity activity;
+        private Dialog dialog;
+        private String message;
 
+        public Dialog_Linxin(Activity activity, String message) {
+            this.activity = activity;
+            this.message = message;
+        }
+
+        public Dialog create() {
+            LinearLayout linearLayout = (LinearLayout) activity
+                    .getLayoutInflater().inflate(R.layout.dialog_nobutton, null);
+            dialog = new Dialog(activity, R.style.ActionSheetDialog);
+            TextView tv_message = (TextView) linearLayout.findViewById(R.id.dialog_message);
+            tv_message.setText(message);
+            dialog.setContentView(linearLayout);
+            return dialog;
+        }
+
+        public Dialog_Linxin setMessage(String message) {
+            this.message = message;
+            return this;
+        }
+
+    }
 
 
 

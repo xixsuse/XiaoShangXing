@@ -186,6 +186,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
+            android:onClick="Tag"
             android:orientation="horizontal">
 
             <TextView

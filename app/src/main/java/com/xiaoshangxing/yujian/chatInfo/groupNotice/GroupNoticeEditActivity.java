@@ -1,5 +1,6 @@
 package com.xiaoshangxing.yujian.chatInfo.groupNotice;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.LocationUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -17,14 +20,13 @@ import butterknife.OnClick;
 /**
  * Created by 15828 on 2016/8/12.
  */
-public class GroupNoticeEditActivity extends BaseActivity implements View.OnClickListener{
+public class GroupNoticeEditActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.groupNoticeEdit_back)
     TextView back;
     @Bind(R.id.groupNoticeEdit_finish)
     TextView finish;
     @Bind(R.id.groupNotice_editText)
     EditText editText;
-
 
 
     @Override
@@ -60,21 +62,57 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
         });
 
 
-
-
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.groupNoticeEdit_back:
-                finish();
+                if (!editText.getText().toString().equals("")) {
+                    final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+                    final Dialog alertDialog = dialogUtils.Message("退出本次编辑？")
+                            .Button("继续编辑", "退出").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                                @Override
+                                public void onButton1() {
+                                    dialogUtils.close();
+                                }
+
+                                @Override
+                                public void onButton2() {
+                                    finish();
+                                }
+                            }).create();
+                    alertDialog.show();
+                    LocationUtil.setWidth(this, alertDialog,
+                            getResources().getDimensionPixelSize(R.dimen.x780));
+                } else {
+                    finish();
+                }
                 break;
             case R.id.groupNoticeEdit_finish:
-                finish();
+                final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+                final Dialog alertDialog = dialogUtils.Message("该公告会通知全部群成员，是否\n发布？")
+                        .Button("取消", "发布").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                            @Override
+                            public void onButton1() {
+                                dialogUtils.close();
+                            }
+
+                            @Override
+                            public void onButton2() {
+                                finish();
+                            }
+                        }).create();
+                alertDialog.show();
+                LocationUtil.setWidth(this, alertDialog,
+                        getResources().getDimensionPixelSize(R.dimen.x780));
                 break;
         }
-
     }
+
+
+
+
+
 }

@@ -1,6 +1,7 @@
 package com.xiaoshangxing.yujian.chatInfo;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,8 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.SwitchView;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
@@ -24,7 +28,6 @@ import com.xiaoshangxing.yujian.chatInfo.groupMembers.GroupMembersActivity;
 import com.xiaoshangxing.yujian.chatInfo.groupName.GroupNameActivity;
 import com.xiaoshangxing.yujian.chatInfo.groupNotice.GroupNoticeEditActivity;
 import com.xiaoshangxing.yujian.chatInfo.groupNotice.GroupNoticeShowActivity;
-import com.xiaoshangxing.yujian.chatInfo.setBackground.SetBackgroundActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,28 +135,45 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
     public void GroupNotice(View view) {
-        boolean isQunzhu = false, isEdited = false;
-//
-//        if(isQunzhu && !isEdited){
-//            //如果是群主并且没有公告
-//            Intent intent = new Intent(this, GroupNoticeEditActivity.class);
-//            startActivity(intent);
-//        }else if(!isQunzhu && !isEdited){
-//            //如果不是群主并且没有公告
-//        }else{
-//            //有公告
-//            Intent intent = new Intent(this, GroupNoticeShowActivity.class);
-//            startActivity(intent);
-//        }
+        boolean isQunzhu = true, isEdited = false;
 
-        Intent intent = new Intent(this, GroupNoticeShowActivity.class);
-        startActivity(intent);
+        if(isQunzhu && !isEdited){
+            //如果是群主并且没有公告
+            Intent intent = new Intent(this, GroupNoticeEditActivity.class);
+            startActivity(intent);
+        }else if(!isQunzhu && !isEdited){
+            //如果不是群主并且没有公告
+            final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+            final Dialog alertDialog = dialogUtils.Message("只有群主王振华才能修改群公告")
+                    .Button("我知道了").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                        @Override
+                        public void onButton1() {
+                            dialogUtils.close();
+                        }
+
+                        @Override
+                        public void onButton2() {
+
+                        }
+
+                    }).create();
+            alertDialog.show();
+            LocationUtil.setWidth(this, alertDialog,
+                    getResources().getDimensionPixelSize(R.dimen.x780));
+        }else{
+            //有公告
+            Intent intent = new Intent(this, GroupNoticeShowActivity.class);
+            startActivity(intent);
+        }
+
+//        Intent intent = new Intent(this, GroupNoticeShowActivity.class);
+//        startActivity(intent);
 
     }
 
     public void SetChatBackGround(View view) {
-//        Intent intent = new Intent(this, SetBackgroundActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, ChatBackgroundActivity.class);
+        startActivity(intent);
     }
 
     public void TransferMainRight(View view) {

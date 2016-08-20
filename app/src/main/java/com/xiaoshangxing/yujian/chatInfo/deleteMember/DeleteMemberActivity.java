@@ -4,8 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -13,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
@@ -33,6 +36,7 @@ public class DeleteMemberActivity extends BaseActivity {
 
     private BaseAdapter baseAdapter;
     private static List<DeleteMember> data = new ArrayList<>();
+    private ActionSheet mActionSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +117,35 @@ public class DeleteMemberActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.deleteMember_Delete:
-                for (int i = data.size() - 1; i >= 0; i--) {
-                    if (data.get(i).isCheck()) data.remove(data.get(i));
+                if (mActionSheet == null) {
+                    mActionSheet = new ActionSheet(DeleteMemberActivity.this);
+                    mActionSheet.addMenuTopItem("确定要删除群成员？")
+                            .addMenuBottomItem("确定");
                 }
+                mActionSheet.show();
+                WindowManager windowManager = getWindowManager();
+                Display display = windowManager.getDefaultDisplay();
+                WindowManager.LayoutParams lp = mActionSheet.getWindow().getAttributes();
+                lp.width = (display.getWidth()); //设置宽度
+                mActionSheet.getWindow().setAttributes(lp);
+                mActionSheet.setMenuBottomListener(new ActionSheet.MenuListener() {
+                    @Override
+                    public void onItemSelected(int position, String item) {
+                        for (int i = data.size() - 1; i >= 0; i--) {
+                            if (data.get(i).isCheck()) data.remove(data.get(i));
+                        }
+                        baseAdapter.notifyDataSetChanged();
+                    }
 
-                baseAdapter.notifyDataSetChanged();
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
                 break;
+
         }
     }
+
+
 }

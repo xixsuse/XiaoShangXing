@@ -19,13 +19,13 @@ public class ChatBackgroundFragment extends BaseFragment implements View.OnClick
     private View mView;
     private TextView back;
     private ImageView imageView;
-    private CurrencyActivity mActivity;
+    private ChatBackgroundActivity mActivity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_current_chatbackground, container, false);
-        mActivity = (CurrencyActivity) getActivity();
+        mActivity = (ChatBackgroundActivity) getActivity();
         back = (TextView) mView.findViewById(R.id.chatbackground_back);
         imageView = (ImageView) mView.findViewById(R.id.chatbackground_img);
         mActivity.setmImageView(imageView);
@@ -35,6 +35,6 @@ public class ChatBackgroundFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        getActivity().getSupportFragmentManager().popBackStack();
+        getActivity().finish();
     }
 }

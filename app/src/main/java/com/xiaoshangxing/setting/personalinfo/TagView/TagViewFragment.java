@@ -38,13 +38,11 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
     private EditText editText;
     private TextView save, back;
     private boolean flag = false;
-    private PersonalInfoActivity mActivity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_personalinfo_tagview, null);
-        mActivity = (PersonalInfoActivity) getActivity();
         mTagListView = (TagListView) mView.findViewById(R.id.tagview);
         restView = mView.findViewById(R.id.tagView_restView);
         mTagListView.setTags(mTags);
@@ -113,7 +111,7 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
                 Log.d("qqq", "   " + mTags.size());
                 flag = false;
                 mTagListView.setDeleteMode(false);
-                mActivity.setIsbacked(false);
+                PersonalInfoActivity.isbacked = false;
             }
         }
     }
@@ -124,7 +122,7 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
         flag = true;
         mTagListView.setDeleteMode(flag);
         mTagListView.setTags(mTags);
-        mActivity.setIsbacked(true);
+        PersonalInfoActivity.isbacked = true;
     }
 
 
@@ -162,7 +160,7 @@ public class TagViewFragment extends BaseFragment implements View.OnClickListene
                 flag = false;
                 mTagListView.setDeleteMode(flag);
                 mTagListView.setTags(mTags);
-                mActivity.setIsbacked(false);
+                PersonalInfoActivity.isbacked = false;
                 break;
             case R.id.tagview_back:
                 if (!editText.getText().toString().equals("")) {
