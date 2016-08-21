@@ -20,16 +20,19 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
-import com.xiaoshangxing.setting.utils.photo_choosing.PublicWay;
-import com.xiaoshangxing.setting.utils.photo_choosing.Res;
+import com.xiaoshangxing.input_activity.album.AlbumActivity;
+import com.xiaoshangxing.input_activity.album.Bimp;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.photoChoosing.PhotoChoosingActivity;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.report.ReportActivity;
 import com.xiaoshangxing.report.reportCommitFragment.ReportCommitFragment;
 import com.xiaoshangxing.report.reportNoticeFragment.ReportNoticeFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tianyang on 2016/7/2.
@@ -43,6 +46,7 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
     private GridView noScrollgridview;
     private GridAdapter adapter;
     private ReportActivity reportActivity;
+    private List<String> select_image_urls=new ArrayList<>();
 
 
     @Nullable
@@ -52,12 +56,6 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         Log.d("qqq", "onCreate...");
         reportActivity = (ReportActivity) getActivity();
 
-//        if (reportActivity.isCanceled()) {
-//            Log.d("qqq", "   " + reportActivity.isCanceled());
-//            Bimp.tempSelectBitmap.clear();
-//            // Bimp.max = 0;
-//            reportActivity.setCanceled(false);
-//        }
         back = (TextView) mView.findViewById(R.id.toolbar_reportevidence_back);
         submit = (TextView) mView.findViewById(R.id.toolbar_reportevidence_submit);
         reportNotice = (TextView) mView.findViewById(R.id.report_evidence_notice);
@@ -67,11 +65,11 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         submit.setOnClickListener(this);
         reportNotice.setOnClickListener(this);
 
-        Res.init(getActivity());
+//        Res.init(getActivity());
         bimap = BitmapFactory.decodeResource(
                 getResources(),
                 R.mipmap.icon_addpic_unfocused);
-        PublicWay.activityList.add(getActivity());
+//        PublicWay.activityList.add(getActivity());
         Init();
         return mView;
     }
@@ -102,8 +100,12 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
 //                        .addToBackStack(null)
 //                        .replace(R.id.reportContent, new AlbumFragment())
 //                        .commit();
-                Intent intent = new Intent(getActivity(), PhotoChoosingActivity.class);
-                getActivity().startActivity(intent);
+//                Intent intent = new Intent(getActivity(), PhotoChoosingActivity.class);
+//                getActivity().startActivity(intent);
+                Intent album_intent=new Intent(getContext(), AlbumActivity.class);
+                album_intent.putExtra(AlbumActivity.LIMIT,9);
+                album_intent.putStringArrayListExtra(AlbumActivity.SELECTED,(ArrayList<String>) select_image_urls);
+                getActivity().startActivityForResult(album_intent,20000);
             }
         });
     }
@@ -123,7 +125,6 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         }
 
         public GridAdapter(Context context) {
-            Log.d("qqq", "gridAdapter");
             inflater = LayoutInflater.from(context);
         }
 
@@ -132,10 +133,12 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
 //        }
 
         public int getCount() {
-            if (Bimp.tempSelectBitmap.size() == 9) {
-                return 9;
-            }
-            return (Bimp.tempSelectBitmap.size() + 1);
+//            if (Bimp.tempSelectBitmap.size() == 9) {
+//                return 9;
+//            }
+//            return (Bimp.tempSelectBitmap.size() + 1);
+            int count=select_image_urls.size()+1;
+            return count>9?9:count;
         }
 
         public Object getItem(int arg0) {
@@ -167,14 +170,10 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if (position == Bimp.tempSelectBitmap.size()) {
-                holder.image.setImageBitmap(BitmapFactory.decodeResource(
-                        getResources(), R.mipmap.icon_addpic_unfocused));
-                if (position == 9) {
-                    holder.image.setVisibility(View.GONE);
-                }
-            } else {
-                holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
+            if (select_image_urls.size()>position){
+                MyGlide.with(getContext(),select_image_urls.get(position),holder.image);
+            }else {
+                holder.image.setImageResource(R.mipmap.icon_addpic_unfocused);
             }
             return convertView;
         }
@@ -185,25 +184,6 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         }
 
 
-//        public void loading() {
-//            new Thread(new Runnable() {
-//                public void run() {
-//                    while (true) {
-//                        if (Bimp.max == Bimp.tempSelectBitmap.size()) {
-//                            Message message = new Message();
-//                            message.what = 1;
-//                            handler.sendMessage(message);
-//                            break;
-//                        } else {
-//                            Bimp.max += 1;
-//                            Message message = new Message();
-//                            message.what = 1;
-//                            handler.sendMessage(message);
-//                        }
-//                    }
-//                }
-//            }).start();
-//        }
     }
 
     @Override
@@ -217,7 +197,7 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.toolbar_reportevidence_back:
-                //   Toast.makeText(getActivity(),"back",Toast.LENGTH_SHORT).show();
+                   Toast.makeText(getActivity(),"back", Toast.LENGTH_SHORT).show();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
                 imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
@@ -234,9 +214,6 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
                         .addToBackStack(null)
                         .replace(R.id.reportContent, new ReportCommitFragment(), ReportCommitFragment.TAG)
                         .commit();
-                for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
-                    Log.d("qqq", Bimp.tempSelectBitmap.get(i).imagePath);
-                }
                 break;
             case R.id.report_evidence_notice:
                 getActivity().getSupportFragmentManager()
@@ -250,6 +227,11 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
             default:
                 break;
         }
+    }
+
+    public void setSelect_image_urls(List<String> select_image_urls) {
+        this.select_image_urls = select_image_urls;
+        adapter.notifyDataSetChanged();
     }
 
     @Override

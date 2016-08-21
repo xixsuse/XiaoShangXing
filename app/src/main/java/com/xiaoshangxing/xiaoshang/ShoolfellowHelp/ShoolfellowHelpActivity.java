@@ -16,6 +16,7 @@ import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp.MyShoolHelpFragment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment.ShoolfellowHelpFragment;
@@ -30,6 +31,8 @@ public class ShoolfellowHelpActivity extends BaseActivity implements HelpContrac
     private ShoolfellowHelpFragment shoolfellowHelpFragment;
     private MyShoolHelpFragment myShoolHelpFragment;
     private HelpContract.Presenter mPresenter;
+    public static final int OTHERS=10002;
+    public static final int MINE=10003;
 
     private boolean isHideMenu;//记录是否需要点击返回键隐藏菜单
 
@@ -43,7 +46,30 @@ public class ShoolfellowHelpActivity extends BaseActivity implements HelpContrac
         if (frag != null) {
             return;
         }
-        initAllFragments();
+        parseIntent();
+    }
+
+    private void parseIntent(){
+        Fragment frag;
+        switch (getIntent().getIntExtra(IntentStatic.TYPE,0)){
+            case OTHERS:
+                frag = mFragmentManager.findFragmentByTag(ShoolfellowHelpFragment.TAG);
+                shoolfellowHelpFragment = (frag == null) ? ShoolfellowHelpFragment.newInstance() :
+                        (ShoolfellowHelpFragment) frag;
+                frag = getShoolfellowHelpFragment();
+                mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                        frag, ShoolfellowHelpFragment.TAG).commit();
+                break;
+            case MINE:
+                frag = mFragmentManager.findFragmentByTag(MyShoolHelpFragment.TAG);
+                myShoolHelpFragment = (frag == null) ? MyShoolHelpFragment.newInstance() : (MyShoolHelpFragment) frag;
+                frag = getMyShoolHelpFragment();
+                mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                        frag, MyShoolHelpFragment.TAG).commit();
+                break;
+            default:
+                initAllFragments();
+        }
     }
 
     private void initAllFragments() {

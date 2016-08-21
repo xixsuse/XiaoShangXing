@@ -24,6 +24,7 @@
         android:paddingTop="@dimen/y20"
         android:layout_alignParentBottom="true"
         android:id="@+id/radio_layout"
+        android:background="@color/w1"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -32,6 +33,7 @@
             android:id="@+id/xiaoshang_lay"
             android:layout_weight="1"
             android:layout_width="0dp"
+            android:background="@color/w1"
             android:layout_height="wrap_content">
             <ImageView
                 android:layout_centerHorizontal="true"

@@ -51,6 +51,24 @@ public class XiaoShangFragment extends BaseFragment {
     HorizontalScrollView scrollView;
     @Bind(R.id.tuch)
     ImageView tuch;
+    //    @Bind(R.id.xiaoshang_notice)
+//    ImageView xiaoshangNotice;
+//    @Bind(R.id.title)
+//    TextView title;
+//    @Bind(R.id.first)
+//    ImageView first;
+//    @Bind(R.id.second)
+//    ImageView second;
+//    @Bind(R.id.third)
+//    ImageView third;
+//    @Bind(R.id.forth)
+//    ImageView forth;
+//    @Bind(R.id.five)
+//    ImageView five;
+//    @Bind(R.id.scrollview)
+//    HorizontalScrollView scrollView;
+//    @Bind(R.id.tuch)
+//    ImageView tuch;
     private View mview;
 
     private float current, result, current2;
@@ -76,6 +94,7 @@ public class XiaoShangFragment extends BaseFragment {
             }
         };
         init();
+
         return view;
     }
 

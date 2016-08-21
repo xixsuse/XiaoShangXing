@@ -26,6 +26,11 @@ public class CollectPresenter implements CollectContract.Presenter {
     }
 
     @Override
+    public void loadMore() {
+
+    }
+
+    @Override
     public void unCollect() {
         mView.noticeDialog("已取消收藏");
     }

@@ -120,8 +120,8 @@ public class MainActivity extends BaseActivity {
                     .commit();
         }
 
-//        setXiaoshang(true);
-        setYUjian(true);
+        setXiaoshang(true);
+//        setYUjian(true);
     }
 
     @OnClick({R.id.xiaoshang_lay, R.id.yujian_lay, R.id.wolay, R.id.emotion, R.id.normal_emot, R.id.favorite

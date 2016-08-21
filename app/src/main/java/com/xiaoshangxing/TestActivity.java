@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.uuch.adlibrary.AdManager;
-import com.uuch.adlibrary.bean.AdInfo;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
@@ -37,8 +35,8 @@ public class TestActivity extends BaseActivity {
     @Bind(R.id.input)
     EmoticonsEditText input;
 
-    private List<AdInfo> advList = null;
-    private AdManager adManager;
+//    private List<AdInfo> advList = null;
+//    private AdManager adManager;
 
 
     @Override
@@ -88,13 +86,13 @@ public class TestActivity extends BaseActivity {
     private void initData() {
 
 
-        advList = new ArrayList<>();
-        AdInfo adInfo = new AdInfo();
-        adInfo.setActivityImg("https://raw.githubusercontent.com/yipianfengye/android-adDialog/master/images/testImage1.png");
-        advList.add(adInfo);
-
-        adInfo = new AdInfo();
-        adInfo.setActivityImg("https://raw.githubusercontent.com/yipianfengye/android-adDialog/master/images/testImage2.png");
-        advList.add(adInfo);
+//        advList = new ArrayList<>();
+//        AdInfo adInfo = new AdInfo();
+//        adInfo.setActivityImg("https://raw.githubusercontent.com/yipianfengye/android-adDialog/master/images/testImage1.png");
+//        advList.add(adInfo);
+//
+//        adInfo = new AdInfo();
+//        adInfo.setActivityImg("https://raw.githubusercontent.com/yipianfengye/android-adDialog/master/images/testImage2.png");
+//        advList.add(adInfo);
     }
 }

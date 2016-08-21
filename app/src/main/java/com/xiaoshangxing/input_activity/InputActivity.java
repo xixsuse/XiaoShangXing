@@ -4,10 +4,8 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,7 +15,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,17 +34,16 @@ import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
 import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.PictureAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.ShowSelectPictureAdapter;
-import com.xiaoshangxing.input_activity.EmotAndPicture.TimeComparator;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.album.AlbumActivity;
+import com.xiaoshangxing.input_activity.album.Bimp;
 import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
 import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
 import com.xiaoshangxing.setting.utils.city_choosing.WheelView;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
-import com.xiaoshangxing.setting.utils.photo_choosing.AlbumHelper;
-import com.xiaoshangxing.setting.utils.photo_choosing.Bimp;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
+import com.xiaoshangxing.input_activity.album.AlbumHelper;
+import com.xiaoshangxing.input_activity.album.ImageBucket;
+import com.xiaoshangxing.input_activity.album.ImageItem;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
@@ -56,9 +52,7 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -198,7 +192,6 @@ public class InputActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
         ButterKnife.bind(this);
-        overridePendingTransition(R.anim.slide_bottom_in, R.anim.slide_bottom_out);
         initState();
         initEmotView();
         initPictureView();
@@ -654,25 +647,30 @@ public class InputActivity extends BaseActivity {
     }
 
     public void showSureDialog() {
-        final DialogUtils.Dialog_Center center = new DialogUtils.Dialog_Center(this);
-        center.Message("退出此次编辑?");
-        center.Button("退出", "继续编辑");
-        center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
-            @Override
-            public void onButton1() {
-                finish();
-                center.close();
-            }
+        if (emotionEdittext.getText().toString().isEmpty()){
+            finish();
+        }else {
+            final DialogUtils.Dialog_Center center = new DialogUtils.Dialog_Center(this);
+            center.Message("退出此次编辑?");
+            center.Button("退出", "继续编辑");
+            center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
+                @Override
+                public void onButton1() {
+                    finish();
+                    center.close();
+                }
 
-            @Override
-            public void onButton2() {
-                center.close();
-            }
-        });
-        Dialog dialog = center.create();
-        dialog.show();
-        LocationUtil.setWidth(this, dialog,
-                getResources().getDimensionPixelSize(R.dimen.x780));
+                @Override
+                public void onButton2() {
+                    center.close();
+                }
+            });
+            Dialog dialog = center.create();
+            dialog.show();
+            LocationUtil.setWidth(this, dialog,
+                    getResources().getDimensionPixelSize(R.dimen.x780));
+        }
+
     }
 
     public void gotoSelectPerson() {
@@ -788,6 +786,7 @@ public class InputActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         Bimp.tempSelectBitmap.clear();
+        KeyBoardUtils.closeKeybord(emotionEdittext, this);
         super.onDestroy();
     }
 

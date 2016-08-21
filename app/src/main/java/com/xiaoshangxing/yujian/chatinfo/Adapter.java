@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.yujian.chatInfo.deleteMember.DeleteMemberActivity;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;

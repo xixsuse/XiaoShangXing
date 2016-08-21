@@ -17,11 +17,13 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
 import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
+import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp.MyShoolHelpFragment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
@@ -93,7 +95,11 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
                 clickOnRule();
             }
         });
-
+        if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE,0)== ShoolRewardActivity.OTHERS){
+            this.myState.setText("他的互帮");
+            this.more.setVisibility(View.GONE);
+            headview.setVisibility(View.GONE);
+        }
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {

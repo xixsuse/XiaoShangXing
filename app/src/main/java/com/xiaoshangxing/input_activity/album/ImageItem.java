@@ -1,6 +1,7 @@
-package com.xiaoshangxing.setting.utils.photo_choosing;
+package com.xiaoshangxing.input_activity.album;
 
 import android.graphics.Bitmap;
+
 
 import java.io.IOException;
 import java.io.Serializable;

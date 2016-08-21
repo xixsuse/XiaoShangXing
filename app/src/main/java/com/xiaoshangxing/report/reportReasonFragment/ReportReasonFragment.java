@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.report.ReportActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.report.reportEvidenceFragment.ReportEvidenceFragment;
 
@@ -56,7 +57,8 @@ public class ReportReasonFragment extends BaseFragment implements View.OnClickLi
                 if (position == -1) break;
                 else {
                     Log.d("qqq", "   " + mReasons[position]);
-                    ReportEvidenceFragment reportEvidenceFragment = new ReportEvidenceFragment();
+                    ReportActivity activity=(ReportActivity)getActivity();
+                    ReportEvidenceFragment reportEvidenceFragment = activity.getReportEvidenceFragment();
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,

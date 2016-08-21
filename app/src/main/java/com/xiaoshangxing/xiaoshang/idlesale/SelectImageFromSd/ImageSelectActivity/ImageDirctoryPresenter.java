@@ -2,10 +2,9 @@ package com.xiaoshangxing.xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivi
 
 import android.content.Context;
 
-import com.xiaoshangxing.setting.utils.photo_choosing.AlbumHelper;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
+import com.xiaoshangxing.input_activity.album.AlbumHelper;
+import com.xiaoshangxing.input_activity.album.ImageBucket;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

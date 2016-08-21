@@ -7,7 +7,6 @@ import android.view.View;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.feedback.FeedbackActivity;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.report.ReportActivity;
 
 /**
  * Created by 15828 on 2016/7/15.

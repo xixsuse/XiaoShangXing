@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
 import com.xiaoshangxing.utils.image.MyGlide;
 
 import java.util.ArrayList;

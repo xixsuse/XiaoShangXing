@@ -18,6 +18,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
@@ -64,7 +65,9 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
     private View view;
     private ShoolRewardActivity activity;
     private CollectContract.Presenter mPresenter;
-
+    private View  footview;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,7 +86,10 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
 
         View view = new View(getContext());
         listview.addHeaderView(view);
-
+        footview = View.inflate(getContext(), R.layout.footer, null);
+        dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
+        dotsTextView.start();
+        listview.addFooterView(footview);
         activity=(ShoolRewardActivity)getActivity();
         adpter = new collect_adpter(getContext(), 1, list, this,activity);
         listview.setAdapter(adpter);
@@ -125,6 +131,18 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
                 }, 1500);
             }
         });
+    }
+
+    @Override
+    public void showNoData() {
+        dotsTextView.stop();
+        loadingText.setText("没有动态啦");
+    }
+
+    @Override
+    public void showFooter() {
+        dotsTextView.start();
+        loadingText.setText("加载中");
     }
 
     public void showCollectDialog() {

@@ -1,8 +1,7 @@
 package com.xiaoshangxing.xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivity;
 
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
+import com.xiaoshangxing.input_activity.album.ImageBucket;
 import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
 
 import java.util.ArrayList;
 import java.util.List;

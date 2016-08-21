@@ -12,7 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
+import com.xiaoshangxing.utils.layout.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.List;

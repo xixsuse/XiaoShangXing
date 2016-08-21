@@ -1,8 +1,12 @@
 package com.xiaoshangxing.Network;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.CallAdapter;
 import retrofit2.Converter;
@@ -16,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class Network {
     public static Retrofit retrofit;
+    public static Retrofit retrofit_with_header;
     private static final int DEFAULT_TIME=8;            //默认超时为8s
     private static OkHttpClient okHttpClient;
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
@@ -38,5 +43,36 @@ public class Network {
                     .build();
         }
         return retrofit;
+    }
+
+    public static Retrofit getRetrofitWithHeader() {
+        if (retrofit_with_header == null) {
+            //添加日志
+            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            okHttpClient = new OkHttpClient.Builder()
+                    .addInterceptor(httpLoggingInterceptor)
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request request = chain.request()
+                                    .newBuilder()
+                                    .addHeader("Content-Type", "application/json")
+                                    .addHeader("User-Phone", "gzip, deflate")
+                                    .addHeader("User-Digest", "keep-alive")
+                                    .build();
+                            return chain.proceed(request);
+                        }
+                    })
+                    .connectTimeout(DEFAULT_TIME, TimeUnit.SECONDS)
+                    .build();
+            retrofit_with_header = new Retrofit.Builder()
+                    .client(okHttpClient)
+                    .baseUrl(BaseUrl.BASE_URL)
+                    .addConverterFactory(gsonConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+        }
+        return retrofit_with_header;
     }
 }

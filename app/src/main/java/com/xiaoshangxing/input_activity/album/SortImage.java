@@ -1,12 +1,6 @@
 package com.xiaoshangxing.input_activity.album;
 
-import com.xiaoshangxing.input_activity.EmotAndPicture.TimeComparator;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
-
-import java.io.File;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 
 /**

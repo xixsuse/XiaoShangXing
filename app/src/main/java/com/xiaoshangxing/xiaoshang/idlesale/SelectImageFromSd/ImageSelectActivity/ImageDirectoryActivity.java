@@ -2,7 +2,6 @@ package com.xiaoshangxing.xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivi
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
+import com.xiaoshangxing.input_activity.album.ImageBucket;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.AllIPhotosActivity;
 import com.xiaoshangxing.xiaoshang.idlesale.SelectImageFromSd.PreviewPhotoPagerActivity;

@@ -1,7 +1,5 @@
 package com.xiaoshangxing.input_activity.album;
 
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
-
 import java.io.File;
 import java.util.Comparator;
 

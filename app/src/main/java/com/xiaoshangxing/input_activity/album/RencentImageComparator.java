@@ -5,10 +5,7 @@ package com.xiaoshangxing.input_activity.album;
  * on 2016/7/27
  */
 
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
-
 import java.io.File;
-import java.io.FileReader;
 import java.util.Comparator;
 
 /**

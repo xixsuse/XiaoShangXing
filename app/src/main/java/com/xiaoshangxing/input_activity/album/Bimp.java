@@ -1,7 +1,9 @@
-package com.xiaoshangxing.setting.utils.photo_choosing;
+package com.xiaoshangxing.input_activity.album;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.xiaoshangxing.input_activity.album.ImageItem;
 
 import java.io.BufferedInputStream;
 import java.io.File;

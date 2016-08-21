@@ -11,9 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.photo_choosing.AlbumHelper;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
 import com.xiaoshangxing.utils.BaseFragment;
 
 import java.util.ArrayList;

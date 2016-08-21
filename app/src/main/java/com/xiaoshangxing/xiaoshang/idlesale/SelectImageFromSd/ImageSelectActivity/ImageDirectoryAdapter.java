@@ -10,14 +10,13 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageItem;
+import com.xiaoshangxing.input_activity.album.ImageBucket;
+import com.xiaoshangxing.input_activity.album.ImageItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 /**
  * Created by quchwe on 2016/8/12 0012.

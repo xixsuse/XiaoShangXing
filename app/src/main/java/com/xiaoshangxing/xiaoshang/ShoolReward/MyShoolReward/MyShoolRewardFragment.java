@@ -2,6 +2,7 @@ package com.xiaoshangxing.xiaoshang.ShoolReward.MyShoolReward;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,9 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
@@ -61,7 +64,9 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     private View view;
     private ShoolRewardActivity activity;
     private MyRewardContract.Presenter mPresenter;
-
+    private View  footview;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,7 +80,12 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
 
     private void initView() {
         View view = new View(getContext());
+        footview = View.inflate(getContext(), R.layout.footer, null);
+        dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
+        dotsTextView.start();
+        loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addHeaderView(view);
+        listview.addFooterView(footview);
         activity=(ShoolRewardActivity)getActivity();
         refreshData();
     }
@@ -129,6 +139,18 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void showNoData() {
+        dotsTextView.stop();
+        loadingText.setText("没有动态啦");
+    }
+
+    @Override
+    public void showFooter() {
+        dotsTextView.start();
+        loadingText.setText("加载中");
     }
 
     @Override
@@ -186,7 +208,11 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-                getFragmentManager().popBackStack();
+                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE,0)==ShoolRewardActivity.MINE){
+                    getActivity().finish();
+                }else {
+                    getFragmentManager().popBackStack();
+                }
                 break;
             case R.id.hide_trasmit:
                 adpter.showSelectCircle(false);

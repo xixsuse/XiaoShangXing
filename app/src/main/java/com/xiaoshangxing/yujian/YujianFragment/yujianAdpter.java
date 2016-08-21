@@ -10,7 +10,6 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.OnItemClickListener;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.utils.photoChoosing.AlbumGridViewAdapter;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
 
 import java.util.List;

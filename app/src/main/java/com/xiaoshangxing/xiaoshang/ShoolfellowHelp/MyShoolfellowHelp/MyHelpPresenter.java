@@ -34,4 +34,9 @@ public class MyHelpPresenter implements MyhelpContract.Presenter {
     public void refreshData() {
 
     }
+
+    @Override
+    public void LoadMore() {
+
+    }
 }

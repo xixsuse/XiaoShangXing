@@ -11,8 +11,10 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.login_register.StartActivity.StartActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 
 import java.util.List;
 
@@ -50,6 +52,13 @@ public class Message_adpter extends ArrayAdapter<String> {
             public void onClick(View v) {
                 Intent intent = new Intent(context, InputActivity.class);
                 intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+                context.startActivity(intent);
+            }
+        });
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, HelpDetailActivity.class);
                 context.startActivity(intent);
             }
         });

@@ -17,11 +17,14 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
 import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
+import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.util.ArrayList;
@@ -64,6 +67,9 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     private List<String> list = new ArrayList<String>();
     private View view;
     private MyhelpContract.Presenter mPresenter;
+    private View  footview;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
 
     @Nullable
     @Override
@@ -79,6 +85,11 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     private void initView() {
         View view = new View(getContext());
         listview.addHeaderView(view);
+        footview = View.inflate(getContext(), R.layout.footer, null);
+        dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
+        dotsTextView.start();
+        loadingText = (TextView) footview.findViewById(R.id.text);
+        listview.addFooterView(footview);
         refreshData();
     }
 
@@ -91,6 +102,17 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         listview.setAdapter(adpter);
     }
 
+    @Override
+    public void showNoData() {
+        dotsTextView.stop();
+        loadingText.setText("没有动态啦");
+    }
+
+    @Override
+    public void showFooter() {
+        dotsTextView.start();
+        loadingText.setText("加载中");
+    }
     private void initFresh() {
         final StoreHouseHeader header = new StoreHouseHeader(getContext());
         header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
@@ -195,7 +217,11 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-                getFragmentManager().popBackStack();
+                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE,0)== ShoolRewardActivity.MINE){
+                    getActivity().finish();
+                }else {
+                    getFragmentManager().popBackStack();
+                }
                 break;
             case R.id.hide_trasmit:
                 gotoSelectPerson();

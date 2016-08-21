@@ -114,6 +114,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         name1 = (TextView) headView.findViewById(R.id.name1);
         name2 = (TextView) headView.findViewById(R.id.name2);
         headImage = (CirecleImage) headView.findViewById(R.id.head_image);
+        headImage.setIntent_type(CirecleImage.PERSON_STATE);
         news = (TextView) headView.findViewById(R.id.news);
         newsHead = (ImageView) headView.findViewById(R.id.news_head);
 

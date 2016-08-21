@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.util.LruCache;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.Xml;
 
 import com.xiaoshangxing.utils.XSXApplication;
@@ -21,7 +20,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +90,6 @@ public class EmojiManager {
         if (entry == null) {
             return null;
         }
-        Log.d("tttt", entry.assetPath);
         return entry.assetPath;
     }
 

@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.layout.RoundedImageView;
 
 /**
  * Created by 15828 on 2016/7/25.

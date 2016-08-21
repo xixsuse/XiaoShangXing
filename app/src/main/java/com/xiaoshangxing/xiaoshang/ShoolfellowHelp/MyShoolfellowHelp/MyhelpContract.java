@@ -27,6 +27,15 @@ public class MyhelpContract {
         **describe:刷新数据
         */
         void refreshData();
+        /*
+       **describe:没有数据了
+       */
+        void showNoData();
+
+        /*
+       **describe:显示listview尾
+       */
+        void showFooter();
     }
 
     public interface Presenter extends IBasePresenter {
@@ -43,5 +52,9 @@ public class MyhelpContract {
         **describe:加载数据
         */
         void refreshData();
+        /*
+        **describe:加载更多
+        */
+        void LoadMore();
     }
 }

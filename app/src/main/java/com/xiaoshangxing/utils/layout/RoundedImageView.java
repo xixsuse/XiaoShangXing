@@ -1,4 +1,4 @@
-package com.xiaoshangxing.setting.utils.photo_choosing;
+package com.xiaoshangxing.utils.layout;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.utils.headimg_set.RoundedDrawable;
 
 
 public class RoundedImageView extends ImageView {

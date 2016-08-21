@@ -15,6 +15,7 @@ import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.xiaoshang.ShoolReward.MyShoolReward.MyShoolRewardFragment;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardFragment.ShoolRewardFragment;
@@ -28,7 +29,9 @@ import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment.Shool
  */
 public class ShoolRewardActivity extends BaseActivity implements RewardContract.View {
     public static final String TAG = BaseActivity.TAG + "-ShoolRewardActivity";
-    public static final int SELECT_PERSON = 10001;
+//    public static final int SELECT_PERSON = 10001;
+    public static final int OTHERS=10002;
+    public static final int MINE=10003;
     private ShoolRewardFragment shoolRewardFragment;
     private MyShoolRewardFragment myShoolRewardFragment;
     private CollectFragment collectFragment;
@@ -46,7 +49,8 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
         if (frag != null) {
             return;
         }
-        initAllFrafments();
+        parseIntent();
+//        initAllFrafments();
     }
 
     private void initAllFrafments() {
@@ -63,17 +67,38 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
 
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                collectFragment, ShoolfellowHelpFragment.TAG).commit();
+                collectFragment, CollectFragment.TAG).commit();
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                myShoolRewardFragment, ShoolfellowHelpFragment.TAG).commit();
+                myShoolRewardFragment, MyShoolHelpFragment.TAG).commit();
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                shoolRewardFragment, MyShoolHelpFragment.TAG).commit();
+                shoolRewardFragment, ShoolfellowHelpFragment.TAG).commit();
 
         mFragmentManager.beginTransaction().hide(collectFragment).hide(myShoolRewardFragment)
                 .show(shoolRewardFragment).commit();
     }
+
+    private void parseIntent(){
+        Fragment frag;
+            switch (getIntent().getIntExtra(IntentStatic.TYPE,0)){
+                case OTHERS:
+                    frag = mFragmentManager.findFragmentByTag(ShoolRewardFragment.TAG);
+                    shoolRewardFragment = (frag == null) ? ShoolRewardFragment.newInstance() : (ShoolRewardFragment) frag;
+                    mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                            shoolRewardFragment, MyShoolHelpFragment.TAG).commit();
+                    break;
+                case MINE:
+                    frag = mFragmentManager.findFragmentByTag(MyShoolRewardFragment.TAG);
+                    myShoolRewardFragment = (frag == null) ? MyShoolRewardFragment.newInstance() : (MyShoolRewardFragment) frag;
+                    mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                            myShoolRewardFragment, MyShoolHelpFragment.TAG).commit();
+                    break;
+                default:
+                    initAllFrafments();
+            }
+    }
+
 
     public ShoolRewardFragment getShoolRewardFragment() {
         return shoolRewardFragment;

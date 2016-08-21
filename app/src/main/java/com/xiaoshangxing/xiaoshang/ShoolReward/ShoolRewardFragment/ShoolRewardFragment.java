@@ -20,6 +20,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
@@ -113,6 +114,11 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
                 }
             }
         });
+        if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE,0)==ShoolRewardActivity.OTHERS){
+            this.title.setText("他的悬赏");
+            this.more.setVisibility(View.GONE);
+            headview.setVisibility(View.GONE);
+        }
     }
 
     private void initFresh() {
@@ -153,6 +159,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
             }
         });
     }
+
 
     @Override
     public void onDestroyView() {

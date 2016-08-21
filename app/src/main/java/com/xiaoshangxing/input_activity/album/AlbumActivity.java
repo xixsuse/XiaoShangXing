@@ -7,7 +7,6 @@ import android.widget.FrameLayout;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.setting.utils.photo_choosing.ImageBucket;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 

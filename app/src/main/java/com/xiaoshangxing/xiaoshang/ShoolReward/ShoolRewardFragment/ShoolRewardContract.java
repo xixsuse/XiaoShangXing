@@ -19,6 +19,7 @@ public class ShoolRewardContract {
         void gotoPublished();
         void gotoCollect();
 
+
         /*
         **describe:显示收藏与否弹窗
         */

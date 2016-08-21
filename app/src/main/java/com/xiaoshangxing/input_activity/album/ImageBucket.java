@@ -1,4 +1,4 @@
-package com.xiaoshangxing.setting.utils.photo_choosing;
+package com.xiaoshangxing.input_activity.album;
 
 import java.io.Serializable;
 import java.util.List;

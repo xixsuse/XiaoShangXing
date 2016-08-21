@@ -62,7 +62,14 @@
         <activity android:name=".wo.roll.rollActivity" />
         <activity
             android:name=".report.ReportActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+            android:windowSoftInputMode="adjustPan|stateHidden">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity android:name=".setting.SettingActivity" />
         <activity android:name=".setting.personalinfo.PersonalInfoActivity" />
         <activity android:name=".setting.feedback.FeedbackActivity" />
@@ -89,7 +96,6 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".input_activity.check_photo.inputSelectPhotoPagerActivity"></activity>
-        <activity android:name=".utils.photoChoosing.PhotoChoosingActivity"></activity>
         <activity android:name=".input_activity.check_photo.ReviewPictureActivity"></activity>
         <activity android:name=".SelectPerson.SelectPersonActivity"></activity>
         <activity android:name=".xiaoshang.MessageNotice.MessageNoticeActivity"></activity>

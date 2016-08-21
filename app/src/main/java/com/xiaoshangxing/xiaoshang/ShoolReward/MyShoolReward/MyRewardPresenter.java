@@ -34,4 +34,9 @@ public class MyRewardPresenter implements MyRewardContract.Presenter {
     public void refreshData() {
 
     }
+
+    @Override
+    public void LoadMore() {
+
+    }
 }
