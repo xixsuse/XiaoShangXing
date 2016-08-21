@@ -1,5 +1,9 @@
 package com.xiaoshangxing.Network;
 
+import android.content.Context;
+
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -45,9 +49,9 @@ public class Network {
         return retrofit;
     }
 
-    public static Retrofit getRetrofitWithHeader() {
+    public static Retrofit getRetrofitWithHeader(final Context context) {
         if (retrofit_with_header == null) {
-            //添加日志
+
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             okHttpClient = new OkHttpClient.Builder()
@@ -58,8 +62,8 @@ public class Network {
                             Request request = chain.request()
                                     .newBuilder()
                                     .addHeader("Content-Type", "application/json")
-                                    .addHeader("User-Phone", "gzip, deflate")
-                                    .addHeader("User-Digest", "keep-alive")
+                                    .addHeader("User-Phone", (String) SPUtils.get(context,SPUtils.CURRENT_COUNT,SPUtils.DEFAULT))
+                                    .addHeader("User-Digest",  (String) SPUtils.get(context,SPUtils.DIGEST,SPUtils.DEFAULT))
                                     .build();
                             return chain.proceed(request);
                         }

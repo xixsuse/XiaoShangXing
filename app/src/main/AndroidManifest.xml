@@ -19,11 +19,11 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".login_register.StartActivity.FlashActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".login_register.StartActivity.StartActivity">
             <!--<intent-filter>-->
@@ -37,12 +37,12 @@
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
 
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-            <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".wo.myState.myStateActivity" />
         <activity

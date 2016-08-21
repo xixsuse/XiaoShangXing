@@ -18,6 +18,8 @@ public class SPUtils
 	public static final String CURRENT_COUNT = "CURRENT_COUNT";//记录当前存储的账号
 	public static final String CURRENT_COUNT_HEAD = "CURRENT_COUNT_HEAD";//记录当前存储的账号的头像
 
+	public static final String DIGEST="DIGEST";
+
 	public SPUtils()
 	{
 		/* cannot be instantiated */

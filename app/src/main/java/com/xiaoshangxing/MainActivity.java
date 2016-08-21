@@ -17,6 +17,7 @@ import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.xiaoshang.XiaoShangFragment;
@@ -56,29 +57,33 @@ public class MainActivity extends BaseActivity {
     RelativeLayout wolay;
     @Bind(R.id.radio_layout)
     LinearLayout radioLayout;
+    @Bind(R.id.xiaoshang_dot)
+    CirecleImage xiaoshangDot;
+    @Bind(R.id.yujian_dot)
+    CirecleImage yujianDot;
+    @Bind(R.id.wo_dot)
+    CirecleImage woDot;
 
     private int current;
 
     private WoFragment woFragment;
     private XiaoShangFragment xiaoShangFragment;
     private YuJianFragment yuJianFragment;
-
-    private GridView gridView;
-    private List<View> viewlist = new ArrayList<View>();
-    private ViewPager viewPager;
-    private LinearLayout emotion_lay;
-    private EmotionGrideViewAdapter adapter;
-
-    private RelativeLayout comment_input_layout;
-    private EmoticonsEditText emoticonsEditText;
-    private TextView send;
-    private ImageView emot;
-    private View normal_emot, favorite,delete_emot;
-    private RelativeLayout edit_and_emot;
-    private int screenHeight;
-
-
+//    private GridView gridView;
+//    private List<View> viewlist = new ArrayList<View>();
+//    private ViewPager viewPager;
+//    private LinearLayout emotion_lay;
+//    private EmotionGrideViewAdapter adapter;
+//
+//    private RelativeLayout comment_input_layout;
+//    private EmoticonsEditText emoticonsEditText;
+//    private TextView send;
+//    private ImageView emot;
+//    private View normal_emot, favorite, delete_emot;
+//    private RelativeLayout edit_and_emot;
+//    private int screenHeight;
     private InputBoxLayout inputBoxLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,9 +93,9 @@ public class MainActivity extends BaseActivity {
         initAllFragments();
     }
 
-    private void initInputBox(){
-        RelativeLayout relativeLayout=(RelativeLayout)findViewById(R.id.edit_and_emot);
-        inputBoxLayout=new InputBoxLayout(this,relativeLayout,this);
+    private void initInputBox() {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.edit_and_emot);
+        inputBoxLayout = new InputBoxLayout(this, relativeLayout, this);
     }
 
     private void initAllFragments() {
@@ -106,17 +111,17 @@ public class MainActivity extends BaseActivity {
         frag = mFragmentManager.findFragmentByTag(yuJianFragment.TAG);
         yuJianFragment = (frag == null) ? yuJianFragment.newInstance() : (YuJianFragment) frag;
 
-        if (!xiaoShangFragment.isAdded()){
-            mFragmentManager.beginTransaction().add(R.id.main_fragment,xiaoShangFragment,XiaoShangFragment.TAG)
+        if (!xiaoShangFragment.isAdded()) {
+            mFragmentManager.beginTransaction().add(R.id.main_fragment, xiaoShangFragment, XiaoShangFragment.TAG)
                     .commit();
         }
-        if (!woFragment.isAdded()){
-            mFragmentManager.beginTransaction().add(R.id.main_fragment,woFragment,WoFragment.TAG)
+        if (!woFragment.isAdded()) {
+            mFragmentManager.beginTransaction().add(R.id.main_fragment, woFragment, WoFragment.TAG)
                     .commit();
         }
 
-        if (!yuJianFragment.isAdded()){
-            mFragmentManager.beginTransaction().add(R.id.main_fragment,yuJianFragment,YuJianFragment.TAG)
+        if (!yuJianFragment.isAdded()) {
+            mFragmentManager.beginTransaction().add(R.id.main_fragment, yuJianFragment, YuJianFragment.TAG)
                     .commit();
         }
 
@@ -125,7 +130,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick({R.id.xiaoshang_lay, R.id.yujian_lay, R.id.wolay, R.id.emotion, R.id.normal_emot, R.id.favorite
-            , R.id.send,R.id.delete_emot})
+            , R.id.send, R.id.delete_emot})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.xiaoshang_lay:
@@ -156,24 +161,24 @@ public class MainActivity extends BaseActivity {
                     setWo(true);
                 }
                 break;
-            case R.id.emotion:
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-                break;
-            case R.id.normal_emot:
-                viewPager.setCurrentItem(0);
-                break;
-            case R.id.favorite:
-                viewPager.setCurrentItem(1);
-                break;
-            case R.id.send:
-//                showOrHideLayout(false);
-                inputBoxLayout.showOrHideLayout(false);
-                emoticonsEditText.setText("");
-                break;
-            case R.id.delete_emot:
-                emoticonsEditText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
-                break;
+//            case R.id.emotion:
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//                break;
+//            case R.id.normal_emot:
+//                viewPager.setCurrentItem(0);
+//                break;
+//            case R.id.favorite:
+//                viewPager.setCurrentItem(1);
+//                break;
+//            case R.id.send:
+////                showOrHideLayout(false);
+//                inputBoxLayout.showOrHideLayout(false);
+//                emoticonsEditText.setText("");
+//                break;
+//            case R.id.delete_emot:
+//                emoticonsEditText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+//                break;
         }
     }
 

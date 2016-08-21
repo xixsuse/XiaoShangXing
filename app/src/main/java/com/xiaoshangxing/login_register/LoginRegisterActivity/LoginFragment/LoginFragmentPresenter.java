@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.xiaoshangxing.Network.Bean.Login;
 import com.xiaoshangxing.Network.Bean.Publish;
+import com.xiaoshangxing.Network.HmacSHA256Utils;
 import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
@@ -65,6 +66,13 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                     switch (Integer.valueOf((String) jsonObject.get("code"))) {
                         case 200:
                             Log.d("login", "success");
+                            if (jsonObject.get("msg") instanceof JSONObject) {
+                                String token=jsonObject.getJSONObject("msg").getString("token");
+                                String digest= HmacSHA256Utils.digest(mView.getPhoneNumber(),token);
+                                SPUtils.put(context,SPUtils.DIGEST,digest);
+                                SPUtils.put(context,SPUtils.CURRENT_COUNT,mView.getPhoneNumber());
+                                Log.d("digest",digest);
+                            }
                             mView.gotoMainActivity();
                             break;
                         case 9001:
@@ -98,30 +106,7 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
         l.setPhone(mView.getPhoneNumber());
         l.setPassword(mView.getPassword());
 
-//        LoginNetwork.getInstance().Login(observer, l);
-
-        ProgressSubscriberOnNext<ResponseBody> onNext1=new ProgressSubscriberOnNext<ResponseBody>() {
-            @Override
-            public void onNext(ResponseBody e) {
-                try {
-                    Log.d("ttttt",e.string());
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        };
-
-        Publish publish=new Publish();
-        publish.setUserId(1);
-        publish.setLocation("江大");
-        publish.setText("5555");
-        publish.setClientTime("111");
-        publish.setSight("55");
-        publish.setCategory("555");
-
-        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(onNext1,mView);
-
-        LoginNetwork.getInstance().Publish(progressSubsciber,publish);
+        LoginNetwork.getInstance().Login(observer, l);
 
     }
 

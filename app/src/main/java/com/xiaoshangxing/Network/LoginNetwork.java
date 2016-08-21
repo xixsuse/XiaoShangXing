@@ -1,5 +1,7 @@
 package com.xiaoshangxing.Network;
 
+import android.content.Context;
+
 import com.xiaoshangxing.Network.Bean.CheckCode;
 import com.xiaoshangxing.Network.Bean.Login;
 import com.xiaoshangxing.Network.Bean.Publish;
@@ -63,9 +65,9 @@ public class LoginNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void Publish(Subscriber<ResponseBody> subscriber, Publish publish) {
+    public void Publish(Subscriber<ResponseBody> subscriber, Publish publish,Context context) {
         if (publishApi == null) {
-            publishApi = Network.getRetrofit().create(PublishApi.class);
+            publishApi = Network.getRetrofitWithHeader(context).create(PublishApi.class);
         }
         Observable<ResponseBody> observable = publishApi.publish(publish);
         toSubscribe(observable, subscriber);

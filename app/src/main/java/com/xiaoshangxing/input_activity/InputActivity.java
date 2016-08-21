@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,6 +16,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaoshangxing.Network.Bean.Login;
+import com.xiaoshangxing.Network.Bean.Publish;
+import com.xiaoshangxing.Network.HmacSHA256Utils;
+import com.xiaoshangxing.Network.LoginNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
@@ -47,23 +55,29 @@ import com.xiaoshangxing.input_activity.album.ImageItem;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 
 /**
  * Created by FengChaoQun
  * on 2016/7/25
  */
-public class InputActivity extends BaseActivity {
+public class InputActivity extends BaseActivity implements IBaseView {
 
     @Bind(R.id.plan_name)
     EmoticonsEditText planName;
@@ -198,6 +212,11 @@ public class InputActivity extends BaseActivity {
         initKeyboard();
         initLocation();
         initShowSelect();
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 
     private void initState() {
@@ -609,6 +628,7 @@ public class InputActivity extends BaseActivity {
                 openCamera();
                 break;
             case R.id.send:
+                send();
                 break;
             case R.id.normal_emot:
                 viewPager.setCurrentItem(0);
@@ -620,9 +640,6 @@ public class InputActivity extends BaseActivity {
                 emotionEdittext.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
                 break;
             case R.id.album:
-//                addToBitm(adapter.getSelect_image_urls());
-//                Intent album_intent = new Intent(InputActivity.this, PhotoChoosingActivity.class);
-//                startActivityForResult(album_intent, SELECT_PHOTO_FROM_ALBUM);
                 Intent album_intent = new Intent(InputActivity.this, AlbumActivity.class);
                 if (limit!=0){
                     album_intent.putExtra(AlbumActivity.LIMIT,limit);
@@ -644,6 +661,31 @@ public class InputActivity extends BaseActivity {
                 KeyBoardUtils.closeKeybord(emotionEdittext, this);
                 break;
         }
+    }
+
+//    test
+    private void send(){
+        ProgressSubscriberOnNext<ResponseBody> onNext1=new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) {
+                try {
+                    Log.d("ttttt",e.string());
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        Publish publish=new Publish();
+        publish.setUserId(1);
+        publish.setLocation("江大");
+        publish.setText("5555");
+        publish.setClientTime("111");
+        publish.setSight("55");
+        publish.setCategory("555");
+
+        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(onNext1,this);
+        LoginNetwork.getInstance().Publish(progressSubsciber,publish,this);
     }
 
     public void showSureDialog() {
