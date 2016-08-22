@@ -11,11 +11,11 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
-import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.ImageButtonText;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.layout.RoundedImageView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.pearsonalTag.PeraonalTagActivity;
 
