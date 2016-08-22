@@ -15,7 +15,7 @@
             android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/arrowleftblack"
             android:text="校上"
-            android:textSize="48px"
+            android:textSize="16sp"
             android:drawablePadding="@dimen/x12"
             android:gravity="left|center_vertical"
             android:textColor="@android:color/black"
@@ -27,7 +27,7 @@
             android:layout_gravity="center"
             android:textColor="@android:color/black"
             android:layout_centerInParent="true"
-            android:textSize="52px"
+            android:textSize="17sp"
             android:text="计划发起"
             />
         <ImageView

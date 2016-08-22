@@ -34,6 +34,8 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/x48"
+            android:alpha="0.5"
+            android:enabled="false"
             android:text="@string/delete"
             android:textColor="@color/green1"
             android:textSize="16sp" />

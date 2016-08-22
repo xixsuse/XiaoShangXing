@@ -111,9 +111,10 @@ public class SetInfoActivity extends BaseActivity {
 
                     @Override
                     public void onCancel() {
-
+                        addToBlackList.setState(false);
                     }
                 });
+
             }
 
             @Override

@@ -33,7 +33,6 @@ public class MyCodeFragment extends BaseFragment implements View.OnClickListener
         back.setOnClickListener(this);
         imageView.setOnClickListener(this);
 
-
         return mView;
     }
 

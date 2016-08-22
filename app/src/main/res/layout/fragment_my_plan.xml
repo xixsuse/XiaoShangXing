@@ -12,11 +12,11 @@
         <Button android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/back"
-            android:layout_marginLeft="24px"
+            android:layout_marginLeft="@dimen/x24"
             android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/arrowleftblack"
             android:text="返回"
-            android:textSize="48px"
+            android:textSize="16sp"
             android:drawablePadding="12px"
             android:gravity="left|center_vertical"
             android:textColor="@android:color/black"
@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:textColor="@android:color/black"
             android:layout_centerInParent="true"
-            android:textSize="52px"
+            android:textSize="17sp"
             android:text="我的计划"
             />
     </RelativeLayout>
@@ -39,8 +39,8 @@
 
     android:id="@+id/rv_my_planList"
     android:layout_width="match_parent"
-    android:layout_marginLeft="20px"
-    android:layout_marginRight="20px"
+    android:layout_marginLeft="@dimen/x20"
+    android:layout_marginRight="@dimen/x20"
     android:layout_height="wrap_content">
 
 </android.support.v7.widget.RecyclerView>
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/view"
-            android:layout_marginBottom="90px"
+            android:layout_marginBottom="@dimen/y90"
             android:gravity="center"
             android:textSize="16sp"
             android:visibility="gone"

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo.chooseNewGroupMaster;
+package com.xiaoshangxing.yujian.groupchatInfo.chooseNewGroupMaster;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,7 +9,6 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SortModel;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 
 import java.util.List;

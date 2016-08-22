@@ -50,7 +50,7 @@
         android:layout_height="@dimen/x210"
         android:layout_marginTop="@dimen/y140"
         android:orientation="horizontal">
-        <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+        <com.xiaoshangxing.utils.layout.CirecleImage
             android:id="@+id/mycode_roundimg"
             android:layout_width="@dimen/x200"
             android:layout_height="@dimen/x200"
@@ -58,8 +58,7 @@
             android:layout_marginEnd="@dimen/x42"
             android:layout_gravity="center_vertical"
             android:src="@mipmap/head_init"
-            android:scaleType="centerCrop"
-            app:corner_radius="90dp" />
+            android:scaleType="centerCrop" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo;
+package com.xiaoshangxing.yujian.groupchatInfo;
 
 import android.content.Context;
 import android.util.AttributeSet;

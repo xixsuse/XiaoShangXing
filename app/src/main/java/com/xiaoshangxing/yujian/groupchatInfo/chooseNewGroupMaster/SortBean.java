@@ -1,22 +1,14 @@
-package com.xiaoshangxing.yujian.chatInfo.deleteMember;
+package com.xiaoshangxing.yujian.groupchatInfo.chooseNewGroupMaster;
 
 import android.graphics.Bitmap;
 
 /**
- * Created by 15828 on 2016/8/13.
+ * Created by 15828 on 2016/8/15.
  */
-public class DeleteMember {
-    private boolean check = false;
+public class SortBean {
     private Bitmap bitmap;
     private String name;
-
-    public boolean isCheck() {
-        return check;
-    }
-
-    public void setCheck(boolean check) {
-        this.check = check;
-    }
+    private String sortLetters;  //显示数据拼音的首字母
 
     public Bitmap getBitmap() {
         return bitmap;
@@ -32,5 +24,13 @@ public class DeleteMember {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSortLetters() {
+        return sortLetters;
+    }
+
+    public void setSortLetters(String sortLetters) {
+        this.sortLetters = sortLetters;
     }
 }

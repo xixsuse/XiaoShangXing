@@ -1,10 +1,9 @@
-package com.xiaoshangxing.yujian.chatInfo.chooseNewGroupMaster;
+package com.xiaoshangxing.yujian.groupchatInfo.chooseNewGroupMaster;
 
 /**
  * Created by FengChaoQun
  * on 2016/7/27
  */
-import com.xiaoshangxing.SelectPerson.SortModel;
 
 import java.util.Comparator;
 

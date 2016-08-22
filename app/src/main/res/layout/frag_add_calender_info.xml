@@ -10,7 +10,7 @@
         android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/y144"
         android:background="@color/w0"
         android:id="@+id/rl_mytitle"
         >
@@ -21,7 +21,7 @@
             android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/arrowleftblack"
             android:text="校上"
-            android:textSize="48px"
+            android:textSize="16sp"
             android:drawablePadding="@dimen/x12"
             android:gravity="left|center_vertical"
             android:textColor="@android:color/black"
@@ -33,20 +33,21 @@
             android:layout_gravity="center"
             android:textColor="@android:color/black"
             android:layout_centerInParent="true"
-            android:textSize="52px"
+            android:textSize="17sp"
             android:text="校历资讯"
             />
         <Button
             android:id="@+id/ib_add"
-            android:layout_width="@dimen/x105"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="完成"
-            android:textSize="48px"
+            android:textSize="16sp"
+            android:gravity="right|center_vertical"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textColor="@color/green1"
             android:background="@android:color/transparent"
-            android:layout_marginRight="@dimen/x30"/>
+            android:layout_marginRight="@dimen/x48"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_calenderDate"
@@ -93,7 +94,7 @@
         android:textCursorDrawable="@drawable/add_calender_info_cursor"
         android:layout_marginTop="@dimen/y34"
         android:hint="记下要发生的事.."
-        android:textSize="46px"
+        android:textSize="16sp"
         android:focusable="true"
         android:background="@drawable/et_transparent"
         android:paddingLeft="@dimen/x48"/>

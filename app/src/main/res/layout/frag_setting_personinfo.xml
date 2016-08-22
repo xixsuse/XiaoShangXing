@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/headimg" />
-            <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+            <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/setting_personinfo_headView"
                 android:layout_width="@dimen/x168"
                 android:layout_height="@dimen/x168"
@@ -44,8 +44,7 @@
                 android:layout_marginEnd="@dimen/x30"
                 android:layout_centerVertical="true"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/head_init"
-                app:corner_radius="90dp" />
+                android:src="@mipmap/head_init" />
             <ImageView
                 android:id="@+id/right_arrow"
                 android:layout_width="wrap_content"

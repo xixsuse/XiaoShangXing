@@ -13,6 +13,7 @@ import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.yujian.pearsonalTag.PeraonalTagActivity;
 
 /**
  * Created by 15828 on 2016/7/25.
@@ -84,7 +85,11 @@ public class PersonInfoActivity extends BaseActivity {
 
     //标签
     public void Tag(View view) {
-        Intent intent = new Intent(this, TagViewActivity.class);
+        //别人的
+        Intent intent = new Intent(this, PeraonalTagActivity.class);
         startActivity(intent);
+        //自己的
+//        Intent intent = new Intent(this, TagViewActivity.class);
+//        startActivity(intent);
     }
 }

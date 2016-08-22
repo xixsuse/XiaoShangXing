@@ -258,6 +258,7 @@
     <string name="serch">搜索</string>
     <string name="no_net">当前网络不可用,请检查你的网络设置</string>
 
+    <string name="chatinfom">聊天详情</string>
     <string name="chatinfo">聊天信息</string>
     <string name="allGroupMember">全部群成员</string>
     <string name="groupChatName">群聊名称</string>
@@ -265,7 +266,7 @@
     <string name="groupNotice">群公告</string>
     <string name="topChat">置顶聊天</string>
     <string name="noDisturb">消息免打扰</string>
-    <string name="saveToFriend_GroupChat">保存到好友群聊</string>
+    <string name="saveToFriend_GroupChat">保存到好友-群聊</string>
     <string name="setChatBackground">设置当前聊天背景</string>
     <string name="transferMainRight">群主管理权转让</string>
     <string name="cleanChatRecord">清空聊天记录</string>

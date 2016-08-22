@@ -94,6 +94,7 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
             }
         };
         ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, mView);
+
         Login l = new Login();
         l.setPhone(mView.getPhoneNumber());
         l.setPassword(mView.getPassword());

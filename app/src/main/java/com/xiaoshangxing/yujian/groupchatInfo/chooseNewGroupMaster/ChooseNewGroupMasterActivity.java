@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo.chooseNewGroupMaster;
+package com.xiaoshangxing.yujian.groupchatInfo.chooseNewGroupMaster;
 
 import android.app.Dialog;
 import android.graphics.Bitmap;
@@ -8,19 +8,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.CharacterParser;
-import com.xiaoshangxing.SelectPerson.PinyinComparator;
 import com.xiaoshangxing.SelectPerson.SideBar;
-import com.xiaoshangxing.SelectPerson.SortAdapter;
 
-import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
-import com.xiaoshangxing.yujian.chatInfo.Member;
+import com.xiaoshangxing.yujian.groupchatInfo.Member;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,8 +80,8 @@ public class ChooseNewGroupMasterActivity extends BaseActivity {
                             }
                         }).create();
                 alertDialog.show();
-                LocationUtil.setWidth(ChooseNewGroupMasterActivity.this, alertDialog,
-                        getResources().getDimensionPixelSize(R.dimen.x780));
+//                LocationUtil.setWidth(ChooseNewGroupMasterActivity.this, alertDialog,
+//                        getResources().getDimensionPixelSize(R.dimen.x780));
             }
         });
 

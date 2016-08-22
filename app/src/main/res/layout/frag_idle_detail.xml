@@ -9,7 +9,7 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_144"
         android:background="@color/w0"
         android:id="@+id/rl_mytitle"
         >
@@ -20,7 +20,7 @@
             android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/arrowleftblack"
             android:text="返回"
-            android:textSize="48px"
+            android:textSize="17sp"
             android:drawablePadding="@dimen/x12"
             android:gravity="left|center_vertical"
             android:textColor="@android:color/black"
@@ -32,7 +32,7 @@
             android:layout_gravity="center"
             android:textColor="@android:color/black"
             android:layout_centerInParent="true"
-            android:textSize="52px"
+            android:textSize="17sp"
             android:text="闲置详情"
             />
         <ImageView
@@ -44,7 +44,7 @@
             android:background="@android:color/transparent"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
-            android:layout_marginRight="48px"/>
+            android:layout_marginRight="@dimen/x48"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_marginTop="@dimen/y45"

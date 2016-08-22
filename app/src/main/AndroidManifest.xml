@@ -107,17 +107,19 @@
         <activity android:name=".yujian.personInfo.MoreInfoActivity"/>
         <activity android:name=".yujian.personInfo.SetInfoActivity"/>
 
-        <activity android:name=".yujian.chatInfo.ChatInfoActivity">
+        <activity android:name=".yujian.groupchatInfo.ChatInfoActivity">
         </activity>
-        <activity android:name=".yujian.chatInfo.groupCode.GroupCodeActivity" />
-        <activity android:name=".yujian.chatInfo.groupName.GroupNameActivity" />
-        <activity android:name=".yujian.chatInfo.groupNotice.GroupNoticeEditActivity" />
-        <activity android:name=".yujian.chatInfo.groupNotice.GroupNoticeShowActivity" />
-        <activity android:name=".yujian.chatInfo.groupMembers.GroupMembersActivity" />
-        <activity android:name=".yujian.chatInfo.deleteMember.DeleteMemberActivity" />
-        <activity android:name=".yujian.chatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity" />
+        <activity android:name=".yujian.groupchatInfo.groupCode.GroupCodeActivity" />
+        <activity android:name=".yujian.groupchatInfo.groupName.GroupNameActivity" />
+        <activity android:name=".yujian.groupchatInfo.groupNotice.GroupNoticeEditActivity" />
+        <activity android:name=".yujian.groupchatInfo.groupNotice.GroupNoticeShowActivity" />
+        <activity android:name=".yujian.groupchatInfo.groupMembers.GroupMembersActivity" />
+        <activity android:name=".yujian.groupchatInfo.deleteMember.DeleteMemberActivity" />
+        <activity android:name=".yujian.groupchatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity" />
         <activity android:name=".setting.currency.chatBackground.ChatBackgroundActivity"/>
         <activity android:name=".setting.personalinfo.TagView.TagViewActivity"/>
+        <activity android:name=".yujian.pearsonalTag.PeraonalTagActivity"/>
+        <activity android:name=".yujian.personChatInfo.PersonChatInfoActivity"/>
 
         <activity android:name=".yujian.xiaoyou.XiaoYouActivity">
         </activity>
@@ -129,7 +131,7 @@
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.SelectPhotoPagerActivity"/>
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.PreviewActivity"/>
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivity.ImageDirectoryActivity"/>
-        
+
 
     </application>
 

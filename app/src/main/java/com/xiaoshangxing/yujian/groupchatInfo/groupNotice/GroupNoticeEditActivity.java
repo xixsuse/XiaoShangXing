@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo.groupNotice;
+package com.xiaoshangxing.yujian.groupchatInfo.groupNotice;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import com.xiaoshangxing.utils.LocationUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by 15828 on 2016/8/12.

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo.groupCode;
+package com.xiaoshangxing.yujian.groupchatInfo.groupCode;
 
 import android.os.Bundle;
 import android.view.Display;

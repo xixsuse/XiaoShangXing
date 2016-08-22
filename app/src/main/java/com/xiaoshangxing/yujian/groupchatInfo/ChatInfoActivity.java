@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo;
+package com.xiaoshangxing.yujian.groupchatInfo;
 
 
 import android.app.Dialog;
@@ -20,14 +20,12 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.SwitchView;
-import com.xiaoshangxing.utils.XSXApplication;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
-import com.xiaoshangxing.yujian.chatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity;
-import com.xiaoshangxing.yujian.chatInfo.groupCode.GroupCodeActivity;
-import com.xiaoshangxing.yujian.chatInfo.groupMembers.GroupMembersActivity;
-import com.xiaoshangxing.yujian.chatInfo.groupName.GroupNameActivity;
-import com.xiaoshangxing.yujian.chatInfo.groupNotice.GroupNoticeEditActivity;
-import com.xiaoshangxing.yujian.chatInfo.groupNotice.GroupNoticeShowActivity;
+import com.xiaoshangxing.yujian.groupchatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity;
+import com.xiaoshangxing.yujian.groupchatInfo.groupCode.GroupCodeActivity;
+import com.xiaoshangxing.yujian.groupchatInfo.groupMembers.GroupMembersActivity;
+import com.xiaoshangxing.yujian.groupchatInfo.groupName.GroupNameActivity;
+import com.xiaoshangxing.yujian.groupchatInfo.groupNotice.GroupNoticeEditActivity;
+import com.xiaoshangxing.yujian.groupchatInfo.groupNotice.GroupNoticeShowActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +55,8 @@ public class ChatInfoActivity extends BaseActivity {
     SwitchView noDisturb;
     @Bind(R.id.saveToFriend_GroupChat)
     SwitchView saveToFriendGroupChat;
+    @Bind(R.id.allGroupMember)
+    TextView allGroupMember;
 
     private Adapter adapter;
     private List<Member> data = new ArrayList<>();
@@ -74,7 +74,7 @@ public class ChatInfoActivity extends BaseActivity {
 
         final Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleimage_default);
         String name = "姓名";
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             Member member = new Member();
             member.setBitmap(bitmap1);
             member.setName(name);
@@ -82,6 +82,9 @@ public class ChatInfoActivity extends BaseActivity {
         }
         adapter = new Adapter(this, data);
         mGridview.setAdapter(adapter);
+
+        String a = String.format("全部群成员（%S）",data.size());
+        allGroupMember.setText(a);
 
         setGroupChatName();
         setGroupNoticeContent();
@@ -137,11 +140,11 @@ public class ChatInfoActivity extends BaseActivity {
     public void GroupNotice(View view) {
         boolean isQunzhu = true, isEdited = false;
 
-        if(isQunzhu && !isEdited){
+        if (isQunzhu && !isEdited) {
             //如果是群主并且没有公告
             Intent intent = new Intent(this, GroupNoticeEditActivity.class);
             startActivity(intent);
-        }else if(!isQunzhu && !isEdited){
+        } else if (!isQunzhu && !isEdited) {
             //如果不是群主并且没有公告
             final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
             final Dialog alertDialog = dialogUtils.Message("只有群主王振华才能修改群公告")
@@ -160,7 +163,7 @@ public class ChatInfoActivity extends BaseActivity {
             alertDialog.show();
             LocationUtil.setWidth(this, alertDialog,
                     getResources().getDimensionPixelSize(R.dimen.x780));
-        }else{
+        } else {
             //有公告
             Intent intent = new Intent(this, GroupNoticeShowActivity.class);
             startActivity(intent);

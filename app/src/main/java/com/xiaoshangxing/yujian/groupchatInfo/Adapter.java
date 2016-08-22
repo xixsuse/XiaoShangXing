@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo;
+package com.xiaoshangxing.yujian.groupchatInfo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,9 +11,8 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.yujian.chatInfo.deleteMember.DeleteMemberActivity;
+import com.xiaoshangxing.yujian.groupchatInfo.deleteMember.DeleteMemberActivity;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.List;
 /**
  * Created by 15828 on 2016/8/12.
  */
-class Adapter extends BaseAdapter {
+public class Adapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context;
     List<Member> data;
@@ -77,7 +76,7 @@ class Adapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
-        } else if (data.size() != 0) {
+        } else if (data.size() != 0 ) {
             holder.img.setImageBitmap(data.get(position).getBitmap());
             holder.name.setText(data.get(position).getName());
             holder.img.setOnClickListener(new View.OnClickListener() {

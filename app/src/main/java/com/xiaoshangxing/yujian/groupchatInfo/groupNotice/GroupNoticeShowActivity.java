@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo.groupNotice;
+package com.xiaoshangxing.yujian.groupchatInfo.groupNotice;
 
 import android.content.Intent;
 import android.os.Bundle;
