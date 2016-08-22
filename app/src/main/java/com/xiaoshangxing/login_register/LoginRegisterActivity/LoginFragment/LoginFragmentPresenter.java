@@ -68,7 +68,7 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                             Log.d("login", "success");
                             if (jsonObject.get("msg") instanceof JSONObject) {
                                 String token=jsonObject.getJSONObject("msg").getString("token");
-                                String digest= HmacSHA256Utils.digest(mView.getPhoneNumber(),token);
+                                String digest= HmacSHA256Utils.digest(token,mView.getPhoneNumber());
                                 SPUtils.put(context,SPUtils.DIGEST,digest);
                                 SPUtils.put(context,SPUtils.CURRENT_COUNT,mView.getPhoneNumber());
                                 Log.d("digest",digest);

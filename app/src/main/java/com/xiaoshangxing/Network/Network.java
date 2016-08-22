@@ -1,6 +1,7 @@
 package com.xiaoshangxing.Network;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
@@ -51,7 +52,6 @@ public class Network {
 
     public static Retrofit getRetrofitWithHeader(final Context context) {
         if (retrofit_with_header == null) {
-
             HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             okHttpClient = new OkHttpClient.Builder()
@@ -65,6 +65,7 @@ public class Network {
                                     .addHeader("User-Phone", (String) SPUtils.get(context,SPUtils.CURRENT_COUNT,SPUtils.DEFAULT))
                                     .addHeader("User-Digest",  (String) SPUtils.get(context,SPUtils.DIGEST,SPUtils.DEFAULT))
                                     .build();
+                            Log.d("digest2", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT));
                             return chain.proceed(request);
                         }
                     })

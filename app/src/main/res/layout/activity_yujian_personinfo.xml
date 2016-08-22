@@ -77,7 +77,7 @@
         android:layout_marginBottom="@dimen/y84"
         android:orientation="horizontal">
 
-        <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+        <com.xiaoshangxing.utils.layout.RoundedImageView
             android:id="@+id/personinfo_headimg"
             android:layout_width="@dimen/x180"
             android:layout_height="@dimen/x180"
@@ -230,7 +230,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/dynamic" />
 
-            <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+            <com.xiaoshangxing.utils.layout.RoundedImageView
                 android:id="@+id/dynamic_image1"
                 android:layout_width="@dimen/x144"
                 android:layout_height="@dimen/x144"
@@ -241,7 +241,7 @@
                 android:src="@mipmap/greyblock"
                 app:corner_radius="6dp" />
 
-            <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+            <com.xiaoshangxing.utils.layout.RoundedImageView
                 android:id="@+id/dynamic_image2"
                 android:layout_width="@dimen/x144"
                 android:layout_height="@dimen/x144"
@@ -252,7 +252,7 @@
                 android:src="@mipmap/greyblock"
                 app:corner_radius="6dp" />
 
-            <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+            <com.xiaoshangxing.utils.layout.RoundedImageView
                 android:id="@+id/dynamic_image3"
                 android:layout_width="@dimen/x144"
                 android:layout_height="@dimen/x144"
@@ -263,7 +263,7 @@
                 android:src="@mipmap/greyblock"
                 app:corner_radius="6dp" />
 
-            <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+            <com.xiaoshangxing.utils.layout.RoundedImageView
                 android:id="@+id/dynamic_image4"
                 android:layout_width="@dimen/x144"
                 android:layout_height="@dimen/x144"
@@ -306,6 +306,4 @@
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
     </LinearLayout>
-
-
 </LinearLayout>

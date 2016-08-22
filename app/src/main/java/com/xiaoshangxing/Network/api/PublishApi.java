@@ -16,6 +16,6 @@ import rx.Observable;
  */
 public interface PublishApi {
 //        @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-        @POST("http://114.55.96.241:8080/xsx/v1/moment/releaseMoment")
+        @POST("http://114.55.96.241:8080/xsx/v1/moment/bindEmail")
         Observable<ResponseBody> publish(@Body Publish publish);
 }
