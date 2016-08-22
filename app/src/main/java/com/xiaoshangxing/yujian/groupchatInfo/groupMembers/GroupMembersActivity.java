@@ -1,5 +1,6 @@
-package com.xiaoshangxing.yujian.chatInfo.groupMembers;
+package com.xiaoshangxing.yujian.groupchatInfo.groupMembers;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,12 +12,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.yujian.chatInfo.Member;
+import com.xiaoshangxing.yujian.groupchatInfo.Member;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -104,6 +104,8 @@ public class GroupMembersActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.groupMembers_add:
+                Intent intent = new Intent(this, SelectPersonActivity.class);
+                startActivity(intent);
                 break;
         }
     }

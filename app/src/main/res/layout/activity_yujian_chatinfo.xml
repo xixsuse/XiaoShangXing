@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/w1">
 
-                <com.xiaoshangxing.yujian.chatInfo.MyGridView
+                <com.xiaoshangxing.yujian.groupchatInfo.MyGridView
                     android:id="@+id/chatinfo_gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -88,6 +88,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/allGroupMember"
                     style="@style/black_16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -152,7 +153,8 @@
                 android:layout_height="@dimen/y144"
                 android:background="@color/w1"
                 android:onClick="GroupCode"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/black_16sp"

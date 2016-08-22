@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w1"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y144"
+        android:background="@color/w1"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/hometown_tagview_leftarrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x24"
+            android:src="@mipmap/left_arrow_black" />
+
+        <TextView
+            android:id="@+id/tagview_back"
+            style="@style/black_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/x12"
+            android:layout_toRightOf="@+id/hometown_tagview_leftarrow"
+            android:onClick="Back"
+            android:text="@string/back" />
+
+        <TextView
+            style="@style/black_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/tag" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tag_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginEnd="@dimen/x48"
+        android:layout_marginStart="@dimen/x48"
+        android:layout_marginTop="@dimen/y90"
+        android:text="所有标签"
+        android:textColor="@color/g0"
+        android:textSize="13sp" />
+
+    <com.xiaoshangxing.setting.utils.TagView.TagListView xmlns:f="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/tagview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tag_title"
+        android:paddingBottom="@dimen/y48"
+        android:paddingEnd="@dimen/x48"
+        android:paddingStart="@dimen/x48"
+        android:paddingTop="@dimen/y30"
+        f:horizontalSpacing="@dimen/tag_horizontal_spacing"
+        f:orientation="horizontal"
+        f:verticalSpacing="@dimen/tag_vertical_spacing" />
+
+</RelativeLayout>

@@ -1,9 +1,9 @@
-package com.xiaoshangxing.yujian.chatInfo.deleteMember;
+package com.xiaoshangxing.yujian.groupchatInfo.deleteMember;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,7 +13,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 
 import java.util.ArrayList;
@@ -29,9 +32,13 @@ import butterknife.OnClick;
 public class DeleteMemberActivity extends BaseActivity {
     @Bind(R.id.deleteMember_listView)
     ListView listView;
+    @Bind(R.id.deleteMember_Delete)
+    TextView delete;
 
     private BaseAdapter baseAdapter;
     private static List<DeleteMember> data = new ArrayList<>();
+    private ActionSheet mActionSheet;
+    private static int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,6 @@ public class DeleteMemberActivity extends BaseActivity {
         setContentView(R.layout.activity_yujian_deletemember);
         ButterKnife.bind(this);
         init();
-
 
     }
 
@@ -93,6 +99,19 @@ public class DeleteMemberActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 data.get(position).setCheck(!data.get(position).isCheck());
                 baseAdapter.notifyDataSetChanged();
+                if (data.get(position).isCheck()) count++;
+                else count--;
+                String a = String.format("删除（%s）", count);
+                if (count == 0) {
+                    delete.setText("删除");
+                    delete.setAlpha((float) 0.5);
+                    delete.setEnabled(false);
+                } else {
+                    delete.setAlpha(1);
+                    delete.setEnabled(true);
+                    delete.setText(a);
+                }
+
             }
         });
 
@@ -112,12 +131,69 @@ public class DeleteMemberActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.deleteMember_Delete:
-                for (int i = data.size() - 1; i >= 0; i--) {
-                    if (data.get(i).isCheck()) data.remove(data.get(i));
-                }
-
-                baseAdapter.notifyDataSetChanged();
+                delete();
                 break;
         }
+
+
     }
+
+
+    public void delete() {
+
+//        if (mActionSheet == null) {
+//            mActionSheet = new ActionSheet(DeleteMemberActivity.this);
+//            mActionSheet.addMenuTopItem("确定要删除群成员？")
+//                    .addMenuBottomItem("确定");
+//        }
+//        mActionSheet.show();
+//        WindowManager windowManager = getWindowManager();
+//        Display display = windowManager.getDefaultDisplay();
+//        WindowManager.LayoutParams lp = mActionSheet.getWindow().getAttributes();
+//        lp.width = (display.getWidth()); //设置宽度
+//        mActionSheet.getWindow().setAttributes(lp);
+//        mActionSheet.setMenuBottomListener(new ActionSheet.MenuListener() {
+//            @Override
+//            public void onItemSelected(int position, String item) {
+//                for (int i = data.size() - 1; i >= 0; i--) {
+//                    if (data.get(i).isCheck()) data.remove(data.get(i));
+//                }
+//                baseAdapter.notifyDataSetChanged();
+//                count = 0;
+//            }
+//
+//            @Override
+//            public void onCancel() {
+//
+//            }
+//        });
+
+        final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+        Dialog alertDialog = dialogUtils.Message("确定要删除群成员？")
+                .Button("确定","取消").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                    @Override
+                    public void onButton1() {
+                        for (int i = data.size() - 1; i >= 0; i--) {
+                            if (data.get(i).isCheck()) data.remove(data.get(i));
+                        }
+                        baseAdapter.notifyDataSetChanged();
+                        count = 0;
+                        delete.setText("删除");
+                        delete.setAlpha((float) 0.5);
+                        delete.setEnabled(false);
+                        dialogUtils.close();
+                    }
+
+                    @Override
+                    public void onButton2() {
+                        dialogUtils.close();
+                    }
+                }).create();
+        LocationUtil.setWidth(this, alertDialog,
+                getResources().getDimensionPixelSize(R.dimen.x780));
+        alertDialog.show();
+
+    }
+
+
 }

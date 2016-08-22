@@ -1,15 +1,22 @@
-package com.xiaoshangxing.yujian.chatInfo;
+package com.xiaoshangxing.yujian.groupchatInfo.deleteMember;
 
 import android.graphics.Bitmap;
 
-
 /**
- * Created by 15828 on 2016/8/12.
+ * Created by 15828 on 2016/8/13.
  */
-
-public class Member {
+public class DeleteMember {
+    private boolean check = false;
     private Bitmap bitmap;
     private String name;
+
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
 
     public Bitmap getBitmap() {
         return bitmap;

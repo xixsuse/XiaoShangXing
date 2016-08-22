@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/y144"
         android:background="@color/w0"
         android:id="@+id/rl_mytitle"
         >
@@ -16,7 +16,7 @@
             android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/arrowleftblack"
             android:text="校上"
-            android:textSize="48px"
+            android:textSize="16sp"
             android:drawablePadding="@dimen/x12"
             android:gravity="left|center_vertical"
             android:textColor="@android:color/black"
@@ -28,18 +28,16 @@
             android:layout_gravity="center"
             android:textColor="@android:color/black"
             android:layout_centerInParent="true"
-            android:textSize="52px"
+            android:textSize="17sp"
             android:text="闲置出售"
             />
         <ImageView
             android:id="@+id/ib_add"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@mipmap/three_dot_black"
             android:layout_alignParentRight="true"
-            android:background="@android:color/transparent"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
             android:layout_marginRight="@dimen/x48"/>
     </RelativeLayout>
     <com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"

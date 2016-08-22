@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo.setBackground;
+package com.xiaoshangxing.setting.currency.chatBackground;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundFragment;
 import com.xiaoshangxing.setting.currency.chooseBackgroundFragment.ChooseBackgroundFragment;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
@@ -23,39 +22,32 @@ import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseActivity;
 
 /**
- * Created by tianyang on 2016/8/19.
+ * Created by tianyang on 2016/8/20.
  */
-public class SetBackgroundActivity extends BaseActivity{
+public class ChatBackgroundActivity extends BaseActivity {
     public static final int ACTIVITY_ALBUM_REQUESTCODE = 1000;
     public static final int ACTIVITY_CAMERA_REQUESTCODE = 1001;
     public static final int ACTIVITY_MODIFY_PHOTO_REQUESTCODE = 2002;
     private Bitmap btmap_album, btmap_phone, mBitmap;
     private ImageView mImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_yujian_setbackgroud);
-        mFragmentManager.beginTransaction()
-                .replace(R.id.yujian_setBackground_Content, new ChatBackgroundFragment())
-                .commit();
+        setContentView(R.layout.activity_setting_chatbackground);
 
-    }
-
-    public void ChatBackground(View view) {
         mFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                        R.anim.slide_in_left, R.anim.slide_out_left)
-                .addToBackStack(null)
-                .replace(R.id.setting_currency_Content, new ChatBackgroundFragment())
+                .replace(R.id.setting_background_Content, new ChatBackgroundFragment())
                 .commit();
     }
+
 
     public void ChooseBackground(View view) {
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.setting_currency_Content, new ChooseBackgroundFragment())
+                .replace(R.id.setting_background_Content, new ChooseBackgroundFragment())
                 .commit();
     }
 
@@ -83,7 +75,6 @@ public class SetBackgroundActivity extends BaseActivity{
     public void setmImageView(ImageView mImageView) {
         this.mImageView = mImageView;
     }
-
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -140,4 +131,5 @@ public class SetBackgroundActivity extends BaseActivity{
                 break;
         }
     }
+
 }

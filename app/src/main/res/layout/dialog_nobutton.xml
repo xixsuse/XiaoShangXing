@@ -3,14 +3,15 @@
     android:orientation="vertical"
     android:background="@drawable/dialog_ciecular_b5"
     android:layout_width="@dimen/x420"
+    android:minHeight="@dimen/y100"
     android:layout_height="@dimen/y305">
     
     <ImageView
         android:layout_marginTop="@dimen/y60"
-        android:src="@mipmap/complete"
+        android:src="@mipmap/icon_liuxin_select"
         android:layout_gravity="center_horizontal"
-        android:layout_width="@dimen/x96"
-        android:layout_height="@dimen/y72" />
+        android:layout_width="@dimen/x120"
+        android:layout_height="@dimen/y120" />
 
     <TextView
         android:id="@+id/dialog_message"
@@ -18,7 +19,7 @@
         android:layout_marginBottom="@dimen/y60"
         android:text="已完成注册"
         android:textColor="@color/w0"
-        android:textSize="17sp"
+        android:textSize="13sp"
         android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />

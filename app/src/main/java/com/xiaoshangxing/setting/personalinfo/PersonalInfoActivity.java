@@ -9,6 +9,7 @@ import android.view.View;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.personalinfo.MyCode.MyCodeFragment;
 import com.xiaoshangxing.setting.personalinfo.QianMing.QianMingFragment;
+import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
 import com.xiaoshangxing.setting.personalinfo.TagView.TagViewFragment;
 import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
@@ -22,7 +23,7 @@ import com.xiaoshangxing.utils.BaseActivity;
  */
 public class PersonalInfoActivity extends BaseActivity {
     private int imagCoverWidth, imagCoverHeight;
-    private boolean isbacked = false;
+    public static boolean isbacked = false;
     private boolean isVertified = false;
 
     @Override
@@ -64,12 +65,14 @@ public class PersonalInfoActivity extends BaseActivity {
 
 
     public void TagView(View view) {
-        mFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                        R.anim.slide_in_left, R.anim.slide_out_left)
-                .addToBackStack(TagViewFragment.TAG)
-                .replace(R.id.setting_personinfo_Content, new TagViewFragment(), TagViewFragment.TAG)
-                .commit();
+//        mFragmentManager.beginTransaction()
+//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+//                        R.anim.slide_in_left, R.anim.slide_out_left)
+//                .addToBackStack(TagViewFragment.TAG)
+//                .replace(R.id.setting_personinfo_Content, new TagViewFragment(), TagViewFragment.TAG)
+//                .commit();
+        Intent intent = new Intent(this, TagViewActivity.class);
+        startActivity(intent);
     }
 
     public void QianName(View view) {
@@ -136,12 +139,12 @@ public class PersonalInfoActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        TagViewFragment fragment = (TagViewFragment) mFragmentManager.findFragmentByTag(TagViewFragment.TAG);
-        if (isbacked) {
-            fragment.onKeyDown(keyCode, event);
-            isbacked = false;
-            return true;
-        }
+//        TagViewFragment fragment = (TagViewFragment) mFragmentManager.findFragmentByTag(TagViewFragment.TAG);
+//        if (isbacked) {
+//            fragment.onKeyDown(keyCode, event);
+//            isbacked = false;
+//            return true;
+//        }
         VertifySucessFragment fragment1 = (VertifySucessFragment) mFragmentManager.findFragmentByTag(VertifySucessFragment.TAG);
         if (isVertified) {
             fragment1.onKeyDown(keyCode, event);

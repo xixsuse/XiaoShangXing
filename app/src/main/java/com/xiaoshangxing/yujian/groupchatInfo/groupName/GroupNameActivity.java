@@ -1,4 +1,4 @@
-package com.xiaoshangxing.yujian.chatInfo.groupName;
+package com.xiaoshangxing.yujian.groupchatInfo.groupName;
 
 import android.os.Bundle;
 import android.text.Editable;

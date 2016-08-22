@@ -27,6 +27,7 @@ import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import java.io.ByteArrayInputStream;
@@ -36,13 +37,13 @@ import java.io.ByteArrayInputStream;
  */
 public class SettingActivity extends BaseActivity {
     private ActionSheet mActionSheet;
-    private ImageView imgCover;
+    private CirecleImage imgCover;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_setmain);
-        imgCover = (ImageView) findViewById(R.id.setting_main_imag);
+        imgCover = (CirecleImage) findViewById(R.id.setting_main_imag);
     }
 
     @Override

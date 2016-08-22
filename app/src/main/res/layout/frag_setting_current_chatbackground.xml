@@ -43,18 +43,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
         android:divider="@drawable/toolbar_divider"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/y48"
         android:paddingStart="@dimen/x48"
         android:showDividers="middle">
 
         <RelativeLayout
             android:id="@+id/ChooseBackground"
-            android:onClick="ChooseBackground"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144">
+            android:layout_height="@dimen/y144"
+            android:onClick="ChooseBackground">
 
             <TextView
                 style="@style/black_16sp"
@@ -73,9 +73,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:onClick="ChooseFromAlbum"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144">
+            android:layout_height="@dimen/y144"
+            android:onClick="ChooseFromAlbum">
 
             <TextView
                 style="@style/black_16sp"
@@ -92,10 +92,11 @@
                 android:layout_marginEnd="@dimen/x48"
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
+
         <RelativeLayout
-            android:onClick="ChooseFromPhone"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144">
+            android:layout_height="@dimen/y144"
+            android:onClick="ChooseFromPhone">
 
             <TextView
                 style="@style/black_16sp"
@@ -133,7 +134,7 @@
         android:id="@+id/chatbackground_img"
         android:layout_width="50dp"
         android:layout_height="80dp"
-        android:src="@mipmap/cirecleimage_default"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter"
+        android:src="@mipmap/cirecleimage_default" />
 
 </LinearLayout>

@@ -5,7 +5,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/height_144"
         android:background="@color/w0"
         android:id="@+id/rl_mytitle"
         >
@@ -16,7 +16,7 @@
             android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/arrowleftblack"
             android:text="返回"
-            android:textSize="48px"
+            android:textSize="16sp"
             android:drawablePadding="@dimen/x12"
             android:gravity="left|center_vertical"
             android:textColor="@android:color/black"
@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:textColor="@android:color/black"
             android:layout_centerInParent="true"
-            android:textSize="52px"
+            android:textSize="17sp"
             android:text="我的闲置"
             />
     </RelativeLayout>

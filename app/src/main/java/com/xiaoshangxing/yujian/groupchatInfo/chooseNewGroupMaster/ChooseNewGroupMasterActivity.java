@@ -1,5 +1,6 @@
-package com.xiaoshangxing.yujian.chatInfo.chooseNewGroupMaster;
+package com.xiaoshangxing.yujian.groupchatInfo.chooseNewGroupMaster;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -7,17 +8,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.CharacterParser;
-import com.xiaoshangxing.SelectPerson.PinyinComparator;
 import com.xiaoshangxing.SelectPerson.SideBar;
-import com.xiaoshangxing.SelectPerson.SortAdapter;
 
-import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.yujian.chatInfo.Member;
+import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.yujian.groupchatInfo.Member;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +64,24 @@ public class ChooseNewGroupMasterActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Toast.makeText(getApplication(), ((SortBean) adapter.getItem(position)).getName(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplication(), ((SortBean) adapter.getItem(position)).getName(), Toast.LENGTH_SHORT).show();
+                String a = String.format("确定选择%s为新群主，你将自\n动放弃群主身份", ((SortBean) adapter.getItem(position)).getName());
+                final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(ChooseNewGroupMasterActivity.this);
+                final Dialog alertDialog = dialogUtils.Message(a)
+                        .Button("取消", "确定").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                            @Override
+                            public void onButton1() {
+                                dialogUtils.close();
+                            }
+
+                            @Override
+                            public void onButton2() {
+                                finish();
+                            }
+                        }).create();
+                alertDialog.show();
+//                LocationUtil.setWidth(ChooseNewGroupMasterActivity.this, alertDialog,
+//                        getResources().getDimensionPixelSize(R.dimen.x780));
             }
         });
 

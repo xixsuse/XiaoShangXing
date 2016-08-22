@@ -23,15 +23,14 @@
             android:background="@color/w1"
             android:orientation="horizontal">
 
-            <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+            <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/setting_main_imag"
                 android:layout_width="@dimen/x168"
                 android:layout_height="@dimen/x168"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/x48"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/head_init"
-                app:corner_radius="90dp" />
+                android:src="@mipmap/head_init" />
 
             <TextView
                 style="@style/black_17sp"

@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.ListViewDecoration;
 import com.xiaoshangxing.utils.OnItemClickListener;
@@ -29,7 +30,8 @@ import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
 import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
-import com.xiaoshangxing.yujian.chatInfo.ChatInfoActivity;
+import com.xiaoshangxing.yujian.groupchatInfo.ChatInfoActivity;
+import com.xiaoshangxing.yujian.personChatInfo.PersonChatInfoActivity;
 import com.xiaoshangxing.yujian.xiaoyou.XiaoYouActivity;
 import com.yanzhenjie.recyclerview.swipe.Closeable;
 import com.yanzhenjie.recyclerview.swipe.OnSwipeMenuItemClickListener;
@@ -262,6 +264,8 @@ public class YuJianFragment extends BaseFragment {
             case R.id.serch_layout:
                 break;
             case R.id.friend:
+//                Intent chatIntent=new Intent(getContext(), PersonChatInfoActivity.class);
+//                startActivity(chatIntent);
                 Intent chatIntent=new Intent(getContext(), ChatInfoActivity.class);
                 startActivity(chatIntent);
                 break;
