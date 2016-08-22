@@ -264,10 +264,10 @@ public class YuJianFragment extends BaseFragment {
             case R.id.serch_layout:
                 break;
             case R.id.friend:
-                Intent chatIntent=new Intent(getContext(), PersonChatInfoActivity.class);
-                startActivity(chatIntent);
-//                Intent chatIntent=new Intent(getContext(), ChatInfoActivity.class);
+//                Intent chatIntent=new Intent(getContext(), PersonChatInfoActivity.class);
 //                startActivity(chatIntent);
+                Intent chatIntent=new Intent(getContext(), ChatInfoActivity.class);
+                startActivity(chatIntent);
                 break;
         }
     }
