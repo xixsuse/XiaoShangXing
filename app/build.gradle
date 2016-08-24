@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.xiaoshangxingXiaoyou"
+        applicationId "com.xiaoshangxing"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
@@ -41,4 +41,6 @@ dependencies {
     compile 'com.yanzhenjie:recyclerview-swipe:1.0.1'
     compile files('libs/commons-codec-1.9.jar')
     compile files('libs/commons-codec-1.9.jar')
+    compile files('libs/baidumapapi_v3_1_1.jar')
+    compile files('libs/locSDK_4.2.jar')
 }

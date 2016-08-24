@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent">
 
-    <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+    <com.xiaoshangxing.utils.layout.RoundedImageView
         android:id="@+id/background_grida_image"
         android:layout_width="@dimen/x336"
         android:layout_height="@dimen/x336"

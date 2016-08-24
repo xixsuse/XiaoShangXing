@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.xiaoshangxing.utils.normalUtils.MyLog;
 
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
  * on 2016/6/11
  */
 public class XSXApplication extends Application {
+    private static XSXApplication application = null;
 
 //    private List<Activity> mList = new LinkedList<Activity>();
     private Map<String,Activity> mList=new HashMap<String, Activity>();
@@ -31,6 +33,8 @@ public class XSXApplication extends Application {
         if (instance == null) {
             instance = this;
         }
+        application = this;
+        SDKInitializer.initialize(this);
         /*
         **describe:集中监视Activity生命周期
         */
@@ -72,6 +76,7 @@ public class XSXApplication extends Application {
                 MyLog.d(activity, "destroyed");
             }
         });
+
     }
 
     /*
@@ -108,5 +113,9 @@ public class XSXApplication extends Application {
         if (mList.containsKey(tag)){
             mList.get(tag).finish();
         }
+    }
+
+    public static XSXApplication getApplication() {
+        return application;
     }
 }

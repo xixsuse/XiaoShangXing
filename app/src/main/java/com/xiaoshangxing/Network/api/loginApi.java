@@ -17,4 +17,5 @@ public interface LoginApi {
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST(BaseUrl.LOGIN)
     Observable<ResponseBody>login(@Body Login login);
+
 }

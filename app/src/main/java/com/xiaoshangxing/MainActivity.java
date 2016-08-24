@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +19,8 @@ import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.location.Bean;
+import com.xiaoshangxing.utils.location.PoiSearchUtil;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.xiaoshang.XiaoShangFragment;
@@ -69,7 +72,7 @@ public class MainActivity extends BaseActivity {
     private WoFragment woFragment;
     private XiaoShangFragment xiaoShangFragment;
     private YuJianFragment yuJianFragment;
-//    private GridView gridView;
+    //    private GridView gridView;
 //    private List<View> viewlist = new ArrayList<View>();
 //    private ViewPager viewPager;
 //    private LinearLayout emotion_lay;
@@ -89,6 +92,12 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
+
+        PoiSearchUtil.LocationUtil(this);
+//        for (int i = 0; i < PoiSearchUtil.dataList.size(); i++) {
+//            Log.d("www", PoiSearchUtil.dataList.get(i).getName() + "\n" +PoiSearchUtil.dataList.get(i).getAddress());
+//        }
+
         initInputBox();
         initAllFragments();
     }

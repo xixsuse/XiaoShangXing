@@ -4,32 +4,62 @@
     package="com.xiaoshangxing">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+
+    <!-- 这个权限用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION">
+    </uses-permission>
+    <!-- 这个权限用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION">
+    </uses-permission>
+    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE">
+    </uses-permission>
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE">
+    </uses-permission>
+    <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE">
+    </uses-permission>
+    <!-- 用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE">
+    </uses-permission>
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+
     <application
-        tools:replace="android:name"
         android:name=".utils.XSXApplication"
         android:allowBackup="true"
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:name">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="7rePilSVE2LhW22YbU7hbNpmFvtyHFQ7" />
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+        </service>
 
         <activity android:name=".login_register.StartActivity.FlashActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity android:name=".login_register.StartActivity.StartActivity">
             <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
         <activity android:name=".login_register.LoginRegisterActivity.LoginRegisterActivity" />
@@ -37,12 +67,12 @@
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
 
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
 
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".wo.myState.myStateActivity" />
         <activity
@@ -108,13 +138,11 @@
         </activity>
 
         <!-- 遇见-->
-        <activity android:name=".yujian.personInfo.PersonInfoActivity">
-        </activity>
-        <activity android:name=".yujian.personInfo.MoreInfoActivity"/>
-        <activity android:name=".yujian.personInfo.SetInfoActivity"/>
+        <activity android:name=".yujian.personInfo.PersonInfoActivity"></activity>
+        <activity android:name=".yujian.personInfo.MoreInfoActivity" />
+        <activity android:name=".yujian.personInfo.SetInfoActivity" />
 
-        <activity android:name=".yujian.groupchatInfo.ChatInfoActivity">
-        </activity>
+        <activity android:name=".yujian.groupchatInfo.ChatInfoActivity"></activity>
         <activity android:name=".yujian.groupchatInfo.groupCode.GroupCodeActivity" />
         <activity android:name=".yujian.groupchatInfo.groupName.GroupNameActivity" />
         <activity android:name=".yujian.groupchatInfo.groupNotice.GroupNoticeEditActivity" />
@@ -122,25 +150,23 @@
         <activity android:name=".yujian.groupchatInfo.groupMembers.GroupMembersActivity" />
         <activity android:name=".yujian.groupchatInfo.deleteMember.DeleteMemberActivity" />
         <activity android:name=".yujian.groupchatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity" />
-        <activity android:name=".setting.currency.chatBackground.ChatBackgroundActivity"/>
-        <activity android:name=".setting.personalinfo.TagView.TagViewActivity"/>
-        <activity android:name=".yujian.pearsonalTag.PeraonalTagActivity"/>
-        <activity android:name=".yujian.personChatInfo.PersonChatInfoActivity"/>
+        <activity android:name=".setting.currency.chatBackground.ChatBackgroundActivity" />
+        <activity android:name=".setting.personalinfo.TagView.TagViewActivity" />
+        <activity android:name=".yujian.pearsonalTag.PeraonalTagActivity" />
+        <activity android:name=".yujian.personChatInfo.PersonChatInfoActivity" />
 
-        <activity android:name=".yujian.xiaoyou.XiaoYouActivity">
-        </activity>
+        <activity android:name=".yujian.xiaoyou.XiaoYouActivity"></activity>
 
-        <activity android:name=".xiaoshang.schoolcalender.SchoolCalenderActivity"/>
-        <activity android:name=".xiaoshang.planpropose.PlanProposeActivity"/>
-        <activity android:name=".xiaoshang.idlesale.IdleSaleActivity"/>
-        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.AllIPhotosActivity"/>
-        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.SelectPhotoPagerActivity"/>
-        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.PreviewActivity"/>
-        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivity.ImageDirectoryActivity"/>
+        <activity android:name=".xiaoshang.schoolcalender.SchoolCalenderActivity" />
+        <activity android:name=".xiaoshang.planpropose.PlanProposeActivity" />
+        <activity android:name=".xiaoshang.idlesale.IdleSaleActivity" />
+        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.AllIPhotosActivity" />
+        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.SelectPhotoPagerActivity" />
+        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.PreviewActivity" />
+        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivity.ImageDirectoryActivity" />
 
 
     </application>
-
 
 
 </manifest>
