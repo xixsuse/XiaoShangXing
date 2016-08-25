@@ -19,6 +19,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -41,6 +47,5 @@ dependencies {
     compile 'com.yanzhenjie:recyclerview-swipe:1.0.1'
     compile files('libs/commons-codec-1.9.jar')
     compile files('libs/commons-codec-1.9.jar')
-    compile files('libs/baidumapapi_v3_1_1.jar')
-    compile files('libs/locSDK_4.2.jar')
+    compile files('libs/BaiduLBS_Android.jar')
 }

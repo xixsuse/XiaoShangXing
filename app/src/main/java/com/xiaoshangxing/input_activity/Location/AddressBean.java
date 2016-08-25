@@ -1,13 +1,13 @@
-package com.xiaoshangxing.utils.location;
+package com.xiaoshangxing.input_activity.Location;
 
 /**
  * Created by tianyang on 2016/8/24.
  */
-public class Bean {
+public class AddressBean {
     private String name;
     private String address;
 
-    public Bean(String name, String address) {
+    public AddressBean(String name, String address) {
         this.name = name;
         this.address = address;
     }

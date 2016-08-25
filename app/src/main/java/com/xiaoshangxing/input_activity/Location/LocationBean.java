@@ -1,4 +1,4 @@
-package com.xiaoshangxing.utils.location;
+package com.xiaoshangxing.input_activity.Location;
 
 import java.io.Serializable;
 
