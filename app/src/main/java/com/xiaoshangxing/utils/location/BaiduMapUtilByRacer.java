@@ -1,9 +1,9 @@
 package com.xiaoshangxing.utils.location;
 
-import android.app.AlertDialog;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
@@ -25,9 +25,9 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.navi.BaiduMapAppNotSupportNaviException;
-import com.baidu.mapapi.navi.BaiduMapNavigation;
-import com.baidu.mapapi.navi.NaviPara;
+//import com.baidu.mapapi.navi.BaiduMapAppNotSupportNaviException;
+//import com.baidu.mapapi.navi.BaiduMapNavigation;
+//import com.baidu.mapapi.navi.NaviPara;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeOption;
@@ -40,16 +40,14 @@ import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
-import com.baidu.mapapi.utils.DistanceUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+//import com.baidu.mapapi.utils.DistanceUtil;
 
 /**
  * @ClassName: BaiduMapUtilByRacer
@@ -92,7 +90,7 @@ public class BaiduMapUtilByRacer {
 	 * @throws
 	 */
 	public static Marker showMarkerByResource(double lat, double lon,
-											  int resource, BaiduMap mBaiduMap, int distance, boolean isMoveTo) {
+			int resource, BaiduMap mBaiduMap, int distance, boolean isMoveTo) {
 		BitmapDescriptor bdView = BitmapDescriptorFactory
 				.fromResource(resource);
 		OverlayOptions ooView = new MarkerOptions()
@@ -117,7 +115,7 @@ public class BaiduMapUtilByRacer {
 	 * @throws
 	 */
 	public static Marker showMarkerByBitmap(double lat, double lon,
-											Bitmap mBitmap, BaiduMap mBaiduMap, int distance, boolean isMoveTo) {
+			Bitmap mBitmap, BaiduMap mBaiduMap, int distance, boolean isMoveTo) {
 		BitmapDescriptor bdView = BitmapDescriptorFactory.fromBitmap(mBitmap);
 		OverlayOptions ooView = new MarkerOptions()
 				.position(new LatLng(lat, lon)).icon(bdView).zIndex(distance)
@@ -154,7 +152,7 @@ public class BaiduMapUtilByRacer {
 	 * @throws
 	 */
 	public static Marker showMarkerByView(double lat, double lon, View mView,
-										  BaiduMap mBaiduMap, int distance, boolean isMoveTo) {
+			BaiduMap mBaiduMap, int distance, boolean isMoveTo) {
 		BitmapDescriptor bdView = BitmapDescriptorFactory.fromView(mView);
 		OverlayOptions ooView = new MarkerOptions()
 				.position(new LatLng(lat, lon)).icon(bdView).zIndex(distance)
@@ -180,8 +178,8 @@ public class BaiduMapUtilByRacer {
 	 * @throws
 	 */
 	public static InfoWindow showInfoWindowByBitmap(double lat, double lon,
-													Bitmap mBitmap, BaiduMap mBaiduMap, int distance, boolean isMoveTo,
-													OnInfoWindowClickListener listener) {
+			Bitmap mBitmap, BaiduMap mBaiduMap, int distance, boolean isMoveTo,
+			OnInfoWindowClickListener listener) {
 		InfoWindow mInfoWindow = new InfoWindow(mBitmap == null ? null
 				: BitmapDescriptorFactory.fromBitmap(mBitmap), new LatLng(lat,
 				lon), distance, listener);
@@ -207,8 +205,8 @@ public class BaiduMapUtilByRacer {
 	 * @throws
 	 */
 	public static InfoWindow showInfoWindowByView(double lat, double lon,
-												  View mView, BaiduMap mBaiduMap, int distance, boolean isMoveTo,
-												  OnInfoWindowClickListener listener) {
+			View mView, BaiduMap mBaiduMap, int distance, boolean isMoveTo,
+			OnInfoWindowClickListener listener) {
 		InfoWindow mInfoWindow = new InfoWindow(
 				BitmapDescriptorFactory.fromView(mView), new LatLng(lat, lon),
 				distance, listener);
@@ -300,7 +298,7 @@ public class BaiduMapUtilByRacer {
 	 * @throws
 	 */
 	public static void goneMapViewChild(MapView mMapView, boolean goneLogo,
-										boolean goneZoomControls) {
+			boolean goneZoomControls) {
 		int count = mMapView.getChildCount();
 		for (int i = 0; i < count; i++) {
 			View child = mMapView.getChildAt(i);
@@ -338,7 +336,7 @@ public class BaiduMapUtilByRacer {
 	 * @throws
 	 */
 	public static void locateByBaiduMap(Context mContext, int time,
-										LocateListener listener) {
+			LocateListener listener) {
 		// if (mLocationClient == null) {
 		mLocateListener = listener;
 		locateTime = time;
@@ -472,20 +470,20 @@ public class BaiduMapUtilByRacer {
 	 * @return String
 	 * @throws
 	 */
-	public static String getDistanceWithUtil(double mLat1, double mLon1,
-											 double mLat2, double mLon2) {
-		if ((Double) mLat1 instanceof Double
-				&& (Double) mLon1 instanceof Double
-				&& (Double) mLat2 instanceof Double
-				&& (Double) mLon2 instanceof Double && mLat1 != 0 && mLon1 != 0
-				&& mLat2 != 0 && mLon2 != 0) {
-			float distance = (float) DistanceUtil.getDistance(new LatLng(mLat1,
-					mLon1), new LatLng(mLat2, mLon2));
-			return addUnit(distance);
-		} else {
-			return "0M";
-		}
-	}
+//	public static String getDistanceWithUtil(double mLat1, double mLon1,
+//			double mLat2, double mLon2) {
+//		if ((Double) mLat1 instanceof Double
+//				&& (Double) mLon1 instanceof Double
+//				&& (Double) mLat2 instanceof Double
+//				&& (Double) mLon2 instanceof Double && mLat1 != 0 && mLon1 != 0
+//				&& mLat2 != 0 && mLon2 != 0) {
+//			float distance = (float) DistanceUtil.getDistance(new LatLng(mLat1,
+//					mLon1), new LatLng(mLat2, mLon2));
+//			return addUnit(distance);
+//		} else {
+//			return "0M";
+//		}
+//	}
 
 	/**
 	 * @Title: getDistanceForInteger
@@ -498,19 +496,19 @@ public class BaiduMapUtilByRacer {
 	 * @return int
 	 * @throws
 	 */
-	public static int getDistanceWithoutUtil(double mLat1, double mLon1,
-			double mLat2, double mLon2) {
-		if ((Double) mLat1 instanceof Double
-				&& (Double) mLon1 instanceof Double
-				&& (Double) mLat2 instanceof Double
-				&& (Double) mLon2 instanceof Double && mLat1 != 0 && mLon1 != 0
-				&& mLat2 != 0 && mLon2 != 0) {
-			return (int) DistanceUtil.getDistance(new LatLng(mLat1, mLon1),
-					new LatLng(mLat2, mLon2));
-		} else {
-			return 0;
-		}
-	}
+//	public static int getDistanceWithoutUtil(double mLat1, double mLon1,
+//			double mLat2, double mLon2) {
+//		if ((Double) mLat1 instanceof Double
+//				&& (Double) mLon1 instanceof Double
+//				&& (Double) mLat2 instanceof Double
+//				&& (Double) mLon2 instanceof Double && mLat1 != 0 && mLon1 != 0
+//				&& mLat2 != 0 && mLon2 != 0) {
+//			return (int) DistanceUtil.getDistance(new LatLng(mLat1, mLon1),
+//					new LatLng(mLat2, mLon2));
+//		} else {
+//			return 0;
+//		}
+//	}
 
 	/**
 	 * @Title: getDistance
@@ -523,22 +521,22 @@ public class BaiduMapUtilByRacer {
 	 * @return String
 	 * @throws
 	 */
-	public static String getDistanceWithUtil(String mLat1, String mLon1,
-											 String mLat2, String mLon2) {
-		if (mLat1 != null && !mLat1.equals("") && !mLat1.equals("null")
-				&& !mLat1.equals("0") && mLon1 != null && !mLon1.equals("")
-				&& !mLon1.equals("null") && !mLon1.equals("0") && mLat2 != null
-				&& !mLat2.equals("") && !mLat2.equals("null")
-				&& !mLat2.equals("0") && mLon2 != null && !mLon2.equals("")
-				&& !mLon2.equals("null") && !mLon2.equals("0")) {
-			float distance = (float) DistanceUtil.getDistance(
-					new LatLng(Double.valueOf(mLat1), Double.valueOf(mLon1)),
-					new LatLng(Double.valueOf(mLat2), Double.valueOf(mLon2)));
-			return addUnit(distance);
-		} else {
-			return "0M";
-		}
-	}
+//	public static String getDistanceWithUtil(String mLat1, String mLon1,
+//			String mLat2, String mLon2) {
+//		if (mLat1 != null && !mLat1.equals("") && !mLat1.equals("null")
+//				&& !mLat1.equals("0") && mLon1 != null && !mLon1.equals("")
+//				&& !mLon1.equals("null") && !mLon1.equals("0") && mLat2 != null
+//				&& !mLat2.equals("") && !mLat2.equals("null")
+//				&& !mLat2.equals("0") && mLon2 != null && !mLon2.equals("")
+//				&& !mLon2.equals("null") && !mLon2.equals("0")) {
+//			float distance = (float) DistanceUtil.getDistance(
+//					new LatLng(Double.valueOf(mLat1), Double.valueOf(mLon1)),
+//					new LatLng(Double.valueOf(mLat2), Double.valueOf(mLon2)));
+//			return addUnit(distance);
+//		} else {
+//			return "0M";
+//		}
+//	}
 
 	/**
 	 * @Title: addUnit
@@ -575,25 +573,25 @@ public class BaiduMapUtilByRacer {
 	 * @return boolean
 	 * @throws
 	 */
-	public static boolean NaviByWebBaidu(double mLat1, double mLon1,
-			double mLat2, double mLon2, Context mContext) {
-		if ((Double) mLat1 instanceof Double
-				&& (Double) mLon1 instanceof Double
-				&& (Double) mLat2 instanceof Double
-				&& (Double) mLon2 instanceof Double && mLat1 != 0 && mLon1 != 0
-				&& mLat2 != 0 && mLon2 != 0) {
-			LatLng pt1 = new LatLng(mLat1, mLon1);
-			LatLng pt2 = new LatLng(mLat2, mLon2);
-			// 构建 导航参数
-			NaviPara para = new NaviPara();
-			para.startPoint = pt1;
-			para.endPoint = pt2;
-			BaiduMapNavigation.openWebBaiduMapNavi(para, mContext);
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public static boolean NaviByWebBaidu(double mLat1, double mLon1,
+//			double mLat2, double mLon2, Context mContext) {
+//		if ((Double) mLat1 instanceof Double
+//				&& (Double) mLon1 instanceof Double
+//				&& (Double) mLat2 instanceof Double
+//				&& (Double) mLon2 instanceof Double && mLat1 != 0 && mLon1 != 0
+//				&& mLat2 != 0 && mLon2 != 0) {
+//			LatLng pt1 = new LatLng(mLat1, mLon1);
+//			LatLng pt2 = new LatLng(mLat2, mLon2);
+//			// 构建 导航参数
+//			NaviPara para = new NaviPara();
+//			para.startPoint = pt1;
+//			para.endPoint = pt2;
+//			BaiduMapNavigation.openWebBaiduMapNavi(para, mContext);
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
 	/**
 	 * @Title: NaviByWeb
@@ -607,83 +605,83 @@ public class BaiduMapUtilByRacer {
 	 * @return boolean
 	 * @throws
 	 */
-	public static boolean NaviByWebBaidu(String mLat1, String mLon1,
-										 String mLat2, String mLon2, Context mContext) {
-		if (mLat1 != null && !mLat1.equals("") && !mLat1.equals("null")
-				&& !mLat1.equals("0") && mLon1 != null && !mLon1.equals("")
-				&& !mLon1.equals("null") && !mLon1.equals("0") && mLat2 != null
-				&& !mLat2.equals("") && !mLat2.equals("null")
-				&& !mLat2.equals("0") && mLon2 != null && !mLon2.equals("")
-				&& !mLon2.equals("null") && !mLon2.equals("0")) {
-			LatLng pt1 = new LatLng(Double.valueOf(mLat1),
-					Double.valueOf(mLon1));
-			LatLng pt2 = new LatLng(Double.valueOf(mLat2),
-					Double.valueOf(mLon2));
-			// 构建 导航参数
-			NaviPara para = new NaviPara();
-			para.startPoint = pt1;
-			para.endPoint = pt2;
-			BaiduMapNavigation.openWebBaiduMapNavi(para, mContext);
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	public static boolean NaviByWebBaidu(String mLat1, String mLon1,
+//			String mLat2, String mLon2, Context mContext) {
+//		if (mLat1 != null && !mLat1.equals("") && !mLat1.equals("null")
+//				&& !mLat1.equals("0") && mLon1 != null && !mLon1.equals("")
+//				&& !mLon1.equals("null") && !mLon1.equals("0") && mLat2 != null
+//				&& !mLat2.equals("") && !mLat2.equals("null")
+//				&& !mLat2.equals("0") && mLon2 != null && !mLon2.equals("")
+//				&& !mLon2.equals("null") && !mLon2.equals("0")) {
+//			LatLng pt1 = new LatLng(Double.valueOf(mLat1),
+//					Double.valueOf(mLon1));
+//			LatLng pt2 = new LatLng(Double.valueOf(mLat2),
+//					Double.valueOf(mLon2));
+//			// 构建 导航参数
+//			NaviPara para = new NaviPara();
+//			para.startPoint = pt1;
+//			para.endPoint = pt2;
+//			BaiduMapNavigation.openWebBaiduMapNavi(para, mContext);
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
-	/**
-	 * @Title: NaviByBaidu
-	 * @Description: 通過百度客戶端導航
-	 * @param mLat1
-	 * @param mLon1
-	 * @param mLat2
-	 * @param mLon2
-	 * @param mContext
-	 * @return
-	 * @return boolean
-	 * @throws
-	 */
-	public static boolean NaviByBaidu(double mLat1, double mLon1, double mLat2,
-			double mLon2, final Context mContext) {
-		if ((Double) mLat1 instanceof Double
-				&& (Double) mLon1 instanceof Double
-				&& (Double) mLat2 instanceof Double
-				&& (Double) mLon2 instanceof Double && mLat1 != 0 && mLon1 != 0
-				&& mLat2 != 0 && mLon2 != 0) {
-			LatLng pt1 = new LatLng(mLat1, mLon1);
-			LatLng pt2 = new LatLng(mLat2, mLon2);
-			// 构建 导航参数
-			NaviPara para = new NaviPara();
-			para.startPoint = pt1;
-			para.startName = "从这里开始";
-			para.endPoint = pt2;
-			para.endName = "到这里结束";
-			try {
-				BaiduMapNavigation.openBaiduMapNavi(para, mContext);
-			} catch (BaiduMapAppNotSupportNaviException e) {
-				e.printStackTrace();
-				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-				builder.setMessage("您尚未安装百度地图app或app版本过低，点击确认安装？");
-				builder.setTitle("提示");
-				builder.setPositiveButton("确认", new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						BaiduMapNavigation.getLatestBaiduMapApp(mContext);
-					}
-				});
-				builder.setNegativeButton("取消", new OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
-				builder.create().show();
-			}
-			return true;
-		} else {
-			return false;
-		}
-	}
+//	/**
+//	 * @Title: NaviByBaidu
+//	 * @Description: 通過百度客戶端導航
+//	 * @param mLat1
+//	 * @param mLon1
+//	 * @param mLat2
+//	 * @param mLon2
+//	 * @param mContext
+//	 * @return
+//	 * @return boolean
+//	 * @throws
+//	 */
+//	public static boolean NaviByBaidu(double mLat1, double mLon1, double mLat2,
+//			double mLon2, final Context mContext) {
+//		if ((Double) mLat1 instanceof Double
+//				&& (Double) mLon1 instanceof Double
+//				&& (Double) mLat2 instanceof Double
+//				&& (Double) mLon2 instanceof Double && mLat1 != 0 && mLon1 != 0
+//				&& mLat2 != 0 && mLon2 != 0) {
+//			LatLng pt1 = new LatLng(mLat1, mLon1);
+//			LatLng pt2 = new LatLng(mLat2, mLon2);
+//			// 构建 导航参数
+//			NaviPara para = new NaviPara();
+//			para.startPoint = pt1;
+//			para.startName = "从这里开始";
+//			para.endPoint = pt2;
+//			para.endName = "到这里结束";
+//			try {
+//				BaiduMapNavigation.openBaiduMapNavi(para, mContext);
+//			} catch (BaiduMapAppNotSupportNaviException e) {
+//				e.printStackTrace();
+//				AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+//				builder.setMessage("您尚未安装百度地图app或app版本过低，点击确认安装？");
+//				builder.setTitle("提示");
+//				builder.setPositiveButton("确认", new OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						dialog.dismiss();
+//						BaiduMapNavigation.getLatestBaiduMapApp(mContext);
+//					}
+//				});
+//				builder.setNegativeButton("取消", new OnClickListener() {
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						dialog.dismiss();
+//					}
+//				});
+//				builder.create().show();
+//			}
+//			return true;
+//		} else {
+//			return false;
+//		}
+//	}
 
 	// poi搜索
 	public static SuggestionSearch mSuggestionSearch = null;
@@ -705,7 +703,7 @@ public class BaiduMapUtilByRacer {
 	 * @throws
 	 */
 	public static void getSuggestion(String cityName, String keyName,
-									 SuggestionsGetListener listener) {
+			SuggestionsGetListener listener) {
 		mSuggestionsGetListener = listener;
 		if (cityName == null || keyName == null) {
 			if (mSuggestionsGetListener != null) {
@@ -925,7 +923,7 @@ public class BaiduMapUtilByRacer {
 	 * @throws
 	 */
 	public static void getPoiByPoiSearch(String cityName, String keyName,
-										 int pageNum, PoiSearchListener listener) {
+			int pageNum, PoiSearchListener listener) {
 		mPoiSearchListener = listener;
 		if (cityName == null || keyName == null) {
 			if (mPoiSearchListener != null) {
@@ -997,6 +995,11 @@ public class BaiduMapUtilByRacer {
 				mPoiDetailSearchListener.onGetSucceed(mLocationBean);
 			}
 			destroyPoiSearch();
+		}
+
+		@Override
+		public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
+
 		}
 
 		@Override

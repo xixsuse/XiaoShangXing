@@ -1,9 +1,16 @@
 package com.xiaoshangxing;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
@@ -88,17 +96,75 @@ public class MainActivity extends BaseActivity {
 //    private int screenHeight;
     private InputBoxLayout inputBoxLayout;
 
+
+    private static final int BAIDU_READ_PHONE_STATE =1000;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
 
-        PoiSearchUtil.LocationUtil(this);
 
+//        if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE) !=PackageManager.PERMISSION_GRANTED)
+//        {
+//            ActivityCompat.requestPermissions(this, new String[]{
+//                    Manifest.permission.READ_PHONE_STATE,
+//                    Manifest.permission.ACCESS_COARSE_LOCATION,
+//                    Manifest.permission.ACCESS_FINE_LOCATION,
+//                    Manifest.permission.WRITE_SETTINGS,
+//                    Manifest.permission.ACCESS_WIFI_STATE,
+//                    Manifest.permission.ACCESS_NETWORK_STATE,
+//                    Manifest.permission.CHANGE_WIFI_STATE
+//            },BAIDU_READ_PHONE_STATE);
+//        }
+        getPersimmions();
+        PoiSearchUtil.LocationUtil(this);
 
         initInputBox();
         initAllFragments();
+    }
+
+    @TargetApi(23)
+    private void getPersimmions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ArrayList<String> permissions = new ArrayList<String>();
+            /***
+             * 定位权限为必须权限，用户如果禁止，则每次进入都会申请
+             */
+            // 定位精确位置
+            if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+            }
+            if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+            if(checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.READ_PHONE_STATE);
+            }
+            if(checkSelfPermission(Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.WRITE_SETTINGS);
+            }
+            if(checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.ACCESS_WIFI_STATE);
+            }
+            if(checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
+            }
+            if(checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED){
+                permissions.add(Manifest.permission.CHANGE_WIFI_STATE);
+            }
+
+            if (permissions.size() > 0) {
+                requestPermissions(permissions.toArray(new String[permissions.size()]), 127);
+            }
+        }
     }
 
     private void initInputBox() {

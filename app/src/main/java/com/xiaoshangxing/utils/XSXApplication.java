@@ -17,7 +17,6 @@ import java.util.Map;
  * on 2016/6/11
  */
 public class XSXApplication extends Application {
-    private static XSXApplication application = null;
 
 //    private List<Activity> mList = new LinkedList<Activity>();
     private Map<String,Activity> mList=new HashMap<String, Activity>();
@@ -33,8 +32,8 @@ public class XSXApplication extends Application {
         if (instance == null) {
             instance = this;
         }
-        application = this;
-        SDKInitializer.initialize(this);
+
+        SDKInitializer.initialize(getApplicationContext());
         /*
         **describe:集中监视Activity生命周期
         */
@@ -115,7 +114,4 @@ public class XSXApplication extends Application {
         }
     }
 
-    public static XSXApplication getApplication() {
-        return application;
-    }
 }
