@@ -2,6 +2,7 @@ package com.xiaoshangxing;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -94,9 +95,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         PoiSearchUtil.LocationUtil(this);
-//        for (int i = 0; i < PoiSearchUtil.dataList.size(); i++) {
-//            Log.d("www", PoiSearchUtil.dataList.get(i).getName() + "\n" +PoiSearchUtil.dataList.get(i).getAddress());
-//        }
+
 
         initInputBox();
         initAllFragments();

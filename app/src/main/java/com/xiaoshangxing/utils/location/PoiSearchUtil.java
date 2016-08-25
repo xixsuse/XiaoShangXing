@@ -1,11 +1,14 @@
 package com.xiaoshangxing.utils.location;
 
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.poi.PoiResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +18,15 @@ import java.util.List;
  */
 public class PoiSearchUtil {
     public final static List<Bean> dataList = new ArrayList<>();
+    private static LocationBean  mLocationBean;
     public static void LocationUtil(Context context) {
+        Log.d("qqq", "LocationUtil...");
         BaiduMapUtilByRacer.locateByBaiduMap(context, 1000,
                 new BaiduMapUtilByRacer.LocateListener() {
                     @Override
                     public void onLocateSucceed(LocationBean locationBean) {
                         Log.d("qqq", "onLocateSucceed...");
-                        LocationBean  mLocationBean = locationBean;
+                        mLocationBean = locationBean;
                         double latitude = mLocationBean.getLatitude();
                         double longitude = mLocationBean.getLongitude();
                         Log.d("qqq", "mLocationBean   " + latitude + "," + longitude);
@@ -56,6 +61,34 @@ public class PoiSearchUtil {
                     }
                 });
     }
+
+    public static void PoiSearch(final String s){
+        Log.d("qqq", "PoiSearch...");
+        BaiduMapUtilByRacer.getPoiByPoiSearch(mLocationBean.getCity(),
+                s.trim(), 0,
+                new BaiduMapUtilByRacer.PoiSearchListener() {
+
+                    @Override
+                    public void onGetSucceed(List<LocationBean> locationList,
+                                             PoiResult res) {
+                        if (s.trim().length() > 0) {
+                            for (int i = 0; i < locationList.size(); i++) {
+                                Log.d("www", locationList.get(i).getLocName() + "\n    " + locationList.get(i).getAddStr());
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onGetFailed() {
+//                        Toast.makeText(MainActivity.this, "抱歉，未能找到结果",
+//                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+
 
 
 }
