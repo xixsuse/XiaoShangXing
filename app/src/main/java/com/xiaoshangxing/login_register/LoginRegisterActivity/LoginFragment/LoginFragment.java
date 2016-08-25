@@ -64,7 +64,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
         setmPresenter(new LoginFragmentPresenter(this, getActivity()));
         initView();
         getNumber = getActivity().getIntent().getStringExtra(LOGIN_WITH_NUMBER);
-        if (!TextUtils.isEmpty(getNumber) && !getNumber.equals(SPUtils.DEFAULT)) {
+        if (!TextUtils.isEmpty(getNumber) && !getNumber.equals(SPUtils.DEFAULT_STRING)) {
             mPresenter.loginWithAccount(getNumber);
         }
         return view;
@@ -174,8 +174,8 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
     @Override
     public void showHeadPotrait(boolean is) {
         if (is) {
-            String url = (String) SPUtils.get(getContext(), SPUtils.CURRENT_COUNT_HEAD, SPUtils.DEFAULT);
-            if (!url.equals(SPUtils.DEFAULT)) {
+            String url = (String) SPUtils.get(getContext(), SPUtils.CURRENT_COUNT_HEAD, SPUtils.DEFAULT_STRING);
+            if (!url.equals(SPUtils.DEFAULT_STRING)) {
                 MyGlide.with(this, url, headPortrait);
             }
         } else {

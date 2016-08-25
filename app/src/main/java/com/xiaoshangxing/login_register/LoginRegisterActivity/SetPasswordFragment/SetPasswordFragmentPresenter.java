@@ -2,10 +2,11 @@ package com.xiaoshangxing.login_register.LoginRegisterActivity.SetPasswordFragme
 
 import android.util.Log;
 
-import com.xiaoshangxing.Network.Bean.Register;
+import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.utils.XSXApplication;
 
 import org.json.JSONObject;
 
@@ -65,11 +66,11 @@ public class SetPasswordFragmentPresenter implements SetPasswordContract.Present
             }
         };
         ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, mView);
-        Register register = new Register();
-        register.setPhone(mView.getPhone());
-        register.setPassword(mView.getPassword());
-        register.setTimestamp("12");
-        LoginNetwork.getInstance().Register(observer, register);
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("phone",mView.getPhone());
+        jsonObject.addProperty("password",mView.getPassword());
+        jsonObject.addProperty("timestamp",System.currentTimeMillis());
+        LoginNetwork.getInstance().Register(observer, jsonObject, XSXApplication.getInstance());
 
     }
 }

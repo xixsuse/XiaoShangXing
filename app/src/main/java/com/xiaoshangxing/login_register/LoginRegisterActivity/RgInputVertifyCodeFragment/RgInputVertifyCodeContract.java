@@ -104,5 +104,10 @@ public interface RgInputVertifyCodeContract {
         **describe:点击收不到验证码
         */
         void noReceiveCode();
+
+        /*
+        **describe:获取验证码
+        */
+        void getCode();
     }
 }

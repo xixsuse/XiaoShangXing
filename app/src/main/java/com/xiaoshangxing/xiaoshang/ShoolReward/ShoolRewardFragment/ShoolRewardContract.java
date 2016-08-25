@@ -73,7 +73,7 @@ public class ShoolRewardContract {
         /*
         **describe:点击公告规则
         */
-        void clickOnRule();
+        void clickOnRule(boolean is);
 
     }
 

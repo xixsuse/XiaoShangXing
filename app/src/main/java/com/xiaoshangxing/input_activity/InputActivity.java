@@ -30,28 +30,28 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xiaoshangxing.Network.Bean.Login;
-import com.xiaoshangxing.Network.Bean.Publish;
-import com.xiaoshangxing.Network.HmacSHA256Utils;
-import com.xiaoshangxing.Network.LoginNetwork;
+import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.CommentsBean;
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
 import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.PictureAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.ShowSelectPictureAdapter;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.album.AlbumActivity;
+import com.xiaoshangxing.input_activity.album.AlbumHelper;
 import com.xiaoshangxing.input_activity.album.Bimp;
+import com.xiaoshangxing.input_activity.album.ImageBucket;
+import com.xiaoshangxing.input_activity.album.ImageItem;
 import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
 import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
 import com.xiaoshangxing.setting.utils.city_choosing.WheelView;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
-import com.xiaoshangxing.input_activity.album.AlbumHelper;
-import com.xiaoshangxing.input_activity.album.ImageBucket;
-import com.xiaoshangxing.input_activity.album.ImageItem;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
@@ -59,11 +59,13 @@ import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +73,12 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 /**
@@ -667,25 +675,86 @@ public class InputActivity extends BaseActivity implements IBaseView {
     private void send(){
         ProgressSubscriberOnNext<ResponseBody> onNext1=new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
-            public void onNext(ResponseBody e) {
-                try {
-                    Log.d("ttttt",e.string());
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+            public void onNext(final ResponseBody e) {
+                Realm realm = Realm.getDefaultInstance();
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        try {
+                            String string = e.string();
+                            Log.d("ttttt", string);
+                            JSONObject jsonObject = new JSONObject(string);
+                            Log.d("jsonObject", jsonObject.toString());
+                            JSONObject msg = jsonObject.getJSONObject("msg");
+                            Log.d("msg", msg.toString());
+                            JSONArray moments = msg.getJSONArray("moments");
+                            Log.d("moments", moments.toString());
+                            realm.createOrUpdateAllFromJson(Published.class, moments);
+                        } catch (JSONException e1) {
+                            e1.printStackTrace();
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+
+                    }
+                });
+
+
+                RealmResults<Published> publisheds = realm.where(Published.class).findAll();
+                RealmList<CommentsBean> commentsBeen = publisheds.where().findFirst().getComments();
+                Log.d("RealmResults", publisheds.toString());
+                for (int i = 0; i < commentsBeen.size(); i++) {
+                    Log.d("commentsBeen", commentsBeen.get(i).toString());
                 }
+                realm.close();
+
             }
         };
 
-        Publish publish=new Publish();
-        publish.setUserId(1);
-        publish.setLocation("江大");
-        publish.setText("5555");
-        publish.setClientTime("111");
-        publish.setSight("55");
-        publish.setCategory("555");
+
 
         ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(onNext1,this);
-        LoginNetwork.getInstance().Publish(progressSubsciber,publish,this);
+//        LoginNetwork.getInstance().bindEmail(progressSubsciber,bindEmai,this);
+
+        String path = "/sdcard/XSX/test.png";
+
+        File file = new File(path);
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+//        LoginNetwork.getInstance().setUserImage(progressSubsciber,42,body,11,this);
+
+//        SetUserImage1 setUserImage1= Network.getRetrofitWithHeader(this).create(SetUserImage1.class);
+//        Call<ResponseBody> call=setUserImage1.setUserImage(42,path,11);
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                try {
+//                    Log.d("ResponseBody",response.body().string());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//
+//            }
+//        });
+//        Publish publish=new Publish();
+//        publish.setUserId(1);
+//        publish.setText("''''''''i");
+//        File file=new File("file:///android_asset/emoji/default/emoji_00.png");
+//        publish.getImages().add(new File("file:///android_asset/emoji/default/emoji_00.png"));
+//        LoginNetwork.getInstance().Publish(progressSubsciber,publish,this);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("userId", 1);
+        jsonObject.addProperty("category", 1);
+        jsonObject.addProperty("timeStamp", System.currentTimeMillis());
+        PublishNetwork.getInstance().getPublished(progressSubsciber, jsonObject, this);
+//        LoginNetwork.getInstance().GetUser(progressSubsciber,jsonObject);
     }
 
     public void showSureDialog() {
@@ -817,6 +886,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
             if (resultCode == RESULT_OK) {
                 List<String> temp = new ArrayList<String>();
                 temp.add(came_photo_path.toString());
+                Log.d("came_photo_path", came_photo_path.toString());
                 setSelect_image_urls(merge2list(select_image_urls, temp));
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 intent.setData(came_photo_path);

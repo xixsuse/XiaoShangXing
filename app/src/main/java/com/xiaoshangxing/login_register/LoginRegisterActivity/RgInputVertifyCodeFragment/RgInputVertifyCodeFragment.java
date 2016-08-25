@@ -224,7 +224,8 @@ public class RgInputVertifyCodeFragment extends BaseFragment implements RgInputV
                 switch (position) {
                     case 0:
                         mPresenter.stopCountTime();
-                        mPresenter.startCountTime();
+                        mPresenter.getCode();
+//                        mPresenter.startCountTime();
                         break;
                 }
             }

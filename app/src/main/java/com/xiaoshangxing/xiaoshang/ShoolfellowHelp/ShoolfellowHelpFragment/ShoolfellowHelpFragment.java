@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
@@ -26,6 +27,7 @@ import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp.MyShoolHelpFragment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
+import com.xiaoshangxing.xiaoshang.TextBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/20
  */
-public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpContract.View{
+public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpContract.View {
 
     public static final String TAG = BaseFragment.TAG + "-ShoolfellowHelpFragment";
     @Bind(R.id.back)
@@ -51,6 +53,12 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     ListView listview;
     @Bind(R.id.reflesh_layout)
     PtrFrameLayout ptrFrameLayout;
+    @Bind(R.id.mengban)
+    View mengban;
+    @Bind(R.id.collasp)
+    LinearLayout collasp;
+    @Bind(R.id.rules)
+    RelativeLayout rules;
 
     private View mview;
     private shoolfellow_adpter adpter;
@@ -92,10 +100,10 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         headview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickOnRule();
+                clickOnRule(true);
             }
         });
-        if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE,0)== ShoolRewardActivity.OTHERS){
+        if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == ShoolRewardActivity.OTHERS) {
             this.myState.setText("他的互帮");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
@@ -200,8 +208,8 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
     @Override
     public void gotoPublish() {
-        Intent intent=new Intent(getContext(), InputActivity.class);
-        intent.putExtra(InputActivity.EDIT_STATE,InputActivity.SHOOLFELLOW_HELP);
+        Intent intent = new Intent(getContext(), InputActivity.class);
+        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.SHOOLFELLOW_HELP);
         startActivity(intent);
     }
 
@@ -260,8 +268,22 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     }
 
     @Override
-    public void clickOnRule() {
-        showToast("公告规则");
+    public void clickOnRule(boolean is) {
+        if (is){
+            rules.setVisibility(View.VISIBLE);
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top));
+        }else {
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top1));
+            rules.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    rules.setVisibility(View.GONE);
+                }
+            }, 800);
+        }
+//        Intent intent = new Intent(getContext(), TextBoard.class);
+//        intent.putExtra(IntentStatic.TYPE, TextBoard.HELP);
+//        startActivity(intent);
     }
 
     @Override
@@ -284,7 +306,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         super.onStop();
     }
 
-    @OnClick({R.id.back, R.id.more})
+    @OnClick({R.id.back, R.id.more,R.id.collasp,R.id.mengban})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -292,6 +314,12 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
                 break;
             case R.id.more:
                 showPublishMenu(view);
+                break;
+            case R.id.collasp:
+                clickOnRule(false);
+                break;
+            case R.id.mengban:
+                clickOnRule(false);
                 break;
         }
     }

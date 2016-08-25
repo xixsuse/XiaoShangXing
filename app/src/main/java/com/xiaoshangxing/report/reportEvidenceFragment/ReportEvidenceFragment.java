@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,7 +48,7 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
     private GridAdapter adapter;
     private ReportActivity reportActivity;
     private List<String> select_image_urls=new ArrayList<>();
-
+    private Handler handler;
 
     @Nullable
     @Override
@@ -55,7 +56,7 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         mView = inflater.inflate(R.layout.frag_report_evidence, container, false);
         Log.d("qqq", "onCreate...");
         reportActivity = (ReportActivity) getActivity();
-
+        handler=new Handler();
         back = (TextView) mView.findViewById(R.id.toolbar_reportevidence_back);
         submit = (TextView) mView.findViewById(R.id.toolbar_reportevidence_submit);
         reportNotice = (TextView) mView.findViewById(R.id.report_evidence_notice);
@@ -232,6 +233,13 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
     public void setSelect_image_urls(List<String> select_image_urls) {
         this.select_image_urls = select_image_urls;
         adapter.notifyDataSetChanged();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        },300);
+
     }
 
     @Override

@@ -3,6 +3,21 @@ package com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberF
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.util.Log;
+
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.Bean.BindEmai;
+import com.xiaoshangxing.Network.Constants;
+import com.xiaoshangxing.Network.LoginNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by FengChaoQun
@@ -42,7 +57,34 @@ public class RgInputPhoNumPresenter implements RgInputPhoNumContract.Presenter {
 
     @Override
     public void sureSendVertifyCode() {
-        mView.gotoInputVertifyCode();
+
+        ProgressSubscriberOnNext<ResponseBody> onNext=new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject=new JSONObject(e.string());
+                    switch (Integer.valueOf(jsonObject.getString("code"))){
+                        case 200:
+                            mView.gotoInputVertifyCode();
+                            break;
+                        case 9003:
+                            mView.showRegisteredDialog();
+                        default:
+                            mView.showToast(jsonObject.get("msg").toString());
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(onNext,mView);
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("phone",mView.getPhoneNum());
+        jsonObject.addProperty("timeStamp",System.currentTimeMillis());
+
+        LoginNetwork.getInstance().sendCode(progressSubsciber,jsonObject);
+
     }
 
     @Override

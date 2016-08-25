@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by FengChaoQun
  * on 2016/6/11
@@ -31,6 +34,9 @@ public class XSXApplication extends Application {
         if (instance == null) {
             instance = this;
         }
+
+        RealmConfiguration config = new RealmConfiguration.Builder(this).deleteRealmIfMigrationNeeded().build();
+        Realm.setDefaultConfiguration(config);
         /*
         **describe:集中监视Activity生命周期
         */

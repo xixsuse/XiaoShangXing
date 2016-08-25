@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.xiaoshangxing.MainActivity;
-import com.xiaoshangxing.Network.Bean.Login;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
@@ -58,7 +57,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
         Intent intent = new Intent(this, LoginRegisterActivity.class);
         intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.LOGIN);
         intent.putExtra(LoginFragment.LOGIN_WITH_NUMBER,
-                (String) SPUtils.get(this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT));
+                (String) SPUtils.get(this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING));
         startActivity(intent);
         finish();
     }

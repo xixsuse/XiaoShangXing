@@ -2,15 +2,19 @@ package com.xiaoshangxing.Network;
 
 import android.content.Context;
 
-import com.xiaoshangxing.Network.Bean.CheckCode;
-import com.xiaoshangxing.Network.Bean.Login;
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.Bean.BindEmai;
 import com.xiaoshangxing.Network.Bean.Publish;
-import com.xiaoshangxing.Network.Bean.Register;
 import com.xiaoshangxing.Network.api.CheckCodeApi;
+import com.xiaoshangxing.Network.api.GetUser;
 import com.xiaoshangxing.Network.api.LoginApi;
+import com.xiaoshangxing.Network.api.BindEmailApi;
 import com.xiaoshangxing.Network.api.PublishApi;
 import com.xiaoshangxing.Network.api.RegisterApi;
+import com.xiaoshangxing.Network.api.SendCodeApi;
+import com.xiaoshangxing.Network.api.SetUserImage;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
@@ -25,7 +29,11 @@ public class LoginNetwork {
     private LoginApi mloginApi;
     private RegisterApi registerApi;
     private CheckCodeApi checkCodeApi;
+    private BindEmailApi bindEmailApi;
     private PublishApi publishApi;
+    private SendCodeApi sendCodeApi;
+    private SetUserImage setUserImage;
+    private GetUser getUser;
 
     private LoginNetwork() {
 
@@ -41,7 +49,7 @@ public class LoginNetwork {
         return SingletonHolder.INSTANCE;
     }
 
-    public void Login(Subscriber<ResponseBody> subscriber, Login login) {
+    public void Login(Subscriber<ResponseBody> subscriber, JsonObject login) {
         if (mloginApi == null) {
             mloginApi = Network.getRetrofit().create(LoginApi.class);
         }
@@ -49,15 +57,23 @@ public class LoginNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void Register(Subscriber<ResponseBody> subscriber, Register register){
+    public void sendCode(Subscriber<ResponseBody> subscriber, JsonObject string) {
+        if (sendCodeApi == null) {
+            sendCodeApi = Network.getRetrofit().create(SendCodeApi.class);
+        }
+        Observable<ResponseBody> observable = sendCodeApi.sendCode(string);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void Register(Subscriber<ResponseBody> subscriber, JsonObject register,Context context){
         if (registerApi == null) {
-            registerApi = Network.getRetrofit().create(RegisterApi.class);
+            registerApi = Network.getRetrofitWithHeader(context).create(RegisterApi.class);
         }
         Observable<ResponseBody> observable = registerApi.login(register);
         toSubscribe(observable, subscriber);
     }
 
-    public void CheckCode(Subscriber<ResponseBody> subscriber, CheckCode checkCode){
+    public void CheckCode(Subscriber<ResponseBody> subscriber, JsonObject checkCode){
         if (checkCodeApi == null) {
             checkCodeApi = Network.getRetrofit().create(CheckCodeApi.class);
         }
@@ -65,13 +81,39 @@ public class LoginNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void Publish(Subscriber<ResponseBody> subscriber, Publish publish,Context context) {
+    public void bindEmail(Subscriber<ResponseBody> subscriber, BindEmai bindEmai, Context context) {
+        if (bindEmailApi == null) {
+            bindEmailApi = Network.getRetrofitWithHeader(context).create(BindEmailApi.class);
+        }
+        Observable<ResponseBody> observable = bindEmailApi.bindEmail(bindEmai);
+        toSubscribe(observable, subscriber);
+    }
+
+
+    public void Publish(Subscriber<ResponseBody> subscriber, Publish publish, Context context) {
         if (publishApi == null) {
             publishApi = Network.getRetrofitWithHeader(context).create(PublishApi.class);
         }
         Observable<ResponseBody> observable = publishApi.publish(publish);
         toSubscribe(observable, subscriber);
     }
+
+    public void setUserImage(Subscriber<ResponseBody> subscriber, Integer id, MultipartBody.Part path/*String path*/, long time, Context context) {
+        if (setUserImage == null) {
+            setUserImage = Network.getRetrofitWithHeader(context).create(SetUserImage.class);
+        }
+        Observable<ResponseBody> observable = setUserImage.setUserImage(id, path, time);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void GetUser(Subscriber<ResponseBody> subscriber, JsonObject user){
+        if (getUser == null) {
+            getUser = Network.getRetrofit().create(GetUser.class);
+        }
+        Observable<ResponseBody> observable = getUser.user(user);
+        toSubscribe(observable, subscriber);
+    }
+
 
     private <T> void toSubscribe(Observable<T> o, Subscriber<T> s) {
         o.subscribeOn(Schedulers.io())

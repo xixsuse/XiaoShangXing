@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
@@ -53,6 +54,12 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     ListView listview;
     @Bind(R.id.reflesh_layout)
     PtrFrameLayout ptrFrameLayout;
+    @Bind(R.id.collasp)
+    LinearLayout collasp;
+    @Bind(R.id.rules)
+    RelativeLayout rules;
+    @Bind(R.id.mengban)
+    View mengban;
 
     private View mview;
     private shoolreward_adpter adpter;
@@ -93,7 +100,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         headview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickOnRule();
+                clickOnRule(true);
             }
         });
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -114,7 +121,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
                 }
             }
         });
-        if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE,0)==ShoolRewardActivity.OTHERS){
+        if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == ShoolRewardActivity.OTHERS) {
             this.title.setText("他的悬赏");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
@@ -167,7 +174,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.back, R.id.more})
+    @OnClick({R.id.back, R.id.more, R.id.collasp,R.id.mengban})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -175,6 +182,12 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
                 break;
             case R.id.more:
                 showPublishMenu(view);
+                break;
+            case R.id.collasp:
+                clickOnRule(false);
+                break;
+            case R.id.mengban:
+                clickOnRule(false);
                 break;
         }
     }
@@ -211,7 +224,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
         View publish = menu.findViewById(R.id.publish);
         View published = menu.findViewById(R.id.published);
-        View collect=menu.findViewById(R.id.collect);
+        View collect = menu.findViewById(R.id.collect);
         publish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -250,8 +263,8 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
     @Override
     public void gotoPublish() {
-        Intent intent=new Intent(getContext(), InputActivity.class);
-        intent.putExtra(InputActivity.EDIT_STATE,InputActivity.SHOOL_REWARD);
+        Intent intent = new Intent(getContext(), InputActivity.class);
+        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.SHOOL_REWARD);
         startActivity(intent);
     }
 
@@ -309,8 +322,23 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     }
 
     @Override
-    public void clickOnRule() {
-        showToast("公告规则");
+    public void clickOnRule(boolean is) {
+//        Intent intent = new Intent(getContext(), TextBoard.class);
+//        intent.putExtra(IntentStatic.TYPE, TextBoard.REWARD);
+//        startActivity(intent);
+        if (is){
+            rules.setVisibility(View.VISIBLE);
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top));
+        }else {
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top1));
+            rules.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    rules.setVisibility(View.GONE);
+                }
+            }, 800);
+        }
+
     }
 
     @Override

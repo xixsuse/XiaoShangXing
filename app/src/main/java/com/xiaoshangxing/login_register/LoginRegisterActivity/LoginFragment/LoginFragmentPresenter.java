@@ -1,20 +1,20 @@
 package com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
-import com.xiaoshangxing.Network.Bean.Login;
-import com.xiaoshangxing.Network.Bean.Publish;
+import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.HmacSHA256Utils;
 import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
-
+import io.realm.Realm;
 import okhttp3.ResponseBody;
 
 /**
@@ -41,7 +41,11 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
 
     @Override
     public void isHasHeadPotrait() {
-        if (mView.getPhoneNumber().equals(SPUtils.get(context, SPUtils.CURRENT_COUNT, "88888888888"))) {
+        String count = (String) SPUtils.get(context, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING);
+        if (count.equals(SPUtils.DEFAULT_STRING)) {
+            return;
+        }
+        if (mView.getPhoneNumber().equals(SPUtils.get(context, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING))) {
             mView.showHeadPotrait(true);
         } else {
             mView.showHeadPotrait(false);
@@ -69,9 +73,26 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                             if (jsonObject.get("msg") instanceof JSONObject) {
                                 String token=jsonObject.getJSONObject("msg").getString("token");
                                 String digest= HmacSHA256Utils.digest(token,mView.getPhoneNumber());
+//                                存储摘要 账号  头像
                                 SPUtils.put(context,SPUtils.DIGEST,digest);
                                 SPUtils.put(context,SPUtils.CURRENT_COUNT,mView.getPhoneNumber());
+                                String headPath = jsonObject.getJSONObject("msg").getJSONObject("userDto").getString("photoCover");
+                                if (!TextUtils.isEmpty(headPath) && !headPath.equals("null")) {
+                                    SPUtils.put(context, SPUtils.CURRENT_COUNT_HEAD, headPath);
+                                }
+
                                 Log.d("digest",digest);
+//                                存储账号信息
+                                final JSONObject userDao = jsonObject.getJSONObject("msg").getJSONObject("userDto");
+                                Realm realm = Realm.getDefaultInstance();
+                                realm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        User user = realm.createOrUpdateObjectFromJson(User.class, userDao);
+                                        Log.d("user", user.toString());
+                                    }
+                                });
+                                realm.close();
                             }
                             mView.gotoMainActivity();
                             break;
@@ -103,12 +124,11 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
         };
         ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, mView);
 
-        Login l = new Login();
-        l.setPhone(mView.getPhoneNumber());
-        l.setPassword(mView.getPassword());
-
-        LoginNetwork.getInstance().Login(observer, l);
-
+        JsonObject jsonObject1 = new JsonObject();
+        jsonObject1.addProperty("phone", mView.getPhoneNumber());
+        jsonObject1.addProperty("password", mView.getPassword());
+        jsonObject1.addProperty("timeStamp", System.currentTimeMillis());
+        LoginNetwork.getInstance().Login(observer, jsonObject1);
     }
 
     @Override

@@ -1,34 +1,32 @@
 package com.xiaoshangxing.Network.Bean;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by FengChaoQun
  * on 2016/8/15
  */
 public class Publish {
-
-    /**
-     * userId : 1
-     * text :
-     * images :
-     * location :
-     * clientTime :
-     * category :
-     * sight :
-     */
-
-    private int userId;
+    private long userId;
     private String text;
-    private String images;
+    private List<File> images=new ArrayList<>();
     private String location;
-    private String clientTime;
-    private String category;
-    private String sight;
+    private Integer personLimit;
+    private long clientTIme;
+    private Integer category;
+    private Integer sight;
+    private String price;
+    private String dorm;
+    private String sightUserids;
+    private long timeStamp;
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
@@ -40,11 +38,11 @@ public class Publish {
         this.text = text;
     }
 
-    public String getImages() {
+    public List<File> getImages() {
         return images;
     }
 
-    public void setImages(String images) {
+    public void setImages(List<File> images) {
         this.images = images;
     }
 
@@ -56,27 +54,67 @@ public class Publish {
         this.location = location;
     }
 
-    public String getClientTime() {
-        return clientTime;
+    public Integer getPersonLimit() {
+        return personLimit;
     }
 
-    public void setClientTime(String clientTime) {
-        this.clientTime = clientTime;
+    public void setPersonLimit(Integer personLimit) {
+        this.personLimit = personLimit;
     }
 
-    public String getCategory() {
+    public long getClientTIme() {
+        return clientTIme;
+    }
+
+    public void setClientTIme(long clientTIme) {
+        this.clientTIme = clientTIme;
+    }
+
+    public Integer getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Integer category) {
         this.category = category;
     }
 
-    public String getSight() {
+    public Integer getSight() {
         return sight;
     }
 
-    public void setSight(String sight) {
+    public void setSight(Integer sight) {
         this.sight = sight;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getDorm() {
+        return dorm;
+    }
+
+    public void setDorm(String dorm) {
+        this.dorm = dorm;
+    }
+
+    public String getSightUserids() {
+        return sightUserids;
+    }
+
+    public void setSightUserids(String sightUserids) {
+        this.sightUserids = sightUserids;
+    }
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
     }
 }

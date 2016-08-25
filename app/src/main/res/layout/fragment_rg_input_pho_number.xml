@@ -123,6 +123,7 @@
 
     <!--协议-->
     <LinearLayout
+        android:id="@+id/protocol"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/y66"
         android:orientation="vertical"

@@ -79,7 +79,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
 //        //第一步:取出字符串形式的Bitmap
 //        String imageString = sharedPreferences.getString("bigImage", "");
 //        //第二步:利用Base64将字符串转换为ByteArrayInputStream
-//        byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT);
+//        byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT_STRING);
 //        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
 //        //第三步:利用ByteArrayInputStream生成Bitmap
 //        Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);

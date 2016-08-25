@@ -62,10 +62,10 @@ public class Network {
                             Request request = chain.request()
                                     .newBuilder()
                                     .addHeader("Content-Type", "application/json")
-                                    .addHeader("User-Phone", (String) SPUtils.get(context,SPUtils.CURRENT_COUNT,SPUtils.DEFAULT))
-                                    .addHeader("User-Digest",  (String) SPUtils.get(context,SPUtils.DIGEST,SPUtils.DEFAULT))
+                                    .addHeader("User-Phone", (String) SPUtils.get(context,SPUtils.CURRENT_COUNT,SPUtils.DEFAULT_STRING))
+                                    .addHeader("User-Digest",  (String) SPUtils.get(context,SPUtils.DIGEST,SPUtils.DEFAULT_STRING))
                                     .build();
-                            Log.d("digest2", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT));
+                            Log.d("digest2", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
                             return chain.proceed(request);
                         }
                     })

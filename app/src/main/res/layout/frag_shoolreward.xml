@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/w3"
@@ -7,6 +7,7 @@
 
     <!--导航栏-->
     <RelativeLayout
+        android:id="@+id/title_lay"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_144"
         android:background="@color/w0"
@@ -56,12 +57,23 @@
     </RelativeLayout>
 
     <!--分割线-->
-    <include layout="@layout/line_horizontal_g1">
+    <!--<include-->
+    <!--layout="@layout/line_horizontal_g1">-->
 
-    </include>
+    <!--</include>-->
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/title_lay"
+        android:background="@color/g1">
+
+    </View>
 
     <!--listview-->
     <com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        android:layout_below="@+id/line"
         android:id="@+id/reflesh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -90,4 +102,82 @@
         </ListView>
 
     </com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout>
-</LinearLayout>
+
+    <!--公告规则-->
+
+    <RelativeLayout
+        android:id="@+id/rules"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/line"
+        android:visibility="gone">
+        <!--蒙版-->
+        <View
+            android:id="@+id/mengban"
+            android:alpha="0.5"
+            android:background="@color/b0"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </View>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <ScrollView
+                android:alpha="0.95"
+                android:background="@color/w1"
+                android:paddingEnd="@dimen/width_48"
+                android:paddingStart="@dimen/width_48"
+                android:layout_marginEnd="@dimen/x24"
+                android:layout_marginStart="@dimen/x24"
+                android:paddingTop="@dimen/y66"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/collasp"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+
+                <TextView
+                    android:id="@+id/content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reward_rules"
+                    android:textColor="@color/b0"
+                    android:textSize="15sp" />
+            </ScrollView>
+
+            <LinearLayout
+                android:layout_marginEnd="@dimen/x24"
+                android:layout_marginStart="@dimen/x24"
+                android:id="@+id/collasp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/y102"
+                android:orientation="vertical">
+                <View
+                    android:alpha="0.95"
+                    android:background="@color/w1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y102">
+
+                </View>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/rules_up" />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

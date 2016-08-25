@@ -1,7 +1,7 @@
 package com.xiaoshangxing.Network.api;
 
+import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.BaseUrl;
-import com.xiaoshangxing.Network.Bean.Login;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -16,5 +16,6 @@ import rx.Observable;
 public interface LoginApi {
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
     @POST(BaseUrl.LOGIN)
-    Observable<ResponseBody>login(@Body Login login);
+//    Observable<ResponseBody>login(@Body Login login);
+    Observable<ResponseBody>login(@Body JsonObject string);
 }

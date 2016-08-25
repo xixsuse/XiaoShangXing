@@ -60,7 +60,7 @@ public class FlashActivity extends BaseActivity {
         Intent intent = new Intent(this, LoginRegisterActivity.class);
         intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.LOGIN);
         intent.putExtra(LoginFragment.LOGIN_WITH_NUMBER,
-                (String) SPUtils.get(this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT));
+                (String) SPUtils.get(this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING));
         startActivity(intent);
         finish();
     }

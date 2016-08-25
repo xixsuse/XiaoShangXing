@@ -19,8 +19,10 @@ import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActiv
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputVertifyCodeFragment.RgInputVertifyCodeFragment;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.xiaoshang.TextBoard;
 
 /**
  * Created by FengChaoQun
@@ -34,6 +36,7 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
     private TextView tv_cancer;
     private EditText et_phoneNumber;
     private Button btn_register;
+    private View protocol;
 
     public static RgInputPhoNumberFragment newInstance() {
         return new RgInputPhoNumberFragment();
@@ -54,6 +57,8 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
         tv_cancer.setOnClickListener(this);
         btn_register = (Button) mView.findViewById(R.id.btn_register);
         btn_register.setOnClickListener(this);
+        protocol=mView.findViewById(R.id.protocol);
+        protocol.setOnClickListener(this);
         et_phoneNumber = (EditText) mView.findViewById(R.id.et_account);
         et_phoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -161,6 +166,10 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
             case R.id.btn_register:
                 mPresenter.clickOnRegister();
                 break;
+            case R.id.protocol:
+                Intent intent=new Intent(getContext(), TextBoard.class);
+                intent.putExtra(IntentStatic.TYPE,TextBoard.PROTOCOL);
+                startActivity(intent);
         }
     }
 }

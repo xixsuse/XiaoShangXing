@@ -9,7 +9,8 @@ import java.util.Map;
 
 public class SPUtils
 {
-	public static final String DEFAULT="DEFAULT";//默认字符
+	public static final String DEFAULT_STRING ="DEFAULT_STRING";//默认字符
+	public static final int DEFAULT_int=0;
 	/*
 	**describe:登录注册有关键值对
 	*/

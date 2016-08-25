@@ -44,7 +44,7 @@ public class ShoolHelpContract {
         /*
         **describe:点击公告规则
         */
-        void clickOnRule();
+        void clickOnRule(boolean is);
 
         /*
         **describe:弹出发布菜单

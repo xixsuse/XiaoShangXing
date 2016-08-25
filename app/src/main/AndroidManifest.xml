@@ -137,7 +137,7 @@
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.SelectPhotoPagerActivity"/>
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.PreviewActivity"/>
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivity.ImageDirectoryActivity"/>
-
+        <activity android:name=".xiaoshang.TextBoard"></activity>
 
     </application>
 

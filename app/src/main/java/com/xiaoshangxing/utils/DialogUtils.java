@@ -540,7 +540,7 @@ public class DialogUtils {
 
         public Dialog create() {
             LinearLayout linearLayout = (LinearLayout) activity
-                    .getLayoutInflater().inflate(R.layout.dialog_nobutton, null);
+                    .getLayoutInflater().inflate(R.layout.dialog_complete, null);
             dialog = new Dialog(activity, R.style.ActionSheetDialog);
             TextView tv_message = (TextView) linearLayout.findViewById(R.id.dialog_message);
             tv_message.setText(message);

@@ -3,6 +3,8 @@ package com.xiaoshangxing.Network.ProgressSubscriber;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.LoadingDialog;
 
+import org.json.JSONException;
+
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
@@ -58,7 +60,11 @@ public class ProgressSubsciber<T> extends Subscriber<T> {
     @Override
     public void onNext(T t) {
         if (progressSubscriberOnNext != null) {
-            progressSubscriberOnNext.onNext(t);
+            try {
+                progressSubscriberOnNext.onNext(t);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -3,12 +3,18 @@ package com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputVertifyCod
 import android.os.CountDownTimer;
 import android.util.Log;
 
-import com.xiaoshangxing.Network.Bean.CheckCode;
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.HmacSHA256Utils;
 import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 import okhttp3.ResponseBody;
 
@@ -37,12 +43,6 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
 
     @Override
     public void clickOnSubmit() {
-        if (mView.getVertifyCode().equals("888888")) {
-            mView.gotoWhere();
-            return;
-        } /*else {
-            mView.gotoWhere();
-        }*/
         ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
             public void onNext(ResponseBody responseBody) {
@@ -52,6 +52,11 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
                     switch (Integer.valueOf(jsonObject.getString("code"))) {
                         case 9001:
                             Log.d("checkCode", "success");
+                            String token=jsonObject.getJSONObject("msg").getString("token");
+                            String digest= HmacSHA256Utils.digest(token,mView.getPhone());
+                            SPUtils.put(XSXApplication.getInstance(),SPUtils.DIGEST,digest);
+                            SPUtils.put(XSXApplication.getInstance(),SPUtils.CURRENT_COUNT,mView.getPhone());
+                            Log.d("digest",digest);
                             mView.gotoWhere();
                             break;
                         default:
@@ -65,11 +70,40 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
             }
         };
         ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, mView);
-        CheckCode checkCode = new CheckCode();
-        checkCode.setPhone(mView.getPhone());
-        checkCode.setCode(mView.getVertifyCode());
-        checkCode.setTimestamp("tdgsfgdgfg");
-        LoginNetwork.getInstance().CheckCode(observer, checkCode);
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("phone",mView.getPhone());
+        jsonObject.addProperty("code",mView.getVertifyCode());
+        jsonObject.addProperty("timeStamp",System.currentTimeMillis());
+        LoginNetwork.getInstance().CheckCode(observer, jsonObject);
+    }
+
+    @Override
+    public void getCode() {
+        ProgressSubscriberOnNext<ResponseBody> onNext=new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject=new JSONObject(e.string());
+                    switch (Integer.valueOf(jsonObject.getString("code"))){
+                        case 200:
+                            mView.showToast("发送成功");
+                            startCountTime();
+                            break;
+                        default:
+                            mView.showToast(jsonObject.get("msg").toString());
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(onNext,mView);
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("phone",mView.getPhone());
+        jsonObject.addProperty("timeStamp",System.currentTimeMillis());
+
+        LoginNetwork.getInstance().sendCode(progressSubsciber,jsonObject);
     }
 
     @Override
