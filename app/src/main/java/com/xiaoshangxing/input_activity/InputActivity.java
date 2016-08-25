@@ -58,6 +58,7 @@ import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.location.PoiSearchUtil;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
@@ -753,8 +754,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
         jsonObject.addProperty("userId", 1);
         jsonObject.addProperty("category", 1);
         jsonObject.addProperty("timeStamp", System.currentTimeMillis());
-        PublishNetwork.getInstance().getPublished(progressSubsciber, jsonObject, this);
+//        PublishNetwork.getInstance().getPublished(progressSubsciber, jsonObject, this);
 //        LoginNetwork.getInstance().GetUser(progressSubsciber,jsonObject);
+        PoiSearchUtil.LocationUtil(this);
     }
 
     public void showSureDialog() {

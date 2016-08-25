@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.DataSetting;
+import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.ImageButtonText;

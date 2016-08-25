@@ -1,18 +1,18 @@
 package com.xiaoshangxing;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.location.PoiSearchUtil;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.xiaoshang.XiaoShangFragment;
@@ -81,6 +81,9 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
+
+        SDKInitializer.initialize(getApplication());
+        PoiSearchUtil.LocationUtil(this);
         initInputBox();
         initAllFragments();
     }
@@ -100,8 +103,8 @@ public class MainActivity extends BaseActivity {
         frag = mFragmentManager.findFragmentByTag(XiaoShangFragment.TAG);
         xiaoShangFragment = (frag == null) ? XiaoShangFragment.newInstance() : (XiaoShangFragment) frag;
 
-        frag = mFragmentManager.findFragmentByTag(yuJianFragment.TAG);
-        yuJianFragment = (frag == null) ? yuJianFragment.newInstance() : (YuJianFragment) frag;
+        frag = mFragmentManager.findFragmentByTag(YuJianFragment.TAG);
+        yuJianFragment = (frag == null) ? YuJianFragment.newInstance() : (YuJianFragment) frag;
 
         if (!xiaoShangFragment.isAdded()) {
             mFragmentManager.beginTransaction().add(R.id.main_fragment, xiaoShangFragment, XiaoShangFragment.TAG)
@@ -224,20 +227,6 @@ public class MainActivity extends BaseActivity {
 
     public InputBoxLayout getInputBoxLayout() {
         return inputBoxLayout;
-    }
-
-    //  主界面点击返回不是退出程序 而是返回桌面
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Intent home = new Intent(Intent.ACTION_MAIN);
-            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            home.addCategory(Intent.CATEGORY_HOME);
-            startActivity(home);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     @Override

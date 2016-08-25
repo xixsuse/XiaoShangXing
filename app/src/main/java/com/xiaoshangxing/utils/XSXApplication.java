@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.xiaoshangxing.utils.normalUtils.MyLog;
 
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class XSXApplication extends Application {
 
         RealmConfiguration config = new RealmConfiguration.Builder(this).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
+//        SDKInitializer.initialize(this);
         /*
         **describe:集中监视Activity生命周期
         */
@@ -78,6 +80,7 @@ public class XSXApplication extends Application {
                 MyLog.d(activity, "destroyed");
             }
         });
+
     }
 
     /*
@@ -115,4 +118,8 @@ public class XSXApplication extends Application {
             mList.get(tag).finish();
         }
     }
+
+//    public static XSXApplication getApplication() {
+//        return instance;
+//    }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/w3"
     android:orientation="vertical">
 
@@ -11,17 +11,16 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/g1">
-    </View>
+        android:background="@color/g1"></View>
 
     <LinearLayout
         android:id="@+id/linear1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/x48"
         android:background="@color/w1"
         android:divider="@drawable/toolbar_divider"
         android:orientation="vertical"
+        android:paddingStart="@dimen/x48"
         android:showDividers="middle">
 
         <RelativeLayout
@@ -36,15 +35,17 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/headimg" />
+
             <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/setting_personinfo_headView"
                 android:layout_width="@dimen/x168"
                 android:layout_height="@dimen/x168"
-                android:layout_toStartOf="@+id/right_arrow"
-                android:layout_marginEnd="@dimen/x30"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x30"
+                android:layout_toStartOf="@+id/right_arrow"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/head_init" />
+
             <ImageView
                 android:id="@+id/right_arrow"
                 android:layout_width="wrap_content"
@@ -54,6 +55,7 @@
                 android:layout_marginEnd="@dimen/x48"
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
@@ -70,17 +72,19 @@
                 style="@style/g0_13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/x88"
                 android:text="吴天阳" />
 
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
             android:onClick="MyCode"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 style="@style/black_16sp"
@@ -92,10 +96,10 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/small_code"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x20"
                 android:layout_toStartOf="@+id/mycode_rightarrow"
-                android:layout_marginEnd="@dimen/x20" />
+                android:src="@mipmap/small_code" />
 
             <ImageView
                 android:id="@+id/mycode_rightarrow"
@@ -112,10 +116,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y48"
-        android:paddingStart="@dimen/x48"
         android:background="@color/w1"
-        android:orientation="vertical"
         android:divider="@drawable/toolbar_divider"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/x48"
         android:showDividers="middle">
 
 
@@ -155,13 +159,13 @@
                 android:text="@string/hometown" />
 
             <TextView
-                style="@style/g0_13sp"
                 android:id="@+id/personinfo_hometown"
+                style="@style/g0_13sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/hometown_rightarrow"
                 android:layout_marginEnd="@dimen/x20"
+                android:layout_toStartOf="@+id/hometown_rightarrow"
                 android:text="未选择" />
 
             <ImageView
@@ -214,8 +218,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/autograph_rightarrow"
                 android:layout_marginEnd="@dimen/x20"
+                android:layout_toStartOf="@+id/autograph_rightarrow"
                 android:text="未填写" />
 
             <ImageView
@@ -230,11 +234,11 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:onClick="Vertify"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
+        android:onClick="Vertify"
         android:orientation="horizontal">
 
         <TextView
@@ -250,8 +254,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toStartOf="@+id/certification_rightarrow"
             android:layout_marginEnd="@dimen/x20"
+            android:layout_toStartOf="@+id/certification_rightarrow"
             android:text="未认证" />
 
         <ImageView
@@ -263,7 +267,6 @@
             android:layout_marginEnd="@dimen/x48"
             android:src="@mipmap/right_arrow" />
     </RelativeLayout>
-
 
 
 </LinearLayout>
