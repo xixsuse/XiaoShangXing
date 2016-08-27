@@ -71,6 +71,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private TextView name1, name2;
     private CirecleImage headImage;
     private TextView news;
+    private View news_lay;
     private ImageView newsHead;
     private DotsTextView dotsTextView;
     private TextView LoadingText;
@@ -116,12 +117,13 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         headImage = (CirecleImage) headView.findViewById(R.id.head_image);
         headImage.setIntent_type(CirecleImage.PERSON_STATE);
         news = (TextView) headView.findViewById(R.id.news);
+        news_lay=headView.findViewById(R.id.news_lay);
         newsHead = (ImageView) headView.findViewById(R.id.news_head);
 
         dotsTextView = (DotsTextView) footerview.findViewById(R.id.dot);
         LoadingText=(TextView)footerview.findViewById(R.id.text);
 
-        news.setOnClickListener(this);
+        news_lay.setOnClickListener(this);
 
         listView.addHeaderView(headView);
         listView.addFooterView(footerview);
@@ -211,7 +213,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.news:
+            case R.id.news_lay:
                 gotoNews();
                 break;
             case R.id.set:

@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.location.BaiduMapUtilByRacer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/8/25
  */
-public class LocationActivity extends Activity {
+public class LocationActivity extends BaseActivity {
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.myState)
@@ -159,7 +159,11 @@ public class LocationActivity extends Activity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            // Permission Granted
+            finish();
+        }
     }
 
     @OnClick({R.id.back, R.id.serch_layout})
@@ -170,8 +174,8 @@ public class LocationActivity extends Activity {
                 finish();
                 break;
             case R.id.serch_layout:
-                Intent intent=new Intent(LocationActivity.this,SerchLocation.class);
-                intent.putExtra(SerchLocation.LOCATION_BEAN,mLocationBean.getCity());
+                Intent intent=new Intent(LocationActivity.this,SerchLocationActivity.class);
+                intent.putExtra(SerchLocationActivity.LOCATION_BEAN,mLocationBean.getCity());
                 startActivityForResult(intent, IntentStatic.CODE);
                 break;
         }

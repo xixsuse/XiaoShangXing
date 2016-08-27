@@ -65,48 +65,35 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/news_lay"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/x15"
-        android:paddingEnd="@dimen/x30"
+        android:paddingStart="@dimen/x18"
+        android:paddingEnd="@dimen/x72"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/lay_circular_g1"
+        android:background="@mipmap/news_bj"
         android:layout_below="@+id/up_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/y126">
+        android:layout_width="@dimen/x438"
+        android:layout_height="@dimen/y114">
 
         <com.xiaoshangxing.utils.layout.CirecleImage
             android:id="@+id/news_head"
-            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:src="@mipmap/cirecleimage_default"
-            android:layout_width="@dimen/x96"
-            android:layout_height="@dimen/y96" />
+            android:layout_width="@dimen/x80"
+            android:layout_height="@dimen/y80" />
 
         <TextView
             android:id="@+id/news"
-            android:textSize="16sp"
-            android:textColor="@color/b0"
-            android:gravity="center_vertical"
-            android:layout_gravity="center_vertical"
+            android:textSize="14sp"
+            android:textColor="@color/w0"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
             android:text="1条新消息"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-    </LinearLayout>
-
-    <!--新消息-->
-    <!--<TextView-->
-        <!--android:layout_below="@+id/up_layout"-->
-        <!--android:id="@+id/news"-->
-        <!--android:background="@drawable/lay_circular_g1"-->
-        <!--android:padding="6dp"-->
-        <!--android:textSize="13sp"-->
-        <!--android:textColor="@color/w0"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:text="1条新消息"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -41,23 +41,22 @@
         tools:replace="android:name">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="7rePilSVE2LhW22YbU7hbNpmFvtyHFQ7" />
+            android:value="ewb5y1CEha88lk208jtDIr6VW0WPiywB" />
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" >
             <intent-filter>
-                <action android:name="com.baidu.location.service_v2.2" >
-                </action>
+                <action android:name="com.baidu.location.service_v2.2"></action>
             </intent-filter>
         </service>
 
         <activity android:name=".login_register.StartActivity.FlashActivity">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity android:name=".login_register.StartActivity.StartActivity">
             <!--<intent-filter>-->
@@ -71,12 +70,12 @@
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".wo.myState.myStateActivity" />
         <activity
@@ -168,7 +167,19 @@
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.SelectPhotoPagerActivity" />
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.PreviewActivity" />
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivity.ImageDirectoryActivity" />
+        <activity android:name=".input_activity.Location.LocationActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+        <activity
+            android:name=".input_activity.Location.SerchLocationActivity"
+            android:theme="@style/global_search_bg">
+
+        </activity>
 
     </application>
 

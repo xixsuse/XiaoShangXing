@@ -6,4 +6,5 @@ package com.xiaoshangxing.utils;
  */
 public class IntentStatic {
     public static final String TYPE="TYPE";
+    public static final int  CODE=1000;
 }

@@ -8,9 +8,10 @@ import com.baidu.mapapi.SDKInitializer;
 import com.xiaoshangxing.utils.normalUtils.MyLog;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by FengChaoQun
@@ -33,6 +34,11 @@ public class XSXApplication extends Application {
             instance = this;
         }
 
+//      初始化数据库
+        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
+        Realm.setDefaultConfiguration(config);
+
+//      初始化百度地图
         SDKInitializer.initialize(getApplicationContext());
         /*
         **describe:集中监视Activity生命周期

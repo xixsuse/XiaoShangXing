@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.location.BaiduMapUtilByRacer;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 
 import java.util.ArrayList;

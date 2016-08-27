@@ -84,5 +84,7 @@
     <color name="r4">#efa19e</color>
     <color name="blue6">#7bc4bb</color>
 
+    <color name="global_bg">#9000</color>
+
 
 </resources>

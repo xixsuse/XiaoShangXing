@@ -4,7 +4,7 @@
     android:layout_width="@dimen/x182"
     android:layout_height="match_parent">
 
-    <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+    <com.xiaoshangxing.utils.layout.RoundedImageView
         android:id="@+id/privacy_add"
         android:layout_width="@dimen/x162"
         android:layout_height="@dimen/x162"
@@ -12,7 +12,7 @@
         android:src="@mipmap/privacy_add"
         app:corner_radius="90dp" />
 
-    <com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView
+    <com.xiaoshangxing.utils.layout.RoundedImageView
         android:id="@+id/privacy_reddelete"
         android:layout_width="@dimen/x55"
         android:layout_height="@dimen/x55"

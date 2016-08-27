@@ -43,6 +43,7 @@ import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.PictureAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.ShowSelectPictureAdapter;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
+import com.xiaoshangxing.input_activity.Location.LocationActivity;
 import com.xiaoshangxing.input_activity.album.AlbumActivity;
 import com.xiaoshangxing.input_activity.album.AlbumHelper;
 import com.xiaoshangxing.input_activity.album.Bimp;
@@ -56,9 +57,9 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.location.PoiSearchUtil;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
@@ -629,6 +630,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 gotoSelectPerson();
                 break;
             case R.id.location:
+                Intent location_intent = new Intent(InputActivity.this, LocationActivity.class);
+                startActivityForResult(location_intent, IntentStatic.CODE);
                 break;
             case R.id.picture:
                 showEmot(PICTURE);
@@ -754,9 +757,20 @@ public class InputActivity extends BaseActivity implements IBaseView {
         jsonObject.addProperty("userId", 1);
         jsonObject.addProperty("category", 1);
         jsonObject.addProperty("timeStamp", System.currentTimeMillis());
-//        PublishNetwork.getInstance().getPublished(progressSubsciber, jsonObject, this);
+
+//        Realm realm=Realm.getDefaultInstance();
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                User user=realm.createObject(User.class);
+//                user.setUsername("'''''''fcq");
+//            }
+//        });
+//
+//        User user=realm.where(User.class).findFirst();
+//        Log.d("user",user.toString());
+        PublishNetwork.getInstance().getPublished(progressSubsciber, jsonObject, this);
 //        LoginNetwork.getInstance().GetUser(progressSubsciber,jsonObject);
-        PoiSearchUtil.LocationUtil(this);
     }
 
     public void showSureDialog() {
@@ -894,6 +908,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 intent.setData(came_photo_path);
                 sendBroadcast(intent);
             }
+        } else if (requestCode == IntentStatic.CODE) {
+            String select_location = data.getStringExtra(LocationActivity.SELECTED);
+            Log.d("select_location", select_location);
         }
     }
 
