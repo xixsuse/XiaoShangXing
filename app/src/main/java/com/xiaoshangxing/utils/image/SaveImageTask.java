@@ -42,17 +42,20 @@ public class SaveImageTask extends AsyncTask<String, Void, File> {
     @Override
     protected void onPostExecute(File result) {
         if (result == null) {
-            Log.d("dowload", "fail");
+            Toast.makeText(context, "保存失败", Toast.LENGTH_SHORT).show();
             return;
         }
-        String path = result.getPath();
-        File file = new File("/sdcard/XSX" + UUID.randomUUID().toString() + ".jpg");
+
+        File file = new File(FileUtils.getXsxSaveIamge(), UUID.randomUUID().toString() + ".jpg");
         try {
-            FileUtils.copyFileTo(result, file);
-            Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
+            if (FileUtils.copyFileTo(result, file)) {
+                Toast.makeText(context, "保存成功：" + file.getPath(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "保存失败", Toast.LENGTH_SHORT).show();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

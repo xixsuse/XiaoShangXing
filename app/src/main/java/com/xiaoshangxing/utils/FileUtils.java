@@ -1,7 +1,9 @@
 package com.xiaoshangxing.utils;
 
 import android.net.Uri;
+import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,14 +17,29 @@ import java.util.UUID;
  * on 2016/7/11
  */
 public class FileUtils {
-
-    public static String CameraPhotoPath="/sdcard/XSX";
+    //  SDK存储空间
+    public static String EXTERNAL_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator;
+    //    校上行文件夹
+    public static String XSX_PATH = EXTERNAL_PATH + "XSX" + File.separator;
+    //   校上行相机拍照存储相册
+    public static String XSX_CameraPhotoPath = XSX_PATH + "XSX_Camera" + File.separator;
+    //  保存的图片
+    public static String XSX_SAVE_IAMGE = XSX_PATH + "SAVED_IMAGE" + File.separator;
 
     public static boolean copyFileTo(File srcFile, File destFile) throws IOException {
 
         if (srcFile.isDirectory() || destFile.isDirectory())
 
             return false;// 判断是否是文件
+
+        if (!destFile.exists()) {
+            if (destFile.createNewFile()) {
+                Log.d("创建文件成功:", destFile.getAbsolutePath());
+            } else {
+                Log.d("创建文件失败:", "error");
+                return false;
+            }
+        }
 
         FileInputStream fis = new FileInputStream(srcFile);
 
@@ -141,16 +158,24 @@ public class FileUtils {
     }
 
 
-    public static String getCameraPhotoPath(){
-        File file=new File(CameraPhotoPath);
+    public static String getXSX_CameraPhotoPath() {
+        File file = new File(XSX_CameraPhotoPath);
         if (!file.exists()){
             file.mkdirs();
         }
-        return CameraPhotoPath;
+        return XSX_CameraPhotoPath;
+    }
+
+    public static String getXsxSaveIamge() {
+        File file = new File(XSX_SAVE_IAMGE);
+        if (!file.exists()){
+            file.mkdirs();
+        }
+        return XSX_SAVE_IAMGE;
     }
 
     public static Uri newPhotoPath(){
-        File file=new File(getCameraPhotoPath(), UUID.randomUUID().toString() + ".jpg");
+        File file = new File(getXSX_CameraPhotoPath(), UUID.randomUUID().toString() + ".jpg");
         return Uri.fromFile(file);
     }
 }

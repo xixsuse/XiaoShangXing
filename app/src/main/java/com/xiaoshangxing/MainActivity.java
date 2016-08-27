@@ -2,6 +2,7 @@ package com.xiaoshangxing;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
@@ -59,19 +61,6 @@ public class MainActivity extends BaseActivity {
     private WoFragment woFragment;
     private XiaoShangFragment xiaoShangFragment;
     private YuJianFragment yuJianFragment;
-    //    private GridView gridView;
-//    private List<View> viewlist = new ArrayList<View>();
-//    private ViewPager viewPager;
-//    private LinearLayout emotion_lay;
-//    private EmotionGrideViewAdapter adapter;
-//
-//    private RelativeLayout comment_input_layout;
-//    private EmoticonsEditText emoticonsEditText;
-//    private TextView send;
-//    private ImageView emot;
-//    private View normal_emot, favorite, delete_emot;
-//    private RelativeLayout edit_and_emot;
-//    private int screenHeight;
     private InputBoxLayout inputBoxLayout;
 
 
@@ -154,24 +143,6 @@ public class MainActivity extends BaseActivity {
                     setWo(true);
                 }
                 break;
-//            case R.id.emotion:
-//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-//                break;
-//            case R.id.normal_emot:
-//                viewPager.setCurrentItem(0);
-//                break;
-//            case R.id.favorite:
-//                viewPager.setCurrentItem(1);
-//                break;
-//            case R.id.send:
-////                showOrHideLayout(false);
-//                inputBoxLayout.showOrHideLayout(false);
-//                emoticonsEditText.setText("");
-//                break;
-//            case R.id.delete_emot:
-//                emoticonsEditText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
-//                break;
         }
     }
 
