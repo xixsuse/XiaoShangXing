@@ -41,12 +41,14 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:focusable="true"
                 android:id="@+id/first"
                 android:gravity="center"
                 android:layout_width="@dimen/x808"
                 android:layout_height="@dimen/y1247"
                 android:layout_marginStart="@dimen/x136"
-                android:src="@mipmap/xiaoshang_01" />
+                android:src="@mipmap/xiaoshang_01"
+                 />
 
             <ImageView
                 android:id="@+id/second"

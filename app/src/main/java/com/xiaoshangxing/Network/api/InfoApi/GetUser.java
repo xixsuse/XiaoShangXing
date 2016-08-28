@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.api;
+package com.xiaoshangxing.Network.api.InfoApi;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.BaseUrl;

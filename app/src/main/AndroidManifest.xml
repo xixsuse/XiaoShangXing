@@ -175,6 +175,7 @@
             <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+        <activity android:name=".xiaoshang.TextBoard"></activity>
         <activity
             android:name=".input_activity.Location.SerchLocationActivity"
             android:theme="@style/global_search_bg">

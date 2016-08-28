@@ -48,11 +48,11 @@ public class RgInputPhoNumPresenter implements RgInputPhoNumContract.Presenter {
 
     @Override
     public void clickOnRegister() {
-        if (mView.getPhoneNum().equals("88888888888")) {
-            mView.showRegisteredDialog();
-        } else {
+//        if (mView.getPhoneNum().equals("88888888888")) {
+//            mView.showRegisteredDialog();
+//        } else {
             mView.showSureDialog();
-        }
+//        }
     }
 
     @Override

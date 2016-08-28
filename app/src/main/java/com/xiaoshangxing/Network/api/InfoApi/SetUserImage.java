@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.api;
+package com.xiaoshangxing.Network.api.InfoApi;
 
 import com.xiaoshangxing.Network.BaseUrl;
 

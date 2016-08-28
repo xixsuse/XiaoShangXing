@@ -28,7 +28,7 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
 
     public RgInputVertifyCodePresenter(final RgInputVertifyCodeContract.View mView) {
         this.mView = mView;
-        countDownTimer = new CountDownTimer(6000, 1000) {
+        countDownTimer = new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mView.setRemainTime("接受短信大约需要" + millisUntilFinished / 1000 + "秒");
@@ -51,7 +51,6 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
                     jsonObject = new JSONObject(responseBody.string());
                     switch (Integer.valueOf(jsonObject.getString("code"))) {
                         case 9001:
-                            Log.d("checkCode", "success");
                             String token=jsonObject.getJSONObject("msg").getString("token");
                             String digest= HmacSHA256Utils.digest(token,mView.getPhone());
                             SPUtils.put(XSXApplication.getInstance(),SPUtils.DIGEST,digest);
@@ -60,7 +59,6 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
                             mView.gotoWhere();
                             break;
                         default:
-                            Log.d("checkCode", "erro");
                             mView.showFailDialog();
                             break;
                     }

@@ -66,26 +66,28 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:layout_marginTop="@dimen/y78"
+        android:layout_marginBottom="@dimen/y34"
         android:id="@+id/news_lay"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/x18"
-        android:paddingEnd="@dimen/x72"
+        android:paddingStart="@dimen/x9"
+        android:paddingEnd="@dimen/x82"
         android:layout_centerHorizontal="true"
         android:background="@mipmap/news_bj"
         android:layout_below="@+id/up_layout"
-        android:layout_width="@dimen/x438"
-        android:layout_height="@dimen/y114">
+        android:layout_width="@dimen/x426"
+        android:layout_height="@dimen/y102">
 
         <com.xiaoshangxing.utils.layout.CirecleImage
             android:id="@+id/news_head"
             android:layout_centerVertical="true"
             android:src="@mipmap/cirecleimage_default"
-            android:layout_width="@dimen/x80"
-            android:layout_height="@dimen/y80" />
+            android:layout_width="@dimen/x84"
+            android:layout_height="@dimen/y84" />
 
         <TextView
             android:id="@+id/news"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:textColor="@color/w0"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"

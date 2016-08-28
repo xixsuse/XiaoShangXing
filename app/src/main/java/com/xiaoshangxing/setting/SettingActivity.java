@@ -27,6 +27,7 @@ import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
@@ -44,6 +45,7 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_setmain);
         imgCover = (CirecleImage) findViewById(R.id.setting_main_imag);
+        setImgCover();
     }
 
     @Override
@@ -53,12 +55,14 @@ public class SettingActivity extends BaseActivity {
     }
 
     private void setImgCover() {
-        SharedPreferences sharedPreferences = getSharedPreferences("headImg", Context.MODE_PRIVATE);
-        String imageString = sharedPreferences.getString("smallImage", "");
-        byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
-        Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
-        if (bitmap != null) imgCover.setImageBitmap(bitmap);
+//        SharedPreferences sharedPreferences = getSharedPreferences("headImg", Context.MODE_PRIVATE);
+//        String imageString = sharedPreferences.getString("smallImage", "");
+//        byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT);
+//        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
+//        Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
+//        if (bitmap != null) imgCover.setImageBitmap(bitmap);
+        String path=(String) SPUtils.get(this,SPUtils.CURRENT_COUNT_HEAD,SPUtils.DEFAULT_STRING);
+        MyGlide.with(this,path,imgCover);
     }
 
 
@@ -77,16 +81,13 @@ public class SettingActivity extends BaseActivity {
         mActionSheet.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                Toast.makeText(SettingActivity.this, item, Toast.LENGTH_SHORT).show();
                 SPUtils.put(SettingActivity.this,SPUtils.IS_QUIT,true);
                 XSXApplication xsxApplication=(XSXApplication)getApplication();
                 xsxApplication.exit();
-//                finish();
             }
 
             @Override
             public void onCancel() {
-                Toast.makeText(SettingActivity.this, "onCancel", Toast.LENGTH_SHORT).show();
             }
         });
     }

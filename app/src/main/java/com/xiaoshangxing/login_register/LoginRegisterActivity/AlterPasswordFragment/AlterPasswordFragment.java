@@ -100,6 +100,11 @@ public class AlterPasswordFragment extends BaseFragment implements AlterPassword
     }
 
     @Override
+    public String getPhoneNumber() {
+        return ((LoginRegisterActivity) getActivity()).getPhoneNumer();
+    }
+
+    @Override
     public void showPasswordDiffer() {
         final DialogUtils.Dialog_Center dialogUtils = new DialogUtils.Dialog_Center(getActivity());
         final Dialog alertDialog = dialogUtils.Message("两次输入的密码不一致\n请重新输入")

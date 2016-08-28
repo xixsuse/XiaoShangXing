@@ -3,8 +3,6 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.Bean.BindEmai;
-import com.xiaoshangxing.Network.api.BindEmailApi;
 import com.xiaoshangxing.Network.api.GetPublishedApi;
 
 import okhttp3.ResponseBody;

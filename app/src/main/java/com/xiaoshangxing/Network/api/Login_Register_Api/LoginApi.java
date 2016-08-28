@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.api;
+package com.xiaoshangxing.Network.api.Login_Register_Api;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.BaseUrl;
@@ -11,10 +11,11 @@ import rx.Observable;
 
 /**
  * Created by FengChaoQun
- * on 2016/8/6
+ * on 2016/8/3
  */
-public interface RegisterApi {
+public interface LoginApi {
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST(BaseUrl.REGISTER)
-    Observable<ResponseBody> login(@Body JsonObject register);
+    @POST(BaseUrl.LOGIN)
+//    Observable<ResponseBody>login(@Body Login login);
+    Observable<ResponseBody>login(@Body JsonObject string);
 }

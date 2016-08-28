@@ -30,7 +30,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/x48"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/head_init" />
+                 />
 
             <TextView
                 style="@style/black_17sp"

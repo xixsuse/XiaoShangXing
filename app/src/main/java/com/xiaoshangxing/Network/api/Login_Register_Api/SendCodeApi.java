@@ -1,7 +1,8 @@
-package com.xiaoshangxing.Network.api;
+package com.xiaoshangxing.Network.api.Login_Register_Api;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.BaseUrl;
+import com.xiaoshangxing.Network.Bean.BindEmai;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -11,11 +12,10 @@ import rx.Observable;
 
 /**
  * Created by FengChaoQun
- * on 2016/8/3
+ * on 2016/8/23
  */
-public interface LoginApi {
+public interface SendCodeApi {
     @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-    @POST(BaseUrl.LOGIN)
-//    Observable<ResponseBody>login(@Body Login login);
-    Observable<ResponseBody>login(@Body JsonObject string);
+    @POST(BaseUrl.SEND_CODE)
+    Observable<ResponseBody> sendCode(@Body JsonObject string);
 }

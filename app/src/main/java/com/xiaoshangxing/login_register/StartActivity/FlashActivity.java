@@ -3,6 +3,7 @@ package com.xiaoshangxing.login_register.StartActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.WindowManager;
 
 import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
@@ -54,7 +55,7 @@ public class FlashActivity extends BaseActivity {
     }
 
     /*
-   **describe:跳转到登录注册页面 并关闭该页面
+   **describe:跳转到登录注册页面 携带账号并关闭该页面
    */
     public void intentLoginRegisterActivity() {
         Intent intent = new Intent(this, LoginRegisterActivity.class);

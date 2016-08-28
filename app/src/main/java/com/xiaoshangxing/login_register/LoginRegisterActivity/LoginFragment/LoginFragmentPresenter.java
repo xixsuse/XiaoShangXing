@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.HmacSHA256Utils;
 import com.xiaoshangxing.Network.LoginNetwork;
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.data.User;
@@ -67,20 +68,20 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                 JSONObject jsonObject;
                 try {
                     jsonObject = new JSONObject(responseBody.string());
-                    switch (Integer.valueOf((String) jsonObject.get("code"))) {
+                    switch (Integer.valueOf((String) jsonObject.get(NS.CODE))) {
                         case 200:
-                            Log.d("login", "success");
                             if (jsonObject.get("msg") instanceof JSONObject) {
-                                String token=jsonObject.getJSONObject("msg").getString("token");
+                                String token=jsonObject.getJSONObject(NS.MSG).getString(NS.TOKEN);
                                 String digest= HmacSHA256Utils.digest(token,mView.getPhoneNumber());
-//                                存储摘要 账号  头像
+//                                存储摘要 账号 id  头像
                                 SPUtils.put(context,SPUtils.DIGEST,digest);
                                 SPUtils.put(context,SPUtils.CURRENT_COUNT,mView.getPhoneNumber());
                                 String headPath = jsonObject.getJSONObject("msg").getJSONObject("userDto").getString("photoCover");
                                 if (!TextUtils.isEmpty(headPath) && !headPath.equals("null")) {
                                     SPUtils.put(context, SPUtils.CURRENT_COUNT_HEAD, headPath);
                                 }
-
+                                int id=jsonObject.getJSONObject("msg").getJSONObject("userDto").getInt("id");
+                                SPUtils.put(context,SPUtils.ID,id);
                                 Log.d("digest",digest);
 //                                存储账号信息
                                 final JSONObject userDao = jsonObject.getJSONObject("msg").getJSONObject("userDto");
@@ -97,16 +98,13 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                             mView.gotoMainActivity();
                             break;
                         case 9001:
-                            Log.d("login", "用户名不存在");
                             mView.showFailDialog("用户名不存在");
                             break;
                         case 9002:
-                            Log.d("login", "密码错误");
                             mView.showFailDialog("账号或密码错误，请重新填写。");
                             break;
                         case 9003:
                             mView.showFailDialog("失败次数过多，该账号暂时被锁定");
-                            Log.d("login", "锁定");
                             break;
                         default:
                             if (jsonObject.get("msg") instanceof JSONObject) {

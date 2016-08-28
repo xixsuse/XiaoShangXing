@@ -23,6 +23,11 @@ public interface AlterPasswordContract {
         void setPhoneNumber(String phoneNumber);
 
         /*
+        **describe:获取手机号码
+        */
+        String getPhoneNumber();
+
+        /*
         **describe:获取密码
         */
         String getPassword1();

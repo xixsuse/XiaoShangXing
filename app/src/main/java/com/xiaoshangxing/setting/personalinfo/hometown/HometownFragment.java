@@ -12,12 +12,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.InfoNetwork;
+import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
 import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
 import com.xiaoshangxing.setting.utils.city_choosing.WheelView;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -27,10 +37,13 @@ import java.util.Map;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import okhttp3.ResponseBody;
+import rx.Subscriber;
+
 /**
  * Created by tianyang on 2016/7/9.
  */
-public class HometownFragment extends BaseFragment implements View.OnClickListener,OnWheelChangedListener {
+public class HometownFragment extends BaseFragment implements View.OnClickListener,OnWheelChangedListener,IBaseView {
     private View mView;
     private WheelView mViewProvince;
     private WheelView mViewCity;
@@ -66,17 +79,59 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
         return mView;
     }
 
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
 
+    }
 
     @Override
     public void onClick(View v) {
         String hometown = mCurrentProviceName+" "+mCurrentCityName;
         textView.setText(hometown);
-//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("hometown",Activity.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("name",hometown);
-//        editor.apply();
-        getActivity().getSupportFragmentManager().popBackStack();
+//        getActivity().getSupportFragmentManager().popBackStack();
+        ChangeInfo(hometown);
+    }
+
+    private void ChangeInfo(String hometown){
+        Subscriber<ResponseBody> subscriber=new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mActivity.showToast("保存失败");
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+
+            }
+        };
+
+        ProgressSubscriberOnNext<ResponseBody> next=new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e)  {
+                try {
+                    JSONObject jsonObject=new JSONObject(e.string());
+                    if (jsonObject.getString(NS.CODE).equals("200")){
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    }
+                }catch (Exception e1){
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(next,this);
+
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("id", (Integer)SPUtils.get(getContext(),SPUtils.ID,SPUtils.DEFAULT_int));
+        jsonObject.addProperty("hometown",hometown);
+        jsonObject.addProperty(NS.TIMESTAMP,NS.currentTime());
+
+        InfoNetwork.getInstance().ModifyInfo(progressSubsciber,jsonObject,getContext());
     }
 
     @Override
@@ -153,7 +208,6 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void setText(String text){
-        Log.d("qqq","setting2...");
         textView.setText(text);
     }
 

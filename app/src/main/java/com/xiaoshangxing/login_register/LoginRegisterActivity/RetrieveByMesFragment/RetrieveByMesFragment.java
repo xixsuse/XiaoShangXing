@@ -191,9 +191,9 @@ public class RetrieveByMesFragment extends BaseFragment implements RetrieveByMes
         ((LoginRegisterActivity) getActivity()).setIs_RetrieveByMesFragment(true);
     }
 
-    @Override
-    public void onStop() {
-        ((LoginRegisterActivity) getActivity()).setIs_RetrieveByMesFragment(false);
-        super.onStop();
-    }
+//    @Override
+//    public void onStop() {
+//        ((LoginRegisterActivity) getActivity()).setIs_RetrieveByMesFragment(false);
+//        super.onStop();
+//    }
 }

@@ -17,4 +17,6 @@ public class BaseUrl {
     public static final String SET_IMAGE = "base/setUserImage";
     public static final String USER = "base/getUserInfo";
     public static final String GET_PUBLISHED ="moment/catRelease";
+    public static final String MODIFT_INFO ="base/user";
+
 }

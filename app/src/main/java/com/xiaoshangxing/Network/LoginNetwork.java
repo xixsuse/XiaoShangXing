@@ -5,14 +5,13 @@ import android.content.Context;
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.Bean.BindEmai;
 import com.xiaoshangxing.Network.Bean.Publish;
-import com.xiaoshangxing.Network.api.CheckCodeApi;
-import com.xiaoshangxing.Network.api.GetUser;
-import com.xiaoshangxing.Network.api.LoginApi;
-import com.xiaoshangxing.Network.api.BindEmailApi;
+import com.xiaoshangxing.Network.api.Login_Register_Api.CheckCodeApi;
+import com.xiaoshangxing.Network.api.Login_Register_Api.LoginApi;
+import com.xiaoshangxing.Network.api.InfoApi.BindEmailApi;
 import com.xiaoshangxing.Network.api.PublishApi;
-import com.xiaoshangxing.Network.api.RegisterApi;
-import com.xiaoshangxing.Network.api.SendCodeApi;
-import com.xiaoshangxing.Network.api.SetUserImage;
+import com.xiaoshangxing.Network.api.Login_Register_Api.RegisterApi;
+import com.xiaoshangxing.Network.api.Login_Register_Api.SendCodeApi;
+import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -33,7 +32,7 @@ public class LoginNetwork {
     private PublishApi publishApi;
     private SendCodeApi sendCodeApi;
     private SetUserImage setUserImage;
-    private GetUser getUser;
+
 
     private LoginNetwork() {
 
@@ -103,14 +102,6 @@ public class LoginNetwork {
             setUserImage = Network.getRetrofitWithHeader(context).create(SetUserImage.class);
         }
         Observable<ResponseBody> observable = setUserImage.setUserImage(id, path, time);
-        toSubscribe(observable, subscriber);
-    }
-
-    public void GetUser(Subscriber<ResponseBody> subscriber, JsonObject user){
-        if (getUser == null) {
-            getUser = Network.getRetrofit().create(GetUser.class);
-        }
-        Observable<ResponseBody> observable = getUser.user(user);
         toSubscribe(observable, subscriber);
     }
 
