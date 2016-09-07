@@ -6,8 +6,6 @@ package com.xiaoshangxing.SelectPerson;
  */
 
 import android.content.Context;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +17,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SortAdapter extends BaseAdapter implements SectionIndexer{
@@ -26,12 +25,14 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
     private Context mContext;
     private int limit;
     private SelectPersonActivity activity;
+    private ArrayList<String> locked;
 
-    public SortAdapter(Context mContext, List<SortModel> list,int limit,SelectPersonActivity activity ) {
+    public SortAdapter(Context mContext, List<SortModel> list, int limit, SelectPersonActivity activity, ArrayList<String> locked) {
         this.mContext = mContext;
         this.list = list;
         this.limit=limit;
         this.activity=activity;
+        this.locked = locked;
     }
 
     /**
@@ -91,11 +92,20 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
 
         viewHolder.name.setText(this.list.get(position).getName());
 
-        if (activity.getSelectPerson().contains(viewHolder.name.getText().toString())){
-            viewHolder.checkBox.setChecked(true);
 
-        }else {
-            viewHolder.checkBox.setChecked(false);
+
+        if (locked != null && locked.contains(list.get(position).getAccount())) {
+            viewHolder.checkBox.setEnabled(false);
+            viewHolder.checkBox.setClickable(false);
+            viewHolder.checkBox.setBackgroundResource(R.mipmap.select_person_gray_gou);
+        } else {
+            viewHolder.checkBox.setBackgroundResource(R.drawable.selector_selectperson);
+            if (activity.getSelectPerson().contains(viewHolder.name.getText().toString())){
+                viewHolder.checkBox.setChecked(true);
+
+            }else {
+                viewHolder.checkBox.setChecked(false);
+            }
         }
 
 
@@ -104,15 +114,18 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
         viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (locked != null && locked.contains(list.get(position).getAccount())) {
+                    return;
+                }
                 if (check.isChecked()){
                     if (activity.getSelectPerson().size()>=limit){
                         check.setChecked(false);
                         activity.showOverLimit();
                     }else {
-                        activity.addSelectPerson(viewHolder_temp.name.getText().toString());
+                        activity.addSelectPerson(list.get(position).getAccount());
                     }
                 }else {
-                        activity.reduceSelectPerson(viewHolder_temp.name.getText().toString());
+                    activity.reduceSelectPerson(list.get(position).getAccount());
                 }
             }
         });

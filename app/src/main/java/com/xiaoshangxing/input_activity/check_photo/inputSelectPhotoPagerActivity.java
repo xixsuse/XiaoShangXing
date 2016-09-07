@@ -35,6 +35,9 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
     public static final String EXTRA_IMAGE_INDEX = "image_index";
     public static final String EXTRA_IMAGE_URLS = "image_urls";
     public static final String SELECT_PICTURE = "select_picture";
+    public static final int REQUEST_CODE = 10000;
+    private int back_state = 0;//0表示完成 1表示返回
+    public static final String BACK_STATE="BACK_STATE";  //标记返回状态
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.checkbox)
@@ -155,11 +158,13 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
         switch (view.getId()) {
             case R.id.back:
 //                getBack();
+                back_state=1;
                 finish();
                 break;
             case R.id.checkbox:
                 break;
             case R.id.complete:
+                back_state=0;
                 finish();
                 break;
         }
@@ -174,6 +179,7 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
             select_picture_urls2.add(select_image_urls.get(i));
         }
         intent.putExtra(InputActivity.SELECT_IMAGE_URLS, select_picture_urls2);
+        intent.putExtra(BACK_STATE, back_state);
         setResult(InputActivity.SELECT_PHOTO_RESULT_1, intent);
         super.finish();
     }

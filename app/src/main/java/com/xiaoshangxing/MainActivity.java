@@ -1,5 +1,7 @@
 package com.xiaoshangxing;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,14 +11,36 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.netease.nimlib.sdk.AbortableFuture;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.NimIntent;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthService;
+import com.netease.nimlib.sdk.auth.AuthServiceObserver;
+import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
+import com.xiaoshangxing.login_register.StartActivity.FlashActivity;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.xiaoshang.XiaoShangFragment;
+import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
+import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
+import com.xiaoshangxing.yujian.IM.NimUIKit;
+import com.xiaoshangxing.yujian.IM.cache.DataCacheManager;
+import com.xiaoshangxing.yujian.IM.kit.permission.MPermission;
+import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionDenied;
+import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionGranted;
+import com.xiaoshangxing.yujian.IM.kit.reminder.ReminderItem;
+import com.xiaoshangxing.yujian.IM.kit.reminder.ReminderManager;
+import com.xiaoshangxing.yujian.IM.kit.reminder.SystemMessageUnreadManager;
 import com.xiaoshangxing.yujian.YujianFragment.YuJianFragment;
 
 import butterknife.Bind;
@@ -27,7 +51,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/6/21
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ReminderManager.UnreadNumChangedCallback {
     public static final String TAG = BaseActivity.TAG + "-MainActivity";
 
     @Bind(R.id.image_xiaoshang)
@@ -63,17 +87,84 @@ public class MainActivity extends BaseActivity {
     private XiaoShangFragment xiaoShangFragment;
     private YuJianFragment yuJianFragment;
     private InputBoxLayout inputBoxLayout;
-
+    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
 
     private static final int BAIDU_READ_PHONE_STATE =1000;
-
+    private AbortableFuture<LoginInfo> loginRequest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
+        requestBasicPermission();
         initInputBox();
         initAllFragments();
+        onParseIntent();
+    }
+
+    private void onParseIntent(){
+        Intent intent = getIntent();
+        if (intent.hasExtra(NimIntent.EXTRA_NOTIFY_CONTENT)) {
+            IMMessage message = (IMMessage) getIntent().getSerializableExtra(NimIntent.EXTRA_NOTIFY_CONTENT);
+            switch (message.getSessionType()) {
+                case P2P:
+                    ChatActivity.start(this,message.getSessionId(),null, SessionTypeEnum.P2P);
+                    break;
+                case Team:
+                    GroupActivity.start(this,message.getSessionId(),null,SessionTypeEnum.Team);
+                    break;
+                default:
+                    break;
+            }
+        }else {
+            Log.d("message","error");
+        }
+    }
+
+    public static void start(Context context) {
+        start(context, null);
+    }
+
+    public static void start(Context context, Intent extras) {
+        Intent intent = new Intent();
+        intent.setClass(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        if (extras != null) {
+            intent.putExtras(extras);
+        }
+        context.startActivity(intent);
+    }
+
+
+    private void requestBasicPermission() {
+        MPermission.with(MainActivity.this)
+                .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                .permissions(
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                        android.Manifest.permission.CAMERA,
+                        android.Manifest.permission.READ_PHONE_STATE,
+                        android.Manifest.permission.RECORD_AUDIO,
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                .request();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess() {
+        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+//        Login();
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed() {
+        Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
     }
 
     private void initInputBox() {
@@ -91,8 +182,8 @@ public class MainActivity extends BaseActivity {
         frag = mFragmentManager.findFragmentByTag(XiaoShangFragment.TAG);
         xiaoShangFragment = (frag == null) ? XiaoShangFragment.newInstance() : (XiaoShangFragment) frag;
 
-        frag = mFragmentManager.findFragmentByTag(yuJianFragment.TAG);
-        yuJianFragment = (frag == null) ? yuJianFragment.newInstance() : (YuJianFragment) frag;
+        frag = mFragmentManager.findFragmentByTag(YuJianFragment.TAG);
+        yuJianFragment = (frag == null) ? YuJianFragment.newInstance() : (YuJianFragment) frag;
 
         if (!xiaoShangFragment.isAdded()) {
             mFragmentManager.beginTransaction().add(R.id.main_fragment, xiaoShangFragment, XiaoShangFragment.TAG)
@@ -199,6 +290,38 @@ public class MainActivity extends BaseActivity {
         return inputBoxLayout;
     }
 
+    /**
+     * 注册未读消息数量观察者
+     */
+    private void registerMsgUnreadInfoObserver(boolean register) {
+        if (register) {
+            ReminderManager.getInstance().registerUnreadNumChangedCallback(this);
+        } else {
+            ReminderManager.getInstance().unregisterUnreadNumChangedCallback(this);
+        }
+    }
+
+    /**
+     * 未读消息数量观察者实现
+     */
+    @Override
+    public void onUnreadNumChanged(ReminderItem item) {
+        int unread = item.unread() + SystemMessageUnreadManager.getInstance().getSysMsgUnreadCount();
+        yujianDot.setVisibility(unread > 0 ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerMsgUnreadInfoObserver(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        registerMsgUnreadInfoObserver(false);
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -206,6 +329,12 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        onParseIntent();
     }
 
     @Override

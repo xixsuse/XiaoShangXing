@@ -12,10 +12,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nimlib.sdk.team.model.Team;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
+import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
+import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,12 +30,17 @@ import java.util.List;
  */
 public class SelectPersonActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = BaseActivity.TAG + "-SelectPersonActivity";
-
-//    public static final String TRANSMIT_TYPE="TRANSMIT_TYPE";
     public static final String SELECT_PERSON="SELECT_PERSON";
-//    public static final int SCHOOL_HELP_TRANSMIT=80001;
-//    public static final int SCHOOL_REWARD_TRANSMIT=80002;
+    public static final String LOCKED="LOCKED";
+    public static final String REQUSET_CODE="REQUSET_CODE";
+    public static final String LIMIT="limit";
     public static final int SELECT_PERSON_CODE=9000;
+    public static final int MY_FRIEND = 1;
+    public static final int GROUP = 2;
+    private int group_id;
+    private int requestCode;
+    private ArrayList<String> locked_account;
+
 //    private int current_type;
     private ListView sortListView;
     private SideBar sideBar;
@@ -56,6 +64,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_person);
         limit = getIntent().getIntExtra("limit", noLimit);
+        requestCode=getIntent().getIntExtra(REQUSET_CODE,-1);
         initView();
         refreshCount();
     }
@@ -102,32 +111,42 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
-        SourceDateList = filledData(getResources().getStringArray(R.array.date));
-
-        SortModel hs=new SortModel();
-        hs.setName("华爽");
-        hs.setSortLetters("@");
-        hs.setSpecial(true);
-
-        SourceDateList.add(hs);
+        parseData();
 
         // 根据a-z进行排序源数据
         Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(this, SourceDateList,limit,this);
+        adapter = new SortAdapter(this, SourceDateList,limit,this,locked_account);
         sortListView.setAdapter(adapter);
 
 //        current_type=getIntent().getIntExtra(TRANSMIT_TYPE,SCHOOL_HELP_TRANSMIT);
     }
 
+    private void parseData() {
+        if (getIntent().hasExtra(LOCKED)){
+            locked_account=getIntent().getStringArrayListExtra(LOCKED);
+        }
+        if (getIntent().getIntExtra(IntentStatic.TYPE, MY_FRIEND) == MY_FRIEND) {
+            List<String> friends = FriendDataCache.getInstance().getMyFriendAccounts();
+            String[] friendss = new String[friends.size()];
+            for (int i = 0; i < friends.size(); i++) {
+                friendss[i] = friends.get(i);
+            }
+            SourceDateList = filledData(friendss);
+        }else if (getIntent().getIntExtra(IntentStatic.TYPE, MY_FRIEND) == GROUP){
+            List<Team> teams= TeamDataCache.getInstance().getAllTeams();
+            SourceDateList=filledGroup(teams);
+        }
+    }
+
 
     private List<SortModel> filledData(String[] date) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
-
         for (int i = 0; i < date.length; i++) {
             SortModel sortModel = new SortModel();
-            sortModel.setName(date[i]);
+            sortModel.setName(NimUserInfoCache.getInstance().getUserDisplayName(date[i]));
+            sortModel.setAccount(date[i]);
             //汉字转换成拼音
-            String pinyin = characterParser.getSelling(date[i]);
+            String pinyin = characterParser.getSelling(sortModel.getName());
             String sortString = pinyin.substring(0, 1).toUpperCase();
 
             // 正则表达式，判断首字母是否是英文字母
@@ -140,7 +159,28 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
             mSortList.add(sortModel);
         }
         return mSortList;
+    }
 
+    private List<SortModel> filledGroup(List<Team> teams) {
+        List<SortModel> mSortList = new ArrayList<SortModel>();
+        for (int i = 0; i < teams.size(); i++) {
+            SortModel sortModel = new SortModel();
+            sortModel.setName(teams.get(i).getName());
+            sortModel.setAccount(teams.get(i).getId());
+            //汉字转换成拼音
+            String pinyin = characterParser.getSelling(sortModel.getName());
+            String sortString = pinyin.substring(0, 1).toUpperCase();
+
+            // 正则表达式，判断首字母是否是英文字母
+            if (sortString.matches("[A-Z]")) {
+                sortModel.setSortLetters(sortString.toUpperCase());
+            } else {
+                sortModel.setSortLetters("#");
+            }
+
+            mSortList.add(sortModel);
+        }
+        return mSortList;
     }
 
     /**
@@ -230,7 +270,11 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     private void sure(){
         Intent intent=new Intent();
         intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
-        setResult(SELECT_PERSON_CODE,intent);
+        if (requestCode!=0&&requestCode!=-1){
+            setResult(requestCode,intent);
+        }else {
+            setResult(SELECT_PERSON_CODE,intent);
+        }
         finish();
     }
 }

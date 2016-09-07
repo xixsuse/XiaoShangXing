@@ -85,6 +85,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/current_state"
                 android:layout_marginStart="@dimen/width_48"
                 android:textSize="14sp"
                 android:layout_gravity="center_vertical"
@@ -95,6 +96,19 @@
         </LinearLayout>
 
     </FrameLayout>
+
+    <!--状态提示-->
+    <TextView
+        android:id="@+id/date_state"
+        android:alpha="0.5"
+        android:visibility="gone"
+        android:background="@color/red2"
+        android:textSize="14sp"
+        android:textColor="@color/b0"
+        android:gravity="center"
+        android:text="正在准备数据"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y126" />
 
     <com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout
         android:id="@+id/reflesh_layout"
@@ -107,11 +121,25 @@
         cube_ptr:ptr_resistance="1.7"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
+    <!--<com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView-->
+        <!--android:id="@+id/recyclerView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!--</com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>-->
+        <ListView
+            android:divider="@null"
+            android:fadingEdge="none"
+            android:overScrollMode="never"
+            android:cacheColorHint="@color/transparent"
+            android:listSelector="@color/transparent"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:transcriptMode="normal"
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </ListView>
     </com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout>
 
 </LinearLayout>

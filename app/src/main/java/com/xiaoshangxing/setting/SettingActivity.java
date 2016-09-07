@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
@@ -15,6 +16,11 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.InfoNetwork;
+import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.about.AboutActivity;
 import com.xiaoshangxing.setting.currency.CurrencyActivity;
@@ -26,19 +32,28 @@ import com.xiaoshangxing.setting.privacy.PrivacyActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 
 /**
  * Created by tianyang on 2016/7/9.
  */
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements IBaseView {
     private ActionSheet mActionSheet;
     private CirecleImage imgCover;
+    private IBaseView iBaseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +61,18 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting_setmain);
         imgCover = (CirecleImage) findViewById(R.id.setting_main_imag);
         setImgCover();
+        iBaseView=this;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 //        setImgCover();
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 
     private void setImgCover() {
@@ -144,15 +165,42 @@ public class SettingActivity extends BaseActivity {
 
                     @Override
                     public void onButton2() {
-                        Log.d("qqq","    "+dialogUtils.getText());
-                        Intent intent = new Intent(SettingActivity.this, ModifyPassWordActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-                        dialogUtils.close();
+                        ProgressSubscriberOnNext<ResponseBody> next=new ProgressSubscriberOnNext<ResponseBody>() {
+                            @Override
+                            public void onNext(ResponseBody e) throws JSONException {
+                                try {
+                                    JSONObject jsonObject=new JSONObject(e.string());
+                                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))){
+                                        case 200:
+                                            Intent intent = new Intent(SettingActivity.this, ModifyPassWordActivity.class);
+                                            intent.putExtra(IntentStatic.DATA,dialogUtils.getText());
+                                            startActivity(intent);
+                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+                                            dialogUtils.close();
+                                            break;
+                                        case 9102:
+                                            showToast("密码错误");
+                                            break;
+                                        default:
+                                            showToast("验证失败");
+                                    }
+                                } catch (IOException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
+                        };
+
+                        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<ResponseBody>(next,iBaseView);
+
+                        JsonObject jsonObject=new JsonObject();
+                        jsonObject.addProperty("phone",(String) SPUtils.get(SettingActivity.this,SPUtils.CURRENT_COUNT,SPUtils.DEFAULT_STRING));
+                        jsonObject.addProperty("password",dialogUtils.getText());
+                        jsonObject.addProperty(NS.TIMESTAMP,System.currentTimeMillis());
+
+                        InfoNetwork.getInstance().CheckPassword(progressSubsciber,jsonObject,SettingActivity.this);
                     }
                 }).create();
         alertDialog.show();
-      //  LocationUtil.setWidth(this, alertDialog, getResources().getDimensionPixelSize(R.dimen.x780));
     }
 
     public void about(View view) {

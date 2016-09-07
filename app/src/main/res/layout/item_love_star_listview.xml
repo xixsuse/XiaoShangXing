@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y192">
+
+        <!--头像-->
+        <com.xiaoshangxing.utils.layout.CirecleImage
+            android:id="@+id/head_image"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/cirecleimage_default"
+            android:layout_width="@dimen/x108"
+            android:layout_height="@dimen/x108" />
+
+        <TextView
+            android:id="@+id/name"
+            android:text="@string/app_name"
+            style="@style/black_16sp"
+            android:layout_marginTop="@dimen/y42"
+            android:layout_toRightOf="@+id/head_image"
+            android:layout_marginStart="@dimen/x45"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--性别-->
+        <ImageView
+            android:id="@+id/sex"
+            android:src="@mipmap/sex_male"
+            android:layout_marginTop="@dimen/y22"
+            android:layout_toRightOf="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--学院-->
+        <TextView
+            android:id="@+id/college"
+            android:textSize="13sp"
+            android:layout_marginTop="@dimen/y18"
+            android:layout_marginStart="@dimen/x45"
+            android:layout_toRightOf="@+id/head_image"
+            android:layout_below="@+id/name"
+            android:textColor="@color/g0"
+            android:text="@string/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@+id/more"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/width_48"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!--留心-->
+            <LinearLayout
+                android:id="@+id/love_lay"
+                android:visibility="gone"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_dazhaohu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="打个招呼"
+                    android:textSize="10sp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/g2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <!--留心-->
+            <LinearLayout
+                android:id="@+id/star_lay"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_liuxin_g2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:text="留心"
+                    android:textSize="10sp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/g2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+    </RelativeLayout>
+
+</LinearLayout>

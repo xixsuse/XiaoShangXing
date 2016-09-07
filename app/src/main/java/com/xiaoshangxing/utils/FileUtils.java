@@ -25,6 +25,9 @@ public class FileUtils {
     public static String XSX_CameraPhotoPath = XSX_PATH + "XSX_Camera" + File.separator;
     //  保存的图片
     public static String XSX_SAVE_IAMGE = XSX_PATH + "SAVED_IMAGE" + File.separator;
+    //  临时图片
+    public static String TEMP_IMAGE = XSX_PATH + "SAVED_IMAGE" + File.separator + "temp.jpg";
+
 
     public static boolean copyFileTo(File srcFile, File destFile) throws IOException {
 
@@ -172,6 +175,19 @@ public class FileUtils {
             file.mkdirs();
         }
         return XSX_SAVE_IAMGE;
+    }
+
+    public static String getTempImage() {
+        File file = new File(getXsxSaveIamge(),"temp.jpg");
+        Log.d("path",XSX_SAVE_IAMGE+"temp.jpg");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return TEMP_IMAGE;
     }
 
     public static Uri newPhotoPath(){

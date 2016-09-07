@@ -127,6 +127,9 @@ public class AlbumListFragment extends BaseFragment {
 
     @OnClick(R.id.cancel)
     public void onClick() {
+        AlbumActivity activity = (AlbumActivity) getActivity();
+        List<String> list=new ArrayList<>();
+        activity.setSelect_image_urls(list);
         getActivity().finish();
     }
 }

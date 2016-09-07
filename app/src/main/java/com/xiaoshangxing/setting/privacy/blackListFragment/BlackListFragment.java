@@ -13,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.CustomSwipeListView;
-import com.xiaoshangxing.setting.utils.SwipeItemView;
+import com.xiaoshangxing.utils.layout.CustomSwipeListView;
+import com.xiaoshangxing.utils.layout.SwipeItemView;
 import com.xiaoshangxing.utils.BaseFragment;
 
 import java.util.ArrayList;

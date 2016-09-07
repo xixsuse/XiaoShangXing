@@ -3,8 +3,11 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.api.InfoApi.BindEmailApi;
+import com.xiaoshangxing.Network.api.InfoApi.CheckPassword;
 import com.xiaoshangxing.Network.api.InfoApi.GetUser;
 import com.xiaoshangxing.Network.api.InfoApi.ModifyInfoApi;
+import com.xiaoshangxing.Network.api.InfoApi.ModifyPassword;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -19,6 +22,11 @@ import rx.schedulers.Schedulers;
 public class InfoNetwork {
     private GetUser getUser;
     private ModifyInfoApi modifyInfoApi;
+    private CheckPassword checkPassword;
+    private ModifyPassword modifyPassword;
+    private BindEmailApi bindEmailApi;
+
+
     private InfoNetwork() {
 
     }
@@ -46,6 +54,30 @@ public class InfoNetwork {
             modifyInfoApi = Network.getRetrofitWithHeader(context).create(ModifyInfoApi.class);
         }
         Observable<ResponseBody> observable = modifyInfoApi.modify(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void CheckPassword(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context){
+        if (checkPassword == null) {
+            checkPassword = Network.getRetrofitWithHeader(context).create(CheckPassword.class);
+        }
+        Observable<ResponseBody> observable = checkPassword.check(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void ModifyPassword(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context){
+        if (modifyPassword == null) {
+            modifyPassword = Network.getRetrofitWithHeader(context).create(ModifyPassword.class);
+        }
+        Observable<ResponseBody> observable = modifyPassword.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void bindEmail(Subscriber<ResponseBody> subscriber, JsonObject bindEmai, Context context) {
+        if (bindEmailApi == null) {
+            bindEmailApi = Network.getRetrofitWithHeader(context).create(BindEmailApi.class);
+        }
+        Observable<ResponseBody> observable = bindEmailApi.bindEmail(bindEmai);
         toSubscribe(observable, subscriber);
     }
 

@@ -22,6 +22,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.Network;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
@@ -29,20 +34,28 @@ import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.image.ImageFactory;
+import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.utils.IBaseView;
 
-import java.io.ByteArrayInputStream;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.UUID;
+import java.io.IOException;
 
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by tianyang on 2016/7/11.
  */
-public class ShowHeadimgFragment extends BaseFragment implements View.OnClickListener {
+public class ShowHeadimgFragment extends BaseFragment implements View.OnClickListener, IBaseView {
     public static final String TAG = BaseFragment.TAG + "-ShowHeadimgFragment";
     public static final int ACTIVITY_ALBUM_REQUESTCODE = 2000;
     public static final int ACTIVITY_CAMERA_REQUESTCODE = 2001;
@@ -53,7 +66,12 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     private Bitmap sBitmap, bBitmap;
     private PersonalInfoActivity mActivity;
     private TextView back;
+    private IBaseView iBaseView = this;
 
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
+    }
 
     @Nullable
     @Override
@@ -194,6 +212,51 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
 //                        + LoginUtils.getInstance(this), coverPath, this);
                 //成功之后删除临时图片
                 FileUtil.deleteTempAndRaw();
+
+//                test
+                ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+                    @Override
+                    public void onNext(ResponseBody e) throws JSONException {
+                        try {
+                            JSONObject jsonObject = new JSONObject(e.string());
+                            if (jsonObject.getString(NS.CODE).equals("200")) {
+                                showToast("头像修改成功");
+                            } else {
+                                showToast("头像修改失败");
+                            }
+                        } catch (IOException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                };
+
+                ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, iBaseView);
+
+
+                File file = new File(FileUtils.getXSX_CameraPhotoPath() + "test.jpg");
+                RequestBody requestFile =
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+                MultipartBody.Part body =
+                        MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                SetUserImage setUserImage = Network.getRetrofitWithHeader(getContext()).create(SetUserImage.class);
+                Call<ResponseBody> call = setUserImage.setUserImage(42, body, 11);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try {
+                            Log.d("ResponseBody", response.body().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });
+//                test
                 break;
         }
     }

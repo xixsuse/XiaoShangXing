@@ -22,6 +22,12 @@ public class SPUtils
 
 	public static final String DIGEST="DIGEST";
 
+	/*
+	**describe:遇见
+	*/
+	public static final String NOTIFY="NOTIFY";
+	public static final String EarPhone="EarPhone";
+
 	public SPUtils()
 	{
 		/* cannot be instantiated */

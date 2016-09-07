@@ -3,11 +3,8 @@ package com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberF
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.Bean.BindEmai;
-import com.xiaoshangxing.Network.Constants;
 import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
@@ -48,11 +45,30 @@ public class RgInputPhoNumPresenter implements RgInputPhoNumContract.Presenter {
 
     @Override
     public void clickOnRegister() {
-//        if (mView.getPhoneNum().equals("88888888888")) {
-//            mView.showRegisteredDialog();
-//        } else {
-            mView.showSureDialog();
-//        }
+        ProgressSubscriberOnNext<ResponseBody> onNext=new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject=new JSONObject(e.string());
+                    switch (Integer.valueOf(jsonObject.getString("code"))){
+                        case 200:
+                            mView.showSureDialog();
+                            break;
+                        case 9101:
+                            mView.showRegisteredDialog();
+                        default:
+                            mView.showToast(jsonObject.get("msg").toString());
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(onNext,mView);
+        JsonObject jsonObject=new JsonObject();
+        jsonObject.addProperty("phone",mView.getPhoneNum());
+        LoginNetwork.getInstance().checkExist(progressSubsciber,jsonObject);
     }
 
     @Override

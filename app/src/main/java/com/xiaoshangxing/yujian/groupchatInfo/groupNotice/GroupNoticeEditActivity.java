@@ -7,11 +7,21 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.ResponseCode;
+import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
+import com.netease.nimlib.sdk.team.model.Team;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
+import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,6 +37,9 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
     @Bind(R.id.groupNotice_editText)
     EditText editText;
 
+    private String account;
+    private Team team;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +49,8 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
         finish.setEnabled(false);
         back.setOnClickListener(this);
         finish.setOnClickListener(this);
+
+        parseData();
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -61,6 +76,26 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
         });
 
 
+    }
+
+    private void parseData() {
+        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        if (account == null) {
+            Toast.makeText(GroupNoticeEditActivity.this, "群数据异常", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        TeamDataCache.getInstance().fetchTeamById(account, new SimpleCallback<Team>() {
+            @Override
+            public void onResult(boolean success, Team result) {
+                if (success) {
+                    team = result;
+                    editText.setText(result.getAnnouncement());
+                } else {
+                    showToast("获取公告失败");
+                }
+            }
+        });
     }
 
 
@@ -100,7 +135,7 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
 
                             @Override
                             public void onButton2() {
-                                finish();
+                                save();
                             }
                         }).create();
                 alertDialog.show();
@@ -110,7 +145,29 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
         }
     }
 
+    private void save() {
+        NIMClient.getService(TeamService.class).updateTeam(account, TeamFieldEnum.Announcement, editText.getText().toString()).setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void param) {
+                Toast.makeText(GroupNoticeEditActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                finish();
+            }
 
+            @Override
+            public void onFailed(int code) {
+                if (code == ResponseCode.RES_TEAM_ENACCESS) {
+                    Toast.makeText(GroupNoticeEditActivity.this, "没有权限", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(GroupNoticeEditActivity.this, "保存失败:" + code,
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+            }
+        });
+    }
 
 
 

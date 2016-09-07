@@ -14,6 +14,6 @@ import rx.Observable;
  * on 2016/8/28
  */
 public interface ModifyInfoApi {
-    @PUT(BaseUrl.MODIFT_INFO)
+    @POST(BaseUrl.MODIFT_INFO)
     Observable<ResponseBody> modify(@Body JsonObject string);
 }

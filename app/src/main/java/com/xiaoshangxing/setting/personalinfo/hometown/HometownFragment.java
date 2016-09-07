@@ -1,11 +1,8 @@
 package com.xiaoshangxing.setting.personalinfo.hometown;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +15,7 @@ import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
 import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
@@ -26,7 +24,6 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
@@ -37,8 +34,8 @@ import java.util.Map;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import io.realm.Realm;
 import okhttp3.ResponseBody;
-import rx.Subscriber;
 
 /**
  * Created by tianyang on 2016/7/9.
@@ -54,6 +51,7 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
     private String mCurrentCityName;
     private TextView textView,back;
     private PersonalInfoActivity mActivity;
+    private Realm realm;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,6 +74,12 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
             }
         });
         setUpData();
+        realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).equalTo("id",
+                (Integer) SPUtils.get(getContext(), SPUtils.ID, SPUtils.DEFAULT_int)).findFirst();
+        if (user != null && user.getHometown() != null) {
+            textView.setText(user.getHometown());
+        }
         return mView;
     }
 
@@ -93,23 +97,6 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void ChangeInfo(String hometown){
-        Subscriber<ResponseBody> subscriber=new Subscriber<ResponseBody>() {
-            @Override
-            public void onCompleted() {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                mActivity.showToast("保存失败");
-            }
-
-            @Override
-            public void onNext(ResponseBody responseBody) {
-
-            }
-        };
-
         ProgressSubscriberOnNext<ResponseBody> next=new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
             public void onNext(ResponseBody e)  {

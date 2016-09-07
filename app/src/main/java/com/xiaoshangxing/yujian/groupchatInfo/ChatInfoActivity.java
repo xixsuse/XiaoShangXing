@@ -3,9 +3,8 @@ package com.xiaoshangxing.yujian.groupchatInfo;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,19 +12,35 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.ResponseCode;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
+import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.nimlib.sdk.team.model.Team;
+import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.TopChat;
 import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.SwitchView;
+import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
+import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
+import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
+import com.xiaoshangxing.yujian.IM.uinfo.UserInfoObservable;
+import com.xiaoshangxing.yujian.YujianFragment.YuJianFragment;
 import com.xiaoshangxing.yujian.groupchatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity;
 import com.xiaoshangxing.yujian.groupchatInfo.groupCode.GroupCodeActivity;
 import com.xiaoshangxing.yujian.groupchatInfo.groupMembers.GroupMembersActivity;
 import com.xiaoshangxing.yujian.groupchatInfo.groupName.GroupNameActivity;
 import com.xiaoshangxing.yujian.groupchatInfo.groupNotice.GroupNoticeEditActivity;
-import com.xiaoshangxing.yujian.groupchatInfo.groupNotice.GroupNoticeShowActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +48,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 /**
  * Created by 15828 on 2016/8/12.
@@ -40,7 +56,6 @@ import butterknife.OnClick;
 public class ChatInfoActivity extends BaseActivity {
     @Bind(R.id.GroupChatName)
     TextView GroupChatName;
-
     @Bind(R.id.chatinfo_gridview)
     MyGridView mGridview;
     @Bind(R.id.GroupNoticeView1)
@@ -58,12 +73,17 @@ public class ChatInfoActivity extends BaseActivity {
     @Bind(R.id.allGroupMember)
     TextView allGroupMember;
 
+    Realm realm;
+
     private Adapter adapter;
-    private List<Member> data = new ArrayList<>();
-    private String groupChatName;
     private String groupNoticeContent;
     private ActionSheet mActionSheet1;
     private ActionSheet mActionSheet2;
+    private String account;
+    private List<TeamMember> teamMembers;
+
+    private boolean isMyteam;
+    private Team team;
 
 
     @Override
@@ -71,30 +91,225 @@ public class ChatInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yujian_chatinfo);
         ButterKnife.bind(this);
+        parseData();
+        initView();
+    }
 
-        final Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleimage_default);
-        String name = "姓名";
-        for (int i = 0; i < 6; i++) {
-            Member member = new Member();
-            member.setBitmap(bitmap1);
-            member.setName(name);
-            data.add(member);
-        }
-        adapter = new Adapter(this, data);
+    private void initView() {
+        adapter = new Adapter(ChatInfoActivity.this, teamMembers, this);
         mGridview.setAdapter(adapter);
-
-        String a = String.format("全部群成员（%S）",data.size());
-        allGroupMember.setText(a);
-
+        isMyteam = team.isMyTeam();
+        requestMembers();
         setGroupChatName();
         setGroupNoticeContent();
-
+        realm = Realm.getDefaultInstance();
+        ZhiDing();
+        MessageMute();
 
     }
 
+    private void parseData() {
+        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        if (account == null) {
+            Toast.makeText(ChatInfoActivity.this, "群资料有误", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        team = TeamDataCache.getInstance().getTeamById(account);
+        if (team == null) {
+            showToast("获取群信息失败");
+            finish();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerObservers(true);
+        refresh();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        registerObservers(false);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
+    }
+
+    private void refresh() {
+        requestMembers();
+        setGroupChatName();
+        refreshNotice();
+    }
+
+    //    消息免打扰
+    private void MessageMute() {
+        noDisturb.setState(team.mute());
+        Log.d("消息免打扰", "" + team.mute());
+        noDisturb.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
+            @Override
+            public void toggleToOn() {
+                NIMClient.getService(TeamService.class).muteTeam(account, true).setCallback(new RequestCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void param) {
+                        noDisturb.setState(true);
+                        showToast("设置成功,现在不接受该群消息通知");
+                        Log.d("消息免打扰1", "" + team.mute());
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+                        showToast("设置失败:" + code);
+                    }
+
+                    @Override
+                    public void onException(Throwable exception) {
+                        showToast("设置失败:异常");
+                    }
+                });
+            }
+
+            @Override
+            public void toggleToOff() {
+                NIMClient.getService(TeamService.class).muteTeam(account, false).setCallback(new RequestCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void param) {
+                        noDisturb.setState(false);
+                        showToast("设置成功,现在接受该群消息通知");
+                        Log.d("消息免打扰1", "" + team.mute());
+                    }
+
+                    @Override
+                    public void onFailed(int code) {
+                        showToast("设置失败:" + code);
+                    }
+
+                    @Override
+                    public void onException(Throwable exception) {
+                        showToast("设置失败:异常");
+                    }
+                });
+            }
+        });
+    }
+
+
+    /**
+     * *************************** 加载&变更数据源 ********************************
+     */
+    private void requestMembers() {
+        TeamDataCache.getInstance().fetchTeamMemberList(account, new SimpleCallback<List<TeamMember>>() {
+            @Override
+            public void onResult(boolean success, List<TeamMember> members) {
+                if (success && members != null && !members.isEmpty()) {
+                    teamMembers = members;
+                    adapter.setData(members);
+                    String a = String.format("全部群成员（%S）", teamMembers.size());
+                    allGroupMember.setText(a);
+                } else {
+                    Toast.makeText(ChatInfoActivity.this, "加载成员消息有误", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void registerObservers(boolean register) {
+        if (register) {
+            TeamDataCache.getInstance().registerTeamMemberDataChangedObserver(teamMemberObserver);
+            TeamDataCache.getInstance().registerTeamDataChangedObserver(teamDataObserver);
+        } else {
+            TeamDataCache.getInstance().unregisterTeamMemberDataChangedObserver(teamMemberObserver);
+            TeamDataCache.getInstance().unregisterTeamDataChangedObserver(teamDataObserver);
+        }
+
+        registerUserInfoChangedObserver(register);
+    }
+
+    TeamDataCache.TeamMemberDataChangedObserver teamMemberObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
+
+        @Override
+        public void onUpdateTeamMember(List<TeamMember> m) {
+            for (TeamMember mm : m) {
+                for (TeamMember member : teamMembers) {
+                    if (mm.getAccount().equals(member.getAccount())) {
+                        teamMembers.set(teamMembers.indexOf(member), mm);
+                        break;
+                    }
+                }
+            }
+            adapter.notifyDataSetChanged();
+            refresh();
+        }
+
+        @Override
+        public void onRemoveTeamMember(TeamMember member) {
+            teamMembers.remove(member);
+            adapter.notifyDataSetChanged();
+            refresh();
+        }
+    };
+
+    TeamDataCache.TeamDataChangedObserver teamDataObserver = new TeamDataCache.TeamDataChangedObserver() {
+        @Override
+        public void onUpdateTeams(List<Team> teams) {
+            for (Team team1 : teams) {
+                if (team1.getId().equals(account)) {
+                    team = TeamDataCache.getInstance().getTeamById(account);
+                    if (team == null) {
+                        showToast("更新群信息失败");
+                    }
+                    Log.d("team_data_change", "announce" + team1.getAnnouncement());
+                    refresh();
+                    break;
+                }
+            }
+            Log.d("team_data_change", "ok");
+        }
+
+        @Override
+        public void onRemoveTeam(Team team) {
+            if (team.getId().equals(account)) {
+                Toast.makeText(ChatInfoActivity.this, "群已解散", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    };
+    private UserInfoObservable.UserInfoObserver userInfoObserver;
+
+    private void registerUserInfoChangedObserver(boolean register) {
+        if (register) {
+            if (userInfoObserver == null) {
+                userInfoObserver = new UserInfoObservable.UserInfoObserver() {
+                    @Override
+                    public void onUserInfoChanged(List<String> accounts) {
+                        adapter.notifyDataSetChanged();
+                        refresh();
+                    }
+                };
+            }
+            UserInfoHelper.registerObserver(userInfoObserver);
+        } else {
+            UserInfoHelper.unregisterObserver(userInfoObserver);
+        }
+    }
+
+    private void refreshNotice() {
+        team = TeamDataCache.getInstance().getTeamById(account);
+        if (team == null) {
+            showToast("获取群信息失败");
+            finish();
+        }
+        Log.d("refresh notice", "ok");
+        setGroupNoticeContent();
+    }
 
     private void setGroupNoticeContent() {
-        groupNoticeContent = "最多显示两行最多显示两行最多显示两行最多显示两行最多显示两行最多显示两行最多显示两行最多显示两行最多显示两行最多显示两行最多显示两行最多显示两行";
+        groupNoticeContent = team.getAnnouncement();
         if (groupNoticeContent != null) {
             GroupNoticeContent.setText(groupNoticeContent);
             GroupNoticeView1.setVisibility(View.GONE);
@@ -105,16 +320,89 @@ public class ChatInfoActivity extends BaseActivity {
         }
     }
 
-
-    private void setGroupChatName() {
-        //groupChatNamec = ~~~~
-        if (groupChatName == null) {
-            GroupChatName.setText("未命名");
+    private void ZhiDing() {
+        TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
+        if (mytopChat == null) {
+            topChat.setState(false);
         } else {
-            GroupChatName.setText(groupChatName);
+            topChat.setState(true);
         }
 
+
+        topChat.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
+            @Override
+            public void toggleToOn() {
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        TopChat topchat = new TopChat();
+                        topchat.setAccount(account);
+                        realm.copyToRealmOrUpdate(topchat);
+                        Log.d("copy_to_realm", realm.where(TopChat.class).toString());
+                        topChat.setState(true);
+
+                        NIMClient.getService(MsgService.class).queryRecentContacts().
+                                setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
+
+                                    @Override
+                                    public void onResult(int code, List<RecentContact> recents, Throwable exception) {
+                                        if (code != ResponseCode.RES_SUCCESS || recents == null) {
+                                            return;
+                                        }
+                                        for (int i = 0; i < recents.size(); i++) {
+                                            if (recents.get(i).getContactId().equals(account)) {
+                                                recents.get(i).setTag(YuJianFragment.RECENT_TAG_STICKY);
+                                                NIMClient.getService(MsgService.class).updateRecent(recents.get(i));
+                                                Log.d("置顶", "--" + recents.get(i).getContactId() + "tag" + recents.get(i).getTag());
+                                            }
+                                        }
+                                    }
+                                });
+                        showToast("置顶成功");
+
+                    }
+                });
+            }
+
+            @Override
+            public void toggleToOff() {
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
+                        if (mytopChat != null) {
+                            mytopChat.deleteFromRealm();
+                        }
+                        topChat.setState(false);
+                        NIMClient.getService(MsgService.class).queryRecentContacts().
+                                setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
+
+                                    @Override
+                                    public void onResult(int code, List<RecentContact> recents, Throwable exception) {
+                                        if (code != ResponseCode.RES_SUCCESS || recents == null) {
+                                            return;
+                                        }
+                                        for (int i = 0; i < recents.size(); i++) {
+                                            if (recents.get(i).getContactId().equals(account)) {
+                                                recents.get(i).setTag(0);
+                                                NIMClient.getService(MsgService.class).updateRecent(recents.get(i));
+                                                Log.d("置顶", "--" + recents.get(i).getContactId() + "tag" + recents.get(i).getTag());
+                                            }
+                                        }
+                                    }
+                                });
+                        showToast("取消置顶");
+                    }
+                });
+            }
+        });
     }
+
+
+    private void setGroupChatName() {
+        GroupChatName.setText(TeamDataCache.getInstance().getTeamName(account));
+    }
+
 
     @OnClick(R.id.chatinfo_back)
     public void onClick() {
@@ -124,11 +412,13 @@ public class ChatInfoActivity extends BaseActivity {
 
     public void AllGroupMember(View view) {
         Intent intent = new Intent(this, GroupMembersActivity.class);
+        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
         startActivity(intent);
     }
 
     public void GroupChatName(View view) {
         Intent intent = new Intent(this, GroupNameActivity.class);
+        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
         startActivity(intent);
     }
 
@@ -138,16 +428,14 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
     public void GroupNotice(View view) {
-        boolean isQunzhu = true, isEdited = false;
-
-        if (isQunzhu && !isEdited) {
-            //如果是群主并且没有公告
+        boolean isQunzhu = isMyteam;
+        if (isQunzhu) {
             Intent intent = new Intent(this, GroupNoticeEditActivity.class);
+            intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
             startActivity(intent);
-        } else if (!isQunzhu && !isEdited) {
-            //如果不是群主并且没有公告
+        } else {
             final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
-            final Dialog alertDialog = dialogUtils.Message("只有群主王振华才能修改群公告")
+            final Dialog alertDialog = dialogUtils.Message("只有群主才能修改群公告")
                     .Button("我知道了").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
                         @Override
                         public void onButton1() {
@@ -163,14 +451,7 @@ public class ChatInfoActivity extends BaseActivity {
             alertDialog.show();
             LocationUtil.setWidth(this, alertDialog,
                     getResources().getDimensionPixelSize(R.dimen.x780));
-        } else {
-            //有公告
-            Intent intent = new Intent(this, GroupNoticeShowActivity.class);
-            startActivity(intent);
         }
-
-//        Intent intent = new Intent(this, GroupNoticeShowActivity.class);
-//        startActivity(intent);
 
     }
 
@@ -233,5 +514,60 @@ public class ChatInfoActivity extends BaseActivity {
 
             }
         });
+    }
+
+    /**
+     * 邀请群成员
+     *
+     * @param accounts 邀请帐号
+     */
+    private void inviteMembers(ArrayList<String> accounts) {
+        NIMClient.getService(TeamService.class).addMembers(account, accounts).setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void param) {
+                Toast.makeText(ChatInfoActivity.this, "添加群成员成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailed(int code) {
+                if (code == ResponseCode.RES_TEAM_INVITE_SUCCESS) {
+                    Toast.makeText(ChatInfoActivity.this, "发送邀请成功", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ChatInfoActivity.this, "invite members failed, code=" + code, Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "invite members failed, code=" + code);
+                }
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                Log.d("invite", "error");
+                exception.printStackTrace();
+            }
+        });
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
+            if (data == null) {
+                Toast.makeText(ChatInfoActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ArrayList<String> arrayList = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
+            if (arrayList == null || arrayList.size() == 0) {
+                Toast.makeText(ChatInfoActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d("select account", arrayList.toString());
+                inviteMembers(arrayList);
+            }
+        }
     }
 }

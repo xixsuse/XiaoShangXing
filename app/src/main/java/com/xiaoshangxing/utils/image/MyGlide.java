@@ -41,4 +41,13 @@ public class MyGlide {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }
+
+    public static void with_defaul_image(Context context, String url, ImageView view) {
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.mipmap.greyblock)
+                .error(R.mipmap.cirecleimage_default)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(view);
+    }
 }

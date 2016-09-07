@@ -1,5 +1,6 @@
 package com.xiaoshangxing.yujian.personChatInfo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -11,11 +12,13 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.yujian.groupchatInfo.Member;
 import com.xiaoshangxing.yujian.groupchatInfo.deleteMember.DeleteMemberActivity;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,12 +27,16 @@ import java.util.List;
 public class PersonalAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context context;
+    private Activity activity;
     List<Member> data;
+    private String account;
 
-    public PersonalAdapter(Context context, List<Member> data) {
+    public PersonalAdapter(Context context, List<Member> data, Activity activity,String account) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.data = data;
+        this.activity=activity;
+        this.account=account;
     }
 
     @Override
@@ -65,7 +72,11 @@ public class PersonalAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, SelectPersonActivity.class);
-                    context.startActivity(intent);
+                    intent.putExtra(IntentStatic.TYPE,SelectPersonActivity.MY_FRIEND);
+                    ArrayList<String> locked=new ArrayList<String>();
+                    locked.add(account);
+                    intent.putExtra(SelectPersonActivity.LOCKED,locked);
+                    activity.startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
                 }
             });
         } else if (data.size() != 0) {

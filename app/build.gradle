@@ -13,14 +13,21 @@ android {
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86"
         }
+//      采用此方法解决方法总数超过64k不能打包的问题
+        multiDexEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled false
-//            minifyEnabled true
-//            shrinkResources true
+//            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "3g"
+
     }
 
     sourceSets {
@@ -47,8 +54,12 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:design:23.4.0'
-    compile 'com.yanzhenjie:recyclerview-swipe:1.0.1'
     compile files('libs/commons-codec-1.9.jar')
     compile files('libs/commons-codec-1.9.jar')
     compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/cosinesdk.jar')
+    compile files('libs/nim-basesdk-2.7.0.jar')
+    compile files('libs/nim-lucene-2.7.0.jar')
+    compile files('libs/universal-image-loader-1.9.4.jar')
+    compile 'com.android.support:multidex:1.0.1'
 }

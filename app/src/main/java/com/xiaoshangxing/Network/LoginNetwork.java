@@ -3,17 +3,15 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.Bean.BindEmai;
 import com.xiaoshangxing.Network.Bean.Publish;
 import com.xiaoshangxing.Network.api.Login_Register_Api.CheckCodeApi;
+import com.xiaoshangxing.Network.api.Login_Register_Api.ChkExistApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.LoginApi;
-import com.xiaoshangxing.Network.api.InfoApi.BindEmailApi;
 import com.xiaoshangxing.Network.api.PublishApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.RegisterApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.SendCodeApi;
 import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 
-import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
@@ -28,10 +26,10 @@ public class LoginNetwork {
     private LoginApi mloginApi;
     private RegisterApi registerApi;
     private CheckCodeApi checkCodeApi;
-    private BindEmailApi bindEmailApi;
     private PublishApi publishApi;
     private SendCodeApi sendCodeApi;
     private SetUserImage setUserImage;
+    private ChkExistApi chkExistApi;
 
 
     private LoginNetwork() {
@@ -64,6 +62,14 @@ public class LoginNetwork {
         toSubscribe(observable, subscriber);
     }
 
+    public void checkExist(Subscriber<ResponseBody> subscriber, JsonObject string) {
+        if (chkExistApi == null) {
+            chkExistApi = Network.getRetrofit().create(ChkExistApi.class);
+        }
+        Observable<ResponseBody> observable = chkExistApi.check(string);
+        toSubscribe(observable, subscriber);
+    }
+
     public void Register(Subscriber<ResponseBody> subscriber, JsonObject register,Context context){
         if (registerApi == null) {
             registerApi = Network.getRetrofitWithHeader(context).create(RegisterApi.class);
@@ -80,13 +86,7 @@ public class LoginNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void bindEmail(Subscriber<ResponseBody> subscriber, BindEmai bindEmai, Context context) {
-        if (bindEmailApi == null) {
-            bindEmailApi = Network.getRetrofitWithHeader(context).create(BindEmailApi.class);
-        }
-        Observable<ResponseBody> observable = bindEmailApi.bindEmail(bindEmai);
-        toSubscribe(observable, subscriber);
-    }
+
 
 
     public void Publish(Subscriber<ResponseBody> subscriber, Publish publish, Context context) {
@@ -97,13 +97,13 @@ public class LoginNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void setUserImage(Subscriber<ResponseBody> subscriber, Integer id, MultipartBody.Part path/*String path*/, long time, Context context) {
-        if (setUserImage == null) {
-            setUserImage = Network.getRetrofitWithHeader(context).create(SetUserImage.class);
-        }
-        Observable<ResponseBody> observable = setUserImage.setUserImage(id, path, time);
-        toSubscribe(observable, subscriber);
-    }
+//    public void setUserImage(Subscriber<ResponseBody> subscriber, Integer id, MultipartBody.Part path/*String path*/, long time, Context context) {
+//        if (setUserImage == null) {
+//            setUserImage = Network.getRetrofitWithHeader(context).create(SetUserImage.class);
+//        }
+//        Observable<ResponseBody> observable = setUserImage.setUserImage(id, path, time);
+//        toSubscribe(observable, subscriber);
+//    }
 
 
     private <T> void toSubscribe(Observable<T> o, Subscriber<T> s) {

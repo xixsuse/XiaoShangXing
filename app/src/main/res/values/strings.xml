@@ -261,6 +261,11 @@
     <string name="serch">搜索</string>
     <string name="no_net">当前网络不可用,请检查你的网络设置</string>
 
+    <string name="net_broken">当前网络不可用</string>
+    <string name="nim_status_unlogin">未登录</string>
+    <string name="nim_status_connecting">连接中...</string>
+    <string name="nim_status_logining">登录中...</string>
+
     <string name="chatinfom">聊天详情</string>
     <string name="chatinfo">聊天信息</string>
     <string name="allGroupMember">全部群成员</string>
@@ -283,6 +288,10 @@
     <string name="deleteMember">删除成员</string>
     <string name="ChooseNewGroupMaster">选择新群主</string>
     <string name="xiaoyou">校友</string>
+    <string name="over_team_member_capacity">邀请失败，成员人数上限为%1$d人</string>
+    <string name="over_team_capacity">创建失败，创建群数量达到限制</string>
+    <string name="create_team_failed">创建失败</string>
+    <string name="create_team_success">创建成功</string>
 
     <!--公告规则-->
     <string name="rules">公告规则</string>

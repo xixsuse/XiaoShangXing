@@ -28,6 +28,10 @@ public class User extends RealmObject {
     private String signature;
     private String photoCover;
     private String isVip;
+    private Integer isActive;
+    private Integer sex;
+    private String userImage;
+    private Integer activeStatus;
 
     public int getId() {
         return id;
@@ -93,6 +97,38 @@ public class User extends RealmObject {
         this.isVip = isVip;
     }
 
+    public Integer getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Integer isActive) {
+        this.isActive = isActive;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
+    public Integer getActiveStatus() {
+        return activeStatus;
+    }
+
+    public void setActiveStatus(Integer activeStatus) {
+        this.activeStatus = activeStatus;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -104,6 +140,10 @@ public class User extends RealmObject {
                 ", signature='" + signature + '\'' +
                 ", photoCover='" + photoCover + '\'' +
                 ", isVip='" + isVip + '\'' +
+                ", isActive=" + isActive +
+                ", sex=" + sex +
+                ", userImage='" + userImage + '\'' +
+                ", activeStatus=" + activeStatus +
                 '}';
     }
 }

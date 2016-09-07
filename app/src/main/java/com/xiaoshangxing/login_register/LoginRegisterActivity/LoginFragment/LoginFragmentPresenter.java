@@ -76,7 +76,7 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
 //                                存储摘要 账号 id  头像
                                 SPUtils.put(context,SPUtils.DIGEST,digest);
                                 SPUtils.put(context,SPUtils.CURRENT_COUNT,mView.getPhoneNumber());
-                                String headPath = jsonObject.getJSONObject("msg").getJSONObject("userDto").getString("photoCover");
+                                String headPath = jsonObject.getJSONObject("msg").getJSONObject("userDto").getString("userImage");
                                 if (!TextUtils.isEmpty(headPath) && !headPath.equals("null")) {
                                     SPUtils.put(context, SPUtils.CURRENT_COUNT_HEAD, headPath);
                                 }

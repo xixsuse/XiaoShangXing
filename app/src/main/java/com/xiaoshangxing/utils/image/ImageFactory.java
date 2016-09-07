@@ -29,7 +29,7 @@ public class ImageFactory {
      * @param imgPath
      * @return
      */
-    public Bitmap getBitmap(String imgPath) {
+    public static Bitmap getBitmap(String imgPath) {
         // Get bitmap through image path
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         newOpts.inJustDecodeBounds = false;
@@ -175,7 +175,7 @@ public class ImageFactory {
      * @param needsDelete Whether delete original file after compress
      * @throws IOException
      */
-    public void compressAndGenImage(String imgPath, String outPath, int maxSize, boolean needsDelete) throws IOException {
+    public static void compressAndGenImage(String imgPath, String outPath, int maxSize, boolean needsDelete) throws IOException {
         compressAndGenImage(getBitmap(imgPath), outPath, maxSize);
 
         // Delete original file

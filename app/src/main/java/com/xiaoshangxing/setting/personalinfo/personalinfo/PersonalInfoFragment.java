@@ -1,15 +1,16 @@
 package com.xiaoshangxing.setting.personalinfo.personalinfo;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
@@ -18,6 +19,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
@@ -31,7 +33,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmModel;
 import okhttp3.ResponseBody;
 import rx.Subscriber;
 
@@ -72,6 +73,8 @@ public class PersonalInfoFragment extends BaseFragment {
     private View mView;
     private PersonalInfoActivity mActivity;
     private Realm realm;
+    private Handler handler;
+    private User user;
 
     @Nullable
     @Override
@@ -88,9 +91,15 @@ public class PersonalInfoFragment extends BaseFragment {
     }
 
     private void initView() {
+        handler = new Handler();
         realm = Realm.getDefaultInstance();
-        User user = realm.where(User.class).equalTo("id",
+        user = realm.where(User.class).equalTo("id",
                 (Integer) SPUtils.get(getContext(),SPUtils.ID,SPUtils.DEFAULT_int)).findFirst();
+        if (user == null) {
+            Toast.makeText(getContext(), "账号异常,请重新登录", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         user.addChangeListener(new RealmChangeListener<User>() {
             @Override
             public void onChange(User element) {
@@ -98,12 +107,12 @@ public class PersonalInfoFragment extends BaseFragment {
             }
         });
 
-        initInfo(user);
+
 
         Subscriber<ResponseBody> subscriber=new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
-                mActivity.showToast("更新信息成功");
+                /*mActivity.showToast("更新信息成功");*/
             }
 
             @Override
@@ -140,17 +149,30 @@ public class PersonalInfoFragment extends BaseFragment {
         jsonObject.addProperty("id",user.getId());
         jsonObject.addProperty("timestamp",System.currentTimeMillis());
         InfoNetwork.getInstance().GetUser(subscriber,jsonObject,getContext());
+
+        initInfo(user);
     }
 
-    private void initInfo(User user) {
-        MyGlide.with(this,user.getPhotoCover(),settingPersoninfoHeadView);
+    private void initInfo(final User user) {
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+                MyGlide.with(XSXApplication.getInstance(), user.getUserImage(), settingPersoninfoHeadView);
+//            }
+//        }, 200);
+
         name.setText(user.getUsername());
-        sex.setText("男");
+        if (user.getSex() != null) {
+            sex.setText(user.getSex() == 0 ? "男" : "女");
+        }
         personinfoHometown.setText(user.getHometown());
         if (!TextUtils.isEmpty(user.getSignature())&&!user.getSignature().equals("null")){
             signature.setVisibility(View.GONE);
         }else {
             signature.setVisibility(View.VISIBLE);
+        }
+        if (user.getIsActive() != null) {
+            realName.setText(user.getIsActive() == 0 ? "未认证" : "已认证");
         }
 
     }
@@ -164,6 +186,7 @@ public class PersonalInfoFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         realm.close();
+        user.removeChangeListeners();
         ButterKnife.unbind(this);
     }
 }

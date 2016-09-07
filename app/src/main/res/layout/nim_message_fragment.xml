@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/messageActivityLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w0"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_144"
+        android:paddingStart="@dimen/width_48">
+
+        <!--返回-->
+        <LinearLayout
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/left_arrow_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x12"
+                android:text="@string/back"
+                android:textColor="@color/b0"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+        <!--姓名-->
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/app_name"
+            android:textColor="@color/b0"
+            android:textSize="17sp" />
+        <!--more-->
+        <ImageView
+            android:id="@+id/more"
+            android:src="@mipmap/chat_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/invalid_team_tip"
+        android:layout_width="match_parent"
+        android:layout_height="40dip"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/invalid_team_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/b0"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/message_activity_list_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1">
+
+        <com.xiaoshangxing.utils.layout.MsgBkImageView
+            android:id="@+id/message_activity_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/team_notify_bar_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </FrameLayout>
+
+            <com.xiaoshangxing.utils.layout.MessageListView
+                android:id="@+id/messageListView"
+                style="@style/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="@android:color/transparent"
+                android:divider="@null"
+                android:fadingEdge="none"
+                android:focusable="false"
+                android:listSelector="@android:color/transparent"
+                android:scrollbars="vertical" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/layoutPlayAudio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@mipmap/nim_dialog_toast_bg"
+            android:visibility="gone">
+
+            <Chronometer
+                android:id="@+id/timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="00:00"
+                android:textColor="@color/w0"
+                android:textSize="45sp" />
+
+            <LinearLayout
+                android:id="@+id/timer_tip_container"
+                android:layout_width="188dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/timer_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="手指上滑,取消发送"
+                    android:textColor="@color/w0"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <!--输入框-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/w3"
+        android:orientation="vertical">
+
+        <!--上方布局-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y93">
+
+            <!--文字输入-->
+            <LinearLayout
+                android:id="@+id/text_input_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="visible">
+                <!--输入框-->
+                <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
+                    android:id="@+id/edittext"
+                    android:textCursorDrawable="@drawable/cursor_blue4"
+                    android:gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:paddingStart="@dimen/width_48"
+                    android:paddingEnd="@dimen/width_48"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/x20"
+                    android:layout_marginStart="@dimen/x24"
+                    android:layout_weight="1"
+                    android:background="@drawable/circular_15_w0" />
+
+                <!--发送按钮-->
+                <Button
+                    android:id="@+id/send"
+                    android:layout_width="@dimen/x162"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/x24"
+                    android:layout_marginStart="@dimen/x24"
+                    android:background="@drawable/circular_15_g2"
+                    android:text="@string/send"
+                    android:textColor="@color/w0"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <!--语音按钮-->
+            <Button
+                android:id="@+id/audioRecord"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y93"
+                android:layout_marginEnd="@dimen/x24"
+                android:layout_marginStart="@dimen/x24"
+                android:background="@drawable/circular_15_w0"
+                android:text="按住说话"
+                android:textColor="@color/g0"
+                android:textSize="16sp"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <!--选择-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/y30"
+            android:paddingEnd="@dimen/width_48"
+            android:paddingStart="@dimen/width_48"
+            android:paddingTop="@dimen/y18">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/switch_to_audio"
+                    android:layout_width="@dimen/x84"
+                    android:layout_height="@dimen/x84"
+                    android:src="@mipmap/chat_audio" />
+
+                <ImageView
+                    android:id="@+id/switch_to_text"
+                    android:layout_width="@dimen/x84"
+                    android:layout_height="@dimen/x84"
+                    android:src="@mipmap/chat_textboard"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/picture"
+                android:layout_width="@dimen/x84"
+                android:layout_height="@dimen/x84"
+                android:layout_marginStart="@dimen/x216"
+                android:padding="@dimen/x10"
+                android:src="@drawable/selector_picture" />
+
+            <ImageView
+                android:id="@+id/camera"
+                android:layout_width="@dimen/x84"
+                android:layout_height="@dimen/x84"
+                android:layout_marginStart="@dimen/x216"
+                android:padding="@dimen/x10"
+                android:src="@mipmap/camera" />
+
+            <ImageView
+                android:id="@+id/emotion"
+                android:layout_width="@dimen/x84"
+                android:layout_height="@dimen/x84"
+                android:layout_marginStart="@dimen/x216"
+                android:padding="@dimen/x10"
+                android:src="@drawable/selector_emot" />
+
+        </LinearLayout>
+
+        <!--表情图片  选择园区-->
+        <LinearLayout
+            android:id="@+id/emot_picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/w0"
+            android:orientation="vertical">
+
+            <!--表情-->
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/emot_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/scrollview"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y576"
+                    android:paddingBottom="@dimen/y30"
+                    android:paddingEnd="@dimen/width_48"
+                    android:paddingStart="@dimen/width_48"
+                    android:paddingTop="@dimen/y30">
+
+                </android.support.v4.view.ViewPager>
+                <!--&lt;!&ndash;表情类型&ndash;&gt;-->
+                <!--<RelativeLayout-->
+                <!--android:background="@color/w1"-->
+                <!--android:id="@+id/emot_type"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/y108">-->
+
+                <!--<LinearLayout-->
+                <!--android:id="@+id/normal_emot"-->
+                <!--android:layout_width="@dimen/x152"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<ImageView-->
+                <!--android:src="@mipmap/emot_grey_total"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
+                <!--</LinearLayout>-->
+
+                <!--<LinearLayout-->
+                <!--android:id="@+id/favorite"-->
+                <!--android:layout_toEndOf="@+id/normal_emot"-->
+                <!--android:layout_width="@dimen/x152"-->
+                <!--android:layout_height="match_parent">-->
+
+                <!--<ImageView-->
+                <!--android:src="@mipmap/heart_grey_total"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" />-->
+
+                <!--</LinearLayout>-->
+
+                <!--<RelativeLayout-->
+                <!--android:id="@+id/delete_emot"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginEnd="@dimen/width_48"-->
+                <!--android:layout_width="@dimen/x152"-->
+                <!--android:layout_height="match_parent">-->
+                <!--<ImageView-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:src="@mipmap/delete_emot"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+                <!--</RelativeLayout>-->
+
+
+                <!--</RelativeLayout>-->
+            </LinearLayout>
+
+            <!--图片-->
+            <LinearLayout
+                android:id="@+id/picture_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/w0"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y612">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <!--下方布局-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_144">
+
+                    <TextView
+                        android:id="@+id/album"
+                        style="@style/black_16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:paddingStart="@dimen/width_48"
+                        android:text="@string/album" />
+
+                    <TextView
+                        android:id="@+id/complete"
+                        style="@style/black_16sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:paddingEnd="@dimen/width_48"
+                        android:text="@string/complete"
+                        android:textColor="@color/green1"
+                        android:textSize="16sp" />
+
+                    <FrameLayout
+                        android:id="@+id/picture_count_lay"
+                        android:layout_width="@dimen/x66"
+                        android:layout_height="@dimen/y66"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@+id/complete">
+
+                        <com.xiaoshangxing.utils.layout.CirecleImage
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/green1" />
+
+                        <TextView
+                            android:id="@+id/picture_count"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="@color/w0"
+                            android:textSize="14sp" />
+
+                    </FrameLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -26,7 +26,7 @@ public class AlbumActivity extends BaseActivity {
 
     public static final String LIMIT = "LIMIT";
     public static final String SELECTED = "SELECTED";
-
+    public static final int SELECT_PHOTO_FROM_ALBUM = 20000;
     private AlbumListFragment albumListFragment;
     private ImageBucket current_imagebucket;
     private int limit;
@@ -103,7 +103,7 @@ public class AlbumActivity extends BaseActivity {
     public void finish() {
         Intent intent = new Intent();
         intent.putExtra(InputActivity.SELECT_IMAGE_URLS, (ArrayList<String>) select_image_urls);
-        setResult(InputActivity.SELECT_PHOTO_FROM_ALBUM, intent);
+        setResult(SELECT_PHOTO_FROM_ALBUM, intent);
         super.finish();
     }
 }

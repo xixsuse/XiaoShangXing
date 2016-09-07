@@ -11,6 +11,7 @@ public class BaseUrl {
     public static final String SEND_CODE = "base/sendCode";
     public static final String CHECK_CODE = "base/checkCode";
     public static final String REGISTER = "base/setPassword";
+    public static final String CHECK_PHONE = "base/chkExist";
 
     public static final String BIND_EMAIL = "base/bindEmail";
     public static final String PUBLISH = "moment/releaseMoment";
@@ -18,5 +19,8 @@ public class BaseUrl {
     public static final String USER = "base/getUserInfo";
     public static final String GET_PUBLISHED ="moment/catRelease";
     public static final String MODIFT_INFO ="base/user";
+
+    public static final String CHECH_PASSWORD ="base/chkPassword";
+    public static final String MODIFY_PASSWORD ="base/modifyPassword";
 
 }

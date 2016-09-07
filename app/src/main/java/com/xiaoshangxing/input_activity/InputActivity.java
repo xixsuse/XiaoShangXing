@@ -186,7 +186,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
     public static int EMOTION = 1;
     public static int PICTURE = 2;
 
-    public static int SELECT_PHOTO_RESULT_1 = 10000;
+    public static final int SELECT_PHOTO_RESULT_1 = 10000;
     public static int SELECT_PHOTO_FROM_ALBUM = 20000;
     public static int TAKE_PHOTO = 30000;
     public static int REVIEW_PHOTO = 40000;
@@ -513,7 +513,14 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     public void inputEmot(String emot) {
-        emotionEdittext.append(emot);
+//        emotionEdittext.append(emot);
+        Editable mEditable = emotionEdittext.getText();
+        //在光标位置插入图片标志
+        int start = emotionEdittext.getSelectionStart();
+        int end = emotionEdittext.getSelectionEnd();
+        start = (start < 0 ? 0 : start);
+        end = (start < 0 ? 0 : end);
+        mEditable.replace(start, end, emot);
     }
 
     public void setSendState(boolean is) {
@@ -527,17 +534,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     public void getDatas() {
-//        String path = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DCIM + "/Camera";
-//        Log.d("CameraPath", path);
-//        File file = new File(path);
-//        File[] files = file.listFiles();
-//        Log.d("ddd", String.valueOf(files.length));
-//        Arrays.sort(files, new TimeComparator());
-//        Matrix m = new Matrix();
-//        m.postRotate(90);
-//        for (File mfile : files) {
-//            iamgeurls.add(mfile.getPath());
-//        }
         AlbumHelper albumHelper=AlbumHelper.getHelper();
         albumHelper.init(this);
         ImageBucket imageBucket= albumHelper.getTotalImage(false);

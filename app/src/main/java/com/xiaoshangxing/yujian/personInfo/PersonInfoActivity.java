@@ -8,15 +8,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.ImageButtonText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.RoundedImageView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
+import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.pearsonalTag.PeraonalTagActivity;
 
 /**
@@ -27,6 +30,7 @@ public class PersonInfoActivity extends BaseActivity implements ImageButtonText.
     private RoundedImageView head, img1, img2, img3, img4;
     private String tagContent;
     private ImageButtonText mImagButtonText;
+    private String account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,8 @@ public class PersonInfoActivity extends BaseActivity implements ImageButtonText.
 
         tagContent = "标签1  标签2  标签3  标签4  标签5";
         tag.setText(tagContent);
+
+        account=getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
 
     }
 
@@ -87,7 +93,11 @@ public class PersonInfoActivity extends BaseActivity implements ImageButtonText.
 
     //打个招呼
     public void SayHello(View view) {
-
+        //test
+        if (account==null){
+            account="17768345313";
+        }
+        ChatActivity.start(this,account,null, SessionTypeEnum.P2P);
     }
 
     //标签
