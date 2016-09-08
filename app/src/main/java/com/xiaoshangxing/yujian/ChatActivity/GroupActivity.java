@@ -28,7 +28,6 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.MessageListView;
 import com.xiaoshangxing.utils.layout.MsgBkImageView;
-import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
@@ -279,6 +278,9 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
 
         invalidTeamTipText.setText(team.getType() == TeamTypeEnum.Normal ? "您已退出该讨论组" : "您已退出该群");
         invalidTeamTipView.setVisibility(team.isMyTeam() ? View.GONE : View.VISIBLE);
+        if (!team.isMyTeam()) {
+            NIMClient.getService(MsgService.class).deleteRecentContact2(team.getId(), SessionTypeEnum.Team);
+        }
     }
 
     /**
@@ -405,6 +407,10 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
                 finish();
                 break;
             case R.id.more:
+                if (!team.isMyTeam()) {
+                    showToast("您已不在该群");
+                    return;
+                }
                 Intent intent = new Intent(GroupActivity.this, ChatInfoActivity.class);
                 intent.putExtra(IntentStatic.EXTRA_ACCOUNT,sessionId);
                 startActivity(intent);

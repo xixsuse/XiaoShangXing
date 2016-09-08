@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.xiaoshangxing.utils.Extras;
@@ -80,6 +81,27 @@ public class SendImageHelper {
                 }
             }).execute();
         }
+    }
+
+    public static File getLittleImage(String photoPath, final Context context) {
+        File imageFile = new File(photoPath);
+        String mimeType = FileUtil.getExtensionName(photoPath);
+        imageFile = ImageUtil.getScaledImageFileWithMD5(imageFile, mimeType);
+        if (imageFile == null) {
+            new Handler(context.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, "图片有误", Toast.LENGTH_LONG).show();
+                }
+            });
+            return null;
+        } else {
+            ImageUtil.makeThumbnail(context, imageFile);
+        }
+
+        Log.d("yasuo ok",""+imageFile.getAbsolutePath());
+
+        return imageFile;
     }
 
     // 从相册选择图片进行发送(Added by NYB)

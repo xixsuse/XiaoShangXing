@@ -52,6 +52,10 @@ public class PersonInfoActivity extends BaseActivity implements ImageButtonText.
         tag.setText(tagContent);
 
         account=getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        if (account==null){
+            showToast("账号有误");
+            finish();
+        }
 
     }
 

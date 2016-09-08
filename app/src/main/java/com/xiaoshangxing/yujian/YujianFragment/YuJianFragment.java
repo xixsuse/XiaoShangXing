@@ -144,6 +144,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
     }
 
     private void initView() {
+        realm = Realm.getDefaultInstance();
         callback = new RecentContactsCallback() {
             @Override
             public void onRecentContactsLoaded() {
@@ -423,6 +424,9 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
                             return;
                         }
 //                                查询数据库  将置顶的会话置顶
+                        if (realm.isClosed()){
+                            return;
+                        }
                         RealmResults<TopChat> topChats = realm.where(TopChat.class).findAll();
                         if (topChats.size() > 0) {
                             for (int i = 0; i < topChats.size(); i++) {
@@ -519,10 +523,8 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         if (register) {
             requestSystemMessageUnreadCount();
             registerUserInfoObserver();
-            realm = Realm.getDefaultInstance();
         } else {
             unregisterUserInfoObserver();
-            realm.close();
         }
         //      注册未读消息观察者
         registerMsgUnreadInfoObserver(register);
@@ -842,6 +844,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        realm.close();
         registerObservers(false);
     }
 

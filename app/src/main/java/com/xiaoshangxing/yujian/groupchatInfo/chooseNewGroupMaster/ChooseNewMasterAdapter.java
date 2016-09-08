@@ -9,20 +9,24 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SortModel;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
+import com.xiaoshangxing.yujian.groupchatInfo.Member;
 
 import java.util.List;
 
 public class ChooseNewMasterAdapter extends BaseAdapter implements SectionIndexer {
-    private List<SortBean> list = null;
+    private List<SortModel> list = null;
     private Context mContext;
 
-    public ChooseNewMasterAdapter(Context mContext, List<SortBean> list) {
+    public ChooseNewMasterAdapter(Context mContext, List<SortModel> list) {
         this.mContext = mContext;
         this.list = list;
     }
 
-    public void updateListView(List<SortBean> list) {
+    public void updateListView(List<SortModel> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -41,7 +45,7 @@ public class ChooseNewMasterAdapter extends BaseAdapter implements SectionIndexe
 
     public View getView(final int position, View view, ViewGroup arg2) {
         ViewHolder viewHolder = null;
-        final SortBean mContent = list.get(position);
+        final SortModel mContent = list.get(position);
         if (view == null) {
             viewHolder = new ViewHolder();
             view = LayoutInflater.from(mContext).inflate(R.layout.item_listview_selectnewmaster, null);
@@ -66,7 +70,8 @@ public class ChooseNewMasterAdapter extends BaseAdapter implements SectionIndexe
         }
 
         viewHolder.tvTitle.setText(this.list.get(position).getName());
-        viewHolder.headImg.setImageBitmap(this.list.get(position).getBitmap() );
+        MyGlide.with_defaul_image(mContext,
+                NimUserInfoCache.getInstance().getHeadImage(mContent.getAccount()),viewHolder.headImg);
 
         return view;
 

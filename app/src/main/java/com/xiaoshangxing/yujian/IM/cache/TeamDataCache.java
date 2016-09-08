@@ -1,6 +1,7 @@
 package com.xiaoshangxing.yujian.IM.cache;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -8,7 +9,6 @@ import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.TeamServiceObserver;
-import com.netease.nimlib.sdk.team.constant.TeamMemberType;
 import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
@@ -91,6 +91,7 @@ public class TeamDataCache {
             // team的flag被更新，isMyTeam为false
             addOrUpdateTeam(team);
             notifyTeamDataRemove(team);
+            Log.d("team ", team.getName() + "dismiss");
         }
     };
 

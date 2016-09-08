@@ -120,6 +120,7 @@ public class MessageListPanel implements TAdapterDelegate {
     //      听筒有关
     public void onResume() {
         setEarPhoneMode((boolean) SPUtils.get(container.activity, SPUtils.EarPhone, true));
+        initListView(null);
     }
 
     public void onPause() {

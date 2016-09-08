@@ -185,8 +185,8 @@ public class PersonalInfoFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        realm.close();
         user.removeChangeListeners();
+        realm.close();
         ButterKnife.unbind(this);
     }
 }

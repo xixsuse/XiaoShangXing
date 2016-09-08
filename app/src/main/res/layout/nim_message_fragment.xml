@@ -59,6 +59,7 @@
         android:id="@+id/invalid_team_tip"
         android:layout_width="match_parent"
         android:layout_height="40dip"
+        android:background="@color/red1"
         android:visibility="gone">
 
         <TextView

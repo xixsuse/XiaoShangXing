@@ -132,6 +132,7 @@ public class MailBoxBindActivity extends BaseActivity implements View.OnClickLis
                 .Button("确定").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
                     @Override
                     public void onButton1() {
+                        dialogUtils.close();
                         finish();
                     }
 

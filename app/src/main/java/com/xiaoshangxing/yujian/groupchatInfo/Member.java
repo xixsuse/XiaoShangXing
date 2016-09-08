@@ -8,15 +8,24 @@ import android.graphics.Bitmap;
  */
 
 public class Member {
-    private Bitmap bitmap;
+    private String account;
+    private String headPath;
     private String name;
 
-    public Bitmap getBitmap() {
-        return bitmap;
+    public String getAccount() {
+        return account;
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getHeadPath() {
+        return headPath;
+    }
+
+    public void setHeadPath(String headPath) {
+        this.headPath = headPath;
     }
 
     public String getName() {

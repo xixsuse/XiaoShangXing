@@ -17,8 +17,11 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.nimlib.sdk.team.constant.TeamMemberType;
+import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.R;
@@ -31,6 +34,7 @@ import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.SwitchView;
+import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
@@ -98,14 +102,24 @@ public class ChatInfoActivity extends BaseActivity {
     private void initView() {
         adapter = new Adapter(ChatInfoActivity.this, teamMembers, this);
         mGridview.setAdapter(adapter);
-        isMyteam = team.isMyTeam();
+        isMyteam();
         requestMembers();
         setGroupChatName();
         setGroupNoticeContent();
         realm = Realm.getDefaultInstance();
         ZhiDing();
         MessageMute();
+    }
 
+    private void isMyteam() {
+        TeamDataCache.getInstance().fetchTeamMember(account, NimUIKit.getAccount(), new SimpleCallback<TeamMember>() {
+            @Override
+            public void onResult(boolean success, TeamMember result) {
+                if (result.getType() == TeamMemberType.Owner) {
+                    isMyteam = true;
+                }
+            }
+        });
     }
 
     private void parseData() {
@@ -274,7 +288,7 @@ public class ChatInfoActivity extends BaseActivity {
         @Override
         public void onRemoveTeam(Team team) {
             if (team.getId().equals(account)) {
-                Toast.makeText(ChatInfoActivity.this, "群已解散", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChatInfoActivity.this, "您已不在该群", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -461,7 +475,12 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
     public void TransferMainRight(View view) {
+        if (!isMyteam) {
+            showToast("只有群主才可以转让群");
+            return;
+        }
         Intent intent = new Intent(this, ChooseNewGroupMasterActivity.class);
+        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
         startActivity(intent);
     }
 
@@ -479,8 +498,8 @@ public class ChatInfoActivity extends BaseActivity {
         mActionSheet1.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
+                NIMClient.getService(MsgService.class).clearChattingHistory(account, SessionTypeEnum.Team);
                 Toast.makeText(ChatInfoActivity.this, item, Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
@@ -505,7 +524,45 @@ public class ChatInfoActivity extends BaseActivity {
         mActionSheet2.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
+                if (team.getType() == TeamTypeEnum.Advanced && isMyteam) {
+                    NIMClient.getService(TeamService.class).dismissTeam(account).setCallback(new RequestCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            showToast("解散成功");
+                            finish();
+                        }
 
+                        @Override
+                        public void onFailed(int i) {
+                            showToast("操作失败:" + i);
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            showToast("操作失败:异常");
+                            throwable.printStackTrace();
+                        }
+                    });
+                } else {
+                    NIMClient.getService(TeamService.class).quitTeam(account).setCallback(new RequestCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            showToast("退出成功");
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailed(int i) {
+                            showToast("操作失败:" + i);
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            showToast("操作失败:异常");
+                            throwable.printStackTrace();
+                        }
+                    });
+                }
 
             }
 
@@ -563,7 +620,7 @@ public class ChatInfoActivity extends BaseActivity {
             }
             ArrayList<String> arrayList = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
             if (arrayList == null || arrayList.size() == 0) {
-                Toast.makeText(ChatInfoActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChatInfoActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
             } else {
                 Log.d("select account", arrayList.toString());
                 inviteMembers(arrayList);

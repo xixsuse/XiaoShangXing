@@ -39,7 +39,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/x36"
                 android:layout_toEndOf="@id/setting_main_imag"
-                android:text="吴天阳" />
+                android:text="吴天阳"
+                android:id="@+id/name" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -161,7 +162,8 @@
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/bindmail_rightarrow"
                 android:layout_marginEnd="@dimen/x20"
-                android:text="绑定邮箱" />
+                android:text="绑定邮箱"
+                android:id="@+id/bindEmailStaet" />
 
             <ImageView
                 android:id="@+id/bindmail_rightarrow"

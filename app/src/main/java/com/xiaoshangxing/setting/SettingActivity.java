@@ -1,20 +1,15 @@
 package com.xiaoshangxing.setting;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Base64;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
@@ -22,9 +17,11 @@ import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.setting.about.AboutActivity;
 import com.xiaoshangxing.setting.currency.CurrencyActivity;
 import com.xiaoshangxing.setting.mailboxbind.MailBoxBindActivity;
+import com.xiaoshangxing.setting.mailboxbind.ModifyMailBoxActivity;
 import com.xiaoshangxing.setting.modifypassword.ModifyPassWordActivity;
 import com.xiaoshangxing.setting.newNotice.NewNoticeActivity;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
@@ -42,32 +39,67 @@ import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import io.realm.Realm;
 import okhttp3.ResponseBody;
 
 /**
  * Created by tianyang on 2016/7/9.
  */
 public class SettingActivity extends BaseActivity implements IBaseView {
+    @Bind(R.id.toolbar_setting_leftarrow)
+    ImageView toolbarSettingLeftarrow;
+    @Bind(R.id.toolbar_setting_back)
+    TextView toolbarSettingBack;
+    @Bind(R.id.setting_main_imag)
+    CirecleImage settingMainImag;
+    @Bind(R.id.linear1)
+    LinearLayout linear1;
+    @Bind(R.id.bindEmailStaet)
+    TextView bindEmailStaet;
+    @Bind(R.id.bindmail_rightarrow)
+    ImageView bindmailRightarrow;
+    @Bind(R.id.name)
+    TextView name;
     private ActionSheet mActionSheet;
     private CirecleImage imgCover;
     private IBaseView iBaseView;
+    private Realm realm;
+    private boolean bindEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_setmain);
+        ButterKnife.bind(this);
+        initView();
+    }
+
+    private void initView() {
         imgCover = (CirecleImage) findViewById(R.id.setting_main_imag);
         setImgCover();
-        iBaseView=this;
+        iBaseView = this;
+        realm = Realm.getDefaultInstance();
+        User user = realm.where(User.class).equalTo("id", (int) SPUtils.get(this, SPUtils.ID, SPUtils.DEFAULT_int))
+                .findFirst();
+        if (user == null) {
+            showToast("账号异常");
+            return;
+        }
+
+        bindEmail = user.getActiveStatus() == 1;
+
+        bindEmailStaet.setText(bindEmail ? "已绑定" : "未绑定");
+        name.setText(user.getUsername());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-//        setImgCover();
+        realm.close();
     }
 
     @Override
@@ -76,14 +108,8 @@ public class SettingActivity extends BaseActivity implements IBaseView {
     }
 
     private void setImgCover() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("headImg", Context.MODE_PRIVATE);
-//        String imageString = sharedPreferences.getString("smallImage", "");
-//        byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT);
-//        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
-//        Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
-//        if (bitmap != null) imgCover.setImageBitmap(bitmap);
-        String path=(String) SPUtils.get(this,SPUtils.CURRENT_COUNT_HEAD,SPUtils.DEFAULT_STRING);
-        MyGlide.with(this,path,imgCover);
+        String path = (String) SPUtils.get(this, SPUtils.CURRENT_COUNT_HEAD, SPUtils.DEFAULT_STRING);
+        MyGlide.with(this, path, imgCover);
     }
 
 
@@ -102,8 +128,8 @@ public class SettingActivity extends BaseActivity implements IBaseView {
         mActionSheet.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                SPUtils.put(SettingActivity.this,SPUtils.IS_QUIT,true);
-                XSXApplication xsxApplication=(XSXApplication)getApplication();
+                SPUtils.put(SettingActivity.this, SPUtils.IS_QUIT, true);
+                XSXApplication xsxApplication = (XSXApplication) getApplication();
                 xsxApplication.exit();
             }
 
@@ -132,12 +158,13 @@ public class SettingActivity extends BaseActivity implements IBaseView {
     }
 
     public void BindMailBox(View view) {
-        Intent intent = new Intent(this, MailBoxBindActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-//        Intent intent = new Intent(this, ModifyMailBoxActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+        if (bindEmail) {
+            Intent intent = new Intent(this, ModifyMailBoxActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, MailBoxBindActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void Privacy(View view) {
@@ -165,15 +192,15 @@ public class SettingActivity extends BaseActivity implements IBaseView {
 
                     @Override
                     public void onButton2() {
-                        ProgressSubscriberOnNext<ResponseBody> next=new ProgressSubscriberOnNext<ResponseBody>() {
+                        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
                             @Override
                             public void onNext(ResponseBody e) throws JSONException {
                                 try {
-                                    JSONObject jsonObject=new JSONObject(e.string());
-                                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))){
+                                    JSONObject jsonObject = new JSONObject(e.string());
+                                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
                                         case 200:
                                             Intent intent = new Intent(SettingActivity.this, ModifyPassWordActivity.class);
-                                            intent.putExtra(IntentStatic.DATA,dialogUtils.getText());
+                                            intent.putExtra(IntentStatic.DATA, dialogUtils.getText());
                                             startActivity(intent);
                                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                                             dialogUtils.close();
@@ -190,14 +217,14 @@ public class SettingActivity extends BaseActivity implements IBaseView {
                             }
                         };
 
-                        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<ResponseBody>(next,iBaseView);
+                        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<ResponseBody>(next, iBaseView);
 
-                        JsonObject jsonObject=new JsonObject();
-                        jsonObject.addProperty("phone",(String) SPUtils.get(SettingActivity.this,SPUtils.CURRENT_COUNT,SPUtils.DEFAULT_STRING));
-                        jsonObject.addProperty("password",dialogUtils.getText());
-                        jsonObject.addProperty(NS.TIMESTAMP,System.currentTimeMillis());
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("phone", (String) SPUtils.get(SettingActivity.this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING));
+                        jsonObject.addProperty("password", dialogUtils.getText());
+                        jsonObject.addProperty(NS.TIMESTAMP, System.currentTimeMillis());
 
-                        InfoNetwork.getInstance().CheckPassword(progressSubsciber,jsonObject,SettingActivity.this);
+                        InfoNetwork.getInstance().CheckPassword(progressSubsciber, jsonObject, SettingActivity.this);
                     }
                 }).create();
         alertDialog.show();

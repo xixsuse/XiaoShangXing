@@ -138,8 +138,6 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
     protected void onStop() {
         super.onStop();
         isResume = false;
-//        NIMClient.getService(MsgService.class).setChattingAccount(MsgService.MSG_CHATTING_ACCOUNT_NONE,
-//                SessionTypeEnum.None);
     }
 
     @Override
@@ -178,17 +176,6 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
         if (inputPanel == null) {
             inputPanel = new InputPanel(container, rootView, true);
         }
-//      初始化输入面板
-//        if (inputPanel == null) {
-//            inputPanel = new InputPanel(container, rootView, getActionList());
-//            inputPanel.setCustomization(customization);
-//        } else {
-//            inputPanel.reload(container, customization);
-//        }
-//      设置背景
-//        if (customization != null) {
-//            messageListPanel.setChattingBackground(customization.backgroundUri, customization.backgroundColor);
-//        }
     }
 
     /**

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.yujian.groupchatInfo.Member;
 import com.xiaoshangxing.yujian.groupchatInfo.deleteMember.DeleteMemberActivity;
@@ -55,7 +56,7 @@ public class PersonalAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_gridview_chatinfo, parent, false);
@@ -80,12 +81,13 @@ public class PersonalAdapter extends BaseAdapter {
                 }
             });
         } else if (data.size() != 0) {
-            holder.img.setImageBitmap(data.get(position).getBitmap());
+            MyGlide.with_defaul_image(context,data.get(position).getHeadPath(),holder.img);
             holder.name.setText(data.get(position).getName());
             holder.img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PersonInfoActivity.class);
+                    intent.putExtra(IntentStatic.EXTRA_ACCOUNT,data.get(position).getAccount());
                     context.startActivity(intent);
                 }
             });

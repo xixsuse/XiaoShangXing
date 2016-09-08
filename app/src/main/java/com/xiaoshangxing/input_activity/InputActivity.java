@@ -62,6 +62,7 @@ import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -636,7 +637,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 openCamera();
                 break;
             case R.id.send:
-                send();
+//                send();
+                YaSuo();
                 break;
             case R.id.normal_emot:
                 viewPager.setCurrentItem(0);
@@ -724,6 +726,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
         MultipartBody.Part body =
                 MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
 //        LoginNetwork.getInstance().setUserImage(progressSubsciber,42,body,11,this);
 
 //        SetUserImage1 setUserImage1= Network.getRetrofitWithHeader(this).create(SetUserImage1.class);
@@ -767,6 +770,15 @@ public class InputActivity extends BaseActivity implements IBaseView {
 //        Log.d("user",user.toString());
         PublishNetwork.getInstance().getPublished(progressSubsciber, jsonObject, this);
 //        LoginNetwork.getInstance().GetUser(progressSubsciber,jsonObject);
+    }
+
+    private void YaSuo(){
+        SendImageHelper.getLittleImage(FileUtils.getXSX_CameraPhotoPath()+"ys.jpg",this);
+        Log.d("yasuo","click");
+    }
+
+    private void send2(){
+
     }
 
     public void showSureDialog() {

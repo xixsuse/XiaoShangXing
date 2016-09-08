@@ -2,6 +2,7 @@ package com.xiaoshangxing.yujian.FriendActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +57,8 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     @Bind(R.id.count)
     TextView count;
 
+    private Handler handler = new Handler();
+
     @Override
     public void setmPresenter(@Nullable Object presenter) {
 
@@ -77,6 +80,12 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     protected void onResume() {
         super.onResume();
         registerTeamUpdateObserver(true);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                initView();
+            }
+        }, 100);
     }
 
     @Override
@@ -86,7 +95,10 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     }
 
     private void initView() {
+        teams.clear();
         teams = TeamDataCache.getInstance().getAllTeams();
+
+        Log.d("team_count", "--" + teams.size());
 
         baseAdapter = new BaseAdapter() {
             SwipeItemView mLastSlideViewWithStatusOn;
@@ -196,12 +208,23 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     TeamDataCache.TeamDataChangedObserver teamDataChangedObserver = new TeamDataCache.TeamDataChangedObserver() {
         @Override
         public void onUpdateTeams(List<Team> teams) {
-            initView();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    initView();
+                }
+            }, 100);
         }
 
         @Override
         public void onRemoveTeam(Team team) {
-            initView();
+            Log.d("team", "remove");
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    initView();
+                }
+            }, 100);
         }
     };
 
@@ -231,7 +254,7 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
             }
             ArrayList<String> arrayList = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
             if (arrayList == null || arrayList.size() == 0) {
-                Toast.makeText(GroupListActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(GroupListActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
             } else {
                 Log.d("select account", arrayList.toString());
                 TeamCreateHelper.createAdvancedTeam(GroupListActivity.this,

@@ -46,7 +46,7 @@ public class TeamCreateHelper {
 
         iBaseView.showLoadingDialog("正在创建...");
         // 创建群
-        TeamTypeEnum type = TeamTypeEnum.Normal;
+        TeamTypeEnum type = TeamTypeEnum.Advanced;
         HashMap<TeamFieldEnum, Serializable> fields = new HashMap<>();
         fields.put(TeamFieldEnum.Name, teamName);
         fields.put(TeamFieldEnum.VerifyType, VerifyTypeEnum.Free);
