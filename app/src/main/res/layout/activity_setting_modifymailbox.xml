@@ -48,7 +48,8 @@
         android:background="@color/w1"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/x48"
-        android:text="1234567890@qq.com" />
+        android:text="1234567890@qq.com"
+        android:id="@+id/text" />
 
 
     <TextView

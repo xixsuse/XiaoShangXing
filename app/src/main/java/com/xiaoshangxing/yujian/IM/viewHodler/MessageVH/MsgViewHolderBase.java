@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
@@ -19,7 +18,6 @@ import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;

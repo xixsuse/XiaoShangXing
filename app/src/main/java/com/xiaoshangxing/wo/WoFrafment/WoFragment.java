@@ -313,6 +313,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     public void gotopublish() {
         Intent publish_intent = new Intent(getContext(), InputActivity.class);
         publish_intent.putExtra(InputActivity.LIMIT,9);
+        publish_intent.putExtra(InputActivity.EDIT_STATE, InputActivity.PUBLISH_STATE);
         startActivity(publish_intent);
     }
 

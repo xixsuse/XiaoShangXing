@@ -182,7 +182,7 @@ public class ReviewPictureActivity extends FragmentActivity {
     public void finish() {
         Intent intent=new Intent();
         intent.putExtra(InputActivity.SELECT_IMAGE_URLS,urls);
-        setResult(InputActivity.REVIEW_PHOTO,intent);
+        setResult(RESULT_OK,intent);
         super.finish();
     }
 }

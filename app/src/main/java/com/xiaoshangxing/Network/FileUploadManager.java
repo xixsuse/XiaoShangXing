@@ -99,9 +99,8 @@ public class FileUploadManager {
                         RequestBody.create(MediaType.parse("multipart/form-data"), new File(paths.get(i)));
             }
         }
-        Call<String> call = apiManager.uploadImage(desp, requestBody[0], requestBody[1], requestBody[2], requestBody[3], requestBody[4], requestBody
-
-                [5]);
+        Call<String> call = apiManager.uploadImage(desp,
+                requestBody[0], requestBody[1], requestBody[2], requestBody[3], requestBody[4], requestBody[5]);
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

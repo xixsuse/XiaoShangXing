@@ -94,7 +94,7 @@ public class AlbumActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == InputActivity.SELECT_PHOTO_RESULT_1) {
+        if (requestCode == InputActivity.SELECT_PHOTO_ONE_BY_ONE) {
             setSelect_image_urls(data.getStringArrayListExtra(InputActivity.SELECT_IMAGE_URLS));
         }
     }
@@ -103,7 +103,7 @@ public class AlbumActivity extends BaseActivity {
     public void finish() {
         Intent intent = new Intent();
         intent.putExtra(InputActivity.SELECT_IMAGE_URLS, (ArrayList<String>) select_image_urls);
-        setResult(SELECT_PHOTO_FROM_ALBUM, intent);
+        setResult(RESULT_OK, intent);
         super.finish();
     }
 }

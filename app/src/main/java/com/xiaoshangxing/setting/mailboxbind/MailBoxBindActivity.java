@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -115,6 +116,8 @@ public class MailBoxBindActivity extends BaseActivity implements View.OnClickLis
                 jsonObject.addProperty("userId", (Integer) SPUtils.get(this, SPUtils.ID, SPUtils.DEFAULT_int));
                 jsonObject.addProperty("email", editText.getText().toString());
                 jsonObject.addProperty(NS.TIMESTAMP, System.currentTimeMillis());
+
+                Log.d("json:", jsonObject.toString());
 
                 InfoNetwork.getInstance().bindEmail(progressSubsciber, jsonObject, this);
 

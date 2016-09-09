@@ -1,7 +1,6 @@
 package com.xiaoshangxing.Network.Bean;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,12 +8,12 @@ import java.util.List;
  * on 2016/8/15
  */
 public class Publish {
-    private long userId;
+    private Integer userId;
     private String text;
-    private List<File> images=new ArrayList<>();
+//    private List<File> images=new ArrayList<>();
     private String location;
     private Integer personLimit;
-    private long clientTIme;
+    private long clientTime;
     private Integer category;
     private Integer sight;
     private String price;
@@ -22,11 +21,11 @@ public class Publish {
     private String sightUserids;
     private long timeStamp;
 
-    public long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -38,13 +37,13 @@ public class Publish {
         this.text = text;
     }
 
-    public List<File> getImages() {
-        return images;
-    }
-
-    public void setImages(List<File> images) {
-        this.images = images;
-    }
+//    public List<File> getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(List<File> images) {
+//        this.images = images;
+//    }
 
     public String getLocation() {
         return location;
@@ -62,12 +61,12 @@ public class Publish {
         this.personLimit = personLimit;
     }
 
-    public long getClientTIme() {
-        return clientTIme;
+    public long getClientTime() {
+        return clientTime;
     }
 
-    public void setClientTIme(long clientTIme) {
-        this.clientTIme = clientTIme;
+    public void setClientTime(long clientTime) {
+        this.clientTime = clientTime;
     }
 
     public Integer getCategory() {

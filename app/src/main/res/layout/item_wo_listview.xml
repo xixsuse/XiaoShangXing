@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <!--图片-->
+                <!--多张图片-->
                 <com.xiaoshangxing.wo.WoFrafment.NoScrollGridView
                     android:id="@+id/photos1"
                     android:numColumns="3"
@@ -95,7 +95,7 @@
 
                 </com.xiaoshangxing.wo.WoFrafment.NoScrollGridView>
 
-
+                <!--一张图片-->
                 <ImageView
                     android:id="@+id/just_one"
                     android:maxWidth="@dimen/x516"
@@ -113,14 +113,14 @@
                     android:background="@color/g1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-
+                    <!--转发对象头像-->
                     <com.xiaoshangxing.utils.layout.CirecleImage
                         android:id="@+id/transmit_image"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/cirecleimage_default"
                         android:layout_width="@dimen/x84"
                         android:layout_height="@dimen/y84" />
-
+                    <!--转发内容的文字-->
                     <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
                         android:id="@+id/transmit_text"
                         android:text="@string/longtext"
@@ -163,6 +163,7 @@
                         android:paddingStart="@dimen/x48"
                         android:layout_toRightOf="@+id/time"
                         android:src="@mipmap/permission" />
+
                     <!--删除-->
                     <TextView
                         android:id="@+id/delete"
@@ -173,32 +174,58 @@
                         android:text="@string/delete"
                         android:textColor="@color/blue1"
                         android:textSize="12sp" />
+
                     <!--赞按钮-->
-                    <CheckBox
-                        android:id="@+id/praise"
-                        android:layout_width="@dimen/x44"
-                        android:layout_marginRight="@dimen/x80"
-                        android:layout_toLeftOf="@+id/comment"
-                        android:layout_height="@dimen/y38"
-                        android:background="@drawable/wo_praise_selector"
-                        android:button="@null"></CheckBox>
+                    <LinearLayout
+                        android:id="@+id/praise_lay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toLeftOf="@+id/comment_lay"
+                        android:paddingLeft="@dimen/x40"
+                        android:paddingRight="@dimen/x40">
+
+                        <CheckBox
+                            android:id="@+id/praise"
+                            android:layout_width="@dimen/x44"
+                            android:layout_height="@dimen/y38"
+                            android:background="@drawable/wo_praise_selector"
+                            android:button="@null">
+
+                        </CheckBox>
+                    </LinearLayout>
+
                     <!--评论按钮-->
-                    <ImageView
-                        android:id="@+id/comment"
+                    <LinearLayout
+                        android:id="@+id/comment_lay"
+                        android:paddingStart="@dimen/x40"
                         android:layout_alignParentRight="true"
-                        android:background="@mipmap/comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                    </ImageView>
+                        <ImageView
+                            android:id="@+id/comment"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/comment">
+
+                        </ImageView>
+                    </LinearLayout>
+
                 </RelativeLayout>
+
+                <!--上方尖角-->
+                <ImageView
+                    android:layout_width="@dimen/x30"
+                    android:layout_height="@dimen/y16"
+                    android:layout_marginStart="@dimen/x52"
+                    android:layout_marginTop="@dimen/y18"
+                    android:src="@mipmap/sharpcorner" />
 
                 <LinearLayout
                     android:paddingStart="@dimen/x10"
-                    android:layout_marginTop="@dimen/y18"
                     android:id="@+id/comment_layout"
                     android:orientation="vertical"
-                    android:background="@drawable/comment"
+                    android:background="@drawable/circular_6_"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
                     <!--赞的人-->

@@ -32,6 +32,7 @@ public class User extends RealmObject {
     private Integer sex;
     private String userImage;
     private Integer activeStatus;
+    private String email;
 
     public int getId() {
         return id;
@@ -129,6 +130,14 @@ public class User extends RealmObject {
         this.activeStatus = activeStatus;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -144,6 +153,7 @@ public class User extends RealmObject {
                 ", sex=" + sex +
                 ", userImage='" + userImage + '\'' +
                 ", activeStatus=" + activeStatus +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

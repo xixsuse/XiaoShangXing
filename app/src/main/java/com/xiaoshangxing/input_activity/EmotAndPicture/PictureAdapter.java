@@ -3,7 +3,6 @@ package com.xiaoshangxing.input_activity.EmotAndPicture;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +95,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
                 intent.putExtra(inputSelectPhotoPagerActivity.SELECT_PICTURE, selected);
                 intent.putExtra(inputSelectPhotoPagerActivity.LIMIT,limit);
-                activity.startActivityForResult(intent,InputActivity.SELECT_PHOTO_RESULT_1);
+                activity.startActivityForResult(intent,InputActivity.SELECT_PHOTO_ONE_BY_ONE);
             }
         });
     }

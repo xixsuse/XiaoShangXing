@@ -102,7 +102,7 @@ public class AlbumDetailAdapter extends BaseAdapter {
 				intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
 				intent.putExtra(inputSelectPhotoPagerActivity.SELECT_PICTURE, (ArrayList<String>)select_image_urls);
 				intent.putExtra(inputSelectPhotoPagerActivity.LIMIT,limit);
-				activity.startActivityForResult(intent, InputActivity.SELECT_PHOTO_RESULT_1);
+				activity.startActivityForResult(intent, InputActivity.SELECT_PHOTO_ONE_BY_ONE);
 			}
 		});
 

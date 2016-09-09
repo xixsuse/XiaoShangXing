@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -30,14 +32,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.BaseUrl;
+import com.xiaoshangxing.Network.Bean.Publish;
+import com.xiaoshangxing.Network.FabuNetwork;
+import com.xiaoshangxing.Network.Formmat;
+import com.xiaoshangxing.Network.MultipartUtility;
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.data.CommentsBean;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
 import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.PictureAdapter;
@@ -57,30 +61,28 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.TempUser;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.normalUtils.Flog;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
@@ -177,7 +179,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
     private List<View> viewlist = new ArrayList<View>();
     private List<String> iamgeurls = new ArrayList<String>();
-    private List<String> select_image_urls = new ArrayList<String>();
     private PictureAdapter adapter;
     private ShowSelectPictureAdapter showSelectPictureAdapter;
 
@@ -187,14 +188,16 @@ public class InputActivity extends BaseActivity implements IBaseView {
     public static int EMOTION = 1;
     public static int PICTURE = 2;
 
-    public static final int SELECT_PHOTO_RESULT_1 = 10000;
-    public static int SELECT_PHOTO_FROM_ALBUM = 20000;
-    public static int TAKE_PHOTO = 30000;
-    public static int REVIEW_PHOTO = 40000;
-    public static String SELECT_IMAGE_URLS = "select_image_urls";
+    public static final int SELECT_PHOTO_ONE_BY_ONE = 10000;
+    public static final int SELECT_PHOTO_FROM_ALBUM = 20000;
+    public static final int TAKE_PHOTO = 30000;
+    public static final int REVIEW_PHOTO = 40000;
+    public static final int NOTICE = 50001;
+    public static final int FOBIDDEN = 50002;
+    public static final String SELECT_IMAGE_URLS = "select_image_urls";
 
-    public static String EDIT_STATE = "EDIT_STATE";
-    public static String LIMIT = "LIMIT";
+    public static final String EDIT_STATE = "EDIT_STATE";
+    public static final String LIMIT = "LIMIT";
     public int current_state;                 //当前处于的发布状态
     public static final int PUBLISH_STATE = 80001;    //发布动态
     public static final int SHOOLFELLOW_HELP = 80002; //发布校友互帮
@@ -205,12 +208,18 @@ public class InputActivity extends BaseActivity implements IBaseView {
     public static final int COMMENT = 80007; //评论
     public static final String COMMENT_OBJECT = "COMMENT_OBJECT";
 
-    public static String TRANSMIT_TYPE = "TRANSMIT_TYPE";
+    public static final String TRANSMIT_TYPE = "TRANSMIT_TYPE";
 
     private int current;
     private Uri came_photo_path;
     private int limit;
     private EmotionGrideViewAdapter emotionGrideViewAdapter;
+    private IBaseView iBaseView = this;
+
+    private String selected_location;//选择的位置
+    private List<String> notices = new ArrayList<>();//提醒的人
+    private List<String> fobiddens = new ArrayList<>();//禁止的人
+    private List<String> select_image_urls = new ArrayList<String>();//选择的图片
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,11 +241,15 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
     private void initState() {
         Intent intent = getIntent();
+        if (!intent.hasExtra(EDIT_STATE)) {
+            showToast("跳转意图不明");
+            finish();
+        }
         if (getIntent().getIntExtra(LIMIT,0)!=0){
             limit=getIntent().getIntExtra(LIMIT,9);
         }
-        current_state = intent.getIntExtra(EDIT_STATE, 80001);
-        switch (intent.getIntExtra(EDIT_STATE, 80001)) {
+        current_state = intent.getIntExtra(EDIT_STATE, PUBLISH_STATE);
+        switch (current_state) {
             case PUBLISH_STATE:
                 break;
             case SHOOLFELLOW_HELP:
@@ -280,10 +293,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
             }
         });
         gridView.setAdapter(emotionGrideViewAdapter);
-        TextView textView = new TextView(this);
-        textView.setText("55555");
         viewlist.add(gridView);
-        viewlist.add(textView);
 
         PagerAdapter pagerAdapter = new PagerAdapter() {
 
@@ -296,7 +306,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
             @Override
             public int getCount() {
                 // TODO Auto-generated method stub
-                return 2;
+                return 1;
             }
 
             @Override
@@ -310,8 +320,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
             public Object instantiateItem(ViewGroup container, int position) {
                 // TODO Auto-generated method stub
                 container.addView(viewlist.get(position));
-
-
                 return viewlist.get(position);
             }
         };
@@ -603,6 +611,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         adapter.setSelect_image_urls(list);
         initShowSelect();
         addToBitm(list);
+        Flog.logList("select_image_urls", select_image_urls);
     }
 
     @OnClick({R.id.emotion_edittext, R.id.delete, R.id.emotion, R.id.notice_someone,
@@ -621,14 +630,14 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 showEmot(EMOTION);
                 break;
             case R.id.notice_someone:
-                gotoSelectPerson();
+                gotoSelectPerson(NOTICE);
                 break;
             case R.id.forbid_someone:
-                gotoSelectPerson();
+                gotoSelectPerson(FOBIDDEN);
                 break;
             case R.id.location:
                 Intent location_intent = new Intent(InputActivity.this, LocationActivity.class);
-                startActivityForResult(location_intent, IntentStatic.CODE);
+                startActivityForResult(location_intent, LocationActivity.LOCATION);
                 break;
             case R.id.picture:
                 showEmot(PICTURE);
@@ -637,8 +646,11 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 openCamera();
                 break;
             case R.id.send:
-//                send();
-                YaSuo();
+                send();
+//                YaSuo();
+//                send2();
+//                send3();
+//                send4();
                 break;
             case R.id.normal_emot:
                 viewPager.setCurrentItem(0);
@@ -675,111 +687,165 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
 //    test
     private void send(){
-        ProgressSubscriberOnNext<ResponseBody> onNext1=new ProgressSubscriberOnNext<ResponseBody>() {
+        switch (current_state) {
+            case PUBLISH_STATE:
+                publish();
+                break;
+        }
+    }
+
+    private void publish() {
+        Thread thread = new Thread(new Runnable() {
             @Override
-            public void onNext(final ResponseBody e) {
-                Realm realm = Realm.getDefaultInstance();
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        try {
-                            String string = e.string();
-                            Log.d("ttttt", string);
-                            JSONObject jsonObject = new JSONObject(string);
-                            Log.d("jsonObject", jsonObject.toString());
-                            JSONObject msg = jsonObject.getJSONObject("msg");
-                            Log.d("msg", msg.toString());
-                            JSONArray moments = msg.getJSONArray("moments");
-                            Log.d("moments", moments.toString());
-                            realm.createOrUpdateAllFromJson(Published.class, moments);
-                        } catch (JSONException e1) {
-                            e1.printStackTrace();
-                        } catch (IOException e1) {
-                            e1.printStackTrace();
-                        }
+            public void run() {
+                Map<String, String> map = new HashMap<>();
+                map.put(NS.USER_ID, String.valueOf(TempUser.getID(InputActivity.this)));
+                map.put("text", emotionEdittext.getText().toString());
+                map.put("location", selected_location);
+                map.put("clientTime", String.valueOf(NS.currentTime()));
+                map.put("category", "1");
+                map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
+//                map.put("sight", NS.sight(notices, fobiddens));
+//                map.put("sightUserids", NS.sightUserids(notices, fobiddens));
+                NS.getPermissionString("notice", notices, map);
+                NS.getPermissionString("forbidden", fobiddens, map);
 
-                    }
-                });
-
-
-                RealmResults<Published> publisheds = realm.where(Published.class).findAll();
-                RealmList<CommentsBean> commentsBeen = publisheds.where().findFirst().getComments();
-                Log.d("RealmResults", publisheds.toString());
-                for (int i = 0; i < commentsBeen.size(); i++) {
-                    Log.d("commentsBeen", commentsBeen.get(i).toString());
+                Formmat formmat = new Formmat(iBaseView, InputActivity.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
+                try {
+                    formmat.addFormField(map)
+                            .addFilePart(select_image_urls, InputActivity.this)
+                            .doUpload();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showToast("图片出错");
                 }
-                realm.close();
+            }
+        });
+        thread.start();
+    }
+
+    private void YaSuo() {
+        SendImageHelper.getLittleImage(FileUtils.getXSX_CameraPhotoPath() + "ys.jpg", this);
+        Log.d("yasuo", "click");
+    }
+
+    private void send2() {
+        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
 
             }
         };
-
-
-
-        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(onNext1,this);
-//        LoginNetwork.getInstance().bindEmail(progressSubsciber,bindEmai,this);
-
-        String path = "/sdcard/XSX/test.png";
-
-        File file = new File(path);
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-
-//        LoginNetwork.getInstance().setUserImage(progressSubsciber,42,body,11,this);
-
-//        SetUserImage1 setUserImage1= Network.getRetrofitWithHeader(this).create(SetUserImage1.class);
-//        Call<ResponseBody> call=setUserImage1.setUserImage(42,path,11);
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                try {
-//                    Log.d("ResponseBody",response.body().string());
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//
-//            }
-//        });
-//        Publish publish=new Publish();
-//        publish.setUserId(1);
-//        publish.setText("''''''''i");
-//        File file=new File("file:///android_asset/emoji/default/emoji_00.png");
-//        publish.getImages().add(new File("file:///android_asset/emoji/default/emoji_00.png"));
-//        LoginNetwork.getInstance().Publish(progressSubsciber,publish,this);
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("userId", 1);
-        jsonObject.addProperty("category", 1);
-        jsonObject.addProperty("timeStamp", System.currentTimeMillis());
-
-//        Realm realm=Realm.getDefaultInstance();
-//        realm.executeTransaction(new Realm.Transaction() {
-//            @Override
-//            public void execute(Realm realm) {
-//                User user=realm.createObject(User.class);
-//                user.setUsername("'''''''fcq");
-//            }
-//        });
-//
-//        User user=realm.where(User.class).findFirst();
-//        Log.d("user",user.toString());
-        PublishNetwork.getInstance().getPublished(progressSubsciber, jsonObject, this);
-//        LoginNetwork.getInstance().GetUser(progressSubsciber,jsonObject);
+        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(next, this);
+        Publish publish = new Publish();
+        publish.setUserId(TempUser.getID(this));
+        publish.setText("校上行+1");
+        publish.setTimeStamp(NS.currentTime());
+        publish.setClientTime(NS.currentTime());
+        Map<String, RequestBody> map = new HashMap<>();
+        map.put("image1" + "\"; filename=\"icon.jpg",
+                RequestBody.create(MediaType.parse("multipart/form-data"),
+                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
+        Log.d("image", "image5");
+        map.put("images2" + "\"; filename=\"icon.jpg",
+                RequestBody.create(MediaType.parse("multipart/form-data"),
+                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
+        map.put("images3" + "\"; filename=\"icon.jpg",
+                RequestBody.create(MediaType.parse("multipart/form-data"),
+                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
+        map.put("images4" + "\"; filename=\"icon.jpg",
+                RequestBody.create(MediaType.parse("multipart/form-data"),
+                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
+        map.put("images5" + "\"; filename=\"icon.jpg",
+                RequestBody.create(MediaType.parse("multipart/form-data"),
+                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
+        FabuNetwork.getInstance().Fabu(this, publish, subsciber, map);
     }
 
-    private void YaSuo(){
-        SendImageHelper.getLittleImage(FileUtils.getXSX_CameraPhotoPath()+"ys.jpg",this);
-        Log.d("yasuo","click");
+    public Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    showLoadingDialog("上传中...");
+                    break;
+                case 2:
+                    hideLoadingDialog();
+                    break;
+                default:
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    private void send3() {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Message message = new Message();
+                    message.what = 1;
+                    mHandler.sendMessage(message);
+                    MultipartUtility multipartUtility =
+                            new MultipartUtility("http://114.55.96.241:8080/xsx/v1/moment/releaseMoment", "UTF-8");
+
+                    multipartUtility.addHeaderField("User-Phone", (String) SPUtils.get(InputActivity.this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING));
+                    multipartUtility.addHeaderField("User-Digest", (String) SPUtils.get(InputActivity.this, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
+
+                    multipartUtility.addFormField("userId", String.valueOf(TempUser.getID(InputActivity.this)));
+                    multipartUtility.addFormField("text", "789");
+                    multipartUtility.addFormField("clientTime", "456");
+                    multipartUtility.addFormField("timeStamp", "456");
+
+                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
+                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
+                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
+                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
+                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
+
+                    List<String> result = multipartUtility.finish();
+                    Message message1 = new Message();
+                    message1.what = 2;
+                    mHandler.sendMessage(message1);
+                    Log.d("result00", result.toString());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
+
     }
 
-    private void send2(){
-
+    private void send4() {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Formmat formmat = new Formmat(iBaseView, InputActivity.this, "http://114.55.96.241:8080/xsx/v1/moment/releaseMoment");
+                try {
+                    formmat.addFormField("userId", String.valueOf(TempUser.getID(InputActivity.this)))
+                            .addFormField("text", "封装测试")
+                            .addFormField("clientTime", "456")
+                            .addFormField("timeStamp", "456")
+                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
+                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
+                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
+                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
+                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
+                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
+                            .doUpload();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showToast("文件出错");
+                }
+            }
+        });
+        thread.start();
     }
+
 
     public void showSureDialog() {
         if (emotionEdittext.getText().toString().isEmpty()){
@@ -808,9 +874,10 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
     }
 
-    public void gotoSelectPerson() {
+    public void gotoSelectPerson(int requestcode) {
         Intent intent = new Intent(InputActivity.this, SelectPersonActivity.class);
-        startActivity(intent);
+        intent.putExtra(SelectPersonActivity.REQUSET_CODE, requestcode);
+        startActivityForResult(intent, requestcode);
     }
 
     private void openCamera() {
@@ -894,31 +961,40 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SELECT_PHOTO_RESULT_1) {
-            setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
-        } else if (requestCode == SELECT_PHOTO_FROM_ALBUM) {
-//            ArrayList<String> selectPicture = new ArrayList<String>();
-//            for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
-//                selectPicture.add(Bimp.tempSelectBitmap.get(i).imagePath);
-//            }
-//            setSelect_image_urls(selectPicture);
-            setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
-
-        } else if (requestCode == REVIEW_PHOTO) {
-            setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
-        } else if (requestCode == TAKE_PHOTO) {
-            if (resultCode == RESULT_OK) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case SELECT_PHOTO_ONE_BY_ONE:
+                setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
+                break;
+            case SELECT_PHOTO_FROM_ALBUM:
+                setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
+                break;
+            case REVIEW_PHOTO:
+                setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
+                break;
+            case TAKE_PHOTO:
                 List<String> temp = new ArrayList<String>();
-                temp.add(came_photo_path.toString());
+                temp.add(came_photo_path.getPath());
                 Log.d("came_photo_path", came_photo_path.toString());
                 setSelect_image_urls(merge2list(select_image_urls, temp));
                 Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 intent.setData(came_photo_path);
                 sendBroadcast(intent);
-            }
-        } else if (requestCode == IntentStatic.CODE) {
-            String select_location = data.getStringExtra(LocationActivity.SELECTED);
-            Log.d("select_location", select_location);
+                break;
+            case LocationActivity.LOCATION:
+                selected_location = data.getStringExtra(LocationActivity.SELECTED);
+                Log.d("select_location", selected_location);
+                break;
+            case FOBIDDEN:
+                fobiddens = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
+                Flog.logList("fobiddens", fobiddens);
+                break;
+            case NOTICE:
+                notices = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
+                Flog.logList("notices", notices);
+                break;
         }
     }
 
@@ -949,5 +1025,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
     @OnClick(R.id.select_location_imag)
     public void onClick() {
     }
+
 }
+
+
 

@@ -2,16 +2,18 @@ package com.xiaoshangxing.utils.normalUtils;
 
 import android.util.Log;
 
+import java.util.List;
+
 /**
  * Log统一管理类
  * 
  * @author way
  * 
  */
-public class L
+public class Flog
 {
 
-	private L()
+	private Flog()
 	{
 		/* cannot be instantiated */
 		throw new UnsupportedOperationException("cannot be instantiated");
@@ -68,5 +70,11 @@ public class L
 	{
 		if (isDebug)
 			Log.i(tag, msg);
+	}
+
+	public static void logList(String tag, List<String> strings) {
+		for (int i = 0; i < strings.size(); i++) {
+			Log.d(tag, "--" + strings.get(i));
+		}
 	}
 }

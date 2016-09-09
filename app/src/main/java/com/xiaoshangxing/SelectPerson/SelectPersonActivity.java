@@ -270,11 +270,12 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     private void sure(){
         Intent intent=new Intent();
         intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
-        if (requestCode!=0&&requestCode!=-1){
-            setResult(requestCode,intent);
-        }else {
-            setResult(SELECT_PERSON_CODE,intent);
-        }
+//        if (requestCode!=0&&requestCode!=-1){
+//            setResult(RESULT_OK, intent);
+//        }else {
+//            setResult(SELECT_PERSON_CODE,intent);
+//        }
+        setResult(RESULT_OK, intent);
         finish();
     }
 }

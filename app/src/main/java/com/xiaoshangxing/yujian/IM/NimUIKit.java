@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
-
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.Contact.ContactProvider;
@@ -84,72 +83,6 @@ public final class NimUIKit {
     public static void clearCache() {
         DataCacheManager.clearDataCache();
     }
-
-//    /**
-//     * 打开一个聊天窗口，开始聊天
-//     *
-//     * @param context       上下文
-//     * @param id            聊天对象ID（用户帐号account或者群组ID）
-//     * @param sessionType   会话类型
-//     * @param customization 定制化信息。针对不同的聊天对象，可提供不同的定制化。
-//     * @param anchor        跳转到指定消息的位置，不需要跳转填null
-//     */
-//    public static void startChatting(Context context, String id, SessionTypeEnum sessionType, SessionCustomization
-//            customization, IMMessage anchor) {
-//
-//        if (sessionType == SessionTypeEnum.P2P) {
-//            P2PMessageActivity.start(context, id, customization, anchor);
-//        } else if (sessionType == SessionTypeEnum.Team) {
-//            TeamMessageActivity.start(context, id, customization, null, anchor);
-//        }
-//    }
-
-//    /**
-//     * 打开一个聊天窗口（用于从聊天信息中创建群聊时，打开群聊）
-//     *
-//     * @param context       上下文
-//     * @param id            聊天对象ID（用户帐号account或者群组ID）
-//     * @param sessionType   会话类型
-//     * @param customization 定制化信息。针对不同的聊天对象，可提供不同的定制化。
-//     * @param backToClass   返回的指定页面
-//     * @param anchor        跳转到指定消息的位置，不需要跳转填null
-//     */
-//    public static void startChatting(Context context, String id, SessionTypeEnum sessionType, SessionCustomization customization,
-//                                     Class<? extends Activity> backToClass, IMMessage anchor) {
-//        if (sessionType == SessionTypeEnum.Team) {
-//            TeamMessageActivity.start(context, id, customization, backToClass, anchor);
-//        }
-//    }
-
-//    /**
-//     * 打开联系人选择器
-//     *
-//     * @param context     上下文（Activity）
-//     * @param option      联系人选择器可选配置项
-//     * @param requestCode startActivityForResult使用的请求码
-//     */
-//    public static void startContactSelect(Context context, ContactSelectActivity.Option option, int requestCode) {
-//        ContactSelectActivity.startActivityForResult(context, option, requestCode);
-//    }
-
-//    /**
-//     * 打开讨论组或高级群资料页
-//     *
-//     * @param context 上下文
-//     * @param teamId  群id
-//     */
-//    public static void startTeamInfo(Context context, String teamId) {
-//        Team team = TeamDataCache.getInstance().getTeamById(teamId);
-//        if (team == null) {
-//            return;
-//        }
-//        if (team.getType() == TeamTypeEnum.Advanced) {
-//            AdvancedTeamInfoActivity.start(context, teamId); // 启动固定群资料页
-//        } else if (team.getType() == TeamTypeEnum.Normal) {
-//            NormalTeamInfoActivity.start(context, teamId); // 启动讨论组资料页
-//        }
-//
-//    }
 
     public static Context getContext() {
         return context;

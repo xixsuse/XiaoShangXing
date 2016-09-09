@@ -98,8 +98,14 @@ public class SettingActivity extends BaseActivity implements IBaseView {
 
     @Override
     protected void onResume() {
+        initView();
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
         realm.close();
+        super.onDestroy();
     }
 
     @Override
@@ -144,12 +150,6 @@ public class SettingActivity extends BaseActivity implements IBaseView {
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
-
-//    public void Feedbak(View view) {
-//        Intent intent = new Intent(this, FeedbackActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-//    }
 
     public void NewNotice(View view) {
         Intent intent = new Intent(this, NewNoticeActivity.class);

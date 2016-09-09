@@ -12,16 +12,38 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.InfoNetwork;
+import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.TempUser;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
+
+import org.json.JSONObject;
+
+import io.realm.Realm;
+import okhttp3.ResponseBody;
 
 /**
  * Created by 15828 on 2016/7/12.
  */
-public class QianMingFragment extends BaseFragment {
+public class QianMingFragment extends BaseFragment implements IBaseView {
     private View mView;
     private EditText editText;
     private TextView count, save, back;
+    private Realm realm;
+    private User user;
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
+    }
 
     @Nullable
     @Override
@@ -31,6 +53,14 @@ public class QianMingFragment extends BaseFragment {
         count = (TextView) mView.findViewById(R.id.qianming_count);
         save = (TextView) mView.findViewById(R.id.qianming_save);
         back = (TextView) mView.findViewById(R.id.qianming_back);
+        realm = Realm.getDefaultInstance();
+        user = realm.where(User.class).equalTo(NS.ID, TempUser.getID(getContext())).findFirst();
+        if (user == null) {
+            showToast(AppContracts.NO_USER);
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+        editText.setText(user.getSignature());
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +104,41 @@ public class QianMingFragment extends BaseFragment {
 
             }
         });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChangeInfo(editText.getText().toString());
+            }
+        });
         return mView;
+    }
+
+    private void ChangeInfo(String text) {
+        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    if (jsonObject.getString(NS.CODE).equals("200")) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    } else {
+                        showToast("修改失败");
+                    }
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(next, this);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("id", (Integer) SPUtils.get(getContext(), SPUtils.ID, SPUtils.DEFAULT_int));
+        jsonObject.addProperty("signature", text);
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+
+        InfoNetwork.getInstance().ModifyInfo(progressSubsciber, jsonObject, getContext());
     }
 
 

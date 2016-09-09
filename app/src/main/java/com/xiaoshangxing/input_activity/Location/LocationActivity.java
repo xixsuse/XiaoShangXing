@@ -2,7 +2,6 @@ package com.xiaoshangxing.input_activity.Location;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -51,6 +50,7 @@ public class LocationActivity extends BaseActivity {
     private View head;
     private View head_gou;
     private String selected="null";
+    public static final int LOCATION = 0x1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,9 +113,11 @@ public class LocationActivity extends BaseActivity {
                 if (position==0){
                     head_gou.setVisibility(View.VISIBLE);
                     adpter.setSelected(-1);
+                    selected = null;
                 }else {
                     head_gou.setVisibility(View.INVISIBLE);
                     adpter.setSelected(position-1);
+                    selected = adpter.getItem(position - 1).getName();
                 }
             }
         });
@@ -193,10 +195,10 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     public void finish() {
-        if (!TextUtils.isEmpty(selected)){
+        if (!TextUtils.isEmpty(selected) && !selected.equals("null")) {
             Intent intent=new Intent();
             intent.putExtra(LocationActivity.SELECTED,selected);
-            setResult(IntentStatic.CODE,intent);
+            setResult(RESULT_OK, intent);
         }
         super.finish();
     }

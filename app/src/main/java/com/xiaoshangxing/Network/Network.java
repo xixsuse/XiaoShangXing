@@ -80,4 +80,35 @@ public class Network {
         }
         return retrofit_with_header;
     }
+
+    public static Retrofit getRetrofitFormat(final Context context) {
+
+        if (retrofit_with_header == null) {
+            HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+            httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            okHttpClient = new OkHttpClient.Builder()
+                    .addInterceptor(httpLoggingInterceptor)
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            Request request = chain.request()
+                                    .newBuilder()
+                                    .addHeader("User-Phone", (String) SPUtils.get(context, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING))
+                                    .addHeader("User-Digest", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING))
+                                    .build();
+                            Log.d("digest2", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
+                            return chain.proceed(request);
+                        }
+                    })
+                    .connectTimeout(DEFAULT_TIME, TimeUnit.SECONDS)
+                    .build();
+            retrofit_with_header = new Retrofit.Builder()
+                    .client(okHttpClient)
+                    .baseUrl(BaseUrl.BASE_URL)
+                    .addConverterFactory(gsonConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+        }
+        return retrofit_with_header;
+    }
 }

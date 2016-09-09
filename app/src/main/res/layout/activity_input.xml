@@ -441,6 +441,7 @@
 
                 <LinearLayout
                     android:id="@+id/favorite"
+                    android:visibility="gone"
                     android:layout_toEndOf="@+id/normal_emot"
                     android:layout_width="@dimen/x152"
                     android:layout_height="match_parent">

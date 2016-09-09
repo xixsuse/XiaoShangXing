@@ -70,21 +70,21 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                     jsonObject = new JSONObject(responseBody.string());
                     switch (Integer.valueOf((String) jsonObject.get(NS.CODE))) {
                         case 200:
-                            if (jsonObject.get("msg") instanceof JSONObject) {
+                            if (jsonObject.get(NS.MSG) instanceof JSONObject) {
                                 String token=jsonObject.getJSONObject(NS.MSG).getString(NS.TOKEN);
                                 String digest= HmacSHA256Utils.digest(token,mView.getPhoneNumber());
-//                                存储摘要 账号 id  头像
+                                //  存储摘要 账号 id  头像
                                 SPUtils.put(context,SPUtils.DIGEST,digest);
                                 SPUtils.put(context,SPUtils.CURRENT_COUNT,mView.getPhoneNumber());
-                                String headPath = jsonObject.getJSONObject("msg").getJSONObject("userDto").getString("userImage");
+                                String headPath = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto").getString("userImage");
                                 if (!TextUtils.isEmpty(headPath) && !headPath.equals("null")) {
                                     SPUtils.put(context, SPUtils.CURRENT_COUNT_HEAD, headPath);
                                 }
-                                int id=jsonObject.getJSONObject("msg").getJSONObject("userDto").getInt("id");
+                                int id = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto").getInt(NS.ID);
                                 SPUtils.put(context,SPUtils.ID,id);
                                 Log.d("digest",digest);
-//                                存储账号信息
-                                final JSONObject userDao = jsonObject.getJSONObject("msg").getJSONObject("userDto");
+                                //   存储账号信息
+                                final JSONObject userDao = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto");
                                 Realm realm = Realm.getDefaultInstance();
                                 realm.executeTransaction(new Realm.Transaction() {
                                     @Override
@@ -107,11 +107,11 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                             mView.showFailDialog("失败次数过多，该账号暂时被锁定");
                             break;
                         default:
-                            if (jsonObject.get("msg") instanceof JSONObject) {
-                                Log.d("login", (String) (jsonObject.getJSONObject("msg")).get("token"));
+                            if (jsonObject.get(NS.MSG) instanceof JSONObject) {
+                                Log.d("login", (String) (jsonObject.getJSONObject(NS.MSG)).get(NS.TOKEN));
                             } else {
-                                Log.d("login", jsonObject.getString("msg"));
-                                mView.showFailDialog(jsonObject.getString("msg"));
+                                Log.d("login", jsonObject.getString(NS.MSG));
+                                mView.showFailDialog(jsonObject.getString(NS.MSG));
                             }
                             break;
                     }

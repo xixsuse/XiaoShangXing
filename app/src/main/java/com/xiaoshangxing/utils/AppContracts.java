@@ -10,4 +10,6 @@ public class AppContracts {
 
     public static final String TAG = "XSX";
 
+    public static final String NO_USER = "账号有误";
+
 }

@@ -14,6 +14,7 @@ public class BaseUrl {
     public static final String CHECK_PHONE = "base/chkExist";
 
     public static final String BIND_EMAIL = "base/bindEmail";
+    public static final String UNBIND_EMAIL = "base/unBindEmail";
     public static final String PUBLISH = "moment/releaseMoment";
     public static final String SET_IMAGE = "base/setUserImage";
     public static final String USER = "base/getUserInfo";

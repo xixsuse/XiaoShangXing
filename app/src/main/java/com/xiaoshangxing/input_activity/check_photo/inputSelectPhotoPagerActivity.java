@@ -180,7 +180,7 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
         }
         intent.putExtra(InputActivity.SELECT_IMAGE_URLS, select_picture_urls2);
         intent.putExtra(BACK_STATE, back_state);
-        setResult(InputActivity.SELECT_PHOTO_RESULT_1, intent);
+        setResult(RESULT_OK, intent);
         super.finish();
     }
 

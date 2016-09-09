@@ -8,6 +8,7 @@ import com.xiaoshangxing.Network.api.InfoApi.CheckPassword;
 import com.xiaoshangxing.Network.api.InfoApi.GetUser;
 import com.xiaoshangxing.Network.api.InfoApi.ModifyInfoApi;
 import com.xiaoshangxing.Network.api.InfoApi.ModifyPassword;
+import com.xiaoshangxing.Network.api.InfoApi.UnBindEmailApi;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -25,6 +26,7 @@ public class InfoNetwork {
     private CheckPassword checkPassword;
     private ModifyPassword modifyPassword;
     private BindEmailApi bindEmailApi;
+    private UnBindEmailApi unBindEmailApi;
 
 
     private InfoNetwork() {
@@ -78,6 +80,14 @@ public class InfoNetwork {
             bindEmailApi = Network.getRetrofitWithHeader(context).create(BindEmailApi.class);
         }
         Observable<ResponseBody> observable = bindEmailApi.bindEmail(bindEmai);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void unBindEmail(Subscriber<ResponseBody> subscriber, JsonObject bindEmai, Context context) {
+        if (unBindEmailApi == null) {
+            unBindEmailApi = Network.getRetrofitWithHeader(context).create(UnBindEmailApi.class);
+        }
+        Observable<ResponseBody> observable = unBindEmailApi.unbindEmail(bindEmai);
         toSubscribe(observable, subscriber);
     }
 

@@ -86,6 +86,8 @@
 
     <color name="global_bg">#9000</color>
 
+    <color name="jianjiao">#F0F0F2</color>
+
     <!--IM-->
     <color name="im_list_select_hover">#dbdbdb</color>
     <color name="green_4DC0A4">#4DC0A4</color>

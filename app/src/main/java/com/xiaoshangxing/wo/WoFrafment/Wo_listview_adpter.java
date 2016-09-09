@@ -30,12 +30,15 @@ import com.xiaoshangxing.utils.layout.MoreTextView;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.utils.school_circle.Item_Comment;
 import com.xiaoshangxing.utils.school_circle.PraisePeople;
-import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
+import com.xiaoshangxing.wo.roll.rollActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by FengChaoQun
@@ -53,7 +56,7 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
         super(context, resource, objects);
         this.context = context;
         this.strings = objects;
-        this.resource=resource;
+        this.resource = resource;
         this.woFragment = woFragment;
         this.activity = activity;
         mHandler = new Handler();
@@ -61,39 +64,20 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View view;
-        final wo_viewholder viewholder;
-
+        final ViewHolder viewHolder;
         if (convertView == null) {
-            view = View.inflate(context, R.layout.item_wo_listview, null);
-            viewholder = new wo_viewholder();
-            viewholder.head = (CirecleImage) view.findViewById(R.id.head_image);
-            viewholder.name = (Name) view.findViewById(R.id.name);
-            viewholder.college = (TextView) view.findViewById(R.id.college);
-            viewholder.text = (MoreTextView) view.findViewById(R.id.text);
-            viewholder.photos1 = (NoScrollGridView) view.findViewById(R.id.photos1);
-            viewholder.just_one = (ImageView) view.findViewById(R.id.just_one);
-            viewholder.location = (TextView) view.findViewById(R.id.location);
-            viewholder.time = (TextView) view.findViewById(R.id.time);
-            viewholder.permission = (ImageView) view.findViewById(R.id.permission);
-            viewholder.delete = (TextView) view.findViewById(R.id.delete);
-            viewholder.praise = (CheckBox) view.findViewById(R.id.praise);
-            viewholder.comment = (ImageView) view.findViewById(R.id.comment);
-            viewholder.comment_layout = (LinearLayout) view.findViewById(R.id.comment_layout);
-            viewholder.praise_people = (LinearLayout) view.findViewById(R.id.praise_people);
-            viewholder.comments = (LinearLayout) view.findViewById(R.id.comments);
-            viewholder.transmit_content = (LinearLayout) view.findViewById(R.id.transmit_content);
-            viewholder.transmit_image = (CirecleImage) view.findViewById(R.id.transmit_image);
-            viewholder.transmit_text = (EmotinText) view.findViewById(R.id.transmit_text);
-            view.setTag(viewholder);
+            convertView = View.inflate(context, R.layout.item_wo_listview, null);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
         } else {
-            view = convertView;
-            viewholder = (wo_viewholder) view.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewholder.text.setText(context.getString(R.string.longtext) + context.getString(R.string.longtext));
+        initView(viewHolder);
+        initOnclick(viewHolder);
 
-//测试图片
+
+        //测试图片
         String[] urls2 = {"http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg",
                 "http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg",
                 "http://img.my.csdn.net/uploads/201407/26/1406383291_8239.jpg",
@@ -110,8 +94,8 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             imageUrls.add(urls2[i]);
         }
 
-        viewholder.photos1.setAdapter(new NoScrollGridAdapter(context, imageUrls));
-        viewholder.photos1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        viewHolder.photos1.setAdapter(new NoScrollGridAdapter(context, imageUrls));
+        viewHolder.photos1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, ImagePagerActivity.class);
@@ -121,11 +105,11 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             }
         });
 
-        if (viewholder.praise_people.getChildCount() != 0) {
-                viewholder.praise_people.removeAllViews();
+        if (viewHolder.praisePeople.getChildCount() != 0) {
+            viewHolder.praisePeople.removeAllViews();
         }
 
-        viewholder.just_one.setImageResource(R.mipmap.cirecleimage_default);
+        viewHolder.justOne.setImageResource(R.mipmap.cirecleimage_default);
         Glide.with(context)
                 .load(R.mipmap.test)
                 .asBitmap()
@@ -133,13 +117,13 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         if (resource.getHeight() > context.getResources().getDimensionPixelSize(R.dimen.y600)) {
-                            viewholder.just_one.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                            viewHolder.justOne.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                                     context.getResources().getDimensionPixelSize(R.dimen.y600)));
                         }
-                        viewholder.just_one.setImageBitmap(resource);
+                        viewHolder.justOne.setImageBitmap(resource);
                     }
                 });
-        viewholder.just_one.setOnClickListener(new View.OnClickListener() {
+        viewHolder.justOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ImagePagerActivity.class);
@@ -155,19 +139,19 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
         int ran = random.nextInt(3);
         switch (ran) {
             case 0:
-                viewholder.photos1.setVisibility(View.VISIBLE);
-                viewholder.just_one.setVisibility(View.GONE);
-                viewholder.transmit_content.setVisibility(View.GONE);
+                viewHolder.photos1.setVisibility(View.VISIBLE);
+                viewHolder.justOne.setVisibility(View.GONE);
+                viewHolder.transmitContent.setVisibility(View.GONE);
                 break;
             case 1:
-                viewholder.photos1.setVisibility(View.GONE);
-                viewholder.just_one.setVisibility(View.VISIBLE);
-                viewholder.transmit_content.setVisibility(View.GONE);
+                viewHolder.photos1.setVisibility(View.GONE);
+                viewHolder.justOne.setVisibility(View.VISIBLE);
+                viewHolder.transmitContent.setVisibility(View.GONE);
                 break;
             case 2:
-                viewholder.photos1.setVisibility(View.GONE);
-                viewholder.just_one.setVisibility(View.GONE);
-                viewholder.transmit_content.setVisibility(View.VISIBLE);
+                viewHolder.photos1.setVisibility(View.GONE);
+                viewHolder.justOne.setVisibility(View.GONE);
+                viewHolder.transmitContent.setVisibility(View.VISIBLE);
                 break;
         }
 //        测试点赞的人
@@ -180,26 +164,26 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
         praisePeople.addName("御天证道");
         praisePeople.addName("御天证道");
         praisePeople.addName("御天证道");
-        viewholder.praise_people.addView(praisePeople.getTextView());
+        viewHolder.praisePeople.addView(praisePeople.getTextView());
 
 //        测试评论
-        if (viewholder.comments.getChildCount() != 0) {
-            viewholder.comments.removeAllViews();
+        if (viewHolder.comments.getChildCount() != 0) {
+            viewHolder.comments.removeAllViews();
         }
 
-        Item_Comment comment = new Item_Comment(context, "御天证道", "哇哇哇哇哇哇哇哇哇哇哇哇"+"[可爱]");
+        Item_Comment comment = new Item_Comment(context, "御天证道", "哇哇哇哇哇哇哇哇哇哇哇哇" + "[可爱]");
         Item_Comment comment2 = new Item_Comment(context, "王振华", "孙璐阳", "和哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈和");
-        viewholder.comments.addView(comment.getTextView());
-        viewholder.comments.addView(comment2.getTextView());
+        viewHolder.comments.addView(comment.getTextView());
+        viewHolder.comments.addView(comment2.getTextView());
 
 //       评论
-        viewholder.comment.setOnClickListener(new View.OnClickListener() {
+        viewHolder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 woFragment.showEdittext(context);
                 final int[] xy = new int[2];
                 v.getLocationOnScreen(xy);
-                final int layoutHeight = viewholder.comment_layout.getHeight();
+                final int layoutHeight = viewHolder.commentLayout.getHeight();
                 final View mv = v;
                 mHandler.postDelayed(new Runnable() {
                     @Override
@@ -217,9 +201,9 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
         setCommentListner(comment2.getTextView());
 
         //头像监听
-        viewholder.head.setIntent_type(CirecleImage.PERSON_STATE);
+        viewHolder.headImage.setIntent_type(CirecleImage.PERSON_STATE);
 //        删除
-        viewholder.delete.setOnClickListener(new View.OnClickListener() {
+        viewHolder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final DialogUtils.Dialog_Center center = new DialogUtils.Dialog_Center(context);
@@ -245,7 +229,7 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
             }
         });
 
-        viewholder.permission.setOnClickListener(new View.OnClickListener() {
+        viewHolder.permission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, rollActivity.class);
@@ -253,33 +237,28 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
                 context.startActivity(intent);
             }
         });
-        return view;
+        return convertView;
     }
 
-    //    显示输入框的OnClickListener
-//    private View.OnClickListener showEdittext = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            woFragment.showEdittext(context);
-//            final int[] xy = new int[2];
-//            v.getLocationOnScreen(xy);
-//            final View mv = v;
-//            mHandler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    int editextLocation = woFragment.get_Editext_Height();
-//                    int destination = xy[1] + mv.getHeight() - editextLocation;
-//                    woFragment.moveListview(destination);
-//                }
-//            }, 300);
-//            woFragment.setEditCallback(new InputBoxLayout.CallBack() {
-//                @Override
-//                public void callback(String text) {
-//
-//                }
-//            });
-//        }
-//    };
+    private void initOnclick(final ViewHolder viewHolder) {
+        viewHolder.commentLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.comment.performClick();
+            }
+        });
+        viewHolder.praiseLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.praise.performClick();
+            }
+        });
+    }
+
+    private void initView(ViewHolder viewHolder) {
+        viewHolder.text.setText(context.getString(R.string.longtext) + context.getString(R.string.longtext));
+
+    }
 
     private void setCommentListner(View view) {
         view.setOnClickListener(new View.OnClickListener() {
@@ -317,24 +296,52 @@ public class Wo_listview_adpter extends ArrayAdapter<String> {
         });
     }
 
-    private static class wo_viewholder{
-        private CirecleImage head;
-        private Name name;
-        private TextView college;
-        private MoreTextView text;
-        private NoScrollGridView photos1;
-        private ImageView just_one;
-        private TextView location;
-        private TextView time;
-        private ImageView permission;
-        private TextView delete;
-        private CheckBox praise;
-        private ImageView comment;
-        private LinearLayout comment_layout;
-        private LinearLayout praise_people;
-        private LinearLayout comments;
-        private LinearLayout transmit_content;
-        private CirecleImage transmit_image;
-        private EmotinText transmit_text;
+    static class ViewHolder {
+        @Bind(R.id.head_image)
+        CirecleImage headImage;
+        @Bind(R.id.name)
+        Name name;
+        @Bind(R.id.college)
+        TextView college;
+        @Bind(R.id.text)
+        MoreTextView text;
+        @Bind(R.id.photos1)
+        NoScrollGridView photos1;
+        @Bind(R.id.just_one)
+        ImageView justOne;
+        @Bind(R.id.transmit_image)
+        CirecleImage transmitImage;
+        @Bind(R.id.transmit_text)
+        EmotinText transmitText;
+        @Bind(R.id.transmit_content)
+        LinearLayout transmitContent;
+        @Bind(R.id.location)
+        TextView location;
+        @Bind(R.id.time)
+        TextView time;
+        @Bind(R.id.permission)
+        ImageView permission;
+        @Bind(R.id.delete)
+        TextView delete;
+        @Bind(R.id.praise)
+        CheckBox praise;
+        @Bind(R.id.praise_lay)
+        LinearLayout praiseLay;
+        @Bind(R.id.comment)
+        ImageView comment;
+        @Bind(R.id.comment_lay)
+        LinearLayout commentLay;
+        @Bind(R.id.praise_people)
+        LinearLayout praisePeople;
+        @Bind(R.id.comments)
+        LinearLayout comments;
+        @Bind(R.id.comment_layout)
+        LinearLayout commentLayout;
+        @Bind(R.id.headline)
+        ImageView headline;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

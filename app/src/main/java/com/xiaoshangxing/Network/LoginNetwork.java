@@ -4,13 +4,13 @@ import android.content.Context;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.Bean.Publish;
+import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 import com.xiaoshangxing.Network.api.Login_Register_Api.CheckCodeApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.ChkExistApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.LoginApi;
-import com.xiaoshangxing.Network.api.PublishApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.RegisterApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.SendCodeApi;
-import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
+import com.xiaoshangxing.Network.api.PublishApi;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -86,9 +86,6 @@ public class LoginNetwork {
         toSubscribe(observable, subscriber);
     }
 
-
-
-
     public void Publish(Subscriber<ResponseBody> subscriber, Publish publish, Context context) {
         if (publishApi == null) {
             publishApi = Network.getRetrofitWithHeader(context).create(PublishApi.class);
@@ -96,6 +93,7 @@ public class LoginNetwork {
         Observable<ResponseBody> observable = publishApi.publish(publish);
         toSubscribe(observable, subscriber);
     }
+
 
 //    public void setUserImage(Subscriber<ResponseBody> subscriber, Integer id, MultipartBody.Part path/*String path*/, long time, Context context) {
 //        if (setUserImage == null) {

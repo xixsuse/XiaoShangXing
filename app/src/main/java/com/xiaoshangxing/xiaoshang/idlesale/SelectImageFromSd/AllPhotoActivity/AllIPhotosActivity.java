@@ -181,7 +181,7 @@ public class AllIPhotosActivity extends BaseActivity implements View.OnClickList
     //
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//       if (requestCode==InputActivity.SELECT_PHOTO_RESULT_1&&requestCode==RESULT_OK){
+//       if (requestCode==InputActivity.SELECT_PHOTO_ONE_BY_ONE&&requestCode==RESULT_OK){
 //           ArrayList<String> select = data.getStringArrayListExtra(InputActivity.SELECT_IMAGE_URLS);
 //           selectPicturePath = select;
 //           setPicteureSelectCount(selectPicturePath.size());

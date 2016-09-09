@@ -20,6 +20,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -97,6 +98,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     private ImageView camera;//拍照按钮
     private ImageView emotion;//表情按钮
     private View emotion_lay;//表情布局
+    private View delete_emot;//删除按钮
     private ViewPager emotion_viewpager;//表情列表
     private View picture_lay;//图片布局
     private RecyclerView picture_recyclerview;//图片列表
@@ -181,6 +183,8 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         camera.setOnClickListener(this);
         emotion = (ImageView) view.findViewById(R.id.emotion);
         emotion.setOnClickListener(this);
+        delete_emot = view.findViewById(R.id.delete_emot);
+        delete_emot.setOnClickListener(this);
         emotion_lay = view.findViewById(R.id.emot_lay);
         emotion_viewpager = (ViewPager) view.findViewById(R.id.scrollview);
         picture_lay = view.findViewById(R.id.picture_lay);
@@ -293,6 +297,9 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
                 break;
             case R.id.emotion:
                 toggleEmojiLayout();
+                break;
+            case R.id.delete_emot:
+                emoticonsEditText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
                 break;
             case R.id.picture:
                 ClickOnPicture();

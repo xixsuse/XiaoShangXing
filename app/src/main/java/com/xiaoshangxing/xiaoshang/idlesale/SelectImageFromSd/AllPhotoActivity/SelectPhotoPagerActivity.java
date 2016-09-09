@@ -179,7 +179,7 @@ public class SelectPhotoPagerActivity extends FragmentActivity {
             select_picture_urls2.add(select_image_urls.get(i));
         }
 //      intent.putExtra(InputActivity.SELECT_IMAGE_URLS, select_picture_urls2);
-//        setResult(InputActivity.SELECT_PHOTO_RESULT_1, intent);
+//        setResult(InputActivity.SELECT_PHOTO_ONE_BY_ONE, intent);
 
 
         Intent k = new Intent(this, InputActivity.class);
