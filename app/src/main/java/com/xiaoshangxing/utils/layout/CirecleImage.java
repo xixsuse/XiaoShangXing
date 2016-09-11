@@ -13,7 +13,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.wo.myState.myStateActivity;
+import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
 /**
  * Created by FengChaoQun
@@ -24,6 +26,7 @@ public class CirecleImage extends ImageView {
     public static final int PERSON_INFO = 1000;
     public static final int PERSON_STATE = 2000;
     private int intent_type;
+    private String account;
     /**
      * 获取屏幕密度
      */
@@ -103,19 +106,26 @@ public class CirecleImage extends ImageView {
         setRoundness(100);
     }
 
-    public void setIntent_type(int intent_type) {
+    public void setIntent_type(int intent_type, final String account) {
         this.intent_type = intent_type;
+        this.account = account;
         switch (intent_type) {
             case PERSON_INFO:
-
+                setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent state_intent = new Intent(context, PersonInfoActivity.class);
+                        state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+                        context.startActivity(state_intent);
+                    }
+                });
                 break;
             case PERSON_STATE:
-                intent_type = PERSON_STATE;
                 setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent state_intent = new Intent(context, myStateActivity.class);
-//                        state_intent.putExtra(myStateActivity.TYPE,myStateActivity.OTHRE);
+                        state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
                         state_intent.putExtra(myStateActivity.TYPE, myStateActivity.SELF);
                         context.startActivity(state_intent);
                     }

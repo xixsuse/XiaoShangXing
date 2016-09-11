@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <!--左侧布局-->
+    <RelativeLayout
+        android:layout_width="@dimen/x208"
+        android:layout_height="wrap_content">
+        <!--日期-->
+        <LinearLayout
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16"
+                android:textColor="@color/b0"
+                android:textSize="23sp" />
+
+            <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:paddingBottom="@dimen/y15"
+                android:text="七月"
+                android:textColor="@color/b0"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!--地点-->
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date"
+            android:layout_marginTop="@dimen/y18"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <!--右侧布局-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+        <!--说点什么吧-->
+        <RelativeLayout
+            android:id="@+id/publish"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/height_144"
+            android:paddingBottom="@dimen/y18"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/say_something"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:ellipsize="end"
+                android:text="@string/say_something"
+                android:textColor="@color/blue1"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/say_something"
+                android:src="@mipmap/feather_blue" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/publish">
+
+        </FrameLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

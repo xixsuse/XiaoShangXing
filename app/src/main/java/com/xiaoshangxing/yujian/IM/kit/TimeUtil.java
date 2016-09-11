@@ -11,6 +11,11 @@ import java.util.TimeZone;
 
 public class TimeUtil {
 
+    public static final int SECOND = 1000;
+    public static final int MINUTE = 60 * SECOND;
+    public static final int HOUR = 60 * MINUTE;
+    public static final int DAY = 24 * HOUR;
+
     public static boolean isEarly(int days, long time) {
         return (currentTimeMillis() - time) > (days * 24 * 3600 * 1000);
     }
@@ -123,6 +128,49 @@ public class TimeUtil {
             showDataString = dateformatter.format(date);
         }
         return showDataString;
+    }
+
+    public static String transferCNmonth(String month) {
+        String Month = "";
+        switch (Integer.valueOf(month)) {
+            case 1:
+                Month = "一月";
+                break;
+            case 2:
+                Month = "二月";
+                break;
+            case 3:
+                Month = "三";
+                break;
+            case 4:
+                Month = "四月";
+                break;
+            case 5:
+                Month = "五月";
+                break;
+            case 6:
+                Month = "六月";
+                break;
+            case 7:
+                Month = "七月";
+                break;
+            case 8:
+                Month = "八月";
+                break;
+            case 9:
+                Month = "九月";
+                break;
+            case 10:
+                Month = "十月";
+                break;
+            case 11:
+                Month = "十一月";
+                break;
+            case 12:
+                Month = "十二月";
+                break;
+        }
+        return Month;
     }
 
     public static String getTimeShowString(long milliseconds, boolean abbreviate) {

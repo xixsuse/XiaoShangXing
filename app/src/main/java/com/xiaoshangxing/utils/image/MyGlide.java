@@ -19,7 +19,7 @@ public class MyGlide {
         Glide.with(activity)
                 .load(url)
                 .placeholder(R.mipmap.greyblock)
-                .error(R.mipmap.greyblock)
+                .error(R.mipmap.nim_image_download_failed)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }
@@ -28,7 +28,7 @@ public class MyGlide {
         Glide.with(fragment)
                 .load(url)
                 .placeholder(R.mipmap.greyblock)
-                .error(R.mipmap.greyblock)
+                .error(R.mipmap.nim_image_download_failed)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }
@@ -37,7 +37,7 @@ public class MyGlide {
         Glide.with(context)
                 .load(url)
                 .placeholder(R.mipmap.greyblock)
-                .error(R.mipmap.greyblock)
+                .error(R.mipmap.nim_image_download_failed)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }
@@ -46,7 +46,7 @@ public class MyGlide {
         Glide.with(context)
                 .load(url)
                 .placeholder(R.mipmap.greyblock)
-                .error(R.mipmap.cirecleimage_default)
+                .error(R.mipmap.nim_image_download_failed)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }

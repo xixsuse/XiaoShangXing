@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,13 +18,18 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.xiaoshangxing.MainActivity;
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.setting.SettingActivity;
+import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
@@ -34,6 +40,11 @@ import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -49,7 +60,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private ListView listView;
     private PtrFrameLayout ptrFrameLayout;
     private List<String> list = new ArrayList<String>();
-    private Wo_listview_adpter adpter;
+    //    private Wo_listview_adpter adpter;
+    private WoAdapter adpter;
 
     private RelativeLayout title;
 
@@ -81,6 +93,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private MainActivity activity;
     private InputBoxLayout inputBoxLayout;
 
+    private Realm realm;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,7 +103,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         setmPresenter(new WoPresenter(this, getContext()));
         handler = new Handler();
         initView();
-        setHead();
         return view;
     }
 
@@ -109,13 +122,15 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         publish = (ImageView) mView.findViewById(R.id.publish);
         publish.setOnClickListener(this);
 
+        realm = Realm.getDefaultInstance();
+
         //headview footview
         headView = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.util_wo_header, null);
         footerview = getActivity().getLayoutInflater().inflate(R.layout.footer, null);
         name1 = (TextView) headView.findViewById(R.id.name1);
         name2 = (TextView) headView.findViewById(R.id.name2);
         headImage = (CirecleImage) headView.findViewById(R.id.head_image);
-        headImage.setIntent_type(CirecleImage.PERSON_STATE);
+        headImage.setIntent_type(CirecleImage.PERSON_STATE, String.valueOf(TempUser.id));
         news = (TextView) headView.findViewById(R.id.news);
         news_lay=headView.findViewById(R.id.news_lay);
         newsHead = (ImageView) headView.findViewById(R.id.news_head);
@@ -128,8 +143,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         listView.addHeaderView(headView);
         listView.addFooterView(footerview);
         //设置listview头
-        setName("冯超群");
-        setHead();
+        initHead();
+
+        initListview();
 
         //实现双击title返回第一条动态
         title.setOnTouchListener(new View.OnTouchListener() {
@@ -152,52 +168,27 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    x1 = event.getX();
-                    y1 = event.getY();
-
-                }
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    x2 = event.getX();
-                    y2 = event.getY();
-                    if (y1 - y2 > 15 && !is_titleMove) {
-                        hideTitle();
-                    } else if (y2 - y1 > 5 & !is_titleMove) {
-                        showTitle();
-                    }
-                }
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    x1 = event.getX();
+//                    y1 = event.getY();
+//
+//                }
+//                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+//                    x2 = event.getX();
+//                    y2 = event.getY();
+//                    if (y1 - y2 > 15 && !is_titleMove) {
+//                        hideTitle();
+//                    } else if (y2 - y1 > 5 & !is_titleMove) {
+//                        showTitle();
+//                    }
+//                }
 //               隐藏评论框
                 hideEdittext();
                 return false;
             }
         });
 
-//      测试使用数据
-        for (int i=0;i<=14;i++){
-            list.add("hhhh"+i);
-        }
-        adpter = new Wo_listview_adpter(getContext(), R.layout.item_wo_listview, list, this, getActivity());
-        listView.setAdapter(adpter);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
 
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 5) {
-                    if (!is_loadMore) {
-                        mPresenter.LoadMore();
-                    }
-                }
-                if (firstVisibleItem+visibleItemCount==totalItemCount){
-                    showFooter();
-                } else if (firstVisibleItem == 0) {
-                    showTitle();
-                }
-            }
-        });
 
 //      初始化刷新布局
         initFresh();
@@ -232,16 +223,57 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     @Override
-    public void setHead() {
-        Glide.with(getContext()).
-                load("http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg")
-                .animate(R.anim.fade_in)
-                .into(headImage);
+    public void setHead(String path) {
+        MyGlide.with_defaul_image(getContext(), path, headImage);
     }
 
     @Override
     public void setNews() {
 
+    }
+
+    private void initHead() {
+        User user = realm.where(User.class).equalTo(NS.ID, TempUser.getID(getContext())).findFirst();
+        if (user == null) {
+            showToast("个人信息有误");
+            return;
+        }
+        setName(user.getUsername());
+        setHead(user.getUserImage());
+        setNews();
+    }
+
+    private void initListview() {
+        RealmResults<Published> publisheds = realm.where(Published.class).findAll().sort("id", Sort.DESCENDING);
+
+        adpter = new WoAdapter(getContext(), publisheds, this, getActivity(), realm);
+
+//        Wo_listview_adpter wo_listview_adpter = new Wo_listview_adpter(getContext(),
+//                1, publisheds.subList(0, 10), this, (BaseActivity) getActivity(), realm);
+
+        WoAdapter1 woAdapter1 = new WoAdapter1(getContext(), publisheds, this, (BaseActivity) getActivity(), realm);
+
+        listView.setAdapter(woAdapter1);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 5) {
+                    if (!is_loadMore) {
+                        mPresenter.LoadMore();
+                    }
+                }
+                if (firstVisibleItem + visibleItemCount == totalItemCount) {
+                    showFooter();
+                } else if (firstVisibleItem == 0) {
+                    showTitle();
+                }
+            }
+        });
     }
 
     private void initFresh(){
@@ -254,12 +286,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         ptrFrameLayout.setDurationToCloseHeader(2000);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-//        ptrFrameLayout.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ptrFrameLayout.autoRefresh(false);
-//            }
-//        }, 100);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -269,17 +295,12 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             public void onRefreshBegin(PtrFrameLayout frame) {
                 divider_line.setVisibility(View.INVISIBLE);
                 if (!is_refresh) {
-                    mPresenter.RefreshData();
+                    mPresenter.RefreshData(frame);
                 }
-                ptrFrameLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ptrFrameLayout.refreshComplete();
-                    }
-                }, 1500);
             }
         });
     }
+
 
     public void showEdittext(Context context) {
         inputBoxLayout.showOrHideLayout(true);
@@ -423,6 +444,17 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     @Override
     public void refreshPager() {
 
+    }
+
+    @Override
+    public Realm getRealm() {
+        return realm;
+    }
+
+    @Override
+    public void onDestroyView() {
+        realm.close();
+        super.onDestroyView();
     }
 
     @Override

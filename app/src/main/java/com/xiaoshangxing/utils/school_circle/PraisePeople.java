@@ -9,11 +9,11 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.wo.myState.myStateActivity;
 
 /**
@@ -40,13 +40,13 @@ public class PraisePeople {
         textView.append(spannableString);
     }
 
-    public void addName(final String name){
+    public void addName(final String name, final String id) {
         spannableString= new SpannableString(name+",");
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Log.d("name",name);
                 Intent intent=new Intent(context,myStateActivity.class);
+                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, id);
                 context.startActivity(intent);
             }
 
@@ -68,4 +68,5 @@ public class PraisePeople {
         textView.setText(textView.getText().subSequence(0,textView.length()-1));
         return this.textView;
     }
+
 }

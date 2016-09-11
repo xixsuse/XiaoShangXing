@@ -7,15 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-
-import com.xiaoshangxing.utils.layout.SwipeItemView;
 import com.xiaoshangxing.yujian.IM.kit.LogUtil;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class TAdapter<T> extends BaseAdapter  {
 

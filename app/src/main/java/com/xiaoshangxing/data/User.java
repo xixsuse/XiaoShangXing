@@ -19,6 +19,7 @@ public class User extends RealmObject {
      * photoCover : http://127.0.0.1:8080/xsx/resources/images/201608221313.jpg
      * isVip : 1
      */
+
     @PrimaryKey
     private int id;
     private String username;
@@ -33,6 +34,11 @@ public class User extends RealmObject {
     private String userImage;
     private Integer activeStatus;
     private String email;
+    private String isClass;
+    private String isCollege;
+    private String isGrade;
+
+    private long serverTime;
 
     public int getId() {
         return id;
@@ -136,6 +142,38 @@ public class User extends RealmObject {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public long getServerTime() {
+        return serverTime;
+    }
+
+    public void setServerTime(long serverTime) {
+        this.serverTime = serverTime;
+    }
+
+    public String getIsClass() {
+        return isClass;
+    }
+
+    public void setIsClass(String isClass) {
+        this.isClass = isClass;
+    }
+
+    public String getIsCollege() {
+        return isCollege;
+    }
+
+    public void setIsCollege(String isCollege) {
+        this.isCollege = isCollege;
+    }
+
+    public String getIsGrade() {
+        return isGrade;
+    }
+
+    public void setIsGrade(String isGrade) {
+        this.isGrade = isGrade;
     }
 
     @Override

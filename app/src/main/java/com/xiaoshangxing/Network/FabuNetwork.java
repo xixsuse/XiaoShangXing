@@ -2,8 +2,11 @@ package com.xiaoshangxing.Network;
 
 import android.content.Context;
 
+import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.Bean.Publish;
+import com.xiaoshangxing.Network.api.getAndPublish.Comment;
 import com.xiaoshangxing.Network.api.getAndPublish.FabuApi;
+import com.xiaoshangxing.Network.api.getAndPublish.GetPublished;
 
 import java.util.Map;
 
@@ -20,6 +23,8 @@ import rx.schedulers.Schedulers;
  */
 public class FabuNetwork {
     private FabuApi fabuApi;
+    private GetPublished getPublished;
+    private Comment comment;
 
     private FabuNetwork() {
 
@@ -42,6 +47,22 @@ public class FabuNetwork {
         Observable<ResponseBody> observable = fabuApi.fabu(publish.getUserId(), publish.getText(), publish.getLocation()
                 , publish.getPersonLimit(), publish.getClientTime(), publish.getCategory(), publish.getSight()
                 , publish.getPrice(), publish.getDorm(), publish.getSightUserids(), publish.getClientTime(), photos);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void getPublished(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (getPublished == null) {
+            getPublished = Network.getRetrofitWithHeader(context).create(GetPublished.class);
+        }
+        Observable<ResponseBody> observable = getPublished.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void comment(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (comment == null) {
+            comment = Network.getRetrofitWithHeader(context).create(Comment.class);
+        }
+        Observable<ResponseBody> observable = comment.start(jsonObject);
         toSubscribe(observable, subscriber);
     }
 

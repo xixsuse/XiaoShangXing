@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xiaoshangxing.wo.WoFrafment.NoScrollGridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/photos1"
+    android:layout_width="@dimen/x720"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/y36"
+    android:columnWidth="@dimen/x228"
+    android:gravity="start"
+    android:horizontalSpacing="@dimen/x12"
+    android:numColumns="3"
+    android:stretchMode="columnWidth"
+    android:verticalSpacing="@dimen/y12">
+
+</com.xiaoshangxing.wo.WoFrafment.NoScrollGridView>

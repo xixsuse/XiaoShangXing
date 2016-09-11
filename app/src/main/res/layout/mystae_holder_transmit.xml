@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/from_other"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--分享的话-->
+    <TextView
+        android:id="@+id/share_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingBottom="@dimen/y10"
+        android:paddingStart="@dimen/x10"
+        android:paddingTop="@dimen/y24"
+        android:text="@string/longtext"
+        android:textColor="@color/b0"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/w2"
+        android:orientation="horizontal">
+
+        <!--相片-->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y10"
+            android:layout_marginEnd="@dimen/x15"
+            android:layout_marginStart="@dimen/x10"
+            android:layout_marginTop="@dimen/y10">
+            <!--物品图片-->
+            <ImageView
+                android:id="@+id/good_image"
+                android:layout_width="@dimen/y126"
+                android:layout_height="@dimen/x126"
+                android:src="@mipmap/cirecleimage_default" />
+
+            <!--人物图片-->
+            <com.xiaoshangxing.utils.layout.CirecleImage
+                android:id="@+id/person_image"
+                android:layout_width="@dimen/y126"
+                android:layout_height="@dimen/x126"
+                android:src="@mipmap/cirecleimage_default" />
+        </FrameLayout>
+
+        <!--文字-->
+        <TextView
+            android:id="@+id/good_describe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:paddingEnd="@dimen/x20"
+            android:text="@string/longtext"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

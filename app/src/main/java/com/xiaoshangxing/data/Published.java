@@ -1,23 +1,21 @@
 package com.xiaoshangxing.data;
 
-import java.util.List;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by FengChaoQun
- * on 2016/8/24
+ * on 2016/9/9
  */
-public class Published extends RealmObject{
+public class Published extends RealmObject {
 
     /**
      * id : 2
      * userId : 1
      * createTime : 1471491953000
      * text : hello
-     * image : 11
+     * image :
      * location : wuxi
      * isHeadline : 0
      * personLimit :
@@ -32,14 +30,15 @@ public class Published extends RealmObject{
      * isDelete : 0
      * validationDate :
      * oprations :
-     * comments : [{"id":2,"userId":2,"isDelete":0,"clientTime":1471542075000,"createTime":1471542075000,"updateTime":"","text":"啊哈哈哈哈哈","isReply":0,"lastId":"","momentId":2},{"id":3,"userId":2,"isDelete":0,"clientTime":1471578086000,"createTime":1471578087000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":4,"userId":2,"isDelete":0,"clientTime":1471578288000,"createTime":1471578289000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":5,"userId":2,"isDelete":0,"clientTime":1471579461000,"createTime":1471579461000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":6,"userId":2,"isDelete":0,"clientTime":1471579519000,"createTime":1471579519000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":7,"userId":2,"isDelete":0,"clientTime":1471582231000,"createTime":1471582232000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":9,"userId":2,"isDelete":0,"clientTime":1471582666000,"createTime":1471582667000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":10,"userId":2,"isDelete":0,"clientTime":1471583889000,"createTime":1471583890000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":11,"userId":2,"isDelete":0,"clientTime":1471584354000,"createTime":1471584355000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":12,"userId":2,"isDelete":0,"clientTime":1471584644000,"createTime":1471584645000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2}]
+     * comments : [{"id":2,"userId":2,"isDelete":0,"clientTime":1471542075000,"createTime":1471542075000,"updateTime":"","text":"啊哈哈哈哈哈","isReply":0,"lastId":"","momentId":2},{"id":3,"userId":2,"isDelete":0,"clientTime":1471578086000,"createTime":1471578087000,"updateTime":"","text":"啊哈哈哈哈哈","isReply":0,"lastId":"","momentId":2},{"id":4,"userId":2,"isDelete":0,"clientTime":1471578288000,"createTime":1471578289000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":5,"userId":2,"isDelete":0,"clientTime":1471579461000,"createTime":1471579461000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":6,"userId":2,"isDelete":0,"clientTime":1471579519000,"createTime":1471579519000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":7,"userId":2,"isDelete":0,"clientTime":1471582231000,"createTime":1471582232000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":9,"userId":2,"isDelete":0,"clientTime":1471582666000,"createTime":1471582667000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":10,"userId":2,"isDelete":0,"clientTime":1471583889000,"createTime":1471583890000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":11,"userId":2,"isDelete":0,"clientTime":1471584354000,"createTime":1471584355000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2},{"id":12,"userId":2,"isDelete":0,"clientTime":1471584644000,"createTime":1471584645000,"updateTime":null,"text":"啊哈哈哈哈哈","isReply":0,"lastId":null,"momentId":2}]
      * sightUserIds : null
      * praiseUserIds :
      * joinUserIds : null
      * transmitCount : 0
      * user : null
+     * notice :
+     * forbidden : null
      */
-
     @PrimaryKey
     private int id;
     private int userId;
@@ -54,7 +53,7 @@ public class Published extends RealmObject{
     private String originalId;
     private int isTransimit;
     private int category;
-    private int sight;
+    private Integer sight;
     private String price;
     private String dorm;
     private int isDelete;
@@ -65,6 +64,9 @@ public class Published extends RealmObject{
     private String joinUserIds;
     private int transmitCount;
     private String user;
+    private String notice;
+    private String forbidden;
+    private long serverTime;
     /**
      * id : 2
      * userId : 2
@@ -184,11 +186,11 @@ public class Published extends RealmObject{
         this.category = category;
     }
 
-    public int getSight() {
+    public Integer getSight() {
         return sight;
     }
 
-    public void setSight(int sight) {
+    public void setSight(Integer sight) {
         this.sight = sight;
     }
 
@@ -248,7 +250,7 @@ public class Published extends RealmObject{
         this.praiseUserIds = praiseUserIds;
     }
 
-    public Object getJoinUserIds() {
+    public String getJoinUserIds() {
         return joinUserIds;
     }
 
@@ -264,12 +266,28 @@ public class Published extends RealmObject{
         this.transmitCount = transmitCount;
     }
 
-    public Object getUser() {
+    public String getUser() {
         return user;
     }
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
+    }
+
+    public String getForbidden() {
+        return forbidden;
+    }
+
+    public void setForbidden(String forbidden) {
+        this.forbidden = forbidden;
     }
 
     public RealmList<CommentsBean> getComments() {
@@ -280,96 +298,11 @@ public class Published extends RealmObject{
         this.comments = comments;
     }
 
-//    public static class CommentsBean extends RealmObject {
-//        private int id;
-//        private int userId;
-//        private int isDelete;
-//        private long clientTime;
-//        private long createTime;
-//        private String updateTime;
-//        private String text;
-//        private int isReply;
-//        private String lastId;
-//        private int momentId;
-//
-//        public int getId() {
-//            return id;
-//        }
-//
-//        public void setId(int id) {
-//            this.id = id;
-//        }
-//
-//        public int getUserId() {
-//            return userId;
-//        }
-//
-//        public void setUserId(int userId) {
-//            this.userId = userId;
-//        }
-//
-//        public int getIsDelete() {
-//            return isDelete;
-//        }
-//
-//        public void setIsDelete(int isDelete) {
-//            this.isDelete = isDelete;
-//        }
-//
-//        public long getClientTime() {
-//            return clientTime;
-//        }
-//
-//        public void setClientTime(long clientTime) {
-//            this.clientTime = clientTime;
-//        }
-//
-//        public long getCreateTime() {
-//            return createTime;
-//        }
-//
-//        public void setCreateTime(long createTime) {
-//            this.createTime = createTime;
-//        }
-//
-//        public String getUpdateTime() {
-//            return updateTime;
-//        }
-//
-//        public void setUpdateTime(String updateTime) {
-//            this.updateTime = updateTime;
-//        }
-//
-//        public String getText() {
-//            return text;
-//        }
-//
-//        public void setText(String text) {
-//            this.text = text;
-//        }
-//
-//        public int getIsReply() {
-//            return isReply;
-//        }
-//
-//        public void setIsReply(int isReply) {
-//            this.isReply = isReply;
-//        }
-//
-//        public String getLastId() {
-//            return lastId;
-//        }
-//
-//        public void setLastId(String lastId) {
-//            this.lastId = lastId;
-//        }
-//
-//        public int getMomentId() {
-//            return momentId;
-//        }
-//
-//        public void setMomentId(int momentId) {
-//            this.momentId = momentId;
-//        }
-//    }
+    public long getServerTime() {
+        return serverTime;
+    }
+
+    public void setServerTime(long serverTime) {
+        this.serverTime = serverTime;
+    }
 }

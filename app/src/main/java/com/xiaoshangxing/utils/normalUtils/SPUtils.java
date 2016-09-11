@@ -11,6 +11,7 @@ public class SPUtils
 {
 	public static final String DEFAULT_STRING ="DEFAULT_STRING";//默认字符
 	public static final int DEFAULT_int=0;
+	public static final Long DEFAULT_LONG=0L;
 	/*
 	**describe:登录注册有关键值对
 	*/
@@ -27,6 +28,12 @@ public class SPUtils
 	*/
 	public static final String NOTIFY="NOTIFY";
 	public static final String EarPhone="EarPhone";
+
+	/*
+	**describe:动态发布拉取
+	*/
+	public static final String LASTTIME_LOAD_WO="LASTTIME_LOAD_WO";
+	public static final String LASTTIME_LOAD_SELF="LASTTIME_LOAD_SELF";
 
 	public SPUtils()
 	{

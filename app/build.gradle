@@ -62,4 +62,5 @@ dependencies {
     compile files('libs/nim-lucene-2.7.0.jar')
     compile files('libs/universal-image-loader-1.9.4.jar')
     compile 'com.android.support:multidex:1.0.1'
+    compile 'io.realm:android-adapters:1.3.0'
 }

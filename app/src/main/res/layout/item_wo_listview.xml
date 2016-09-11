@@ -97,6 +97,7 @@
 
                 <!--一张图片-->
                 <ImageView
+                    android:layout_marginTop="@dimen/y36"
                     android:id="@+id/just_one"
                     android:maxWidth="@dimen/x516"
                     android:maxHeight="@dimen/y600"

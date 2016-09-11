@@ -22,7 +22,7 @@ import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.TempUser;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import org.json.JSONObject;

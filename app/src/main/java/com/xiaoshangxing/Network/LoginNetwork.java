@@ -3,14 +3,12 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.Bean.Publish;
 import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 import com.xiaoshangxing.Network.api.Login_Register_Api.CheckCodeApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.ChkExistApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.LoginApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.RegisterApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.SendCodeApi;
-import com.xiaoshangxing.Network.api.PublishApi;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -26,7 +24,6 @@ public class LoginNetwork {
     private LoginApi mloginApi;
     private RegisterApi registerApi;
     private CheckCodeApi checkCodeApi;
-    private PublishApi publishApi;
     private SendCodeApi sendCodeApi;
     private SetUserImage setUserImage;
     private ChkExistApi chkExistApi;
@@ -85,24 +82,6 @@ public class LoginNetwork {
         Observable<ResponseBody> observable = checkCodeApi.login(checkCode);
         toSubscribe(observable, subscriber);
     }
-
-    public void Publish(Subscriber<ResponseBody> subscriber, Publish publish, Context context) {
-        if (publishApi == null) {
-            publishApi = Network.getRetrofitWithHeader(context).create(PublishApi.class);
-        }
-        Observable<ResponseBody> observable = publishApi.publish(publish);
-        toSubscribe(observable, subscriber);
-    }
-
-
-//    public void setUserImage(Subscriber<ResponseBody> subscriber, Integer id, MultipartBody.Part path/*String path*/, long time, Context context) {
-//        if (setUserImage == null) {
-//            setUserImage = Network.getRetrofitWithHeader(context).create(SetUserImage.class);
-//        }
-//        Observable<ResponseBody> observable = setUserImage.setUserImage(id, path, time);
-//        toSubscribe(observable, subscriber);
-//    }
-
 
     private <T> void toSubscribe(Observable<T> o, Subscriber<T> s) {
         o.subscribeOn(Schedulers.io())

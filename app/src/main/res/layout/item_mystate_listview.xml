@@ -75,6 +75,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@+id/say_something"
                 android:src="@mipmap/feather_blue" />
+
         </RelativeLayout>
 
         <!--仅文字-->
@@ -263,7 +264,7 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
 
+    </RelativeLayout>
 
 </LinearLayout>

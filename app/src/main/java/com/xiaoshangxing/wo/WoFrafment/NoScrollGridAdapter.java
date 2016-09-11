@@ -6,9 +6,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-
-import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.image.MyGlide;
 
 import java.util.ArrayList;
 
@@ -46,10 +45,11 @@ public class NoScrollGridAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = View.inflate(ctx, R.layout.item_wo_gridview, null);
 		ImageView imageView = (ImageView) view.findViewById(R.id.iv_image);
-		Glide.with(ctx).
-				load(imageUrls.get(position))
-				.animate(R.anim.fade_in)
-				.into(imageView);
+//		Glide.with(ctx).
+//				load(imageUrls.get(position))
+//				.animate(R.anim.fade_in)
+//				.into(imageView);
+		MyGlide.with(ctx, imageUrls.get(position), imageView);
 		return view;
 	}
 

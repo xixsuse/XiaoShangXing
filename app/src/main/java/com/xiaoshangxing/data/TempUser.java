@@ -1,4 +1,4 @@
-package com.xiaoshangxing.utils;
+package com.xiaoshangxing.data;
 
 import android.content.Context;
 
@@ -24,6 +24,9 @@ import rx.Subscriber;
  */
 
 public class TempUser {
+
+    public static String account;
+    public static int id;
 
     //    获取当前账号
     public static String getAccount(Context context) {
@@ -78,5 +81,9 @@ public class TempUser {
         jsonObject.addProperty(NS.ID, getID(context));
         jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
         InfoNetwork.getInstance().GetUser(subscriber, jsonObject, context);
+    }
+
+    public static boolean isMine(String id) {
+        return id.equals(account);
     }
 }

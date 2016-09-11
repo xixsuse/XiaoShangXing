@@ -24,22 +24,25 @@ public class Item_Comment {
     private EmotinText textView;
     private String reply_person,reply_text,replyed_person;
     private SpannableString spannableString;
+    private String id;
 
 
-    public Item_Comment(Context context, String reply_person, String reply_text) {
+    public Item_Comment(Context context, String reply_person, String reply_text,String id) {
         this.context = context;
         this.reply_person = reply_person;
         this.reply_text = reply_text;
+        this.id=id;
 
         init();
         init_just_on_name();
     }
 
-    public Item_Comment(Context context, String reply_person,String replyed_person,String reply_text) {
+    public Item_Comment(Context context, String reply_person,String replyed_person,String reply_text,String id) {
         this.context = context;
         this.reply_person = reply_person;
         this.reply_text = reply_text;
         this.replyed_person = replyed_person;
+        this.id=id;
 
         init();
         init_two_name();

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xiaoshangxing.utils.layout.CirecleImage xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="10dp"
-    android:layout_height="10dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x96"
+    android:layout_height="@dimen/y96">
 
-</com.xiaoshangxing.utils.layout.CirecleImage>
+    <com.xiaoshangxing.utils.layout.CirecleImage
+        android:id="@+id/head_image"
+        android:layout_width="@dimen/x96"
+        android:layout_height="@dimen/y96" />
+
+</LinearLayout>

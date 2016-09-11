@@ -5,22 +5,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.UserCache;
+import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
@@ -40,14 +46,21 @@ import butterknife.OnClick;
  */
 public class DetailsActivity extends BaseActivity implements DetailsContract.View {
 
+
     @Bind(R.id.back)
     LinearLayout back;
+    @Bind(R.id.myState)
+    TextView myState;
+    @Bind(R.id.title)
+    RelativeLayout title;
     @Bind(R.id.head_image)
     CirecleImage headImage;
     @Bind(R.id.name)
     TextView name;
     @Bind(R.id.college)
     TextView college;
+    @Bind(R.id.text)
+    EmotinText text;
     @Bind(R.id.photos1)
     NoScrollGridView photos1;
     @Bind(R.id.just_one)
@@ -56,28 +69,53 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     TextView location;
     @Bind(R.id.time)
     TextView time;
+    @Bind(R.id.permission)
+    ImageView permission;
     @Bind(R.id.delete)
     TextView delete;
     @Bind(R.id.praise)
     CheckBox praise;
     @Bind(R.id.comment)
     ImageView comment;
+    @Bind(R.id.right_layout)
+    LinearLayout rightLayout;
+    @Bind(R.id.jianjiao)
+    ImageView jianjiao;
     @Bind(R.id.praise_people)
-    GridLayout praisePeople;
+    NoScrollGridView praisePeople;
     @Bind(R.id.comments)
     LinearLayout comments;
     @Bind(R.id.comment_layout)
     LinearLayout commentLayout;
-    @Bind(R.id.permission)
-    ImageView permission;
     @Bind(R.id.scrollview)
     ScrollView scrollView;
-    @Bind(R.id.text)
-    EmotinText text;
-
+    @Bind(R.id.comment_input)
+    EmoticonsEditText commentInput;
+    @Bind(R.id.emotion)
+    ImageView emotion;
+    @Bind(R.id.input_layout)
+    RelativeLayout inputLayout;
+    @Bind(R.id.send)
+    TextView send;
+    @Bind(R.id.comment_input_layout)
+    RelativeLayout commentInputLayout;
+    @Bind(R.id.normal_emot)
+    LinearLayout normalEmot;
+    @Bind(R.id.favorite)
+    LinearLayout favorite;
+    @Bind(R.id.delete_emot)
+    RelativeLayout deleteEmot;
+    @Bind(R.id.emot_type)
+    RelativeLayout emotType;
+    @Bind(R.id.emot_lay)
+    LinearLayout emotLay;
+    @Bind(R.id.edit_and_emot)
+    RelativeLayout editAndEmot;
     private Handler handler = new Handler();
     private InputBoxLayout inputBoxLayout;
     private DetailsContract.Presenter mPresenter;
+    private int published_id;
+    private Published published;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,70 +128,95 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     }
 
     private void initView() {
-        String[] urls2 = {"http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg",
-                "http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg",
-                "http://img.my.csdn.net/uploads/201407/26/1406383291_8239.jpg",
-                "http://img.my.csdn.net/uploads/201410/19/1413698867_8323.jpg",
-                "http://img.my.csdn.net/uploads/201407/26/1406383290_1042.jpg",
-                "http://img.my.csdn.net/uploads/201407/26/1406383275_3977.jpg",
-                "http://img.my.csdn.net/uploads/201407/26/1406383265_8550.jpg",
-                "http://img.my.csdn.net/uploads/201407/26/1406383264_3954.jpg",
-                "http://img.my.csdn.net/uploads/201407/26/1406383264_4787.jpg"
-        };
 
-        final ArrayList<String> imageUrls = new ArrayList<>();
-        for (int i = 1; i <= 8; i++) {
-            imageUrls.add(urls2[i]);
+        if (!getIntent().hasExtra(IntentStatic.DATA)) {
+            showToast("动态id出错");
+            finish();
+        }
+        published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
+
+        published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
+        if (published == null) {
+            showToast("获取动态信息出错");
+            finish();
         }
 
+        UserCache userCache = new UserCache(this, String.valueOf(published.getUserId()), realm);
+        userCache.getHead(headImage);
+        userCache.getName(name);
+        userCache.getCollege(college);
+        text.setText(published.getText());
 
-        photos1.setAdapter(new myStateNoScrollGridAdapter(this, imageUrls));
-        photos1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(DetailsActivity.this, ImagePagerActivity.class);
-                intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, imageUrls);
-                intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
-                startActivity(intent);
+        if (!TextUtils.isEmpty(published.getImage())) {
+            String[] urls2 = published.getImage().split(NS.SPLIT);
+            final ArrayList<String> imageUrls = new ArrayList<>();
+            for (String i : urls2) {
+                imageUrls.add(i);
             }
-        });
-
-        for (int i = 0; i <= 20; i++) {
-            CirecleImage cirecleImage = new CirecleImage(this);
-            cirecleImage.setImageResource(R.mipmap.cirecleimage_default);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    getResources().getDimensionPixelSize(R.dimen.x96),
-                    getResources().getDimensionPixelSize(R.dimen.y96));
-            cirecleImage.setLayoutParams(params);
-            cirecleImage.setPadding(getResources().getDimensionPixelSize(R.dimen.x20), 0, 0, 0);
-
-            cirecleImage.setIntent_type(CirecleImage.PERSON_STATE);
-
-            praisePeople.addView(cirecleImage);
-
-            final Comment_layout comment_layout = new Comment_layout(this);
-            comments.addView(comment_layout.getView());
-            comment_layout.getView().setOnClickListener(new View.OnClickListener() {
+            photos1.setAdapter(new myStateNoScrollGridAdapter(this, imageUrls));
+            photos1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onClick(View v) {
-                    inputBoxLayout.showOrHideLayout(true);
-                    final View mv = v;
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            int[] xy = new int[2];
-                            mv.getLocationOnScreen(xy);
-                            int destination = xy[1] + mv.getHeight() - inputBoxLayout.getEdittext_height();
-                            scrollView.smoothScrollBy(0, destination + 10);
-                        }
-                    }, 300);
-
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(DetailsActivity.this, ImagePagerActivity.class);
+                    intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, imageUrls);
+                    intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
+                    startActivity(intent);
                 }
             });
-
-            CirecleImage cirecleImage1 = (CirecleImage) comment_layout.getView().findViewById(R.id.head_image);
-            cirecleImage1.setIntent_type(CirecleImage.PERSON_STATE);
         }
+
+        location.setText(published.getLocation());
+        if (TempUser.isMine(String.valueOf(published.getUserId()))) {
+            permission.setVisibility(View.VISIBLE);
+            delete.setVisibility(View.VISIBLE);
+        } else {
+            permission.setVisibility(View.GONE);
+            delete.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(published.getPraiseUserIds())) {
+            parsePraise();
+        }
+        if (published.getComments() != null && published.getComments().size() > 0) {
+            parseComment();
+        }
+
+//        for (int i = 0; i <= 20; i++) {
+//            CirecleImage cirecleImage = new CirecleImage(this);
+//            cirecleImage.setImageResource(R.mipmap.cirecleimage_default);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                    getResources().getDimensionPixelSize(R.dimen.x96),
+//                    getResources().getDimensionPixelSize(R.dimen.y96));
+//            cirecleImage.setLayoutParams(params);
+//            cirecleImage.setPadding(getResources().getDimensionPixelSize(R.dimen.x20), 0, 0, 0);
+//
+//            cirecleImage.setIntent_type(CirecleImage.PERSON_STATE, null);
+//
+//            praisePeople.addView(cirecleImage);
+//
+//            final Comment_layout comment_layout = new Comment_layout(this);
+//            comments.addView(comment_layout.getView());
+//            comment_layout.getView().setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    inputBoxLayout.showOrHideLayout(true);
+//                    final View mv = v;
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            int[] xy = new int[2];
+//                            mv.getLocationOnScreen(xy);
+//                            int destination = xy[1] + mv.getHeight() - inputBoxLayout.getEdittext_height();
+//                            scrollView.smoothScrollBy(0, destination + 10);
+//                        }
+//                    }, 300);
+//
+//                }
+//            });
+//
+//            CirecleImage cirecleImage1 = (CirecleImage) comment_layout.getView().findViewById(R.id.head_image);
+//            cirecleImage1.setIntent_type(CirecleImage.PERSON_STATE, null);
+//        }
 
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -166,6 +229,73 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                 return false;
             }
         });
+    }
+
+    private void parsePraise() {
+//        for (String i : published.getPraiseUserIds().split(NS.SPLIT)) {
+//
+//            CirecleImage cirecleImage = new CirecleImage(this);
+//            cirecleImage.setImageResource(R.mipmap.cirecleimage_default);
+//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                    getResources().getDimensionPixelSize(R.dimen.x96),
+//                    getResources().getDimensionPixelSize(R.dimen.y96));
+//            cirecleImage.setLayoutParams(params);
+//            cirecleImage.setPadding(getResources().getDimensionPixelSize(R.dimen.x20), 0, 0, 0);
+//
+//            CirecleImage cirecleImage1 = (CirecleImage) View.inflate(this, R.layout.util_circle_image_96, null).findViewById(R.id.head_image);
+//
+//            cirecleImage1.setIntent_type(CirecleImage.PERSON_STATE, i);
+//
+//            UserCache userCache = new UserCache(this, i, realm);
+//            userCache.getHead(cirecleImage1);
+//
+//            praisePeople.addView(cirecleImage1);
+//
+//        }
+
+        final ArrayList<String> imageUrls = new ArrayList<>();
+        String[] splits = published.getPraiseUserIds().split(NS.SPLIT);
+        for (String i : splits) {
+            imageUrls.add(i);
+        }
+
+        praisePeople.setVisibility(View.VISIBLE);
+        praisePeople.setAdapter(new DetailPraiseAdapter(this, imageUrls,realm));
+//        praisePeople.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(DetailsActivity.this, ImagePagerActivity.class);
+//                intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, imageUrls);
+//                intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
+//                startActivity(intent);
+//            }
+//        });
+    }
+
+    private void parseComment() {
+        final Comment_layout comment_layout = new Comment_layout(this);
+        comments.addView(comment_layout.getView());
+        comment_layout.getView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inputBoxLayout.showOrHideLayout(true);
+                final View mv = v;
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        int[] xy = new int[2];
+                        mv.getLocationOnScreen(xy);
+                        int destination = xy[1] + mv.getHeight() - inputBoxLayout.getEdittext_height();
+                        scrollView.smoothScrollBy(0, destination + 10);
+                    }
+                }, 300);
+
+            }
+        });
+
+        CirecleImage cirecleImage1 = (CirecleImage) comment_layout.getView().findViewById(R.id.head_image);
+        cirecleImage1.setIntent_type(CirecleImage.PERSON_STATE, null);
+
     }
 
     private void initInputBox() {

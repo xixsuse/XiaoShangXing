@@ -1,12 +1,14 @@
 package com.xiaoshangxing.data;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by FengChaoQun
  * on 2016/8/24
  */
-public  class CommentsBean extends RealmObject {
+public class CommentsBean extends RealmObject {
+    @PrimaryKey
     private int id;
     private int userId;
     private int isDelete;
@@ -16,7 +18,8 @@ public  class CommentsBean extends RealmObject {
     private String text;
     private int isReply;
     private String lastId;
-    private int momentId;
+    private String momentId;
+    private String serverTime;
 
     public int getId() {
         return id;
@@ -90,11 +93,19 @@ public  class CommentsBean extends RealmObject {
         this.lastId = lastId;
     }
 
-    public int getMomentId() {
+    public String getMomentId() {
         return momentId;
     }
 
-    public void setMomentId(int momentId) {
+    public void setMomentId(String momentId) {
         this.momentId = momentId;
+    }
+
+    public String getServerTime() {
+        return serverTime;
+    }
+
+    public void setServerTime(String serverTime) {
+        this.serverTime = serverTime;
     }
 }

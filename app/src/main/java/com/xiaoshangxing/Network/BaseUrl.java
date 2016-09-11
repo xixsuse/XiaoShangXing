@@ -24,4 +24,7 @@ public class BaseUrl {
     public static final String CHECH_PASSWORD ="base/chkPassword";
     public static final String MODIFY_PASSWORD ="base/modifyPassword";
 
+    public static final String COMMENT = "commentary/comment";
+
+
 }

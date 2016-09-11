@@ -12,17 +12,24 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.HackyViewPager;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImageDetailFragment;
 import com.xiaoshangxing.wo.myState.DetailsActivity.DetailsActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import io.realm.Realm;
 import rx.Subscription;
 
 /**
@@ -32,6 +39,10 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
     private static final String STATE_POSITION = "STATE_POSITION";
     public static final String EXTRA_IMAGE_INDEX = "image_index";
     public static final String EXTRA_IMAGE_URLS = "image_urls";
+    @Bind(R.id.praise_people_count)
+    TextView praisePeopleCount;
+    @Bind(R.id.comment_count)
+    TextView commentCount;
 
     private HackyViewPager mPager;
     private int pagerPosition;
@@ -41,13 +52,18 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
     private TextView time;
     private EmotinText text;
 
-    private ArrayList<String> urls;
+    private ArrayList<String> urls = new ArrayList<>();
     private myStateImagePagerContract.Presenter mPresenter;
+    private int published_id;
+    private Published published;
+    private Realm realm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_detail_mystate);
+        ButterKnife.bind(this);
+        realm = Realm.getDefaultInstance();
         setmPresenter(new myStateImagePresenter(this, this));
         initView();
 
@@ -57,7 +73,26 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
 
     }
 
+    @Override
+    protected void onDestroy() {
+        realm.close();
+        super.onDestroy();
+    }
+
     private void initView() {
+
+        if (!getIntent().hasExtra(IntentStatic.DATA)) {
+            showToast("动态id出错");
+            finish();
+        }
+        published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
+
+        published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
+        if (published == null) {
+            showToast("获取动态信息出错");
+            finish();
+        }
+
         back = findViewById(R.id.back);
         back.setOnClickListener(this);
         more = findViewById(R.id.more);
@@ -70,7 +105,11 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
         backgroud = findViewById(R.id.background);
 
         pagerPosition = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
-        urls = getIntent().getStringArrayListExtra(EXTRA_IMAGE_URLS);
+        String[] urls2 = published.getImage().split(NS.SPLIT);
+
+        for (String i : urls2) {
+            urls.add(i);
+        }
 
         mPager = (HackyViewPager) findViewById(R.id.pager);
         ImagePagerAdapter mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), urls);
@@ -103,11 +142,15 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
         });
 
         mPager.setCurrentItem(pagerPosition);
+
+        setTime();
+        setText();
+        setPraiseandComment();
     }
 
     @Override
     public void setTime() {
-
+        time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
     }
 
     @Override
@@ -146,17 +189,21 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
     @Override
     public void gotoDetails() {
         Intent intent = new Intent(myStateImagePagerActivity.this, DetailsActivity.class);
+        intent.putExtra(IntentStatic.DATA, published_id);
         startActivity(intent);
     }
 
     @Override
     public void setText() {
-
+        text.setText(published.getText());
     }
 
     @Override
     public void setPraiseandComment() {
-
+        int praise = published.getPraiseUserIds().split(NS.SPLIT).length;
+        praisePeopleCount.setText(praise == 0 ? "" : "" + praise);
+        int comment = published.getComments().size();
+        commentCount.setText(comment == 0 ? "" : "" + commentCount);
     }
 
     @Override

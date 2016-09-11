@@ -33,6 +33,11 @@ public class ImagePagerActivity extends FragmentActivity {
 		pagerPosition = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
 		ArrayList<String> urls = getIntent().getStringArrayListExtra(EXTRA_IMAGE_URLS);
 
+		for (String i : urls) {
+			Log.d("展示的图片", "--" + i);
+		}
+
+
 		mPager = (HackyViewPager) findViewById(R.id.pager);
 		ImagePagerAdapter mAdapter = new ImagePagerAdapter(getSupportFragmentManager(), urls);
 		mPager.setAdapter(mAdapter);
@@ -55,7 +60,6 @@ public class ImagePagerActivity extends FragmentActivity {
 			public void onPageSelected(int arg0) {
 				CharSequence text = getString(R.string.viewpager_indicator, arg0 + 1, mPager.getAdapter().getCount());
 				indicator.setText(text);
-				Log.d("select",""+arg0);
 			}
 
 		});

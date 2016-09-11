@@ -5,6 +5,9 @@ import android.content.Context;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+
+import io.realm.Realm;
 
 /**
  * Created by FengChaoQun
@@ -63,7 +66,7 @@ public interface WoContract {
         /*
         **describe:设置头像
         */
-        void setHead();
+        void setHead(String path);
 
         /*
         **describe:设置news
@@ -96,6 +99,11 @@ public interface WoContract {
         **describe:设置输入框的回调
         */
         void setEditCallback(InputBoxLayout.CallBack callback);
+
+       /*
+       **describe:获取realm
+       */
+       Realm getRealm();
     }
 
    interface Presenter extends IBasePresenter {
@@ -107,7 +115,7 @@ public interface WoContract {
       /*
       **describe:刷新
       */
-      void RefreshData();
+      void RefreshData(PtrFrameLayout frame);
 
       /*
       **describe:加载更多

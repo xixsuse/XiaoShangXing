@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 
+import io.realm.Realm;
 import rx.Subscription;
 
 /**
@@ -27,10 +28,14 @@ public class BaseActivity extends AppCompatActivity {
 
     protected Subscription subscription;
 
+    protected Realm realm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        realm=Realm.getDefaultInstance();
 
         mFragmentManager = getSupportFragmentManager();
         mApplication = (XSXApplication) getApplication();
@@ -81,6 +86,7 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        realm.close();
         unsubscribe();
         super.onDestroy();
     }

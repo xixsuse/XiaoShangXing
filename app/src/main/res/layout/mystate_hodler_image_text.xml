@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/image_and_text"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/y256">
+
+    <!--图-->
+    <LinearLayout
+        android:id="@+id/image_group"
+        android:layout_width="@dimen/x256"
+        android:layout_height="@dimen/y256"
+        android:orientation="horizontal">
+        <!--第一组图-->
+        <LinearLayout
+            android:id="@+id/first_group"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/x4"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <!--第一张-->
+            <ImageView
+                android:id="@+id/first_image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/y4"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/greyblock" />
+            <!--第四张-->
+            <ImageView
+                android:id="@+id/forth_image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/greyblock" />
+
+        </LinearLayout>
+
+        <!--第二组图-->
+        <LinearLayout
+            android:id="@+id/sencond_group"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <!--第二张-->
+            <ImageView
+                android:id="@+id/sencond_image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/y4"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/greyblock" />
+            <!--第三张-->
+            <ImageView
+                android:id="@+id/third_image"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/greyblock" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--文字-->
+    <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+        android:id="@+id/image_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/image_group"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:paddingStart="@dimen/x30"
+        android:textColor="@color/b0"
+        android:textSize="12sp" />
+
+    <!--图片数目-->
+    <TextView
+        android:id="@+id/image_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/image_group"
+        android:paddingStart="@dimen/x30"
+        android:text="共4张"
+        android:textColor="@color/g0"
+        android:textSize="12sp" />
+
+</RelativeLayout>

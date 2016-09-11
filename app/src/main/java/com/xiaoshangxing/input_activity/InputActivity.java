@@ -33,13 +33,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.Network.BaseUrl;
-import com.xiaoshangxing.Network.Bean.Publish;
-import com.xiaoshangxing.Network.FabuNetwork;
 import com.xiaoshangxing.Network.Formmat;
-import com.xiaoshangxing.Network.MultipartUtility;
 import com.xiaoshangxing.Network.NS;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
@@ -62,17 +57,12 @@ import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.LocationUtil;
-import com.xiaoshangxing.utils.TempUser;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.Flog;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
-import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
 
-import org.json.JSONException;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,9 +72,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 /**
  * Created by FengChaoQun
@@ -724,44 +711,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
         thread.start();
     }
 
-    private void YaSuo() {
-        SendImageHelper.getLittleImage(FileUtils.getXSX_CameraPhotoPath() + "ys.jpg", this);
-        Log.d("yasuo", "click");
-    }
-
-    private void send2() {
-        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
-            @Override
-            public void onNext(ResponseBody e) throws JSONException {
-
-            }
-        };
-        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(next, this);
-        Publish publish = new Publish();
-        publish.setUserId(TempUser.getID(this));
-        publish.setText("校上行+1");
-        publish.setTimeStamp(NS.currentTime());
-        publish.setClientTime(NS.currentTime());
-        Map<String, RequestBody> map = new HashMap<>();
-        map.put("image1" + "\"; filename=\"icon.jpg",
-                RequestBody.create(MediaType.parse("multipart/form-data"),
-                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
-        Log.d("image", "image5");
-        map.put("images2" + "\"; filename=\"icon.jpg",
-                RequestBody.create(MediaType.parse("multipart/form-data"),
-                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
-        map.put("images3" + "\"; filename=\"icon.jpg",
-                RequestBody.create(MediaType.parse("multipart/form-data"),
-                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
-        map.put("images4" + "\"; filename=\"icon.jpg",
-                RequestBody.create(MediaType.parse("multipart/form-data"),
-                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
-        map.put("images5" + "\"; filename=\"icon.jpg",
-                RequestBody.create(MediaType.parse("multipart/form-data"),
-                        new File(FileUtils.getXsxSaveIamge() + "temp.jpg")));
-        FabuNetwork.getInstance().Fabu(this, publish, subsciber, map);
-    }
-
     public Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -777,75 +726,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
             super.handleMessage(msg);
         }
     };
-
-    private void send3() {
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Message message = new Message();
-                    message.what = 1;
-                    mHandler.sendMessage(message);
-                    MultipartUtility multipartUtility =
-                            new MultipartUtility("http://114.55.96.241:8080/xsx/v1/moment/releaseMoment", "UTF-8");
-
-                    multipartUtility.addHeaderField("User-Phone", (String) SPUtils.get(InputActivity.this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING));
-                    multipartUtility.addHeaderField("User-Digest", (String) SPUtils.get(InputActivity.this, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
-
-                    multipartUtility.addFormField("userId", String.valueOf(TempUser.getID(InputActivity.this)));
-                    multipartUtility.addFormField("text", "789");
-                    multipartUtility.addFormField("clientTime", "456");
-                    multipartUtility.addFormField("timeStamp", "456");
-
-                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
-                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
-                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
-                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
-                    multipartUtility.addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"));
-
-                    List<String> result = multipartUtility.finish();
-                    Message message1 = new Message();
-                    message1.what = 2;
-                    mHandler.sendMessage(message1);
-                    Log.d("result00", result.toString());
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
-
-    }
-
-    private void send4() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Formmat formmat = new Formmat(iBaseView, InputActivity.this, "http://114.55.96.241:8080/xsx/v1/moment/releaseMoment");
-                try {
-                    formmat.addFormField("userId", String.valueOf(TempUser.getID(InputActivity.this)))
-                            .addFormField("text", "封装测试")
-                            .addFormField("clientTime", "456")
-                            .addFormField("timeStamp", "456")
-                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
-                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
-                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
-                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
-                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
-                            .addFilePart("images", new File(FileUtils.getXsxSaveIamge() + "temp.jpg"))
-                            .doUpload();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showToast("文件出错");
-                }
-            }
-        });
-        thread.start();
-    }
-
 
     public void showSureDialog() {
         if (emotionEdittext.getText().toString().isEmpty()){

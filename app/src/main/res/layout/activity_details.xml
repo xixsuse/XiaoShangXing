@@ -198,13 +198,22 @@
 
             </LinearLayout>
 
+            <!--上方尖角-->
+            <ImageView
+                android:id="@+id/jianjiao"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/y16"
+                android:layout_below="@+id/right_layout"
+                android:layout_marginStart="@dimen/x52"
+                android:layout_marginTop="@dimen/y18"
+                android:src="@mipmap/sharpcorner" />
+
             <LinearLayout
                 android:id="@+id/comment_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/right_layout"
-                android:layout_marginTop="@dimen/y18"
-                android:background="@drawable/comment"
+                android:layout_below="@+id/jianjiao"
+                android:background="@drawable/circular_6_"
                 android:orientation="vertical">
 
                 <!--点赞人头像-->
@@ -214,26 +223,41 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:paddingTop="10dp"
+                        android:layout_marginTop="@dimen/y55"
                         android:layout_marginStart="@dimen/x30"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/blue_heart_big" />
 
-                    <GridLayout
-                        android:id="@+id/praise_people"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:cacheColorHint="@color/transparent"
-                        android:columnCount="9"
-                        android:fadeScrollbars="false"
-                        android:fadingEdge="none"
-                        android:fastScrollEnabled="false"
-                        android:listSelector="@color/transparent"
-                        android:overScrollMode="never"
-                        android:scrollbars="none">
+                    <!--<GridLayout-->
+                    <!--android:id="@+id/praise_people"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:cacheColorHint="@color/transparent"-->
+                    <!--android:columnCount="9"-->
+                    <!--android:fadeScrollbars="false"-->
+                    <!--android:fadingEdge="none"-->
+                    <!--android:fastScrollEnabled="false"-->
+                    <!--android:listSelector="@color/transparent"-->
+                    <!--android:overScrollMode="never"-->
+                    <!--android:scrollbars="none">-->
 
-                    </GridLayout>
+                    <!--</GridLayout>-->
+
+                    <com.xiaoshangxing.wo.WoFrafment.NoScrollGridView
+                        android:layout_height="wrap_content"
+                        android:id="@+id/praise_people"
+                        android:columnWidth="@dimen/x96"
+                        android:paddingStart="@dimen/x24"
+                        android:gravity="start"
+                        android:horizontalSpacing="@dimen/x12"
+                        android:numColumns="8"
+                        android:paddingTop="@dimen/x24"
+                        android:stretchMode="columnWidth"
+                        android:layout_width="match_parent"
+                        android:verticalSpacing="@dimen/y12">
+
+                    </com.xiaoshangxing.wo.WoFrafment.NoScrollGridView>
 
                 </LinearLayout>
 
@@ -263,7 +287,6 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
 
             </LinearLayout>
         </RelativeLayout>
