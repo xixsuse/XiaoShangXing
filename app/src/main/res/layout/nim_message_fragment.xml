@@ -148,6 +148,7 @@
 
     <!--输入框-->
     <LinearLayout
+        android:paddingTop="@dimen/y12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/w3"
@@ -156,10 +157,10 @@
         <!--上方布局-->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y93">
+            android:layout_height="@dimen/y102">
 
             <!--文字输入-->
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/text_input_lay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,28 +171,34 @@
                     android:id="@+id/edittext"
                     android:textCursorDrawable="@drawable/cursor_blue4"
                     android:gravity="center_vertical"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/x864"
                     android:paddingStart="@dimen/width_48"
                     android:paddingEnd="@dimen/width_48"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/x20"
-                    android:layout_marginStart="@dimen/x24"
-                    android:layout_weight="1"
-                    android:background="@drawable/circular_15_w0" />
+                    android:layout_marginStart="@dimen/x30"
+                    android:background="@drawable/circular_17_w0" />
 
                 <!--发送按钮-->
-                <Button
-                    android:id="@+id/send"
-                    android:layout_width="@dimen/x162"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/x24"
-                    android:layout_marginStart="@dimen/x24"
-                    android:background="@drawable/circular_15_g2"
-                    android:text="@string/send"
-                    android:textColor="@color/w0"
-                    android:textSize="14sp" />
+                <!--<Button-->
+                    <!--android:id="@+id/send"-->
+                    <!--android:layout_width="@dimen/x162"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginEnd="@dimen/x24"-->
+                    <!--android:layout_marginStart="@dimen/x24"-->
+                    <!--android:background="@drawable/circular_15_g2"-->
+                    <!--android:text="@string/send"-->
+                    <!--android:textColor="@color/w0"-->
+                    <!--android:textSize="14sp" />-->
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/send"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/x30"
+                    android:src="@mipmap/input_send_grey"
+                    android:layout_width="@dimen/x168"
+                    android:layout_height="match_parent" />
+
+            </RelativeLayout>
 
             <!--语音按钮-->
             <Button
@@ -200,7 +207,7 @@
                 android:layout_height="@dimen/y93"
                 android:layout_marginEnd="@dimen/x24"
                 android:layout_marginStart="@dimen/x24"
-                android:background="@drawable/circular_15_w0"
+                android:background="@drawable/circular_17_w0"
                 android:text="按住说话"
                 android:textColor="@color/g0"
                 android:textSize="16sp"

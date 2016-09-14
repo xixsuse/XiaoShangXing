@@ -203,7 +203,7 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
         int praise = published.getPraiseUserIds().split(NS.SPLIT).length;
         praisePeopleCount.setText(praise == 0 ? "" : "" + praise);
         int comment = published.getComments().size();
-        commentCount.setText(comment == 0 ? "" : "" + commentCount);
+        commentCount.setText(comment == 0 ? "" : "" + comment);
     }
 
     @Override

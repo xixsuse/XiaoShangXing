@@ -3,15 +3,11 @@ package com.xiaoshangxing.setting.personalinfo.showheadimg;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -22,25 +18,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.NS;
-import com.xiaoshangxing.Network.Network;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -48,9 +43,6 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by tianyang on 2016/7/11.
@@ -63,7 +55,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     private View mView;
     private ImageView img, bigImg;
     private ActionSheet mActionSheet;
-    private Bitmap sBitmap, bBitmap;
     private PersonalInfoActivity mActivity;
     private TextView back;
     private IBaseView iBaseView = this;
@@ -87,22 +78,9 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         });
-        //    setBigImg();
         img.setOnClickListener(this);
         return mView;
     }
-
-//    private void setBigImg() {
-//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("headImg", Activity.MODE_PRIVATE);
-//        //第一步:取出字符串形式的Bitmap
-//        String imageString = sharedPreferences.getString("bigImage", "");
-//        //第二步:利用Base64将字符串转换为ByteArrayInputStream
-//        byte[] byteArray = Base64.decode(imageString, Base64.DEFAULT_STRING);
-//        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byteArray);
-//        //第三步:利用ByteArrayInputStream生成Bitmap
-//        Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
-//        bigImg.setImageBitmap(bitmap);
-//    }
 
     @Override
     public void onClick(View v) {
@@ -116,7 +94,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
         WindowManager windowManager = getActivity().getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         WindowManager.LayoutParams lp = mActionSheet.getWindow().getAttributes();
-        lp.width = (int) (display.getWidth()); //设置宽度
+        lp.width = (display.getWidth()); //设置宽度
         mActionSheet.getWindow().setAttributes(lp);
         mActionSheet.setMenuListener(new ActionSheet.MenuListener() {
             @Override
@@ -129,7 +107,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
 
             @Override
             public void onCancel() {
-                //  Toast.makeText(getActivity(), "onCancel", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -168,18 +145,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                         ToastUtils.toast(getActivity(), getString(R.string.pic_not_valid));
                         return;
                     }
-                    Uri uri = data.getData();
-                    Log.d("uri", "" + uri);
-                    uri = geturi(data);
-                    String[] proj = {MediaStore.Images.Media.DATA};
-                    Cursor actualimagecursor = getActivity().managedQuery(uri, proj, null, null, null);
-                    int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    actualimagecursor.moveToFirst();
-                    String img_path = actualimagecursor.getString(actual_image_column_index);
-                    int degree = FileUtil.readPictureDegree(img_path);
-                    bBitmap = BitmapFactory.decodeFile(img_path);
-                    bBitmap = FileUtil.rotaingImageView(degree, bBitmap);
-//                    bigImg.setImageBitmap(bBitmap);
                     CommonUtils.cutPhoto(getActivity(), data.getData(), true,
                             mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
 
@@ -187,33 +152,13 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 break;
             case ACTIVITY_CAMERA_REQUESTCODE:
                 if (resultCode == Activity.RESULT_OK) {
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                    bitmapOptions.inSampleSize = 2;
-                    int degree = FileUtil.readPictureDegree(FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW);
-                    Bitmap cameraBitmap = BitmapFactory.decodeFile(FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW, bitmapOptions);
-                    cameraBitmap = FileUtil.rotaingImageView(degree, cameraBitmap);
-                    FileUtil.saveCutBitmapForCache(getActivity(), cameraBitmap);
                     CommonUtils.cutPhoto(getActivity(), Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), true,
                             mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
-                    String mCoverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW;
-                    bBitmap = BitmapFactory.decodeFile(mCoverPath);
-//                    bigImg.setImageBitmap(bBitmap);
-
                 }
                 break;
             case ACTIVITY_MODIFY_PHOTO_REQUESTCODE:
                 String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
-                sBitmap = BitmapFactory.decodeFile(coverPath);
-//                saveBitmap();
-                //      bigImg.setImageBitmap(sBitmap);
 
-                //接下来是完成上传功能
-//                HttpUtil.uploadCover(this, UrlContainer.UP_LIVE_COVER + "?uid="
-//                        + LoginUtils.getInstance(this), coverPath, this);
-                //成功之后删除临时图片
-                FileUtil.deleteTempAndRaw();
-
-//                test
                 ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
                     @Override
                     public void onNext(ResponseBody e) throws JSONException {
@@ -221,6 +166,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                             JSONObject jsonObject = new JSONObject(e.string());
                             if (jsonObject.getString(NS.CODE).equals("200")) {
                                 showToast("头像修改成功");
+                                FileUtil.deleteTempAndRaw();
                             } else {
                                 showToast("头像修改失败");
                             }
@@ -233,52 +179,15 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, iBaseView);
 
 
-                File file = new File(FileUtils.getXSX_CameraPhotoPath() + "test.jpg");
+                File file = new File(coverPath);
                 RequestBody requestFile =
-                        RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
+                        RequestBody.create(MediaType.parse("multipart/form-data"), SendImageHelper.getLittleImage(coverPath, getContext()));
                 MultipartBody.Part body =
                         MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-                SetUserImage setUserImage = Network.getRetrofitWithHeader(getContext()).create(SetUserImage.class);
-                Call<ResponseBody> call = setUserImage.setUserImage(42, body, 11);
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        try {
-                            Log.d("ResponseBody", response.body().string());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    }
-                });
-//                test
+                InfoNetwork.getInstance().setUserImage(progressSubsciber, TempUser.id, body, getContext());
                 break;
         }
-    }
-
-    private void saveBitmap() {
-        Log.d("qqq", "save...");
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bBitmap.compress(Bitmap.CompressFormat.PNG, 80, byteArrayOutputStream);
-        //第二步:利用Base64将字节数组输出流中的数据转换成字符串String
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        String bImageString = new String(Base64.encodeToString(byteArray, Base64.DEFAULT));
-        ByteArrayOutputStream mbyteArrayOutputStream = new ByteArrayOutputStream();
-        sBitmap.compress(Bitmap.CompressFormat.PNG, 80, mbyteArrayOutputStream);
-        //第二步:利用Base64将字节数组输出流中的数据转换成字符串String
-        byte[] mbyteArray = mbyteArrayOutputStream.toByteArray();
-        String sImageString = new String(Base64.encodeToString(mbyteArray, Base64.DEFAULT));
-        //第三步:将String保持至SharedPreferences
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("headImg", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("bigImage", bImageString);
-        editor.putString("smallImage", sImageString);
-        editor.apply();
     }
 
     /**

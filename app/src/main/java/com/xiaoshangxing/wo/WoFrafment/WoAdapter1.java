@@ -36,7 +36,6 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
     List<Published> publisheds;
     WoFragment woFragment;
     private BaseActivity activity;
-    private Handler mHandler;
     Realm realm;
     private final Map<Class<?>, Integer> viewTypes;
 
@@ -47,7 +46,6 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
         this.woFragment = woFragment;
         this.activity = activity;
         this.realm = realm;
-        mHandler = new Handler();
         this.context = context;
         this.viewTypes = new HashMap<Class<?>, Integer>(getViewTypeCount());
     }
@@ -59,7 +57,6 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
             convertView = viewAtPosition(position);
         }
         woBaseHolder = (WoBaseHolder) convertView.getTag();
-        woBaseHolder.setPosition(position);
         woBaseHolder.refresh(publisheds.get(position));
         return convertView;
     }
@@ -101,7 +98,6 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
             holder.setActivity(activity);
             holder.setWoFragment(woFragment);
             holder.setRealm(realm);
-            holder.setAdapter1(this);
         } catch (Exception e) {
             e.printStackTrace();
         }

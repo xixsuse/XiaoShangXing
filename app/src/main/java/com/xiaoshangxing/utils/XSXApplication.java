@@ -25,7 +25,6 @@ import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
-import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.StartActivity.FlashActivity;
 import com.xiaoshangxing.utils.normalUtils.MyLog;
@@ -127,6 +126,7 @@ public class XSXApplication extends Application {
 
             @Override
             public void onActivityDestroyed(Activity activity) {
+                removeActivity(activity);
                 activityCount--;
                 MyLog.d(activity, "destroyed");
             }
@@ -139,9 +139,15 @@ public class XSXApplication extends Application {
     */
 
     public void addActivity(Activity activity){
-//        mList.add(activity);
         mList.put(activity.toString(),activity);
         activityCount++;
+    }
+
+    /*
+    **describe:移除Activity
+    */
+    public void removeActivity(Activity activity) {
+        mList.remove(activity.toString());
     }
 
     /*
@@ -369,5 +375,6 @@ public class XSXApplication extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
+
 
 }

@@ -73,6 +73,7 @@ public class InputBoxLayout implements View.OnClickListener {
         normal_emot.setOnClickListener(this);
         favorite = edit_and_emot.findViewById(R.id.favorite);
         favorite.setOnClickListener(this);
+        favorite.setVisibility(View.GONE);//1.0没有多余表情
         delete_emot = edit_and_emot.findViewById(R.id.delete_emot);
         delete_emot.setOnClickListener(this);
         imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -136,10 +137,10 @@ public class InputBoxLayout implements View.OnClickListener {
             }
         });
         gridView.setAdapter(adapter);
-        TextView textView = new TextView(context);
-        textView.setText("55555");
+//        TextView textView = new TextView(context);
+//        textView.setText("55555");
         viewlist.add(gridView);
-        viewlist.add(textView);
+//        viewlist.add(textView);
 
         PagerAdapter pagerAdapter = new PagerAdapter() {
 
@@ -152,7 +153,7 @@ public class InputBoxLayout implements View.OnClickListener {
             @Override
             public int getCount() {
                 // TODO Auto-generated method stub
-                return 2;
+                return viewlist.size();
             }
 
             @Override

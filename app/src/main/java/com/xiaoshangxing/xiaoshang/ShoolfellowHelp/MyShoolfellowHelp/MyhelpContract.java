@@ -2,6 +2,7 @@ package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp;
 
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 
 /**
  * Created by FengChaoQun
@@ -51,7 +52,7 @@ public class MyhelpContract {
         /*
         **describe:加载数据
         */
-        void refreshData();
+        void refreshData(PtrFrameLayout frame);
         /*
         **describe:加载更多
         */

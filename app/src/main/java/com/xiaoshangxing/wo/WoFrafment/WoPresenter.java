@@ -4,13 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.LoadUtils;
 import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +50,7 @@ public class WoPresenter implements WoContract.Presenter {
                 frame.refreshComplete();
                 mView.setRefreshState(false);
                 mView.showToast("更新信息成功");
-                SPUtils.put(context, SPUtils.LASTTIME_LOAD_WO, NS.currentTime());
+                LoadUtils.refreshTime(LoadUtils.TIME_LOAD_STATE);
             }
 
             @Override
@@ -65,7 +64,9 @@ public class WoPresenter implements WoContract.Presenter {
             @Override
             public void onNext(ResponseBody responseBody) {
                 try {
-                    parseData(responseBody);
+//                    LoadUtils.parseData(responseBody, mView.getRealm(), mView);
+                    realm=mView.getRealm();
+                    LoadUtils.parseData(responseBody,realm,mView);
                     RealmResults<Published> publisheds = realm.where(Published.class).findAll();
                     Log.d("saved_published", "--" + publisheds);
                 } catch (IOException e) {
@@ -87,8 +88,7 @@ public class WoPresenter implements WoContract.Presenter {
 
     @Override
     public boolean isNeedRefresh() {
-        return (NS.currentTime() - (long) SPUtils.get(context, SPUtils.LASTTIME_LOAD_WO,
-                SPUtils.DEFAULT_LONG) > 5 * TimeUtil.MINUTE);
+        return LoadUtils.needRefresh(LoadUtils.TIME_LOAD_STATE);
     }
 
     private void parseData(ResponseBody responseBody) throws IOException, JSONException {

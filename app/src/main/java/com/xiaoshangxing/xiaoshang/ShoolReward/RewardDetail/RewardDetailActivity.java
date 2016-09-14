@@ -35,6 +35,7 @@ import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.CommentListFrafment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.DepthPageTransformer;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.FixedSpeedScroller;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.GetDataFromActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.PraiseListFrafment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.TransmitListFrafment;
 
@@ -50,7 +51,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/20
  */
-public class RewardDetailActivity extends BaseActivity implements RewardDetailContract.view {
+public class RewardDetailActivity extends BaseActivity implements RewardDetailContract.view,GetDataFromActivity {
     public static final String TAG = BaseFragment.TAG + "-RewardDetailActivity";
 
     @Bind(R.id.back)
@@ -348,6 +349,11 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
                 }
             }
         }
+    }
+
+    @Override
+    public Object getData() {
+        return null;
     }
 
     public class FragAdapter extends FragmentPagerAdapter {

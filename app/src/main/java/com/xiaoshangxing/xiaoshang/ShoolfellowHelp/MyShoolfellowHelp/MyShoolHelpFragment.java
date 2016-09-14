@@ -13,8 +13,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.LoadUtils;
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
@@ -33,6 +37,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -70,13 +77,15 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     private View  footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
+    private Realm realm;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_myshoolhelp, null);
         ButterKnife.bind(this, view);
-        setmPresenter(new MyHelpPresenter(this, getContext()));
+        realm = Realm.getDefaultInstance();
+        setmPresenter(new MyHelpPresenter(this, getContext(), realm));
         initFresh();
         initView();
         return view;
@@ -95,17 +104,23 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
 
     @Override
     public void refreshData() {
-        for (int i = 0; i <= 10; i++) {
-            list.add("" + i);
+        if (LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFHELP)) {
+            ptrFrameLayout.autoRefresh();
         }
-        adpter = new myshoolfellow_adpter(getContext(), 1, list, this, (ShoolfellowHelpActivity) getActivity());
-        listview.setAdapter(adpter);
+
+        RealmResults<Published> publisheds = realm.where(Published.class)
+                .equalTo(NS.USER_ID, TempUser.id)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
+                .findAll().sort(NS.ID, Sort.DESCENDING);
+        MyHelpAdapter myHelpAdapter = new MyHelpAdapter(getContext(), publisheds, this, realm);
+        listview.setAdapter(myHelpAdapter);
+        showNoData();
     }
 
     @Override
     public void showNoData() {
         dotsTextView.stop();
-        loadingText.setText("没有动态啦");
+        loadingText.setText("没有更多啦");
     }
 
     @Override
@@ -113,6 +128,7 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         dotsTextView.start();
         loadingText.setText("加载中");
     }
+
     private void initFresh() {
         final StoreHouseHeader header = new StoreHouseHeader(getContext());
         header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
@@ -125,12 +141,6 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         ptrFrameLayout.setDurationToCloseHeader(2000);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-//        ptrFrameLayout.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ptrFrameLayout.autoRefresh(true);
-//            }
-//        }, 100);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -139,12 +149,7 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                ptrFrameLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ptrFrameLayout.refreshComplete();
-                    }
-                }, 1500);
+                mPresenter.refreshData(frame);
             }
         });
     }
@@ -157,6 +162,7 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        realm.close();
         ButterKnife.unbind(this);
     }
 
@@ -212,6 +218,7 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
             listview.setVisibility(View.VISIBLE);
         }
     }
+
 
     @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete})
     public void onClick(View view) {

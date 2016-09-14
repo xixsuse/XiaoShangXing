@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.netease.nimlib.sdk.Observer;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.kit.LogUtil;
 
@@ -74,6 +75,11 @@ public class DataCacheManager {
         List<String> accounts = new ArrayList<>(1);
         accounts.add(NimUIKit.getAccount());
         NimUIKit.getImageLoaderKit().buildAvatarCache(accounts);
+
+        /*
+        **describe:校上行服务器上的数据
+        */
+        UserInfoCache.getInstance().build();
     }
 
     /**

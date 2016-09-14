@@ -113,7 +113,7 @@ public class MoreTextView extends LinearLayout {
         globalLayout();
 //        SpannableString spannableString= MoonUtil.makeSpannableStringTags(getContext(),
 //                text.toString(),0.6f, ImageSpan.ALIGN_BOTTOM,MoonUtil.getFontHeight(showTextView));
-        showTextView.setText(text);
+        showTextView.setText(TextUtils.isEmpty(text) ? "" : text);
 
 //        EmotTextUtil.spannableEmoticonFilter(showTextView, text.toString());
     }

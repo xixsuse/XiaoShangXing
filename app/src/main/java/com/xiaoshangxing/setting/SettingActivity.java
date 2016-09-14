@@ -69,6 +69,7 @@ public class SettingActivity extends BaseActivity implements IBaseView {
     private IBaseView iBaseView;
     private Realm realm;
     private boolean bindEmail;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,15 +81,15 @@ public class SettingActivity extends BaseActivity implements IBaseView {
 
     private void initView() {
         imgCover = (CirecleImage) findViewById(R.id.setting_main_imag);
-        setImgCover();
         iBaseView = this;
         realm = Realm.getDefaultInstance();
-        User user = realm.where(User.class).equalTo("id", (int) SPUtils.get(this, SPUtils.ID, SPUtils.DEFAULT_int))
+        user = realm.where(User.class).equalTo("id", (int) SPUtils.get(this, SPUtils.ID, SPUtils.DEFAULT_int))
                 .findFirst();
         if (user == null) {
             showToast("账号异常");
             return;
         }
+        setImgCover();
 
         bindEmail = user.getActiveStatus() == 1;
 
@@ -114,8 +115,7 @@ public class SettingActivity extends BaseActivity implements IBaseView {
     }
 
     private void setImgCover() {
-        String path = (String) SPUtils.get(this, SPUtils.CURRENT_COUNT_HEAD, SPUtils.DEFAULT_STRING);
-        MyGlide.with(this, path, imgCover);
+        MyGlide.with(this, user.getUserImage(), imgCover);
     }
 
 

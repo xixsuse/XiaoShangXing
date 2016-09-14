@@ -23,16 +23,25 @@ public class NS {
     public static final String USER_NAME = "username";
     public static final String USER_IMAGE = "userImage";
 
+    //    动态
     public static final String CATEGORY = "category";
+    public static final String LOCATION = "location";
+    public static final String TEXT = "text";
+    public static final String CLIENTTIME = "clientTime";
+    public static final String NOTICE = "notice";
+    public static final String FOBIDDEN = "forbidden";
+    public static final String CATEGORY_STATE = "1";
+    public static final String CATEGORY_HELP = "2";
+    public static final String CATEGORY_PLAN = "3";
+    public static final String CATEGORY_CALENDAR = "4";
+    public static final String CATEGORY_SALE = "5";
+
+
 
     public static long currentTime(){
         return System.currentTimeMillis();
     }
 
-    public static final String NOTICE = "3";
-    public static final String FOBIDDEN = "0";
-    public static final String NOTICE_FOBIDDEN = "4";
-    public static final String NO_PERMISSON = "1";
 
     public static final int CODE_200 = 200;
 

@@ -9,13 +9,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 
 import java.util.Random;
+
+import io.realm.Realm;
 
 /**
  * Created by FengChaoQun
@@ -24,10 +30,20 @@ import java.util.Random;
 public class TransmitListFrafment extends Fragment {
     private RecyclerView recyclerView;
     private TextView emptyText;
+    private Published published;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_comment_list,null);
+
+        GetDataFromActivity activity = (GetDataFromActivity) getActivity();
+        published = (Published) (activity.getData());
+        if (published==null){
+            return view;
+        }
+
         recyclerView=(RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new HomeAdapter());

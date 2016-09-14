@@ -27,10 +27,7 @@ public class Woadapter_Help {
 
     public static void buildPrasiPeople(final String[] ids, final Context context,
                                         final LinearLayout linearLayout) {
-
-
         linearLayout.removeAllViews();
-
 
         Observable<List<User>> observable = Observable.create(new Observable.OnSubscribe<List<User>>() {
             @Override

@@ -65,12 +65,6 @@ public class PersonalInfoActivity extends BaseActivity {
 
 
     public void TagView(View view) {
-//        mFragmentManager.beginTransaction()
-//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-//                        R.anim.slide_in_left, R.anim.slide_out_left)
-//                .addToBackStack(TagViewFragment.TAG)
-//                .replace(R.id.setting_personinfo_Content, new TagViewFragment(), TagViewFragment.TAG)
-//                .commit();
         Intent intent = new Intent(this, TagViewActivity.class);
         startActivity(intent);
     }
@@ -92,12 +86,6 @@ public class PersonalInfoActivity extends BaseActivity {
                 .addToBackStack(VertifyFragment.TAG)
                 .replace(R.id.setting_personinfo_Content, new VertifyFragment(), VertifyFragment.TAG)
                 .commit();
-//        mFragmentManager.beginTransaction()
-//                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-//                        R.anim.slide_in_left, R.anim.slide_out_left)
-//                .addToBackStack(null)
-//                .replace(R.id.setting_personinfo_Content, new AfterVertifySuccessFragment())
-//                .commit();
     }
 
     public void back(View view) {

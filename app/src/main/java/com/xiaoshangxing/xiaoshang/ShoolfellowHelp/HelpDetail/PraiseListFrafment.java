@@ -5,16 +5,25 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.realm.Realm;
 
 /**
  * Created by FengChaoQun
@@ -23,21 +32,41 @@ import java.util.Random;
 public class PraiseListFrafment extends Fragment {
     private RecyclerView recyclerView;
     private TextView emptyText;
+    private Published published;
+    private List<String> ids = new ArrayList<>();
+    private int publish_id;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_comment_list,null);
+
+        GetDataFromActivity activity = (GetDataFromActivity) getActivity();
+        published = (Published) (activity.getData());
+        if (published==null){
+            return view;
+        }
+
         recyclerView=(RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new HomeAdapter());
+
         emptyText=(TextView)view.findViewById(R.id.empty_text);
-        Random random=new Random();
-        if (random.nextInt(2)==1){
+        if (TextUtils.isEmpty(published.getPraiseUserIds())) {
             recyclerView.setVisibility(View.GONE);
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText("赶紧赞一下");
+        } else {
+            for (String i : published.getPraiseUserIds().split(NS.SPLIT)) {
+                ids.add(i);
+            }
+            recyclerView.setAdapter(new HomeAdapter());
         }
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>
@@ -60,18 +89,19 @@ public class PraiseListFrafment extends Fragment {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position)
         {
-
+            UserInfoCache.getInstance().getHead(holder.headImage, Integer.valueOf(ids.get(position)), getContext());
+            UserInfoCache.getInstance().getName(holder.name, Integer.valueOf(ids.get(position)));
+            UserInfoCache.getInstance().getCollege(holder.college, Integer.valueOf(ids.get(position)));
         }
 
         @Override
         public int getItemCount()
         {
-            return 100;
+            return ids.size();
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder
         {
-
             TextView college;
             Name name;
             CirecleImage headImage;

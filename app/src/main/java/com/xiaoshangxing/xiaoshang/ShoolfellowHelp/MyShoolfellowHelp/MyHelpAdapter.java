@@ -2,44 +2,51 @@ package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
 
+import io.realm.OrderedRealmCollection;
+import io.realm.Realm;
+import io.realm.RealmBaseAdapter;
+
 /**
  * Created by FengChaoQun
- * on 2016/4/20
+ * on 2016/9/10
  */
-public class myshoolfellow_adpter extends ArrayAdapter<String> {
+public class MyHelpAdapter extends RealmBaseAdapter<Published> {
     private Context context;
-    private int resource;
-    List<String> strings;
+    List<Published> publisheds;
     private MyShoolHelpFragment fragment;
     private boolean showselect;
     private ShoolfellowHelpActivity activity;
+    Realm realm;
 
-
-    public myshoolfellow_adpter(Context context, int resource, List<String> objects,
-                                MyShoolHelpFragment fragment,ShoolfellowHelpActivity activity  ) {
-        super(context, resource, objects);
+    public MyHelpAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<Published> data,
+                         MyShoolHelpFragment fragment, Realm realm) {
+        super(context, data);
+        this.publisheds = data;
+        this.fragment = fragment;
+        this.realm = realm;
         this.context = context;
-        this.strings = objects;
-        this.resource = resource;
-        this.fragment=fragment;
-        this.activity=activity;
     }
 
     @Override
@@ -55,17 +62,20 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
             viewholder.time = (TextView) convertView.findViewById(R.id.time);
             viewholder.text = (EmotinText) convertView.findViewById(R.id.text);
             viewholder.iscomplete = (CheckBox) convertView.findViewById(R.id.iscomplete);
-            viewholder.checkBox=(CheckBox)convertView.findViewById(R.id.checkbox);
+            viewholder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
             convertView.setTag(viewholder);
 
         } else {
             viewholder = (mystate_viewholder) convertView.getTag();
         }
 
-        if (showselect){
+        final Published published = publisheds.get(position);
+
+        viewholder.checkBox.setChecked(false);
+        if (showselect) {
             viewholder.iscomplete.setVisibility(View.INVISIBLE);
             viewholder.checkBox.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             viewholder.iscomplete.setVisibility(View.VISIBLE);
             viewholder.checkBox.setVisibility(View.GONE);
         }
@@ -82,12 +92,18 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RewardDetailActivity.class);
+                Intent intent = new Intent(context, HelpDetailActivity.class);
+                intent.putExtra(IntentStatic.DATA, published.getId());
                 context.startActivity(intent);
             }
         });
 
-        viewholder.checkBox.setChecked(false);
+        UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
+        UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
+        UserInfoCache.getInstance().getCollege(viewholder.college, published.getId());
+        viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewholder.text.setText(published.getText());
+
 
         return convertView;
     }
@@ -98,44 +114,44 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
         private TextView college, time;
         private Name name;
         private EmotinText text;
-        private CheckBox checkBox,iscomplete;
+        private CheckBox checkBox, iscomplete;
     }
 
-    private void showMenu(View v){
+    private void showMenu(View v) {
 
         final View view = v;
-        int []xy=new int[2];
+        int[] xy = new int[2];
         v.getLocationInWindow(xy);
         View menu;
-        if (xy[1]<=context.getResources().getDimensionPixelSize(R.dimen.y300)){
-             menu= View.inflate(getContext(),R.layout.popup_myhelp_up,null);
-        }else {
-             menu= View.inflate(getContext(),R.layout.popup_myhelp_bottom,null);
+        if (xy[1] <= context.getResources().getDimensionPixelSize(R.dimen.y300)) {
+            menu = View.inflate(context, R.layout.popup_myhelp_up, null);
+        } else {
+            menu = View.inflate(context, R.layout.popup_myhelp_bottom, null);
         }
 
-        final PopupWindow popupWindow=new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
+        final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
-        popupWindow.setBackgroundDrawable(getContext().getResources().
+        popupWindow.setBackgroundDrawable(context.getResources().
                 getDrawable(R.drawable.nothing));
         popupWindow.setAnimationStyle(R.style.popwindow_anim);
 
         menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int mShowMorePopupWindowWidth = menu.getMeasuredWidth();
-        int mShowMorePopupWindowHeight=menu.getMeasuredHeight();
+        int mShowMorePopupWindowHeight = menu.getMeasuredHeight();
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
 
-        if (xy[1]<=context.getResources().getDimensionPixelSize(R.dimen.y300)){
+        if (xy[1] <= context.getResources().getDimensionPixelSize(R.dimen.y300)) {
             popupWindow.showAsDropDown(v,
-                    -mShowMorePopupWindowWidth/2+v.getWidth()/2,
+                    -mShowMorePopupWindowWidth / 2 + v.getWidth() / 2,
                     0);
-        }else {
+        } else {
             popupWindow.showAsDropDown(v,
-                    -mShowMorePopupWindowWidth/2+v.getWidth()/2,
-                    -mShowMorePopupWindowHeight-v.getHeight());
+                    -mShowMorePopupWindowWidth / 2 + v.getWidth() / 2,
+                    -mShowMorePopupWindowHeight - v.getHeight());
         }
-       
+
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -144,14 +160,14 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
             }
         });
 
-        final TextView transmit=(TextView)menu.findViewById(R.id.transmit);
-        TextView delete=(TextView)menu.findViewById(R.id.delete);
-        TextView more=(TextView)menu.findViewById(R.id.more);
+        final TextView transmit = (TextView) menu.findViewById(R.id.transmit);
+        TextView delete = (TextView) menu.findViewById(R.id.delete);
+        TextView more = (TextView) menu.findViewById(R.id.more);
 
         transmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(), SelectPersonActivity.class);
+                Intent intent = new Intent(context, SelectPersonActivity.class);
                 activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
                 popupWindow.dismiss();
             }
@@ -176,9 +192,10 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
 
     }
 
-    public void showSelectCircle(boolean is){
-        showselect=is;
+    public void showSelectCircle(boolean is) {
+        showselect = is;
         notifyDataSetChanged();
     }
+
 
 }

@@ -90,7 +90,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
 
     private View TextInputLay;//文字输入布局
     private EmoticonsEditText emoticonsEditText;//文字输入框
-    private Button send;//发送按钮
+    private ImageView send;//发送按钮
     private Button AudioRecord; //语音录制按钮
     private ImageView SwitchToAudio;//切换到语音输入
     private ImageView SwitchToText;//切换到文字输入
@@ -166,7 +166,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     private void initViews() {
         TextInputLay = view.findViewById(R.id.text_input_lay);
         emoticonsEditText = (EmoticonsEditText) view.findViewById(R.id.edittext);
-        send = (Button) view.findViewById(R.id.send);
+        send = (ImageView) view.findViewById(R.id.send);
         send.setOnClickListener(this);
         AudioRecord = (Button) view.findViewById(R.id.audioRecord);
         audioAnimLayout = view.findViewById(R.id.layoutPlayAudio);
@@ -360,13 +360,14 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
             }
         });
 
-        emoticonsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                emoticonsEditText.setHint("");
-                checkSendButtonEnable(emoticonsEditText);
-            }
-        });
+//        emoticonsEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                emoticonsEditText.setHint("");
+//                checkSendButtonEnable(emoticonsEditText);
+//            }
+//        });
+
 
         emoticonsEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -595,17 +596,17 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     }
 
     /**
-     * 显示发送或更多
+     * 显示发送
      *
      * @param editText
      */
     private void checkSendButtonEnable(EditText editText) {
         String textMessage = editText.getText().toString();
         if (!TextUtils.isEmpty(StringUtil.removeBlanks(textMessage)) && editText.hasFocus()) {
-            send.setBackgroundResource(R.drawable.circular_15_green);
+            send.setImageResource(R.mipmap.input_send_green);
             send.setEnabled(true);
         } else {
-            send.setBackgroundResource(R.drawable.circular_15_g2);
+            send.setImageResource(R.mipmap.input_send_grey);
             send.setEnabled(false);
         }
     }
@@ -716,7 +717,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
 
         audioMessageHelper.completeRecord(cancel);
         AudioRecord.setText("按住 说话");
-        AudioRecord.setBackgroundResource(R.drawable.circular_15_w0);
+        AudioRecord.setBackgroundResource(R.drawable.circular_17_w0);
         stopAudioRecordAnim();
     }
 

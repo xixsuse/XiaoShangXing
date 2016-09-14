@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -32,11 +30,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.BaseUrl;
+import com.xiaoshangxing.Network.FabuNetwork;
 import com.xiaoshangxing.Network.Formmat;
 import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
 import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
 import com.xiaoshangxing.input_activity.EmotAndPicture.PictureAdapter;
@@ -57,11 +58,14 @@ import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.LocationUtil;
-import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.Flog;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,6 +76,8 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import rx.Subscriber;
 
 /**
  * Created by FengChaoQun
@@ -207,6 +213,11 @@ public class InputActivity extends BaseActivity implements IBaseView {
     private List<String> notices = new ArrayList<>();//提醒的人
     private List<String> fobiddens = new ArrayList<>();//禁止的人
     private List<String> select_image_urls = new ArrayList<String>();//选择的图片
+
+    public static final String MOMENTID = "MOMENTID";
+    public static final String COMMENTID = "COMMENTID";
+    private int momentId;     //评论的动态id
+    private int commentId;     //评论的评论id
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -490,6 +501,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
         noticeSomeone.setVisibility(View.INVISIBLE);
         forbidSomeone.setVisibility(View.INVISIBLE);
         String text = getIntent().getStringExtra(COMMENT_OBJECT);
+        momentId = getIntent().getIntExtra(MOMENTID, -1);
+        commentId = getIntent().getIntExtra(COMMENTID, -1);
         if (!TextUtils.isEmpty(text)) {
             emotionEdittext.setHint("回复" + text);
         }
@@ -531,7 +544,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
     public void getDatas() {
         AlbumHelper albumHelper=AlbumHelper.getHelper();
-        albumHelper.init(this);
+        albumHelper.init(XSXApplication.getInstance());
         ImageBucket imageBucket= albumHelper.getTotalImage(false);
         ArrayList<ImageItem> imageItems=(ArrayList<ImageItem>) imageBucket.imageList;
         for (ImageItem i:imageItems){
@@ -676,27 +689,24 @@ public class InputActivity extends BaseActivity implements IBaseView {
     private void send(){
         switch (current_state) {
             case PUBLISH_STATE:
-                publish();
+                publishState();
+                break;
+            case SHOOL_REWARD:
+                publishReward();
+                break;
+            case SHOOLFELLOW_HELP:
+                publishHelp();
+                break;
+            case COMMENT:
+                publishComment();
                 break;
         }
     }
 
-    private void publish() {
+    private void publish(final Map<String, String> map) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Map<String, String> map = new HashMap<>();
-                map.put(NS.USER_ID, String.valueOf(TempUser.getID(InputActivity.this)));
-                map.put("text", emotionEdittext.getText().toString());
-                map.put("location", selected_location);
-                map.put("clientTime", String.valueOf(NS.currentTime()));
-                map.put("category", "1");
-                map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
-//                map.put("sight", NS.sight(notices, fobiddens));
-//                map.put("sightUserids", NS.sightUserids(notices, fobiddens));
-                NS.getPermissionString("notice", notices, map);
-                NS.getPermissionString("forbidden", fobiddens, map);
-
                 Formmat formmat = new Formmat(iBaseView, InputActivity.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
                 try {
                     formmat.addFormField(map)
@@ -711,21 +721,83 @@ public class InputActivity extends BaseActivity implements IBaseView {
         thread.start();
     }
 
-    public Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    showLoadingDialog("上传中...");
-                    break;
-                case 2:
-                    hideLoadingDialog();
-                    break;
-                default:
-                    break;
-            }
-            super.handleMessage(msg);
+    private void publishState() {
+        Map<String, String> map = new HashMap<>();
+        map.put(NS.USER_ID, String.valueOf(TempUser.getID(InputActivity.this)));
+        map.put(NS.TEXT, emotionEdittext.getText().toString());
+        map.put(NS.LOCATION, selected_location);
+        map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
+        map.put(NS.CATEGORY, NS.CATEGORY_STATE);
+        map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
+        NS.getPermissionString(NS.NOTICE, notices, map);
+        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        publish(map);
+    }
+
+    private void publishReward() {
+        if (TextUtils.isEmpty(price.getText().toString())) {
+            showToast("请输入悬赏价格");
+            return;
         }
-    };
+        Map<String, String> map = new HashMap<>();
+    }
+
+    public void publishHelp() {
+        Map<String, String> map = new HashMap<>();
+        map.put(NS.USER_ID, String.valueOf(TempUser.getID(InputActivity.this)));
+        map.put(NS.TEXT, emotionEdittext.getText().toString());
+        map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
+        map.put(NS.CATEGORY, NS.CATEGORY_HELP);
+        map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
+        NS.getPermissionString(NS.NOTICE, notices, map);
+        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        publish(map);
+    }
+
+    private void publishComment() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.id);
+        jsonObject.addProperty("momentId", momentId);
+        if (commentId > 0) {
+            jsonObject.addProperty("commentId", commentId);
+        }
+        jsonObject.addProperty(NS.CONTENT, emotionEdittext.getText().toString());
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showToast("评论失败");
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
+                    switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
+                        case NS.CODE_200:
+                            showToast("评论成功");
+                            finish();
+                            break;
+                        default:
+                            showToast(jsonObject1.getString(NS.MSG));
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        FabuNetwork.getInstance().comment(subscriber, jsonObject, this);
+
+    }
 
     public void showSureDialog() {
         if (emotionEdittext.getText().toString().isEmpty()){

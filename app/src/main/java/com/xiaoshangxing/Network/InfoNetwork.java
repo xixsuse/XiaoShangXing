@@ -8,8 +8,10 @@ import com.xiaoshangxing.Network.api.InfoApi.CheckPassword;
 import com.xiaoshangxing.Network.api.InfoApi.GetUser;
 import com.xiaoshangxing.Network.api.InfoApi.ModifyInfoApi;
 import com.xiaoshangxing.Network.api.InfoApi.ModifyPassword;
+import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 import com.xiaoshangxing.Network.api.InfoApi.UnBindEmailApi;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
@@ -27,6 +29,7 @@ public class InfoNetwork {
     private ModifyPassword modifyPassword;
     private BindEmailApi bindEmailApi;
     private UnBindEmailApi unBindEmailApi;
+    private SetUserImage setUserImage;
 
 
     private InfoNetwork() {
@@ -88,6 +91,14 @@ public class InfoNetwork {
             unBindEmailApi = Network.getRetrofitWithHeader(context).create(UnBindEmailApi.class);
         }
         Observable<ResponseBody> observable = unBindEmailApi.unbindEmail(bindEmai);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void setUserImage(Subscriber<ResponseBody> subscriber, Integer id, MultipartBody.Part photo,Context context) {
+        if (setUserImage == null) {
+            setUserImage = Network.getRetrofitWithHeader(context).create(SetUserImage.class);
+        }
+        Observable<ResponseBody> observable = setUserImage.setUserImage(id,photo,NS.currentTime());
         toSubscribe(observable, subscriber);
     }
 

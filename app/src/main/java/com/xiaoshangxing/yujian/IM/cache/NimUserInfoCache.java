@@ -185,8 +185,6 @@ public class NimUserInfoCache {
      *@param
      *@return
      */
-
-
     public String getHeadImage(String account) {
         if (TextUtils.isEmpty(account)) {
             return null;

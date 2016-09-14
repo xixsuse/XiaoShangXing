@@ -16,8 +16,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.FabuNetwork;
 import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserCache;
@@ -33,19 +36,26 @@ import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 import com.xiaoshangxing.wo.myState.check_photo.myStateNoScrollGridAdapter;
 import com.xiaoshangxing.wo.roll.rollActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import rx.Subscriber;
 
 /**
  * Created by FengChaoQun
  * on 2016/7/9
  */
 public class DetailsActivity extends BaseActivity implements DetailsContract.View {
-
 
     @Bind(R.id.back)
     LinearLayout back;
@@ -111,6 +121,11 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     LinearLayout emotLay;
     @Bind(R.id.edit_and_emot)
     RelativeLayout editAndEmot;
+    @Bind(R.id.checkbox_lay)
+    LinearLayout checkboxLay;
+    @Bind(R.id.comment_click)
+    LinearLayout commentClick;
+
     private Handler handler = new Handler();
     private InputBoxLayout inputBoxLayout;
     private DetailsContract.Presenter mPresenter;
@@ -166,6 +181,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         }
 
         location.setText(published.getLocation());
+        time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+
         if (TempUser.isMine(String.valueOf(published.getUserId()))) {
             permission.setVisibility(View.VISIBLE);
             delete.setVisibility(View.VISIBLE);
@@ -181,78 +198,20 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
             parseComment();
         }
 
-//        for (int i = 0; i <= 20; i++) {
-//            CirecleImage cirecleImage = new CirecleImage(this);
-//            cirecleImage.setImageResource(R.mipmap.cirecleimage_default);
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                    getResources().getDimensionPixelSize(R.dimen.x96),
-//                    getResources().getDimensionPixelSize(R.dimen.y96));
-//            cirecleImage.setLayoutParams(params);
-//            cirecleImage.setPadding(getResources().getDimensionPixelSize(R.dimen.x20), 0, 0, 0);
-//
-//            cirecleImage.setIntent_type(CirecleImage.PERSON_STATE, null);
-//
-//            praisePeople.addView(cirecleImage);
-//
-//            final Comment_layout comment_layout = new Comment_layout(this);
-//            comments.addView(comment_layout.getView());
-//            comment_layout.getView().setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    inputBoxLayout.showOrHideLayout(true);
-//                    final View mv = v;
-//                    handler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            int[] xy = new int[2];
-//                            mv.getLocationOnScreen(xy);
-//                            int destination = xy[1] + mv.getHeight() - inputBoxLayout.getEdittext_height();
-//                            scrollView.smoothScrollBy(0, destination + 10);
-//                        }
-//                    }, 300);
-//
-//                }
-//            });
-//
-//            CirecleImage cirecleImage1 = (CirecleImage) comment_layout.getView().findViewById(R.id.head_image);
-//            cirecleImage1.setIntent_type(CirecleImage.PERSON_STATE, null);
-//        }
-
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    inputBoxLayout.remainEdittext();
+//                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
                     inputBoxLayout.remainEdittext();
-                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    inputBoxLayout.remainEdittext();
-                }
+//                }
                 return false;
             }
         });
     }
 
     private void parsePraise() {
-//        for (String i : published.getPraiseUserIds().split(NS.SPLIT)) {
-//
-//            CirecleImage cirecleImage = new CirecleImage(this);
-//            cirecleImage.setImageResource(R.mipmap.cirecleimage_default);
-//            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-//                    getResources().getDimensionPixelSize(R.dimen.x96),
-//                    getResources().getDimensionPixelSize(R.dimen.y96));
-//            cirecleImage.setLayoutParams(params);
-//            cirecleImage.setPadding(getResources().getDimensionPixelSize(R.dimen.x20), 0, 0, 0);
-//
-//            CirecleImage cirecleImage1 = (CirecleImage) View.inflate(this, R.layout.util_circle_image_96, null).findViewById(R.id.head_image);
-//
-//            cirecleImage1.setIntent_type(CirecleImage.PERSON_STATE, i);
-//
-//            UserCache userCache = new UserCache(this, i, realm);
-//            userCache.getHead(cirecleImage1);
-//
-//            praisePeople.addView(cirecleImage1);
-//
-//        }
-
         final ArrayList<String> imageUrls = new ArrayList<>();
         String[] splits = published.getPraiseUserIds().split(NS.SPLIT);
         for (String i : splits) {
@@ -260,43 +219,53 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         }
 
         praisePeople.setVisibility(View.VISIBLE);
-        praisePeople.setAdapter(new DetailPraiseAdapter(this, imageUrls,realm));
-//        praisePeople.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(DetailsActivity.this, ImagePagerActivity.class);
-//                intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, imageUrls);
-//                intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
-//                startActivity(intent);
-//            }
-//        });
+        praisePeople.setAdapter(new DetailPraiseAdapter(this, imageUrls, realm));
     }
 
     private void parseComment() {
-        final Comment_layout comment_layout = new Comment_layout(this);
-        comments.addView(comment_layout.getView());
-        comment_layout.getView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inputBoxLayout.showOrHideLayout(true);
-                final View mv = v;
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        int[] xy = new int[2];
-                        mv.getLocationOnScreen(xy);
-                        int destination = xy[1] + mv.getHeight() - inputBoxLayout.getEdittext_height();
-                        scrollView.smoothScrollBy(0, destination + 10);
-                    }
-                }, 300);
 
-            }
-        });
+        List<CommentsBean> list = published.getComments();
+        if (list == null || list.size() < 1) {
+            return;
+        }
 
-        CirecleImage cirecleImage1 = (CirecleImage) comment_layout.getView().findViewById(R.id.head_image);
-        cirecleImage1.setIntent_type(CirecleImage.PERSON_STATE, null);
+        for (final CommentsBean i : list) {
+            Comment_layout comment_layout = new Comment_layout(this, i, realm);
+            comments.addView(comment_layout.getView());
+            comment_layout.getView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    inputBoxLayout.showOrHideLayout(true);
+                    inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
+                        @Override
+                        public void callback(String text) {
+                            JsonObject jsonObject = new JsonObject();
+                            jsonObject.addProperty(NS.USER_ID, TempUser.id);
+                            jsonObject.addProperty("momentId", published.getId());
+                            jsonObject.addProperty(NS.CONTENT, text);
+                            jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+                            jsonObject.addProperty("commentId", i.getId());
+                            sendComment(jsonObject);
+                        }
+                    });
+                    final View mv = v;
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int[] xy = new int[2];
+                            mv.getLocationOnScreen(xy);
+                            int destination = xy[1] + mv.getHeight() - inputBoxLayout.getEdittext_height();
+                            scrollView.smoothScrollBy(0, destination + 10);
+                        }
+                    }, 300);
+
+
+                }
+            });
+        }
 
     }
+
 
     private void initInputBox() {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.edit_and_emot);
@@ -345,7 +314,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         this.mPresenter = presenter;
     }
 
-    @OnClick({R.id.back, R.id.head_image, R.id.delete, R.id.praise, R.id.comment, R.id.emotion, R.id.send})
+    @OnClick({R.id.back, R.id.head_image, R.id.delete, R.id.praise, R.id.comment,
+            R.id.emotion, R.id.send, R.id.checkbox_lay, R.id.comment_click})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -361,6 +331,23 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                 break;
             case R.id.comment:
                 inputBoxLayout.showOrHideLayout(true);
+                inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
+                    @Override
+                    public void callback(String text) {
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty(NS.USER_ID, TempUser.id);
+                        jsonObject.addProperty("momentId", published.getId());
+                        jsonObject.addProperty(NS.CONTENT, text);
+                        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+                        sendComment(jsonObject);
+                    }
+                });
+                break;
+            case R.id.checkbox_lay:
+                praise.performClick();
+                break;
+            case R.id.comment_click:
+                comment.performClick();
                 break;
         }
     }
@@ -369,4 +356,41 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     public void onClick() {
         gotoPermisson();
     }
+
+    private void sendComment(final JsonObject jsonObject) {
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                inputBoxLayout.setCallBack(null);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showToast("评论失败");
+                inputBoxLayout.setCallBack(null);
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
+                    switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
+                        case NS.CODE_200:
+                            showToast("评论成功");
+                            break;
+                        default:
+                            showToast(jsonObject1.getString(NS.MSG));
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        FabuNetwork.getInstance().comment(subscriber, jsonObject, this);
+    }
+
 }

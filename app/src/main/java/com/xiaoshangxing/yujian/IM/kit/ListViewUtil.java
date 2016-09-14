@@ -3,7 +3,16 @@ package com.xiaoshangxing.yujian.IM.kit;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.data.Published;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class ListViewUtil {
 
@@ -64,5 +73,26 @@ public class ListViewUtil {
 				}
 			}
 		});			
+	}
+
+	public static void LoadByPager(ListView listView, ArrayAdapter<Published> adapter, Realm realm, String categery) {
+		int curent_anchor=10;
+		RealmResults<Published> publisheds = publisheds = realm.where(Published.class)
+				.equalTo(NS.CATEGORY, Integer.valueOf(categery))
+				.findAll().sort(NS.ID, Sort.DESCENDING);
+
+		listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				if (firstVisibleItem + visibleItemCount == totalItemCount) {
+
+				}
+			}
+		});
 	}
 }

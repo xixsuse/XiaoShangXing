@@ -17,6 +17,7 @@ import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.XSXApplication;
@@ -130,7 +131,8 @@ public class PersonalInfoFragment extends BaseFragment {
                             realm.executeTransaction(new Realm.Transaction() {
                                 @Override
                                 public void execute(Realm realm) {
-                                    realm.createOrUpdateObjectFromJson(User.class,user);
+                                    User user1 = realm.createOrUpdateObjectFromJson(User.class, user);
+                                    UserInfoCache.getInstance().refreshSomeone(user1);
                                 }
                             });
                             break;
@@ -154,12 +156,7 @@ public class PersonalInfoFragment extends BaseFragment {
     }
 
     private void initInfo(final User user) {
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-                MyGlide.with(XSXApplication.getInstance(), user.getUserImage(), settingPersoninfoHeadView);
-//            }
-//        }, 200);
+        MyGlide.with(XSXApplication.getInstance(), user.getUserImage(), settingPersoninfoHeadView);
 
         name.setText(user.getUsername());
         if (user.getSex() != null) {
@@ -174,7 +171,6 @@ public class PersonalInfoFragment extends BaseFragment {
         if (user.getIsActive() != null) {
             realName.setText(user.getIsActive() == 0 ? "未认证" : "已认证");
         }
-
     }
 
     @Override

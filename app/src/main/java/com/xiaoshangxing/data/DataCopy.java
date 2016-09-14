@@ -22,6 +22,9 @@ public class DataCopy {
         user1.setActiveStatus(user.getActiveStatus());
         user1.setEmail(user.getEmail());
         user1.setServerTime(user.getServerTime());
+        user1.setIsClass(user.getIsClass());
+        user1.setIsCollege(user.getIsCollege());
+        user1.setIsGrade(user.getIsGrade());
         return user1;
     }
 }

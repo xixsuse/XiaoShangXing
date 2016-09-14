@@ -21,15 +21,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -43,7 +48,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/20
  */
-public class HelpDetailActivity extends BaseActivity implements HelpDetailContract.View {
+public class HelpDetailActivity extends BaseActivity implements HelpDetailContract.View, GetDataFromActivity {
     public static final String TAG = BaseFragment.TAG + "-HelpDetailActivity";
 
     @Bind(R.id.back)
@@ -90,6 +95,8 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     private HelpDetailContract.Presenter mPresenter;
 
     private Handler handler = new Handler();
+    private int published_id;
+    private Published published;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +108,28 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         moveImediate(currentItem);
     }
 
+    @Override
+    public Object getData() {
+        return published;
+    }
+
     private void init() {
+
+        if (!getIntent().hasExtra(IntentStatic.DATA)) {
+            showToast("动态id错误");
+            finish();
+        }
+        published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
+        published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
+        if (published == null) {
+            showToast("没有该动态的消息");
+            finish();
+        }
+
         fragments.add(new TransmitListFrafment());
         fragments.add(new CommentListFrafment());
         fragments.add(new PraiseListFrafment());
+
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
 
         viewpager.setAdapter(adapter);
@@ -146,7 +171,14 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
             e.printStackTrace();
             Log.d("修改viewpager滑动速度", "失败");
         }
-        setCount(10, 20, 30);
+
+        int userId = published.getUserId();
+        UserInfoCache.getInstance().getHead(headImage, userId, this);
+        UserInfoCache.getInstance().getName(name, userId);
+        UserInfoCache.getInstance().getCollege(college, userId);
+        time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        text.setText(published.getText());
+        setCount(10, published.getComments().size(), published.getPraiseUserIds().split(NS.SPLIT).length);
     }
 
     @OnClick({R.id.back, R.id.more, R.id.transmit_text, R.id.comment_text, R.id.praise_text, R.id.transmit, R.id.comment, R.id.praiseOrCancel, R.id.praise})
@@ -180,7 +212,6 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
                 break;
         }
     }
-
 
     //    控制滑块滑动到指定位置
     @Override
@@ -279,9 +310,14 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
 
     @Override
     public void gotoInput() {
-        Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
-        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-        startActivity(intent);
+//        Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
+//        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+//        startActivity(intent);
+
+        Intent comment_input = new Intent(this, InputActivity.class);
+        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
+        startActivity(comment_input);
     }
 
     private void showTransmitDialog() {
@@ -329,6 +365,10 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
                 notice_dialog.dismiss();
             }
         }, 500);
+    }
+
+    public Published getPublished() {
+        return published;
     }
 
     @Override

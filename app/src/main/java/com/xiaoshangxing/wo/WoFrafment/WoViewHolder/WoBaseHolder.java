@@ -24,6 +24,7 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserCache;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -34,7 +35,6 @@ import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.utils.school_circle.CommentTextview;
 import com.xiaoshangxing.utils.school_circle.Item_Comment;
 import com.xiaoshangxing.utils.school_circle.PraisePeople;
-import com.xiaoshangxing.wo.WoFrafment.WoAdapter1;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.wo.WoFrafment.Woadapter_Help;
 import com.xiaoshangxing.wo.roll.rollActivity;
@@ -79,10 +79,6 @@ public abstract class WoBaseHolder {
     protected WoFragment woFragment;
 
     protected Handler handler;
-
-    public int position;
-
-    protected WoAdapter1 adapter1;
 
     protected CirecleImage headImage;
     protected Name name;
@@ -143,21 +139,6 @@ public abstract class WoBaseHolder {
         this.published = published;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
-    public WoAdapter1 getAdapter1() {
-        return adapter1;
-    }
-
-    public void setAdapter1(WoAdapter1 adapter1) {
-        this.adapter1 = adapter1;
-    }
 
     public Published getPublished() {
         return published;
@@ -204,17 +185,19 @@ public abstract class WoBaseHolder {
     private void initView() {
 
 //      头像  姓名 学院
-        UserCache userCache = new UserCache(context, String.valueOf(published.getUserId()), realm);
-        userCache.getHead(headImage);
-        userCache.getName(name);
-        userCache.getCollege(college);
+//        UserCache userCache = new UserCache(context, String.valueOf(published.getUserId()), realm);
+//        userCache.getHead(headImage);
+//        userCache.getName(name);
+//        userCache.getCollege(college);
+        UserInfoCache.getInstance().getHead(headImage, published.getUserId(), context);
+        UserInfoCache.getInstance().getName(name, published.getUserId());
+        UserInfoCache.getInstance().getCollege(college, published.getUserId());
 
 //        是否头条
         headline.setVisibility(published.getIsHeadline() == 1 ? View.VISIBLE : View.INVISIBLE);
 
 //      文字内容
         text.setText(published.getText());
-        Log.d("textposition", "--" + published.getId());
 
 //      地点
         location.setText(published.getLocation());
@@ -243,9 +226,7 @@ public abstract class WoBaseHolder {
 
 //         评论
         if (published.getComments() != null && published.getComments().size() > 0) {
-//            parseComment(published.getId());
             simpleParse();
-//            Test();
         } else {
             comments.removeAllViews();
             comments_fragment.removeAllViews();

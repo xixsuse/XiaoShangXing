@@ -32,8 +32,7 @@ public class SPUtils
 	/*
 	**describe:动态发布拉取
 	*/
-	public static final String LASTTIME_LOAD_WO="LASTTIME_LOAD_WO";
-	public static final String LASTTIME_LOAD_SELF="LASTTIME_LOAD_SELF";
+
 
 	public SPUtils()
 	{

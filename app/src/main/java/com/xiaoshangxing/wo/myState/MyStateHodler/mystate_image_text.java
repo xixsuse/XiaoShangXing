@@ -1,6 +1,7 @@
 package com.xiaoshangxing.wo.myState.MyStateHodler;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class Mystate_image_text extends MyStateHodlerBase {
     public void refresh(final Published published) {
         setPublished(published);
         refreshBase();
-        text.setText(published.getText());
+        text.setText(TextUtils.isEmpty(published.getText())?"":published.getText());
         first.setVisibility(View.GONE);
         second.setVisibility(View.GONE);
         third.setVisibility(View.GONE);

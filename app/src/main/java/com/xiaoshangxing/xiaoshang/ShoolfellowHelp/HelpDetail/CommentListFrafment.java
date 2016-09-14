@@ -12,10 +12,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.CommentsBean;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
+
+import java.util.List;
 
 /**
  * Created by FengChaoQun
@@ -25,22 +31,40 @@ public class CommentListFrafment extends Fragment {
     private RecyclerView recyclerView;
     private TextView emptyText;
     private boolean isCollect;//记录是否是collect界面
+    private Published published;
+    private List<CommentsBean> commentsBeen;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_comment_list,null);
-        recyclerView=(RecyclerView) view.findViewById(R.id.recycleView);
+
+        GetDataFromActivity activity = (GetDataFromActivity) getActivity();
+        published = (Published) (activity.getData());
+        if (published == null) {
+            return view;
+        }
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new HomeAdapter());
-        emptyText=(TextView)view.findViewById(R.id.empty_text);
-//        Random random=new Random();
-//        if (random.nextInt(4)==1){
-//            recyclerView.setVisibility(View.GONE);
-//            emptyText.setVisibility(View.VISIBLE);
-//            emptyText.setText("赶紧评论一下");
-//        }
+        emptyText = (TextView) view.findViewById(R.id.empty_text);
+        if (published.getComments().size() < 1) {
+            recyclerView.setVisibility(View.GONE);
+            emptyText.setVisibility(View.VISIBLE);
+            emptyText.setText("赶紧评论一下");
+        } else {
+            commentsBeen = published.getComments();
+            recyclerView.setAdapter(new HomeAdapter());
+        }
+
         return view;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
 
     public void setCollect(boolean collect) {
         isCollect = collect;
@@ -64,36 +88,48 @@ public class CommentListFrafment extends Fragment {
             holder.headImage=(CirecleImage)view.findViewById(R.id.head_image);
 
 
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (isCollect){
-                        Intent comment_input=new Intent(getContext(),InputActivity.class);
-                        comment_input.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
-                        comment_input.putExtra(InputActivity.COMMENT_OBJECT,"校上行");
-                        startActivity(comment_input);
-                    }else {
-                        Intent comment_input=new Intent(getContext(),InputActivity.class);
-                        comment_input.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
-                        comment_input.putExtra(InputActivity.COMMENT_OBJECT,"校上行");
-                        startActivity(comment_input);
-                    }
-                }
-            });
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder, int position)
-        {
+        public void onBindViewHolder(final MyViewHolder holder, int position) {
 
+            final CommentsBean i = commentsBeen.get(position);
+            int userId = i.getUserId();
+            UserInfoCache.getInstance().getHead(holder.headImage, userId, getContext());
+            UserInfoCache.getInstance().getName(holder.name, userId);
+            UserInfoCache.getInstance().getCollege(holder.college, userId);
+            holder.text.setText(i.getText());
+            holder.time.setText(TimeUtil.getTimeShowString(i.getCreateTime(), false));
+
+            holder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isCollect) {
+                        Intent comment_input = new Intent(getContext(), InputActivity.class);
+                        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+                        comment_input.putExtra(InputActivity.COMMENT_OBJECT, holder.name.getText());
+                        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
+                        comment_input.putExtra(InputActivity.COMMENTID, i.getId());
+                        startActivity(comment_input);
+                    } else {
+                        Intent comment_input = new Intent(getContext(), InputActivity.class);
+                        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+                        comment_input.putExtra(InputActivity.COMMENT_OBJECT, holder.name.getText());
+                        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
+                        comment_input.putExtra(InputActivity.COMMENTID, i.getId());
+                        startActivity(comment_input);
+                    }
+                }
+            });
         }
 
         @Override
         public int getItemCount()
         {
-            return 100;
+            return commentsBeen.size();
         }
+
 
         class MyViewHolder extends RecyclerView.ViewHolder
         {

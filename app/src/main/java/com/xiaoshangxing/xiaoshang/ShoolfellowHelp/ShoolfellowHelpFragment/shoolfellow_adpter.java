@@ -15,7 +15,7 @@ import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
 import java.util.List;
@@ -133,7 +133,7 @@ public class shoolfellow_adpter extends ArrayAdapter<String> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RewardDetailActivity.class);
+                Intent intent = new Intent(context, HelpDetailActivity.class);
                 context.startActivity(intent);
             }
         });
