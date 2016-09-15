@@ -2,6 +2,7 @@ package com.xiaoshangxing.setting;
 
 import android.content.Context;
 
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 /**
@@ -13,17 +14,17 @@ public class DataSetting {
      *
      * @return
      */
-    public static boolean IsAccepted(Context context) {
-        return (boolean) SPUtils.get(context, "newnotice_accept", false);
+    public static boolean IsAcceptedNews(Context context) {
+        return (boolean) SPUtils.get(context, SPUtils.NewNotice, true);
     }
 
     /**
-     * 新消息通知——是否开启通知新消息详情
+     * 新消息通知——是否关闭通知新消息详情
      *
      * @return
      */
-    public static boolean IsInformed(Context context) {
-        return (boolean) SPUtils.get(context, "newnotice_inform", false);
+    public static boolean IsHideInformed(Context context) {
+        return (boolean) SPUtils.get(context, SPUtils.HideNewsDetail, false);
     }
 
     /**
@@ -32,7 +33,7 @@ public class DataSetting {
      * @return
      */
     public static boolean IsSounded(Context context) {
-        return (boolean) SPUtils.get(context, "newnotice_sound", false);
+        return (boolean) SPUtils.get(context, SPUtils.NewsSound, true);
     }
 
     /**
@@ -41,7 +42,7 @@ public class DataSetting {
      * @return
      */
     public static boolean IsVibrationed(Context context) {
-        return (boolean) SPUtils.get(context, "newnotice_vibration", false);
+        return (boolean) SPUtils.get(context, SPUtils.NewsVibrate, true);
     }
 
     /**
@@ -50,7 +51,7 @@ public class DataSetting {
      * @return
      */
     public static boolean IsRenewed(Context context) {
-        return (boolean) SPUtils.get(context, "newnotice_renew", false);
+        return (boolean) SPUtils.get(context, SPUtils.NewsForXiaoyou, true);
     }
 
     /**
@@ -67,8 +68,23 @@ public class DataSetting {
      *
      * @return
      */
-    public static boolean IsReceiveMode(Context context) {
-        return (boolean) SPUtils.get(context, "currency_receivemode", false);
+    public static boolean isEarPhone(Context context) {
+        return (boolean) SPUtils.get(context, SPUtils.EarPhone, true);
+    }
+
+    /**
+     * description:存储个人设置
+     */
+
+    public static void setStatusConfig(StatusBarNotificationConfig config) {
+        SPUtils.savePersonalSetting(config);
+    }
+
+    /**
+     * description:获取个人设置
+     */
+    public static StatusBarNotificationConfig getStatusConfig() {
+        return SPUtils.getConfig();
     }
 
 
@@ -77,8 +93,8 @@ public class DataSetting {
      *
      * @return
      */
-    public static Integer NoDisturbList(Context context) {
-        return (Integer) SPUtils.get(context, "nodisturbList", 0);
+    public static Integer getNoDisturbList(Context context) {
+        return (Integer) SPUtils.get(context, SPUtils.NoDisturb, 2);
     }
 
 

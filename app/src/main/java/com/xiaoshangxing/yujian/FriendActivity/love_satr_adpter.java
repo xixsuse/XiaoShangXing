@@ -70,6 +70,8 @@ public class love_satr_adpter extends ArrayAdapter<String> {
             });
         }
 
+        viewHolder.headImage.setIntent_type(CirecleImage.PERSON_INFO, "17768345313");
+
         return convertView;
     }
 

@@ -13,6 +13,8 @@ public class ImageFileSortComparator implements Comparator<ImageItem>{
         File file2=new File(o2.imagePath);
         if (file1.lastModified()>file2.lastModified()){
             return -1;
+        } else if (file1.lastModified() == file2.lastModified()) {
+            return 0;
         }else {
             return 1;
         }

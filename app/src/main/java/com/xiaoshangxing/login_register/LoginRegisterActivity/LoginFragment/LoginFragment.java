@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.InputAccountFragment.InputAccountFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RetrieveByMesFragment.RetrieveByMesFragment;
@@ -29,6 +30,8 @@ import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
+
+import io.realm.Realm;
 
 /**
  * Created by FengChaoQun
@@ -51,6 +54,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
     private LoadingDialog mLoadingDialog;
     private String getNumber;
     private DialogUtils.Dialog_Center mDialogUtils;
+    private Realm realm;
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -61,6 +65,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         mview = view;
+        realm = Realm.getDefaultInstance();
         setmPresenter(new LoginFragmentPresenter(this, getActivity()));
         initView();
         getNumber = getActivity().getIntent().getStringExtra(LOGIN_WITH_NUMBER);
@@ -174,14 +179,15 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
     @Override
     public void showHeadPotrait(boolean is) {
         if (is) {
-            String url = (String) SPUtils.get(getContext(), SPUtils.CURRENT_COUNT_HEAD, SPUtils.DEFAULT_STRING);
-            if (!url.equals(SPUtils.DEFAULT_STRING)) {
-                MyGlide.with(this, url, headPortrait);
+            User user = realm.where(User.class).equalTo("phone", getPhoneNumber()).findFirst();
+            if (user != null) {
+                if (!TextUtils.isEmpty(user.getUserImage())) {
+                    MyGlide.with(this, user.getUserImage(), headPortrait);
+                }
             }
         } else {
             headPortrait.setImageResource(R.mipmap.cirecleimage_default);
         }
-
     }
 
     @Override
@@ -261,6 +267,12 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
             btn_login.setEnabled(false);
             btn_login.setAlpha(0.5f);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        realm.close();
+        super.onDestroy();
     }
 
     @Override

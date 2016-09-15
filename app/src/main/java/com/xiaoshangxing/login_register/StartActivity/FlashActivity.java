@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.netease.nimlib.sdk.AbortableFuture;
@@ -21,7 +20,9 @@ import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
+import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.DataCacheManager;
@@ -111,7 +112,12 @@ public class FlashActivity extends BaseActivity {
                 public void onSuccess(Object o) {
                     NimUIKit.setAccount(account);
                     // 初始化消息提醒
-                    NIMClient.toggleNotification((boolean) SPUtils.get(FlashActivity.this, SPUtils.NOTIFY, true));
+                    NIMClient.toggleNotification(DataSetting.IsAcceptedNews(FlashActivity.this));
+                    // 初始化免打扰
+                    if (DataSetting.getStatusConfig() == null) {
+                        DataSetting.setStatusConfig(XSXApplication.getInstance().notificationConfig);
+                    }
+                    NIMClient.updateStatusBarNotificationConfig(DataSetting.getStatusConfig());
                     // 构建缓存
                     DataCacheManager.buildDataCacheAsync();
 

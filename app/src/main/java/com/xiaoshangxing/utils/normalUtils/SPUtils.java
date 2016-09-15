@@ -3,6 +3,11 @@ package com.xiaoshangxing.utils.normalUtils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.xiaoshangxing.utils.XSXApplication;
+
+import org.json.JSONObject;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -26,8 +31,15 @@ public class SPUtils
 	/*
 	**describe:遇见
 	*/
-	public static final String NOTIFY="NOTIFY";
-	public static final String EarPhone="EarPhone";
+	public static final String EarPhone = "EarPhone";//听筒状态
+	public static final String NewNotice = "NewNotice";//新消息通知
+	public static final String HideNewsDetail = "HideNewsDetail";//新消息详情
+	public static final String NewsSound = "NewsSound";//新消息声音
+	public static final String NewsVibrate = "NewsVibrate";//新消息振动
+	public static final String NewsForXiaoyou = "NewsForXiaoyou";//校友圈更新
+	public static final String NoDisturb = "NoDisturb";//消息免打扰选项 0:开启 1：夜间开启 2：关闭
+
+	private final static String PERSONAL_SETTING = "PERSONAL_SETTING";
 
 	/*
 	**describe:动态发布拉取
@@ -113,6 +125,60 @@ public class SPUtils
 		}
 
 		return null;
+	}
+
+	/*
+	**describe:存储个人设置
+	*/
+	public static void savePersonalSetting(StatusBarNotificationConfig config) {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put("downTimeBegin", config.downTimeBegin);
+			jsonObject.put("downTimeEnd", config.downTimeEnd);
+			jsonObject.put("downTimeToggle", config.downTimeToggle);
+			jsonObject.put("ring", config.ring);
+			jsonObject.put("vibrate", config.vibrate);
+			jsonObject.put("notificationSmallIconId", config.notificationSmallIconId);
+			jsonObject.put("notificationSound", config.notificationSound);
+			jsonObject.put("hideContent", config.hideContent);
+			jsonObject.put("ledargb", config.ledARGB);
+			jsonObject.put("ledonms", config.ledOnMs);
+			jsonObject.put("ledoffms", config.ledOffMs);
+			jsonObject.put("titleOnlyShowAppName", config.titleOnlyShowAppName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		put(XSXApplication.getInstance(), PERSONAL_SETTING, jsonObject.toString());
+	}
+
+	/*
+	**describe:获取个人设置
+	*/
+	public static StatusBarNotificationConfig getConfig() {
+		StatusBarNotificationConfig config = new StatusBarNotificationConfig();
+		String jsonString = (String) get(XSXApplication.getInstance(), PERSONAL_SETTING, "");
+		try {
+			JSONObject jsonObject = new JSONObject(jsonString);
+			if (jsonObject == null) {
+				return null;
+			}
+			config.downTimeBegin = jsonObject.getString("downTimeBegin");
+			config.downTimeEnd = jsonObject.getString("downTimeEnd");
+			config.downTimeToggle = jsonObject.getBoolean("downTimeToggle");
+			config.ring = jsonObject.getBoolean("ring");
+			config.vibrate = jsonObject.getBoolean("vibrate");
+			config.notificationSmallIconId = jsonObject.getInt("notificationSmallIconId");
+			config.notificationSound = jsonObject.getString("notificationSound");
+			config.hideContent = jsonObject.getBoolean("hideContent");
+			config.ledARGB = jsonObject.getInt("ledargb");
+			config.ledOnMs = jsonObject.getInt("ledonms");
+			config.ledOffMs = jsonObject.getInt("ledoffms");
+			config.titleOnlyShowAppName = jsonObject.getBoolean("titleOnlyShowAppName");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return config;
 	}
 
 	/**

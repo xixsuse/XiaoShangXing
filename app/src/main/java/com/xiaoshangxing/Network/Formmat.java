@@ -7,6 +7,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
@@ -41,6 +42,7 @@ public class Formmat {
                         iBaseView.hideLoadingDialog();
                         context.finish();
                         iBaseView.showToast("发布成功");
+                        FileUtils.deleteFolderFile(FileUtils.getXSX_CameraPhotoPath(), false);
                         break;
                     case 3:
                         iBaseView.showToast("上传出现异常");

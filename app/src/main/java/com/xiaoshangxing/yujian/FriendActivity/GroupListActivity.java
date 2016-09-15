@@ -13,13 +13,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.team.TeamService;
+import com.netease.nimlib.sdk.team.constant.TeamMemberType;
+import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
+import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.BaseActivity;
@@ -30,6 +34,7 @@ import com.xiaoshangxing.utils.layout.SwipeItemView;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.TeamCreateHelper;
+import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
 import java.util.ArrayList;
@@ -65,7 +70,6 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     }
 
     private BaseAdapter baseAdapter;
-    //    private List<String> data = new ArrayList<>();
     private List<Team> teams = new ArrayList<>();
 
     @Override
@@ -97,8 +101,6 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     private void initView() {
         teams.clear();
         teams = TeamDataCache.getInstance().getAllTeams();
-
-        Log.d("team_count", "--" + teams.size());
 
         baseAdapter = new BaseAdapter() {
             SwipeItemView mLastSlideViewWithStatusOn;
@@ -165,9 +167,7 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
                     @Override
                     public void onClick(View arg0) {
                         // TODO Auto-generated method stub
-//                        data.remove(position);
-//                        notifyDataSetChanged();
-//                        count.setText(data.size()+"个群聊");
+                        deleGroup(teams.get(position));
                     }
                 });
                 return slideView;
@@ -183,6 +183,52 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
                 GroupActivity.start(GroupListActivity.this,teams.get(position).getId(),null, SessionTypeEnum.Team);
             }
         });
+    }
+
+    private void deleGroup(final Team team) {
+        TeamDataCache.getInstance().fetchTeamMember(team.getId(), NimUIKit.getAccount(), new SimpleCallback<TeamMember>() {
+            @Override
+            public void onResult(boolean success, TeamMember result) {
+                if (team.getType() == TeamTypeEnum.Advanced && result.getType() == TeamMemberType.Owner) {
+                    NIMClient.getService(TeamService.class).dismissTeam(team.getId()).setCallback(new RequestCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            showToast("解散成功");
+                        }
+
+                        @Override
+                        public void onFailed(int i) {
+                            showToast("操作失败:" + i);
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            showToast("操作失败:异常");
+                            throwable.printStackTrace();
+                        }
+                    });
+                } else {
+                    NIMClient.getService(TeamService.class).quitTeam(team.getId()).setCallback(new RequestCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            showToast("退出成功");
+                        }
+
+                        @Override
+                        public void onFailed(int i) {
+                            showToast("操作失败:" + i);
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            showToast("操作失败:异常");
+                            throwable.printStackTrace();
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     private static class ViewHolder {
@@ -249,14 +295,10 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
             if (data == null) {
-                Toast.makeText(GroupListActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
                 return;
             }
             ArrayList<String> arrayList = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
-            if (arrayList == null || arrayList.size() == 0) {
-//                Toast.makeText(GroupListActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
-            } else {
-                Log.d("select account", arrayList.toString());
+            if (arrayList != null && arrayList.size() != 0) {
                 TeamCreateHelper.createAdvancedTeam(GroupListActivity.this,
                         arrayList, this, new RequestCallback<Team>() {
                             @Override

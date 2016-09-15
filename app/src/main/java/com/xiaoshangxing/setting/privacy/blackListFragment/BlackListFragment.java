@@ -1,7 +1,5 @@
 package com.xiaoshangxing.setting.privacy.blackListFragment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,26 +8,28 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.friend.FriendService;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CustomSwipeListView;
 import com.xiaoshangxing.utils.layout.SwipeItemView;
-import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by 15828 on 2016/7/14.
  */
 public class BlackListFragment extends BaseFragment implements View.OnClickListener {
-    private ArrayList<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
     private View mView;
     private TextView back;
     private CustomSwipeListView blackList;
     private BaseAdapter baseAdapter;
+    private List<String> accounts;
 
     @Nullable
     @Override
@@ -43,26 +43,19 @@ public class BlackListFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void init() {
-
-        for (int i = 0; i < 20; i++) {
-            HashMap<String, Object> itemData = new HashMap<String, Object>();
-            itemData.put("Name", "姓名" + i);
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.cirecleimage_default);
-            itemData.put("Bitmap", bitmap);
-            data.add(itemData);
-        }
+        accounts = NIMClient.getService(FriendService.class).getBlackList();
 
         baseAdapter = new BaseAdapter() {
             SwipeItemView mLastSlideViewWithStatusOn;
 
             @Override
             public int getCount() {
-                return data.size();
+                return accounts.size();
             }
 
             @Override
-            public Map<String, Object> getItem(int position) {
-                return data.get(position);
+            public String getItem(int position) {
+                return accounts.get(position);
             }
 
             @Override
@@ -99,21 +92,34 @@ public class BlackListFragment extends BaseFragment implements View.OnClickListe
                 } else {
                     holder = (ViewHolder) slideView.getTag();
                 }
-                final Map<String, Object> item = data.get(position);
-                if (CustomSwipeListView.mFocusedItemView != null) {
-                    CustomSwipeListView.mFocusedItemView.shrink();
-                }
 
-                holder.image.setImageBitmap((Bitmap) item.get("Bitmap"));
-                holder.name.setText(item.get("Name").toString());
+                MyGlide.with(getContext(), NimUserInfoCache.getInstance().getHeadImage(accounts.get(position)), holder.image);
+                holder.name.setText(NimUserInfoCache.getInstance().getUserDisplayName(accounts.get(position)));
                 holder.deleteHolder.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View arg0) {
                         // TODO Auto-generated method stub
-                        data.remove(position);
-                        Toast.makeText(getActivity(), String.valueOf(position), Toast.LENGTH_SHORT).show();
-                        notifyDataSetChanged();
+//                        Toast.makeText(getActivity(), String.valueOf(position), Toast.LENGTH_SHORT).show();
+//                        notifyDataSetChanged();
+                        NIMClient.getService(FriendService.class).removeFromBlackList(accounts.get(position))
+                                .setCallback(new RequestCallback<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        init();
+                                    }
+
+                                    @Override
+                                    public void onFailed(int i) {
+                                        showToast("删除失败:" + i);
+                                    }
+
+                                    @Override
+                                    public void onException(Throwable throwable) {
+                                        showToast("删除失败:异常");
+                                        throwable.printStackTrace();
+                                    }
+                                });
                     }
                 });
                 return slideView;

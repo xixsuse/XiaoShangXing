@@ -36,6 +36,9 @@ public class NS {
     public static final String CATEGORY_CALENDAR = "4";
     public static final String CATEGORY_SALE = "5";
 
+    //    好友
+    public static final String MARK = "MARK";//留心
+
 
 
     public static long currentTime(){

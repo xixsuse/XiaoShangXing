@@ -48,11 +48,18 @@
 
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/setting_showhead_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout
         android:layout_below="@id/setting_showhead_toolbar"
-        android:scaleType="fitCenter" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/setting_showhead_img"
+            android:layout_width="@dimen/x1080"
+            android:layout_height="@dimen/x1080"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+
 
 </RelativeLayout>

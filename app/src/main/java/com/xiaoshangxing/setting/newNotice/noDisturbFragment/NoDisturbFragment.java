@@ -2,7 +2,6 @@ package com.xiaoshangxing.setting.newNotice.noDisturbFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -33,12 +34,9 @@ public class NoDisturbFragment extends BaseFragment implements View.OnClickListe
         mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_nodisturb, strings);
         listView = (ListView) mView.findViewById(R.id.list_nodisturb);
         listView.setAdapter(mAdapter);
-        int i = DataSetting.NoDisturbList(getActivity());
-        Log.d("qqq","i   "+i);
+        int i = DataSetting.getNoDisturbList(getActivity());
         listView.setItemChecked(i,true);
         listView.setOnItemClickListener(this);
-
-
         back = (TextView) mView.findViewById(R.id.nodisturb_back);
         back.setOnClickListener(this);
         return mView;
@@ -46,7 +44,35 @@ public class NoDisturbFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-          SPUtils.put(getActivity(),"nodisturbList",position);
+        SPUtils.put(getContext(), SPUtils.NoDisturb, position);
+        switch (position) {
+            case 0:
+                SPUtils.put(getActivity(), SPUtils.NewNotice, false);
+                NIMClient.toggleNotification(false);
+                setTime(false);
+                break;
+            case 1:
+                setTime(true);
+                break;
+            case 2:
+                SPUtils.put(getActivity(), SPUtils.NewNotice, true);
+                NIMClient.toggleNotification(true);
+                setTime(false);
+                break;
+        }
+    }
+
+    private void setTime(boolean is) {
+        StatusBarNotificationConfig config = DataSetting.getStatusConfig();
+        if (is) {
+            config.downTimeBegin = "22:00";
+            config.downTimeEnd = "08:00";
+        } else {
+            config.downTimeBegin = null;
+            config.downTimeEnd = null;
+        }
+        config.downTimeToggle = is;
+        NIMClient.updateStatusBarNotificationConfig(config);
     }
 
     @Override

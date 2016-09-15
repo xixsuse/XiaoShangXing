@@ -12,7 +12,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.team.model.Team;
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
@@ -138,24 +140,29 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-
     private List<SortModel> filledData(String[] date) {
         List<SortModel> mSortList = new ArrayList<SortModel>();
         for (int i = 0; i < date.length; i++) {
             SortModel sortModel = new SortModel();
             sortModel.setName(NimUserInfoCache.getInstance().getUserDisplayName(date[i]));
             sortModel.setAccount(date[i]);
-            //汉字转换成拼音
-            String pinyin = characterParser.getSelling(sortModel.getName());
-            String sortString = pinyin.substring(0, 1).toUpperCase();
 
-            // 正则表达式，判断首字母是否是英文字母
-            if (sortString.matches("[A-Z]")) {
-                sortModel.setSortLetters(sortString.toUpperCase());
+            Friend friend = FriendDataCache.getInstance().getFriendByAccount(date[i]);
+            if (friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)) {
+                if ((boolean) friend.getExtension().get(NS.MARK)) {
+                    sortModel.setSortLetters("@");
+                }
             } else {
-                sortModel.setSortLetters("#");
+                //汉字转换成拼音
+                String pinyin = characterParser.getSelling(sortModel.getName());
+                String sortString = pinyin.substring(0, 1).toUpperCase();
+                // 正则表达式，判断首字母是否是英文字母
+                if (sortString.matches("[A-Z]")) {
+                    sortModel.setSortLetters(sortString.toUpperCase());
+                } else {
+                    sortModel.setSortLetters("#");
+                }
             }
-
             mSortList.add(sortModel);
         }
         return mSortList;

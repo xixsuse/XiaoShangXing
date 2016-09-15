@@ -27,8 +27,8 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.StartActivity.FlashActivity;
+import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.normalUtils.MyLog;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.Contact.ContactProvider;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
@@ -55,6 +55,7 @@ public class XSXApplication extends Application {
     private Map<String,Activity> mList=new HashMap<String, Activity>();
     private int activityCount = 0;
     private static XSXApplication instance;
+    public static StatusBarNotificationConfig notificationConfig;
 
     public static XSXApplication getInstance() {
         return instance;
@@ -85,7 +86,7 @@ public class XSXApplication extends Application {
             registerIMMessageFilter();
 
             // 初始化消息提醒
-            NIMClient.toggleNotification((boolean) SPUtils.get(this, SPUtils.NOTIFY, true));
+            NIMClient.toggleNotification(DataSetting.IsAcceptedNews(this));
 
         }
 
@@ -204,15 +205,6 @@ public class XSXApplication extends Application {
     private void initUIKit() {
         // 初始化，需要传入用户信息提供者
         NimUIKit.init(this, infoProvider, contactProvider);
-
-        // 设置地理位置提供者。如果需要发送地理位置消息，该参数必须提供。如果不需要，可以忽略。
-//        NimUIKit.setLocationProvider(new NimDemoLocationProvider());
-//
-//        // 会话窗口的定制初始化。
-//        SessionHelper.init();
-//
-//        // 通讯录列表定制初始化
-//        ContactHelper.init();
     }
 
 
@@ -251,12 +243,11 @@ public class XSXApplication extends Application {
         config.ledOffMs = 1500;
 
         options.statusBarNotificationConfig = config;
-//        DemoCache.setNotificationConfig(config);
-//        UserPreferences.setStatusConfig(config);
+        notificationConfig = config;
+        DataSetting.setStatusConfig(config);
 
         // 配置保存图片，文件，log等数据的目录
-        String sdkPath = FileUtils.XSX_PATH + "IM";
-        options.sdkStorageRootPath = sdkPath;
+        options.sdkStorageRootPath = FileUtils.getImCache();
 
         // 配置数据库加密秘钥
         options.databaseEncryptKey = "XSX";

@@ -2,17 +2,30 @@ package com.xiaoshangxing.yujian.personInfo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.friend.FriendService;
+import com.netease.nimlib.sdk.friend.constant.FriendFieldEnum;
+import com.netease.nimlib.sdk.friend.model.Friend;
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.report.ReportActivity;
 import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.SwitchView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
-import com.xiaoshangxing.report.ReportActivity;
+import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by 15828 on 2016/7/25.
@@ -21,11 +34,30 @@ public class SetInfoActivity extends BaseActivity {
     private SwitchView starMarkfriends, crush, bukanwo, bukanta, addToBlackList;
     private ActionSheet mActionSheet1;
     private ActionSheet mActionSheet2;
+    private String account;
+    private Friend friend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yujian_setinfo);
+
+        if (getIntent().hasExtra(IntentStatic.EXTRA_ACCOUNT)) {
+            account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+            if (TextUtils.isEmpty(account)) {
+                showToast("账号有误");
+                finish();
+            }
+        } else {
+            showToast("账号有误");
+            finish();
+        }
+
+        friend = FriendDataCache.getInstance().getFriendByAccount(account);
+        if (friend == null) {
+            showToast("账号信息有误");
+            finish();
+        }
 
         starMarkfriends = (SwitchView) findViewById(R.id.StarMarkfriends);
         crush = (SwitchView) findViewById(R.id.crush);
@@ -38,14 +70,12 @@ public class SetInfoActivity extends BaseActivity {
         starMarkfriends.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                SPUtils.put(SetInfoActivity.this, "starMarkfriends", true);
-                starMarkfriends.setState(true);
+                markFriend(true);
             }
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(SetInfoActivity.this, "starMarkfriends", false);
-                starMarkfriends.setState(false);
+                markFriend(false);
             }
         });
 
@@ -105,8 +135,25 @@ public class SetInfoActivity extends BaseActivity {
                 mActionSheet1.setMenuBottomListener(new ActionSheet.MenuListener() {
                     @Override
                     public void onItemSelected(int position, String item) {
-                        SPUtils.put(SetInfoActivity.this, "addToBlackList", true);
-                        addToBlackList.setState(true);
+                        NIMClient.getService(FriendService.class).addToBlackList(account)
+                                .setCallback(new RequestCallback<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        addToBlackList.setState(true);
+                                        showToast("设置成功");
+                                    }
+
+                                    @Override
+                                    public void onFailed(int i) {
+                                        showToast("设置失败:" + i);
+                                    }
+
+                                    @Override
+                                    public void onException(Throwable throwable) {
+                                        showToast("设置失败:异常");
+                                        throwable.printStackTrace();
+                                    }
+                                });
                     }
 
                     @Override
@@ -119,20 +166,65 @@ public class SetInfoActivity extends BaseActivity {
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(SetInfoActivity.this, "addToBlackList", false);
-                addToBlackList.setState(false);
+                NIMClient.getService(FriendService.class).removeFromBlackList(account)
+                        .setCallback(new RequestCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                addToBlackList.setState(false);
+                                showToast("设置成功");
+                            }
+
+                            @Override
+                            public void onFailed(int i) {
+                                showToast("设置失败:" + i);
+                            }
+
+                            @Override
+                            public void onException(Throwable throwable) {
+                                showToast("设置失败:异常");
+                                throwable.printStackTrace();
+                            }
+                        });
             }
         });
 
     }
 
+    private void markFriend(final boolean is) {
+        Map<FriendFieldEnum, Object> map = new HashMap<>();
+        Map<String, Object> exts = new HashMap<>();
+        exts.put(NS.MARK, is);
+        map.put(FriendFieldEnum.EXTENSION, exts);
+        NIMClient.getService(FriendService.class).updateFriendFields(account, map)
+                .setCallback(new RequestCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        starMarkfriends.setState(is);
+                    }
+
+                    @Override
+                    public void onFailed(int i) {
+                        showToast("操作失败:" + i);
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+                        showToast("操作失败:异常");
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
     private void setUpData() {
-        starMarkfriends.setState(DataSetting.IsStarMarkfriends(this));
+        if (friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)) {
+            starMarkfriends.setState((boolean) friend.getExtension().get(NS.MARK));
+        } else {
+            starMarkfriends.setState(false);
+        }
         crush.setState(DataSetting.IsCrush(this));
         bukanwo.setState(DataSetting.IsBuKanWo(this));
         bukanta.setState(DataSetting.IsBuKanTa(this));
         addToBlackList.setState(DataSetting.IsAddToBlackList(this));
-
     }
 
     public void Back(View view) {
@@ -147,7 +239,8 @@ public class SetInfoActivity extends BaseActivity {
     public void Delete(View view) {
         if (mActionSheet2 == null) {
             mActionSheet2 = new ActionSheet(SetInfoActivity.this);
-            mActionSheet2.addMenuTopItem("将联系人“王振华”删除，同时删除与该联系人的聊天记录")
+            mActionSheet2.addMenuTopItem("将联系人“" + NimUserInfoCache.getInstance()
+                    .getUserDisplayName(account) + "”删除，同时删除与该联系人的聊天记录")
                     .addMenuBottomItem("确定");
         }
         mActionSheet2.show();
@@ -159,7 +252,26 @@ public class SetInfoActivity extends BaseActivity {
         mActionSheet2.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
+                NIMClient.getService(FriendService.class).deleteFriend(account).setCallback(new RequestCallback<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        showToast("删除成功");
+                        Intent intent = new Intent();
+                        intent.setAction(PersonInfoActivity.FINISH);
+                        sendBroadcast(intent);
+                        finish();
+                    }
 
+                    @Override
+                    public void onFailed(int i) {
+                        showToast("删除失败:" + i);
+                    }
+
+                    @Override
+                    public void onException(Throwable throwable) {
+                        showToast("删除失败:异常");
+                    }
+                });
             }
 
             @Override

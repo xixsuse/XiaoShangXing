@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
@@ -31,6 +34,7 @@ import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
 
 import org.json.JSONException;
@@ -39,6 +43,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
+import io.realm.Realm;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -58,6 +63,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     private PersonalInfoActivity mActivity;
     private TextView back;
     private IBaseView iBaseView = this;
+    private Realm realm;
 
     @Override
     public void setmPresenter(@Nullable Object presenter) {
@@ -79,7 +85,16 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
             }
         });
         img.setOnClickListener(this);
+        realm = Realm.getDefaultInstance();
+        initHead();
         return mView;
+    }
+
+    private void initHead() {
+        String path = realm.where(User.class).equalTo(NS.ID, TempUser.id).findFirst().getUserImage();
+        if (!TextUtils.isEmpty(path)) {
+            MyGlide.with(this, path, bigImg);
+        }
     }
 
     @Override
@@ -157,6 +172,9 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 }
                 break;
             case ACTIVITY_MODIFY_PHOTO_REQUESTCODE:
+                if (requestCode != Activity.RESULT_OK) {
+                    return;
+                }
                 String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
 
                 ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
@@ -167,6 +185,12 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                             if (jsonObject.getString(NS.CODE).equals("200")) {
                                 showToast("头像修改成功");
                                 FileUtil.deleteTempAndRaw();
+                                UserInfoCache.getInstance().reload(new UserInfoCache.ReloadCallback() {
+                                    @Override
+                                    public void callback(JSONObject jsonObject) throws JSONException {
+                                        MyGlide.with(getContext(), jsonObject.getString("userImage"), bigImg);
+                                    }
+                                }, TempUser.id);
                             } else {
                                 showToast("头像修改失败");
                             }
@@ -188,6 +212,12 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 InfoNetwork.getInstance().setUserImage(progressSubsciber, TempUser.id, body, getContext());
                 break;
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        realm.close();
+        super.onDestroyView();
     }
 
     /**

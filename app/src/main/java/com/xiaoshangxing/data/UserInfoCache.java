@@ -134,7 +134,7 @@ public class UserInfoCache {
     /*
     **describe:刷新数据
     */
-    private void reload(final ReloadCallback callback, final int id) {
+    public void reload(final ReloadCallback callback, final int id) {
         Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
@@ -192,7 +192,7 @@ public class UserInfoCache {
         InfoNetwork.getInstance().GetUser(subscriber, jsonObject, XSXApplication.getInstance());
     }
 
-    interface ReloadCallback {
+   public interface ReloadCallback {
         void callback(JSONObject jsonObject) throws JSONException;
     }
 

@@ -27,6 +27,18 @@ public class FileUtils {
     public static String XSX_SAVE_IAMGE = XSX_PATH + "SAVED_IMAGE" + File.separator;
     //  临时图片
     public static String TEMP_IMAGE = XSX_PATH + "SAVED_IMAGE" + File.separator + "temp.jpg";
+    //  Glide缓存目录
+    public static String GLIDE_CACHE = XSX_PATH + "IMAGE_CACHE" + File.separator;
+    //  IM缓存目录
+    public static String IM_CACHE = XSX_PATH + "IM";
+
+    /*
+    **describe:存储单位
+    */
+    public static int KB = 1024;
+    public static int MB = 1024 * KB;
+    public static int GB = 1024 * MB;
+
 
 
     public static boolean copyFileTo(File srcFile, File destFile) throws IOException {
@@ -103,7 +115,7 @@ public class FileUtils {
      * @param
      * @return
      */
-    public void deleteFolderFile(String filePath, boolean deleteThisPath) {
+    public static void deleteFolderFile(String filePath, boolean deleteThisPath) {
         if (!TextUtils.isEmpty(filePath)) {
             try {
                 File file = new File(filePath);
@@ -116,11 +128,11 @@ public class FileUtils {
                 if (deleteThisPath) {
                     if (!file.isDirectory()) {// 如果是文件，删除
                         file.delete();
-                    } else {// 目录
+                    } /*else {// 目录
                         if (file.listFiles().length == 0) {// 目录下没有文件或者目录，删除
                             file.delete();
                         }
-                    }
+                    }*/
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -136,7 +148,7 @@ public class FileUtils {
     public static String getFormatSize(double size) {
         double kiloByte = size/1024;
         if(kiloByte < 1) {
-            return size + "Byte(s)";
+            return size + "";
         }
 
         double megaByte = kiloByte/1024;
@@ -176,6 +188,23 @@ public class FileUtils {
         }
         return XSX_SAVE_IAMGE;
     }
+
+    public static String getImCache() {
+        File file = new File(IM_CACHE);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        return IM_CACHE;
+    }
+
+    public static String getGlideCache() {
+        File file = new File(GLIDE_CACHE);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        return GLIDE_CACHE;
+    }
+
 
     public static String getTempImage() {
         File file = new File(getXsxSaveIamge(),"temp.jpg");

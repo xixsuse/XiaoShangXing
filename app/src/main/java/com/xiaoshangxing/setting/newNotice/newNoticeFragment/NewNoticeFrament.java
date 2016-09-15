@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -43,75 +45,106 @@ public class NewNoticeFrament extends BaseFragment {
         newnotice_accept.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                SPUtils.put(getActivity(),"newnotice_accept",true);
+                SPUtils.put(getActivity(), SPUtils.NewNotice, true);
                 layout1.setVisibility(View.VISIBLE);
                 layout2.setVisibility(View.VISIBLE);
                 layout3.setVisibility(View.VISIBLE);
                 layout4.setVisibility(View.VISIBLE);
                 //   accept.toggleSwitch(true);
                 newnotice_accept.setState(true);
+                NIMClient.toggleNotification(true);
+
             }
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(getActivity(),"newnotice_accept",false);
+                SPUtils.put(getActivity(), SPUtils.NewNotice, false);
                 layout1.setVisibility(View.GONE);
                 layout2.setVisibility(View.GONE);
                 layout3.setVisibility(View.GONE);
                 layout4.setVisibility(View.GONE);
                 // accept.toggleSwitch(false);
                 newnotice_accept.setState(false);
+                NIMClient.toggleNotification(false);
             }
         });
+
         newnotice_inform.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                SPUtils.put(getActivity(),"newnotice_inform",true);
+                SPUtils.put(getActivity(), SPUtils.HideNewsDetail, false);
                 newnotice_inform.setState(true);
+                StatusBarNotificationConfig config = DataSetting.getStatusConfig();
+                config.hideContent = false;
+                DataSetting.setStatusConfig(config);
+                NIMClient.updateStatusBarNotificationConfig(config);
             }
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(getActivity(),"newnotice_inform",false);
+                SPUtils.put(getActivity(), SPUtils.HideNewsDetail, true);
                 newnotice_inform.setState(false);
+                StatusBarNotificationConfig config = DataSetting.getStatusConfig();
+                config.hideContent = true;
+                DataSetting.setStatusConfig(config);
+                NIMClient.updateStatusBarNotificationConfig(config);
             }
+
         });
+
         newnotice_sound.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                SPUtils.put(getActivity(),"newnotice_sound",true);
+                SPUtils.put(getActivity(), SPUtils.NewsSound, true);
                 newnotice_sound.setState(true);
+                StatusBarNotificationConfig config = DataSetting.getStatusConfig();
+                config.ring = true;
+                DataSetting.setStatusConfig(config);
+                NIMClient.updateStatusBarNotificationConfig(config);
             }
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(getActivity(),"newnotice_sound",false);
+                SPUtils.put(getActivity(), SPUtils.NewsSound, false);
                 newnotice_sound.setState(false);
+                StatusBarNotificationConfig config = DataSetting.getStatusConfig();
+                config.ring = false;
+                DataSetting.setStatusConfig(config);
+                NIMClient.updateStatusBarNotificationConfig(config);
             }
         });
+
         newnotice_vibration.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                SPUtils.put(getActivity(),"newnotice_vibration",true);
+                SPUtils.put(getActivity(), SPUtils.NewsVibrate, true);
                 newnotice_vibration.setState(true);
+                StatusBarNotificationConfig config = DataSetting.getStatusConfig();
+                config.vibrate = true;
+                DataSetting.setStatusConfig(config);
+                NIMClient.updateStatusBarNotificationConfig(config);
             }
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(getActivity(),"newnotice_vibration",false);
+                SPUtils.put(getActivity(), SPUtils.NewsVibrate, false);
                 newnotice_vibration.setState(false);
+                StatusBarNotificationConfig config = DataSetting.getStatusConfig();
+                config.vibrate = false;
+                DataSetting.setStatusConfig(config);
+                NIMClient.updateStatusBarNotificationConfig(config);
             }
         });
         newnotice_renew.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                SPUtils.put(getActivity(),"newnotice_renew",true);
+                SPUtils.put(getActivity(), SPUtils.NewsForXiaoyou, true);
                 newnotice_renew.setState(true);
             }
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(getActivity(),"newnotice_renew",false);
+                SPUtils.put(getActivity(), SPUtils.NewsForXiaoyou, false);
                 newnotice_renew.setState(false);
             }
         });
@@ -119,8 +152,8 @@ public class NewNoticeFrament extends BaseFragment {
     }
 
     private void setUpData() {
-        newnotice_accept.setState(DataSetting.IsAccepted(getActivity()));
-        newnotice_inform.setState(DataSetting.IsInformed(getActivity()));
+        newnotice_accept.setState(DataSetting.IsAcceptedNews(getActivity()));
+        newnotice_inform.setState(!DataSetting.IsHideInformed(getActivity()));
         newnotice_sound.setState(DataSetting.IsSounded(getActivity()));
         newnotice_vibration.setState(DataSetting.IsVibrationed(getActivity()));
         newnotice_renew.setState(DataSetting.IsRenewed(getActivity()));

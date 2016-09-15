@@ -18,11 +18,11 @@ import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import org.json.JSONObject;
@@ -59,7 +59,11 @@ public class QianMingFragment extends BaseFragment implements IBaseView {
             showToast(AppContracts.NO_USER);
             getActivity().getSupportFragmentManager().popBackStack();
         }
+
         editText.setText(user.getSignature());
+        int a = (int) calculateLength(editText.getText());
+        int num = 30 - a;
+        count.setText(String.valueOf(num));
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

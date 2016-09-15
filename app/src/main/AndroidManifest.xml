@@ -67,6 +67,10 @@
         <!--<uses-library-->
         <!--android:name="com.google.android.maps"-->
         <!--android:required="false" />-->
+        <!--Glide-->
+        <meta-data
+            android:name="com.xiaoshangxing.utils.image.MyGlideMoudle"
+            android:value="GlideModule" />
 
         <!--百度地图-->
         <service

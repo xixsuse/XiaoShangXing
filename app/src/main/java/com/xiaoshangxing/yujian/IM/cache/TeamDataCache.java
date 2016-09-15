@@ -39,8 +39,6 @@ public class TeamDataCache {
     public void buildCache() {
         List<Team> teams = NIMClient.getService(TeamService.class).queryTeamListBlock();
         addOrUpdateTeam(teams);
-
-//        LogUtil.i(UIKitLogTag.TEAM_CACHE, "build TeamDataCache completed, team count = " + teams.size());
     }
 
     public void clear() {
@@ -91,7 +89,6 @@ public class TeamDataCache {
             // team的flag被更新，isMyTeam为false
             addOrUpdateTeam(team);
             notifyTeamDataRemove(team);
-            Log.d("team ", team.getName() + "dismiss");
         }
     };
 

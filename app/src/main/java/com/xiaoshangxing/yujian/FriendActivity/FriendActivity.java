@@ -2,20 +2,15 @@ package com.xiaoshangxing.yujian.FriendActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.model.Friend;
-import com.netease.nimlib.sdk.team.TeamService;
-import com.netease.nimlib.sdk.uinfo.UserService;
+import com.xiaoshangxing.Network.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.CharacterParser;
 import com.xiaoshangxing.SelectPerson.PinyinComparator;
@@ -148,28 +143,30 @@ public class FriendActivity extends BaseActivity {
     }
 
     private List<SortModel> filledData(String[] date) {
-        for (int i = 0; i < date.length; i++) {
-            Log.d("datadata", "" + i + ":" + date[i]);
-        }
         List<SortModel> mSortList = new ArrayList<SortModel>();
         for (int i = 0; i < date.length; i++) {
             SortModel sortModel = new SortModel();
             sortModel.setName(NimUserInfoCache.getInstance().getUserDisplayName(date[i]));
             sortModel.setAccount(date[i]);
-            //汉字转换成拼音
-            String pinyin = characterParser.getSelling(sortModel.getName());
-            String sortString = pinyin.substring(0, 1).toUpperCase();
 
-            // 正则表达式，判断首字母是否是英文字母
-            if (sortString.matches("[A-Z]")) {
-                sortModel.setSortLetters(sortString.toUpperCase());
+            Friend friend = FriendDataCache.getInstance().getFriendByAccount(date[i]);
+            if (friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)) {
+                if ((boolean) friend.getExtension().get(NS.MARK)) {
+                    sortModel.setSortLetters("@");
+                }
             } else {
-                sortModel.setSortLetters("#");
+                //汉字转换成拼音
+                String pinyin = characterParser.getSelling(sortModel.getName());
+                String sortString = pinyin.substring(0, 1).toUpperCase();
+                // 正则表达式，判断首字母是否是英文字母
+                if (sortString.matches("[A-Z]")) {
+                    sortModel.setSortLetters(sortString.toUpperCase());
+                } else {
+                    sortModel.setSortLetters("#");
+                }
             }
-
             mSortList.add(sortModel);
         }
-        Log.d("datadata", "222" + mSortList.toString());
         return mSortList;
     }
 
@@ -178,6 +175,7 @@ public class FriendActivity extends BaseActivity {
         super.onResume();
         registerObserver(true);
         setCount();
+        refreshData();
     }
 
     @Override

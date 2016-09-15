@@ -105,13 +105,13 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
     }
 
     private void ZhiDing() {
+
         TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
         if (mytopChat == null) {
             topChat.setState(false);
         } else {
             topChat.setState(true);
         }
-
 
         topChat.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
@@ -189,26 +189,7 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
         noDisturb.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-//                NIMClient.getService(TeamService.class).muteTeam(account, true).setCallback(new RequestCallback<Void>() {
-//                    @Override
-//                    public void onSuccess(Void param) {
-//                        noDisturb.setState(true);
-//                        showToast("设置成功,现在不接受该群消息通知");
-//                        Log.d("消息免打扰1", "" + team.mute());
-//                    }
-//
-//                    @Override
-//                    public void onFailed(int code) {
-//                        showToast("设置失败:" + code);
-//                    }
-//
-//                    @Override
-//                    public void onException(Throwable exception) {
-//                        showToast("设置失败:异常");
-//                    }
-//                });
-
-                NIMClient.getService(FriendService.class).setMessageNotify(account, true)
+                NIMClient.getService(FriendService.class).setMessageNotify(account, false)
                         .setCallback(new RequestCallback<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -231,24 +212,6 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
 
             @Override
             public void toggleToOff() {
-//                NIMClient.getService(TeamService.class).muteTeam(account, false).setCallback(new RequestCallback<Void>() {
-//                    @Override
-//                    public void onSuccess(Void param) {
-//                        noDisturb.setState(false);
-//                        showToast("设置成功,现在接受该群消息通知");
-//                        Log.d("消息免打扰1", "" + team.mute());
-//                    }
-//
-//                    @Override
-//                    public void onFailed(int code) {
-//                        showToast("设置失败:" + code);
-//                    }
-//
-//                    @Override
-//                    public void onException(Throwable exception) {
-//                        showToast("设置失败:异常");
-//                    }
-//                });
                 NIMClient.getService(FriendService.class).setMessageNotify(account, true)
                         .setCallback(new RequestCallback<Void>() {
                             @Override
@@ -270,8 +233,6 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
             }
         });
     }
-
-
 
     public void Back(View view) {
         finish();

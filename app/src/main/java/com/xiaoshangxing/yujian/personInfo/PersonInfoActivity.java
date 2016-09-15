@@ -1,17 +1,18 @@
 package com.xiaoshangxing.yujian.personInfo;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.DataSetting;
-import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.ImageButtonText;
@@ -31,6 +32,8 @@ public class PersonInfoActivity extends BaseActivity implements ImageButtonText.
     private String tagContent;
     private ImageButtonText mImagButtonText;
     private String account;
+    private MyBroadcastReceiver myBroadcastReceiver;
+    public static final String FINISH = "FINISH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,11 @@ public class PersonInfoActivity extends BaseActivity implements ImageButtonText.
         img4 = (RoundedImageView) findViewById(R.id.dynamic_image4);
         mImagButtonText = (ImageButtonText) findViewById(R.id.bt1);
         mImagButtonText.setmOnImageButtonTextClickListener(this);
+
+        myBroadcastReceiver = new MyBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(FINISH);
+        registerReceiver(myBroadcastReceiver, intentFilter);
 
         tagContent = "标签1  标签2  标签3  标签4  标签5";
         tag.setText(tagContent);
@@ -65,6 +73,7 @@ public class PersonInfoActivity extends BaseActivity implements ImageButtonText.
 
     public void Next(View view) {
         Intent intent = new Intent(this, SetInfoActivity.class);
+        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
         startActivity(intent);
     }
 
@@ -158,5 +167,17 @@ public class PersonInfoActivity extends BaseActivity implements ImageButtonText.
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(myBroadcastReceiver);
+        super.onDestroy();
+    }
+
+    public class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            finish();
+        }
+    }
 
 }
