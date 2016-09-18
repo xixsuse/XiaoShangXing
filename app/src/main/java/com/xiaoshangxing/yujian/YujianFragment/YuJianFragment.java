@@ -820,7 +820,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         super.onResume();
         enableMsgNotification(false);
         RefreshContact();
-        Log.d("yujianFragment", "--onresume");
     }
 
     //  在fragment展示 隐藏时设置会话状态
@@ -858,8 +857,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
             case R.id.serch_layout:
                 break;
             case R.id.friend:
-//                Intent chatIntent = new Intent(getContext(), ChatInfoActivity.class);
-//                startActivity(chatIntent);
                 Intent friendIntent = new Intent(getContext(), FriendActivity.class);
                 startActivity(friendIntent);
                 break;

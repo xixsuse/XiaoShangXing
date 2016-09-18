@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.friend.model.Friend;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.CharacterParser;
 import com.xiaoshangxing.SelectPerson.PinyinComparator;

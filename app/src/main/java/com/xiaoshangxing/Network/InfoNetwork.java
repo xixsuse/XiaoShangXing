@@ -10,6 +10,7 @@ import com.xiaoshangxing.Network.api.InfoApi.ModifyInfoApi;
 import com.xiaoshangxing.Network.api.InfoApi.ModifyPassword;
 import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 import com.xiaoshangxing.Network.api.InfoApi.UnBindEmailApi;
+import com.xiaoshangxing.Network.netUtil.NS;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -98,7 +99,7 @@ public class InfoNetwork {
         if (setUserImage == null) {
             setUserImage = Network.getRetrofitWithHeader(context).create(SetUserImage.class);
         }
-        Observable<ResponseBody> observable = setUserImage.setUserImage(id,photo,NS.currentTime());
+        Observable<ResponseBody> observable = setUserImage.setUserImage(id,photo, NS.currentTime());
         toSubscribe(observable, subscriber);
     }
 

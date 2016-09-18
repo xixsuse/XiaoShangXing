@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.Network.netUtil;
 
 import java.io.BufferedReader;
 import java.io.File;

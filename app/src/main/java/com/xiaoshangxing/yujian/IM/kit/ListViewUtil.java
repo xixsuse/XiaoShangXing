@@ -7,7 +7,7 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.Published;
 
 import io.realm.Realm;

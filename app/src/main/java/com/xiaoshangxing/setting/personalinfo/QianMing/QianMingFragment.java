@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;

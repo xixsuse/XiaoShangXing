@@ -28,11 +28,36 @@
                 android:src="@mipmap/left_arrow_black" />
 
             <TextView
+                android:id="@+id/back_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x12"
                 android:text="@string/back"
+                android:textColor="@color/b0"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+        <!--取消-->
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/left_arrow_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x12"
+                android:text="@string/cancle"
                 android:textColor="@color/b0"
                 android:textSize="15sp" />
 

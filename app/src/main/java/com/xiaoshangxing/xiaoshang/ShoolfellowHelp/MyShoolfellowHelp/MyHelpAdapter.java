@@ -1,5 +1,6 @@
 package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -19,7 +20,6 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
@@ -37,16 +37,17 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
     List<Published> publisheds;
     private MyShoolHelpFragment fragment;
     private boolean showselect;
-    private ShoolfellowHelpActivity activity;
+    private Activity activity;
     Realm realm;
 
     public MyHelpAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<Published> data,
-                         MyShoolHelpFragment fragment, Realm realm) {
+                         MyShoolHelpFragment fragment, Realm realm, Activity activity) {
         super(context, data);
         this.publisheds = data;
         this.fragment = fragment;
         this.realm = realm;
         this.context = context;
+        this.activity = activity;
     }
 
     @Override
@@ -92,9 +93,13 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, HelpDetailActivity.class);
-                intent.putExtra(IntentStatic.DATA, published.getId());
-                context.startActivity(intent);
+                if (showselect) {
+                    viewholder.checkBox.performClick();
+                } else {
+                    Intent intent = new Intent(context, HelpDetailActivity.class);
+                    intent.putExtra(IntentStatic.DATA, published.getId());
+                    context.startActivity(intent);
+                }
             }
         });
 

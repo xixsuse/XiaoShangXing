@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.IntentStatic;

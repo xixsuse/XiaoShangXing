@@ -17,10 +17,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.FabuNetwork;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.PublishNetwork;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CommentsBean;
+import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserCache;
@@ -35,6 +36,7 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 import com.xiaoshangxing.wo.myState.check_photo.myStateNoScrollGridAdapter;
+import com.xiaoshangxing.wo.myState.myStateActivity;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -139,7 +141,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         ButterKnife.bind(this);
         setmPresenter(new DetailPresenter(this, this));
         initView();
-        initInputBox();
     }
 
     private void initView() {
@@ -156,11 +157,12 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
             finish();
         }
 
+        headImage.setIntent_type(CirecleImage.PERSON_STATE, String.valueOf(published.getUserId()));
         UserCache userCache = new UserCache(this, String.valueOf(published.getUserId()), realm);
         userCache.getHead(headImage);
         userCache.getName(name);
         userCache.getCollege(college);
-        text.setText(published.getText());
+        text.setText(TextUtils.isEmpty(published.getText()) ? "" : published.getText());
 
         if (!TextUtils.isEmpty(published.getImage())) {
             String[] urls2 = published.getImage().split(NS.SPLIT);
@@ -201,16 +203,23 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    inputBoxLayout.remainEdittext();
-//                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    inputBoxLayout.remainEdittext();
-//                }
+                inputBoxLayout.remainEdittext();
                 return false;
             }
         });
+
+        initInputBox();
     }
 
+    private void refresh() {
+        PublishCache.reload(String.valueOf(published_id), new PublishCache.publishedCallback() {
+            @Override
+            public void callback(Published published1) {
+                published = published1;
+                initView();
+            }
+        });
+    }
     private void parsePraise() {
         final ArrayList<String> imageUrls = new ArrayList<>();
         String[] splits = published.getPraiseUserIds().split(NS.SPLIT);
@@ -223,7 +232,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     }
 
     private void parseComment() {
-
+        comments.removeAllViews();
         List<CommentsBean> list = published.getComments();
         if (list == null || list.size() < 1) {
             return;
@@ -282,7 +291,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     @Override
     public void gotoPermisson() {
         Intent intent = new Intent(this, rollActivity.class);
-        intent.putExtra(rollActivity.TYPE, rollActivity.NOTICE);
+        intent.putExtra(rollActivity.TYPE, rollActivity.FORBIDDEN);
+        intent.putExtra(IntentStatic.DATA, published_id);
         startActivity(intent);
     }
 
@@ -294,7 +304,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
             @Override
             public void onButton1() {
-                mPresenter.delete();
+                mPresenter.delete(realm, published);
                 center.close();
             }
 
@@ -307,6 +317,14 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         dialog.show();
         LocationUtil.setWidth(this, dialog,
                 getResources().getDimensionPixelSize(R.dimen.x780));
+    }
+
+    @Override
+    public void finishPager() {
+        Intent intent = new Intent(this, myStateActivity.class);
+        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, String.valueOf(TempUser.id));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override
@@ -377,6 +395,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                     switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
                         case NS.CODE_200:
                             showToast("评论成功");
+                            refresh();
                             break;
                         default:
                             showToast(jsonObject1.getString(NS.MSG));
@@ -390,7 +409,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
             }
         };
 
-        FabuNetwork.getInstance().comment(subscriber, jsonObject, this);
+        PublishNetwork.getInstance().comment(subscriber, jsonObject, this);
     }
 
 }

@@ -65,7 +65,7 @@ public class CommonRecentViewHolder extends RecentViewHolder {
                         recent.getFromAccount(),
                         (NotificationAttachment) recent.getAttachment());
             default:
-                return "[自定义消息]";
+                return "[分享]";
         }
     }
 }

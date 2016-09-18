@@ -2,6 +2,9 @@ package com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardFragment;
 
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+
+import io.realm.Realm;
 
 /**
  * Created by FengChaoQun
@@ -87,7 +90,7 @@ public class ShoolRewardContract {
         /*
         **describe:刷新
         */
-        void RefreshData();
+        void RefreshData(PtrFrameLayout frame, Realm realm);
 
         /*
         **describe:加载更多

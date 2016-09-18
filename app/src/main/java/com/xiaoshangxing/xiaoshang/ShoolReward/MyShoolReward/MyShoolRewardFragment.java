@@ -2,7 +2,6 @@ package com.xiaoshangxing.xiaoshang.ShoolReward.MyShoolReward;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.LoadUtils;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
@@ -25,12 +28,12 @@ import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
 import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -60,19 +63,21 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     }
 
     private myshoolreward_adpter adpter;
-    private List<String> list = new ArrayList<String>();
     private View view;
     private ShoolRewardActivity activity;
     private MyRewardContract.Presenter mPresenter;
     private View  footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
+    private Realm realm;
+    RealmResults<Published> publisheds;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_myshoolreward, null);
         ButterKnife.bind(this, view);
-        setmPresenter(new MyRewardPresenter(this, getContext()));
+        realm = Realm.getDefaultInstance();
+        setmPresenter(new MyRewardPresenter(this, getContext(), realm));
         initFresh();
         initView();
         return view;
@@ -87,15 +92,19 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
         listview.addHeaderView(view);
         listview.addFooterView(footview);
         activity=(ShoolRewardActivity)getActivity();
+        if (LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFHELP)) {
+            ptrFrameLayout.autoRefresh();
+        }
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.USER_ID, TempUser.id)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
+                .findAll().sort(NS.ID, Sort.DESCENDING);
         refreshData();
     }
 
     @Override
     public void refreshData() {
-        for (int i = 0; i <= 10; i++) {
-            list.add("" + i);
-        }
-        adpter = new myshoolreward_adpter(getContext(), 1, list, this, (ShoolRewardActivity) getActivity());
+        adpter = new myshoolreward_adpter(getContext(), 1, publisheds, this, (ShoolRewardActivity) getActivity());
         listview.setAdapter(adpter);
     }
 
@@ -111,12 +120,6 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
         ptrFrameLayout.setDurationToCloseHeader(2000);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-//        ptrFrameLayout.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ptrFrameLayout.autoRefresh(true);
-//            }
-//        }, 100);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -125,12 +128,7 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                ptrFrameLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ptrFrameLayout.refreshComplete();
-                    }
-                }, 1500);
+                mPresenter.refreshData(frame);
             }
         });
     }
@@ -138,6 +136,7 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        realm.close();
         ButterKnife.unbind(this);
     }
 

@@ -126,7 +126,6 @@ public class CirecleImage extends ImageView {
                     public void onClick(View v) {
                         Intent state_intent = new Intent(context, myStateActivity.class);
                         state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
-                        state_intent.putExtra(myStateActivity.TYPE, myStateActivity.SELF);
                         context.startActivity(state_intent);
                     }
                 });

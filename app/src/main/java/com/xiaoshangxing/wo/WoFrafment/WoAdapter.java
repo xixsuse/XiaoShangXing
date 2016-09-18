@@ -17,12 +17,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.xiaoshangxing.Network.NS;
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.PublishNetwork;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
@@ -38,6 +41,10 @@ import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +53,7 @@ import butterknife.ButterKnife;
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
+import okhttp3.ResponseBody;
 
 /**
  * Created by FengChaoQun
@@ -87,7 +95,7 @@ public class WoAdapter extends RealmBaseAdapter<Published> {
         return convertView;
     }
 
-    private void initOnclick(final ViewHolder viewHolder, int position) {
+    private void initOnclick(final ViewHolder viewHolder, final int position) {
         viewHolder.commentLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,13 +122,12 @@ public class WoAdapter extends RealmBaseAdapter<Published> {
                 center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
                     @Override
                     public void onButton1() {
-                        Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show();
+                        delete(position);
                         center.close();
                     }
 
                     @Override
                     public void onButton2() {
-                        Toast.makeText(context, "cancle", Toast.LENGTH_SHORT).show();
                         center.close();
                     }
                 });
@@ -321,6 +328,40 @@ public class WoAdapter extends RealmBaseAdapter<Published> {
 
             }
         });
+    }
+
+    private void delete(final int position) {
+        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+                        case 8001:
+                            woFragment.showToast("删除成功");
+                            realm.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    publisheds.get(position).deleteFromRealm();
+                                    notifyDataSetChanged();
+                                }
+                            });
+                            break;
+                        default:
+                            woFragment.showToast(jsonObject.getString(NS.MSG));
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(next, woFragment);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.id);
+        jsonObject.addProperty(NS.MOMENTID, publisheds.get(position).getId());
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+        PublishNetwork.getInstance().deletePublished(subsciber, jsonObject, context);
     }
 
     static class ViewHolder {

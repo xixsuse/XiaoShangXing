@@ -451,7 +451,8 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         hideEmojiLayout();
         showPictureLay(false);
         AudioRecord.setVisibility(View.GONE);
-        emoticonsEditText.setVisibility(View.VISIBLE);
+        TextInputLay.setVisibility(View.VISIBLE);
+//        emoticonsEditText.setVisibility(View.VISIBLE);
         SwitchToText.setVisibility(View.GONE);
         SwitchToAudio.setVisibility(View.VISIBLE);
         if (needShowInput) {
@@ -495,7 +496,8 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
 
     // 切换成音频，收起键盘，按钮切换成键盘
     private void switchToAudioLayout() {
-        emoticonsEditText.setVisibility(View.GONE);
+//        emoticonsEditText.setVisibility(View.GONE);
+        TextInputLay.setVisibility(View.GONE);
         AudioRecord.setVisibility(View.VISIBLE);
         hideInputMethod();
         hideEmojiLayout();

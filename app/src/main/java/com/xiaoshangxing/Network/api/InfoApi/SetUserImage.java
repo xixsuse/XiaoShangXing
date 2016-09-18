@@ -1,6 +1,6 @@
 package com.xiaoshangxing.Network.api.InfoApi;
 
-import com.xiaoshangxing.Network.BaseUrl;
+import com.xiaoshangxing.Network.netUtil.BaseUrl;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;

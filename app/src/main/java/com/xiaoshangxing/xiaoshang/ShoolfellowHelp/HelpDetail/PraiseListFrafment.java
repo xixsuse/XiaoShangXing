@@ -10,20 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
 
 /**
  * Created by FengChaoQun
@@ -92,6 +88,7 @@ public class PraiseListFrafment extends Fragment {
             UserInfoCache.getInstance().getHead(holder.headImage, Integer.valueOf(ids.get(position)), getContext());
             UserInfoCache.getInstance().getName(holder.name, Integer.valueOf(ids.get(position)));
             UserInfoCache.getInstance().getCollege(holder.college, Integer.valueOf(ids.get(position)));
+            holder.headImage.setIntent_type(CirecleImage.PERSON_INFO, ids.get(position));
         }
 
         @Override

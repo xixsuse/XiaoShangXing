@@ -1,5 +1,6 @@
 package com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail;
 
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;
 
@@ -36,7 +37,7 @@ public class RewardDetailContract {
         /*
         **describe:设置 评论 转发 赞 的数目
         */
-        void setCount(int transmit,int comment,int praise);
+        void setCount();
         /*
        **describe:弹出转发成功对话框
        */
@@ -48,7 +49,7 @@ public class RewardDetailContract {
         /*
        **describe:转发  赞 分享到校友圈
        */
-        void transmit();
+        void transmit(IMMessage imMessage,IMMessage text);
 
         void praise();
 

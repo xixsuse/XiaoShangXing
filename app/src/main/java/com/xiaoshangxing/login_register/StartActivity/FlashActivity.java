@@ -105,7 +105,7 @@ public class FlashActivity extends BaseActivity {
     //  登录IM  并存储和初始化相关信息
     private void Login() {
         final String account = "123456";
-            loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo("123456", "888888"));
+        loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(account, "888888"));
 //            打开本地数据库
             loginRequest.setCallback(new RequestCallback() {
                 @Override

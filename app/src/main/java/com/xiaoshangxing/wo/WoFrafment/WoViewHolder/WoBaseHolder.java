@@ -13,11 +13,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.FabuNetwork;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.PublishNetwork;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.Published;
@@ -36,6 +37,7 @@ import com.xiaoshangxing.utils.school_circle.CommentTextview;
 import com.xiaoshangxing.utils.school_circle.Item_Comment;
 import com.xiaoshangxing.utils.school_circle.PraisePeople;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
+import com.xiaoshangxing.wo.WoFrafment.Wo_listview_adpter;
 import com.xiaoshangxing.wo.WoFrafment.Woadapter_Help;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -80,6 +82,10 @@ public abstract class WoBaseHolder {
 
     protected Handler handler;
 
+    protected int position;
+
+    protected Wo_listview_adpter adpter;
+
     protected CirecleImage headImage;
     protected Name name;
     protected TextView college;
@@ -99,6 +105,8 @@ public abstract class WoBaseHolder {
     protected ImageView headline;
     protected View jianjiao;
     protected FrameLayout comments_fragment;
+
+    private boolean isLoadComment;
 
     public WoBaseHolder() {
     }
@@ -139,6 +147,21 @@ public abstract class WoBaseHolder {
         this.published = published;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public Wo_listview_adpter getAdpter() {
+        return adpter;
+    }
+
+    public void setAdpter(Wo_listview_adpter adpter) {
+        this.adpter = adpter;
+    }
 
     public Published getPublished() {
         return published;
@@ -185,10 +208,6 @@ public abstract class WoBaseHolder {
     private void initView() {
 
 //      头像  姓名 学院
-//        UserCache userCache = new UserCache(context, String.valueOf(published.getUserId()), realm);
-//        userCache.getHead(headImage);
-//        userCache.getName(name);
-//        userCache.getCollege(college);
         UserInfoCache.getInstance().getHead(headImage, published.getUserId(), context);
         UserInfoCache.getInstance().getName(name, published.getUserId());
         UserInfoCache.getInstance().getCollege(college, published.getUserId());
@@ -227,6 +246,9 @@ public abstract class WoBaseHolder {
 //         评论
         if (published.getComments() != null && published.getComments().size() > 0) {
             simpleParse();
+//            Test();
+//            parseComment(published.getId());
+//            test2(published.getId());
         } else {
             comments.removeAllViews();
             comments_fragment.removeAllViews();
@@ -372,10 +394,65 @@ public abstract class WoBaseHolder {
         comments_fragment.removeAllViews();
         RealmList<CommentsBean> realmResults = published.getComments();
         for (final CommentsBean i : realmResults) {
+
             CommentTextview commentTextview = new CommentTextview(context, String.valueOf(i.getUserId()),
                     i.getText(), String.valueOf(i.getId()));
-            comments.addView(commentTextview);
+
         }
+    }
+
+    public void test2(final int id) {
+
+//        if (isLoadComment) {
+//            return;
+//        }
+
+        final Observable<LinearLayout> observable = Observable.create(new Observable.OnSubscribe<LinearLayout>() {
+            @Override
+            public void call(Subscriber<? super LinearLayout> subscriber) {
+                isLoadComment = true;
+                Realm realm = Realm.getDefaultInstance();
+
+                LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setGravity(LinearLayout.VERTICAL);
+
+                Published published = realm.where(Published.class).equalTo(NS.ID, id).findFirst();
+                RealmList<CommentsBean> realmResults = published.getComments();
+                for (final CommentsBean i : realmResults) {
+                    User user = realm.where(User.class).equalTo(NS.ID, i.getUserId()).findFirst();
+                    if (user == null) {
+                        user = UserCache.getUserByBlock(String.valueOf(i.getUserId()), context);
+                    }
+                    Item_Comment item_comment = new Item_Comment(context, user.getUsername(),
+                            i.getText(), String.valueOf(i.getId()));
+                    linearLayout.addView(item_comment.getTextView());
+                }
+                realm.close();
+
+            }
+        });
+
+        Subscriber<LinearLayout> subscriber = new Subscriber<LinearLayout>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(LinearLayout linearLayout) {
+                comments_fragment.addView(linearLayout);
+            }
+        };
+
+        observable.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 
     private void initOnclick() {
@@ -404,13 +481,12 @@ public abstract class WoBaseHolder {
                 center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
                     @Override
                     public void onButton1() {
-                        Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show();
+                        delete();
                         center.close();
                     }
 
                     @Override
                     public void onButton2() {
-                        Toast.makeText(context, "cancle", Toast.LENGTH_SHORT).show();
                         center.close();
                     }
                 });
@@ -448,6 +524,41 @@ public abstract class WoBaseHolder {
                 showEdittext(v);
             }
         });
+    }
+
+    private void delete() {
+        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+                        case 8001:
+                            woFragment.showToast("删除成功");
+                            realm.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    published.deleteFromRealm();
+                                }
+                            });
+//                            adpter.removeOne(position);
+                            woFragment.deleteOne(position);
+                            break;
+                        default:
+                            woFragment.showToast(jsonObject.getString(NS.MSG));
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(next, woFragment);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.id);
+        jsonObject.addProperty(NS.MOMENTID, published.getId());
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+        PublishNetwork.getInstance().deletePublished(subsciber, jsonObject, context);
     }
 
     private void showEdittext(View v) {
@@ -552,7 +663,7 @@ public abstract class WoBaseHolder {
             }
         };
 
-        FabuNetwork.getInstance().comment(subscriber, jsonObject, context);
+        PublishNetwork.getInstance().comment(subscriber, jsonObject, context);
     }
 
 }

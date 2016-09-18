@@ -1,7 +1,6 @@
 package com.xiaoshangxing.wo.WoFrafment;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -10,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoBaseHolder;

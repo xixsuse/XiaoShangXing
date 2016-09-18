@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.Network;
 import com.xiaoshangxing.Network.api.InfoApi.GetUser;
 import com.xiaoshangxing.utils.image.MyGlide;

@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <!--分享的话-->
-    <TextView
+    <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
         android:id="@+id/share_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +15,6 @@
         android:paddingBottom="@dimen/y10"
         android:paddingStart="@dimen/x10"
         android:paddingTop="@dimen/y24"
-        android:text="@string/longtext"
         android:textColor="@color/b0"
         android:textSize="12sp" />
 
@@ -49,7 +48,7 @@
         </FrameLayout>
 
         <!--文字-->
-        <TextView
+        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
             android:id="@+id/good_describe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +56,6 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:paddingEnd="@dimen/x20"
-            android:text="@string/longtext"
             android:textSize="12sp" />
     </LinearLayout>
 

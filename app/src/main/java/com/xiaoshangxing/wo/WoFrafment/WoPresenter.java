@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.LoadUtils;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.LoadUtils;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
@@ -41,7 +41,7 @@ public class WoPresenter implements WoContract.Presenter {
         mView.setRefreshState(true);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(NS.USER_ID, TempUser.getID(context));
-        jsonObject.addProperty(NS.CATEGORY, "1");
+        jsonObject.addProperty(NS.CATEGORY, NS.CATEGORY_STATE);
         jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
 
         Subscriber<ResponseBody> subscriber1 = new Subscriber<ResponseBody>() {
@@ -89,24 +89,5 @@ public class WoPresenter implements WoContract.Presenter {
     @Override
     public boolean isNeedRefresh() {
         return LoadUtils.needRefresh(LoadUtils.TIME_LOAD_STATE);
-    }
-
-    private void parseData(ResponseBody responseBody) throws IOException, JSONException {
-        JSONObject jsonObject = new JSONObject(responseBody.string());
-        switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
-            case 200:
-                final JSONArray jsonArray = jsonObject.getJSONObject(NS.MSG).getJSONArray("moments");
-                realm = mView.getRealm();
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.createOrUpdateAllFromJson(Published.class, jsonArray);
-                    }
-                });
-                break;
-            default:
-                mView.showToast(jsonObject.getString(NS.MSG));
-                break;
-        }
     }
 }

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.team.model.Team;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;

@@ -1,4 +1,6 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.Network.netUtil;
+
+import com.xiaoshangxing.Network.netUtil.Constants;
 
 import org.apache.commons.codec.binary.Hex;
 

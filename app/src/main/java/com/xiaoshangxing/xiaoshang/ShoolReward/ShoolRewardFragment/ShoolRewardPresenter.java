@@ -2,6 +2,10 @@ package com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardFragment;
 
 import android.content.Context;
 
+import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+
+import io.realm.Realm;
+
 /**
  * Created by FengChaoQun
  * on 2016/8/6
@@ -21,9 +25,10 @@ public class ShoolRewardPresenter implements ShoolRewardContract.Presenter {
     }
 
     @Override
-    public void RefreshData() {
-        mView.refreshPager();
+    public void RefreshData(PtrFrameLayout frame, Realm realm) {
+
     }
+
 
     @Override
     public void LoadMore() {

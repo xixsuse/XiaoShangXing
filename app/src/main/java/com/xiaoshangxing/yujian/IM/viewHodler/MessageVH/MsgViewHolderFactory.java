@@ -2,12 +2,11 @@ package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 
 import com.netease.nimlib.sdk.msg.attachment.AudioAttachment;
 import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
-import com.netease.nimlib.sdk.msg.attachment.LocationAttachment;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;
-import com.netease.nimlib.sdk.msg.attachment.VideoAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 
 import java.util.HashMap;
 
@@ -24,9 +23,8 @@ public class MsgViewHolderFactory {
         // built in
         register(ImageAttachment.class, MsgViewHolderPicture.class);
         register(AudioAttachment.class, MsgViewHolderAudio.class);
-//        register(VideoAttachment.class, MsgViewHolderVideo.class);
-//        register(LocationAttachment.class, MsgViewHolderLocation.class);
         register(NotificationAttachment.class, MsgViewHolderNotification.class);
+        register(TransmitMessage_NoImage.class, MsgViewHolderTransmitNoImage.class);
         registerTipMsgViewHolder(MsgViewHolderTip.class);
     }
 

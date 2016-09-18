@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CommentsBean;
-import com.xiaoshangxing.data.UserCache;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -35,9 +35,11 @@ public class Comment_layout {
 
         int id = commentsBean.getUserId();
         head.setIntent_type(CirecleImage.PERSON_STATE, String.valueOf(id));
-        UserCache userCache = new UserCache(context, String.valueOf(id), realm);
-        userCache.getHead(head);
-        userCache.getName(name);
+        UserInfoCache.getInstance().getHead(head,id,context);
+        UserInfoCache.getInstance().getName(name,id);
+//        UserCache userCache = new UserCache(context, String.valueOf(id), realm);
+//        userCache.getHead(head);
+//        userCache.getName(name);
         time.setText(TimeUtil.getTimeShowString(commentsBean.getCreateTime(), false));
         text.setText(commentsBean.getText());
     }

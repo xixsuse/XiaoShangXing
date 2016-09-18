@@ -101,6 +101,7 @@ public class CommentListFrafment extends Fragment {
             UserInfoCache.getInstance().getCollege(holder.college, userId);
             holder.text.setText(i.getText());
             holder.time.setText(TimeUtil.getTimeShowString(i.getCreateTime(), false));
+            holder.headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(userId));
 
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override

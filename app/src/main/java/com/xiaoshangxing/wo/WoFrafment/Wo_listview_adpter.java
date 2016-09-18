@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoBaseHolder;
@@ -61,6 +61,7 @@ public class Wo_listview_adpter extends ArrayAdapter<Published> {
             convertView = viewAtPosition(position);
         }
         woBaseHolder = (WoBaseHolder) convertView.getTag();
+        woBaseHolder.setPosition(position);
         woBaseHolder.refresh(publisheds.get(position));
         return convertView;
     }
@@ -102,6 +103,7 @@ public class Wo_listview_adpter extends ArrayAdapter<Published> {
             holder.setActivity(activity);
             holder.setWoFragment(woFragment);
             holder.setRealm(realm);
+            holder.setAdpter(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -136,6 +138,11 @@ public class Wo_listview_adpter extends ArrayAdapter<Published> {
         this.publisheds = publisheds;
         notifyDataSetChanged();
         Log.d("setData", "--" + publisheds.size());
+    }
+
+    public void removeOne(int position) {
+        publisheds.remove(position);
+        notifyDataSetChanged();
     }
 
     public void refreshItem(Published published) {

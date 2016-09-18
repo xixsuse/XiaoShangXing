@@ -7,6 +7,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.xiaoshangxing.Network.netUtil.MultipartUtility;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
@@ -46,9 +47,11 @@ public class Formmat {
                         break;
                     case 3:
                         iBaseView.showToast("上传出现异常");
+                        iBaseView.hideLoadingDialog();
                         break;
                     case 4:
                         iBaseView.showToast("上传出现异常:4");
+                        iBaseView.hideLoadingDialog();
                         break;
                     default:
                         iBaseView.hideLoadingDialog();

@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserInfoCache;

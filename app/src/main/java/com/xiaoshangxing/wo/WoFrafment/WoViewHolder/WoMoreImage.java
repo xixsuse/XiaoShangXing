@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridAdapter;

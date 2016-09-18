@@ -93,9 +93,6 @@ public class PlanProposeActivity extends BaseActivity {
         frag = mFragmentManager.findFragmentByTag(MyJoinedPlanFragment.TAG);
         mMjoinedPlanView = (frag==null)?MyJoinedPlanFragment.newInstance():(MyJoinedPlanFragment)frag;
 
-
-
-
     }
     private void initAllPresenter(){
         planProposePresenter = new PlanProposePresenter(new Bean(),mPlanproposeView);

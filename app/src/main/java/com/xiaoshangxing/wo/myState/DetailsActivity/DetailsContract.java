@@ -1,7 +1,10 @@
 package com.xiaoshangxing.wo.myState.DetailsActivity;
 
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;
+
+import io.realm.Realm;
 
 /**
  * Created by FengChaoQun
@@ -22,13 +25,18 @@ public interface DetailsContract {
         **describe:弹出确认删除对话框
         */
         void showSureDelete();
+
+        /*
+        **describe:关闭页面
+        */
+        void finishPager();
     }
 
     interface Presenter extends IBasePresenter {
         /*
         **describe:删除
         */
-        void delete();
+        void delete(Realm realm, Published published);
         /*
         **describe:赞
         */

@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.Network.netUtil;
 
 import java.util.Date;
 import java.util.HashMap;

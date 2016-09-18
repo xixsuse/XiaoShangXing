@@ -275,5 +275,8 @@ public class ScreenUtils
 		return 0;
 	}
 
+	public static int getAdapterPx(int px, Context context) {
+		return context.getResources().getDimensionPixelSize(px);
+	}
 
 }

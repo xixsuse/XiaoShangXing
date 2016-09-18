@@ -3,7 +3,13 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.api.GetPublishedApi;
+import com.xiaoshangxing.Network.api.getAndPublish.Comment;
+import com.xiaoshangxing.Network.api.getAndPublish.DeletePublished;
+import com.xiaoshangxing.Network.api.getAndPublish.GetAllPublished;
+import com.xiaoshangxing.Network.api.getAndPublish.GetPublishedApi;
+import com.xiaoshangxing.Network.api.getAndPublish.GetTransmitInfo;
+import com.xiaoshangxing.Network.api.getAndPublish.RefreshPublished;
+import com.xiaoshangxing.Network.api.getAndPublish.TransmitApi;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -17,6 +23,12 @@ import rx.schedulers.Schedulers;
  */
 public class PublishNetwork {
     private GetPublishedApi getPublishedApi;
+    private GetAllPublished getAllPublished;
+    private Comment comment;
+    private GetTransmitInfo getTransmitInfo;
+    private RefreshPublished refreshPublished;
+    private TransmitApi transmitApi;
+    private DeletePublished deletePublished;
 
     private PublishNetwork() {
 
@@ -37,6 +49,54 @@ public class PublishNetwork {
             getPublishedApi = Network.getRetrofitWithHeader(context).create(GetPublishedApi.class);
         }
         Observable<ResponseBody> observable = getPublishedApi.getPublished(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void getAllPublished(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (getAllPublished == null) {
+            getAllPublished = Network.getRetrofitWithHeader(context).create(GetAllPublished.class);
+        }
+        Observable<ResponseBody> observable = getAllPublished.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void comment(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (comment == null) {
+            comment = Network.getRetrofitWithHeader(context).create(Comment.class);
+        }
+        Observable<ResponseBody> observable = comment.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void getTransmitInfo(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (getTransmitInfo == null) {
+            getTransmitInfo = Network.getRetrofitWithHeader(context).create(GetTransmitInfo.class);
+        }
+        Observable<ResponseBody> observable = getTransmitInfo.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void refreshPublished(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (refreshPublished == null) {
+            refreshPublished = Network.getRetrofitWithHeader(context).create(RefreshPublished.class);
+        }
+        Observable<ResponseBody> observable = refreshPublished.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void transmit(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (transmitApi == null) {
+            transmitApi = Network.getRetrofitWithHeader(context).create(TransmitApi.class);
+        }
+        Observable<ResponseBody> observable = transmitApi.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void deletePublished(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (deletePublished == null) {
+            deletePublished = Network.getRetrofitWithHeader(context).create(DeletePublished.class);
+        }
+        Observable<ResponseBody> observable = deletePublished.start(jsonObject);
         toSubscribe(observable, subscriber);
     }
 

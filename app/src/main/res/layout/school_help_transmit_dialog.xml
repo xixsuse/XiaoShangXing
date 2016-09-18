@@ -44,7 +44,8 @@
         </LinearLayout>
 
         <!--文字内容-->
-        <TextView
+        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+            android:id="@+id/text"
             android:layout_marginTop="@dimen/y32"
             android:layout_marginStart="@dimen/x24"
             android:layout_marginEnd="@dimen/x24"
