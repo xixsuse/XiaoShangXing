@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 
 import io.realm.Realm;
 import rx.Subscription;
@@ -49,6 +50,19 @@ public class BaseActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        realm.close();
+        unsubscribe();
+        super.onDestroy();
+    }
+
     protected void hideTitle(boolean hideTitle) {
         if (!hideTitle) {
             getSupportActionBar().show();
@@ -82,13 +96,6 @@ public class BaseActivity extends AppCompatActivity {
     */
     public void setonDismiss(LoadingDialog.onDismiss on) {
         loadingDialog.setOnDismiss(on);
-    }
-
-    @Override
-    protected void onDestroy() {
-        realm.close();
-        unsubscribe();
-        super.onDestroy();
     }
 
     /*

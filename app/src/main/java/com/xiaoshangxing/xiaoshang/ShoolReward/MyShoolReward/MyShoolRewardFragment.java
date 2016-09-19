@@ -57,6 +57,8 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     RelativeLayout hideMenu;
     @Bind(R.id.no_content)
     TextView noContent;
+    @Bind(R.id.cancel)
+    LinearLayout cancel;
 
     public static MyShoolRewardFragment newInstance() {
         return new MyShoolRewardFragment();
@@ -66,11 +68,12 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     private View view;
     private ShoolRewardActivity activity;
     private MyRewardContract.Presenter mPresenter;
-    private View  footview;
+    private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
     private Realm realm;
     RealmResults<Published> publisheds;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,7 +94,7 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addHeaderView(view);
         listview.addFooterView(footview);
-        activity=(ShoolRewardActivity)getActivity();
+        activity = (ShoolRewardActivity) getActivity();
         if (LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFHELP)) {
             ptrFrameLayout.autoRefresh();
         }
@@ -154,14 +157,18 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
 
     @Override
     public void showHideMenu(boolean is) {
-        ShoolRewardActivity activity=(ShoolRewardActivity)getActivity();
+        ShoolRewardActivity activity = (ShoolRewardActivity) getActivity();
         if (is) {
             hideMenu.setVisibility(View.VISIBLE);
             activity.setHideMenu(true);
+            cancel.setVisibility(View.VISIBLE);
+            back.setVisibility(View.GONE);
         } else {
             hideMenu.setVisibility(View.GONE);
             adpter.showSelectCircle(false);
             activity.setHideMenu(false);
+            cancel.setVisibility(View.GONE);
+            back.setVisibility(View.VISIBLE);
         }
     }
 
@@ -188,11 +195,11 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
         LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
-    public void showNoContentText(boolean is){
-        if (is){
+    public void showNoContentText(boolean is) {
+        if (is) {
             noContent.setVisibility(View.VISIBLE);
             listview.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             noContent.setVisibility(View.INVISIBLE);
             listview.setVisibility(View.VISIBLE);
         }
@@ -203,13 +210,13 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
         this.mPresenter = presenter;
     }
 
-    @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete})
+    @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete, R.id.cancel})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE,0)==ShoolRewardActivity.MINE){
+                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == ShoolRewardActivity.MINE) {
                     getActivity().finish();
-                }else {
+                } else {
                     getFragmentManager().popBackStack();
                 }
                 break;
@@ -220,6 +227,9 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
                 break;
             case R.id.hide_delete:
                 showDeleteSureDialog();
+                break;
+            case R.id.cancel:
+                showHideMenu(false);
                 break;
         }
     }

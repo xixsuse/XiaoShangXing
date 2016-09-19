@@ -25,6 +25,9 @@ public class CustomAttachParser implements MsgAttachmentParser {
                 case CustomAttachmentType.Transmit_noimage:
                     attachment = new TransmitMessage_NoImage();
                     break;
+                case CustomAttachmentType.Transmit_withimage:
+                    attachment = new TransmitMessage_WithImage();
+                    break;
                 default:
                     attachment = new DefaultCustomAttachment();
                     break;

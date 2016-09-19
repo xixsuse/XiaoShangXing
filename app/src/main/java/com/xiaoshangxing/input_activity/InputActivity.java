@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -37,6 +38,8 @@ import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.Network.netUtil.BaseUrl;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
@@ -81,7 +84,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import okhttp3.ResponseBody;
-import rx.Subscriber;
 
 /**
  * Created by FengChaoQun
@@ -223,6 +225,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
     private int momentId;     //评论的动态id  转发的动态id
     private int commentId;     //评论的评论id
     private Realm realm;
+
+    private Handler handler = new Handler();
+    private Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -814,48 +819,29 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     private void publishComment() {
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(NS.USER_ID, TempUser.id);
-        jsonObject.addProperty("momentId", momentId);
-        if (commentId > 0) {
-            jsonObject.addProperty("commentId", commentId);
-        }
-        jsonObject.addProperty(NS.CONTENT, emotionEdittext.getText().toString());
-        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-
-        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+        OperateUtils.Comment(momentId, commentId, emotionEdittext.getText().toString(), this, true,
+                new SimpleCallBack() {
             @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                showToast("评论失败");
-            }
-
-            @Override
-            public void onNext(ResponseBody responseBody) {
-                try {
-                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
-                    switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
-                        case NS.CODE_200:
-                            showToast("评论成功");
-                            finish();
-                            break;
-                        default:
-                            showToast(jsonObject1.getString(NS.MSG));
-                            break;
+            public void onSuccess() {
+                runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                };
+                handler.postDelayed(runnable, 250);
             }
-        };
 
-        PublishNetwork.getInstance().comment(subscriber, jsonObject, this);
+                    @Override
+                    public void onError(Throwable e) {
+                        showToast("评论失败");
+                    }
 
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
     }
 
     public void showSureDialog() {
@@ -1014,6 +1000,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         Bimp.tempSelectBitmap.clear();
         KeyBoardUtils.closeKeybord(emotionEdittext, this);
         realm.close();
+        handler.removeCallbacks(runnable);
         super.onDestroy();
     }
 

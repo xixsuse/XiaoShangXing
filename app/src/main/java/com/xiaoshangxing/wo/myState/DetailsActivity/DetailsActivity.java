@@ -16,9 +16,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.PublishCache;
@@ -40,18 +40,12 @@ import com.xiaoshangxing.wo.myState.myStateActivity;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
-import rx.Subscriber;
 
 /**
  * Created by FengChaoQun
@@ -157,6 +151,23 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
             finish();
         }
 
+        refreshPager(published);
+    }
+
+    private void refresh() {
+        PublishCache.reload(String.valueOf(published_id), new PublishCache.publishedCallback() {
+            @Override
+            public void callback(Published published1) {
+                refreshPager(published1);
+            }
+        });
+    }
+
+    private void refreshPager(Published published) {
+        if (published == null) {
+            return;
+        }
+        this.published = published;
         headImage.setIntent_type(CirecleImage.PERSON_STATE, String.valueOf(published.getUserId()));
         UserCache userCache = new UserCache(this, String.valueOf(published.getUserId()), realm);
         userCache.getHead(headImage);
@@ -210,16 +221,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
         initInputBox();
     }
-
-    private void refresh() {
-        PublishCache.reload(String.valueOf(published_id), new PublishCache.publishedCallback() {
-            @Override
-            public void callback(Published published1) {
-                published = published1;
-                initView();
-            }
-        });
-    }
     private void parsePraise() {
         final ArrayList<String> imageUrls = new ArrayList<>();
         String[] splits = published.getPraiseUserIds().split(NS.SPLIT);
@@ -248,13 +249,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                     inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
                         @Override
                         public void callback(String text) {
-                            JsonObject jsonObject = new JsonObject();
-                            jsonObject.addProperty(NS.USER_ID, TempUser.id);
-                            jsonObject.addProperty("momentId", published.getId());
-                            jsonObject.addProperty(NS.CONTENT, text);
-                            jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-                            jsonObject.addProperty("commentId", i.getId());
-                            sendComment(jsonObject);
+                            sendComment(text, i.getId());
                         }
                     });
                     final View mv = v;
@@ -304,7 +299,23 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
             @Override
             public void onButton1() {
-                mPresenter.delete(realm, published);
+//                mPresenter.delete(realm, published);
+                OperateUtils.deleteOnePublished(published_id, DetailsActivity.this, DetailsActivity.this, new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        finishPager();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
                 center.close();
             }
 
@@ -345,6 +356,22 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                 showSureDelete();
                 break;
             case R.id.praise:
+                OperateUtils.operate(published_id, DetailsActivity.this, true, NS.PRAISE, new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+                        refreshPager((Published) o);
+                    }
+                });
                 mPresenter.praise();
                 break;
             case R.id.comment:
@@ -352,12 +379,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                 inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
                     @Override
                     public void callback(String text) {
-                        JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty(NS.USER_ID, TempUser.id);
-                        jsonObject.addProperty("momentId", published.getId());
-                        jsonObject.addProperty(NS.CONTENT, text);
-                        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-                        sendComment(jsonObject);
+                        sendComment(text, -1);
                     }
                 });
                 break;
@@ -375,41 +397,24 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         gotoPermisson();
     }
 
-    private void sendComment(final JsonObject jsonObject) {
-        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+    private void sendComment(String text, int commenId) {
+        OperateUtils.Comment(published.getId(), commenId, text, this, true, new SimpleCallBack() {
             @Override
-            public void onCompleted() {
+            public void onSuccess() {
                 inputBoxLayout.setCallBack(null);
             }
 
             @Override
             public void onError(Throwable e) {
-                showToast("评论失败");
                 inputBoxLayout.setCallBack(null);
+                showToast("评论失败");
             }
 
             @Override
-            public void onNext(ResponseBody responseBody) {
-                try {
-                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
-                    switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
-                        case NS.CODE_200:
-                            showToast("评论成功");
-                            refresh();
-                            break;
-                        default:
-                            showToast(jsonObject1.getString(NS.MSG));
-                            break;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            public void onBackData(Object o) {
+                refreshPager((Published) o);
             }
-        };
-
-        PublishNetwork.getInstance().comment(subscriber, jsonObject, this);
+        });
     }
 
 }

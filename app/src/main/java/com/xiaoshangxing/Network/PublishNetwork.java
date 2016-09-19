@@ -8,6 +8,7 @@ import com.xiaoshangxing.Network.api.getAndPublish.DeletePublished;
 import com.xiaoshangxing.Network.api.getAndPublish.GetAllPublished;
 import com.xiaoshangxing.Network.api.getAndPublish.GetPublishedApi;
 import com.xiaoshangxing.Network.api.getAndPublish.GetTransmitInfo;
+import com.xiaoshangxing.Network.api.getAndPublish.Operate;
 import com.xiaoshangxing.Network.api.getAndPublish.RefreshPublished;
 import com.xiaoshangxing.Network.api.getAndPublish.TransmitApi;
 
@@ -29,6 +30,7 @@ public class PublishNetwork {
     private RefreshPublished refreshPublished;
     private TransmitApi transmitApi;
     private DeletePublished deletePublished;
+    private Operate operate;
 
     private PublishNetwork() {
 
@@ -97,6 +99,14 @@ public class PublishNetwork {
             deletePublished = Network.getRetrofitWithHeader(context).create(DeletePublished.class);
         }
         Observable<ResponseBody> observable = deletePublished.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void operate(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (operate == null) {
+            operate = Network.getRetrofitWithHeader(context).create(Operate.class);
+        }
+        Observable<ResponseBody> observable = operate.start(jsonObject);
         toSubscribe(observable, subscriber);
     }
 

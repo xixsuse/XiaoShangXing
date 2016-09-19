@@ -13,8 +13,8 @@ import org.json.JSONObject;
 public class TransmitMessage_WithImage extends CustomAttachment {
     private int state_id;
 
-    TransmitMessage_WithImage() {
-        super(CustomAttachmentType.Transmit_noimage);
+    public TransmitMessage_WithImage() {
+        super(CustomAttachmentType.Transmit_withimage);
     }
 
     @Override
@@ -35,5 +35,13 @@ public class TransmitMessage_WithImage extends CustomAttachment {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public int getState_id() {
+        return state_id;
+    }
+
+    public void setState_id(int state_id) {
+        this.state_id = state_id;
     }
 }

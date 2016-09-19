@@ -14,11 +14,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.Published;
@@ -42,16 +40,11 @@ import com.xiaoshangxing.wo.WoFrafment.Woadapter_Help;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import okhttp3.ResponseBody;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -236,9 +229,15 @@ public abstract class WoBaseHolder {
 
 //        点赞
 //        buildPrasiPeople();
-
+        praise.setChecked(false);
         if (!TextUtils.isEmpty(published.getPraiseUserIds())) {
             Woadapter_Help.buildPrasiPeople(published.getPraiseUserIds().split(NS.SPLIT), context, praisePeople);
+            for (String i : published.getPraiseUserIds().split(NS.SPLIT)) {
+                if (TempUser.isMine(i)) {
+                    praise.setChecked(true);
+                    break;
+                }
+            }
         } else {
             praisePeople.removeAllViews();
         }
@@ -306,13 +305,13 @@ public abstract class WoBaseHolder {
                             woFragment.setEditCallback(new InputBoxLayout.CallBack() {
                                 @Override
                                 public void callback(String text) {
-                                    JsonObject jsonObject = new JsonObject();
-                                    jsonObject.addProperty(NS.USER_ID, TempUser.id);
-                                    jsonObject.addProperty("momentId", published.getId());
-                                    jsonObject.addProperty(NS.CONTENT, text);
-                                    jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-                                    jsonObject.addProperty("commentId", commentIds.get(finalI));
-                                    sendComment(jsonObject);
+//                                    JsonObject jsonObject = new JsonObject();
+//                                    jsonObject.addProperty(NS.USER_ID, TempUser.id);
+//                                    jsonObject.addProperty("momentId", published.getId());
+//                                    jsonObject.addProperty(NS.CONTENT, text);
+//                                    jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+//                                    jsonObject.addProperty("commentId", commentIds.get(finalI));
+//                                    sendComment(jsonObject);
                                 }
                             });
                         }
@@ -374,13 +373,14 @@ public abstract class WoBaseHolder {
                     woFragment.setEditCallback(new InputBoxLayout.CallBack() {
                         @Override
                         public void callback(String text) {
-                            JsonObject jsonObject = new JsonObject();
-                            jsonObject.addProperty(NS.USER_ID, TempUser.id);
-                            jsonObject.addProperty("momentId", published.getId());
-                            jsonObject.addProperty(NS.CONTENT, text);
-                            jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-                            jsonObject.addProperty("commentId", i.getId());
-                            sendComment(jsonObject);
+//                            JsonObject jsonObject = new JsonObject();
+//                            jsonObject.addProperty(NS.USER_ID, TempUser.id);
+//                            jsonObject.addProperty("momentId", published.getId());
+//                            jsonObject.addProperty(NS.CONTENT, text);
+//                            jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+//                            jsonObject.addProperty("commentId", i.getId());
+//                            sendComment(jsonObject);
+                            sendComment(text, i.getId());
                         }
                     });
                 }
@@ -512,52 +512,55 @@ public abstract class WoBaseHolder {
                 woFragment.setEditCallback(new InputBoxLayout.CallBack() {
                     @Override
                     public void callback(String text) {
-                        JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty(NS.USER_ID, TempUser.id);
-                        jsonObject.addProperty("momentId", published.getId());
-                        jsonObject.addProperty(NS.CONTENT, text);
-                        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-                        sendComment(jsonObject);
+                        sendComment(text, -1);
                     }
                 });
                 showEdittext(v);
             }
         });
+
+        praise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (praise.isChecked()) {
+                    OperateUtils.operate(published.getId(), context, true, NS.PRAISE, new SimpleCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            woFragment.showToast("操作成功");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            woFragment.showToast("操作失败");
+                        }
+
+                        @Override
+                        public void onBackData(Object o) {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void delete() {
-        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
+        OperateUtils.deleteOnePublished(published.getId(), context, woFragment, new SimpleCallBack() {
             @Override
-            public void onNext(ResponseBody e) throws JSONException {
-                try {
-                    JSONObject jsonObject = new JSONObject(e.string());
-                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
-                        case 8001:
-                            woFragment.showToast("删除成功");
-                            realm.executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    published.deleteFromRealm();
-                                }
-                            });
-//                            adpter.removeOne(position);
-                            woFragment.deleteOne(position);
-                            break;
-                        default:
-                            woFragment.showToast(jsonObject.getString(NS.MSG));
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+            public void onSuccess() {
+                woFragment.deleteOne(position);
             }
-        };
 
-        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(next, woFragment);
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(NS.USER_ID, TempUser.id);
-        jsonObject.addProperty(NS.MOMENTID, published.getId());
-        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-        PublishNetwork.getInstance().deletePublished(subsciber, jsonObject, context);
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+
+            }
+        });
     }
 
     private void showEdittext(View v) {
@@ -629,40 +632,24 @@ public abstract class WoBaseHolder {
                 .subscribe(subscriber);
     }
 
-    private void sendComment(final JsonObject jsonObject) {
-        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+    private void sendComment(String text, int commenId) {
+        OperateUtils.Comment(published.getId(), commenId, text, context, true, new SimpleCallBack() {
             @Override
-            public void onCompleted() {
+            public void onSuccess() {
                 woFragment.setEditCallback(null);
             }
 
             @Override
             public void onError(Throwable e) {
-                activity.showToast("评论失败");
                 woFragment.setEditCallback(null);
+                activity.showToast("评论失败");
             }
 
             @Override
-            public void onNext(ResponseBody responseBody) {
-                try {
-                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
-                    switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
-                        case NS.CODE_200:
-                            activity.showToast("评论成功");
-                            break;
-                        default:
-                            activity.showToast(jsonObject1.getString(NS.MSG));
-                            break;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
+            public void onBackData(Object o) {
 
-        PublishNetwork.getInstance().comment(subscriber, jsonObject, context);
+            }
+        });
     }
 
 }

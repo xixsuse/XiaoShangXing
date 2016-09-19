@@ -12,7 +12,7 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
+import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 
 /**
@@ -52,7 +52,7 @@ public class WoTrasnsmit extends WoBaseHolder {
                             help_intent.putExtra(IntentStatic.DATA, published.getId());
                             context.startActivity(help_intent);
                         } else if (categry == Integer.valueOf(NS.CATEGORY_REWARD)) {
-                            Intent intent = new Intent(context, ShoolRewardActivity.class);
+                            Intent intent = new Intent(context, RewardDetailActivity.class);
                             intent.putExtra(IntentStatic.DATA, published.getId());
                             context.startActivity(intent);
                         }

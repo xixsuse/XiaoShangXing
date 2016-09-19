@@ -128,6 +128,7 @@ public class XiaoShangFragment extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
                 setImagePosition(position + 1);
+                currentImage = position + 1;
             }
 
             @Override
@@ -180,6 +181,7 @@ public class XiaoShangFragment extends BaseFragment {
                 title.setText("闲置出售");
                 break;
         }
+
     }
 
     public void gotoOther(int position) {

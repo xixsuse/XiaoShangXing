@@ -30,6 +30,7 @@ public class BaseUrl {
     public static final String MODIFY_PASSWORD ="base/modifyPassword";
 
     public static final String COMMENT = "commentary/comment";
+    public static final String OPERATE = "operation/operate";
 
 
 }

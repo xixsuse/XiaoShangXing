@@ -37,9 +37,6 @@ public class Comment_layout {
         head.setIntent_type(CirecleImage.PERSON_STATE, String.valueOf(id));
         UserInfoCache.getInstance().getHead(head,id,context);
         UserInfoCache.getInstance().getName(name,id);
-//        UserCache userCache = new UserCache(context, String.valueOf(id), realm);
-//        userCache.getHead(head);
-//        userCache.getName(name);
         time.setText(TimeUtil.getTimeShowString(commentsBean.getCreateTime(), false));
         text.setText(commentsBean.getText());
     }

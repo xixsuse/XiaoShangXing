@@ -19,6 +19,7 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
@@ -89,11 +90,16 @@ public class myshoolreward_adpter extends ArrayAdapter<Published> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RewardDetailActivity.class);
-                intent.putExtra(IntentStatic.DATA, published.getId());
-                context.startActivity(intent);
+                if (showselect) {
+                    viewholder.checkBox.performClick();
+                } else {
+                    Intent intent = new Intent(context, HelpDetailActivity.class);
+                    intent.putExtra(IntentStatic.DATA, published.getId());
+                    context.startActivity(intent);
+                }
             }
         });
+
 
         viewholder.checkBox.setChecked(false);
 

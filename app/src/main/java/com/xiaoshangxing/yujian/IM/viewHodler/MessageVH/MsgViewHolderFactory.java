@@ -7,6 +7,7 @@ import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
+import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
 
 import java.util.HashMap;
 
@@ -25,6 +26,7 @@ public class MsgViewHolderFactory {
         register(AudioAttachment.class, MsgViewHolderAudio.class);
         register(NotificationAttachment.class, MsgViewHolderNotification.class);
         register(TransmitMessage_NoImage.class, MsgViewHolderTransmitNoImage.class);
+        register(TransmitMessage_WithImage.class, MsgViewHolderTransmitWithImage.class);
         registerTipMsgViewHolder(MsgViewHolderTip.class);
     }
 

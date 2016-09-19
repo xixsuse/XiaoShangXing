@@ -1,13 +1,21 @@
 package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.PublishCache;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
 
 
 /**
@@ -18,6 +26,8 @@ public class MsgViewHolderTransmitWithImage extends MsgViewHolderBase {
     private TextView name, college, text, from;
     private LinearLayout up_lay;
     private ImageView transmit_image;
+    private TransmitMessage_WithImage transmitMessage_withImage;
+    private int state_id;
 
     @Override
     protected int getContentResId() {
@@ -37,7 +47,33 @@ public class MsgViewHolderTransmitWithImage extends MsgViewHolderBase {
 
     @Override
     protected void bindContentView() {
+        transmitMessage_withImage = (TransmitMessage_WithImage) message.getAttachment();
+        state_id = transmitMessage_withImage.getState_id();
         layoutDirection();
+        PublishCache.getPublished(String.valueOf(state_id), new PublishCache.publishedCallback() {
+            @Override
+            public void callback(Published published) {
+                int userId = published.getUserId();
+                UserInfoCache.getInstance().getHead(head, userId, context);
+                UserInfoCache.getInstance().getName(name, userId);
+                UserInfoCache.getInstance().getCollege(college, userId);
+                text.setText(published.getText());
+                from.setText("分享自闲置出售");
+                String images = published.getImage();
+                if (!TextUtils.isEmpty(images)) {
+                    String imagePath[] = images.split(NS.SPLIT);
+                    MyGlide.with(context, imagePath[0], transmit_image);
+                }
+                contentContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Intent intent = new Intent(context, HelpDetailActivity.class);
+//                        intent.putExtra(IntentStatic.DATA, state_id);
+//                        context.startActivity(intent);
+                    }
+                });
+            }
+        });
     }
 
     private void layoutDirection() {

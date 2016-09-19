@@ -38,6 +38,11 @@ public class NS {
     public static final String CATEGORY_CALENDAR = "4";
     public static final String CATEGORY_SALE = "5";
     public static final String PRICE = "price";
+    //    动态操作
+    public static final String PRAISE = "0";
+    public static final String JOIN = "1";
+    public static final String INFO = "2";
+    public static final String COLLECT = "3";
 
 
     public static final String CATEGORY_REWARD = "6";

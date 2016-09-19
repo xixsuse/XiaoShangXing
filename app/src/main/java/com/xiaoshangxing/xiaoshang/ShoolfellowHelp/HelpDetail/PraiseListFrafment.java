@@ -52,6 +52,7 @@ public class PraiseListFrafment extends Fragment {
             emptyText.setVisibility(View.VISIBLE);
             emptyText.setText("赶紧赞一下");
         } else {
+            ids.clear();
             for (String i : published.getPraiseUserIds().split(NS.SPLIT)) {
                 ids.add(i);
             }

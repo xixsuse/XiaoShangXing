@@ -23,10 +23,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.netease.nimlib.sdk.msg.MessageBuilder;
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.PublishCache;
@@ -37,10 +36,10 @@ import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.lang.reflect.Field;
@@ -104,6 +103,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     private Handler handler = new Handler();
     private int published_id;
     private Published published;
+    private IBaseView iBaseView = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,6 +203,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         UserInfoCache.getInstance().getCollege(college, userId);
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
+        praiseOrCancel.setText(OperateUtils.isPraised(published.getPraiseUserIds()) ? "取消" : "赞");
         setCount();
     }
 
@@ -233,9 +234,29 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
             case R.id.praiseOrCancel:
                 break;
             case R.id.praise:
-                mPresenter.praise();
+                praise();
                 break;
         }
+    }
+
+    private void praise() {
+        OperateUtils.operate(published_id, this, true, NS.PRAISE, new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                published = (Published) o;
+                refresh();
+            }
+        });
     }
 
     //    控制滑块滑动到指定位置
@@ -264,7 +285,6 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         });
         animator.setDuration(300);
         animator.start();
-        Log.d("x", "" + xy[0]);
     }
 
     @Override
@@ -302,11 +322,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         xsx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
-                intent.putExtra(InputActivity.EDIT_STATE, InputActivity.TRANSMIT);
-                intent.putExtra(InputActivity.TRANSMIT_TYPE, InputActivity.SHOOLFELLOW_HELP);
-                intent.putExtra(InputActivity.MOMENTID, published_id);
-                startActivity(intent);
+                OperateUtils.Share(HelpDetailActivity.this, InputActivity.SHOOLFELLOW_HELP, published_id);
                 dialog.dismiss();
             }
         });
@@ -371,15 +387,23 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TransmitMessage_NoImage noImage = new TransmitMessage_NoImage();
-                noImage.setState_id(published_id);
-                IMMessage imMessage = MessageBuilder.createCustomMessage(id, SessionTypeEnum.P2P, noImage);
-                if (!TextUtils.isEmpty(input.getText().toString())) {
-                    IMMessage text = MessageBuilder.createTextMessage(id, SessionTypeEnum.P2P, input.getText().toString());
-                    mPresenter.transmit(imMessage, text);
-                } else {
-                    mPresenter.transmit(imMessage, null);
-                }
+                OperateUtils.Tranmit(published_id, NS.CATEGORY_REWARD, id, iBaseView, input.getText().toString(),
+                        new SimpleCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                showTransmitSuccess();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+
+                            }
+                        });
                 dialog.dismiss();
             }
         });

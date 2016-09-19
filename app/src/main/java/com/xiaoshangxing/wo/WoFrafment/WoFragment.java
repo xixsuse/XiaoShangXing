@@ -97,6 +97,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private Wo_listview_adpter wo_listview_adpter;
     private int current_anchor = 10;
     private int selection;//记录listview的位置
+    private WoAdapter1 woAdapter1;
 
     @Nullable
     @Override
@@ -278,7 +279,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
 //        wo_listview_adpter = new Wo_listview_adpter(getContext(),
 //                1, publisheds, this, (BaseActivity) getActivity(), realm, listView);
-        WoAdapter1 woAdapter1 = new WoAdapter1(getContext(), publisheds, this, (BaseActivity) getActivity(), realm);
+        woAdapter1 = new WoAdapter1(getContext(), publisheds, this, (BaseActivity) getActivity(), realm);
 
         listView.setAdapter(woAdapter1);
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -506,16 +507,13 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 //        pager_publisheds.clear();
 //        pager_publisheds.addAll(publisheds.subList(current_anchor,
 //                current_anchor + 10 > publisheds.size() ? publisheds.size() : current_anchor + 10));
-        wo_listview_adpter.notifyDataSetChanged();
         listView.setSelection(selection);
     }
 
     public void deleteOne(int position) {
-//        wo_listview_adpter.removeOne(position);
-        if (position != wo_listview_adpter.getCount()) {
+        if (position != woAdapter1.getCount()) {
             listView.setSelection(position);
         }
-
     }
 
     @Override

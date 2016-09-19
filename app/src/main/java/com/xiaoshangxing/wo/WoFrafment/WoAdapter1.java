@@ -60,7 +60,6 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
         return convertView;
     }
 
-
     @Override
     public int getItemViewType(int position) {
 
@@ -87,7 +86,6 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
         return 4;
     }
 
-
     public View viewAtPosition(int position) {
         WoBaseHolder holder = null;
         View view = null;
@@ -103,7 +101,6 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
         view = holder.getView(LayoutInflater.from(context));
         view.setTag(holder);
         holder.setContext(view.getContext());
-        Log.d("new view", "----ok");
         return view;
     }
 
