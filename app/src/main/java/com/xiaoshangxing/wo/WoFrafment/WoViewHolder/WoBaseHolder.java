@@ -261,7 +261,6 @@ public abstract class WoBaseHolder {
         } else {
             jianjiao.setVisibility(View.VISIBLE);
         }
-
     }
 
     public void parseComment(int publish_id) {

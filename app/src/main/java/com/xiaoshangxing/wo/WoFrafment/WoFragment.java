@@ -269,7 +269,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initListview() {
-
 //        adpter = new WoAdapter(getContext(), publisheds, this, getActivity(), realm);
 
 //        if (publisheds.size() > 10) {
@@ -279,7 +278,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
 //        wo_listview_adpter = new Wo_listview_adpter(getContext(),
 //                1, publisheds, this, (BaseActivity) getActivity(), realm, listView);
-
         WoAdapter1 woAdapter1 = new WoAdapter1(getContext(), publisheds, this, (BaseActivity) getActivity(), realm);
 
         listView.setAdapter(woAdapter1);
@@ -514,9 +512,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     public void deleteOne(int position) {
 //        wo_listview_adpter.removeOne(position);
-//        if (position != wo_listview_adpter.getCount()) {
-//            listView.setSelection(position);
-//        }
+        if (position != wo_listview_adpter.getCount()) {
+            listView.setSelection(position);
+        }
 
     }
 

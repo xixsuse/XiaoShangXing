@@ -218,12 +218,6 @@
         <activity android:name=".SelectPerson.SelectPersonActivity"></activity>
         <activity android:name=".xiaoshang.MessageNotice.MessageNoticeActivity"></activity>
         <activity android:name=".input_activity.album.AlbumActivity"></activity>
-        <activity android:name=".TestActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
 
         <!-- 遇见-->
         <activity android:name=".yujian.personInfo.PersonInfoActivity"></activity>
