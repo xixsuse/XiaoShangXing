@@ -25,11 +25,10 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
-import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 
 import java.util.ArrayList;
@@ -88,7 +87,6 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         realm = Realm.getDefaultInstance();
         setmPresenter(new ShoolRewardPresenter(this, getContext()));
         refreshPager();
-        mPresenter.isNeedRefresh();
         initFresh();
         initView();
         return mview;
@@ -132,36 +130,17 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
             headview.setVisibility(View.GONE);
         }
 
-        if (LoadUtils.needRefresh(NS.CATEGORY_REWARD)) {
-            ptrFrameLayout.autoRefresh();
-        }
     }
 
     private void initFresh() {
-        final StoreHouseHeader header = new StoreHouseHeader(getContext());
-        header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
-        header.initWithString("SWALK");
-        header.setTextColor(getResources().getColor(R.color.green1));
-        header.setBackgroundColor(getResources().getColor(R.color.transparent));
-
-        header.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
-
-        ptrFrameLayout.setDurationToCloseHeader(2000);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
-        ptrFrameLayout.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                mPresenter.RefreshData(frame, realm);
-            }
-        });
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_REWARD),
+                new PtrDefaultHandler() {
+                    @Override
+                    public void onRefreshBegin(PtrFrameLayout frame) {
+                        mPresenter.RefreshData(frame, realm);
+                    }
+                });
     }
-
 
     @Override
     public void onDestroyView() {

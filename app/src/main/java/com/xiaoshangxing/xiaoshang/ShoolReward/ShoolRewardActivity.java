@@ -8,15 +8,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.ShoolReward.MyShoolReward.MyShoolRewardFragment;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardFragment.ShoolRewardFragment;
 import com.xiaoshangxing.xiaoshang.ShoolReward.collect.CollectFragment;
@@ -40,6 +47,8 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
     private boolean isHideMenu;//记录是否需要点击返回键隐藏菜单
     private boolean isCollect;//记录是否是collect界面在显示
 
+    private int transmitedId = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +59,6 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
             return;
         }
         parseIntent();
-//        initAllFrafments();
     }
 
     private void initAllFrafments() {
@@ -148,12 +156,30 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
     }
 
     @Override
-    public void showTransmitDialog(){
-        final Dialog dialog=new Dialog(this,R.style.ActionSheetDialog);
-        View dialogView=View.inflate(this,R.layout.school_help_transmit_dialog,null);
+    public void showTransmitDialog(final String id) {
+        final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
+        View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
         dialog.setContentView(dialogView);
-        TextView cancle=(TextView) dialogView.findViewById(R.id.cancel);
-        TextView send=(TextView) dialogView.findViewById(R.id.send);
+
+        TextView cancle = (TextView) dialogView.findViewById(R.id.cancel);
+        TextView send = (TextView) dialogView.findViewById(R.id.send);
+        CirecleImage head = (CirecleImage) dialogView.findViewById(R.id.head_image);
+        TextView name = (TextView) dialogView.findViewById(R.id.name);
+        TextView college = (TextView) dialogView.findViewById(R.id.college);
+        TextView text = (TextView) dialogView.findViewById(R.id.text);
+        final EditText input = (EditText) dialogView.findViewById(R.id.input);
+
+        Published published = realm.where(Published.class).equalTo(NS.ID, transmitedId).findFirst();
+        if (published == null) {
+            showToast("信息有误");
+            return;
+        }
+        int userId = published.getUserId();
+        UserInfoCache.getInstance().getHead(head, userId, ShoolRewardActivity.this);
+        UserInfoCache.getInstance().getName(name, userId);
+        UserInfoCache.getInstance().getCollege(college, userId);
+        text.setText(published.getText());
+
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,11 +189,29 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.transmit(dialog);
+                OperateUtils.Tranmit(transmitedId, NS.CATEGORY_REWARD, id, ShoolRewardActivity.this, input.getText().toString(),
+                        new SimpleCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                showTransmitSuccess();
+                                setTransmitedId(-1);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+
+                            }
+                        });
+                dialog.dismiss();
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this,dialog,getResources().getDimensionPixelSize(R.dimen.x900));
+        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
     }
 
     @Override
@@ -194,7 +238,16 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
 
     public void gotoSelectPerson(){
         Intent intent=new Intent(this, SelectPersonActivity.class);
+        intent.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
+    }
+
+    public int getTransmitedId() {
+        return transmitedId;
+    }
+
+    public void setTransmitedId(int transmitedId) {
+        this.transmitedId = transmitedId;
     }
 
     @Override
@@ -202,7 +255,7 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
         if (requestCode== SelectPersonActivity.SELECT_PERSON_CODE ){
             if (data!=null){
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size()>0){
-                    showTransmitDialog();
+                    showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).get(0));
                 }else {
                     showToast("未选择联系人");
                 }

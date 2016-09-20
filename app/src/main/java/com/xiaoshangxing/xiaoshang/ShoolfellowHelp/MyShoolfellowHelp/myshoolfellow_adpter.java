@@ -73,7 +73,7 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showMenu(v);
+                showMenu(v,-1);
                 v.setBackgroundColor(context.getResources().getColor(R.color.g1));
                 return true;
             }
@@ -101,7 +101,7 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
         private CheckBox checkBox,iscomplete;
     }
 
-    private void showMenu(View v){
+    private void showMenu(View v, final int id){
 
         final View view = v;
         int []xy=new int[2];
@@ -161,7 +161,7 @@ public class myshoolfellow_adpter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                fragment.showDeleteSureDialog();
+                fragment.showDeleteSureDialog(id);
             }
         });
 

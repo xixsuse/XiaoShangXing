@@ -29,6 +29,7 @@ public class NS {
     public static final String LOCATION = "location";
     public static final String TEXT = "text";
     public static final String MOMENTID = "momentId";
+    public static final String COMMENTID = "commentId";
     public static final String CLIENTTIME = "clientTime";
     public static final String NOTICE = "notice";
     public static final String FOBIDDEN = "forbidden";
@@ -50,6 +51,10 @@ public class NS {
     //    好友
     public static final String MARK = "MARK";//留心
     public static final String RMB="¥";
+
+    //    toast
+    public static final String REFRESH_SUCCESS = "加载成功";
+    public static final String REFRESH_FAIL = "加载失败";
 
 
 

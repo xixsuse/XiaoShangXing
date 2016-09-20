@@ -35,7 +35,7 @@ import rx.Subscriber;
 /**
  * Created by FengChaoQun
  * on 2016/9/19
- * 集中处理动态有关操作
+ * 集中处理动态的有关操作
  */
 public class OperateUtils {
 
@@ -282,7 +282,7 @@ public class OperateUtils {
         jsonObject.addProperty(NS.CONTENT, text);
         jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
         if (commentId > 0) {
-            jsonObject.addProperty("commentId", commentId);
+            jsonObject.addProperty(NS.COMMENTID, commentId);
         }
 
         Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {

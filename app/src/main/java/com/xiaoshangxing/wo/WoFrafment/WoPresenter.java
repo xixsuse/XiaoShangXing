@@ -66,7 +66,7 @@ public class WoPresenter implements WoContract.Presenter {
                 try {
 //                    LoadUtils.parseData(responseBody, mView.getRealm(), mView);
                     realm=mView.getRealm();
-                    LoadUtils.parseData(responseBody,realm,mView);
+                    LoadUtils.parseData(responseBody,realm,context,null);
                     RealmResults<Published> publisheds = realm.where(Published.class).findAll();
                     Log.d("saved_published", "--" + publisheds);
                 } catch (IOException e) {

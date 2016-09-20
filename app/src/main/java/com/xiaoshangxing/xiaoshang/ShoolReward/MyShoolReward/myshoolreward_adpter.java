@@ -17,7 +17,6 @@ import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -80,7 +79,7 @@ public class myshoolreward_adpter extends ArrayAdapter<Published> {
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showMenu(v, viewholder);
+                showMenu(v, viewholder, published.getId());
                 viewholder.cardview.setBackground(context.getResources()
                         .getDrawable(R.drawable.circular_8_g1_nostroke));
                 return true;
@@ -122,7 +121,7 @@ public class myshoolreward_adpter extends ArrayAdapter<Published> {
         private CardView cardview;
     }
 
-    private void showMenu(View v, final mystate_viewholder viewholder) {
+    private void showMenu(View v, final mystate_viewholder viewholder, final int publishId) {
         int[] xy = new int[2];
         v.getLocationInWindow(xy);
         View menu;
@@ -171,6 +170,7 @@ public class myshoolreward_adpter extends ArrayAdapter<Published> {
         transmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                activity.setTransmitedId(publishId);
                 activity.gotoSelectPerson();
                 popupWindow.dismiss();
             }
@@ -180,7 +180,7 @@ public class myshoolreward_adpter extends ArrayAdapter<Published> {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                fragment.showDeleteSureDialog();
+                fragment.showDeleteSureDialog(publishId);
             }
         });
 

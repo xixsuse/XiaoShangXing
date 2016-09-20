@@ -40,22 +40,22 @@ public class MyRewardPresenter implements MyRewardContract.Presenter {
 
     @Override
     public void refreshData(PtrFrameLayout frame) {
-        LoadUtils.getSelfState(frame, mView, realm, NS.CATEGORY_REWARD, new LoadUtils.AroundLoading() {
-            @Override
-            public void before() {
-
-            }
-
-            @Override
-            public void complete() {
-                mView.refreshData();
-            }
-
-            @Override
-            public void error() {
-
-            }
-        });
+//        LoadUtils.getSelfState(frame, mView, realm, NS.CATEGORY_REWARD, new LoadUtils.AroundLoading() {
+//            @Override
+//            public void before() {
+//
+//            }
+//
+//            @Override
+//            public void complete() {
+//                mView.refreshData();
+//            }
+//
+//            @Override
+//            public void error() {
+//
+//            }
+//        });
     }
 
     @Override

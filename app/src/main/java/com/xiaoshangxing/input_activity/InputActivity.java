@@ -568,6 +568,13 @@ public class InputActivity extends BaseActivity implements IBaseView {
                     setSendState(true);
                 }
                 break;
+            case LANCH_PLAN:
+                if (TextUtils.isEmpty(planName.getText().toString()) || TextUtils.isEmpty(timeLimit.getText().toString())) {
+                    setSendState(false);
+                } else {
+                    setSendState(true);
+                }
+                break;
             default:
                 setSendState(true);
         }
@@ -730,6 +737,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
             case TRANSMIT:
                 publishTransmit();
                 break;
+            case LANCH_PLAN:
+//                publishPlan();
+                break;
         }
     }
 
@@ -842,6 +852,20 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
                     }
                 });
+    }
+
+    private void publishPlan() {
+        Map<String, String> map = new HashMap<>();
+        map.put(NS.USER_ID, String.valueOf(TempUser.id));
+        map.put(NS.TEXT, emotionEdittext.getText().toString());
+        map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
+        map.put(NS.CATEGORY, NS.CATEGORY_PLAN);
+        map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
+        map.put("personLimit", peopleLimit.getText().toString());
+//        map.put("")
+        NS.getPermissionString(NS.NOTICE, notices, map);
+        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        publish(map);
     }
 
     public void showSureDialog() {

@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.MainActivity;
+import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
@@ -30,11 +30,10 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
-import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
 
 import java.util.ArrayList;
@@ -318,28 +317,16 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initFresh(){
-        StoreHouseHeader header = new StoreHouseHeader(getContext());
-        header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
-        header.initWithString("SWALK");
-        header.setTextColor(getResources().getColor(R.color.green1));
-        header.setBackgroundColor(getResources().getColor(R.color.w0));
-        header.setAnimation(AnimationUtils.loadAnimation(getContext(),R.anim.fade_in));
-        ptrFrameLayout.setDurationToCloseHeader(2000);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
-        ptrFrameLayout.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                divider_line.setVisibility(View.INVISIBLE);
-                if (!is_refresh) {
-                    mPresenter.RefreshData(frame);
-                }
-            }
-        });
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_STATE),
+                new PtrDefaultHandler() {
+                    @Override
+                    public void onRefreshBegin(PtrFrameLayout frame) {
+                        divider_line.setVisibility(View.INVISIBLE);
+                        if (!is_refresh) {
+                            mPresenter.RefreshData(frame);
+                        }
+                    }
+                });
     }
 
     public void showEdittext(Context context) {

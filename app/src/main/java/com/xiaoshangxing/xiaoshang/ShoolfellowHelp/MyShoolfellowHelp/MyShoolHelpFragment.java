@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -15,6 +14,8 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
@@ -23,11 +24,10 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
-import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
@@ -86,7 +86,6 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
         setmPresenter(new MyHelpPresenter(this, getContext(), realm));
-        initFresh();
         initView();
         return view;
     }
@@ -99,24 +98,19 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         dotsTextView.start();
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addFooterView(footview);
-
-        if (LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFHELP)) {
-            ptrFrameLayout.autoRefresh();
-        }
-
-        RealmResults<Published> publisheds = realm.where(Published.class)
-                .equalTo(NS.USER_ID, TempUser.id)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
-                .findAll().sort(NS.ID, Sort.DESCENDING);
-        myHelpAdapter = new MyHelpAdapter(getContext(), publisheds, this, realm, getActivity());
-        listview.setAdapter(myHelpAdapter);
-        showNoData();
+        initFresh();
         refreshData();
+        showNoData();
     }
 
     @Override
     public void refreshData() {
-
+        RealmResults<Published> publisheds = realm.where(Published.class)
+                .equalTo(NS.USER_ID, TempUser.id)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
+                .findAll().sort(NS.ID, Sort.DESCENDING);
+        myHelpAdapter = new MyHelpAdapter(getContext(), publisheds, this, realm, (ShoolfellowHelpActivity) getActivity());
+        listview.setAdapter(myHelpAdapter);
     }
 
     @Override
@@ -132,28 +126,34 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     }
 
     private void initFresh() {
-        final StoreHouseHeader header = new StoreHouseHeader(getContext());
-        header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
-        header.initWithString("SWALK");
-        header.setTextColor(getResources().getColor(R.color.green1));
-        header.setBackgroundColor(getResources().getColor(R.color.transparent));
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFHELP),
+                new PtrDefaultHandler() {
+                    @Override
+                    public void onRefreshBegin(final PtrFrameLayout frame) {
+                        mPresenter.refreshData(frame);
+                        LoadUtils.getSelfState(realm, NS.CATEGORY_HELP, LoadUtils.TIME_LOAD_HELP, getContext(), new LoadUtils.AroundLoading() {
+                            @Override
+                            public void before() {
 
-        header.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
+                            }
 
-        ptrFrameLayout.setDurationToCloseHeader(2000);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
-        ptrFrameLayout.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
+                            @Override
+                            public void complete() {
+                                frame.refreshComplete();
+                            }
 
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                mPresenter.refreshData(frame);
-            }
-        });
+                            @Override
+                            public void onSuccess() {
+                                refreshData();
+                            }
+
+                            @Override
+                            public void error() {
+                                frame.refreshComplete();
+                            }
+                        });
+                    }
+                });
     }
 
     @Override
@@ -190,10 +190,11 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         showHideMenu(false);
         ShoolfellowHelpActivity activity = (ShoolfellowHelpActivity) getActivity();
         Intent intent = new Intent(getContext(), SelectPersonActivity.class);
+        intent.putExtra(SelectPersonActivity.LIMIT, 1);
         activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
-    public void showDeleteSureDialog() {
+    public void showDeleteSureDialog(final int publishId) {
         myHelpAdapter.showSelectCircle(false);
         showHideMenu(false);
 
@@ -202,7 +203,22 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                mPresenter.delete();
+                OperateUtils.deleteOnePublished(publishId, getContext(), MyShoolHelpFragment.this, new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        refreshData();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showToast("删除异常");
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
             }
 
             @Override
@@ -225,7 +241,6 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         }
     }
 
-
     @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete, R.id.cancel})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -240,12 +255,11 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
                 gotoSelectPerson();
                 break;
             case R.id.hide_delete:
-                showDeleteSureDialog();
+//                showDeleteSureDialog();
                 break;
             case R.id.cancel:
                 showHideMenu(false);
                 break;
         }
     }
-
 }

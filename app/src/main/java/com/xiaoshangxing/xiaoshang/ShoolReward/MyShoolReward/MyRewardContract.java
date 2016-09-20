@@ -18,7 +18,7 @@ public class MyRewardContract {
         /*
         **describe:弹出删除对话框
         */
-        void showDeleteSureDialog();
+        void showDeleteSureDialog(int id);
 
         /*
         **describe:没有内容时

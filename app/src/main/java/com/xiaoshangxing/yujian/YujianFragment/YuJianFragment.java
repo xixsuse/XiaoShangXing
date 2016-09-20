@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -37,10 +36,9 @@ import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TopChat;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
-import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 import com.xiaoshangxing.yujian.FriendActivity.FriendActivity;
@@ -718,28 +716,34 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
     };
 
     private void initFresh() {
-        StoreHouseHeader header = new StoreHouseHeader(getContext());
-        header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
-        header.initWithString("SWALK");
-        header.setTextColor(getResources().getColor(R.color.green1));
-        header.setBackgroundColor(getResources().getColor(R.color.w0));
-        header.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
-        ptrFrameLayout.setDurationToCloseHeader(2000);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
-        ptrFrameLayout.disableWhenHorizontalMove(true);
-//        ptrFrameLayout.postDelayed(new Runnable() {
+//        StoreHouseHeader header = new StoreHouseHeader(getContext());
+//        header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
+//        header.initWithString("SWALK");
+//        header.setTextColor(getResources().getColor(R.color.green1));
+//        header.setBackgroundColor(getResources().getColor(R.color.w0));
+//        header.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
+//        ptrFrameLayout.setDurationToCloseHeader(2000);
+//        ptrFrameLayout.setHeaderView(header);
+//        ptrFrameLayout.addPtrUIHandler(header);
+//        ptrFrameLayout.disableWhenHorizontalMove(true);
+//        ptrFrameLayout.setPtrHandler(new PtrHandler() {
 //            @Override
-//            public void run() {
-//                ptrFrameLayout.autoRefresh(false);
+//            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+//                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
 //            }
-//        }, 100);
-        ptrFrameLayout.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
+//
+//            @Override
+//            public void onRefreshBegin(PtrFrameLayout frame) {
+//                ptrFrameLayout.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        ptrFrameLayout.refreshComplete();
+//                    }
+//                }, 1500);
+//            }
+//        });
 
+        LayoutHelp.initPTR(ptrFrameLayout, false, new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 ptrFrameLayout.postDelayed(new Runnable() {
@@ -751,69 +755,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
             }
         });
     }
-
-//    private SwipeMenuCreator swipeMenuCreator = new SwipeMenuCreator() {
-//        @Override
-//        public void onCreateMenu(SwipeMenu swipeLeftMenu, SwipeMenu swipeRightMenu, int viewType) {
-//            SwipeMenuItem deleteItem = new SwipeMenuItem(mContext)
-//                    .setBackgroundColor(getResources().getColor(R.color.red2))
-//                    .setText("删除") // 文字，还可以设置文字颜色，大小等。。
-//                    .setTextColor(Color.WHITE)
-//                    .setTextSize(16)
-//                    .setWidth(getResources().getDimensionPixelSize(R.dimen.y250))
-//                    .setHeight(getResources().getDimensionPixelSize(R.dimen.y192));
-//            swipeRightMenu.addMenuItem(deleteItem);// 添加一个按钮到右侧侧菜单。
-//        }
-//    };
-//
-//    private OnItemClickListener onItemClickListener = new OnItemClickListener() {
-//        @Override
-//        public void onItemClick(int position) {
-//            Toast.makeText(mContext, "我是第" + position + "条。", Toast.LENGTH_SHORT).show();
-//        }
-//    };
-//
-//    /**
-//     * 菜单点击监听。
-//     */
-//    private OnSwipeMenuItemClickListener menuItemClickListener = new OnSwipeMenuItemClickListener() {
-//        /**
-//         * Item的菜单被点击的时候调用。
-//         * @param closeable       closeable. 用来关闭菜单。
-//         * @param adapterPosition adapterPosition. 这个菜单所在的item在Adapter中position。
-//         * @param menuPosition    menuPosition. 这个菜单的position。比如你为某个Item创建了2个MenuItem，那么这个position可能是是 0、1，
-//         * @param direction       如果是左侧菜单，值是：SwipeMenuRecyclerView#LEFT_DIRECTION，如果是右侧菜单，值是：SwipeMenuRecyclerView#RIGHT_DIRECTION.
-//         */
-//        @Override
-//        public void onItemClick(Closeable closeable, int adapterPosition, int menuPosition, int direction) {
-//            closeable.smoothCloseMenu();// 关闭被点击的菜单。
-//
-////            if (direction == SwipeMenuRecyclerView.RIGHT_DIRECTION) {
-////                Toast.makeText(mContext, "list第" + adapterPosition + "; 右侧菜单第" + menuPosition, Toast.LENGTH_SHORT).show();
-////            } else if (direction == SwipeMenuRecyclerView.LEFT_DIRECTION) {
-////                Toast.makeText(mContext, "list第" + adapterPosition + "; 左侧菜单第" + menuPosition, Toast.LENGTH_SHORT).show();
-////            }
-//            Log.d("position", "" + adapterPosition);
-//            list.remove(adapterPosition);
-//            adpter.notifyDataSetChanged();
-//        }
-//    };
-//
-//    private OnItemMoveListener onItemMoveListener = new OnItemMoveListener() {
-//        @Override
-//        public boolean onItemMove(int fromPosition, int toPosition) {
-//            // 当Item被拖拽的时候。
-//            Collections.swap(list, fromPosition, toPosition);
-//            adpter.notifyItemMoved(fromPosition, toPosition);
-//            return true;// 返回true表示处理了，返回false表示你没有处理。
-//        }
-//
-//        @Override
-//        public void onItemDismiss(int position) {
-//            // 当Item被滑动删除掉的时候，在这里是无效的，因为这里没有启用这个功能。
-//            // 使用Menu时就不用使用这个侧滑删除啦，两个是冲突的。
-//        }
-//    };
 
     @Override
     public void onResume() {

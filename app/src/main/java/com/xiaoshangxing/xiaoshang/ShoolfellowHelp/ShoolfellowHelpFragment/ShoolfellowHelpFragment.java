@@ -22,11 +22,10 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
-import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp.MyShoolHelpFragment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
@@ -86,9 +85,8 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         ButterKnife.bind(this, mview);
         realm = Realm.getDefaultInstance();
         setmPresenter(new ShoolHelpPresenter(this, getContext()));
-        initFresh();
         initView();
-        autoRefresh();
+        initFresh();
         return mview;
     }
 
@@ -136,35 +134,16 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
                 .findAll().sort(NS.ID, Sort.DESCENDING);
         adpter = new shoolfellow_adpter(getContext(), 1, publisheds, this, (ShoolfellowHelpActivity) getActivity());
         listview.setAdapter(adpter);
-
-        if (LoadUtils.needRefresh(LoadUtils.TIME_LOAD_HELP)) {
-            ptrFrameLayout.autoRefresh();
-        }
     }
 
     private void initFresh() {
-        final StoreHouseHeader header = new StoreHouseHeader(getContext());
-        header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
-        header.initWithString("SWALK");
-        header.setTextColor(getResources().getColor(R.color.green1));
-        header.setBackgroundColor(getResources().getColor(R.color.transparent));
-
-        header.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
-
-        ptrFrameLayout.setDurationToCloseHeader(2000);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
-        ptrFrameLayout.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
-
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                mPresenter.RefreshData(frame, realm);
-            }
-        });
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_HELP),
+                new PtrDefaultHandler() {
+                    @Override
+                    public void onRefreshBegin(PtrFrameLayout frame) {
+//                        mPresenter.RefreshData(frame, realm);
+                    }
+                });
     }
 
     @Override

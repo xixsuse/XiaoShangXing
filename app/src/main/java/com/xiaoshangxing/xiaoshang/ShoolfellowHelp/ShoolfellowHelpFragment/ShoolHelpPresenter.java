@@ -66,7 +66,7 @@ public class ShoolHelpPresenter implements ShoolHelpContract.Presenter {
             @Override
             public void onNext(ResponseBody responseBody) {
                 try {
-                    LoadUtils.parseData(responseBody, realm, mView);
+                    LoadUtils.parseData(responseBody, realm, context,null);
                     RealmResults<Published> publisheds = realm.where(Published.class).findAll();
                     Log.d("saved_published", "--" + publisheds);
                 } catch (IOException e) {

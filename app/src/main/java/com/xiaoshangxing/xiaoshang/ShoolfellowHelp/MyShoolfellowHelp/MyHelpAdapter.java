@@ -1,6 +1,5 @@
 package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -20,6 +19,7 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
@@ -37,11 +37,11 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
     List<Published> publisheds;
     private MyShoolHelpFragment fragment;
     private boolean showselect;
-    private Activity activity;
+    private ShoolfellowHelpActivity activity;
     Realm realm;
 
     public MyHelpAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<Published> data,
-                         MyShoolHelpFragment fragment, Realm realm, Activity activity) {
+                         MyShoolHelpFragment fragment, Realm realm, ShoolfellowHelpActivity activity) {
         super(context, data);
         this.publisheds = data;
         this.fragment = fragment;
@@ -84,7 +84,7 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showMenu(v);
+                showMenu(v, position);
                 v.setBackgroundColor(context.getResources().getColor(R.color.g1));
                 return true;
             }
@@ -122,7 +122,7 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
         private CheckBox checkBox, iscomplete;
     }
 
-    private void showMenu(View v) {
+    private void showMenu(View v, final int position) {
 
         final View view = v;
         int[] xy = new int[2];
@@ -173,6 +173,8 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, SelectPersonActivity.class);
+                intent.putExtra(SelectPersonActivity.LIMIT, 1);
+                activity.setTransmitedId(publisheds.get(position).getId());
                 activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
                 popupWindow.dismiss();
             }
@@ -182,7 +184,7 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                fragment.showDeleteSureDialog();
+                fragment.showDeleteSureDialog(publisheds.get(position).getId());
             }
         });
 
@@ -201,6 +203,5 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
         showselect = is;
         notifyDataSetChanged();
     }
-
 
 }

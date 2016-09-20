@@ -4,9 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
@@ -64,7 +64,7 @@ public class StatePresenter implements StateContract.Presenter {
                 try {
 //                    parseData(responseBody);
                     realm=mView.getRealm();
-                    LoadUtils.parseData(responseBody,realm,mView);
+                    LoadUtils.parseData(responseBody, realm, context, null);
                     RealmResults<Published> publisheds = realm.where(Published.class).findAll();
                     Log.d("saved_published", "--" + publisheds);
                 } catch (IOException e) {

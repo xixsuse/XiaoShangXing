@@ -15,7 +15,7 @@ public interface RewardContract {
         /*
         **describe:弹出转发对话框
         */
-        void showTransmitDialog();
+        void showTransmitDialog(String id);
 
         /*
         **describe:弹出转发成功对话框
