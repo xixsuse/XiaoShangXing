@@ -342,5 +342,25 @@
     校上行，感恩你的共同参与！
 </string>
 
+    <string name="shiming">实名认证</string>
+    <string name="shenhe1">学生证审核</string>
+    <string name="shenhe2">学生卡审核</string>
+    <string name="shenhe3">录取通知书审核</string>
+    <string name="quebao">请确保证件的清晰性和可读性</string>
+    <string name="fengmian">封面</string>
+    <string name="neiye">内页</string>
+    <string name="xingmingye">（姓名页）</string>
+    <string name="nextStep">下一步</string>
+    <string name="RealName">真实姓名</string>
+    <string name="XingBie">性别</string>
+    <string name="XueHao">学号</string>
+    <string name="XueYuan">学院</string>
+    <string name="ZhuanYe">专业</string>
+    <string name="RuXueNianFen">入学年份</string>
+    <string name="VertifyNow">立即验证</string>
+    <string name="DiQu">地区</string>
+    <string name="shenheNotice">请确保证件文字清晰可读，四角完整</string>
+    <string name="vertifying">已提交，请等待验证...</string>
+
 
 </resources>

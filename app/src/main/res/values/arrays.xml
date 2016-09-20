@@ -15,6 +15,10 @@
         <item> 只在夜间开启</item>
         <item> 关闭</item>
     </string-array>
+    <string-array name="Sex">
+        <item> 男</item>
+        <item> 女</item>
+    </string-array>
     <declare-styleable name="RoundedImageView">
         <attr name="corner_radius" format="dimension" />
         <attr name="border_width" format="dimension" />
