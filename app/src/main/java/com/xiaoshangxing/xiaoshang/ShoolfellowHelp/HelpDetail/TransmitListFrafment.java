@@ -2,36 +2,48 @@ package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.xiaoshangxing.Network.NS;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import com.xiaoshangxing.Network.PublishNetwork;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TransmitInfo;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 
-import java.util.Random;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import io.realm.Realm;
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import rx.Subscriber;
 
 /**
  * Created by FengChaoQun
  * on 2016/7/20
  */
-public class TransmitListFrafment extends Fragment {
+public class TransmitListFrafment extends BaseFragment implements IBaseView {
     private RecyclerView recyclerView;
     private TextView emptyText;
     private Published published;
-
+    private List<TransmitInfo> transmitInfos;
+    private IBaseView ibaseView = this;
 
     @Nullable
     @Override
@@ -46,15 +58,69 @@ public class TransmitListFrafment extends Fragment {
 
         recyclerView=(RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new HomeAdapter());
+
         emptyText=(TextView)view.findViewById(R.id.empty_text);
-        Random random=new Random();
-        if (random.nextInt(2)==1){
-            recyclerView.setVisibility(View.GONE);
-            emptyText.setVisibility(View.VISIBLE);
-            emptyText.setText("赶紧转发一下");
-        }
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getTransmitInfo();
+    }
+
+    private void getTransmitInfo() {
+        Subscriber<ResponseBody> subscriber1 = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+                        case 50000004:
+                            Gson gson = new Gson();
+                            transmitInfos = gson.fromJson(jsonObject.getJSONArray(NS.MSG).toString(),
+                                    new TypeToken<List<TransmitInfo>>() {
+                                    }.getType());
+                            recyclerView.setAdapter(new HomeAdapter());
+                            if (transmitInfos.size() < 1) {
+                                recyclerView.setVisibility(View.GONE);
+                                emptyText.setVisibility(View.VISIBLE);
+                                emptyText.setText("赶紧转发一下");
+                            }
+
+                            break;
+                        default:
+//                            Toast.makeText(getContext(), jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
+                            recyclerView.setVisibility(View.GONE);
+                            emptyText.setVisibility(View.VISIBLE);
+                            emptyText.setText("赶紧转发一下");
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.MOMENTID, published.getId());
+        PublishNetwork.getInstance().getTransmitInfo(subscriber1, jsonObject, getContext());
+
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 
     class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>
@@ -79,12 +145,19 @@ public class TransmitListFrafment extends Fragment {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position)
         {
+            TransmitInfo transmitInfo = transmitInfos.get(position);
+            int userId = Integer.valueOf(transmitInfo.getUserId());
+            UserInfoCache.getInstance().getHead(holder.headImage, userId, getContext());
+            UserInfoCache.getInstance().getName(holder.name, userId);
+            UserInfoCache.getInstance().getCollege(holder.college, userId);
+            holder.text.setText(TextUtils.isEmpty(transmitInfo.getComment()) ? "" : transmitInfo.getComment());
+            holder.headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(userId));
         }
 
         @Override
         public int getItemCount()
         {
-            return 100;
+            return transmitInfos.size();
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder

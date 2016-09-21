@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
@@ -25,20 +26,18 @@ import java.util.Random;
  * Created by FengChaoQun
  * on 2016/4/20
  */
-public class shoolfellow_adpter extends ArrayAdapter<String> {
+public class shoolfellow_adpter extends ArrayAdapter<Published> {
     private Context context;
-    private int resource;
-    List<String> strings;
+    List<Published> publisheds;
     private ShoolfellowHelpFragment fragment;
     private ShoolfellowHelpActivity activity;
 
 
-    public shoolfellow_adpter(Context context, int resource, List<String> objects,
+    public shoolfellow_adpter(Context context, int resource, List<Published> objects,
                               ShoolfellowHelpFragment fragment,ShoolfellowHelpActivity activity) {
         super(context, resource, objects);
         this.context = context;
-        this.strings = objects;
-        this.resource = resource;
+        this.publisheds = objects;
         this.fragment = fragment;
         this.activity=activity;
     }

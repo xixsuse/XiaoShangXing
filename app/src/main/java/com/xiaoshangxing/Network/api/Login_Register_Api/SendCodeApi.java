@@ -1,7 +1,7 @@
 package com.xiaoshangxing.Network.api.Login_Register_Api;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.BaseUrl;
+import com.xiaoshangxing.Network.netUtil.BaseUrl;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;

@@ -2,14 +2,18 @@ package com.xiaoshangxing.wo.roll;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.wo.myState.myStateActivity;
 
 import java.util.ArrayList;
@@ -34,6 +38,8 @@ public class rollActivity extends BaseActivity {
     TextView title;
     @Bind(R.id.listview)
     ListView listview;
+    private int publishedId;
+    private Published published;
 
     private List<String> list=new ArrayList<String>();
     @Override
@@ -45,9 +51,28 @@ public class rollActivity extends BaseActivity {
     }
 
     private void initView(){
-        for (int i=0;i<6;i++){
-            list.add(""+i);
+
+        if (getIntent().hasExtra(IntentStatic.DATA)) {
+            publishedId = getIntent().getIntExtra(IntentStatic.DATA, -1);
+            published = realm.where(Published.class).equalTo(NS.ID, publishedId).findFirst();
+            if (published == null) {
+                showToast("信息不明");
+                finish();
+            }
+        } else {
+            showToast("信息不明");
+            finish();
         }
+
+        String ids = published.getForbidden();
+        if (TextUtils.isEmpty(ids)) {
+            return;
+        } else {
+            for (String id : ids.split(NS.SPLIT)) {
+                list.add("" + id);
+            }
+        }
+
         roll_listview_adpter adpter=new roll_listview_adpter(this,1,list);
         listview.setAdapter(adpter);
 

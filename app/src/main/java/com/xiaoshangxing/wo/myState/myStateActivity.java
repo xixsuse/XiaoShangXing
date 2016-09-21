@@ -11,11 +11,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.UserCache;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
@@ -24,9 +24,6 @@ import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
 import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,7 +51,6 @@ public class myStateActivity extends BaseActivity implements StateContract.View 
     TextView title;
     private ListView listView;
     private RelativeLayout headView;
-    private List<String> list = new ArrayList<String>();
     private StateContract.Presenter mPresenter;
     private String account;
     private TextView name1;
@@ -63,6 +59,7 @@ public class myStateActivity extends BaseActivity implements StateContract.View 
     private Realm realm;
     private boolean is_refresh = false;           //记录是否正在刷新
     private boolean is_loadMore = false;          //记录是否正在加载更多
+    private RealmResults<Published> publisheds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +86,10 @@ public class myStateActivity extends BaseActivity implements StateContract.View 
 
     @Override
     public void refreshData() {
-        RealmResults<Published> publisheds = realm.where(Published.class)
-                .equalTo(NS.USER_ID, TempUser.id)
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.USER_ID, Integer.valueOf(account))
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
-                .findAll().sort("id", Sort.DESCENDING);
+                .findAll().sort(NS.ID, Sort.DESCENDING);
 
         MystateAdpter mystateAdpter = new MystateAdpter(this, publisheds, realm);
         listView.setAdapter(mystateAdpter);
@@ -126,16 +123,19 @@ public class myStateActivity extends BaseActivity implements StateContract.View 
 
     @Override
     public void typeOfState() {
-        current_type = getIntent().getIntExtra(TYPE, 0);
         if (!getIntent().hasExtra(IntentStatic.EXTRA_ACCOUNT)) {
             showToast("账号有误");
             finish();
         }
         account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
-        UserCache userCache = new UserCache(this, account, realm);
-        userCache.getName(name1);
-        userCache.getName(name2);
-        userCache.getHead(head);
+        if (account == null) {
+            showToast("账号有误");
+            finish();
+        }
+        UserInfoCache.getInstance().getName(name1, Integer.valueOf(account));
+        UserInfoCache.getInstance().getName(name2, Integer.valueOf(account));
+        UserInfoCache.getInstance().getHead(head, Integer.valueOf(account), this);
+
         if (TempUser.isMine(account)) {
             title.setText("我的动态");
             newsList.setVisibility(View.VISIBLE);
@@ -194,5 +194,10 @@ public class myStateActivity extends BaseActivity implements StateContract.View 
                 gotoNews();
                 break;
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
     }
 }

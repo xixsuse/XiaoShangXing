@@ -4,9 +4,12 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.Contact.ContactProvider;
+import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachParser;
 import com.xiaoshangxing.yujian.IM.cache.DataCacheManager;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.ImageLoaderKit;
 import com.xiaoshangxing.yujian.IM.kit.LogUtil;
@@ -35,15 +38,8 @@ public final class NimUIKit {
     // 通讯录信息提供者
     private static ContactProvider contactProvider;
 
-
     // 图片加载、缓存与管理组件
     private static ImageLoaderKit imageLoaderKit;
-
-//    // 会话窗口消息列表一些点击事件的响应处理函数
-//    private static SessionEventListener sessionListener;
-//
-//    // 通讯录列表一些点击事件的响应处理函数
-//    private static ContactEventListener contactEventListener;
 
     // 转发消息过滤器
     private static MsgForwardFilter msgForwardFilter;
@@ -60,6 +56,9 @@ public final class NimUIKit {
         NimUIKit.userInfoProvider = userInfoProvider;
         NimUIKit.contactProvider = contactProvider;
         NimUIKit.imageLoaderKit = new ImageLoaderKit(context, null);
+
+        // 注册自定义消息附件解析器
+        NIMClient.getService(MsgService.class).registerCustomAttachmentParser(new CustomAttachParser());
 
         // init data cache
         LoginSyncDataStatusObserver.getInstance().registerLoginSyncDataStatus(true);  // 监听登录同步数据完成通知

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.MainActivity;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
@@ -42,6 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -50,10 +50,9 @@ import io.realm.Sort;
  * on 2016/7/3
  */
 public class WoFragment extends BaseFragment implements WoContract.View, View.OnClickListener {
+
     public static final String TAG = BaseFragment.TAG + "-WoFragment";
-
     private WoContract.Presenter mPresenter;
-
     private View mView, divider_line, footerview;
     private RelativeLayout headView;
     private ListView listView;
@@ -161,6 +160,16 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         //设置listview头
         initHead();
 
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
+                .findAll().sort(NS.ID, Sort.DESCENDING);
+        publisheds.addChangeListener(new RealmChangeListener<RealmResults<Published>>() {
+            @Override
+            public void onChange(RealmResults<Published> element) {
+                initListview();
+            }
+        });
+
         initListview();
 
         //实现双击title返回第一条动态
@@ -184,20 +193,20 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    x1 = event.getX();
-//                    y1 = event.getY();
-//
-//                }
-//                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-//                    x2 = event.getX();
-//                    y2 = event.getY();
-//                    if (y1 - y2 > 15 && !is_titleMove) {
-//                        hideTitle();
-//                    } else if (y2 - y1 > 5 & !is_titleMove) {
-//                        showTitle();
-//                    }
-//                }
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    x1 = event.getX();
+                    y1 = event.getY();
+
+                }
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    x2 = event.getX();
+                    y2 = event.getY();
+                    if (y1 - y2 > 15 && !is_titleMove) {
+                        hideTitle();
+                    } else if (y2 - y1 > 5 & !is_titleMove) {
+                        showTitle();
+                    }
+                }
 //               隐藏评论框
                 hideEdittext();
                 return false;
@@ -260,20 +269,20 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initListview() {
-        publisheds = realm.where(Published.class)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
-                .findAll().sort("id", Sort.DESCENDING);
 
-        adpter = new WoAdapter(getContext(), publisheds, this, getActivity(), realm);
+//        adpter = new WoAdapter(getContext(), publisheds, this, getActivity(), realm);
 
-        pager_publisheds.addAll(publisheds.subList(0, current_anchor));
-        current_anchor += 10;
-        wo_listview_adpter = new Wo_listview_adpter(getContext(),
-                1, pager_publisheds, this, (BaseActivity) getActivity(), realm, listView);
+//        if (publisheds.size() > 10) {
+//            pager_publisheds.addAll(publisheds.subList(0, current_anchor - 1));
+//        }
+//        current_anchor += 10;
+
+//        wo_listview_adpter = new Wo_listview_adpter(getContext(),
+//                1, publisheds, this, (BaseActivity) getActivity(), realm, listView);
 
         WoAdapter1 woAdapter1 = new WoAdapter1(getContext(), publisheds, this, (BaseActivity) getActivity(), realm);
 
-        listView.setAdapter(wo_listview_adpter);
+        listView.setAdapter(woAdapter1);
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -334,7 +343,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         });
     }
 
-
     public void showEdittext(Context context) {
         inputBoxLayout.showOrHideLayout(true);
     }
@@ -380,31 +388,26 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     @Override
     public void showFooter() {
         dotsTextView.start();
-        if (!is_loadMore && publisheds.size() > current_anchor) {
-            is_loadMore = true;
-            selection = listView.getSelectedItemPosition();
+//        if (!is_loadMore && publisheds.size() > current_anchor) {
+//            is_loadMore = true;
+//            selection = listView.getSelectedItemPosition();
+//            Log.d("current_anchor", "" + current_anchor);
+//            pager_publisheds.addAll(publisheds.subList(current_anchor,
+//                    current_anchor + 10 > publisheds.size() ? publisheds.size() : current_anchor + 10));
+//            wo_listview_adpter.notifyDataSetChanged();
+//            listView.setSelection(selection);
+//            Log.d("selection", "" + selection);
+//            current_anchor += 10;
+//
 //            handler.postDelayed(new Runnable() {
 //                @Override
 //                public void run() {
-            Log.d("current_anchor", "" + current_anchor);
-            pager_publisheds.addAll(publisheds.subList(current_anchor,
-                    current_anchor + 10 > publisheds.size() ? publisheds.size() : current_anchor + 10));
-            wo_listview_adpter.notifyDataSetChanged();
-            listView.setSelection(selection);
-            Log.d("selection", "" + selection);
-            current_anchor += 10;
-
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    is_loadMore = false;
-                }
-            }, 2000);
-            Log.d("load", "publishedsCount:" + publisheds.size() +
-                    "--pager_publisheds:" + pager_publisheds.size());
+//                    is_loadMore = false;
 //                }
 //            }, 2000);
-        }
+//            Log.d("load", "publishedsCount:" + publisheds.size() +
+//                    "--pager_publisheds:" + pager_publisheds.size());
+//        }
     }
 
     @Override
@@ -501,6 +504,19 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void refreshPager() {
+        selection = listView.getSelectedItemPosition();
+//        pager_publisheds.clear();
+//        pager_publisheds.addAll(publisheds.subList(current_anchor,
+//                current_anchor + 10 > publisheds.size() ? publisheds.size() : current_anchor + 10));
+        wo_listview_adpter.notifyDataSetChanged();
+        listView.setSelection(selection);
+    }
+
+    public void deleteOne(int position) {
+//        wo_listview_adpter.removeOne(position);
+//        if (position != wo_listview_adpter.getCount()) {
+//            listView.setSelection(position);
+//        }
 
     }
 

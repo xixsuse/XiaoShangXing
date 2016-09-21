@@ -270,7 +270,8 @@
                         android:gravity="start"
                         android:horizontalSpacing="@dimen/x12"
                         android:numColumns="8"
-                        android:paddingTop="@dimen/x24"
+                        android:paddingBottom="@dimen/y24"
+                        android:paddingTop="@dimen/y24"
                         android:stretchMode="columnWidth"
                         android:layout_width="match_parent"
                         android:verticalSpacing="@dimen/y12">

@@ -23,6 +23,8 @@ import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
 
+import io.realm.Realm;
+
 /**
  * 会话窗口消息列表项的ViewHolder基类，负责每个消息项的外层框架，包括头像，昵称，发送/接收进度条，重发按钮等。<br>
  *     具体的消息展示项可继承该基类，然后完成具体消息内容展示即可。
@@ -30,6 +32,7 @@ import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
 public abstract class MsgViewHolderBase extends TViewHolder {
 
     protected IMMessage message;
+
 
     protected View alertButton;
     protected TextView timeTextView;

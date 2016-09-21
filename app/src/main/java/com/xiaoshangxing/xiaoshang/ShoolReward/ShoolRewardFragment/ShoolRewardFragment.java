@@ -17,6 +17,8 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.LoadUtils;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -36,6 +38,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 /**
  * Created by FengChaoQun
@@ -75,12 +78,14 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
     private boolean isRefreshing;
     private boolean isLoading;
+    private Realm realm;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mview = inflater.inflate(R.layout.frag_shoolreward, null);
         ButterKnife.bind(this, mview);
+        realm = Realm.getDefaultInstance();
         setmPresenter(new ShoolRewardPresenter(this, getContext()));
         refreshPager();
         mPresenter.isNeedRefresh();
@@ -126,6 +131,10 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
         }
+
+        if (LoadUtils.needRefresh(NS.CATEGORY_REWARD)) {
+            ptrFrameLayout.autoRefresh();
+        }
     }
 
     private void initFresh() {
@@ -140,12 +149,6 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         ptrFrameLayout.setDurationToCloseHeader(2000);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-//        ptrFrameLayout.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ptrFrameLayout.autoRefresh(false);
-//            }
-//        }, 100);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -154,15 +157,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                isRefreshing = true;
-                mPresenter.RefreshData();
-                ptrFrameLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ptrFrameLayout.refreshComplete();
-                        isRefreshing = false;
-                    }
-                }, 1500);
+                mPresenter.RefreshData(frame, realm);
             }
         });
     }
@@ -171,6 +166,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        realm.close();
         ButterKnife.unbind(this);
     }
 

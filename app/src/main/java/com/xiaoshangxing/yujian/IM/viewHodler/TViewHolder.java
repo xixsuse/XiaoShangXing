@@ -1,9 +1,10 @@
 package com.xiaoshangxing.yujian.IM.viewHodler;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import io.realm.Realm;
 
 public abstract class TViewHolder {
     /**
@@ -25,6 +26,7 @@ public abstract class TViewHolder {
      * index of item
      */
     protected int position;
+
 
     public TViewHolder() {
 

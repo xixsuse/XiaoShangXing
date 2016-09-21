@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -188,7 +188,7 @@ public class UserInfoCache {
         };
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(NS.ID, id);
-        jsonObject.addProperty(NS.TIMESTAMP, System.currentTimeMillis());
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
         InfoNetwork.getInstance().GetUser(subscriber, jsonObject, XSXApplication.getInstance());
     }
 

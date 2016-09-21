@@ -1,12 +1,20 @@
 package com.xiaoshangxing.wo.myState.MyStateHodler;
 
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
+import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 
 /**
  * Created by FengChaoQun
@@ -28,7 +36,35 @@ public class Mystate_holder_transmit extends MyStateHodlerBase {
 
     @Override
     public void refresh(Published published) {
+        this.published = published;
         refreshBase();
         shareText.setText(published.getText());
+        if (TextUtils.isEmpty(published.getOriginalId())) {
+            return;
+        }
+        PublishCache.getPublished(published.getOriginalId(), new PublishCache.publishedCallback() {
+            @Override
+            public void callback(final Published published) {
+                UserInfoCache.getInstance().getHead(head, published.getUserId(), context);
+                text.setText(TextUtils.isEmpty(published.getText()) ? "" : published.getText());
+
+                content.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String categry = String.valueOf(published.getCategory());
+                        if (categry.equals(NS.CATEGORY_HELP)) {
+                            Intent intent = new Intent(context, HelpDetailActivity.class);
+                            intent.putExtra(IntentStatic.DATA, published.getId());
+                            context.startActivity(intent);
+                        } else if (categry.equals(NS.CATEGORY_REWARD)) {
+                            Intent intent = new Intent(context, ShoolRewardActivity.class);
+                            intent.putExtra(IntentStatic.DATA, published.getId());
+                            context.startActivity(intent);
+                        }
+                    }
+                });
+            }
+        });
     }
+
 }

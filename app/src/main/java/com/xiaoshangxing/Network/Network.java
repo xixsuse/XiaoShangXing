@@ -3,6 +3,7 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 import android.util.Log;
 
+import com.xiaoshangxing.Network.netUtil.BaseUrl;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import java.io.IOException;

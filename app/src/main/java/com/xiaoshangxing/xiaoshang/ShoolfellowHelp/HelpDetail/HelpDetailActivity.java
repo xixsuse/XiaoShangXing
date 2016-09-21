@@ -10,20 +10,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xiaoshangxing.Network.NS;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
@@ -34,6 +40,7 @@ import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.lang.reflect.Field;
@@ -109,6 +116,18 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        PublishCache.reload(String.valueOf(published_id), new PublishCache.publishedCallback() {
+            @Override
+            public void callback(Published published1) {
+                published = published1;
+                refresh();
+            }
+        });
+    }
+
+    @Override
     public Object getData() {
         return published;
     }
@@ -126,13 +145,6 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
             finish();
         }
 
-        fragments.add(new TransmitListFrafment());
-        fragments.add(new CommentListFrafment());
-        fragments.add(new PraiseListFrafment());
-
-        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
-
-        viewpager.setAdapter(adapter);
         viewpager.setPageTransformer(true, new DepthPageTransformer());
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -150,13 +162,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
 
             }
         });
-        viewpager.setCurrentItem(1);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                moveToPosition(2);
-            }
-        }, 300);
+
         /*
         **describe:通过反射修改viewpager的滑动速度
         */
@@ -172,13 +178,32 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
             Log.d("修改viewpager滑动速度", "失败");
         }
 
+        refresh();
+    }
+
+    private void refresh() {
+        fragments.add(new TransmitListFrafment());
+        fragments.add(new CommentListFrafment());
+        fragments.add(new PraiseListFrafment());
+
+        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
+        viewpager.setAdapter(adapter);
+
+        viewpager.setCurrentItem(1);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                moveToPosition(2);
+            }
+        }, 300);
+
         int userId = published.getUserId();
         UserInfoCache.getInstance().getHead(headImage, userId, this);
         UserInfoCache.getInstance().getName(name, userId);
         UserInfoCache.getInstance().getCollege(college, userId);
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
-        setCount(10, published.getComments().size(), published.getPraiseUserIds().split(NS.SPLIT).length);
+        setCount();
     }
 
     @OnClick({R.id.back, R.id.more, R.id.transmit_text, R.id.comment_text, R.id.praise_text, R.id.transmit, R.id.comment, R.id.praiseOrCancel, R.id.praise})
@@ -280,6 +305,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
                 Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
                 intent.putExtra(InputActivity.EDIT_STATE, InputActivity.TRANSMIT);
                 intent.putExtra(InputActivity.TRANSMIT_TYPE, InputActivity.SHOOLFELLOW_HELP);
+                intent.putExtra(InputActivity.MOMENTID, published_id);
                 startActivity(intent);
                 dialog.dismiss();
             }
@@ -305,27 +331,37 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     @Override
     public void gotoSelectPeson() {
         Intent intent_selectperson = new Intent(HelpDetailActivity.this, SelectPersonActivity.class);
+        intent_selectperson.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent_selectperson, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
     @Override
     public void gotoInput() {
-//        Intent intent = new Intent(HelpDetailActivity.this, InputActivity.class);
-//        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-//        startActivity(intent);
-
         Intent comment_input = new Intent(this, InputActivity.class);
         comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
         comment_input.putExtra(InputActivity.MOMENTID, published.getId());
         startActivity(comment_input);
     }
 
-    private void showTransmitDialog() {
+    private void showTransmitDialog(final String id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
         dialog.setContentView(dialogView);
+
         TextView cancle = (TextView) dialogView.findViewById(R.id.cancel);
         TextView send = (TextView) dialogView.findViewById(R.id.send);
+        CirecleImage head = (CirecleImage) dialogView.findViewById(R.id.head_image);
+        TextView name = (TextView) dialogView.findViewById(R.id.name);
+        TextView college = (TextView) dialogView.findViewById(R.id.college);
+        TextView text = (TextView) dialogView.findViewById(R.id.text);
+        final EditText input = (EditText) dialogView.findViewById(R.id.input);
+
+        int userId = published.getUserId();
+        UserInfoCache.getInstance().getHead(head, userId, HelpDetailActivity.this);
+        UserInfoCache.getInstance().getName(name, userId);
+        UserInfoCache.getInstance().getCollege(college, userId);
+        text.setText(published.getText());
+
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -335,16 +371,27 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.transmit();
+                TransmitMessage_NoImage noImage = new TransmitMessage_NoImage();
+                noImage.setState_id(published_id);
+                IMMessage imMessage = MessageBuilder.createCustomMessage(id, SessionTypeEnum.P2P, noImage);
+                if (!TextUtils.isEmpty(input.getText().toString())) {
+                    IMMessage text = MessageBuilder.createTextMessage(id, SessionTypeEnum.P2P, input.getText().toString());
+                    mPresenter.transmit(imMessage, text);
+                } else {
+                    mPresenter.transmit(imMessage, null);
+                }
                 dialog.dismiss();
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this,dialog,getResources().getDimensionPixelSize(R.dimen.x900));
+        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
     }
 
     @Override
-    public void setCount(int transmit, int comment, int praise) {
+    public void setCount() {
+        int transmit = published.getTransmitCount();
+        int comment = published.getComments() == null ? 0 : published.getComments().size();
+        int praise = TextUtils.isEmpty(published.getPraiseUserIds()) ? 0 : published.getPraiseUserIds().split(NS.SPLIT).length;
         transmitText.setText("转发" + transmit);
         commentText.setText("评论" + comment);
         praiseText.setText("赞" + praise);
@@ -376,7 +423,8 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         if (requestCode ==SelectPersonActivity.SELECT_PERSON_CODE) {
             if (data != null) {
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
-                    showTransmitDialog();
+                    List<String> list = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
+                    showTransmitDialog(list.get(0));
                 } else {
                     Toast.makeText(HelpDetailActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
                 }

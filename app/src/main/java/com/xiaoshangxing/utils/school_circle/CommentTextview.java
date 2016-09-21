@@ -9,18 +9,22 @@ import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.View;
 
-import com.xiaoshangxing.Network.NS;
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.InfoNetwork;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.data.UserCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.wo.myState.myStateActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import io.realm.Realm;
-import rx.Observable;
+import okhttp3.ResponseBody;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by FengChaoQun
@@ -32,6 +36,7 @@ public class CommentTextview extends EmotinText {
     private String reply_id, replyed_id;
     private SpannableString spannableString;
     private String id;
+    private boolean isLoaded;
 
     public CommentTextview(Context context, String reply_id, String reply_text, String id) {
         super(context);
@@ -40,50 +45,58 @@ public class CommentTextview extends EmotinText {
         this.reply_text = reply_text;
         this.id = id;
         init();
-        setName1();
+        if (isLoaded) {
+            init_just_on_name();
+        } else {
+            setName1();
+        }
     }
 
     private void setName1() {
-        Realm realm = Realm.getDefaultInstance();
-        User user = realm.where(User.class).equalTo(NS.ID, Integer.valueOf(reply_id)).findFirst();
-        if (false) {
-            reply_person = user.getUsername();
-            init_just_on_name();
-        } else {
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
 
-            Observable<User> observable = Observable.create(new Observable.OnSubscribe<User>() {
-                @Override
-                public void call(Subscriber<? super User> subscriber) {
-                    User user1 = UserCache.getUserByBlock(reply_id, context);
-                    subscriber.onNext(user1);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+                        case 9001:
+                            final JSONObject user = jsonObject.getJSONObject(NS.MSG);
+                            Realm realm = Realm.getDefaultInstance();
+                            realm.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    realm.createOrUpdateObjectFromJson(User.class, user);
+                                }
+                            });
+                            realm.close();
+                            reply_person = user.getString("username");
+                            isLoaded = true;
+                            init_just_on_name();
+                            break;
+                        default:
+                            setText("加载出错");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            });
-
-            Subscriber<User> subscriber = new Subscriber<User>() {
-                @Override
-                public void onCompleted() {
-
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    append(e.toString());
-                }
-
-                @Override
-                public void onNext(User user) {
-                    reply_person = user.getUsername();
-                    init_just_on_name();
-                }
-            };
-
-            observable.subscribeOn(Schedulers.io())
-                    .unsubscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(subscriber);
-        }
-
-
+            }
+        };
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.ID, reply_id);
+        jsonObject.addProperty(NS.TIMESTAMP, System.currentTimeMillis());
+        InfoNetwork.getInstance().GetUser(subscriber, jsonObject, context);
     }
 
     private void init_just_on_name() {
@@ -104,7 +117,7 @@ public class CommentTextview extends EmotinText {
         }, 0, spannableString.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         append(spannableString);
         append(":" + reply_text);
-        invalidate();
+//        invalidate();
     }
 
     private void init() {

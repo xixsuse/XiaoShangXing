@@ -31,5 +31,7 @@ public abstract class CustomAttachment implements MsgAttachment {
     }
 
     protected abstract void parseData(JSONObject data);
+
     protected abstract JSONObject packData();
+
 }

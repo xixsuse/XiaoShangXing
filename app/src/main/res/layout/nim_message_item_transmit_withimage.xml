@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/up_lay"
+        android:layout_width="@dimen/x753"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/x36"
+        android:background="@mipmap/transmit_right"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/x72"
+        android:paddingStart="@dimen/x24">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.xiaoshangxing.utils.layout.CirecleImage
+                android:id="@+id/transmit_head"
+                android:layout_width="@dimen/x114"
+                android:layout_height="@dimen/x114"
+                android:src="@mipmap/cirecleimage_default" />
+
+            <com.xiaoshangxing.utils.layout.Name
+                android:id="@+id/transmit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y60"
+                android:paddingStart="@dimen/x18"
+                android:text="555"
+                android:textColor="@color/b0"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/transmit_college"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y60"
+                android:paddingStart="@dimen/x18"
+                android:text="888"
+                android:textColor="@color/g0"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginStart="@dimen/x36"
+            android:layout_marginTop="@dimen/y30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/transmit_image"
+                android:src="@mipmap/greyblock"
+                android:layout_width="@dimen/x184"
+                android:layout_height="@dimen/x184" />
+
+            <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+                android:id="@+id/transmit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/x36"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:text="@string/longtext"
+                android:textColor="@color/b0"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/from"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y18"
+        android:paddingStart="@dimen/x36"
+        android:text="分享自校友互帮"
+        android:textColor="@color/g0"
+        android:textSize="12sp" />
+
+
+</LinearLayout>

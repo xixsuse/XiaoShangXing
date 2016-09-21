@@ -10,25 +10,35 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.PublishCache;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
@@ -38,6 +48,8 @@ import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.FixedSpeedScroller
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.GetDataFromActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.PraiseListFrafment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.TransmitListFrafment;
+import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -93,11 +105,13 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     @Bind(R.id.praise)
     RelativeLayout praise;
 
-
     private int currentItem = 2;
     private List<Fragment> fragments = new ArrayList<Fragment>();
     private Handler handler = new Handler();
     private RewardDetailContract.Presenter mPresenter;
+
+    private int published_id;
+    private Published published;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,14 +124,19 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     }
 
     private void init() {
-        fragments.add(new TransmitListFrafment());
-        CommentListFrafment commentListFrafment = new CommentListFrafment();
-        commentListFrafment.setCollect(true);
-        fragments.add(commentListFrafment);
-        fragments.add(new PraiseListFrafment());
-        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
 
-        viewpager.setAdapter(adapter);
+        if (!getIntent().hasExtra(IntentStatic.DATA)) {
+            showToast("动态id错误");
+            finish();
+        }
+        published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
+        published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
+        if (published == null) {
+            showToast("没有该动态的消息");
+            finish();
+        }
+
+
         viewpager.setPageTransformer(true, new DepthPageTransformer());
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -135,13 +154,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
 
             }
         });
-        viewpager.setCurrentItem(1);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                moveToPosition(2);
-            }
-        }, 300);
+
         /*
         **describe:通过反射修改viewpager的滑动速度
         */
@@ -157,18 +170,56 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
             Log.d("修改viewpager滑动速度", "失败");
         }
 
+        refresh();
+    }
+
+    private void refresh() {
+        fragments.add(new TransmitListFrafment());
+        fragments.add(new CommentListFrafment());
+        fragments.add(new PraiseListFrafment());
+        FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
+        viewpager.setAdapter(adapter);
+        viewpager.setCurrentItem(1);
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                moveToPosition(2);
+            }
+        }, 300);
+        int userId = published.getUserId();
+        UserInfoCache.getInstance().getHead(headImage, userId, this);
+        UserInfoCache.getInstance().getName(name, userId);
+        UserInfoCache.getInstance().getCollege(college, userId);
+        time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        text.setText(published.getText());
+        price.setText("¥" + published.getPrice());
+        setCount();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PublishCache.reload(String.valueOf(published_id), new PublishCache.publishedCallback() {
+            @Override
+            public void callback(Published published1) {
+                published = published1;
+                refresh();
+            }
+        });
     }
 
     @Override
     public void gotoInput() {
-        Intent intent = new Intent(this, InputActivity.class);
-        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-        startActivity(intent);
+        Intent comment_input = new Intent(this, InputActivity.class);
+        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
+        startActivity(comment_input);
     }
 
     @Override
     public void gotoSelectPeson() {
         Intent intent_selectperson = new Intent(RewardDetailActivity.this, SelectPersonActivity.class);
+        intent_selectperson.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent_selectperson, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
@@ -182,7 +233,10 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     }
 
     @Override
-    public void setCount(int transmit, int comment, int praise) {
+    public void setCount() {
+        int transmit = published.getTransmitCount();
+        int comment = published.getComments() == null ? 0 : published.getComments().size();
+        int praise = TextUtils.isEmpty(published.getPraiseUserIds()) ? 0 : published.getPraiseUserIds().split(NS.SPLIT).length;
         transmitText.setText("转发" + transmit);
         commentText.setText("评论" + comment);
         praiseText.setText("赞" + praise);
@@ -213,7 +267,6 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         });
         animator.setDuration(300);
         animator.start();
-        Log.d("x", "" + xy[0]);
     }
 
     public void moveImediate(int position) {
@@ -252,6 +305,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
                 Intent intent = new Intent(RewardDetailActivity.this, InputActivity.class);
                 intent.putExtra(InputActivity.EDIT_STATE, InputActivity.TRANSMIT);
                 intent.putExtra(InputActivity.TRANSMIT_TYPE, InputActivity.SHOOL_REWARD);
+                intent.putExtra(InputActivity.MOMENTID, published_id);
                 startActivity(intent);
                 dialog.dismiss();
             }
@@ -265,12 +319,25 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         this.mPresenter = presenter;
     }
 
-    private void showTransmitDialog() {
+    private void showTransmitDialog(final String id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
         dialog.setContentView(dialogView);
+
         TextView cancle = (TextView) dialogView.findViewById(R.id.cancel);
         TextView send = (TextView) dialogView.findViewById(R.id.send);
+        CirecleImage head = (CirecleImage) dialogView.findViewById(R.id.head_image);
+        TextView name = (TextView) dialogView.findViewById(R.id.name);
+        TextView college = (TextView) dialogView.findViewById(R.id.college);
+        TextView text = (TextView) dialogView.findViewById(R.id.text);
+        final EditText input = (EditText) dialogView.findViewById(R.id.input);
+
+        int userId = published.getUserId();
+        UserInfoCache.getInstance().getHead(head, userId, RewardDetailActivity.this);
+        UserInfoCache.getInstance().getName(name, userId);
+        UserInfoCache.getInstance().getCollege(college, userId);
+        text.setText(published.getText());
+
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,7 +347,15 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.transmit();
+                TransmitMessage_NoImage noImage = new TransmitMessage_NoImage();
+                noImage.setState_id(published_id);
+                IMMessage imMessage = MessageBuilder.createCustomMessage(id, SessionTypeEnum.P2P, noImage);
+                if (!TextUtils.isEmpty(input.getText().toString())) {
+                    IMMessage text = MessageBuilder.createTextMessage(id, SessionTypeEnum.P2P, input.getText().toString());
+                    mPresenter.transmit(imMessage, text);
+                } else {
+                    mPresenter.transmit(imMessage, null);
+                }
                 dialog.dismiss();
             }
         });
@@ -343,7 +418,8 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
             if (data != null) {
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
-                    showTransmitDialog();
+                    List<String> list = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
+                    showTransmitDialog(list.get(0));
                 } else {
                     Toast.makeText(RewardDetailActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
                 }
@@ -353,7 +429,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
 
     @Override
     public Object getData() {
-        return null;
+        return published;
     }
 
     public class FragAdapter extends FragmentPagerAdapter {

@@ -6,8 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.UserCache;
-import com.xiaoshangxing.utils.image.MyGlide;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 
 import java.util.ArrayList;
@@ -55,9 +54,7 @@ public class DetailPraiseAdapter extends BaseAdapter {
         View view = View.inflate(ctx, R.layout.util_circle_image_96, null);
         CirecleImage imageView = (CirecleImage) view.findViewById(R.id.head_image);
         imageView.setIntent_type(CirecleImage.PERSON_STATE, imageUrls.get(position));
-        UserCache userCache = new UserCache(ctx, imageUrls.get(position), realm);
-        userCache.getHead(imageView);
-        MyGlide.with(ctx, imageUrls.get(position), imageView);
+        UserInfoCache.getInstance().getHead(imageView, Integer.valueOf(imageUrls.get(position)), ctx);
         return view;
     }
 

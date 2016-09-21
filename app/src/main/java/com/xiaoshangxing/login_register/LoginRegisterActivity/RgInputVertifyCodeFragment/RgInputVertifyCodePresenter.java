@@ -4,8 +4,9 @@ import android.os.CountDownTimer;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.HmacSHA256Utils;
+import com.xiaoshangxing.Network.netUtil.HmacSHA256Utils;
 import com.xiaoshangxing.Network.LoginNetwork;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.utils.XSXApplication;
@@ -49,9 +50,9 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
                 JSONObject jsonObject;
                 try {
                     jsonObject = new JSONObject(responseBody.string());
-                    switch (Integer.valueOf(jsonObject.getString("code"))) {
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
                         case 9001:
-                            String token=jsonObject.getJSONObject("msg").getString("token");
+                            String token = jsonObject.getJSONObject(NS.MSG).getString(NS.TOKEN);
                             String digest= HmacSHA256Utils.digest(token,mView.getPhone());
                             SPUtils.put(XSXApplication.getInstance(),SPUtils.DIGEST,digest);
                             SPUtils.put(XSXApplication.getInstance(),SPUtils.CURRENT_COUNT,mView.getPhone());
@@ -122,7 +123,7 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
 
     @Override
     public void isContentOK() {
-        if (mView.getVertifyCode().length() == 6) {
+        if (mView.getVertifyCode().length() == 4) {
             mView.setButtonEnable(true);
         } else {
             mView.setButtonEnable(false);

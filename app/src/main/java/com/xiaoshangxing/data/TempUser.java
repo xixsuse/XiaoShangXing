@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.NS;
-import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import org.json.JSONException;
@@ -84,6 +83,6 @@ public class TempUser {
     }
 
     public static boolean isMine(String id) {
-        return id.equals(account);
+        return String.valueOf(TempUser.id).equals(id);
     }
 }

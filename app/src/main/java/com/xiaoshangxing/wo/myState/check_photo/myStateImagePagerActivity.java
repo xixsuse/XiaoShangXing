@@ -9,10 +9,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
@@ -195,7 +196,7 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
 
     @Override
     public void setText() {
-        text.setText(published.getText());
+        text.setText(TextUtils.isEmpty(published.getText()) ? "" : published.getText());
     }
 
     @Override

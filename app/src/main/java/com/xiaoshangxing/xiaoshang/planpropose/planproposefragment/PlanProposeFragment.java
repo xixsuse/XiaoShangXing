@@ -297,12 +297,6 @@ public class PlanProposeFragment extends BaseFragment implements PlanProposeCont
         ptrFrameLayout.setDurationToCloseHeader(2000);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-//        ptrFrameLayout.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ptrFrameLayout.autoRefresh(false);
-//            }
-//        }, 100);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {

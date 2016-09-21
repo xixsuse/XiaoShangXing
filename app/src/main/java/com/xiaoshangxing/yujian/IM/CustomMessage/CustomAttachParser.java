@@ -22,7 +22,8 @@ public class CustomAttachParser implements MsgAttachmentParser {
             int type = object.getInt(KEY_TYPE);
             JSONObject data = object.getJSONObject(KEY_DATA);
             switch (type) {
-                case CustomAttachmentType.Reward:
+                case CustomAttachmentType.Transmit_noimage:
+                    attachment = new TransmitMessage_NoImage();
                     break;
                 default:
                     attachment = new DefaultCustomAttachment();

@@ -15,7 +15,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.LoadUtils;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.IntentStatic;
@@ -27,14 +30,13 @@ import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp.MyShoolHelpFragment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
-import com.xiaoshangxing.xiaoshang.TextBoard;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -62,7 +64,6 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
     private View mview;
     private shoolfellow_adpter adpter;
-    private List<String> list = new ArrayList<String>();
     private View headview, footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
@@ -75,12 +76,15 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
     private boolean isRefreshing;
     private boolean isLoading;
+    private Realm realm;
+    RealmResults<Published> publisheds;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mview = inflater.inflate(R.layout.frag_shoolfellowhelp, null);
         ButterKnife.bind(this, mview);
+        realm = Realm.getDefaultInstance();
         setmPresenter(new ShoolHelpPresenter(this, getContext()));
         initFresh();
         initView();
@@ -126,6 +130,16 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
                 }
             }
         });
+
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
+                .findAll().sort(NS.ID, Sort.DESCENDING);
+        adpter = new shoolfellow_adpter(getContext(), 1, publisheds, this, (ShoolfellowHelpActivity) getActivity());
+        listview.setAdapter(adpter);
+
+        if (LoadUtils.needRefresh(LoadUtils.TIME_LOAD_HELP)) {
+            ptrFrameLayout.autoRefresh();
+        }
     }
 
     private void initFresh() {
@@ -140,12 +154,6 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         ptrFrameLayout.setDurationToCloseHeader(2000);
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler(header);
-//        ptrFrameLayout.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ptrFrameLayout.autoRefresh(false);
-//            }
-//        }, 100);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -154,15 +162,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                isRefreshing = true;
-                mPresenter.RefreshData();
-                ptrFrameLayout.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ptrFrameLayout.refreshComplete();
-                        isRefreshing = false;
-                    }
-                }, 1500);
+                mPresenter.RefreshData(frame, realm);
             }
         });
     }
@@ -239,11 +239,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
     @Override
     public void refreshPager() {
-        for (int i = 0; i <= 10; i++) {
-            list.add("" + i);
-        }
-        adpter = new shoolfellow_adpter(getContext(), 1, list, this, (ShoolfellowHelpActivity) getActivity());
-        listview.setAdapter(adpter);
+        adpter.notifyDataSetChanged();
     }
 
     @Override
@@ -297,6 +293,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
     @Override
     public void onDestroyView() {
+        realm.close();
         super.onDestroyView();
         ButterKnife.unbind(this);
     }

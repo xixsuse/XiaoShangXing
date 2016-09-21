@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.LoadUtils;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.netUtil.LoadUtils;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
@@ -30,9 +30,6 @@ import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
 import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,19 +62,22 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     RelativeLayout hideMenu;
     @Bind(R.id.no_content)
     TextView noContent;
+    @Bind(R.id.back_text)
+    TextView backText;
+    @Bind(R.id.cancel)
+    LinearLayout cancel;
 
     public static MyShoolHelpFragment newInstance() {
         return new MyShoolHelpFragment();
     }
 
-    private myshoolfellow_adpter adpter;
-    private List<String> list = new ArrayList<String>();
     private View view;
     private MyhelpContract.Presenter mPresenter;
-    private View  footview;
+    private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
     private Realm realm;
+    private MyHelpAdapter myHelpAdapter;
 
     @Nullable
     @Override
@@ -99,11 +99,7 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         dotsTextView.start();
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addFooterView(footview);
-        refreshData();
-    }
 
-    @Override
-    public void refreshData() {
         if (LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFHELP)) {
             ptrFrameLayout.autoRefresh();
         }
@@ -112,9 +108,15 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
                 .equalTo(NS.USER_ID, TempUser.id)
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
                 .findAll().sort(NS.ID, Sort.DESCENDING);
-        MyHelpAdapter myHelpAdapter = new MyHelpAdapter(getContext(), publisheds, this, realm);
+        myHelpAdapter = new MyHelpAdapter(getContext(), publisheds, this, realm, getActivity());
         listview.setAdapter(myHelpAdapter);
         showNoData();
+        refreshData();
+    }
+
+    @Override
+    public void refreshData() {
+
     }
 
     @Override
@@ -168,27 +170,31 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
 
     @Override
     public void showHideMenu(boolean is) {
-        ShoolfellowHelpActivity activity=(ShoolfellowHelpActivity)getActivity();
+        ShoolfellowHelpActivity activity = (ShoolfellowHelpActivity) getActivity();
         if (is) {
             hideMenu.setVisibility(View.VISIBLE);
             activity.setHideMenu(true);
+            cancel.setVisibility(View.VISIBLE);
+            back.setVisibility(View.GONE);
         } else {
             hideMenu.setVisibility(View.GONE);
-            adpter.showSelectCircle(false);
+            myHelpAdapter.showSelectCircle(false);
             activity.setHideMenu(false);
+            cancel.setVisibility(View.GONE);
+            back.setVisibility(View.VISIBLE);
         }
     }
 
-    private void gotoSelectPerson(){
-        adpter.showSelectCircle(false);
+    private void gotoSelectPerson() {
+        myHelpAdapter.showSelectCircle(false);
         showHideMenu(false);
-        ShoolfellowHelpActivity activity=(ShoolfellowHelpActivity)getActivity();
-        Intent intent=new Intent(getContext(), SelectPersonActivity.class);
+        ShoolfellowHelpActivity activity = (ShoolfellowHelpActivity) getActivity();
+        Intent intent = new Intent(getContext(), SelectPersonActivity.class);
         activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
     public void showDeleteSureDialog() {
-        adpter.showSelectCircle(false);
+        myHelpAdapter.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
@@ -209,24 +215,24 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
-    public void showNoContentText(boolean is){
-        if (is){
+    public void showNoContentText(boolean is) {
+        if (is) {
             noContent.setVisibility(View.VISIBLE);
             listview.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             noContent.setVisibility(View.INVISIBLE);
             listview.setVisibility(View.VISIBLE);
         }
     }
 
 
-    @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete})
+    @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete, R.id.cancel})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE,0)== ShoolRewardActivity.MINE){
+                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == ShoolRewardActivity.MINE) {
                     getActivity().finish();
-                }else {
+                } else {
                     getFragmentManager().popBackStack();
                 }
                 break;
@@ -235,6 +241,9 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
                 break;
             case R.id.hide_delete:
                 showDeleteSureDialog();
+                break;
+            case R.id.cancel:
+                showHideMenu(false);
                 break;
         }
     }

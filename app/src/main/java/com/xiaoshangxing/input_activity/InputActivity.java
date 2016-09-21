@@ -31,12 +31,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.BaseUrl;
-import com.xiaoshangxing.Network.FabuNetwork;
 import com.xiaoshangxing.Network.Formmat;
-import com.xiaoshangxing.Network.NS;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.PublishNetwork;
+import com.xiaoshangxing.Network.netUtil.BaseUrl;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
 import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
@@ -76,6 +79,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import okhttp3.ResponseBody;
 import rx.Subscriber;
 
@@ -216,14 +220,16 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
     public static final String MOMENTID = "MOMENTID";
     public static final String COMMENTID = "COMMENTID";
-    private int momentId;     //评论的动态id
+    private int momentId;     //评论的动态id  转发的动态id
     private int commentId;     //评论的评论id
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
         ButterKnife.bind(this);
+        realm = Realm.getDefaultInstance();
         initState();
         initEmotView();
         initPictureView();
@@ -341,7 +347,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         });
         viewPager.setCurrentItem(0);
 
-        emotionEdittext.addTextChangedListener(new TextWatcher() {
+        TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -354,13 +360,13 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(s)) {
-                    setSendState(true);
-                } else {
-                    setSendState(false);
-                }
+                SendState();
             }
-        });
+        };
+
+        emotionEdittext.addTextChangedListener(textWatcher);
+        price.addTextChangedListener(textWatcher);
+        rewardPrice.addTextChangedListener(textWatcher);
 
     }
 
@@ -437,12 +443,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
             }
         });
 
-//        emotionGrideViewAdapter.setMcallBack(new EmotionGrideViewAdapter.callBack() {
-//            @Override
-//            public void callback(String emot) {
-//                planName.append(emot);
-//            }
-//        });
     }
 
     private void initLocation() {
@@ -467,6 +467,12 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     private void initTransmit() {
+        momentId = getIntent().getIntExtra(MOMENTID, -1);
+        Published published = realm.where(Published.class).equalTo(NS.ID, momentId).findFirst();
+        if (published == null) {
+            showToast("动态信息异常");
+            return;
+        }
         emotionEdittext.setHint("顺便说点什么...");
         location.setVisibility(View.INVISIBLE);
         picture.setVisibility(View.INVISIBLE);
@@ -491,6 +497,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 transmitTypeText.setText("闲置出售|");
                 break;
         }
+        transmitContent.setText(published.getText());
     }
 
     private void initComment() {
@@ -539,6 +546,25 @@ public class InputActivity extends BaseActivity implements IBaseView {
         } else {
             send.setEnabled(false);
             send.setAlpha(0.3f);
+        }
+    }
+
+    private void SendState() {
+        if (TextUtils.isEmpty(emotionEdittext.getText().toString())) {
+            setSendState(false);
+            return;
+        }
+
+        switch (current_state) {
+            case SHOOL_REWARD:
+                if (TextUtils.isEmpty(rewardPrice.getText().toString())) {
+                    setSendState(false);
+                } else {
+                    setSendState(true);
+                }
+                break;
+            default:
+                setSendState(true);
         }
     }
 
@@ -647,10 +673,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 break;
             case R.id.send:
                 send();
-//                YaSuo();
-//                send2();
-//                send3();
-//                send4();
                 break;
             case R.id.normal_emot:
                 viewPager.setCurrentItem(0);
@@ -700,6 +722,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
             case COMMENT:
                 publishComment();
                 break;
+            case TRANSMIT:
+                publishTransmit();
+                break;
         }
     }
 
@@ -735,11 +760,16 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     private void publishReward() {
-        if (TextUtils.isEmpty(price.getText().toString())) {
-            showToast("请输入悬赏价格");
-            return;
-        }
         Map<String, String> map = new HashMap<>();
+        map.put(NS.USER_ID, String.valueOf(TempUser.getID(InputActivity.this)));
+        map.put(NS.TEXT, emotionEdittext.getText().toString());
+        map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
+        map.put(NS.CATEGORY, NS.CATEGORY_REWARD);
+        map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
+        map.put(NS.PRICE, rewardPrice.getText().toString());
+        NS.getPermissionString(NS.NOTICE, notices, map);
+        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        publish(map);
     }
 
     public void publishHelp() {
@@ -752,6 +782,35 @@ public class InputActivity extends BaseActivity implements IBaseView {
         NS.getPermissionString(NS.NOTICE, notices, map);
         NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
         publish(map);
+    }
+
+    private void publishTransmit() {
+        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+                        case 8001:
+                            showToast("转发成功");
+                            finish();
+                            break;
+                        default:
+                            showToast(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(next, this);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.id);
+        jsonObject.addProperty(NS.MOMENTID, momentId);
+        jsonObject.addProperty(NS.TEXT, emotionEdittext.getText().toString());
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+        PublishNetwork.getInstance().transmit(progressSubsciber, jsonObject, this);
     }
 
     private void publishComment() {
@@ -795,7 +854,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
             }
         };
 
-        FabuNetwork.getInstance().comment(subscriber, jsonObject, this);
+        PublishNetwork.getInstance().comment(subscriber, jsonObject, this);
 
     }
 
@@ -954,6 +1013,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
     protected void onDestroy() {
         Bimp.tempSelectBitmap.clear();
         KeyBoardUtils.closeKeybord(emotionEdittext, this);
+        realm.close();
         super.onDestroy();
     }
 

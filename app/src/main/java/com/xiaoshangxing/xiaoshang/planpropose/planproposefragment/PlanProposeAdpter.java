@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
-
 import com.xiaoshangxing.xiaoshang.RecyclerViewUtil;
 import com.xiaoshangxing.xiaoshang.planpropose.PlanList;
 

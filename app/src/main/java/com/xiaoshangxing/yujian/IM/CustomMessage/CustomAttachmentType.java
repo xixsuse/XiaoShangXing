@@ -5,6 +5,6 @@ package com.xiaoshangxing.yujian.IM.CustomMessage;
  */
 public interface CustomAttachmentType {
     // 多端统一
-    int Reward = 1;
-    int Help = 2;
+    int Transmit_noimage = 1;
+    int Transmit_withimage = 2;
 }

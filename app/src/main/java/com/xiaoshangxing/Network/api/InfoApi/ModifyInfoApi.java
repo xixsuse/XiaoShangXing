@@ -1,12 +1,11 @@
 package com.xiaoshangxing.Network.api.InfoApi;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.BaseUrl;
+import com.xiaoshangxing.Network.netUtil.BaseUrl;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import rx.Observable;
 
 /**

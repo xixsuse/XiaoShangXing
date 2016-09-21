@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,7 @@ public class MystateAdpter extends RealmBaseAdapter<Published> {
     private Handler mHandler;
     Realm realm;
     private final Map<Class<?>, Integer> viewTypes;
+    private Map<String, Integer> date_position = new HashMap<>();
 
     public MystateAdpter(@NonNull Context context, @Nullable OrderedRealmCollection<Published> data,
                          Realm realm) {
@@ -98,7 +98,7 @@ public class MystateAdpter extends RealmBaseAdapter<Published> {
         view = holder.getView(LayoutInflater.from(context));
         view.setTag(holder);
         holder.setContext(view.getContext());
-        Log.d("new view", "----ok");
+        holder.setAdpter(this);
         return view;
     }
 
@@ -109,6 +109,15 @@ public class MystateAdpter extends RealmBaseAdapter<Published> {
             return Mystate_onlytext.class;
         } else {
             return Mystate_image_text.class;
+        }
+    }
+
+    public boolean isNeedShowDate(String date, int position) {
+        if (date_position.containsKey(date)) {
+            return date_position.get(date) == position;
+        } else {
+            date_position.put(date, position);
+            return true;
         }
     }
 }

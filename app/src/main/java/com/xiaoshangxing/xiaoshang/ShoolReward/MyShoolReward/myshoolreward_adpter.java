@@ -11,11 +11,15 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
 
@@ -23,20 +27,18 @@ import java.util.List;
  * Created by FengChaoQun
  * on 2016/4/20
  */
-public class myshoolreward_adpter extends ArrayAdapter<String> {
+public class myshoolreward_adpter extends ArrayAdapter<Published> {
     private Context context;
-    private int resource;
-    List<String> strings;
+    List<Published> publisheds;
     private MyShoolRewardFragment fragment;
     private boolean showselect;
     private ShoolRewardActivity activity;
 
-    public myshoolreward_adpter(Context context, int resource, List<String> objects,
-                                MyShoolRewardFragment fragment,ShoolRewardActivity activity) {
+    public myshoolreward_adpter(Context context, int resource, List<Published> objects,
+                                MyShoolRewardFragment fragment, ShoolRewardActivity activity) {
         super(context, resource, objects);
         this.context = context;
-        this.strings = objects;
-        this.resource = resource;
+        this.publisheds = objects;
         this.fragment = fragment;
         this.activity=activity;
     }
@@ -63,6 +65,9 @@ public class myshoolreward_adpter extends ArrayAdapter<String> {
             viewholder = (mystate_viewholder) convertView.getTag();
         }
 
+        final Published published = publisheds.get(position);
+
+        viewholder.checkBox.setChecked(false);
         if (showselect) {
             viewholder.iscomplete.setVisibility(View.INVISIBLE);
             viewholder.checkBox.setVisibility(View.VISIBLE);
@@ -85,12 +90,19 @@ public class myshoolreward_adpter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RewardDetailActivity.class);
+                intent.putExtra(IntentStatic.DATA, published.getId());
                 context.startActivity(intent);
             }
         });
 
         viewholder.checkBox.setChecked(false);
 
+        UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
+        UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
+        UserInfoCache.getInstance().getCollege(viewholder.college, published.getId());
+        viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewholder.text.setText(published.getText());
+        viewholder.price.setText("¥" + published.getPrice());
         return convertView;
     }
 
