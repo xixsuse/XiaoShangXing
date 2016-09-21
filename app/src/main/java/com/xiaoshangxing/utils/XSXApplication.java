@@ -37,6 +37,7 @@ import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.ImageLoaderKit;
 import com.xiaoshangxing.yujian.IM.kit.SystemUtil;
+import com.xiaoshangxing.yujian.Serch.PinYin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -203,6 +204,9 @@ public class XSXApplication extends Application {
     }
 
     private void initUIKit() {
+        // init pinyin
+        PinYin.init(this);
+        PinYin.validate();
         // 初始化，需要传入用户信息提供者
         NimUIKit.init(this, infoProvider, contactProvider);
     }

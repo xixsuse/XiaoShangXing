@@ -102,6 +102,7 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
         if (sessionType != null) {
             intent.putExtra(IntentStatic.EXTRA_TYPE, sessionType);
         }
+
         intent.setClass(context, GroupActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 

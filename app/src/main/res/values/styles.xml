@@ -259,5 +259,19 @@
         <item name="android:background">@drawable/nim_list_item_selector</item>
     </style>
 
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="horizontal_deep_thick_divider">
+        <item name="android:layout_height">1dip</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:background">@color/color_gray_d9d9d9</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 
 </resources>

@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
 //                    woFragment, XiaoShangFragment.TAG).commit();
             mFragmentManager.beginTransaction().hide(xiaoShangFragment).hide(yuJianFragment).show(woFragment)
                     .commit();
-            woFragment.autoRefresh();
+//            woFragment.autoRefresh();
             current = 3;
         } else {
             imageWo.setImageResource(R.mipmap.wo_off);

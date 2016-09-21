@@ -6,6 +6,7 @@ import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
 
@@ -27,6 +28,7 @@ public class MsgViewHolderFactory {
         register(NotificationAttachment.class, MsgViewHolderNotification.class);
         register(TransmitMessage_NoImage.class, MsgViewHolderTransmitNoImage.class);
         register(TransmitMessage_WithImage.class, MsgViewHolderTransmitWithImage.class);
+        register(ApplyPlanMessage.class, MsgViewHolderApplyPlan.class);
         registerTipMsgViewHolder(MsgViewHolderTip.class);
     }
 

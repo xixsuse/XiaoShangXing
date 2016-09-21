@@ -8,6 +8,7 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.yujian.IM.Contact.ContactEventListener;
 import com.xiaoshangxing.yujian.IM.Contact.ContactProvider;
 import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachParser;
 import com.xiaoshangxing.yujian.IM.cache.DataCacheManager;
@@ -43,6 +44,9 @@ public final class NimUIKit {
 
     // 转发消息过滤器
     private static MsgForwardFilter msgForwardFilter;
+
+    // 通讯录列表一些点击事件的响应处理函数
+    private static ContactEventListener contactEventListener;
 
     /**
      * 初始化UIKit，须传入context以及用户信息提供者
@@ -151,23 +155,23 @@ public final class NimUIKit {
 //        NimUIKit.sessionListener = sessionListener;
 //    }
 
-//    /**
-//     * 获取通讯录列表的事件监听器
-//     *
-//     * @return
-//     */
-//    public static ContactEventListener getContactEventListener() {
-//        return contactEventListener;
-//    }
+    /**
+     * 获取通讯录列表的事件监听器
+     *
+     * @return
+     */
+    public static ContactEventListener getContactEventListener() {
+        return contactEventListener;
+    }
 
-//    /**
-//     * 设置通讯录列表的事件监听器
-//     *
-//     * @param contactEventListener
-//     */
-//    public static void setContactEventListener(ContactEventListener contactEventListener) {
-//        NimUIKit.contactEventListener = contactEventListener;
-//    }
+    /**
+     * 设置通讯录列表的事件监听器
+     *
+     * @param contactEventListener
+     */
+    public static void setContactEventListener(ContactEventListener contactEventListener) {
+        NimUIKit.contactEventListener = contactEventListener;
+    }
 
     /**
      * 当用户资料发生改动时，请调用此接口，通知更新UI

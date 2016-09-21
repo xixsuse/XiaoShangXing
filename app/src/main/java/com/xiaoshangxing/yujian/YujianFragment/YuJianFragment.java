@@ -58,6 +58,7 @@ import com.xiaoshangxing.yujian.IM.viewHodler.RecentViewHolder;
 import com.xiaoshangxing.yujian.IM.viewHodler.TAdapterDelegate;
 import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
 import com.xiaoshangxing.yujian.IM.viewHodler.TeamRecentViewHolder;
+import com.xiaoshangxing.yujian.Serch.GlobalSearchActivity;
 import com.xiaoshangxing.yujian.xiaoyou.XiaoYouActivity;
 
 import java.util.ArrayList;
@@ -191,6 +192,12 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         };
         dataSyncState();
         initMessageList();
+        serchLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalSearchActivity.start(getContext());
+            }
+        });
     }
 
     private void dataSyncState() {

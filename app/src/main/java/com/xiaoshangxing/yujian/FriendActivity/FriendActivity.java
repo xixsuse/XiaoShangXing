@@ -24,6 +24,7 @@ import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.kit.LoginSyncDataStatusObserver;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoObservable;
+import com.xiaoshangxing.yujian.Serch.GlobalSearchActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,7 +63,7 @@ public class FriendActivity extends BaseActivity {
     private TextView love_count;
     private TextView star_count;
 
-    private View headView;
+    private View headView, serch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class FriendActivity extends BaseActivity {
         group=headView.findViewById(R.id.group);
         love=headView.findViewById(R.id.love);
         star=headView.findViewById(R.id.star);
+        serch = headView.findViewById(R.id.serch_layout);
         sortListView.addHeaderView(headView);
         group_count=(TextView)headView.findViewById(R.id.group_count);
         love_count=(TextView)headView.findViewById(R.id.love_count);
@@ -123,6 +125,12 @@ public class FriendActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent=new Intent(FriendActivity.this,GroupListActivity.class);
                 startActivity(intent);
+            }
+        });
+        serch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalSearchActivity.start(FriendActivity.this);
             }
         });
         refreshData();

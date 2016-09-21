@@ -20,6 +20,7 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
 
@@ -176,6 +177,10 @@ public class OperateUtils {
             TransmitMessage_WithImage transmitMessage_withImage = new TransmitMessage_WithImage();
             transmitMessage_withImage.setState_id(publishedId);
             imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, transmitMessage_withImage);
+        } else if (categry.equals(NS.CATEGORY_PLAN)) {
+            ApplyPlanMessage applyPlanMessage = new ApplyPlanMessage();
+            applyPlanMessage.setState_id(publishedId);
+            imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, applyPlanMessage);
         } else {
             return;
         }
