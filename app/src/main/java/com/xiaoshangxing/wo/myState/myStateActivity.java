@@ -152,7 +152,7 @@ public class myStateActivity extends BaseActivity implements StateContract.View 
         LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFSTATE), new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(final PtrFrameLayout frame) {
-                LoadUtils.getSelfState(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_SELFSTATE, myStateActivity.this,
+                LoadUtils.getPublished(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_SELFSTATE, myStateActivity.this,true,
                         new LoadUtils.AroundLoading() {
                             @Override
                             public void before() {

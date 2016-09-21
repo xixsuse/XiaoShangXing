@@ -10,14 +10,19 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -62,6 +67,14 @@ public class shoolfellow_adpter extends ArrayAdapter<Published> {
             viewholder = (mystate_viewholder) convertView.getTag();
         }
 
+        final Published published = publisheds.get(position);
+
+        UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
+        UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
+        UserInfoCache.getInstance().getCollege(viewholder.college, published.getUserId());
+        viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewholder.text.setText(published.getText());
+
         viewholder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,12 +105,15 @@ public class shoolfellow_adpter extends ArrayAdapter<Published> {
                 View comment = menu.findViewById(R.id.comment);
                 View praise = menu.findViewById(R.id.praise);
                 final TextView praiseOrCancle = (TextView) menu.findViewById(R.id.praiseOrCancel);
+                praiseOrCancle.setText(OperateUtils.isPraised(published.getPraiseUserIds()) ? "取消" : "赞");
 
                 transmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(context, SelectPersonActivity.class);
-                        activity.startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
+//                        Intent intent=new Intent(context, SelectPersonActivity.class);
+//                        activity.startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
+                        activity.setTransmitedId(publisheds.get(position).getId());
+                        activity.gotoSelectPerson();
                         popupWindow.dismiss();
                     }
                 });
@@ -107,6 +123,7 @@ public class shoolfellow_adpter extends ArrayAdapter<Published> {
                     public void onClick(View v) {
                         Intent intent = new Intent(context, InputActivity.class);
                         intent.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
+                        intent.putExtra(InputActivity.MOMENTID, published.getId());
                         context.startActivity(intent);
                         popupWindow.dismiss();
                     }
@@ -115,14 +132,28 @@ public class shoolfellow_adpter extends ArrayAdapter<Published> {
                 praise.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (praiseOrCancle.getText().equals("赞")) {
-                            praiseOrCancle.setText("取消");
-                            Toast.makeText(context, "赞", Toast.LENGTH_SHORT).show();
-                        } else {
-                            praiseOrCancle.setText("赞");
-                            Toast.makeText(context, "取消", Toast.LENGTH_SHORT).show();
-                        }
+                        OperateUtils.operate(published.getId(), context, true, NS.PRAISE,
+                                new SimpleCallBack() {
+                                    @Override
+                                    public void onSuccess() {
+                                        if (praiseOrCancle.getText().equals("赞")) {
+                                            praiseOrCancle.setText("取消");
+                                            Toast.makeText(context, "赞", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            praiseOrCancle.setText("赞");
+                                            Toast.makeText(context, "取消", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
 
+                                    @Override
+                                    public void onError(Throwable e) {
+                                    }
+
+                                    @Override
+                                    public void onBackData(Object o) {
+
+                                    }
+                                });
                         popupWindow.dismiss();
                     }
                 });
@@ -133,6 +164,7 @@ public class shoolfellow_adpter extends ArrayAdapter<Published> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, HelpDetailActivity.class);
+                intent.putExtra(IntentStatic.DATA, published.getId());
                 context.startActivity(intent);
             }
         });

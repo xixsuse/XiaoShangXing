@@ -299,7 +299,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
             @Override
             public void onButton1() {
-//                mPresenter.delete(realm, published);
                 OperateUtils.deleteOnePublished(published_id, DetailsActivity.this, DetailsActivity.this, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {

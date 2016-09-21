@@ -118,20 +118,24 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 5) {
-                    if (!isLoading) {
-                        mPresenter.LoadMore();
-                    }
-                }
-                if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                    showFooter();
-                }
+//                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 5) {
+//                    if (!isLoading) {
+//                        mPresenter.LoadMore();
+//                    }
+//                }
+//                if (firstVisibleItem + visibleItemCount == totalItemCount) {
+//                    showFooter();
+//                }
             }
         });
 
+        initListview();
+    }
+
+    private void initListview() {
         publisheds = realm.where(Published.class)
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
-                .findAll().sort(NS.ID, Sort.DESCENDING);
+                .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
         adpter = new shoolfellow_adpter(getContext(), 1, publisheds, this, (ShoolfellowHelpActivity) getActivity());
         listview.setAdapter(adpter);
     }

@@ -205,6 +205,12 @@ public class ShoolfellowHelpActivity extends BaseActivity implements HelpContrac
         }, 500);
     }
 
+    public void gotoSelectPerson(){
+        Intent intent=new Intent(this, SelectPersonActivity.class);
+        intent.putExtra(SelectPersonActivity.LIMIT, 1);
+        startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
+    }
+
     @Override
     public void setmPresenter(@Nullable HelpContract.Presenter presenter) {
         this.mPresenter = presenter;

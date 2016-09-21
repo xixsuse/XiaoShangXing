@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
@@ -104,10 +105,10 @@ public class myshoolreward_adpter extends ArrayAdapter<Published> {
 
         UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
         UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
-        UserInfoCache.getInstance().getCollege(viewholder.college, published.getId());
+        UserInfoCache.getInstance().getCollege(viewholder.college, published.getUserId());
         viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewholder.text.setText(published.getText());
-        viewholder.price.setText("¥" + published.getPrice());
+        viewholder.price.setText(NS.RMB + published.getPrice());
         return convertView;
     }
 

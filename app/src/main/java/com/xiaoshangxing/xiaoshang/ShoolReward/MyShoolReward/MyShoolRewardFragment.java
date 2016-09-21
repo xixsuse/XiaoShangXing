@@ -113,7 +113,7 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getSelfState(realm, NS.CATEGORY_REWARD, LoadUtils.TIME_LOAD_SELFREWARD, getContext(),
+                        LoadUtils.getPublished(realm, NS.CATEGORY_REWARD, LoadUtils.TIME_LOAD_SELFREWARD, getContext(),true,
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {

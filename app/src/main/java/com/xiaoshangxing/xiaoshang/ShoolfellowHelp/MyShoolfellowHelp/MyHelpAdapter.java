@@ -11,7 +11,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
@@ -172,10 +171,12 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
         transmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, SelectPersonActivity.class);
-                intent.putExtra(SelectPersonActivity.LIMIT, 1);
                 activity.setTransmitedId(publisheds.get(position).getId());
-                activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
+                activity.gotoSelectPerson();
+//                Intent intent = new Intent(context, SelectPersonActivity.class);
+//                intent.putExtra(SelectPersonActivity.LIMIT, 1);
+
+//                activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
                 popupWindow.dismiss();
             }
         });

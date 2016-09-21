@@ -176,6 +176,23 @@ public class UserInfoCache {
                             break;
                         case 9201:
                             Log.d("用户不存在:", "--" + id);
+                            /*
+                            **describe:存储未知信息到数据库 防止不断刷新
+                            */
+                            final Realm realm1 = Realm.getDefaultInstance();
+                            realm1.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    final User user2 = new User();
+                                    user2.setId(id);
+                                    user2.setUsername("未知");
+                                    user2.setServerTime(NS.currentTime());
+                                    realm.copyToRealmOrUpdate(user2);
+                                    userMap.put(id, user2);
+                                }
+                            });
+                            realm1.close();
+                            break;
                         default:
                             Log.d("更新个人信息失败:", "--" + id);
                     }

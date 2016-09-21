@@ -62,8 +62,9 @@ public class OperateUtils {
             public void onError(Throwable e) {
                 if (callback != null) {
                     callback.onError(e);
-                    e.printStackTrace();
                 }
+                e.printStackTrace();
+                Toast.makeText(context, "操作失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

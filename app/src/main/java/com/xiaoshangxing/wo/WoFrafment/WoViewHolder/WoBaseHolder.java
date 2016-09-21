@@ -536,7 +536,9 @@ public abstract class WoBaseHolder {
 
                         @Override
                         public void onBackData(Object o) {
-
+                            if (o != null) {
+                                refresh((Published) o);
+                            }
                         }
                     });
                 }
@@ -558,7 +560,6 @@ public abstract class WoBaseHolder {
 
             @Override
             public void onBackData(Object o) {
-
             }
         });
     }
@@ -647,7 +648,9 @@ public abstract class WoBaseHolder {
 
             @Override
             public void onBackData(Object o) {
-
+                if (o != null) {
+                    refresh((Published) o);
+                }
             }
         });
     }

@@ -19,7 +19,10 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -38,6 +41,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -78,6 +82,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     private boolean isRefreshing;
     private boolean isLoading;
     private Realm realm;
+    private List<Published> publisheds = new ArrayList<>();
 
     @Nullable
     @Override
@@ -86,9 +91,9 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         ButterKnife.bind(this, mview);
         realm = Realm.getDefaultInstance();
         setmPresenter(new ShoolRewardPresenter(this, getContext()));
-        refreshPager();
         initFresh();
         initView();
+        refreshPager();
         return mview;
     }
 
@@ -114,14 +119,14 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 5) {
-                    if (!isLoading) {
-                        mPresenter.LoadMore();
-                    }
-                }
-                if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                    showFooter();
-                }
+//                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 5) {
+//                    if (!isLoading) {
+//                        mPresenter.LoadMore();
+//                    }
+//                }
+//                if (firstVisibleItem + visibleItemCount == totalItemCount) {
+//                    showFooter();
+//                }
             }
         });
         if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == ShoolRewardActivity.OTHERS) {
@@ -136,8 +141,29 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_REWARD),
                 new PtrDefaultHandler() {
                     @Override
-                    public void onRefreshBegin(PtrFrameLayout frame) {
-                        mPresenter.RefreshData(frame, realm);
+                    public void onRefreshBegin(final PtrFrameLayout frame) {
+                        LoadUtils.getPublished(realm, NS.CATEGORY_REWARD, LoadUtils.TIME_LOAD_REWARD, getContext(), false,
+                                new LoadUtils.AroundLoading() {
+                                    @Override
+                                    public void before() {
+
+                                    }
+
+                                    @Override
+                                    public void complete() {
+                                        frame.refreshComplete();
+                                    }
+
+                                    @Override
+                                    public void onSuccess() {
+                                        refreshPager();
+                                    }
+
+                                    @Override
+                                    public void error() {
+                                        frame.refreshComplete();
+                                    }
+                                });
                     }
                 });
     }
@@ -268,10 +294,9 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
     @Override
     public void refreshPager() {
-        for (int i = 0; i <= 10; i++) {
-            list.add("" + i);
-        }
-        adpter = new shoolreward_adpter(getContext(), 1, list, this, (ShoolRewardActivity) getActivity());
+        publisheds = realm.where(Published.class).equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
+                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        adpter = new shoolreward_adpter(getContext(), 1, publisheds, this, (ShoolRewardActivity) getActivity());
         listview.setAdapter(adpter);
     }
 
@@ -317,13 +342,27 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     }
 
     @Override
-    public void showCollectDialog() {
+    public void showCollectDialog(final int id) {
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
         dialogMenu2.addMenuItem("收藏");
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                mPresenter.collect();
+                OperateUtils.operate(id, getContext(), true, NS.COLLECT, new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        noticeDialog("已收藏");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
             }
 
             @Override

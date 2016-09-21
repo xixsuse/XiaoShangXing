@@ -19,7 +19,7 @@ public class BaseUrl {
     public static final String SET_IMAGE = "base/setUserImage";
     public static final String USER = "base/getUserInfo";
     public static final String GET_PUBLISHED ="moment/catRelease";
-    public static final String GET_ALLPUBLISHED = "moment/catRelease";
+    public static final String GET_ALLPUBLISHED = "moment/catMoments";
     public static final String GET_TRANSMIT_INFO = "moment/catTransmitInfo";
     public static final String REFRESH_PUBLISHED = "moment/catReleaseUpdate";
     public static final String TRANSMIT = "moment/transmit";

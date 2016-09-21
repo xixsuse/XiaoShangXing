@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -40,7 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -160,15 +158,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         //设置listview头
         initHead();
 
-        publisheds = realm.where(Published.class)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
-                .findAll().sort(NS.ID, Sort.DESCENDING);
-        publisheds.addChangeListener(new RealmChangeListener<RealmResults<Published>>() {
-            @Override
-            public void onChange(RealmResults<Published> element) {
-                initListview();
-            }
-        });
 
         initListview();
 
@@ -275,55 +264,91 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 //            pager_publisheds.addAll(publisheds.subList(0, current_anchor - 1));
 //        }
 //        current_anchor += 10;
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
+                .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
 
-//        wo_listview_adpter = new Wo_listview_adpter(getContext(),
-//                1, publisheds, this, (BaseActivity) getActivity(), realm, listView);
-        woAdapter1 = new WoAdapter1(getContext(), publisheds, this, (BaseActivity) getActivity(), realm);
+//        publisheds.addChangeListener(new RealmChangeListener<RealmResults<Published>>() {
+//            @Override
+//            public void onChange(RealmResults<Published> element) {
+//                wo_listview_adpter.notifyDataSetChanged();
+//            }
+//        });
 
-        listView.setAdapter(woAdapter1);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+        wo_listview_adpter = new Wo_listview_adpter(getContext(),
+                1, publisheds, this, (BaseActivity) getActivity(), realm, listView);
 
-            }
+//        woAdapter1 = new WoAdapter1(getContext(), publisheds, this, (BaseActivity) getActivity(), realm);
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 3) {
-//                    if (!is_loadMore) {
-////                        mPresenter.LoadMore();
-//                        is_loadMore = true;
-//                        if (publisheds.size() > current_anchor) {
-//                            Log.d("current_anchor", "" + current_anchor);
-//                            pager_publisheds.clear();
-//                            pager_publisheds.addAll(0, publisheds.subList(0, current_anchor));
-//                            current_anchor += 10;
-//                            wo_listview_adpter.notifyDataSetChanged();
+        listView.setAdapter(wo_listview_adpter);
+
+//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
 //
-//                            Log.d("load", "publishedsCount:" + publisheds.size() +
-//                                    "--pager_publisheds:" + pager_publisheds.size());
-//                        }
+//            }
 //
-//                        is_loadMore = false;
-//                    }
-                }
-                if (firstVisibleItem + visibleItemCount == totalItemCount) {
-                    showFooter();
-                } else if (firstVisibleItem == 0) {
-                    showTitle();
-                }
-            }
-        });
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 3) {
+////                    if (!is_loadMore) {
+//////                        mPresenter.LoadMore();
+////                        is_loadMore = true;
+////                        if (publisheds.size() > current_anchor) {
+////                            Log.d("current_anchor", "" + current_anchor);
+////                            pager_publisheds.clear();
+////                            pager_publisheds.addAll(0, publisheds.subList(0, current_anchor));
+////                            current_anchor += 10;
+////                            wo_listview_adpter.notifyDataSetChanged();
+////
+////                            Log.d("load", "publishedsCount:" + publisheds.size() +
+////                                    "--pager_publisheds:" + pager_publisheds.size());
+////                        }
+////
+////                        is_loadMore = false;
+////                    }
+//                }
+//                if (firstVisibleItem + visibleItemCount == totalItemCount) {
+//                    showFooter();
+//                } else if (firstVisibleItem == 0) {
+//                    showTitle();
+//                }
+//            }
+//        });
+
     }
 
     private void initFresh(){
         LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_STATE),
                 new PtrDefaultHandler() {
                     @Override
-                    public void onRefreshBegin(PtrFrameLayout frame) {
-                        divider_line.setVisibility(View.INVISIBLE);
+                    public void onRefreshBegin(final PtrFrameLayout frame) {
                         if (!is_refresh) {
-                            mPresenter.RefreshData(frame);
+                            LoadUtils.getPublished(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_STATE, getContext(), false,
+                                    new LoadUtils.AroundLoading() {
+                                        @Override
+                                        public void before() {
+                                            divider_line.setVisibility(View.INVISIBLE);
+                                            setRefreshState(true);
+                                        }
+
+                                        @Override
+                                        public void complete() {
+                                            frame.refreshComplete();
+                                            setRefreshState(false);
+                                        }
+
+                                        @Override
+                                        public void onSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void error() {
+                                            frame.refreshComplete();
+                                            setRefreshState(false);
+                                        }
+                                    });
                         }
                     }
                 });
@@ -490,15 +515,17 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void refreshPager() {
-        selection = listView.getSelectedItemPosition();
+//        selection = listView.getSelectedItemPosition();
 //        pager_publisheds.clear();
 //        pager_publisheds.addAll(publisheds.subList(current_anchor,
 //                current_anchor + 10 > publisheds.size() ? publisheds.size() : current_anchor + 10));
-        listView.setSelection(selection);
+//        listView.setSelection(selection);
+
     }
 
     public void deleteOne(int position) {
-        if (position != woAdapter1.getCount()) {
+        wo_listview_adpter.notifyDataSetChanged();
+        if (position != wo_listview_adpter.getCount()) {
             listView.setSelection(position);
         }
     }

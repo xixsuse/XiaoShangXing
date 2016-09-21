@@ -10,13 +10,20 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -25,19 +32,17 @@ import java.util.Random;
  * Created by FengChaoQun
  * on 2016/4/20
  */
-public class shoolreward_adpter extends ArrayAdapter<String> {
+public class shoolreward_adpter extends ArrayAdapter<Published> {
     private Context context;
-    private int resource;
-    List<String> strings;
+    List<Published> publisheds;
     private ShoolRewardFragment fragment;
     private ShoolRewardActivity activity;
 
-    public shoolreward_adpter(Context context, int resource, List<String> objects,
-                              ShoolRewardFragment fragment,ShoolRewardActivity activity) {
+    public shoolreward_adpter(Context context, int resource, List<Published> objects,
+                              ShoolRewardFragment fragment, ShoolRewardActivity activity) {
         super(context, resource, objects);
         this.context = context;
-        this.strings = objects;
-        this.resource = resource;
+        this.publisheds = objects;
         this.fragment = fragment;
         this.activity=activity;
     }
@@ -64,10 +69,19 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
             viewholder = (mystate_viewholder) convertView.getTag();
         }
 
+        final Published published = publisheds.get(position);
+
+        UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
+        UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
+        UserInfoCache.getInstance().getCollege(viewholder.college, published.getUserId());
+        viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewholder.text.setText(published.getText());
+        viewholder.price.setText(NS.RMB + published.getPrice());
+
         viewholder.down_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.showCollectDialog();
+                fragment.showCollectDialog(published.getId());
             }
         });
 
@@ -102,11 +116,14 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
                 View comment = menu.findViewById(R.id.comment);
                 View praise = menu.findViewById(R.id.praise);
                 final TextView praiseOrCancle = (TextView) menu.findViewById(R.id.praiseOrCancel);
+                praiseOrCancle.setText(OperateUtils.isPraised(published.getPraiseUserIds()) ? "取消" : "赞");
 
                 transmit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        activity.setTransmitedId(published.getId());
                         activity.gotoSelectPerson();
+                        popupWindow.dismiss();
                         popupWindow.dismiss();
                     }
                 });
@@ -116,6 +133,7 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
                     public void onClick(View v) {
                         Intent intent = new Intent(context, InputActivity.class);
                         intent.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
+                        intent.putExtra(InputActivity.MOMENTID, published.getId());
                         context.startActivity(intent);
                         popupWindow.dismiss();
                     }
@@ -124,13 +142,28 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
                 praise.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (praiseOrCancle.getText().equals("赞")) {
-                            praiseOrCancle.setText("取消");
-                            Toast.makeText(context, "赞", Toast.LENGTH_SHORT).show();
-                        } else {
-                            praiseOrCancle.setText("赞");
-                            Toast.makeText(context, "取消", Toast.LENGTH_SHORT).show();
-                        }
+                        OperateUtils.operate(published.getId(), context, true, NS.PRAISE,
+                                new SimpleCallBack() {
+                                    @Override
+                                    public void onSuccess() {
+                                        if (praiseOrCancle.getText().equals("赞")) {
+                                            praiseOrCancle.setText("取消");
+                                            Toast.makeText(context, "赞", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            praiseOrCancle.setText("赞");
+                                            Toast.makeText(context, "取消", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                    }
+
+                                    @Override
+                                    public void onBackData(Object o) {
+
+                                    }
+                                });
                         popupWindow.dismiss();
                     }
                 });
@@ -141,6 +174,7 @@ public class shoolreward_adpter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RewardDetailActivity.class);
+                intent.putExtra(IntentStatic.DATA, published.getId());
                 context.startActivity(intent);
             }
         });

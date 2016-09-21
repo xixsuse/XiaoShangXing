@@ -192,7 +192,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         UserInfoCache.getInstance().getCollege(college, userId);
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
-        price.setText("¥" + published.getPrice());
+        price.setText(NS.RMB + published.getPrice());
         praiseOrCancel.setText(OperateUtils.isPraised(published.getPraiseUserIds()) ? "取消" : "赞");
         setCount();
     }

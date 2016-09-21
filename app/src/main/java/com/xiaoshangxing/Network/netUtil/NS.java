@@ -39,6 +39,7 @@ public class NS {
     public static final String CATEGORY_CALENDAR = "4";
     public static final String CATEGORY_SALE = "5";
     public static final String PRICE = "price";
+    public static final String CREATETIME = "createTime";
     //    动态操作
     public static final String PRAISE = "0";
     public static final String JOIN = "1";

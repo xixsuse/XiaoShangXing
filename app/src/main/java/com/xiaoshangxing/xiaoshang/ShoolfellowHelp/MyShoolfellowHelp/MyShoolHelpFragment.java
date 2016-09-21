@@ -131,7 +131,8 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
                         mPresenter.refreshData(frame);
-                        LoadUtils.getSelfState(realm, NS.CATEGORY_HELP, LoadUtils.TIME_LOAD_HELP, getContext(), new LoadUtils.AroundLoading() {
+                        LoadUtils.getPublished(realm, NS.CATEGORY_HELP, LoadUtils.TIME_LOAD_HELP, getContext(), true,
+                                new LoadUtils.AroundLoading() {
                             @Override
                             public void before() {
 

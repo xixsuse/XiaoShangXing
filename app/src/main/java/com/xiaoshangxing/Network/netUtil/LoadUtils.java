@@ -1,6 +1,7 @@
 package com.xiaoshangxing.Network.netUtil;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import okhttp3.ResponseBody;
 import rx.Subscriber;
 
@@ -76,10 +78,10 @@ public class LoadUtils {
      * @return
      */
 
-    public static void tryLoadSelfState(final Realm realm, String type, final String loadtime,
-                                        final Context context, final AroundLoading aroundLoading) {
+    public static void tryLoadPublished(final Realm realm, String type, final String loadtime,
+                                        final Context context, boolean isSelf, final AroundLoading aroundLoading) {
         if (needRefresh(loadtime)) {
-            getSelfState(realm, type, loadtime, context, aroundLoading);
+            getPublished(realm, type, loadtime, context, isSelf, aroundLoading);
         }
     }
 
@@ -89,12 +91,13 @@ public class LoadUtils {
      * @param realm         数据库
      * @param type          需要刷新的动态类型
      * @param loadtime      对应的刷新时间的类型
+     * @param isSelf        是否刷新自己的动态 若否 则是刷新校友或好友的动态
      * @param aroundLoading 回调
      * @return
      */
 
-    public static void getSelfState(final Realm realm, String type, final String loadtime,
-                                    final Context context, final AroundLoading aroundLoading) {
+    public static void getPublished(final Realm realm, String type, final String loadtime,
+                                    final Context context, boolean isSelf, final AroundLoading aroundLoading) {
         if (aroundLoading != null) {
             aroundLoading.before();
         }
@@ -132,8 +135,11 @@ public class LoadUtils {
                 }
             }
         };
-
-        PublishNetwork.getInstance().getPublished(subscriber1, jsonObject, XSXApplication.getInstance());
+        if (isSelf) {
+            PublishNetwork.getInstance().getPublished(subscriber1, jsonObject, XSXApplication.getInstance());
+        } else {
+            PublishNetwork.getInstance().getAllPublished(subscriber1, jsonObject, XSXApplication.getInstance());
+        }
     }
 
     /**
@@ -156,6 +162,8 @@ public class LoadUtils {
                         realm.createOrUpdateAllFromJson(Published.class, jsonArray);
                     }
                 });
+                RealmResults<Published> publisheds = realm.where(Published.class).findAll();
+                Log.d("saved_published", "--" + publisheds);
                 if (aroundLoading != null) {
                     aroundLoading.onSuccess();
                 }
