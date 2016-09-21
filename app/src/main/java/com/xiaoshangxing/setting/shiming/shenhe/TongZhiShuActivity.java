@@ -37,6 +37,7 @@ public class TongZhiShuActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shenhe_tongzhishu);
         ButterKnife.bind(this);
+        deletFiles();
     }
 
     public void Back(View view) {
@@ -113,5 +114,20 @@ public class TongZhiShuActivity extends BaseActivity {
         NextButtom.setBackground(getResources().getDrawable(R.drawable.buttonstyle_w0));
         NextButtom.setTextColor(getResources().getColor(R.color.b0));
         NextButtom.setEnabled(false);
+    }
+
+
+    //提交成功后需再次调用此方法进行文件删除
+    public static void deletFiles() {
+        String pathLeft = PreviewActivity.getLeftImgPath("TongZhiShu");
+        File fileLeft = new File(pathLeft);
+        if (fileLeft.exists()) {
+            fileLeft.delete();
+        }
+        String pathRight = PreviewActivity.getRightImgPath("TongZhiShu");
+        File fileRight = new File(pathRight);
+        if (fileRight.exists()) {
+            fileRight.delete();
+        }
     }
 }

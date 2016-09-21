@@ -304,12 +304,13 @@
         <activity android:name=".setting.shiming.shenhe.TongZhiShuActivity" />
         <activity android:name=".setting.shiming.vertify.VertifyShiMingActivity" />
         <activity android:name=".setting.shiming.vertify.XingBieActivity" />
-        <activity android:name=".setting.shiming.vertify.DiQUActivity" />
+        <activity android:name=".setting.shiming.chooseschool.DiQUActivity" />
         <activity
             android:name=".setting.shiming.shenhe.PreviewActivity"
             android:screenOrientation="landscape"></activity>
         <activity android:name=".setting.shiming.sucess.VertifySucessActivity" />
         <activity android:name=".setting.shiming.vertify.VertifyingActivity" />
+        <activity android:name=".setting.shiming.chooseschool.SchoolActivity"/>
 
     </application>
 

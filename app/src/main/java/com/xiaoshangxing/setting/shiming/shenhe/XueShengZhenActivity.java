@@ -36,6 +36,7 @@ public class XueShengZhenActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shenhe_xueshengzhen);
         ButterKnife.bind(this);
+        deletFiles();
 
     }
 
@@ -119,5 +120,19 @@ public class XueShengZhenActivity extends BaseActivity {
         NextButtom.setEnabled(false);
     }
 
+
+    //提交成功后需再次调用此方法进行文件删除
+    public static void deletFiles(){
+        String pathLeft = PreviewActivity.getLeftImgPath("XueShengZhen");
+        File fileLeft = new File(pathLeft);
+        if (fileLeft.exists()) {
+            fileLeft.delete();
+        }
+        String pathRight = PreviewActivity.getRightImgPath("XueShengZhen");
+        File fileRight = new File(pathRight);
+        if (fileRight.exists()) {
+            fileRight.delete();
+        }
+    }
 
 }
