@@ -64,6 +64,7 @@ public class VertifyShiMingActivity extends BaseActivity implements ViewPager.On
     public static boolean nameFlag = false, sexFlag = false, xuehaoFlag = false,
             xuexiaoFlag = false, xueyuanFlag = false, zhuanyeFlag = false, nianfenFlag = false;
 
+    private float xDistance, yDistance, xLast, yLast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +85,7 @@ public class VertifyShiMingActivity extends BaseActivity implements ViewPager.On
         viewList.add(view3);
         viewAdapter = new ViewAdapter(viewList);
         viewPager.setAdapter(viewAdapter);
-        viewPager.setOnPageChangeListener(this);
+        viewPager.addOnPageChangeListener(this);
 
         picker1 = (Picker) view1.findViewById(R.id.picker1);
         picker2 = (Picker) view2.findViewById(R.id.picker2);

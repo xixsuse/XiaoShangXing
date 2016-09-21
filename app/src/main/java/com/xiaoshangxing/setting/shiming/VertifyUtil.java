@@ -3,6 +3,8 @@ package com.xiaoshangxing.setting.shiming;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
+import com.xiaoshangxing.utils.FileUtils;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,7 +19,8 @@ public class VertifyUtil {
     public static String imgRightName = "imgRightName.jpeg";
 
     public static void saveFile(Bitmap bitmap, String fileName) {
-        String path = getSDPath() + "/VertifyJieTu/";
+//        String path = getSDPath() + "/VertifyJieTu/";
+        String path = FileUtils.getXSX_CameraPhotoPath();
         File file = new File(path);
         if (!file.exists()) {
             file.mkdir();
@@ -48,10 +51,12 @@ public class VertifyUtil {
 
 
     public static String getLeftImgPath() {
-        return getSDPath() + "/VertifyJieTu/" + imgLeftName;
+//        return getSDPath() + "/VertifyJieTu/" + imgLeftName;
+        return FileUtils.getXSX_CameraPhotoPath() + imgLeftName;
     }
 
     public static String getRightImgPath() {
-        return getSDPath() + "/VertifyJieTu/" + imgRightName;
+//        return getSDPath() + "/VertifyJieTu/" + imgRightName;
+        return FileUtils.getXSX_CameraPhotoPath() + imgRightName;
     }
 }

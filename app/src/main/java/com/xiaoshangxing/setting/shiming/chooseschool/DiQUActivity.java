@@ -2,6 +2,7 @@ package com.xiaoshangxing.setting.shiming.chooseschool;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
@@ -14,20 +15,24 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.CharacterParser;
 import com.xiaoshangxing.SelectPerson.PinyinComparator;
 import com.xiaoshangxing.SelectPerson.SideBar;
 import com.xiaoshangxing.SelectPerson.SortModel;
+import com.xiaoshangxing.setting.personalinfo.hometown.ProvinceModel;
+import com.xiaoshangxing.setting.personalinfo.hometown.XmlParserHandler;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -51,7 +56,7 @@ public class DiQUActivity extends BaseActivity {
     private PinyinComparator pinyinComparator;
     private List<String> citys = new ArrayList<>();
     private List<SortModel> SourceDateList = new ArrayList<>();
-
+    private List<ProvinceModel> provinceList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +64,16 @@ public class DiQUActivity extends BaseActivity {
         setContentView(R.layout.activity_vertify_diqu);
         ButterKnife.bind(this);
 
-        citys = Arrays.asList(getResources().getStringArray(R.array.date));
+        initProvinceDatas();
+        if (provinceList != null && provinceList.size() > 0) {
+            for (ProvinceModel i : provinceList) {
+                citys.add(i.getName());
+            }
+        } else {
+            showToast("省份数据异常");
+            return;
+        }
+//        citys = Arrays.asList(getResources().getStringArray(R.array.date));
 
         characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
@@ -113,14 +127,30 @@ public class DiQUActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(getApplication(), adapter.getItem(position).getName(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DiQUActivity.this,SchoolActivity.class);
-                intent.putExtra("city",adapter.getItem(position).getName());
+                Intent intent = new Intent(DiQUActivity.this, SchoolActivity.class);
+                intent.putExtra("city", adapter.getItem(position).getName());
                 startActivity(intent);
                 finish();
             }
         });
 
 
+    }
+
+    private void initProvinceDatas() {
+        AssetManager asset = getAssets();
+        try {
+            InputStream input = asset.open("province_data.xml");
+            SAXParserFactory spf = SAXParserFactory.newInstance();
+            SAXParser parser = spf.newSAXParser();
+            XmlParserHandler handler = new XmlParserHandler();
+            parser.parse(input, handler);
+            input.close();
+            provinceList = handler.getDataList();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        } finally {
+        }
     }
 
 
@@ -177,7 +207,7 @@ public class DiQUActivity extends BaseActivity {
         editText.setFocusableInTouchMode(true);
         editText.requestFocus();
         editText.findFocus();
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 

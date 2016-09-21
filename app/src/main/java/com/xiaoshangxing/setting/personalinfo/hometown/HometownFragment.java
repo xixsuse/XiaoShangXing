@@ -11,10 +11,11 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
@@ -75,8 +76,8 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
         });
         setUpData();
         realm = Realm.getDefaultInstance();
-        User user = realm.where(User.class).equalTo("id",
-                (Integer) SPUtils.get(getContext(), SPUtils.ID, SPUtils.DEFAULT_int)).findFirst();
+        User user = realm.where(User.class).equalTo(NS.ID,
+                TempUser.id).findFirst();
         if (user != null && user.getHometown() != null) {
             textView.setText(user.getHometown());
         }
@@ -92,7 +93,6 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         String hometown = mCurrentProviceName+" "+mCurrentCityName;
         textView.setText(hometown);
-//        getActivity().getSupportFragmentManager().popBackStack();
         ChangeInfo(hometown);
     }
 
@@ -135,9 +135,6 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
         mViewProvince.setViewAdapter(new ArrayWheelAdapter<String>(getActivity(),mProvinceDatas));
         mViewProvince.setVisibleItems(7);
         mViewCity.setVisibleItems(7);
-//        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("hometown",Activity.MODE_PRIVATE);
-//        String name = sharedPreferences.getString("name","");
-//        if(!name.equals("")) textView.setText(name);
         updateCities();
         updateAreas();
     }
