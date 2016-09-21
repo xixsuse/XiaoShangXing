@@ -153,7 +153,7 @@
         <activity android:name=".login_register.LoginRegisterActivity.LoginRegisterActivity" />
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="stateUnspecified|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan">
 
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
@@ -218,6 +218,12 @@
         <activity android:name=".SelectPerson.SelectPersonActivity"></activity>
         <activity android:name=".xiaoshang.MessageNotice.MessageNoticeActivity"></activity>
         <activity android:name=".input_activity.album.AlbumActivity"></activity>
+        <activity android:name=".TestActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
 
         <!-- 遇见-->
         <activity android:name=".yujian.personInfo.PersonInfoActivity"></activity>
@@ -305,6 +311,21 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
+        <activity android:name=".setting.shiming.ShenheActivity" />
+        <activity android:name=".setting.shiming.shenhe.XueShengZhenActivity" />
+        <activity android:name=".setting.shiming.shenhe.XueShengKaActivity" />
+        <activity android:name=".setting.shiming.shenhe.TongZhiShuActivity" />
+        <activity android:name=".setting.shiming.vertify.VertifyShiMingActivity" />
+        <activity android:name=".setting.shiming.vertify.XingBieActivity" />
+        <activity android:name=".setting.shiming.chooseschool.DiQUActivity" />
+        <activity
+            android:name=".setting.shiming.shenhe.PreviewActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".setting.shiming.sucess.VertifySucessActivity" />
+        <activity android:name=".setting.shiming.vertify.VertifyingActivity" />
+        <activity android:name=".setting.shiming.chooseschool.SchoolActivity"/>
 
     </application>
 

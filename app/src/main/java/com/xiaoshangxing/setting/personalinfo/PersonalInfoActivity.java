@@ -10,12 +10,10 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.personalinfo.MyCode.MyCodeFragment;
 import com.xiaoshangxing.setting.personalinfo.QianMing.QianMingFragment;
 import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
-import com.xiaoshangxing.setting.personalinfo.TagView.TagViewFragment;
 import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
-import com.xiaoshangxing.setting.personalinfo.vertify.vertifyFragment.VertifyFragment;
-import com.xiaoshangxing.setting.personalinfo.vertify.vertifySuccessFragment.VertifySucessFragment;
+import com.xiaoshangxing.setting.shiming.ShenheActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 
 /**
@@ -80,12 +78,14 @@ public class PersonalInfoActivity extends BaseActivity {
 
 
     public void Vertify(View view) {
-        mFragmentManager.beginTransaction()
+ /*       mFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(VertifyFragment.TAG)
                 .replace(R.id.setting_personinfo_Content, new VertifyFragment(), VertifyFragment.TAG)
-                .commit();
+                .commit();*/
+
+        startActivity(new Intent(PersonalInfoActivity.this,ShenheActivity.class));
     }
 
     public void back(View view) {
@@ -133,12 +133,13 @@ public class PersonalInfoActivity extends BaseActivity {
 //            isbacked = false;
 //            return true;
 //        }
-        VertifySucessFragment fragment1 = (VertifySucessFragment) mFragmentManager.findFragmentByTag(VertifySucessFragment.TAG);
+
+/*        VertifySucessFragment fragment1 = (VertifySucessFragment) mFragmentManager.findFragmentByTag(VertifySucessFragment.TAG);
         if (isVertified) {
             fragment1.onKeyDown(keyCode, event);
             isVertified = false;
             return true;
-        }
+        }*/
         return super.onKeyDown(keyCode, event);
     }
 
