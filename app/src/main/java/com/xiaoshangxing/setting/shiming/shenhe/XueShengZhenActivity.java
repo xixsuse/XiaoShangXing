@@ -4,16 +4,22 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.shiming.VertifyUtil;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyShiMingActivity;
+import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.utils.BaseActivity;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,7 +42,6 @@ public class XueShengZhenActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shenhe_xueshengzhen);
         ButterKnife.bind(this);
-        deletFiles();
 
     }
 
@@ -83,7 +88,11 @@ public class XueShengZhenActivity extends BaseActivity {
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageLeft.setImageBitmap(bitmap);
             flagLeft = true;
-        } else flagLeft = false;
+            fileLeft.delete();
+            VertifyUtil.saveFile(bitmap, VertifyUtil.imgLeftName);
+
+            ImageView imageView = (ImageView) findViewById(R.id.image);
+        }
 
         String pathRight = PreviewActivity.getRightImgPath("XueShengZhen");
         File fileRight = new File(pathRight);
@@ -96,7 +105,9 @@ public class XueShengZhenActivity extends BaseActivity {
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageRight.setImageBitmap(bitmap);
             flagRight = true;
-        } else flagRight = false;
+            fileRight.delete();
+            VertifyUtil.saveFile(bitmap, VertifyUtil.imgRightName);
+        }
 
         if (flagLeft && flagRight) setButtonStyleGreen();
         else resetButtonStyle();
@@ -121,18 +132,15 @@ public class XueShengZhenActivity extends BaseActivity {
     }
 
 
-    //提交成功后需再次调用此方法进行文件删除
-    public static void deletFiles(){
-        String pathLeft = PreviewActivity.getLeftImgPath("XueShengZhen");
-        File fileLeft = new File(pathLeft);
-        if (fileLeft.exists()) {
-            fileLeft.delete();
-        }
-        String pathRight = PreviewActivity.getRightImgPath("XueShengZhen");
-        File fileRight = new File(pathRight);
-        if (fileRight.exists()) {
-            fileRight.delete();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        flagLeft = false;
+        flagRight = false;
     }
+
+
+
+
 
 }

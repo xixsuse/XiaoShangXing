@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.shiming.VertifyUtil;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyShiMingActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 
@@ -37,8 +38,6 @@ public class XueShengKaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shenhe_xueshengka);
         ButterKnife.bind(this);
-        deletFiles();
-
     }
 
     public void Back(View view) {
@@ -80,8 +79,10 @@ public class XueShengKaActivity extends BaseActivity {
             Log.d("qqq", "bm    w:" + bm.getWidth() + "   h:" + bm.getHeight());
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageLeft.setImageBitmap(bitmap);
+            VertifyUtil.saveFile(bitmap, VertifyUtil.imgLeftName);
+            fileLeft.delete();
             flagLeft = true;
-        } else flagLeft = false;
+        }
 
         String pathRight = PreviewActivity.getRightImgPath("XueShengKa");
         File fileRight = new File(pathRight);
@@ -93,8 +94,10 @@ public class XueShengKaActivity extends BaseActivity {
             height = (int) (bm.getHeight() * ((float) 732 / 1080));
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageRight.setImageBitmap(bitmap);
+            VertifyUtil.saveFile(bitmap, VertifyUtil.imgRightName);
+            fileRight.delete();
             flagRight = true;
-        } else flagRight = false;
+        }
 
         if (flagLeft && flagRight) setButtonStyleGreen();
         else resetButtonStyle();
@@ -118,18 +121,12 @@ public class XueShengKaActivity extends BaseActivity {
         NextButtom.setEnabled(false);
     }
 
-
-    //提交成功后需再次调用此方法进行文件删除
-    public static void deletFiles() {
-        String pathLeft = PreviewActivity.getLeftImgPath("XueShengKa");
-        File fileLeft = new File(pathLeft);
-        if (fileLeft.exists()) {
-            fileLeft.delete();
-        }
-        String pathRight = PreviewActivity.getRightImgPath("XueShengKa");
-        File fileRight = new File(pathRight);
-        if (fileRight.exists()) {
-            fileRight.delete();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        flagLeft = false;
+        flagRight = false;
     }
+
+
 }

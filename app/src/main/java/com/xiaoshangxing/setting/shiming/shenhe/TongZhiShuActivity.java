@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.shiming.VertifyUtil;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyShiMingActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 
@@ -37,7 +38,6 @@ public class TongZhiShuActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shenhe_tongzhishu);
         ButterKnife.bind(this);
-        deletFiles();
     }
 
     public void Back(View view) {
@@ -80,7 +80,8 @@ public class TongZhiShuActivity extends BaseActivity {
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageLeft.setImageBitmap(bitmap);
             flagLeft = true;
-        } else flagLeft = false;
+            VertifyUtil.saveFile(bitmap, VertifyUtil.imgLeftName);
+        }
 
         String pathRight = PreviewActivity.getRightImgPath("TongZhiShu");
         File fileRight = new File(pathRight);
@@ -93,7 +94,8 @@ public class TongZhiShuActivity extends BaseActivity {
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageRight.setImageBitmap(bitmap);
             flagRight = true;
-        } else flagRight = false;
+            VertifyUtil.saveFile(bitmap, VertifyUtil.imgRightName);
+        }
 
         if (flagLeft && flagRight) setButtonStyleGreen();
         else resetButtonStyle();
@@ -116,18 +118,12 @@ public class TongZhiShuActivity extends BaseActivity {
         NextButtom.setEnabled(false);
     }
 
-
-    //提交成功后需再次调用此方法进行文件删除
-    public static void deletFiles() {
-        String pathLeft = PreviewActivity.getLeftImgPath("TongZhiShu");
-        File fileLeft = new File(pathLeft);
-        if (fileLeft.exists()) {
-            fileLeft.delete();
-        }
-        String pathRight = PreviewActivity.getRightImgPath("TongZhiShu");
-        File fileRight = new File(pathRight);
-        if (fileRight.exists()) {
-            fileRight.delete();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        flagLeft = false;
+        flagRight = false;
     }
+
+
 }
