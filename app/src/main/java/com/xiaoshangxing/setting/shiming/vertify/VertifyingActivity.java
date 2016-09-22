@@ -1,9 +1,12 @@
 package com.xiaoshangxing.setting.shiming.vertify;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 
 /**
@@ -18,6 +21,16 @@ public class VertifyingActivity extends BaseActivity {
     }
 
     public void Back(View view) {
-        finish();
+        startActivity(new Intent(this, PersonalInfoActivity.class));
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            startActivity(new Intent(this, PersonalInfoActivity.class));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }
