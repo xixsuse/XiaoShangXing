@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.wo.myState.myStateActivity;
+import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 
 /**
  * Created by FengChaoQun
@@ -45,7 +45,7 @@ public class PraisePeople {
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent=new Intent(context,myStateActivity.class);
+                Intent intent=new Intent(context,PersonalStateActivity.class);
                 intent.putExtra(IntentStatic.EXTRA_ACCOUNT, id);
                 context.startActivity(intent);
             }

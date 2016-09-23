@@ -146,7 +146,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-
+                                        LoadUtils.clearDatabase(NS.CATEGORY_REWARD, false, true);
                                     }
 
                                     @Override

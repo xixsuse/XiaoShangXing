@@ -330,6 +330,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                                         public void before() {
                                             divider_line.setVisibility(View.INVISIBLE);
                                             setRefreshState(true);
+                                            LoadUtils.clearDatabase(NS.CATEGORY_STATE, false, true);
                                         }
 
                                         @Override

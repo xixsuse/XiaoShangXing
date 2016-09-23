@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState.check_photo;
+package com.xiaoshangxing.wo.PersonalState.check_photo;
 
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;

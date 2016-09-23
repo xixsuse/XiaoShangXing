@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState.DetailsActivity;
+package com.xiaoshangxing.wo.PersonalState.DetailsActivity;
 
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.IBasePresenter;

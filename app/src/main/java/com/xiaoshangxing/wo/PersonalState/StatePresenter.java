@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState;
+package com.xiaoshangxing.wo.PersonalState;
 
 import android.content.Context;
 import android.util.Log;

@@ -14,7 +14,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.wo.myState.myStateActivity;
+import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,8 +88,8 @@ public class rollActivity extends BaseActivity {
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent state_intent = new Intent(rollActivity.this, myStateActivity.class);
-                        state_intent.putExtra(myStateActivity.TYPE, myStateActivity.OTHRE);
+                        Intent state_intent = new Intent(rollActivity.this, PersonalStateActivity.class);
+                        state_intent.putExtra(PersonalStateActivity.TYPE, PersonalStateActivity.OTHRE);
                         startActivity(state_intent);
                     }
                 });

@@ -60,7 +60,7 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
         return new CollectFragment();
     }
 
-    private collect_adpter adpter;
+    private Collect_Adpter adpter;
     private List<String> list = new ArrayList<String>();
     private View view;
     private ShoolRewardActivity activity;
@@ -91,7 +91,7 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
         dotsTextView.start();
         listview.addFooterView(footview);
         activity=(ShoolRewardActivity)getActivity();
-        adpter = new collect_adpter(getContext(), 1, list, this,activity);
+        adpter = new Collect_Adpter(getContext(), 1, list, this,activity);
         listview.setAdapter(adpter);
 
         title.setText("收藏");

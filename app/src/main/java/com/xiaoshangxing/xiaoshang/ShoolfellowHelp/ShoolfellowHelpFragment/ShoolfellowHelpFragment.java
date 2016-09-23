@@ -144,8 +144,30 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_HELP),
                 new PtrDefaultHandler() {
                     @Override
-                    public void onRefreshBegin(PtrFrameLayout frame) {
-//                        mPresenter.RefreshData(frame, realm);
+                    public void onRefreshBegin(final PtrFrameLayout frame) {
+                        LoadUtils.getPublished(realm, NS.CATEGORY_HELP, LoadUtils.TIME_LOAD_HELP, getContext(), false,
+                                new LoadUtils.AroundLoading() {
+                                    @Override
+                                    public void before() {
+                                        LoadUtils.clearDatabase(NS.CATEGORY_HELP, false, true);
+                                    }
+
+                                    @Override
+                                    public void complete() {
+                                        initListview();
+                                        frame.refreshComplete();
+                                    }
+
+                                    @Override
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void error() {
+                                        frame.refreshComplete();
+                                    }
+                                });
                     }
                 });
     }

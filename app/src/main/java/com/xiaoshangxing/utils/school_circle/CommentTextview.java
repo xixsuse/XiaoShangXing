@@ -15,7 +15,7 @@ import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.wo.myState.myStateActivity;
+import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,7 +104,7 @@ public class CommentTextview extends EmotinText {
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent = new Intent(context, myStateActivity.class);
+                Intent intent = new Intent(context, PersonalStateActivity.class);
                 context.startActivity(intent);
                 Log.d("name", reply_person);
             }

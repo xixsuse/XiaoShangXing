@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState.check_photo;
+package com.xiaoshangxing.wo.PersonalState.check_photo;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -23,7 +23,7 @@ import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.HackyViewPager;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImageDetailFragment;
-import com.xiaoshangxing.wo.myState.DetailsActivity.DetailsActivity;
+import com.xiaoshangxing.wo.PersonalState.DetailsActivity.DetailsActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.ArrayList;

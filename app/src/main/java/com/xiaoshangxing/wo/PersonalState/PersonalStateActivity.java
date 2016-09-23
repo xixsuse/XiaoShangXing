@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState;
+package com.xiaoshangxing.wo.PersonalState;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +35,7 @@ import io.realm.Sort;
  * Created by FengChaoQun
  * on 2016/7/9
  */
-public class myStateActivity extends BaseActivity implements StateContract.View {
+public class PersonalStateActivity extends BaseActivity implements StateContract.View {
     public static final String TYPE = "TYPE";
     public static final int SELF = 1000;
     public static final int OTHRE = 2000;
@@ -116,7 +116,7 @@ public class myStateActivity extends BaseActivity implements StateContract.View 
 
     @Override
     public void gotoNews() {
-        Intent news_intent = new Intent(myStateActivity.this, NewsActivity.class);
+        Intent news_intent = new Intent(PersonalStateActivity.this, NewsActivity.class);
         startActivity(news_intent);
     }
 
@@ -152,11 +152,11 @@ public class myStateActivity extends BaseActivity implements StateContract.View 
         LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFSTATE), new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(final PtrFrameLayout frame) {
-                LoadUtils.getPublished(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_SELFSTATE, myStateActivity.this,true,
+                LoadUtils.getPublished(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_SELFSTATE, PersonalStateActivity.this, true,
                         new LoadUtils.AroundLoading() {
                             @Override
                             public void before() {
-
+                                LoadUtils.clearDatabase(NS.CATEGORY_STATE, true, true);
                             }
 
                             @Override

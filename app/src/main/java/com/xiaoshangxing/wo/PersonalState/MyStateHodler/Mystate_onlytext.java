@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState.MyStateHodler;
+package com.xiaoshangxing.wo.PersonalState.MyStateHodler;
 
 import android.content.Intent;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.wo.myState.DetailsActivity.DetailsActivity;
+import com.xiaoshangxing.wo.PersonalState.DetailsActivity.DetailsActivity;
 
 /**
  * Created by FengChaoQun

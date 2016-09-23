@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState;
+package com.xiaoshangxing.wo.PersonalState;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 
@@ -23,20 +23,18 @@ import java.util.Random;
  * Created by FengChaoQun
  * on 2016/4/20
  */
-public class Mystate_adpter extends ArrayAdapter<String> {
+public class PersonalState_adpter extends ArrayAdapter<Published> {
     private Context context;
-    private int resource;
-    List<String> strings;
+    List<Published> strings;
     WoFragment woFragment;
 
     private Handler mHandler;
-    private myStateActivity activity;
+    private PersonalStateActivity activity;
 
-    public Mystate_adpter(Context context, int resource, List<String> objects,myStateActivity activity) {
+    public PersonalState_adpter(Context context, int resource, List<Published> objects, PersonalStateActivity activity) {
         super(context, resource, objects);
         this.context = context;
         this.strings = objects;
-        this.resource = resource;
         this.activity=activity;
         mHandler = new Handler();
     }
@@ -113,7 +111,7 @@ public class Mystate_adpter extends ArrayAdapter<String> {
                 break;
         }
         if (position==0){
-            if (activity.getCurrent_type()==myStateActivity.SELF){
+            if (activity.getCurrent_type() == PersonalStateActivity.SELF) {
                 viewholder.saySomething.setVisibility(View.VISIBLE);
                 viewholder.saySomething.setOnClickListener(new View.OnClickListener() {
                     @Override

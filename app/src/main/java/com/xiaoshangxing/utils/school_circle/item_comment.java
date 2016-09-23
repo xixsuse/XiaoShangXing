@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.wo.myState.myStateActivity;
+import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 
 /**
  * Created by FengChaoQun
@@ -59,7 +59,7 @@ public class Item_Comment {
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent=new Intent(context,myStateActivity.class);
+                Intent intent=new Intent(context,PersonalStateActivity.class);
                 context.startActivity(intent);
                 Log.d("name",reply_person);
             }
@@ -80,7 +80,7 @@ public class Item_Comment {
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent=new Intent(context,myStateActivity.class);
+                Intent intent=new Intent(context,PersonalStateActivity.class);
                 context.startActivity(intent);
                 Log.d("name",reply_person);
             }
@@ -99,7 +99,7 @@ public class Item_Comment {
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent=new Intent(context,myStateActivity.class);
+                Intent intent=new Intent(context,PersonalStateActivity.class);
                 context.startActivity(intent);
                 Log.d("name",replyed_person);
             }

@@ -6,8 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.wo.myState.myStateActivity;
+import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 
 /**
  * Created by FengChaoQun
@@ -48,9 +47,9 @@ public class Name extends TextView {
                 setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent state_intent = new Intent(context, myStateActivity.class);
+                        Intent state_intent = new Intent(context, PersonalStateActivity.class);
 //                        state_intent.putExtra(myStateActivity.TYPE,myStateActivity.OTHRE);
-                        state_intent.putExtra(myStateActivity.TYPE, myStateActivity.SELF);
+                        state_intent.putExtra(PersonalStateActivity.TYPE, PersonalStateActivity.SELF);
                         context.startActivity(state_intent);
                     }
                 });

@@ -24,7 +24,7 @@ import java.util.List;
  * Created by FengChaoQun
  * on 2016/4/20
  */
-public class collect_adpter extends ArrayAdapter<String> {
+public class Collect_Adpter extends ArrayAdapter<String> {
     private Context context;
     private int resource;
     List<String> strings;
@@ -33,8 +33,8 @@ public class collect_adpter extends ArrayAdapter<String> {
     private ShoolRewardActivity activity;
 
 
-    public collect_adpter(Context context, int resource, List<String> objects,
-                          CollectFragment fragment,ShoolRewardActivity activity  ) {
+    public Collect_Adpter(Context context, int resource, List<String> objects,
+                          CollectFragment fragment, ShoolRewardActivity activity  ) {
         super(context, resource, objects);
         this.context = context;
         this.strings = objects;

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState.DetailsActivity;
+package com.xiaoshangxing.wo.PersonalState.DetailsActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -33,10 +33,10 @@ import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
-import com.xiaoshangxing.wo.myState.check_photo.myStateNoScrollGridAdapter;
-import com.xiaoshangxing.wo.myState.myStateActivity;
+import com.xiaoshangxing.wo.PersonalState.check_photo.myStateNoScrollGridAdapter;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -331,7 +331,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     public void finishPager() {
-        Intent intent = new Intent(this, myStateActivity.class);
+        Intent intent = new Intent(this, PersonalStateActivity.class);
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, String.valueOf(TempUser.id));
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

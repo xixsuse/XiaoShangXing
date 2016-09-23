@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.wo.myState.myStateActivity;
+import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
 /**
@@ -124,7 +124,7 @@ public class CirecleImage extends ImageView {
                 setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent state_intent = new Intent(context, myStateActivity.class);
+                        Intent state_intent = new Intent(context, PersonalStateActivity.class);
                         state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
                         context.startActivity(state_intent);
                     }

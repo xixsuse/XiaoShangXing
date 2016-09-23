@@ -129,7 +129,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         context.startActivity(intent);
     }
 
-
     private void requestBasicPermission() {
         MPermission.with(MainActivity.this)
                 .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)

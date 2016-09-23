@@ -371,5 +371,4 @@ public class XSXApplication extends Application {
         MultiDex.install(this);
     }
 
-
 }

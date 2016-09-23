@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState;
+package com.xiaoshangxing.wo.PersonalState;
 
 import android.content.Context;
 import android.os.Handler;
@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.wo.myState.MyStateHodler.MyStateHodlerBase;
-import com.xiaoshangxing.wo.myState.MyStateHodler.Mystate_holder_transmit;
-import com.xiaoshangxing.wo.myState.MyStateHodler.Mystate_image_text;
-import com.xiaoshangxing.wo.myState.MyStateHodler.Mystate_onlytext;
+import com.xiaoshangxing.wo.PersonalState.MyStateHodler.MyStateHodlerBase;
+import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_holder_transmit;
+import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_image_text;
+import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_onlytext;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState.MyStateHodler;
+package com.xiaoshangxing.wo.PersonalState.MyStateHodler;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -12,7 +12,7 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
-import com.xiaoshangxing.wo.myState.check_photo.myStateImagePagerActivity;
+import com.xiaoshangxing.wo.PersonalState.check_photo.myStateImagePagerActivity;
 
 /**
  * Created by FengChaoQun

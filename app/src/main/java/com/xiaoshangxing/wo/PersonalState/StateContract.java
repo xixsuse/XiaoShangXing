@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState;
+package com.xiaoshangxing.wo.PersonalState;
 
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;

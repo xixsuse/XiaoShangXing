@@ -17,9 +17,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 import okhttp3.ResponseBody;
 import rx.Subscriber;
 
@@ -86,7 +88,7 @@ public class LoadUtils {
     }
 
     /**
-     * description:刷新自己的动态
+     * description:刷新动态
      *
      * @param realm         数据库
      * @param type          需要刷新的动态类型
@@ -98,6 +100,7 @@ public class LoadUtils {
 
     public static void getPublished(final Realm realm, String type, final String loadtime,
                                     final Context context, boolean isSelf, final AroundLoading aroundLoading) {
+
         if (aroundLoading != null) {
             aroundLoading.before();
         }
@@ -173,6 +176,52 @@ public class LoadUtils {
                 Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    /**
+     * description:  清除数据库中指定动态
+     *
+     * @param category   指定清除数据的类型
+     * @param onlyself   是否只清除用户自己的动态
+     * @param remainsome 是否只保留若干动态
+     * @return
+     */
+
+    public static void clearDatabase(String category, boolean onlyself, boolean remainsome) {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<Published> realmResults;
+        final List<Published> deleteItems;
+        if (onlyself) {
+            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, Integer.valueOf(category))
+                    .equalTo(NS.ID, TempUser.id).findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else {
+            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, Integer.valueOf(category))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        }
+
+        if (remainsome) {
+            if (realmResults.size() > 20) {
+                deleteItems = realmResults.subList(20, realmResults.size());
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        for (Published i : deleteItems) {
+                            i.deleteFromRealm();
+                        }
+                        Log.d("clear data ", "success");
+                    }
+                });
+            }
+        } else {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realmResults.deleteAllFromRealm();
+                    Log.d("clear data ", "success");
+                }
+            });
+        }
+
     }
 
     /**

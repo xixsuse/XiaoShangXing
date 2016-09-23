@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState.DetailsActivity;
+package com.xiaoshangxing.wo.PersonalState.DetailsActivity;
 
 import android.content.Context;
 import android.view.View;

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.myState.MyStateHodler;
+package com.xiaoshangxing.wo.PersonalState.MyStateHodler;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.wo.myState.MystateAdpter;
+import com.xiaoshangxing.wo.PersonalState.MystateAdpter;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import io.realm.Realm;
