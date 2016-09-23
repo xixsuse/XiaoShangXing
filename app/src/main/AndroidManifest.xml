@@ -114,7 +114,7 @@
         <!--android:enabled="true"-->
         <!--android:exported="false">-->
         <!--<intent-filter>-->
-        <!--<action android:name="com.netease.nim.demo.ACTION.RECEIVE_CUSTOM_NOTIFICATION" />-->
+        <!--<action android:na0me="com.netease.nim.demo.ACTION.RECEIVE_CUSTOM_NOTIFICATION" />-->
         <!--</intent-filter>-->
         <!--</receiver>-->
 

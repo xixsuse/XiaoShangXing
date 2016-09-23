@@ -35,7 +35,6 @@ public class Wo_listview_adpter extends ArrayAdapter<Published> {
     List<Published> publisheds;
     WoFragment woFragment;
     private BaseActivity activity;
-    private Handler mHandler;
     private ListView listView;
     Realm realm;
     private final Map<Class<?>, Integer> viewTypes;
@@ -49,9 +48,7 @@ public class Wo_listview_adpter extends ArrayAdapter<Published> {
         this.activity = activity;
         this.realm = realm;
         this.listView = listView;
-        mHandler = new Handler();
         this.viewTypes = new HashMap<Class<?>, Integer>(getViewTypeCount());
-
     }
 
     @Override
@@ -157,6 +154,4 @@ public class Wo_listview_adpter extends ArrayAdapter<Published> {
             }
         }
     }
-
-
 }

@@ -135,7 +135,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     private void initListview() {
         publisheds = realm.where(Published.class)
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
-                .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
+                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         adpter = new shoolfellow_adpter(getContext(), 1, publisheds, this, (ShoolfellowHelpActivity) getActivity());
         listview.setAdapter(adpter);
     }
@@ -154,13 +154,12 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
                                     @Override
                                     public void complete() {
-                                        initListview();
                                         frame.refreshComplete();
                                     }
 
                                     @Override
                                     public void onSuccess() {
-
+                                        initListview();
                                     }
 
                                     @Override

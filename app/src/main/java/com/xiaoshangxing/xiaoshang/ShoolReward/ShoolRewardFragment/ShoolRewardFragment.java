@@ -294,7 +294,8 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
     @Override
     public void refreshPager() {
-        publisheds = realm.where(Published.class).equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
                 .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         adpter = new shoolreward_adpter(getContext(), 1, publisheds, this, (ShoolRewardActivity) getActivity());
         listview.setAdapter(adpter);

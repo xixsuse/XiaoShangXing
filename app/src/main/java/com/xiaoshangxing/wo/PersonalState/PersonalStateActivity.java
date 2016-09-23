@@ -88,7 +88,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
         publisheds = realm.where(Published.class)
                 .equalTo(NS.USER_ID, Integer.valueOf(account))
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
-                .findAll().sort(NS.ID, Sort.DESCENDING);
+                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
 
         MystateAdpter mystateAdpter = new MystateAdpter(this, publisheds, realm);
         listView.setAdapter(mystateAdpter);

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -182,20 +183,20 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    x1 = event.getX();
-                    y1 = event.getY();
-
-                }
-                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    x2 = event.getX();
-                    y2 = event.getY();
-                    if (y1 - y2 > 15 && !is_titleMove) {
-                        hideTitle();
-                    } else if (y2 - y1 > 5 & !is_titleMove) {
-                        showTitle();
-                    }
-                }
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    x1 = event.getX();
+//                    y1 = event.getY();
+//
+//                }
+//                if (event.getAction() == MotionEvent.ACTION_MOVE) {
+//                    x2 = event.getX();
+//                    y2 = event.getY();
+//                    if (y1 - y2 > 15 && !is_titleMove) {
+//                        hideTitle();
+//                    } else if (y2 - y1 > 5 & !is_titleMove) {
+//                        showTitle();
+//                    }
+//                }
 //               隐藏评论框
                 hideEdittext();
                 return false;
@@ -281,6 +282,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 //        woAdapter1 = new WoAdapter1(getContext(), publisheds, this, (BaseActivity) getActivity(), realm);
 
         listView.setAdapter(wo_listview_adpter);
+        wo_listview_adpter.notifyDataSetChanged();
+        Log.d("ssssss", "sssss");
 
 //        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 //            @Override
@@ -323,35 +326,31 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                        if (!is_refresh) {
                             LoadUtils.getPublished(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_STATE, getContext(), false,
                                     new LoadUtils.AroundLoading() {
                                         @Override
                                         public void before() {
                                             divider_line.setVisibility(View.INVISIBLE);
-                                            setRefreshState(true);
                                             LoadUtils.clearDatabase(NS.CATEGORY_STATE, false, true);
                                         }
 
                                         @Override
                                         public void complete() {
                                             frame.refreshComplete();
-                                            setRefreshState(false);
                                         }
 
                                         @Override
                                         public void onSuccess() {
-
+                                            initListview();
                                         }
 
                                         @Override
                                         public void error() {
                                             frame.refreshComplete();
-                                            setRefreshState(false);
                                         }
                                     });
                         }
-                    }
+
                 });
     }
 

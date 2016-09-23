@@ -2,10 +2,11 @@ package com.xiaoshangxing.wo.WoFrafment.WoViewHolder;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -24,10 +25,6 @@ import java.util.ArrayList;
 public class WoJustOneImage extends WoBaseHolder {
 
     private ImageView justOne;
-
-//    public WoJustOneImage(Context context, Published published, BaseActivity activity, Realm realm, WoFragment woFragment) {
-//        super(context, published, activity, realm, woFragment);
-//    }
 
     @Override
     public void inflate() {
@@ -53,10 +50,12 @@ public class WoJustOneImage extends WoBaseHolder {
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        if (resource.getHeight() > context.getResources().getDimensionPixelSize(R.dimen.y600)) {
-                            justOne.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                                    context.getResources().getDimensionPixelSize(R.dimen.y600)));
-                        }
+//                        if (resource.getHeight() > context.getResources().getDimensionPixelSize(R.dimen.y600)) {
+//                            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+//                                    context.getResources().getDimensionPixelSize(R.dimen.y600));
+//                            params.gravity = Gravity.START;
+//                            justOne.setLayoutParams(params);
+//                        }
                         justOne.setImageBitmap(resource);
                     }
                 });
@@ -72,6 +71,4 @@ public class WoJustOneImage extends WoBaseHolder {
             }
         });
     }
-
-
 }
