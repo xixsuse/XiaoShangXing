@@ -8,6 +8,7 @@ import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -16,11 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.baidu.mapapi.search.core.PoiInfo;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.CharacterParser;
 import com.xiaoshangxing.SelectPerson.PinyinComparator;
 import com.xiaoshangxing.SelectPerson.SideBar;
 import com.xiaoshangxing.SelectPerson.SortModel;
+import com.xiaoshangxing.input_activity.Location.BaiduMapUtilByRacer;
+import com.xiaoshangxing.input_activity.Location.LocationBean;
 import com.xiaoshangxing.setting.personalinfo.hometown.ProvinceModel;
 import com.xiaoshangxing.setting.personalinfo.hometown.XmlParserHandler;
 import com.xiaoshangxing.utils.BaseActivity;
@@ -47,6 +51,8 @@ public class DiQUActivity extends BaseActivity {
     LinearLayout view2;
     @Bind(R.id.editText)
     EditText editText;
+    @Bind(R.id.province)
+    TextView province;
 
     private ListView sortListView;
     private SideBar sideBar;
@@ -57,12 +63,18 @@ public class DiQUActivity extends BaseActivity {
     private List<String> citys = new ArrayList<>();
     private List<SortModel> SourceDateList = new ArrayList<>();
     private List<ProvinceModel> provinceList = null;
+    private LocationBean mLocationBean;
+    private static String CurrentProvince;
+    private static boolean isLocationSuccess = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertify_diqu);
         ButterKnife.bind(this);
+
+        //获取当前省市
+        getProvince();
 
         initProvinceDatas();
         if (provinceList != null && provinceList.size() > 0) {
@@ -133,6 +145,45 @@ public class DiQUActivity extends BaseActivity {
                 finish();
             }
         });
+
+
+        province.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isLocationSuccess) {
+                    Intent intent = new Intent(DiQUActivity.this, SchoolActivity.class);
+                    intent.putExtra("city", CurrentProvince);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
+
+    }
+
+    private void getProvince() {
+        BaiduMapUtilByRacer.locateByBaiduMap(this, 1000,
+                new BaiduMapUtilByRacer.LocateListener() {
+                    @Override
+                    public void onLocateSucceed(LocationBean locationBean) {
+                        Log.d("qqq", "sucess...");
+                        mLocationBean = locationBean;
+                        CurrentProvince = mLocationBean.getProvince();
+                        province.setText(CurrentProvince);
+                        isLocationSuccess = true;
+                    }
+
+                    @Override
+                    public void onLocateFiled() {
+                        province.setText("定位失败");
+                        isLocationSuccess = false;
+                    }
+
+                    @Override
+                    public void onLocating() {
+                        province.setText("正在定位...");
+                    }
+                });
 
 
     }
@@ -219,4 +270,11 @@ public class DiQUActivity extends BaseActivity {
         adapter.updateListView(SourceDateList);
         editText.setText("");
     }
-}
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (CurrentProvince != null) province.setText(CurrentProvince);
+    }
+};

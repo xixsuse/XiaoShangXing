@@ -11,9 +11,13 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.yujian.IM.kit.permission.MPermission;
+import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionDenied;
+import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionGranted;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,6 +42,7 @@ public class PreviewActivity extends Activity {
     private String type;
     private int zuoyou;
     public static String imgName = "img.jpeg";
+    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
 
 
     @Override
@@ -45,6 +50,7 @@ public class PreviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertify_preview);
         ButterKnife.bind(this);
+//        requestBasicPermission();
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         initText();
 
@@ -80,6 +86,7 @@ public class PreviewActivity extends Activity {
         });
 
     }
+
 
 
     private void initText() {
@@ -174,4 +181,33 @@ public class PreviewActivity extends Activity {
         }
         return index;
     }
+
+
+//    private void requestBasicPermission() {
+//        MPermission.with(PreviewActivity.this)
+//                .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+//                .permissions(
+//                        android.Manifest.permission.CAMERA
+//                )
+//                .request();
+//    }
+//
+//
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+//        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+//    }
+//
+//    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+//    public void onBasicPermissionSuccess() {
+//        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+//    public void onBasicPermissionFailed() {
+//        Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
+//        finish();
+//    }
+
 }

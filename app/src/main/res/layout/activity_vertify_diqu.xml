@@ -113,13 +113,14 @@
         android:textSize="14sp" />
 
     <TextView
+        android:id="@+id/province"
         style="@style/black_16sp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_144"
         android:background="@color/w0"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/x48"
-        android:text="江苏省" />
+        android:text="正在定位..." />
 
     <FrameLayout
         android:layout_width="match_parent"
