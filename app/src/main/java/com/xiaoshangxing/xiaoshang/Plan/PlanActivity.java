@@ -1,4 +1,4 @@
-package com.xiaoshangxing.xiaoshang.Sale;
+package com.xiaoshangxing.xiaoshang.Plan;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -28,24 +28,22 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.xiaoshang.Sale.PersonalSale.PersonalSaleFragment;
-import com.xiaoshangxing.xiaoshang.Sale.SaleCollect.SaleCollectFragment;
-import com.xiaoshangxing.xiaoshang.Sale.SaleFrafment.SaleFragment;
+import com.xiaoshangxing.xiaoshang.Plan.JoinedPlan.JoinedPlanFragment;
+import com.xiaoshangxing.xiaoshang.Plan.PersonalPlan.PersonalPlanFragment;
+import com.xiaoshangxing.xiaoshang.Plan.PlanFragment.PlanFragment;
 
 /**
  * Created by FengChaoQun
- * on 2016/9/28
+ * on 2016/9/29
  */
-public class SaleActivity extends BaseActivity implements IBaseView {
-    public static final String TAG = BaseActivity.TAG + "-SaleActivity";
-
-    private SaleFragment saleFragment;
-    private PersonalSaleFragment personalSaleFragment;
-    private SaleCollectFragment saleCollectFragment;
-
+public class PlanActivity extends BaseActivity implements IBaseView {
+    public static final String TAG = BaseActivity.TAG + "-PlanActivity";
     private boolean isHideMenu;//记录是否需要点击返回键隐藏菜单
-
     private int transmitedId = -1;
+
+    private PlanFragment planFragment;
+    private JoinedPlanFragment joinedPlanFragment;
+    private PersonalPlanFragment personalPlanFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +53,7 @@ public class SaleActivity extends BaseActivity implements IBaseView {
         if (frag != null) {
             return;
         }
-//        parseIntent();
+        parseIntent();
         initAllFrafments();
     }
 
@@ -82,35 +80,23 @@ public class SaleActivity extends BaseActivity implements IBaseView {
     private void initAllFrafments() {
         Fragment frag;
 
-        frag = mFragmentManager.findFragmentByTag(SaleFragment.TAG);
-        saleFragment = (frag == null) ? SaleFragment.newInstance() : (SaleFragment) frag;
+        frag = mFragmentManager.findFragmentByTag(PlanFragment.TAG);
+        planFragment = (frag == null) ? PlanFragment.newInstance() : (PlanFragment) frag;
 
-        frag = mFragmentManager.findFragmentByTag(PersonalSaleFragment.TAG);
-        personalSaleFragment = (frag == null) ? PersonalSaleFragment.newInstance() : (PersonalSaleFragment) frag;
+        frag = mFragmentManager.findFragmentByTag(JoinedPlanFragment.TAG);
+        joinedPlanFragment = (frag == null) ? JoinedPlanFragment.newInstance() : (JoinedPlanFragment) frag;
 
-        frag = mFragmentManager.findFragmentByTag(SaleCollectFragment.TAG);
-        saleCollectFragment = (frag == null) ? SaleCollectFragment.newInstance() : (SaleCollectFragment) frag;
-
-        mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                saleCollectFragment, SaleCollectFragment.TAG).commit();
+        frag = mFragmentManager.findFragmentByTag(PersonalPlanFragment.TAG);
+        personalPlanFragment = (frag == null) ? PersonalPlanFragment.newInstance() : (PersonalPlanFragment) frag;
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                personalSaleFragment, PersonalSaleFragment.TAG).commit();
+                joinedPlanFragment, JoinedPlanFragment.TAG).commit();
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                saleFragment, SaleFragment.TAG).commit();
-    }
+                personalPlanFragment, PersonalPlanFragment.TAG).commit();
 
-    public SaleFragment getSaleFragment() {
-        return saleFragment;
-    }
-
-    public PersonalSaleFragment getPersonalSaleFragment() {
-        return personalSaleFragment;
-    }
-
-    public SaleCollectFragment getSaleCollectFragment() {
-        return saleCollectFragment;
+        mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                planFragment, PlanFragment.TAG).commit();
     }
 
     public boolean isHideMenu() {
@@ -155,12 +141,12 @@ public class SaleActivity extends BaseActivity implements IBaseView {
             return;
         }
         int userId = published.getUserId();
-        UserInfoCache.getInstance().getHead(head, userId, SaleActivity.this);
+        UserInfoCache.getInstance().getHead(head, userId, PlanActivity.this);
         UserInfoCache.getInstance().getName(name, userId);
         UserInfoCache.getInstance().getCollege(college, userId);
         text.setText(published.getText());
         if (!TextUtils.isEmpty(published.getImage())) {
-            MyGlide.with(SaleActivity.this, published.getImage().split(NS.SPLIT)[0], imageView);
+            MyGlide.with(PlanActivity.this, published.getImage().split(NS.SPLIT)[0], imageView);
         }
 
         cancle.setOnClickListener(new View.OnClickListener() {
@@ -172,7 +158,7 @@ public class SaleActivity extends BaseActivity implements IBaseView {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.Tranmit(transmitedId, NS.CATEGORY_SALE, id, SaleActivity.this, input.getText().toString(),
+                OperateUtils.Tranmit(transmitedId, NS.CATEGORY_SALE, id, PlanActivity.this, input.getText().toString(),
                         new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
@@ -199,10 +185,10 @@ public class SaleActivity extends BaseActivity implements IBaseView {
 
     public void showTransmitSuccess() {
         DialogUtils.Dialog_No_Button dialog_no_button =
-                new DialogUtils.Dialog_No_Button(SaleActivity.this, "已分享");
+                new DialogUtils.Dialog_No_Button(PlanActivity.this, "已分享");
         final Dialog notice_dialog = dialog_no_button.create();
         notice_dialog.show();
-        LocationUtil.setWidth(SaleActivity.this, notice_dialog,
+        LocationUtil.setWidth(PlanActivity.this, notice_dialog,
                 getResources().getDimensionPixelSize(R.dimen.x420));
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -217,7 +203,7 @@ public class SaleActivity extends BaseActivity implements IBaseView {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (isHideMenu) {
-                personalSaleFragment.showHideMenu(false);
+                personalPlanFragment.showHideMenu(false);
                 return true;
             } else {
                 return super.onKeyDown(keyCode, event);
@@ -226,6 +212,18 @@ public class SaleActivity extends BaseActivity implements IBaseView {
             return super.onKeyDown(keyCode, event);
         }
 
+    }
+
+    public PlanFragment getPlanFragment() {
+        return planFragment;
+    }
+
+    public JoinedPlanFragment getJoinedPlanFragment() {
+        return joinedPlanFragment;
+    }
+
+    public PersonalPlanFragment getPersonalPlanFragment() {
+        return personalPlanFragment;
     }
 
     @Override

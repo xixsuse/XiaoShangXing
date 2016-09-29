@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w3">
+
+    <LinearLayout
+        android:id="@+id/up_lay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y420"
+        android:layout_marginEnd="@dimen/width_48"
+        android:layout_marginStart="@dimen/width_48"
+        android:layout_marginTop="@dimen/y60"
+        android:background="@drawable/et_circular_4_white_withnostroke"
+        android:orientation="vertical">
+
+        <!--姓名 学院-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y172">
+
+            <!--姓名-->
+            <com.xiaoshangxing.utils.layout.Name
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x126"
+                android:layout_marginTop="@dimen/y32"
+                android:text="@string/app_name"
+                android:textColor="@color/blue1"
+                android:textSize="14sp" />
+
+            <!--学院-->
+            <TextView
+                android:id="@+id/college"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x24"
+                android:layout_marginTop="@dimen/y35"
+                android:layout_toRightOf="@+id/name"
+                android:text="555"
+                android:textColor="@color/b0"
+                android:textSize="13sp" />
+
+            <!--下拉箭头-->
+            <ImageView
+                android:id="@+id/down_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="@dimen/x24"
+                android:layout_marginTop="@dimen/y20"
+                android:src="@mipmap/down_arrow_gray"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/complete"
+                android:layout_width="@dimen/x155"
+                android:layout_height="@dimen/y188"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/x76"
+                android:layout_marginTop="@dimen/y30"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/plan_complete"
+                android:visibility="visible" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/x60"
+            android:layout_marginStart="@dimen/x66"
+            android:orientation="vertical">
+
+            <!--计划名称-->
+            <TextView
+                android:id="@+id/plan_name"
+                style="@style/black_16sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5555" />
+
+            <!--文字内容-->
+            <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y18"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@string/longtext"
+                android:textColor="@color/b0"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y120"
+        android:layout_below="@+id/up_lay"
+        android:layout_marginEnd="@dimen/width_48"
+        android:layout_marginStart="@dimen/width_48"
+        android:paddingTop="@dimen/y30">
+
+        <!--时间-->
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="555"
+            android:textColor="@color/g0"
+            android:textSize="11sp" />
+
+        <!--人数-->
+        <TextView
+            android:id="@+id/people_limit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/width_48"
+            android:layout_toRightOf="@+id/time"
+            android:text="555"
+            android:textColor="@color/g0"
+            android:textSize="11sp" />
+
+        <!--加入人数-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
+            android:orientation="horizontal">
+
+            <!--已加入人数-->
+            <TextView
+                android:id="@+id/joined_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12"
+                android:textColor="@color/green1"
+                android:textSize="11sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="人已加入"
+                android:textColor="@color/g0"
+                android:textSize="11sp" />
+
+            <!--满员-->
+            <TextView
+                android:id="@+id/full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="(满员)"
+                android:textColor="@color/red1"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!--头像-->
+    <com.xiaoshangxing.utils.layout.CirecleImage
+        android:id="@+id/head_image"
+        android:layout_width="@dimen/x126"
+        android:layout_height="@dimen/y126"
+        android:layout_marginStart="@dimen/x30"
+        android:layout_marginTop="@dimen/y42"
+        android:src="@mipmap/greyblock" />
+
+</RelativeLayout>

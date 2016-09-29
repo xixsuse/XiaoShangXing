@@ -344,7 +344,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.Tranmit(published_id, NS.CATEGORY_PLAN, id, iBaseView, input.getText().toString(),
+                OperateUtils.Tranmit(published_id, NS.CATEGORY_REWARD, id, iBaseView, input.getText().toString(),
                         new SimpleCallBack() {
                             @Override
                             public void onSuccess() {

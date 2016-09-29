@@ -164,7 +164,6 @@
                     android:layout_marginTop="@dimen/y36"
                     android:orientation="horizontal">
                     <com.xiaoshangxing.utils.layout.CirecleImage
-
                         android:layout_width="@dimen/x30"
                         android:layout_height="@dimen/y30"
                         android:layout_gravity="center_vertical"

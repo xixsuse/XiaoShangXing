@@ -38,6 +38,7 @@ public class NS {
     public static final String CATEGORY_PLAN = "3";
     public static final String CATEGORY_CALENDAR = "4";
     public static final String CATEGORY_SALE = "5";
+    public static final String APPLY_PLAN = "APPLY_PLAN";
     public static final String PRICE = "price";
     public static final String CREATETIME = "createTime";
     public static final String DORM = "dorm";

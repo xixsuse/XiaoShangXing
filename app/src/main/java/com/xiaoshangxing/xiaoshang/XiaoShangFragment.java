@@ -14,10 +14,10 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.xiaoshang.MessageNotice.MessageNoticeActivity;
+import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
-import com.xiaoshangxing.xiaoshang.planpropose.PlanProposeActivity;
 import com.xiaoshangxing.xiaoshang.schoolcalender.SchoolCalenderActivity;
 
 import butterknife.Bind;
@@ -199,8 +199,8 @@ public class XiaoShangFragment extends BaseFragment {
                 getContext().startActivity(help_intent);
                 break;
             case 4:
-                Intent planPropose = new Intent(getContext(), PlanProposeActivity.class);
-                getContext().startActivity(planPropose);
+                Intent plan = new Intent(getContext(), PlanActivity.class);
+                getContext().startActivity(plan);
                 break;
             case 5:
                 Intent idleSale = new Intent(getContext(), SaleActivity.class);

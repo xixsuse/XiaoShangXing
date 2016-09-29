@@ -1,4 +1,4 @@
-package com.xiaoshangxing.xiaoshang.Sale.PersonalSale;
+package com.xiaoshangxing.xiaoshang.Plan.PersonalPlan;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,7 +17,6 @@ import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
@@ -25,7 +24,7 @@ import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
+import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,14 +33,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
- * on 2016/9/28
+ * on 2016/9/29
  */
-public class PersonalSaleFragment extends BaseFragment implements PersonalSaleContract.View {
-    public static final String TAG = BaseFragment.TAG + "-PersonalSaleFragment";
+public class PersonalPlanFragment extends BaseFragment implements PersonalPlanContract.View {
+    public static final String TAG = BaseFragment.TAG + "-PersonalPlanFragment";
     @Bind(R.id.back_text)
     TextView backText;
     @Bind(R.id.back)
@@ -65,32 +63,33 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     @Bind(R.id.no_content)
     TextView noContent;
 
-    public static PersonalSaleFragment newInstance() {
-        return new PersonalSaleFragment();
+
+    public static PersonalPlanFragment newInstance() {
+        return new PersonalPlanFragment();
     }
 
-    private View view;
+    private View mview;
+    private Realm realm;
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
-    private Realm realm;
-    private PersonalSale_Adpter adpter;
-
+    private boolean isRefreshing;
+    private boolean isLoading;
     private List<Published> publisheds = new ArrayList<>();
+    private PersonalPlan_Adpter adpter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frag_myshoolhelp, null);
-        ButterKnife.bind(this, view);
+        mview = inflater.inflate(R.layout.frag_myshoolhelp, null);
+        ButterKnife.bind(this, mview);
         realm = Realm.getDefaultInstance();
-//        setmPresenter(new MyHelpPresenter(this, getContext(), realm));
         initView();
-        return view;
+        return mview;
     }
 
     private void initView() {
-        title.setText("我的闲置");
+        title.setText("我的计划");
         View view = new View(getContext());
         listview.addHeaderView(view);
         footview = View.inflate(getContext(), R.layout.footer, null);
@@ -98,7 +97,7 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
         dotsTextView.start();
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addFooterView(footview);
-        initFresh();
+//        initFresh();
         refreshData();
         showNoData();
     }
@@ -135,35 +134,8 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-        realm.close();
-    }
-
-    @OnClick({R.id.back, R.id.cancel, R.id.hide_trasmit, R.id.hide_delete})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.back:
-//                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, IntentStatic.MINE) == IntentStatic.MINE) {
-//                    getActivity().finish();
-//                } else {
-                getFragmentManager().popBackStack();
-//                }
-                break;
-            case R.id.cancel:
-                showHideMenu(false);
-                break;
-            case R.id.hide_trasmit:
-                break;
-            case R.id.hide_delete:
-                break;
-        }
-    }
-
-    @Override
     public void showHideMenu(boolean is) {
-        SaleActivity activity = (SaleActivity) getActivity();
+        PlanActivity activity = (PlanActivity) getActivity();
         if (is) {
             hideMenu.setVisibility(View.VISIBLE);
             activity.setHideMenu(true);
@@ -179,7 +151,7 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     }
 
     @Override
-    public void showDeleteSureDialog(final int publishedId) {
+    public void showDeleteSureDialog(final int id) {
         adpter.showSelectCircle(false);
         showHideMenu(false);
 
@@ -188,7 +160,8 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                OperateUtils.deleteOnePublished(publishedId, getContext(), PersonalSaleFragment.this, new SimpleCallBack() {
+//                mPresenter.delete();
+                OperateUtils.deleteOnePublished(id, getContext(), PersonalPlanFragment.this, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
                         refreshData();
@@ -229,12 +202,11 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
 
     @Override
     public void refreshData() {
-        publisheds = realm.where(Published.class)
-                .equalTo(NS.USER_ID, TempUser.id)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_SALE))
-                .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
+        for (int i = 0; i <= 10; i++) {
+            publisheds.add(new Published());
+        }
         showNoContentText(publisheds.size() < 1);
-        adpter = new PersonalSale_Adpter(getContext(), 1, publisheds, this, (SaleActivity) getActivity());
+        adpter = new PersonalPlan_Adpter(getContext(), 1, publisheds, this, (PlanActivity) getActivity());
         listview.setAdapter(adpter);
     }
 
@@ -251,7 +223,30 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     }
 
     @Override
-    public void setmPresenter(@Nullable PersonalSaleContract.Presenter presenter) {
+    public void setmPresenter(@Nullable PersonalPlanContract.Presenter presenter) {
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        realm.close();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick({R.id.back, R.id.cancel, R.id.hide_trasmit, R.id.hide_delete})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                getFragmentManager().popBackStack();
+                break;
+            case R.id.cancel:
+                showHideMenu(false);
+                break;
+            case R.id.hide_trasmit:
+                break;
+            case R.id.hide_delete:
+                break;
+        }
     }
 }

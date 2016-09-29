@@ -325,6 +325,14 @@
 
         </activity>
 
+        <activity android:name=".xiaoshang.Plan.PlanActivity">
+
+        </activity>
+
+        <activity android:name=".xiaoshang.Plan.PlanDetail.PlanDetailActivity">
+
+        </activity>
+
     </application>
 
 

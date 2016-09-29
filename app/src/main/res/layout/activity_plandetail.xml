@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w3"
+    android:orientation="vertical">
+
+    <!--导航栏-->
+    <RelativeLayout
+        android:id="@+id/title_lay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_144"
+        android:background="@color/w0"
+        android:paddingEnd="@dimen/width_48"
+        android:paddingStart="@dimen/width_48">
+
+        <!--返回-->
+        <LinearLayout
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/left_arrow_black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x12"
+                android:text="@string/back"
+                android:textColor="@color/b0"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+        <!--详情-->
+        <TextView
+            android:id="@+id/title"
+            style="@style/black_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="计划详情" />
+
+        <!--点点点-->
+        <ImageView
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/three_dot_black" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/width_48"
+            android:orientation="vertical">
+
+            <!--内容布局-->
+            <LinearLayout
+                android:id="@+id/up_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_circular_4_white_withnostroke"
+                android:orientation="vertical">
+
+                <!--头像 姓名 学院-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!--头像-->
+                    <com.xiaoshangxing.utils.layout.CirecleImage
+                        android:id="@+id/head_image"
+                        android:layout_width="@dimen/x102"
+                        android:layout_height="@dimen/y102"
+                        android:layout_marginStart="@dimen/x24"
+                        android:layout_marginTop="@dimen/y24"
+                        android:src="@mipmap/cirecleimage_default" />
+
+                    <!--姓名-->
+                    <com.xiaoshangxing.utils.layout.Name
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x18"
+                        android:layout_marginTop="@dimen/y58"
+                        android:text="@string/app_name"
+                        android:textColor="@color/blue1"
+                        android:textSize="13sp" />
+
+                    <!--学院-->
+                    <TextView
+                        android:id="@+id/college"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x12"
+                        android:layout_marginTop="@dimen/y58"
+                        android:text="@string/app_name"
+                        android:textColor="@color/g0"
+                        android:textSize="10sp" />
+
+                </LinearLayout>
+
+                <!--文字内容-->
+                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/x42"
+                    android:layout_marginStart="@dimen/x42"
+                    android:layout_marginTop="@dimen/y54"
+                    android:text="@string/longtext"
+                    android:textColor="@color/b0"
+                    android:textSize="14sp" />
+
+                <!--  加入人数-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/y12"
+                    android:layout_marginEnd="@dimen/x56"
+                    android:layout_marginStart="@dimen/x56"
+                    android:layout_marginTop="@dimen/y54">
+
+                    <!---->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="计划名称"
+                        android:textColor="@color/g0"
+                        android:textSize="14sp" />
+
+                    <!--加入人数-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
+                        android:orientation="horizontal">
+
+                        <!--已加入人数-->
+                        <TextView
+                            android:id="@+id/joined_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12"
+                            android:textColor="@color/green1"
+                            android:textSize="17sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="人已加入"
+                            android:textColor="@color/g0"
+                            android:textSize="12sp" />
+
+                        <!--满员-->
+                        <TextView
+                            android:id="@+id/full"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="(满员)"
+                            android:textColor="@color/red1"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <!--分割线-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginStart="@dimen/x56"
+                    android:background="@color/g1">
+
+                </View>
+
+                <!--计划名称-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y256"
+                    android:layout_marginStart="@dimen/x56">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/y36"
+                        android:orientation="horizontal">
+
+                        <com.xiaoshangxing.utils.layout.CirecleImage
+                            android:id="@+id/orange"
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/orange" />
+
+                        <TextView
+                            android:id="@+id/plan_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/x10"
+                            android:text="@string/app_name"
+                            android:textColor="@color/b0"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/y12"
+                        android:text="计划要求"
+                        android:textColor="@color/g0"
+                        android:textSize="14sp" />
+
+                </RelativeLayout>
+
+                <!--分割线-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginStart="@dimen/x56"
+                    android:background="@color/g1">
+
+                </View>
+
+                <!--计划要求 时间 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!--人数要求-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x56"
+                        android:layout_marginTop="@dimen/y36"
+                        android:orientation="horizontal">
+
+                        <com.xiaoshangxing.utils.layout.CirecleImage
+                            android:id="@+id/r4"
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/r4" />
+
+                        <TextView
+                            android:id="@+id/people_limit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/x10"
+                            android:text="@string/app_name"
+                            android:textColor="@color/b0"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <!--活动日期-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/x56"
+                        android:layout_marginTop="@dimen/y36"
+                        android:orientation="horizontal">
+
+                        <com.xiaoshangxing.utils.layout.CirecleImage
+                            android:id="@+id/blue6"
+                            android:layout_width="@dimen/x30"
+                            android:layout_height="@dimen/y30"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/blue6" />
+
+                        <TextView
+                            android:id="@+id/data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/x10"
+                            android:text="@string/app_name"
+                            android:textColor="@color/b0"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <!--发布日期-->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/width_48"
+                        android:layout_marginTop="@dimen/y72">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:orientation="horizontal">
+
+                            <!--日期-->
+                            <TextView
+                                android:id="@+id/time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="555"
+                                android:textColor="@color/g2"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/x18"
+                                android:text="由"
+                                android:textColor="@color/g2"
+                                android:textSize="12sp" />
+
+                            <!--发起人-->
+                            <com.xiaoshangxing.utils.layout.Name
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/x18"
+                                android:text="@string/app_name"
+                                android:textColor="@color/blue1"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/x18"
+                                android:layout_marginStart="@dimen/x24"
+                                android:text="发起"
+                                android:textColor="@color/g2"
+                                android:textSize="12sp" />
+
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--按钮-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y52">
+
+                <Button
+                    android:id="@+id/invite"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y116"
+                    android:layout_weight="1"
+                    android:background="@drawable/et_circular_4_white"
+                    android:text="邀请朋友"
+                    android:textColor="@color/b4"
+                    android:textSize="17sp" />
+
+                <Button
+                    android:id="@+id/apply"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/y116"
+                    android:layout_marginStart="@dimen/x44"
+                    android:layout_weight="1"
+                    android:background="@drawable/circular_4_green"
+                    android:text="加入计划"
+                    android:textColor="@color/w0"
+                    android:textSize="17sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

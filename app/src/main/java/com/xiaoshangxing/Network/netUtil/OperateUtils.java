@@ -170,7 +170,7 @@ public class OperateUtils {
                                final IBaseView iBaseView, final String text1, final SimpleCallBack callback) {
         IMMessage imMessage = null;
 
-        if (categry.equals(NS.CATEGORY_REWARD) || categry.equals(NS.CATEGORY_HELP)) {
+        if (categry.equals(NS.CATEGORY_REWARD) || categry.equals(NS.CATEGORY_HELP) || categry.equals(NS.CATEGORY_PLAN)) {
             TransmitMessage_NoImage noImage = new TransmitMessage_NoImage();
             noImage.setState_id(publishedId);
             imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
@@ -178,7 +178,7 @@ public class OperateUtils {
             TransmitMessage_WithImage transmitMessage_withImage = new TransmitMessage_WithImage();
             transmitMessage_withImage.setState_id(publishedId);
             imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, transmitMessage_withImage);
-        } else if (categry.equals(NS.CATEGORY_PLAN)) {
+        } else if (categry.equals(NS.APPLY_PLAN)) {
             ApplyPlanMessage applyPlanMessage = new ApplyPlanMessage();
             applyPlanMessage.setState_id(publishedId);
             imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, applyPlanMessage);
