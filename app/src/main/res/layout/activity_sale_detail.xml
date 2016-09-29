@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w0"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/edit_and_emot">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--导航栏-->
+            <RelativeLayout
+                android:id="@+id/title_lay"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_144"
+                android:background="@color/w0"
+                android:paddingEnd="@dimen/width_48"
+                android:paddingStart="@dimen/width_48">
+
+                <!--返回-->
+                <LinearLayout
+                    android:id="@+id/back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/left_arrow_black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/x12"
+                        android:text="@string/back"
+                        android:textColor="@color/b0"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+                <!--详情-->
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/black_16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="闲置详情" />
+
+                <!--点点点-->
+                <ImageView
+                    android:id="@+id/more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/three_dot_black" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--头像-->
+                <com.xiaoshangxing.utils.layout.CirecleImage
+                    android:id="@+id/head_image"
+                    android:layout_width="@dimen/x112"
+                    android:layout_height="@dimen/y112"
+                    android:layout_marginStart="@dimen/width_48"
+                    android:layout_marginTop="@dimen/height_48"
+                    android:src="@mipmap/cirecleimage_default" />
+
+                <!--姓名-->
+                <com.xiaoshangxing.utils.layout.Name
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x24"
+                    android:layout_marginTop="@dimen/y60"
+                    android:layout_toRightOf="@+id/head_image"
+                    android:text="@string/app_name"
+                    android:textColor="@color/blue1"
+                    android:textSize="14sp" />
+
+                <!--学院-->
+                <TextView
+                    android:id="@+id/college"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x24"
+                    android:layout_marginTop="@dimen/y63"
+                    android:layout_toRightOf="@+id/name"
+                    android:text="@string/app_name"
+                    android:textColor="@color/g0"
+                    android:textSize="13sp" />
+
+                <!--时间-->
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name"
+                    android:layout_marginStart="@dimen/x24"
+                    android:layout_marginTop="@dimen/y12"
+                    android:layout_toRightOf="@+id/head_image"
+                    android:text="555"
+                    android:textColor="@color/g0"
+                    android:textSize="10sp" />
+
+                <!--收藏-->
+                <CheckBox
+                    android:id="@+id/collect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/x24"
+                    android:layout_marginTop="@dimen/y20"
+                    android:background="@drawable/selector_reward_collect"
+                    android:button="@null"
+                    android:checked="false"
+                    android:focusable="false" />
+
+            </RelativeLayout>
+
+            <!--文字内容-->
+            <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/x78"
+                android:layout_marginStart="@dimen/x84"
+                android:layout_marginTop="@dimen/y20"
+                android:text="@string/longtext"
+                android:textColor="@color/b0"
+                android:textSize="14sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y150"
+                android:layout_marginEnd="@dimen/x78"
+                android:layout_marginStart="@dimen/x72">
+
+                <!--地址-->
+                <LinearLayout
+                    android:id="@+id/dorm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/x84"
+                        android:layout_height="@dimen/y84"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/icon_yuanqu" />
+
+                    <TextView
+                        android:id="@+id/tv_dormitory"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="桃园"
+                        android:textColor="@color/g0"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <!--完成标志-->
+                <ImageView
+                    android:id="@+id/complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@mipmap/plan_complete" />
+
+                <!--价格-->
+                <TextView
+                    android:id="@id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="@dimen/y18"
+                    android:text="555"
+                    android:textColor="@color/red1"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <!--图片内容-->
+            <com.xiaoshangxing.wo.WoFrafment.NoScrollGridView
+                android:id="@+id/pictures"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/x78"
+                android:layout_marginStart="@dimen/x84"
+                android:gravity="start"
+                android:numColumns="1"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="@dimen/y12">
+
+            </com.xiaoshangxing.wo.WoFrafment.NoScrollGridView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <!--输入框-->
+    <include layout="@layout/util_inputbox_and_emot">
+
+    </include>
+
+</RelativeLayout>

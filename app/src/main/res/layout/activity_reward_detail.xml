@@ -139,7 +139,8 @@
                         android:layout_marginEnd="@dimen/x24"
                         android:background="@drawable/selector_reward_collect"
                         android:button="@null"
-                        android:focusable="false" />
+                        android:focusable="false"
+                        android:checked="false" />
                     <!--价格-->
                     <TextView
                         android:id="@+id/price"

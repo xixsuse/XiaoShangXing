@@ -1,15 +1,13 @@
-package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp;
+package com.xiaoshangxing.xiaoshang.Sale.SaleCollect;
 
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 
 /**
  * Created by FengChaoQun
  * on 2016/7/23
  */
-public class MyhelpContract {
-
+public class SaleCollectContract {
     public interface View extends IBaseView<Presenter> {
         /*
         **describe:控制隐藏菜单的显示
@@ -19,19 +17,23 @@ public class MyhelpContract {
         /*
         **describe:弹出删除对话框
         */
-        void showDeleteSureDialog(int id);
+        void showDeleteSureDialog();
 
         /*
         **describe:没有内容时
         */
         void showNoContentText(boolean is);
         /*
-        **describe:刷新数据
+        **describe:弹出取消收藏对话框
         */
-        void refreshData();
+        void showCollectDialog(int id);
         /*
-       **describe:没有数据了
-       */
+        **describe:提示弹窗
+        */
+        void noticeDialog(String message);
+        /*
+        **describe:没有数据了
+        */
         void showNoData();
 
         /*
@@ -46,17 +48,14 @@ public class MyhelpContract {
         */
         void transmit();
         void delete();
+
         /*
-        **describe:完成或取消
+        **describe:取消收藏
         */
-        void completeOrCancle();
-        /*
-        **describe:加载数据
-        */
-        void refreshData(PtrFrameLayout frame);
+        void unCollect();
         /*
         **describe:加载更多
         */
-        void LoadMore();
+        void loadMore();
     }
 }

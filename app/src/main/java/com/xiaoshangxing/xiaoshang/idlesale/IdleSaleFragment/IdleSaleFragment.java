@@ -77,6 +77,7 @@ public class IdleSaleFragment extends BaseFragment implements IdleSaleContract.V
         fragment.setArguments(args);
         return fragment;
     }
+
     List<IdleBean> idles = new ArrayList<>();
     Uri came_photo_path = null;
     IdleSaleAdapter adapter;
@@ -245,6 +246,7 @@ public class IdleSaleFragment extends BaseFragment implements IdleSaleContract.V
         dialogMenu2.show();
         LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
     }
+
     public void noticeDialog(String message) {
         DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(getActivity(), message);
         final Dialog alertDialog = dialog_no_button.create();

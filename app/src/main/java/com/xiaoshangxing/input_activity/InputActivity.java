@@ -235,9 +235,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
         setContentView(R.layout.activity_input);
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
+        initPictureView();
         initState();
         initEmotView();
-        initPictureView();
         initKeyboard();
         initLocation();
         initShowSelect();
@@ -278,10 +278,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 initLanchPlan();
                 break;
             case XIANZHI:
-                emotionEdittext.setHint("输入闲置内容...");
-                showSelect.setVisibility(View.GONE);
-                xianzhiLay.setVisibility(View.VISIBLE);
-                location.setVisibility(View.GONE);
+                initSale();
+
                 break;
             case TRANSMIT:
                 initTransmit();
@@ -372,6 +370,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         emotionEdittext.addTextChangedListener(textWatcher);
         price.addTextChangedListener(textWatcher);
         rewardPrice.addTextChangedListener(textWatcher);
+        price.addTextChangedListener(textWatcher);
 
     }
 
@@ -520,6 +519,19 @@ public class InputActivity extends BaseActivity implements IBaseView {
         }
     }
 
+    private void initSale() {
+        if (!getIntent().hasExtra(SELECT_IMAGE_URLS)) {
+            showToast("没有图片信息");
+            return;
+        } else {
+            setSelect_image_urls(getIntent().getStringArrayListExtra(SELECT_IMAGE_URLS));
+        }
+        emotionEdittext.setHint("输入闲置内容...");
+        showSelect.setVisibility(View.GONE);
+        xianzhiLay.setVisibility(View.VISIBLE);
+        location.setVisibility(View.GONE);
+    }
+
     private void selectItem(int position) {
         switch (position) {
             case 0:
@@ -570,6 +582,14 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 break;
             case LANCH_PLAN:
                 if (TextUtils.isEmpty(planName.getText().toString()) || TextUtils.isEmpty(timeLimit.getText().toString())) {
+                    setSendState(false);
+                } else {
+                    setSendState(true);
+                }
+                break;
+            case XIANZHI:
+                if (TextUtils.isEmpty(price.getText().toString()) || select_image_urls.isEmpty()
+                        || selectedLocation.getText().toString().equals("未选")) {
                     setSendState(false);
                 } else {
                     setSendState(true);
@@ -738,8 +758,10 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 publishTransmit();
                 break;
             case LANCH_PLAN:
-//                publishPlan();
+                publishPlan();
                 break;
+            case XIANZHI:
+                publishSale();
         }
     }
 
@@ -861,8 +883,22 @@ public class InputActivity extends BaseActivity implements IBaseView {
         map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
         map.put(NS.CATEGORY, NS.CATEGORY_PLAN);
         map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
-        map.put("personLimit", peopleLimit.getText().toString());
-//        map.put("")
+        map.put(NS.PERSON_LIMIT, peopleLimit.getText().toString());
+        map.put(NS.PLAN_NAME, planName.getText().toString());
+        NS.getPermissionString(NS.NOTICE, notices, map);
+        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        publish(map);
+    }
+
+    private void publishSale() {
+        Map<String, String> map = new HashMap<>();
+        map.put(NS.USER_ID, String.valueOf(TempUser.id));
+        map.put(NS.TEXT, emotionEdittext.getText().toString());
+        map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
+        map.put(NS.CATEGORY, NS.CATEGORY_SALE);
+        map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
+        map.put(NS.PRICE, price.getText().toString());
+        map.put(NS.DORM, selectedLocation.getText().toString());
         NS.getPermissionString(NS.NOTICE, notices, map);
         NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
         publish(map);

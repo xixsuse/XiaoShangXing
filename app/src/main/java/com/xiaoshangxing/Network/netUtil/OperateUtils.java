@@ -220,12 +220,12 @@ public class OperateUtils {
 
             @Override
             public void onFailed(int i) {
-                iBaseView.showToast("分享失败:" + i);
+                iBaseView.showToast("操作失败:" + i);
             }
 
             @Override
             public void onException(Throwable throwable) {
-                iBaseView.showToast("分享失败:异常");
+                iBaseView.showToast("操作失败:异常");
                 throwable.printStackTrace();
                 if (callBack != null) {
                     callBack.onError(throwable);

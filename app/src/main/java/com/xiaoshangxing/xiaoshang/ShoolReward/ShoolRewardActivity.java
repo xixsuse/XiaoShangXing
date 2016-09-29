@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -37,8 +38,6 @@ import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment.Shool
 public class ShoolRewardActivity extends BaseActivity implements RewardContract.View {
     public static final String TAG = BaseActivity.TAG + "-ShoolRewardActivity";
 //    public static final int SELECT_PERSON = 10001;
-    public static final int OTHERS=10002;
-    public static final int MINE=10003;
     private ShoolRewardFragment shoolRewardFragment;
     private MyShoolRewardFragment myShoolRewardFragment;
     private CollectFragment collectFragment;
@@ -90,13 +89,13 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
     private void parseIntent(){
         Fragment frag;
             switch (getIntent().getIntExtra(IntentStatic.TYPE,0)){
-                case OTHERS:
+                case IntentStatic.OTHERS:
                     frag = mFragmentManager.findFragmentByTag(ShoolRewardFragment.TAG);
                     shoolRewardFragment = (frag == null) ? ShoolRewardFragment.newInstance() : (ShoolRewardFragment) frag;
                     mFragmentManager.beginTransaction().add(R.id.main_fragment,
                             shoolRewardFragment, MyShoolHelpFragment.TAG).commit();
                     break;
-                case MINE:
+                case IntentStatic.MINE:
                     frag = mFragmentManager.findFragmentByTag(MyShoolRewardFragment.TAG);
                     myShoolRewardFragment = (frag == null) ? MyShoolRewardFragment.newInstance() : (MyShoolRewardFragment) frag;
                     mFragmentManager.beginTransaction().add(R.id.main_fragment,
@@ -179,6 +178,8 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
         UserInfoCache.getInstance().getName(name, userId);
         UserInfoCache.getInstance().getCollege(college, userId);
         text.setText(published.getText());
+
+        Log.d("transmit object id", "" + id);
 
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override

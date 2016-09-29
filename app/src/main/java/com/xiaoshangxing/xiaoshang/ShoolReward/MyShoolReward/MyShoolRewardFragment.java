@@ -95,15 +95,16 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
         listview.addHeaderView(view);
         listview.addFooterView(footview);
         activity = (ShoolRewardActivity) getActivity();
-        publisheds = realm.where(Published.class)
-                .equalTo(NS.USER_ID, TempUser.id)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
-                .findAll().sort(NS.ID, Sort.DESCENDING);
         refreshData();
     }
 
     @Override
     public void refreshData() {
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.USER_ID, TempUser.id)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
+                .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
+        showNoContentText(publisheds.size() < 1);
         adpter = new myshoolreward_adpter(getContext(), 1, publisheds, this, (ShoolRewardActivity) getActivity());
         listview.setAdapter(adpter);
     }
@@ -233,7 +234,7 @@ public class MyShoolRewardFragment extends BaseFragment implements MyRewardContr
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == ShoolRewardActivity.MINE) {
+                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == IntentStatic.MINE) {
                     getActivity().finish();
                 } else {
                     getFragmentManager().popBackStack();

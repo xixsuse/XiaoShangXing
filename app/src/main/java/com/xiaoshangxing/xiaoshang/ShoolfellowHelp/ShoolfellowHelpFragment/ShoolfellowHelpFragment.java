@@ -105,7 +105,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
                 clickOnRule(true);
             }
         });
-        if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == ShoolRewardActivity.OTHERS) {
+        if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == IntentStatic.OTHERS) {
             this.myState.setText("他的互帮");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);

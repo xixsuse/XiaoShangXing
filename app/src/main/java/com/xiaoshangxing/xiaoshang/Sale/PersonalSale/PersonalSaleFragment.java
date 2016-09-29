@@ -1,6 +1,5 @@
-package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp;
+package com.xiaoshangxing.xiaoshang.Sale.PersonalSale;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,39 +16,42 @@ import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
+import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
- * on 2016/7/21
+ * on 2016/9/28
  */
-public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.View {
-
-    public static final String TAG = BaseFragment.TAG + "-MyShoolHelpFragment";
-
+public class PersonalSaleFragment extends BaseFragment implements PersonalSaleContract.View {
+    public static final String TAG = BaseFragment.TAG + "-PersonalSaleFragment";
+    @Bind(R.id.back_text)
+    TextView backText;
     @Bind(R.id.back)
     LinearLayout back;
+    @Bind(R.id.cancel)
+    LinearLayout cancel;
     @Bind(R.id.title)
     TextView title;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.listview)
     ListView listview;
     @Bind(R.id.reflesh_layout)
@@ -62,22 +64,19 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
     RelativeLayout hideMenu;
     @Bind(R.id.no_content)
     TextView noContent;
-    @Bind(R.id.back_text)
-    TextView backText;
-    @Bind(R.id.cancel)
-    LinearLayout cancel;
 
-    public static MyShoolHelpFragment newInstance() {
-        return new MyShoolHelpFragment();
+    public static PersonalSaleFragment newInstance() {
+        return new PersonalSaleFragment();
     }
 
     private View view;
-    private MyhelpContract.Presenter mPresenter;
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
     private Realm realm;
-    private MyHelpAdapter myHelpAdapter;
+    private PersonalSale_Adpter adpter;
+
+    private List<Published> publisheds = new ArrayList<>();
 
     @Nullable
     @Override
@@ -85,12 +84,13 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         view = inflater.inflate(R.layout.frag_myshoolhelp, null);
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
-        setmPresenter(new MyHelpPresenter(this, getContext(), realm));
+//        setmPresenter(new MyHelpPresenter(this, getContext(), realm));
         initView();
         return view;
     }
 
     private void initView() {
+        title.setText("我的闲置");
         View view = new View(getContext());
         listview.addHeaderView(view);
         footview = View.inflate(getContext(), R.layout.footer, null);
@@ -103,76 +103,67 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         showNoData();
     }
 
-    @Override
-    public void refreshData() {
-        RealmResults<Published> publisheds = realm.where(Published.class)
-                .equalTo(NS.USER_ID, TempUser.id)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
-                .findAll().sort(NS.ID, Sort.DESCENDING);
-        showNoContentText(publisheds.size() < 1);
-        myHelpAdapter = new MyHelpAdapter(getContext(), publisheds, this, realm, (ShoolfellowHelpActivity) getActivity());
-        listview.setAdapter(myHelpAdapter);
-    }
-
-    @Override
-    public void showNoData() {
-        dotsTextView.stop();
-        loadingText.setText("没有更多啦");
-    }
-
-    @Override
-    public void showFooter() {
-        dotsTextView.start();
-        loadingText.setText("加载中");
-    }
-
     private void initFresh() {
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFHELP),
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFSALE),
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                        mPresenter.refreshData(frame);
-                        LoadUtils.getPublished(realm, NS.CATEGORY_HELP, LoadUtils.TIME_LOAD_SELFHELP, getContext(), true,
+                        LoadUtils.getPublished(realm, NS.CATEGORY_SALE, LoadUtils.TIME_LOAD_SELFSALE, getContext(), false,
                                 new LoadUtils.AroundLoading() {
-                            @Override
-                            public void before() {
-                                LoadUtils.clearDatabase(NS.CATEGORY_HELP, true, true);
-                            }
+                                    @Override
+                                    public void before() {
+                                        LoadUtils.clearDatabase(NS.CATEGORY_SALE, false, true);
+                                    }
 
-                            @Override
-                            public void complete() {
-                                frame.refreshComplete();
-                            }
+                                    @Override
+                                    public void complete() {
+                                        frame.refreshComplete();
+                                    }
 
-                            @Override
-                            public void onSuccess() {
-                                refreshData();
-                            }
+                                    @Override
+                                    public void onSuccess() {
+                                        refreshData();
+                                    }
 
-                            @Override
-                            public void error() {
-                                frame.refreshComplete();
-                            }
-                        });
+                                    @Override
+                                    public void error() {
+                                        frame.refreshComplete();
+                                    }
+                                });
                     }
                 });
     }
 
     @Override
-    public void setmPresenter(@Nullable MyhelpContract.Presenter presenter) {
-        this.mPresenter = presenter;
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
-        realm.close();
         ButterKnife.unbind(this);
+        realm.close();
+    }
+
+    @OnClick({R.id.back, R.id.cancel, R.id.hide_trasmit, R.id.hide_delete})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+//                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, IntentStatic.MINE) == IntentStatic.MINE) {
+//                    getActivity().finish();
+//                } else {
+                getFragmentManager().popBackStack();
+//                }
+                break;
+            case R.id.cancel:
+                showHideMenu(false);
+                break;
+            case R.id.hide_trasmit:
+                break;
+            case R.id.hide_delete:
+                break;
+        }
     }
 
     @Override
     public void showHideMenu(boolean is) {
-        ShoolfellowHelpActivity activity = (ShoolfellowHelpActivity) getActivity();
+        SaleActivity activity = (SaleActivity) getActivity();
         if (is) {
             hideMenu.setVisibility(View.VISIBLE);
             activity.setHideMenu(true);
@@ -180,24 +171,16 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
             back.setVisibility(View.GONE);
         } else {
             hideMenu.setVisibility(View.GONE);
-            myHelpAdapter.showSelectCircle(false);
+            adpter.showSelectCircle(false);
             activity.setHideMenu(false);
             cancel.setVisibility(View.GONE);
             back.setVisibility(View.VISIBLE);
         }
     }
 
-    private void gotoSelectPerson() {
-        myHelpAdapter.showSelectCircle(false);
-        showHideMenu(false);
-        ShoolfellowHelpActivity activity = (ShoolfellowHelpActivity) getActivity();
-        Intent intent = new Intent(getContext(), SelectPersonActivity.class);
-        intent.putExtra(SelectPersonActivity.LIMIT, 1);
-        activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
-    }
-
-    public void showDeleteSureDialog(final int publishId) {
-        myHelpAdapter.showSelectCircle(false);
+    @Override
+    public void showDeleteSureDialog(final int publishedId) {
+        adpter.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
@@ -205,7 +188,8 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                OperateUtils.deleteOnePublished(publishId, getContext(), MyShoolHelpFragment.this, new SimpleCallBack() {
+//                mPresenter.delete();
+                OperateUtils.deleteOnePublished(publishedId, getContext(), PersonalSaleFragment.this, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
                         refreshData();
@@ -233,6 +217,7 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
+    @Override
     public void showNoContentText(boolean is) {
         if (is) {
             noContent.setVisibility(View.VISIBLE);
@@ -243,25 +228,31 @@ public class MyShoolHelpFragment extends BaseFragment implements MyhelpContract.
         }
     }
 
-    @OnClick({R.id.back, R.id.hide_trasmit, R.id.hide_delete, R.id.cancel})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.back:
-                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, IntentStatic.MINE) == IntentStatic.MINE) {
-                    getActivity().finish();
-                } else {
-                    getFragmentManager().popBackStack();
-                }
-                break;
-            case R.id.hide_trasmit:
-                gotoSelectPerson();
-                break;
-            case R.id.hide_delete:
-//                showDeleteSureDialog();
-                break;
-            case R.id.cancel:
-                showHideMenu(false);
-                break;
-        }
+    @Override
+    public void refreshData() {
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.USER_ID, TempUser.id)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_SALE))
+                .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
+        showNoContentText(publisheds.size() < 1);
+        adpter = new PersonalSale_Adpter(getContext(), 1, publisheds, this, (SaleActivity) getActivity());
+        listview.setAdapter(adpter);
+    }
+
+    @Override
+    public void showNoData() {
+        dotsTextView.stop();
+        loadingText.setText("没有更多啦");
+    }
+
+    @Override
+    public void showFooter() {
+        dotsTextView.start();
+        loadingText.setText("加载中");
+    }
+
+    @Override
+    public void setmPresenter(@Nullable PersonalSaleContract.Presenter presenter) {
+
     }
 }

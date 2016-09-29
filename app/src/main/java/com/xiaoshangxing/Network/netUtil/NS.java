@@ -40,6 +40,9 @@ public class NS {
     public static final String CATEGORY_SALE = "5";
     public static final String PRICE = "price";
     public static final String CREATETIME = "createTime";
+    public static final String DORM = "dorm";
+    public static final String PERSON_LIMIT = "personLimit";
+    public static final String PLAN_NAME = "planName";
     //    动态操作
     public static final String PRAISE = "0";
     public static final String JOIN = "1";

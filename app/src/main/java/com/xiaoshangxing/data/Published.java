@@ -67,6 +67,7 @@ public class Published extends RealmObject {
     private String notice;
     private String forbidden;
     private long serverTime;
+    private String planName;
     /**
      * id : 2
      * userId : 2
@@ -304,5 +305,13 @@ public class Published extends RealmObject {
 
     public void setServerTime(long serverTime) {
         this.serverTime = serverTime;
+    }
+
+    public String getPlanName() {
+        return planName;
+    }
+
+    public void setPlanName(String planName) {
+        this.planName = planName;
     }
 }

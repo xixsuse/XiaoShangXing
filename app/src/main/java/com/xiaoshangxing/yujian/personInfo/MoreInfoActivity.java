@@ -56,7 +56,7 @@ public class MoreInfoActivity extends BaseActivity {
 
     public void XuanShang(View view) {
         Intent intent=new Intent(this, ShoolRewardActivity.class);
-        intent.putExtra(IntentStatic.TYPE,ShoolRewardActivity.OTHERS);
+        intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
         startActivity(intent);
     }
 

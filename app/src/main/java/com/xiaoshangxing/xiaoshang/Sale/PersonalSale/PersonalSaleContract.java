@@ -1,4 +1,4 @@
-package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.MyShoolfellowHelp;
+package com.xiaoshangxing.xiaoshang.Sale.PersonalSale;
 
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;
@@ -8,7 +8,7 @@ import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
  * Created by FengChaoQun
  * on 2016/7/23
  */
-public class MyhelpContract {
+public class PersonalSaleContract {
 
     public interface View extends IBaseView<Presenter> {
         /*

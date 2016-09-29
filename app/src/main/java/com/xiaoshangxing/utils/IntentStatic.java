@@ -11,4 +11,10 @@ public class IntentStatic {
     public static final String EXTRA_ACCOUNT = "account";
     public static final String EXTRA_TYPE = "type";
     public static final String EXTRA_ANCHOR = "anchor";
+
+
+    public static final int OTHERS=10002;
+    public static final int MINE=10003;
+
+
 }

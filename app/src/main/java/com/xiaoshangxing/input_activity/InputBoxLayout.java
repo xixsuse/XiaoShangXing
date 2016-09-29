@@ -48,6 +48,7 @@ public class InputBoxLayout implements View.OnClickListener {
     private Activity activity;
     private CallBack callBack;
     private InputMethodManager imm;
+    private boolean remainEdittext;
 
     public InputBoxLayout(Context context, RelativeLayout edit_and_emot, Activity activity) {
         this.context = context;
@@ -255,15 +256,17 @@ public class InputBoxLayout implements View.OnClickListener {
                 if (callBack!=null){
                     callBack.callback(emoticonsEditText.getText().toString());
                 }
-                showOrHideLayout(false);
+                if (remainEdittext) {
+                    remainEdittext();
+                } else {
+                    showOrHideLayout(false);
+                }
                 emoticonsEditText.setText("");
                 break;
             case R.id.delete_emot:
                 emoticonsEditText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
                 break;
             case R.id.comment_input:
-//                imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 emotion_lay.setVisibility(View.VISIBLE);
                 edit_and_emot.setVisibility(View.VISIBLE);
                 comment_input_layout.setVisibility(View.VISIBLE);
@@ -289,6 +292,14 @@ public class InputBoxLayout implements View.OnClickListener {
 
     public void setEmotion_layVisible(int type){
         emotion_lay.setVisibility(type);
+    }
+
+    public void setSend(String text) {
+        send.setText(text);
+    }
+
+    public void setRemainEdittext(boolean remainEdittext) {
+        this.remainEdittext = remainEdittext;
     }
 
     public interface CallBack{

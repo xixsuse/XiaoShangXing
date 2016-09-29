@@ -166,13 +166,6 @@
         <activity
             android:name=".wo.PersonalState.DetailsActivity.DetailsActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
-
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity android:name=".wo.NewsActivity.NewsActivity" />
         <activity android:name=".wo.WoFrafment.check_photo.ImagePagerActivity" />
@@ -181,12 +174,6 @@
         <activity
             android:name=".report.ReportActivity"
             android:windowSoftInputMode="adjustPan|stateHidden">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity android:name=".setting.SettingActivity" />
         <activity
@@ -319,10 +306,24 @@
         <activity android:name=".setting.shiming.chooseschool.DiQUActivity" />
         <activity
             android:name=".setting.shiming.shenhe.PreviewActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape">
+
+        </activity>
         <activity android:name=".setting.shiming.sucess.VertifySucessActivity" />
         <activity android:name=".setting.shiming.vertify.VertifyingActivity" />
         <activity android:name=".setting.shiming.chooseschool.SchoolActivity" />
+
+        <activity
+            android:name=".xiaoshang.Sale.SaleActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+
+        </activity>
+
+        <activity
+            android:name=".xiaoshang.Sale.SaleDetail.SaleDetailsActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+
+        </activity>
 
     </application>
 
