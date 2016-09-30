@@ -21,6 +21,7 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
@@ -302,7 +303,7 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
         String content = message.getContent();
         try {
             JSONObject json = new JSONObject(content);
-            int id = json.getInt("id");
+            int id = json.getInt(NS.ID);
             if (id == 1) {
                 // 正在输入
                 Toast.makeText(ChatActivity.this, "对方正在输入...", Toast.LENGTH_LONG).show();

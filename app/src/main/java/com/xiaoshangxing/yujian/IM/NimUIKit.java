@@ -5,8 +5,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
+import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.Contact.ContactEventListener;
 import com.xiaoshangxing.yujian.IM.Contact.ContactProvider;
@@ -78,6 +82,17 @@ public final class NimUIKit {
         // init log
         String path = StorageUtil.getDirectoryByDirType(StorageType.TYPE_LOG);
         LogUtil.init(path, Log.DEBUG);
+
+        //自定义通知
+        Observer<CustomNotification> commandObserver = new Observer<CustomNotification>() {
+            @Override
+            public void onEvent(CustomNotification message) {
+                NotifycationUtil.show();
+            }
+        };
+
+        NIMClient.getService(MsgServiceObserve.class).observeCustomNotification(commandObserver, true);
+
     }
 
     /**
