@@ -14,6 +14,7 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
@@ -76,6 +77,17 @@ public class MsgViewHolderTransmitNoImage extends MsgViewHolderBase {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(context, RewardDetailActivity.class);
+                            intent.putExtra(IntentStatic.DATA, state_id);
+                            context.startActivity(intent);
+                        }
+                    });
+                } else if (published.getCategory() == Integer.valueOf(NS.CATEGORY_PLAN)) {
+                    from.setText("分享自计划发起");
+                    price.setText("");
+                    contentContainer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(context, PlanDetailActivity.class);
                             intent.putExtra(IntentStatic.DATA, state_id);
                             context.startActivity(intent);
                         }

@@ -3,6 +3,7 @@ package com.xiaoshangxing.xiaoshang.Plan.PlanFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,10 +13,13 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
 
@@ -48,10 +52,28 @@ public class Plan_Adpter extends ArrayAdapter<Published> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+
+        final Published published = publisheds.get(position);
+
+        UserInfoCache.getInstance().getHead(viewHolder.headImage, published.getUserId(), context);
+        UserInfoCache.getInstance().getName(viewHolder.name, published.getUserId());
+        UserInfoCache.getInstance().getCollege(viewHolder.college, published.getUserId());
+        viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewHolder.text.setText(published.getText());
+        viewHolder.planName.setText(published.getPlanName());
+        viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
+        if (TextUtils.isEmpty(published.getPersonLimit())) {
+            viewHolder.peopleLimit.setText("不限人数");
+        } else {
+            viewHolder.peopleLimit.setText(("0-" + published.getPersonLimit()));
+        }
+        viewHolder.joinedCount.setText("" + published.getJoinCount());
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PlanDetailActivity.class);
+                intent.putExtra(IntentStatic.DATA, published.getId());
                 context.startActivity(intent);
             }
         });

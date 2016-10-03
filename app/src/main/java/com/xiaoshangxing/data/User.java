@@ -1,5 +1,7 @@
 package com.xiaoshangxing.data;
 
+import android.text.TextUtils;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -49,7 +51,7 @@ public class User extends RealmObject {
     }
 
     public String getUsername() {
-        return username;
+        return TextUtils.isEmpty(username)?"":username;
     }
 
     public void setUsername(String username) {

@@ -108,7 +108,7 @@ public class FriendActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(FriendActivity.this,LoveOrStartActivity.class);
-                intent.putExtra(IntentStatic.TYPE,love_satr_adpter.LOVE);
+                intent.putExtra(IntentStatic.TYPE, LoveOrStartActivity.LOVE);
                 startActivity(intent);
             }
         });
@@ -116,7 +116,7 @@ public class FriendActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(FriendActivity.this,LoveOrStartActivity.class);
-                intent.putExtra(IntentStatic.TYPE,love_satr_adpter.STAR);
+                intent.putExtra(IntentStatic.TYPE, LoveOrStartActivity.STAR);
                 startActivity(intent);
             }
         });

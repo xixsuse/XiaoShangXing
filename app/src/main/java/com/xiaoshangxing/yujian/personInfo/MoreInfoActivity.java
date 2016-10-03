@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
+import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 
@@ -46,11 +48,14 @@ public class MoreInfoActivity extends BaseActivity {
     }
 
     public void JiHua(View view) {
+        Intent intent = new Intent(this, PlanActivity.class);
+        intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
+        startActivity(intent);
     }
 
     public void HuBang(View view) {
         Intent intent=new Intent(this, ShoolfellowHelpActivity.class);
-        intent.putExtra(IntentStatic.TYPE,ShoolfellowHelpActivity.OTHERS);
+        intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
         startActivity(intent);
     }
 
@@ -61,5 +66,8 @@ public class MoreInfoActivity extends BaseActivity {
     }
 
     public void XianZhi(View view) {
+        Intent intent = new Intent(this, SaleActivity.class);
+        intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
+        startActivity(intent);
     }
 }

@@ -371,6 +371,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         price.addTextChangedListener(textWatcher);
         rewardPrice.addTextChangedListener(textWatcher);
         price.addTextChangedListener(textWatcher);
+        timeLimit.addTextChangedListener(textWatcher);
 
     }
 
@@ -581,7 +582,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 }
                 break;
             case LANCH_PLAN:
-                if (TextUtils.isEmpty(planName.getText().toString()) || TextUtils.isEmpty(timeLimit.getText().toString())) {
+                if (TextUtils.isEmpty(timeLimit.getText().toString())) {
                     setSendState(false);
                 } else {
                     setSendState(true);
@@ -885,6 +886,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
         map.put(NS.PERSON_LIMIT, peopleLimit.getText().toString());
         map.put(NS.PLAN_NAME, planName.getText().toString());
+        map.put(NS.DAY, timeLimit.getText().toString());
         NS.getPermissionString(NS.NOTICE, notices, map);
         NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
         publish(map);

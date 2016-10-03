@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,6 +17,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -33,6 +35,7 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TopChat;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -142,7 +145,9 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         registerObservers(true);
     }
 
+
     private void initView() {
+
         realm = Realm.getDefaultInstance();
         callback = new RecentContactsCallback() {
             @Override
@@ -184,7 +189,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
                     IMMessage msg = msgs.get(0);
                     Map<String, Object> content = msg.getRemoteExtension();
                     if (content != null && !content.isEmpty()) {
-                        return (String) content.get("content");
+                        return (String) content.get(NS.CONTENT);
                     }
                 }
                 return null;

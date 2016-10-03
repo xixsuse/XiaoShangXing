@@ -47,7 +47,7 @@
     </RelativeLayout>
 
     <com.xiaoshangxing.setting.utils.photo_choosing.ViewPagerFixed
-      android:id="@+id/gallery01" 
+      android:id="@+id/gallery01"
       android:layout_width="fill_parent" 
       android:layout_height="wrap_content"
       android:layout_above="@id/bottom_layout"

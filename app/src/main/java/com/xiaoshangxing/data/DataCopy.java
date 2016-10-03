@@ -55,6 +55,7 @@ public class DataCopy {
         published1.setTransmitCount(published.getTransmitCount());
         published1.setUser(published.getUser());
         published1.setComments(published.getComments());
+        published1.setCdto(published.getCdto());
         return published1;
     }
 }

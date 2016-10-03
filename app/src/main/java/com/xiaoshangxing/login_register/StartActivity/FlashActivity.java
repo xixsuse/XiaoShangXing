@@ -52,7 +52,6 @@ public class FlashActivity extends BaseActivity {
         }else {
             normalStart();
         }
-
     }
 
     private void normalStart(){

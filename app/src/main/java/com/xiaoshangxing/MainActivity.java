@@ -83,6 +83,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
 
     private static final int BAIDU_READ_PHONE_STATE =1000;
     private AbortableFuture<LoginInfo> loginRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +95,18 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         initInputBox();
         initAllFragments();
         onParseIntent();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerMsgUnreadInfoObserver(true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        registerMsgUnreadInfoObserver(false);
     }
 
     private void onParseIntent(){
@@ -304,18 +317,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        registerMsgUnreadInfoObserver(true);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        registerMsgUnreadInfoObserver(false);
-    }
-
-    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             moveTaskToBack(false);
@@ -334,4 +335,5 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
     public String toString() {
         return TAG;
     }
+
 }

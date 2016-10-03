@@ -1,9 +1,11 @@
 package com.xiaoshangxing.xiaoshang.Sale.SaleFrafment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -281,16 +283,16 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     }
 
     @Override
-    public void showCollectDialog(final int id) {
+    public void showCollectDialog(final int id, final boolean isCancle) {
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
-        dialogMenu2.addMenuItem("收藏");
+        dialogMenu2.addMenuItem(isCancle ? "取消收藏" : "收藏");
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                OperateUtils.operate(id, getContext(), true, NS.COLLECT, new SimpleCallBack() {
+                OperateUtils.operate(id, getContext(), true, NS.COLLECT, isCancle, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
-                        noticeDialog("已收藏");
+                        noticeDialog(isCancle ? "已取消收藏" : "已收藏");
                     }
 
                     @Override
@@ -316,7 +318,17 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
 
     @Override
     public void noticeDialog(String message) {
+        DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(getActivity(), message);
+        final Dialog alertDialog = dialog_no_button.create();
+        alertDialog.show();
+        LocationUtil.setWidth(getActivity(), alertDialog,
+                getActivity().getResources().getDimensionPixelSize(R.dimen.x420));
 
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                alertDialog.dismiss();
+            }
+        }, 1000);
     }
 
     @Override

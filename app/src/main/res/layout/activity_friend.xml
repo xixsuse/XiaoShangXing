@@ -5,6 +5,7 @@
     android:orientation="vertical">
     <!--导航栏-->
     <RelativeLayout
+        android:background="@color/w0"
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_144"

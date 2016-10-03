@@ -226,6 +226,15 @@
                         android:textColor="@color/g0"
                         android:textSize="14sp" />
 
+                    <ImageView
+                        android:id="@+id/complete"
+                        android:layout_marginTop="@dimen/y38"
+                        android:layout_marginRight="@dimen/x376"
+                        android:layout_alignParentEnd="true"
+                        android:src="@mipmap/plan_complete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
                 </RelativeLayout>
 
                 <!--分割线-->
@@ -325,6 +334,7 @@
 
                             <!--发起人-->
                             <com.xiaoshangxing.utils.layout.Name
+                                android:id="@+id/launch_people"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/x18"

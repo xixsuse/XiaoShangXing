@@ -26,7 +26,7 @@ public class ShoolRewardContract {
         /*
         **describe:显示收藏与否弹窗
         */
-        void showCollectDialog(int id);
+        void showCollectDialog(int id,boolean isCancle);
 
         /*
         **describe:收藏与取消时提示弹窗

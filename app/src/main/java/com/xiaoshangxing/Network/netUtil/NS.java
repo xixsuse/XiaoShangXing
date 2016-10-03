@@ -10,6 +10,8 @@ import java.util.Map;
 public class NS {
 
     public static final String SPLIT = "#";
+    public static final String SPLIT2 = "\\$";
+
 
     public static final String CODE="code";
     public static final String MSG="msg";
@@ -44,11 +46,13 @@ public class NS {
     public static final String DORM = "dorm";
     public static final String PERSON_LIMIT = "personLimit";
     public static final String PLAN_NAME = "planName";
+    public static final String DAY = "day";
     //    动态操作
     public static final String PRAISE = "0";
     public static final String JOIN = "1";
-    public static final String INFO = "2";
-    public static final String COLLECT = "3";
+    public static final String COLLECT = "2";
+    public static final String INFO = "3";
+    public static final String STATU = "status";
 
 
     public static final String CATEGORY_REWARD = "6";
@@ -85,4 +89,5 @@ public class NS {
             map.put(key, result);
         }
     }
+
 }

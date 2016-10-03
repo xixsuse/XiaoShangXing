@@ -35,6 +35,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -131,20 +132,21 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
         });
 
         if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, IntentStatic.MINE) == IntentStatic.OTHERS) {
-            this.title.setText("他的闲置");
+            this.title.setText("他的计划");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
         }
+        initFresh();
         refreshPager();
     }
 
 
     private void initFresh() {
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SALE),
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_PLAN),
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_SALE, LoadUtils.TIME_LOAD_SALE, getContext(), false,
+                        LoadUtils.getPublished(realm, NS.CATEGORY_PLAN, LoadUtils.TIME_LOAD_PLAN, getContext(), false,
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
@@ -293,9 +295,9 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
 
     @Override
     public void refreshPager() {
-        for (int i = 0; i <= 10; i++) {
-            publisheds.add(new Published());
-        }
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_PLAN))
+                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         adpter = new Plan_Adpter(getContext(), 1, publisheds);
         listview.setAdapter(adpter);
     }

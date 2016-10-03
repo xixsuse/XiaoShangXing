@@ -3,6 +3,8 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.api.getAndPublish.CancelOperate;
+import com.xiaoshangxing.Network.api.getAndPublish.ChangePublishStatu;
 import com.xiaoshangxing.Network.api.getAndPublish.Comment;
 import com.xiaoshangxing.Network.api.getAndPublish.DeletePublished;
 import com.xiaoshangxing.Network.api.getAndPublish.GetAllPublished;
@@ -31,6 +33,8 @@ public class PublishNetwork {
     private TransmitApi transmitApi;
     private DeletePublished deletePublished;
     private Operate operate;
+    private CancelOperate cancelOperate;
+    private ChangePublishStatu changePublishStatu;
 
     private PublishNetwork() {
 
@@ -107,6 +111,22 @@ public class PublishNetwork {
             operate = Network.getRetrofitWithHeader(context).create(Operate.class);
         }
         Observable<ResponseBody> observable = operate.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void cancleOperate(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (cancelOperate == null) {
+            cancelOperate = Network.getRetrofitWithHeader(context).create(CancelOperate.class);
+        }
+        Observable<ResponseBody> observable = cancelOperate.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void changePublishStatu(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (changePublishStatu == null) {
+            changePublishStatu = Network.getRetrofitWithHeader(context).create(ChangePublishStatu.class);
+        }
+        Observable<ResponseBody> observable = changePublishStatu.start(jsonObject);
         toSubscribe(observable, subscriber);
     }
 

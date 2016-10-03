@@ -339,16 +339,16 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     }
 
     @Override
-    public void showCollectDialog(final int id) {
+    public void showCollectDialog(final int id, final boolean isCancle) {
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
-        dialogMenu2.addMenuItem("收藏");
+        dialogMenu2.addMenuItem(isCancle ? "取消收藏" : "收藏");
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                OperateUtils.operate(id, getContext(), true, NS.COLLECT, new SimpleCallBack() {
+                OperateUtils.operate(id, getContext(), true, NS.COLLECT, isCancle, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
-                        noticeDialog("已收藏");
+                        noticeDialog(isCancle ? "已取消收藏" : "已收藏");
                     }
 
                     @Override

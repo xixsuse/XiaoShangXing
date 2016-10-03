@@ -3,6 +3,7 @@ package com.xiaoshangxing.xiaoshang.Plan.PersonalPlan;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -12,13 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
 
@@ -57,8 +63,48 @@ public class PersonalPlan_Adpter extends ArrayAdapter<Published> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        final Published published = publisheds.get(position);
 
-        viewHolder.checkbox.setChecked(false);
+        UserInfoCache.getInstance().getHead(viewHolder.headImage, published.getUserId(), context);
+        UserInfoCache.getInstance().getName(viewHolder.name, published.getUserId());
+        UserInfoCache.getInstance().getCollege(viewHolder.college, published.getUserId());
+        viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewHolder.text.setText(published.getText());
+        viewHolder.planName.setText(published.getPlanName());
+        if (TextUtils.isEmpty(published.getPersonLimit())) {
+            viewHolder.peopleLimit.setText("不限人数");
+        } else {
+            viewHolder.peopleLimit.setText(("0-" + published.getPersonLimit()));
+        }
+        viewHolder.joinedCount.setText("" + published.getJoinCount());
+
+        //完成状态
+        viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
+        viewHolder.iscomplete.setChecked(published.isAlive());
+        viewHolder.iscomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SimpleCallBack simpleCallBack = new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        viewHolder.iscomplete.setChecked(published.isAlive());
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+                        Published published1 = (Published) o;
+                        viewHolder.iscomplete.setChecked((published1.isAlive()));
+                    }
+                };
+                OperateUtils.ChangeStatu(published.getId(), published.getStatus(), context, true, simpleCallBack);
+            }
+        });
+
         if (showselect) {
             viewHolder.iscomplete.setVisibility(View.INVISIBLE);
             viewHolder.checkbox.setVisibility(View.VISIBLE);
@@ -83,6 +129,7 @@ public class PersonalPlan_Adpter extends ArrayAdapter<Published> {
                     viewHolder.checkbox.performClick();
                 } else {
                     Intent intent = new Intent(context, PlanDetailActivity.class);
+                    intent.putExtra(IntentStatic.DATA, published.getId());
                     context.startActivity(intent);
                 }
             }

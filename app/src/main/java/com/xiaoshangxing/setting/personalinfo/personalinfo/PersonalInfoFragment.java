@@ -94,7 +94,7 @@ public class PersonalInfoFragment extends BaseFragment {
     private void initView() {
         handler = new Handler();
         realm = Realm.getDefaultInstance();
-        user = realm.where(User.class).equalTo("id",
+        user = realm.where(User.class).equalTo(NS.ID,
                 (Integer) SPUtils.get(getContext(),SPUtils.ID,SPUtils.DEFAULT_int)).findFirst();
         if (user == null) {
             Toast.makeText(getContext(), "账号异常,请重新登录", Toast.LENGTH_SHORT).show();
@@ -107,8 +107,6 @@ public class PersonalInfoFragment extends BaseFragment {
                 initInfo(element);
             }
         });
-
-
 
         Subscriber<ResponseBody> subscriber=new Subscriber<ResponseBody>() {
             @Override
@@ -160,7 +158,7 @@ public class PersonalInfoFragment extends BaseFragment {
 
         name.setText(user.getUsername());
         if (user.getSex() != null) {
-            sex.setText(user.getSex() == 0 ? "男" : "女");
+            sex.setText(user.getSex() == 0 ? "女" : "男");
         }
         personinfoHometown.setText(user.getHometown());
         if (!TextUtils.isEmpty(user.getSignature())&&!user.getSignature().equals("null")){

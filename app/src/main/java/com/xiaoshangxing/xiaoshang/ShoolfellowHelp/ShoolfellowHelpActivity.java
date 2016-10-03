@@ -61,7 +61,7 @@ public class ShoolfellowHelpActivity extends BaseActivity implements HelpContrac
     private void parseIntent(){
         Fragment frag;
         switch (getIntent().getIntExtra(IntentStatic.TYPE,0)){
-            case OTHERS:
+            case IntentStatic.OTHERS:
                 frag = mFragmentManager.findFragmentByTag(ShoolfellowHelpFragment.TAG);
                 shoolfellowHelpFragment = (frag == null) ? ShoolfellowHelpFragment.newInstance() :
                         (ShoolfellowHelpFragment) frag;
@@ -69,7 +69,7 @@ public class ShoolfellowHelpActivity extends BaseActivity implements HelpContrac
                 mFragmentManager.beginTransaction().add(R.id.main_fragment,
                         frag, ShoolfellowHelpFragment.TAG).commit();
                 break;
-            case MINE:
+            case IntentStatic.MINE:
                 frag = mFragmentManager.findFragmentByTag(MyShoolHelpFragment.TAG);
                 myShoolHelpFragment = (frag == null) ? MyShoolHelpFragment.newInstance() : (MyShoolHelpFragment) frag;
                 frag = getMyShoolHelpFragment();

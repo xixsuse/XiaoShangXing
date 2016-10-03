@@ -7,8 +7,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.PublishCache;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
 
 
 /**
@@ -18,9 +22,10 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
     private CirecleImage head;
     private TextView name, college, text, state;
     private LinearLayout total_lay;
-    private int state_id;
     private View agree, refuse, horizontal_line, bellow_lay;
     private RelativeLayout up_lay1;
+    private ApplyPlanMessage applyPlanMessage;
+    private int state_id;
 
     @Override
     protected int getContentResId() {
@@ -44,7 +49,19 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
 
     @Override
     protected void bindContentView() {
+        applyPlanMessage = (ApplyPlanMessage) message.getAttachment();
+        state_id = applyPlanMessage.getState_id();
         layoutDirection();
+        PublishCache.getPublished(String.valueOf(state_id), new PublishCache.publishedCallback() {
+            @Override
+            public void callback(Published published) {
+                int userId = published.getUserId();
+                UserInfoCache.getInstance().getHead(head, userId, context);
+                UserInfoCache.getInstance().getName(name, userId);
+                UserInfoCache.getInstance().getCollege(college, userId);
+                text.setText(published.getText());
+            }
+        });
     }
 
     private void layoutDirection() {
@@ -52,8 +69,6 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
             total_lay.setBackgroundResource(R.mipmap.apply_plan_leftblock);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScreenUtils.getAdapterPx(R.dimen.x752, context),
                     ScreenUtils.getAdapterPx(R.dimen.y523, context));
-//            RelativeLayout.LayoutParams layoutParams1=new RelativeLayout.LayoutParams(ScreenUtils.getAdapterPx(R.dimen.x752, context),
-//                    ScreenUtils.getAdapterPx(R.dimen.y523, context));
             total_lay.setLayoutParams(layoutParams);
             up_lay1.setPadding(ScreenUtils.getAdapterPx(R.dimen.x55, context),
                     ScreenUtils.getAdapterPx(R.dimen.y30, context), 0, 0);

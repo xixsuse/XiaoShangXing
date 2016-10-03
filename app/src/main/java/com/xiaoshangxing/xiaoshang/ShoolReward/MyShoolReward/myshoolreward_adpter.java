@@ -11,6 +11,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
@@ -67,6 +69,32 @@ public class myshoolreward_adpter extends ArrayAdapter<Published> {
         }
 
         final Published published = publisheds.get(position);
+
+        //完成状态
+        viewholder.iscomplete.setChecked(published.isAlive());
+        viewholder.iscomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SimpleCallBack simpleCallBack = new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        viewholder.iscomplete.setChecked(published.isAlive());
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+                        Published published1 = (Published) o;
+                        viewholder.iscomplete.setChecked((published1.isAlive()));
+                    }
+                };
+                OperateUtils.ChangeStatu(published.getId(), published.getStatus(), context, true, simpleCallBack);
+            }
+        });
 
         viewholder.checkBox.setChecked(false);
         if (showselect) {

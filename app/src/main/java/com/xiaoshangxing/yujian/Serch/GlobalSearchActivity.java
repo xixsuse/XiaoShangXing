@@ -162,31 +162,7 @@ public class GlobalSearchActivity extends AppCompatActivity implements OnItemCli
             }
         });
 
-        //修改光标
-        //指定某个私有属性
-//        try {
-//            Field mQueryTextView = null;
-//            mQueryTextView = searchView.getClass().getDeclaredField("mQueryTextView");
-//            mQueryTextView.setAccessible(true);
-//            Class<?> mTextViewClass = mQueryTextView.get(searchView).getClass().getSuperclass().getSuperclass().getSuperclass();
-//            //mCursorDrawableRes光标图片Id的属性 这个属性是TextView的属性，所以要用mQueryTextView（SearchAutoComplete）
-//            //的父类（AutoCompleteTextView）的父  类( EditText）的父类(TextView)
-//            Field mCursorDrawableRes = mTextViewClass.getDeclaredField("mCursorDrawableRes");
-//            //setAccessible 它是用来设置是否有权限访问反射类中的私有属性的，只有设置为true时才可以访问，默认为false
-//            mCursorDrawableRes.setAccessible(true);
-//            //注意第一个参数持有这个属性(mQueryTextView)的对象(mSearchView) 光标必须是一张图片不能是颜色，因为光标有两张图片，
-//            //一张是第一次获得焦点的时候的闪烁的图片，一张是后边有内容时候的图片，如果用颜色填充的话，就会失去闪烁的那张图片，
-//            //颜色填充的会缩短文字和光标的距离（某些字母会背光标覆盖一部分）。
-//            mCursorDrawableRes.set(mQueryTextView.get(searchView), R.drawable.cursor_blue4);
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-
         setSearchViewTextCusor(searchView);
-
-
         return true;
     }
 

@@ -31,12 +31,10 @@ import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.MoreTextView;
 import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.utils.school_circle.CommentTextview;
 import com.xiaoshangxing.utils.school_circle.Item_Comment;
-import com.xiaoshangxing.utils.school_circle.PraisePeople;
+import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.wo.WoFrafment.Wo_listview_adpter;
-import com.xiaoshangxing.wo.WoFrafment.Woadapter_Help;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -204,6 +202,8 @@ public abstract class WoBaseHolder {
         UserInfoCache.getInstance().getHead(headImage, published.getUserId(), context);
         UserInfoCache.getInstance().getName(name, published.getUserId());
         UserInfoCache.getInstance().getCollege(college, published.getUserId());
+//        name.setText(published.getUser().getUsername());
+//        college.setText(published.getUser().getIsCollege());
 
 //        是否头条
         headline.setVisibility(published.getIsHeadline() == 1 ? View.VISIBLE : View.INVISIBLE);
@@ -227,31 +227,20 @@ public abstract class WoBaseHolder {
             delete.setVisibility(View.GONE);
         }
 
-//        点赞
-//        buildPrasiPeople();
-        praise.setChecked(false);
-        if (!TextUtils.isEmpty(published.getPraiseUserIds())) {
-            Woadapter_Help.buildPrasiPeople(published.getPraiseUserIds().split(NS.SPLIT), context, praisePeople);
-            for (String i : published.getPraiseUserIds().split(NS.SPLIT)) {
-                if (TempUser.isMine(i)) {
-                    praise.setChecked(true);
-                    break;
-                }
-            }
-        } else {
-            praisePeople.removeAllViews();
-        }
+        //赞
+        praise.setChecked(Published_Help.isPraised(published));
+        Published_Help.buildPrasiPeople(published, praisePeople, context);
+
 
 //         评论
-        if (published.getComments() != null && published.getComments().size() > 0) {
-            simpleParse();
-//            Test();
-//            parseComment(published.getId());
-//            test2(published.getId());
-        } else {
-            comments.removeAllViews();
-            comments_fragment.removeAllViews();
-        }
+//        if (published.getComments() != null && published.getComments().size() > 0) {
+//            simpleParse();
+//        } else {
+//            comments.removeAllViews();
+//            comments_fragment.removeAllViews();
+//        }
+
+        parseComment(published);
 
 //        隐藏尖角
         if (TextUtils.isEmpty(published.getPraiseUserIds()) &&
@@ -357,6 +346,8 @@ public abstract class WoBaseHolder {
                 .subscribe(subscriber);
     }
 
+//    public void
+
     public void simpleParse() {
         comments.removeAllViews();
         comments_fragment.removeAllViews();
@@ -373,13 +364,6 @@ public abstract class WoBaseHolder {
                     woFragment.setEditCallback(new InputBoxLayout.CallBack() {
                         @Override
                         public void callback(String text) {
-//                            JsonObject jsonObject = new JsonObject();
-//                            jsonObject.addProperty(NS.USER_ID, TempUser.id);
-//                            jsonObject.addProperty("momentId", published.getId());
-//                            jsonObject.addProperty(NS.CONTENT, text);
-//                            jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-//                            jsonObject.addProperty("commentId", i.getId());
-//                            sendComment(jsonObject);
                             sendComment(text, i.getId());
                         }
                     });
@@ -388,70 +372,40 @@ public abstract class WoBaseHolder {
         }
     }
 
-    public void Test() {
+    public void parseComment(Published published) {
+
         comments.removeAllViews();
-        comments_fragment.removeAllViews();
+
+        if (published.getComments().size() < 1) {
+            return;
+        }
+
         RealmList<CommentsBean> realmResults = published.getComments();
         for (final CommentsBean i : realmResults) {
+            Item_Comment item_comment;
 
-            CommentTextview commentTextview = new CommentTextview(context, String.valueOf(i.getUserId()),
-                    i.getText(), String.valueOf(i.getId()));
+            if (i.isReply()) {
+                item_comment = new Item_Comment(context, i.getUserName(), i.getObjectName(),
+                        i.getText(), String.valueOf(i.getId()), String.valueOf(i.getObejectId()));
+            } else {
+                item_comment = new Item_Comment(context, i.getUserName(),
+                        i.getText(), String.valueOf(i.getId()));
+            }
 
-        }
-    }
-
-    public void test2(final int id) {
-
-//        if (isLoadComment) {
-//            return;
-//        }
-
-        final Observable<LinearLayout> observable = Observable.create(new Observable.OnSubscribe<LinearLayout>() {
-            @Override
-            public void call(Subscriber<? super LinearLayout> subscriber) {
-                isLoadComment = true;
-                Realm realm = Realm.getDefaultInstance();
-
-                LinearLayout linearLayout = new LinearLayout(context);
-                linearLayout.setGravity(LinearLayout.VERTICAL);
-
-                Published published = realm.where(Published.class).equalTo(NS.ID, id).findFirst();
-                RealmList<CommentsBean> realmResults = published.getComments();
-                for (final CommentsBean i : realmResults) {
-                    User user = realm.where(User.class).equalTo(NS.ID, i.getUserId()).findFirst();
-                    if (user == null) {
-                        user = UserCache.getUserByBlock(String.valueOf(i.getUserId()), context);
-                    }
-                    Item_Comment item_comment = new Item_Comment(context, user.getUsername(),
-                            i.getText(), String.valueOf(i.getId()));
-                    linearLayout.addView(item_comment.getTextView());
+            comments.addView(item_comment.getTextView());
+            item_comment.getTextView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showEdittext(v);
+                    woFragment.setEditCallback(new InputBoxLayout.CallBack() {
+                        @Override
+                        public void callback(String text) {
+                            sendComment(text, i.getId());
+                        }
+                    });
                 }
-                realm.close();
-
-            }
-        });
-
-        Subscriber<LinearLayout> subscriber = new Subscriber<LinearLayout>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(LinearLayout linearLayout) {
-                comments_fragment.addView(linearLayout);
-            }
-        };
-
-        observable.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+            });
+        }
     }
 
     private void initOnclick() {
@@ -522,8 +476,8 @@ public abstract class WoBaseHolder {
         praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (praise.isChecked()) {
-                    OperateUtils.operate(published.getId(), context, true, NS.PRAISE, new SimpleCallBack() {
+                OperateUtils.operate(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
+                        new SimpleCallBack() {
                         @Override
                         public void onSuccess() {
                             woFragment.showToast("操作成功");
@@ -531,7 +485,7 @@ public abstract class WoBaseHolder {
 
                         @Override
                         public void onError(Throwable e) {
-                            woFragment.showToast("操作失败");
+//                            praise.setChecked(!praise.isChecked());
                         }
 
                         @Override
@@ -541,7 +495,6 @@ public abstract class WoBaseHolder {
                             }
                         }
                     });
-                }
             }
         });
     }
@@ -580,58 +533,6 @@ public abstract class WoBaseHolder {
         }, 300);
     }
 
-    private void buildPrasiPeople() {
-
-        if (praisePeople.getChildCount() != 0) {
-            praisePeople.removeAllViews();
-        }
-
-        if (TextUtils.isEmpty(published.getPraiseUserIds())) {
-            return;
-        }
-
-        final String[] ids = published.getPraiseUserIds().split(NS.SPLIT);
-
-        Observable<List<User>> observable = Observable.create(new Observable.OnSubscribe<List<User>>() {
-            @Override
-            public void call(Subscriber<? super List<User>> subscriber) {
-                ArrayList<User> users = new ArrayList<User>();
-                for (String id : ids) {
-                    UserCache userCache = new UserCache(context, id, realm);
-                    users.add(userCache.getUserBlock());
-                }
-                subscriber.onNext(users);
-            }
-        });
-
-        Subscriber<List<User>> subscriber = new Subscriber<List<User>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                TextView textView = new TextView(context);
-                textView.setText(e.toString());
-                praisePeople.addView(textView);
-            }
-
-            @Override
-            public void onNext(List<User> users) {
-                PraisePeople praisePeople1 = new PraisePeople(context);
-                for (User user : users) {
-                    praisePeople1.addName(user.getUsername(), String.valueOf(user.getId()));
-                }
-                praisePeople.addView(praisePeople1.getTextView());
-            }
-        };
-
-        observable.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
-    }
 
     private void sendComment(String text, int commenId) {
         OperateUtils.Comment(published.getId(), commenId, text, context, true, new SimpleCallBack() {

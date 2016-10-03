@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -21,14 +22,18 @@ import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
 
@@ -82,6 +87,10 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
     Button invite;
     @Bind(R.id.apply)
     Button apply;
+    @Bind(R.id.launch_people)
+    Name launchPeople;
+    @Bind(R.id.complete)
+    ImageView complete;
 
     private int published_id;
     private Published published;
@@ -91,6 +100,42 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plandetail);
         ButterKnife.bind(this);
+        initView();
+    }
+
+    private void initView() {
+        if (!getIntent().hasExtra(IntentStatic.DATA)) {
+            showToast("动态id错误");
+            finish();
+        }
+        published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
+        published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
+        if (published == null) {
+            showToast("没有该动态的消息");
+            finish();
+        }
+        refreshPager();
+    }
+
+    private void refreshPager() {
+        int userId = published.getUserId();
+        UserInfoCache.getInstance().getHead(headImage, userId, this);
+        UserInfoCache.getInstance().getName(name, userId);
+        UserInfoCache.getInstance().getCollege(college, userId);
+        time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        text.setText(published.getText());
+        joinedCount.setText("" + published.getJoinCount());
+        planName.setText(published.getPlanName());
+        complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
+
+        if (TextUtils.isEmpty(published.getPersonLimit())) {
+            peopleLimit.setText("不限人数");
+        } else {
+            peopleLimit.setText(("0-" + published.getPersonLimit()));
+        }
+        data.setText(TimeUtil.getPlanDate(published.getCreateTime()) + "-" +
+                TimeUtil.getPlanDate(Long.valueOf(published.getValidationDate())));
+        UserInfoCache.getInstance().getName(launchPeople, userId);
     }
 
     public void showShareDialog() {
@@ -109,7 +154,7 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         xsx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                OperateUtils.Share(PlanDetailActivity.this, InputActivity.SHOOL_REWARD, published_id);
+                OperateUtils.Share(PlanDetailActivity.this, InputActivity.SHOOL_REWARD, published_id);
                 dialog.dismiss();
             }
         });
@@ -130,11 +175,11 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         TextView text = (TextView) dialogView.findViewById(R.id.text);
         final EditText input = (EditText) dialogView.findViewById(R.id.input);
 
-//        int userId = published.getUserId();
-//        UserInfoCache.getInstance().getHead(head, userId, PlanDetailActivity.this);
-//        UserInfoCache.getInstance().getName(name, userId);
-//        UserInfoCache.getInstance().getCollege(college, userId);
-//        text.setText(published.getText());
+        int userId = published.getUserId();
+        UserInfoCache.getInstance().getHead(head, userId, PlanDetailActivity.this);
+        UserInfoCache.getInstance().getName(name, userId);
+        UserInfoCache.getInstance().getCollege(college, userId);
+        text.setText(published.getText());
 
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,23 +190,23 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                OperateUtils.Tranmit(published_id, NS.CATEGORY_PLAN, id, PlanDetailActivity.this, input.getText().toString(),
-//                        new SimpleCallBack() {
-//                            @Override
-//                            public void onSuccess() {
-//                                showTransmitSuccess();
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onBackData(Object o) {
-//
-//                            }
-//                        });
+                OperateUtils.Tranmit(published_id, NS.CATEGORY_PLAN, id, PlanDetailActivity.this, input.getText().toString(),
+                        new SimpleCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                showTransmitSuccess();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+
+                            }
+                        });
                 showTransmitSuccess();
                 dialog.dismiss();
             }
@@ -205,13 +250,13 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
                 gotoSelectPeson();
                 break;
             case R.id.apply:
-                invite();
+                apply();
                 break;
         }
     }
 
-    private void invite() {
-        OperateUtils.Tranmit(1, NS.APPLY_PLAN, "4", PlanDetailActivity.this, "",
+    private void apply() {
+        OperateUtils.Tranmit(published_id, NS.APPLY_PLAN, "4", PlanDetailActivity.this, "",
                 new SimpleCallBack() {
                     @Override
                     public void onSuccess() {

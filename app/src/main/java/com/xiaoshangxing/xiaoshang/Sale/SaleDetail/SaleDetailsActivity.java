@@ -129,6 +129,32 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         text.setText(published.getText());
         price.setText(NS.RMB + published.getPrice());
         tvDormitory.setText(TextUtils.isEmpty(published.getDorm()) ? "未选" : published.getDorm());
+        collect.setChecked(published.isCollected());
+        complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
+
+        collect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OperateUtils.operate(published_id, SaleDetailsActivity.this, true, NS.COLLECT, published.isCollected(),
+                        new SimpleCallBack() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                collect.setChecked(published.isCollected());
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+                                Published published = (Published) o;
+                                collect.setChecked(published.isCollected());
+                            }
+                        });
+            }
+        });
 
         if (TextUtils.isEmpty(published.getImage())) {
             return;
@@ -137,7 +163,6 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         for (String i : published.getImage().split(NS.SPLIT)) {
             imageUrls.add(i);
         }
-
         pictures.setAdapter(new SaleDetailGridAdapter(this, imageUrls));
         pictures.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

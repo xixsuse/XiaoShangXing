@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.Network.netUtil.LoadUtils;
@@ -105,6 +106,13 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         setmPresenter(new WoPresenter(this, getContext()));
         handler = new Handler();
         initView();
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Toast.makeText(getContext(), "请实名认证", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
         return view;
     }
 
@@ -125,6 +133,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initView(){
+
         activity = (MainActivity) getActivity();
         inputBoxLayout=activity.getInputBoxLayout();
         listView=(ListView)mView.findViewById(R.id.listview);
@@ -543,4 +552,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             }
         }
     }
+
+
 }

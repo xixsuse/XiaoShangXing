@@ -184,13 +184,10 @@ public class WoAdapter extends RealmBaseAdapter<Published> {
         parseTransmit(viewHolder, published);
 
 //        点赞
-        if (viewHolder.praisePeople.getChildCount() != 0) {
-            viewHolder.praisePeople.removeAllViews();
-        }
-        if (!TextUtils.isEmpty(published.getPraiseUserIds())) {
-            Woadapter_Help.buildPrasiPeople(published.getPraiseUserIds().split(NS.SPLIT),
-                    context, viewHolder.praiseLay);
-        }
+
+        Published_Help.buildPrasiPeople(published, viewHolder.praiseLay, context);
+
+
 
         parseComment(viewHolder, published);
 

@@ -1,5 +1,11 @@
 package com.xiaoshangxing.data;
 
+import android.text.TextUtils;
+
+import com.xiaoshangxing.Network.netUtil.NS;
+
+import java.util.ArrayList;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -63,11 +69,13 @@ public class Published extends RealmObject {
     private String praiseUserIds;
     private String joinUserIds;
     private int transmitCount;
-    private String user;
+    private User user;
     private String notice;
     private String forbidden;
     private long serverTime;
     private String planName;
+    private String collectStatus;
+    private Integer status;
     /**
      * id : 2
      * userId : 2
@@ -82,6 +90,7 @@ public class Published extends RealmObject {
      */
 
     private RealmList<CommentsBean> comments;
+    private RealmList<CommentsBean> cdto;
 
     public int getId() {
         return id;
@@ -108,7 +117,7 @@ public class Published extends RealmObject {
     }
 
     public String getText() {
-        return text;
+        return TextUtils.isEmpty(text) ? "" : text;
     }
 
     public void setText(String text) {
@@ -267,11 +276,11 @@ public class Published extends RealmObject {
         this.transmitCount = transmitCount;
     }
 
-    public String getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(String user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -292,7 +301,7 @@ public class Published extends RealmObject {
     }
 
     public RealmList<CommentsBean> getComments() {
-        return comments;
+        return cdto;
     }
 
     public void setComments(RealmList<CommentsBean> comments) {
@@ -308,10 +317,88 @@ public class Published extends RealmObject {
     }
 
     public String getPlanName() {
-        return planName;
+        return TextUtils.isEmpty(planName) ? "" : planName;
     }
 
     public void setPlanName(String planName) {
         this.planName = planName;
+    }
+
+    public String getCollectStatus() {
+        return collectStatus;
+    }
+
+    public void setCollectStatus(String collectStatus) {
+        this.collectStatus = collectStatus;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public RealmList<CommentsBean> getCdto() {
+        return cdto;
+    }
+
+    public void setCdto(RealmList<CommentsBean> cdto) {
+        this.cdto = cdto;
+    }
+
+    public ArrayList<String> getPraisePeopleOnlyIds() {
+        return getOnlyIds(getPraiseUserIds());
+    }
+
+    public ArrayList<String> getJoinPeopleOnlyIds() {
+        return getOnlyIds(getJoinUserIds());
+    }
+
+    public ArrayList<String> getOnlyIds(String id_names) {
+        if (TextUtils.isEmpty(id_names)) {
+            return null;
+        } else {
+            ArrayList<String> resluts = new ArrayList<>();
+            for (String i : id_names.split(NS.SPLIT)) {
+                String[] id_name = i.split(NS.SPLIT2);
+                if (id_name.length >= 2) {
+                    resluts.add(id_name[0]);
+                }
+            }
+            return resluts;
+        }
+    }
+
+    public int getJoinCount() {
+        if (TextUtils.isEmpty(getJoinUserIds())) {
+            return 0;
+        } else {
+            return getJoinPeopleOnlyIds().size();
+        }
+    }
+
+    public int getPraiseCount() {
+        if (TextUtils.isEmpty(getPraiseUserIds())) {
+            return 0;
+        } else {
+            return getPraisePeopleOnlyIds().size();
+        }
+    }
+
+    public boolean isCollected() {
+        if (TextUtils.isEmpty(getCollectStatus())) {
+            return false;
+        } else {
+            return getCollectStatus().equals("1");
+        }
+    }
+
+    public boolean isAlive() {
+        if (getStatus() == null) {
+            return false;
+        }
+        return getStatus().equals(1);
     }
 }

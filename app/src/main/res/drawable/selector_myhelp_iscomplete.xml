@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="false"
-        android:drawable="@mipmap/myhelp_complete">
+    <item android:drawable="@mipmap/myhelp_cancle_complete" android:state_checked="false">
 
     </item>
 
-    <item android:drawable="@mipmap/myhelp_cancle_complete"
+    <item android:drawable="@mipmap/myhelp_complete"
         >
 
     </item>

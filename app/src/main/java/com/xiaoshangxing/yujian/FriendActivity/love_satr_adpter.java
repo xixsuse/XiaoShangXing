@@ -29,9 +29,6 @@ public class love_satr_adpter extends ArrayAdapter<String> {
     List<String> strings;
     private int type;
 
-    public static final int LOVE=0;
-    public static final int STAR=1;
-
     public love_satr_adpter(Context context, int resource, List<String> objects,int type) {
         super(context, resource, objects);
         this.context = context;
@@ -50,7 +47,7 @@ public class love_satr_adpter extends ArrayAdapter<String> {
             viewHolder= (ViewHolder) convertView.getTag();
         }
 
-        if (type==LOVE){
+        if (type == LoveOrStartActivity.LOVE) {
             viewHolder.loveLay.setVisibility(View.VISIBLE);
             viewHolder.starLay.setVisibility(View.GONE);
             viewHolder.more.setOnClickListener(new View.OnClickListener() {

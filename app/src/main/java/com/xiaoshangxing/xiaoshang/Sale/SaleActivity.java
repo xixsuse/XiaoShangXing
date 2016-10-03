@@ -55,25 +55,25 @@ public class SaleActivity extends BaseActivity implements IBaseView {
         if (frag != null) {
             return;
         }
-//        parseIntent();
+        parseIntent();
         initAllFrafments();
     }
 
     private void parseIntent() {
         Fragment frag;
         switch (getIntent().getIntExtra(IntentStatic.TYPE, 0)) {
-//            case IntentStatic.OTHERS:
-//                frag = mFragmentManager.findFragmentByTag(ShoolRewardFragment.TAG);
-//                shoolRewardFragment = (frag == null) ? ShoolRewardFragment.newInstance() : (ShoolRewardFragment) frag;
-//                mFragmentManager.beginTransaction().add(R.id.main_fragment,
-//                        shoolRewardFragment, MyShoolHelpFragment.TAG).commit();
-//                break;
-//            case IntentStatic.MINE:
-//                frag = mFragmentManager.findFragmentByTag(MyShoolRewardFragment.TAG);
-//                myShoolRewardFragment = (frag == null) ? MyShoolRewardFragment.newInstance() : (MyShoolRewardFragment) frag;
-//                mFragmentManager.beginTransaction().add(R.id.main_fragment,
-//                        myShoolRewardFragment, MyShoolHelpFragment.TAG).commit();
-//                break;
+            case IntentStatic.OTHERS:
+                frag = mFragmentManager.findFragmentByTag(SaleFragment.TAG);
+                saleFragment = (frag == null) ? SaleFragment.newInstance() : (SaleFragment) frag;
+                mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                        saleFragment, SaleFragment.TAG).commit();
+                break;
+            case IntentStatic.MINE:
+                frag = mFragmentManager.findFragmentByTag(PersonalSaleFragment.TAG);
+                personalSaleFragment = (frag == null) ? PersonalSaleFragment.newInstance() : (PersonalSaleFragment) frag;
+                mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                        personalSaleFragment, PersonalSaleFragment.TAG).commit();
+                break;
             default:
                 initAllFrafments();
         }

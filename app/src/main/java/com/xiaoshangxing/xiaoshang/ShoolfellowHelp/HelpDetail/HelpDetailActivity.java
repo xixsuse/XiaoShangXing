@@ -40,6 +40,7 @@ import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.lang.reflect.Field;
@@ -203,7 +204,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         UserInfoCache.getInstance().getCollege(college, userId);
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
-        praiseOrCancel.setText(OperateUtils.isPraised(published.getPraiseUserIds()) ? "取消" : "赞");
+        praiseOrCancel.setText(Published_Help.isPraised(published) ? "取消" : "赞");
         setCount();
     }
 
@@ -240,7 +241,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     }
 
     private void praise() {
-        OperateUtils.operate(published_id, this, true, NS.PRAISE, new SimpleCallBack() {
+        OperateUtils.operate(published_id, this, true, NS.PRAISE, Published_Help.isPraised(published), new SimpleCallBack() {
             @Override
             public void onSuccess() {
 

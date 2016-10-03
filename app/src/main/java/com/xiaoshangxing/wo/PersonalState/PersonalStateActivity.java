@@ -70,6 +70,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
         initView();
         typeOfState();
         refreshData();
+        initFresh();
     }
 
     private void initView() {
@@ -80,7 +81,6 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
         head = (CirecleImage) headView.findViewById(R.id.head_image);
         listView.addHeaderView(headView);
         headView.setEnabled(false);
-        initFresh();
     }
 
     @Override
@@ -149,33 +149,47 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
     }
 
     private void initFresh() {
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFSTATE), new PtrDefaultHandler() {
+
+        final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
             @Override
-            public void onRefreshBegin(final PtrFrameLayout frame) {
-                LoadUtils.getPublished(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_SELFSTATE, PersonalStateActivity.this, true,
-                        new LoadUtils.AroundLoading() {
-                            @Override
-                            public void before() {
-                                LoadUtils.clearDatabase(NS.CATEGORY_STATE, true, true);
-                            }
-
-                            @Override
-                            public void complete() {
-                                frame.refreshComplete();
-                            }
-
-                            @Override
-                            public void onSuccess() {
-                                refreshData();
-                            }
-
-                            @Override
-                            public void error() {
-                                frame.refreshComplete();
-                            }
-                        });
+            public void before() {
+                LoadUtils.clearDatabase(NS.CATEGORY_STATE, true, true);
             }
-        });
+
+            @Override
+            public void complete() {
+                ptrFrameLayout.refreshComplete();
+            }
+
+            @Override
+            public void onSuccess() {
+                refreshData();
+            }
+
+            @Override
+            public void error() {
+                ptrFrameLayout.refreshComplete();
+            }
+        };
+
+        if (TempUser.isMine(account)) {
+            LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFSTATE), new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(final PtrFrameLayout frame) {
+                    LoadUtils.getPublished(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_SELFSTATE, PersonalStateActivity.this, true,
+                            aroundLoading);
+                }
+            });
+        } else {
+            LayoutHelp.initPTR(ptrFrameLayout, false, new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    LoadUtils.getOthersPublished(realm, NS.CATEGORY_STATE, Integer.valueOf(account), PersonalStateActivity.this,
+                            aroundLoading);
+                }
+            });
+        }
+
     }
 
     @Override

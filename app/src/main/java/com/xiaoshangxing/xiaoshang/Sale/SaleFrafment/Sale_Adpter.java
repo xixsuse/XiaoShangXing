@@ -79,11 +79,12 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
         viewHolder.text.setText(published.getText());
         viewHolder.price.setText(NS.RMB + published.getPrice());
         viewHolder.dorm.setText(published.getDorm());
+        viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
 
         viewHolder.downArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.showCollectDialog(published.getId());
+                fragment.showCollectDialog(published.getId(), published.isCollected());
             }
         });
 

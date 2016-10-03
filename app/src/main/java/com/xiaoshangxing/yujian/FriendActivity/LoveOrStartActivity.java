@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.yujian.Serch.NormalSerch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,9 @@ public class LoveOrStartActivity extends BaseActivity {
     private love_satr_adpter adpter;
     private int type;
 
+    public static final int LOVE = 0;
+    public static final int STAR = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,14 +52,21 @@ public class LoveOrStartActivity extends BaseActivity {
     }
 
     private void initView(){
-        type=getIntent().getIntExtra(IntentStatic.TYPE,love_satr_adpter.LOVE);
+
+        if (!getIntent().hasExtra(IntentStatic.TYPE)) {
+            showToast("跳转意图不明");
+            finish();
+        }
+
+        type = getIntent().getIntExtra(IntentStatic.TYPE, LoveOrStartActivity.LOVE);
         List<String> list= new ArrayList<>();
         for (int i=0;i<5;i++){
             list.add("1");
         }
+
         adpter=new love_satr_adpter(this,1,list,type);
         listview.setAdapter(adpter);
-        if (type==love_satr_adpter.LOVE){
+        if (type == LoveOrStartActivity.LOVE) {
             count.setText(adpter.getCount()+"个我留心的人");
         }else {
             count.setText(adpter.getCount()+"个我的星星们");
@@ -69,6 +80,7 @@ public class LoveOrStartActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.serch_layout:
+                NormalSerch.start(LoveOrStartActivity.this, type);
                 break;
         }
     }

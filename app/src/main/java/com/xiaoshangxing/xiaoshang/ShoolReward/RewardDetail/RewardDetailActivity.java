@@ -42,6 +42,7 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.CommentListFrafment;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.DepthPageTransformer;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.FixedSpeedScroller;
@@ -193,8 +194,33 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
         price.setText(NS.RMB + published.getPrice());
-        praiseOrCancel.setText(OperateUtils.isPraised(published.getPraiseUserIds()) ? "取消" : "赞");
+        praiseOrCancel.setText(Published_Help.isPraised(published) ? "取消" : "赞");
         setCount();
+
+        collect.setChecked(published.isCollected());
+        collect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OperateUtils.operate(published_id, RewardDetailActivity.this, true, NS.COLLECT, published.isCollected(),
+                        new SimpleCallBack() {
+                            @Override
+                            public void onSuccess() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                collect.setChecked(published.isCollected());
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+                                Published published = (Published) o;
+                                collect.setChecked(published.isCollected());
+                            }
+                        });
+            }
+        });
     }
 
     @Override
@@ -419,7 +445,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     }
 
     private void praise() {
-        OperateUtils.operate(published_id, this, true, NS.PRAISE, new SimpleCallBack() {
+        OperateUtils.operate(published_id, this, true, NS.PRAISE, Published_Help.isPraised(published), new SimpleCallBack() {
             @Override
             public void onSuccess() {
 

@@ -20,12 +20,12 @@ import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by FengChaoQun
@@ -105,7 +105,7 @@ public class shoolfellow_adpter extends ArrayAdapter<Published> {
                 View comment = menu.findViewById(R.id.comment);
                 View praise = menu.findViewById(R.id.praise);
                 final TextView praiseOrCancle = (TextView) menu.findViewById(R.id.praiseOrCancel);
-                praiseOrCancle.setText(OperateUtils.isPraised(published.getPraiseUserIds()) ? "取消" : "赞");
+                praiseOrCancle.setText(Published_Help.isPraised(published) ? "取消" : "赞");
 
                 transmit.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -132,7 +132,7 @@ public class shoolfellow_adpter extends ArrayAdapter<Published> {
                 praise.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        OperateUtils.operate(published.getId(), context, true, NS.PRAISE,
+                        OperateUtils.operate(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
                                 new SimpleCallBack() {
                                     @Override
                                     public void onSuccess() {
@@ -151,7 +151,6 @@ public class shoolfellow_adpter extends ArrayAdapter<Published> {
 
                                     @Override
                                     public void onBackData(Object o) {
-
                                     }
                                 });
                         popupWindow.dismiss();
@@ -168,10 +167,8 @@ public class shoolfellow_adpter extends ArrayAdapter<Published> {
                 context.startActivity(intent);
             }
         });
-//        test
-        Random random=new Random();
-        int ran=random.nextInt(2);
-        if (ran==0){
+
+        if (!published.isAlive()) {
             viewholder.finish.setVisibility(View.VISIBLE);
         }else {
             viewholder.finish.setVisibility(View.GONE);

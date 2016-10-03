@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
@@ -53,9 +52,7 @@ public class PraiseListFrafment extends Fragment {
             emptyText.setText("赶紧赞一下");
         } else {
             ids.clear();
-            for (String i : published.getPraiseUserIds().split(NS.SPLIT)) {
-                ids.add(i);
-            }
+            ids = published.getPraisePeopleOnlyIds();
             recyclerView.setAdapter(new HomeAdapter());
         }
         return view;
@@ -95,7 +92,8 @@ public class PraiseListFrafment extends Fragment {
         @Override
         public int getItemCount()
         {
-            return ids.size();
+            return ids == null ? 0 : ids.size();
+//            return ids.size();
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder

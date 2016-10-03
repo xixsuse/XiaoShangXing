@@ -46,12 +46,13 @@ public class OperateUtils {
      * @param publishedId     动态id
      * @param needRefreshData 是否刷新本地数据库
      * @param operate         操作类型
+     * @param isCancle        是否是取消操作
      * @param callback        回调
      * @return
      */
 
     public static void operate(final int publishedId, final Context context,
-                               final boolean needRefreshData, String operate, final SimpleCallBack callback) {
+                               final boolean needRefreshData, String operate, boolean isCancle, final SimpleCallBack callback) {
 
         Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
             @Override
@@ -103,7 +104,12 @@ public class OperateUtils {
         j.addProperty(NS.MOMENTID, publishedId);
         j.addProperty(NS.CATEGORY, operate);
         j.addProperty(NS.TIMESTAMP, NS.currentTime());
-        PublishNetwork.getInstance().operate(subscriber, j, context);
+        if (isCancle) {
+            PublishNetwork.getInstance().cancleOperate(subscriber, j, context);
+        } else {
+            PublishNetwork.getInstance().operate(subscriber, j, context);
+        }
+
     }
 
     /**
@@ -250,24 +256,6 @@ public class OperateUtils {
         context.startActivity(intent);
     }
 
-    /**
-     * description:判断是否已经赞过
-     *
-     * @param ids 动态点赞人的id串
-     * @return
-     */
-
-    public static boolean isPraised(String ids) {
-        if (TextUtils.isEmpty(ids)) {
-            return false;
-        }
-        for (String i : ids.split(NS.SPLIT)) {
-            if (TempUser.isMine(i)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * description:评论
@@ -333,5 +321,55 @@ public class OperateUtils {
         };
 
         PublishNetwork.getInstance().comment(subscriber, jsonObject, context);
+    }
+
+    public static void ChangeStatu(final int publishId, int statu, final Context context, final boolean needRefreshData,
+                                   final SimpleCallBack callBack) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.id);
+        jsonObject.addProperty(NS.MOMENTID, publishId);
+        jsonObject.addProperty(NS.STATU, statu);
+
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                callBack.onError(e);
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
+                    switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
+                        case 50000014:
+                            callBack.onSuccess();
+                            if (needRefreshData) {
+                                PublishCache.reload(String.valueOf(publishId), new PublishCache.publishedCallback() {
+                                    @Override
+                                    public void callback(Published published) {
+                                        callBack.onBackData(published);
+                                    }
+                                });
+                            }
+
+                            break;
+                        default:
+                            Toast.makeText(context, jsonObject1.getString(NS.MSG), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        PublishNetwork.getInstance().changePublishStatu(subscriber, jsonObject, context);
     }
 }

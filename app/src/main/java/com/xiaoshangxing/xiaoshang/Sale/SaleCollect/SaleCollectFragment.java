@@ -143,7 +143,7 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                OperateUtils.operate(id, getContext(), true, NS.COLLECT, new SimpleCallBack() {
+                OperateUtils.operate(id, getContext(), true, NS.COLLECT,false, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
                         noticeDialog("已收藏");

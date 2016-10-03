@@ -10,6 +10,8 @@ import android.widget.CheckBox;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
@@ -108,6 +110,30 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
         viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewholder.text.setText(published.getText());
 
+        viewholder.iscomplete.setChecked(published.isAlive());
+        viewholder.iscomplete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SimpleCallBack simpleCallBack = new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        viewholder.iscomplete.setChecked(published.isAlive());
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+                        Published published1 = (Published) o;
+                        viewholder.iscomplete.setChecked((published1.isAlive()));
+                    }
+                };
+                OperateUtils.ChangeStatu(published.getId(), published.getStatus(), context, true, simpleCallBack);
+            }
+        });
 
         return convertView;
     }

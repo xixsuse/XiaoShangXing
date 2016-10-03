@@ -296,6 +296,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
+        <!--常规搜索-->
+        <activity
+            android:name=".yujian.Serch.NormalSerch"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/global_search_bg"
+            android:windowSoftInputMode="stateUnspecified"></activity>
+
 
         <activity android:name=".setting.shiming.ShenheActivity" />
         <activity android:name=".setting.shiming.shenhe.XueShengZhenActivity" />

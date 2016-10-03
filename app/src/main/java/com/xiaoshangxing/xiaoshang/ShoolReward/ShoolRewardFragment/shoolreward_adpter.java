@@ -21,12 +21,12 @@ import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by FengChaoQun
@@ -81,7 +81,7 @@ public class shoolreward_adpter extends ArrayAdapter<Published> {
         viewholder.down_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.showCollectDialog(published.getId());
+                fragment.showCollectDialog(published.getId(), published.isCollected());
             }
         });
 
@@ -116,7 +116,7 @@ public class shoolreward_adpter extends ArrayAdapter<Published> {
                 View comment = menu.findViewById(R.id.comment);
                 View praise = menu.findViewById(R.id.praise);
                 final TextView praiseOrCancle = (TextView) menu.findViewById(R.id.praiseOrCancel);
-                praiseOrCancle.setText(OperateUtils.isPraised(published.getPraiseUserIds()) ? "取消" : "赞");
+                praiseOrCancle.setText(Published_Help.isPraised(published) ? "取消" : "赞");
 
                 transmit.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -142,7 +142,7 @@ public class shoolreward_adpter extends ArrayAdapter<Published> {
                 praise.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        OperateUtils.operate(published.getId(), context, true, NS.PRAISE,
+                        OperateUtils.operate(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
                                 new SimpleCallBack() {
                                     @Override
                                     public void onSuccess() {
@@ -179,10 +179,8 @@ public class shoolreward_adpter extends ArrayAdapter<Published> {
             }
         });
 
-//        test
-        Random random=new Random();
-        int ran=random.nextInt(2);
-        if (ran==0){
+
+        if (!published.isAlive()) {
             viewholder.finish.setVisibility(View.VISIBLE);
             viewholder.price.setTextColor(context.getResources().getColor(R.color.g0));
         }else {

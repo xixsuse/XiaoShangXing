@@ -1,56 +1,57 @@
 package com.xiaoshangxing.data;
 
+import android.text.TextUtils;
+
+import com.xiaoshangxing.Network.netUtil.NS;
+
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by FengChaoQun
  * on 2016/8/24
  */
 public class CommentsBean extends RealmObject {
-    @PrimaryKey
-    private int id;
-    private int userId;
-    private int isDelete;
-    private long clientTime;
+
+    /**
+     * commentId : 89
+     * serverTime : 1475487664338
+     * userInfo : 66$17768345313
+     * createTime : 1475482289000
+     * text : 哦啦啦啦
+     * lastUserInfo : 8888
+     * momentId : 225
+     */
+
+    private int commentId;
+    private long serverTime;
+    private String userInfo;
     private long createTime;
-    private String updateTime;
     private String text;
-    private int isReply;
-    private String lastId;
-    private String momentId;
-    private String serverTime;
+    private String lastUserInfo;
+    private int momentId;
 
-    public int getId() {
-        return id;
+    public int getCommentId() {
+        return commentId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCommentId(int commentId) {
+        this.commentId = commentId;
     }
 
-    public int getUserId() {
-        return userId;
+    public long getServerTime() {
+        return serverTime;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setServerTime(long serverTime) {
+        this.serverTime = serverTime;
     }
 
-    public int getIsDelete() {
-        return isDelete;
+    public String getUserInfo() {
+        return userInfo;
     }
 
-    public void setIsDelete(int isDelete) {
-        this.isDelete = isDelete;
-    }
-
-    public long getClientTime() {
-        return clientTime;
-    }
-
-    public void setClientTime(long clientTime) {
-        this.clientTime = clientTime;
+    public void setUserInfo(String userInfo) {
+        this.userInfo = userInfo;
     }
 
     public long getCreateTime() {
@@ -61,14 +62,6 @@ public class CommentsBean extends RealmObject {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
-    }
-
     public String getText() {
         return text;
     }
@@ -77,35 +70,63 @@ public class CommentsBean extends RealmObject {
         this.text = text;
     }
 
-    public int getIsReply() {
-        return isReply;
+    public String getLastUserInfo() {
+        return lastUserInfo;
     }
 
-    public void setIsReply(int isReply) {
-        this.isReply = isReply;
+    public void setLastUserInfo(String lastUserInfo) {
+        this.lastUserInfo = lastUserInfo;
     }
 
-    public String getLastId() {
-        return lastId;
-    }
-
-    public void setLastId(String lastId) {
-        this.lastId = lastId;
-    }
-
-    public String getMomentId() {
+    public int getMomentId() {
         return momentId;
     }
 
-    public void setMomentId(String momentId) {
+    public void setMomentId(int momentId) {
         this.momentId = momentId;
     }
 
-    public String getServerTime() {
-        return serverTime;
+    public int getUserId() {
+        if (TextUtils.isEmpty(getUserInfo())) {
+            return -1;
+        }
+        String[] id_name = getUserInfo().split(NS.SPLIT2);
+        return Integer.valueOf(id_name[0]);
     }
 
-    public void setServerTime(String serverTime) {
-        this.serverTime = serverTime;
+    public String getUserName() {
+        if (TextUtils.isEmpty(getUserInfo())) {
+            return "未知";
+        }
+        String[] id_name = getUserInfo().split(NS.SPLIT2);
+        return id_name[1];
     }
+
+    public int getObejectId() {
+
+        if (TextUtils.isEmpty(getLastUserInfo())) {
+            return -1;
+        }
+
+        String[] id_name = getLastUserInfo().split(NS.SPLIT2);
+        return Integer.valueOf(id_name[0]);
+    }
+
+    public String getObjectName() {
+        if (TextUtils.isEmpty(getLastUserInfo())) {
+            return "未知";
+        }
+        String[] id_name = getLastUserInfo().split(NS.SPLIT2);
+        return id_name[1];
+    }
+
+    public boolean isReply() {
+        return !TextUtils.isEmpty(getLastUserInfo());
+    }
+
+    public int getId() {
+        return commentId;
+    }
+
+
 }

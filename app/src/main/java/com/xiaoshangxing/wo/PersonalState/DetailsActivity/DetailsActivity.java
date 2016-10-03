@@ -34,9 +34,10 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
-import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
-import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 import com.xiaoshangxing.wo.PersonalState.check_photo.myStateNoScrollGridAdapter;
+import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
+import com.xiaoshangxing.wo.WoFrafment.Published_Help;
+import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -175,6 +176,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         userCache.getCollege(college);
         text.setText(TextUtils.isEmpty(published.getText()) ? "" : published.getText());
 
+        praise.setChecked(Published_Help.isPraised(published));
+
         if (!TextUtils.isEmpty(published.getImage())) {
             String[] urls2 = published.getImage().split(NS.SPLIT);
             final ArrayList<String> imageUrls = new ArrayList<>();
@@ -222,14 +225,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         initInputBox();
     }
     private void parsePraise() {
-        final ArrayList<String> imageUrls = new ArrayList<>();
-        String[] splits = published.getPraiseUserIds().split(NS.SPLIT);
-        for (String i : splits) {
-            imageUrls.add(i);
-        }
-
         praisePeople.setVisibility(View.VISIBLE);
-        praisePeople.setAdapter(new DetailPraiseAdapter(this, imageUrls, realm));
+        praisePeople.setAdapter(new DetailPraiseAdapter(this, published.getPraisePeopleOnlyIds(), realm));
     }
 
     private void parseComment() {
@@ -262,14 +259,10 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                             scrollView.smoothScrollBy(0, destination + 10);
                         }
                     }, 300);
-
-
                 }
             });
         }
-
     }
-
 
     private void initInputBox() {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.edit_and_emot);
@@ -355,7 +348,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                 showSureDelete();
                 break;
             case R.id.praise:
-                OperateUtils.operate(published_id, DetailsActivity.this, true, NS.PRAISE, new SimpleCallBack() {
+                OperateUtils.operate(published_id, DetailsActivity.this, true, NS.PRAISE, Published_Help.isPraised(published),
+                        new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
 
@@ -363,7 +357,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
                     @Override
                     public void onError(Throwable e) {
-
+                        praise.setChecked(Published_Help.isPraised(published));
                     }
 
                     @Override
@@ -371,7 +365,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                         refreshPager((Published) o);
                     }
                 });
-                mPresenter.praise();
+
                 break;
             case R.id.comment:
                 inputBoxLayout.showOrHideLayout(true);

@@ -31,6 +31,8 @@ public class BaseUrl {
 
     public static final String COMMENT = "commentary/comment";
     public static final String OPERATE = "operation/operate";
+    public static final String CANCLE_OPERATE = "operation/cancelOperate";
+    public static final String CHANGE_PUBLISHED_STATU = "moment/changeMomentStatus";
 
 
 }

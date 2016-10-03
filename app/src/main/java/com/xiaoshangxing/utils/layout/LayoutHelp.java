@@ -27,7 +27,7 @@ public class LayoutHelp {
         Context context = frame.getContext();
         StoreHouseHeader header = new StoreHouseHeader(context);
         header.setPadding(0, context.getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
-        header.initWithString("SWALK");
+        header.initWithString("SMATE");
         header.setTextColor(context.getResources().getColor(R.color.green1));
         header.setBackgroundColor(context.getResources().getColor(R.color.transparent));
         header.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_in));

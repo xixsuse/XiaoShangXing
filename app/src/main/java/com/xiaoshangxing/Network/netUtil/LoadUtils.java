@@ -146,6 +146,57 @@ public class LoadUtils {
     }
 
     /**
+     * description:获取指定人的指定动态
+     *
+     * @param realm         数据库
+     * @param type          需要刷新的动态类型
+     * @param peopleId      对象id
+     * @param aroundLoading 回调
+     * @return
+     */
+
+    public static void getOthersPublished(final Realm realm, String type, int peopleId,
+                                          final Context context, final AroundLoading aroundLoading) {
+        if (aroundLoading != null) {
+            aroundLoading.before();
+        }
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, peopleId);
+        jsonObject.addProperty(NS.CATEGORY, type);
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+
+        Subscriber<ResponseBody> subscriber1 = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                if (aroundLoading != null) {
+                    aroundLoading.complete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (aroundLoading != null) {
+                    aroundLoading.error();
+                }
+                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    LoadUtils.parseData(responseBody, realm, context, aroundLoading);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        PublishNetwork.getInstance().getPublished(subscriber1, jsonObject, XSXApplication.getInstance());
+    }
+
+    /**
      * description:  将返回数据存入数据库
      *
      * @param responseBody  返回体

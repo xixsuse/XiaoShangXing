@@ -17,6 +17,7 @@ import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
@@ -33,6 +34,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -97,21 +99,21 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
         dotsTextView.start();
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addFooterView(footview);
-//        initFresh();
+        initFresh();
         refreshData();
         showNoData();
     }
 
     private void initFresh() {
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFSALE),
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SELFPLAN),
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_SALE, LoadUtils.TIME_LOAD_SELFSALE, getContext(), false,
+                        LoadUtils.getPublished(realm, NS.CATEGORY_PLAN, LoadUtils.TIME_LOAD_SELFPLAN, getContext(), false,
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_SALE, false, true);
+                                        LoadUtils.clearDatabase(NS.CATEGORY_PLAN, false, true);
                                     }
 
                                     @Override
@@ -160,7 +162,6 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-//                mPresenter.delete();
                 OperateUtils.deleteOnePublished(id, getContext(), PersonalPlanFragment.this, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
@@ -202,9 +203,10 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
 
     @Override
     public void refreshData() {
-        for (int i = 0; i <= 10; i++) {
-            publisheds.add(new Published());
-        }
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.USER_ID, TempUser.id)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_PLAN))
+                .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
         showNoContentText(publisheds.size() < 1);
         adpter = new PersonalPlan_Adpter(getContext(), 1, publisheds, this, (PlanActivity) getActivity());
         listview.setAdapter(adpter);
