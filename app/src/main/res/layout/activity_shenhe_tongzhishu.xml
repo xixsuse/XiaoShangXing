@@ -51,44 +51,29 @@
         android:layout_height="wrap_content"
         android:background="@color/w0"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/y88"
         android:paddingStart="@dimen/x48"
         android:paddingTop="@dimen/y48">
 
-        <com.xiaoshangxing.utils.layout.CirecleImage
+
+        <ImageView
             android:id="@+id/personinfo_headimg"
-            android:layout_width="@dimen/x102"
-            android:layout_height="@dimen/x102"
+            android:layout_width="@dimen/x66"
+            android:layout_height="@dimen/x66"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
-            android:src="@mipmap/head_init" />
+            android:src="@mipmap/tongzhishu" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/personinfo_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/x24"
-            android:orientation="vertical">
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/x36"
+            android:text="@string/shenhe3"
+            android:textColor="@color/b0"
+            android:textSize="16sp" />
 
 
-            <TextView
-                android:id="@+id/personinfo_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:text="@string/shenhe3"
-                android:textColor="@color/b0"
-                android:textSize="16sp" />
-
-
-            <TextView
-                android:id="@+id/personinfo_xueyaun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/quebao"
-                android:textColor="@color/g0"
-                android:textSize="14sp" />
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -97,19 +82,43 @@
         android:background="@color/w0"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:paddingTop="@dimen/y88">
+        android:paddingTop="@dimen/y62">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fengmian"
-                android:textColor="@color/g0"
-                android:textSize="14sp" />
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/wrongLeft"
+                    android:layout_width="@dimen/x48"
+                    android:layout_height="@dimen/x48"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/wrongsmall"
+                    android:visibility="gone" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x10"
+                    android:text="正面"
+                    android:textColor="@color/g0"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="（姓名页）"
+                    android:textColor="@color/g0"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/imageLeft"
@@ -127,12 +136,27 @@
             android:layout_marginStart="@dimen/x58"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/neiye"
-                android:textColor="@color/g0"
-                android:textSize="14sp" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/wrongRight"
+                    android:layout_width="@dimen/x48"
+                    android:layout_height="@dimen/x48"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/wrongsmall"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/x10"
+                    android:text="学校公章"
+                    android:textColor="@color/g0"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/imageRight"
@@ -146,9 +170,20 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/personinfo_xueyaun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/w0"
+        android:paddingStart="@dimen/x80"
+        android:paddingTop="@dimen/y48"
+        android:text="@string/quebao"
+        android:textColor="@color/g0"
+        android:textSize="14sp" />
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y48"
+        android:layout_height="@dimen/y96"
         android:background="@color/w0" />
 
     <Button

@@ -45,186 +45,128 @@
         android:layout_height="1px"
         android:background="@color/g1" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
         android:background="@color/w0"
+        android:onClick="ShowErrors"
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/wrongImg"
             android:layout_width="@dimen/x68"
             android:layout_height="@dimen/x68"
-            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/x43"
-            android:src="@mipmap/done" />
+            android:src="@mipmap/wrongsmall" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/x36"
-            android:text="@string/vertifyfinish"
+            android:layout_toRightOf="@id/wrongImg"
+            android:text="请重新进行实名认证"
             android:textColor="@color/b0"
             android:textSize="17sp" />
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x48"
+            android:src="@mipmap/right_arrow" />
+
+    </RelativeLayout>
 
 
     <RelativeLayout
+        android:id="@+id/xueshengzheng"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w0"
+        android:onClick="xueshengzheng"
         android:orientation="horizontal"
         android:paddingStart="@dimen/x48">
+
 
         <TextView
             style="@style/black_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/RealName" />
+            android:layout_toRightOf="@id/img1"
+            android:text="@string/shenhe1" />
 
-        <TextView
-            android:id="@+id/name"
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/x48"
-            android:text="王振华"
-            android:textColor="@color/b0"
-            android:textSize="14sp" />
+            android:src="@mipmap/right_arrow" />
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginEnd="@dimen/x48"
-        android:layout_marginStart="@dimen/x48"
-        android:background="@color/g1" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:background="@color/w0"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/x48">
-
-        <TextView
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/XingBie" />
-
-
-        <TextView
-            android:id="@+id/sex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/x48"
-            android:text="男"
-            android:textColor="@color/b0"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginEnd="@dimen/x48"
-        android:layout_marginStart="@dimen/x48"
-        android:background="@color/g1" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:background="@color/w0"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/x48">
-
-        <TextView
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="@string/XueHao" />
-
-        <TextView
-            android:id="@+id/xuehao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/x48"
-            android:text="123456"
-            android:textColor="@color/b0"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
+        android:id="@+id/xueshengka"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w0"
+        android:onClick="xueshengka"
         android:orientation="horizontal"
         android:paddingStart="@dimen/x48">
+
 
         <TextView
             style="@style/black_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/school" />
+            android:layout_toRightOf="@id/img2"
+            android:text="@string/shenhe2" />
 
-        <TextView
-            android:id="@+id/school"
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/x48"
-            android:text="北京大学"
-            android:textColor="@color/b0"
-            android:textSize="13sp" />
-
+            android:src="@mipmap/right_arrow" />
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginEnd="@dimen/x48"
-        android:layout_marginStart="@dimen/x48"
-        android:background="@color/g1" />
 
 
     <RelativeLayout
+        android:id="@+id/tongzhishu"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
+        android:layout_marginTop="@dimen/y48"
         android:background="@color/w0"
+        android:onClick="tongzhishu"
         android:orientation="horizontal"
         android:paddingStart="@dimen/x48">
+
 
         <TextView
             style="@style/black_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/RuXueNianFen" />
+            android:layout_toRightOf="@id/img3"
+            android:text="@string/shenhe3" />
 
-        <TextView
-            android:id="@+id/ruxuenianfen"
+
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/x48"
-            android:text="2016年"
-            android:textColor="@color/b0"
-            android:textSize="13sp" />
-
+            android:src="@mipmap/right_arrow" />
     </RelativeLayout>
 
 

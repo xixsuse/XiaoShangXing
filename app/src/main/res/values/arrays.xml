@@ -19,6 +19,21 @@
         <item> 男</item>
         <item> 女</item>
     </string-array>
+
+    <string-array name="Year">
+        <item> 2016年</item>
+        <item> 2015年</item>
+        <item> 2014年</item>
+        <item> 2013年</item>
+    </string-array>
+
+    <string-array name="XueLi">
+        <item> 专科</item>
+        <item> 本科</item>
+        <item> 硕士</item>
+        <item> 博士</item>
+    </string-array>
+
     <declare-styleable name="RoundedImageView">
         <attr name="corner_radius" format="dimension" />
         <attr name="border_width" format="dimension" />

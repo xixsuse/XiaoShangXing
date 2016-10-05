@@ -361,6 +361,8 @@
     <string name="DiQu">地区</string>
     <string name="shenheNotice">请确保证件文字清晰可读，四角完整</string>
     <string name="vertifying">已提交，请等待验证...</string>
+    <string name="use">使用</string>
+    <string name="retake">重拍</string>
 
 
 </resources>

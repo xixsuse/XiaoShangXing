@@ -32,9 +32,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder) {
         try {
             mCamera = getCameraInstance();
-
-
-
             mCamera.setPreviewDisplay(holder);
             mCamera.startPreview();
 
@@ -91,7 +88,6 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceDestroyed(SurfaceHolder holder) {
         mCamera.stopPreview();
         mCamera.release();
-
     }
 
     public static Camera getCameraInstance() {
@@ -121,6 +117,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mCamera.startPreview();
         mCamera.cancelAutoFocus();// 2如果要实现连续的自动对焦，这一句必须加上
 
+    }
+
+
+    public void releaseCamera() {
+        if (mCamera != null) {
+            mCamera.release();
+            mCamera = null;
+        }
     }
 
 

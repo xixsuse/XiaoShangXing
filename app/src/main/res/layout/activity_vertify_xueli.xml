@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/XingBie" />
+            android:text="学历" />
 
         <TextView
             android:id="@+id/finish"
@@ -53,11 +53,21 @@
             android:textSize="16sp" />
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/y16"
+        android:layout_marginStart="@dimen/x48"
+        android:layout_marginTop="@dimen/y24"
+        android:text="选择学历"
+        android:textColor="@color/g0"
+        android:textSize="14sp" />
+
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y48"
         android:background="@color/w0"
         android:choiceMode="singleChoice"
         android:divider="@color/g1"

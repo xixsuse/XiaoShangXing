@@ -57,7 +57,65 @@
 
         </LinearLayout>
 
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right">
+
+        <TextView
+            android:id="@+id/use"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y126"
+            android:clickable="true"
+            android:onClick="Use"
+            android:rotation="270"
+            android:text="@string/use"
+            android:textColor="@color/w0"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/take"
+            android:layout_width="@dimen/x192"
+            android:layout_height="@dimen/x192"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/y43"
+            android:layout_marginRight="@dimen/y43"
+            android:onClick="Take"
+            android:src="@mipmap/photo" />
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/y126"
+            android:clickable="true"
+            android:onClick="Cancel"
+            android:rotation="270"
+            android:text="@string/cancle"
+            android:textColor="@color/w0"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/retake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/y126"
+            android:clickable="true"
+            android:onClick="ReTake"
+            android:rotation="270"
+            android:text="@string/retake"
+            android:textColor="@color/w0"
+            android:textSize="16sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
 

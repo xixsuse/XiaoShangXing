@@ -1,4 +1,4 @@
-package com.xiaoshangxing.setting.shiming.vertify;
+package com.xiaoshangxing.setting.shiming.result;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,5 +32,7 @@ public class VertifyingActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
 
 }

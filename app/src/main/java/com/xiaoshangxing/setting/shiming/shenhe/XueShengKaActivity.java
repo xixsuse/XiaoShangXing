@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.shiming.VertifyUtil;
+import com.xiaoshangxing.setting.shiming.vertify.VertifyActivity;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyShiMingActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 
@@ -32,6 +33,11 @@ public class XueShengKaActivity extends BaseActivity {
 
     private static boolean flagLeft = false, flagRight = false;
 
+    @Bind(R.id.wrongLeft)
+    ImageView wrongLeft;
+    @Bind(R.id.wrongRight)
+    ImageView wrongRight;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +51,7 @@ public class XueShengKaActivity extends BaseActivity {
     }
 
     public void Next(View view) {
-        startActivity(new Intent(this, VertifyShiMingActivity.class));
+        startActivity(new Intent(this, VertifyActivity.class));
     }
 
     public void imgRight(View view) {
@@ -98,6 +104,8 @@ public class XueShengKaActivity extends BaseActivity {
             fileRight.delete();
             flagRight = true;
         }
+
+//        setButtonStyleGreen();
 
         if (flagLeft && flagRight) setButtonStyleGreen();
         else resetButtonStyle();
