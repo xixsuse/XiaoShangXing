@@ -1,0 +1,29 @@
+package com.xiaoshangxing.xiaoshang.Calendar.Decorator;
+
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
+
+/**
+ * Decorate several days with a dot
+ */
+public class CurrentDecorator implements DayViewDecorator {
+
+    private int color;
+    private CalendarDay day;
+
+    public CurrentDecorator(int color, CalendarDay day) {
+        this.color = color;
+        this.day = day;
+    }
+
+    @Override
+    public boolean shouldDecorate(CalendarDay day) {
+        return day != null && day.equals(day);
+    }
+
+    @Override
+    public void decorate(DayViewFacade view) {
+        view.addSpan(new MyDotSpan(50, color, true));
+    }
+}

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.xiaoshang.ShoolReward.collect;
+package com.xiaoshangxing.xiaoshang.ShoolReward.RewardCollect;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +11,17 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
 
@@ -24,23 +29,21 @@ import java.util.List;
  * Created by FengChaoQun
  * on 2016/4/20
  */
-public class Collect_Adpter extends ArrayAdapter<String> {
+public class Collect_Adpter extends ArrayAdapter<Published> {
     private Context context;
-    private int resource;
-    List<String> strings;
+    List<Published> publisheds;
     private CollectFragment fragment;
     private boolean showselect;
     private ShoolRewardActivity activity;
 
 
-    public Collect_Adpter(Context context, int resource, List<String> objects,
-                          CollectFragment fragment, ShoolRewardActivity activity  ) {
+    public Collect_Adpter(Context context, int resource, List<Published> objects,
+                          CollectFragment fragment, ShoolRewardActivity activity) {
         super(context, resource, objects);
         this.context = context;
-        this.strings = objects;
-        this.resource = resource;
-        this.fragment=fragment;
-        this.activity=activity;
+        this.publisheds = objects;
+        this.fragment = fragment;
+        this.activity = activity;
     }
 
     @Override
@@ -55,34 +58,43 @@ public class Collect_Adpter extends ArrayAdapter<String> {
             viewholder.college = (TextView) convertView.findViewById(R.id.college);
             viewholder.time = (TextView) convertView.findViewById(R.id.time);
             viewholder.text = (EmotinText) convertView.findViewById(R.id.text);
-            viewholder.price=(TextView)convertView.findViewById(R.id.price);
+            viewholder.price = (TextView) convertView.findViewById(R.id.price);
             viewholder.button = (ImageView) convertView.findViewById(R.id.button);
             viewholder.down_arrow = (ImageView) convertView.findViewById(R.id.down_arrow);
-            viewholder.checkBox=(CheckBox)convertView.findViewById(R.id.checkbox);
-            viewholder.cardview=(CardView) convertView.findViewById(R.id.cardview);
+            viewholder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
+            viewholder.cardview = (CardView) convertView.findViewById(R.id.cardview);
             convertView.setTag(viewholder);
 
         } else {
             viewholder = (mystate_viewholder) convertView.getTag();
         }
 
-        if (showselect){
+        final Published published = publisheds.get(position);
+
+        UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
+        UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
+        UserInfoCache.getInstance().getCollege(viewholder.college, published.getUserId());
+        viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewholder.text.setText(published.getText());
+        viewholder.price.setText(NS.RMB + published.getPrice());
+
+        if (showselect) {
             viewholder.checkBox.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             viewholder.checkBox.setVisibility(View.GONE);
         }
 
         viewholder.down_arrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.showCollectDialog();
+                fragment.showCollectDialog(published.getId());
             }
         });
 
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-               showMenu(v,viewholder);
+                showMenu(v, viewholder, published.getId());
                 viewholder.cardview.setBackground(context.getResources()
                         .getDrawable(R.drawable.circular_8_g1_nostroke));
                 return true;
@@ -94,6 +106,7 @@ public class Collect_Adpter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RewardDetailActivity.class);
+                intent.putExtra(IntentStatic.DATA, published.getId());
                 context.startActivity(intent);
             }
         });
@@ -106,7 +119,7 @@ public class Collect_Adpter extends ArrayAdapter<String> {
 
     private static class mystate_viewholder {
         private CirecleImage headImage;
-        private TextView  college, time, price;
+        private TextView college, time, price;
         private Name name;
         private EmotinText text;
         private CheckBox checkBox;
@@ -114,17 +127,17 @@ public class Collect_Adpter extends ArrayAdapter<String> {
         private CardView cardview;
     }
 
-    private void showMenu(View v, final mystate_viewholder viewholder){
-        int []xy=new int[2];
+    private void showMenu(View v, final mystate_viewholder viewholder, final int publishId) {
+        int[] xy = new int[2];
         v.getLocationInWindow(xy);
         View menu;
-        if (xy[1]<=context.getResources().getDimensionPixelSize(R.dimen.y300)){
-             menu= View.inflate(getContext(),R.layout.popup_myhelp_up,null);
-        }else {
-             menu= View.inflate(getContext(),R.layout.popup_myhelp_bottom,null);
+        if (xy[1] <= context.getResources().getDimensionPixelSize(R.dimen.y300)) {
+            menu = View.inflate(getContext(), R.layout.popup_myhelp_up, null);
+        } else {
+            menu = View.inflate(getContext(), R.layout.popup_myhelp_bottom, null);
         }
 
-        final PopupWindow popupWindow=new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
+        final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(getContext().getResources().
@@ -133,20 +146,20 @@ public class Collect_Adpter extends ArrayAdapter<String> {
 
         menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int mShowMorePopupWindowWidth = menu.getMeasuredWidth();
-        int mShowMorePopupWindowHeight=menu.getMeasuredHeight();
+        int mShowMorePopupWindowHeight = menu.getMeasuredHeight();
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
 
-        if (xy[1]<=context.getResources().getDimensionPixelSize(R.dimen.y300)){
+        if (xy[1] <= context.getResources().getDimensionPixelSize(R.dimen.y300)) {
             popupWindow.showAsDropDown(v,
-                    -mShowMorePopupWindowWidth/2+v.getWidth()/2,
+                    -mShowMorePopupWindowWidth / 2 + v.getWidth() / 2,
                     0);
-        }else {
+        } else {
             popupWindow.showAsDropDown(v,
-                    -mShowMorePopupWindowWidth/2+v.getWidth()/2,
-                    -mShowMorePopupWindowHeight-v.getHeight());
+                    -mShowMorePopupWindowWidth / 2 + v.getWidth() / 2,
+                    -mShowMorePopupWindowHeight - v.getHeight());
         }
-       
+
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -155,13 +168,14 @@ public class Collect_Adpter extends ArrayAdapter<String> {
             }
         });
 
-        final TextView transmit=(TextView)menu.findViewById(R.id.transmit);
-        TextView delete=(TextView)menu.findViewById(R.id.delete);
-        TextView more=(TextView)menu.findViewById(R.id.more);
+        final TextView transmit = (TextView) menu.findViewById(R.id.transmit);
+        TextView delete = (TextView) menu.findViewById(R.id.delete);
+        TextView more = (TextView) menu.findViewById(R.id.more);
 
         transmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                activity.setTransmitedId(publishId);
                 activity.gotoSelectPerson();
                 popupWindow.dismiss();
             }
@@ -171,7 +185,7 @@ public class Collect_Adpter extends ArrayAdapter<String> {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                fragment.showDeleteSureDialog();
+                fragment.showDeleteSureDialog(publishId);
             }
         });
 
@@ -186,8 +200,9 @@ public class Collect_Adpter extends ArrayAdapter<String> {
 
     }
 
-    public void showSelectCircle(boolean is){
-        showselect=is;
+    public void showSelectCircle(boolean is) {
+        showselect = is;
         notifyDataSetChanged();
     }
+
 }

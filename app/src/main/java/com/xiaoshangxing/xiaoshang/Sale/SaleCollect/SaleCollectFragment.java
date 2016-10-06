@@ -1,16 +1,20 @@
 package com.xiaoshangxing.xiaoshang.Sale.SaleCollect;
 
+import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
@@ -19,7 +23,10 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
+import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 
@@ -29,6 +36,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -47,7 +56,7 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
     @Bind(R.id.listview)
     ListView listview;
     @Bind(R.id.reflesh_layout)
-    PtrFrameLayout refleshLayout;
+    PtrFrameLayout ptrFrameLayout;
     @Bind(R.id.hide_trasmit)
     ImageView hideTrasmit;
     @Bind(R.id.hide_delete)
@@ -63,6 +72,7 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
     private SaleActivity activity;
     private SaleCollect_Adpter adpter;
     private List<Published> publisheds = new ArrayList<>();
+    private Realm realm;
 
     public static SaleCollectFragment newInstance() {
         return new SaleCollectFragment();
@@ -75,8 +85,9 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frag_myshoolreward, null);
         ButterKnife.bind(this, view);
+        realm = Realm.getDefaultInstance();
 //        setmPresenter(new CollectPresenter(this,getContext()));
-//        initFresh();
+        initFresh();
         initView();
         return view;
     }
@@ -90,29 +101,67 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
         listview.addFooterView(footview);
         activity = (SaleActivity) getActivity();
         title.setText("收藏");
-        initlistview();
+        refreshPager();
     }
 
-    private void initlistview() {
-        for (int i = 0; i <= 10; i++) {
-            publisheds.add(new Published());
-        }
+    private void refreshPager() {
+        publisheds = realm.where(Published.class)
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_SALE))
+                .equalTo(NS.COLLECT_STATU, "1")
+                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        showNoContentText(publisheds.size() < 1);
         adpter = new SaleCollect_Adpter(getContext(), 1, publisheds, this, activity);
         listview.setAdapter(adpter);
+    }
+
+    private void initFresh() {
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_COLLECT_SALE),
+                new PtrDefaultHandler() {
+                    @Override
+                    public void onRefreshBegin(final PtrFrameLayout frame) {
+                        LoadUtils.getCollected(realm, NS.COLLECT_SALE, LoadUtils.TIME_COLLECT_SALE, getContext(),
+                                new LoadUtils.AroundLoading() {
+                                    @Override
+                                    public void before() {
+                                        LoadUtils.clearCollect(NS.COLLECT_SALE);
+                                        refreshPager();
+                                    }
+
+                                    @Override
+                                    public void complete() {
+                                        frame.refreshComplete();
+                                    }
+
+                                    @Override
+                                    public void onSuccess() {
+                                        refreshPager();
+                                    }
+
+                                    @Override
+                                    public void error() {
+                                        frame.refreshComplete();
+                                    }
+                                });
+                    }
+                });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        realm.close();
     }
 
     @OnClick({R.id.back, R.id.cancel, R.id.hide_trasmit, R.id.hide_delete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
+                getFragmentManager().popBackStack();
                 break;
             case R.id.cancel:
+//                adpter.showSelectCircle(false);
+//                showHideMenu(false);
                 break;
             case R.id.hide_trasmit:
                 break;
@@ -133,20 +182,44 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
 
     @Override
     public void showNoContentText(boolean is) {
+        if (is) {
+            noContent.setVisibility(View.VISIBLE);
+            listview.setVisibility(View.INVISIBLE);
+        } else {
+            noContent.setVisibility(View.INVISIBLE);
+            listview.setVisibility(View.VISIBLE);
+        }
+    }
 
+    public void showEdittext(boolean is, EditText editText) {
+        if (is) {
+            editText.setFocusable(true);
+            editText.requestFocus();
+            editText.setFocusableInTouchMode(true);
+        } else {
+            KeyBoardUtils.closeKeybord(editText, getContext());
+        }
     }
 
     @Override
     public void showCollectDialog(final int id) {
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
-        dialogMenu2.addMenuItem("收藏");
+        dialogMenu2.addMenuItem("取消收藏");
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                OperateUtils.operate(id, getContext(), true, NS.COLLECT,false, new SimpleCallBack() {
+                OperateUtils.operate(id, getContext(), true, NS.COLLECT, true, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
-                        noticeDialog("已收藏");
+                        noticeDialog("已取消收藏");
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                Published published = realm.where(Published.class).equalTo(NS.ID, id).findFirst();
+                                published.setCollectStatus("0");
+                            }
+                        });
+                        refreshPager();
                     }
 
                     @Override
@@ -172,17 +245,29 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
 
     @Override
     public void noticeDialog(String message) {
+        DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(getActivity(), message);
+        final Dialog alertDialog = dialog_no_button.create();
+        alertDialog.show();
+        LocationUtil.setWidth(getActivity(), alertDialog,
+                getActivity().getResources().getDimensionPixelSize(R.dimen.x420));
 
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                alertDialog.dismiss();
+            }
+        }, 1000);
     }
 
     @Override
     public void showNoData() {
-
+        dotsTextView.stop();
+        loadingText.setText("没有动态啦");
     }
 
     @Override
     public void showFooter() {
-
+        dotsTextView.start();
+        loadingText.setText("加载中");
     }
 
     @Override

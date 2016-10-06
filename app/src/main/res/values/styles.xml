@@ -61,6 +61,11 @@
         <item name="android:textSize">13sp</item>
     </style>
 
+    <style name="b1_13sp">
+        <item name="android:textColor">@color/b1</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <!--字体大小为15sp 颜色为绿1-->
     <style name="green1_15sp">
         <item name="android:textColor">@color/green1</item>
@@ -272,6 +277,10 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="grey">
+        <item name="android:textColor">@color/g0</item>
     </style>
 
 </resources>

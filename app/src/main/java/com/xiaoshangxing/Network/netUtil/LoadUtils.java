@@ -46,6 +46,8 @@ public class LoadUtils {
     public static final String TIME_LOAD_SALE = "TIME_LOAD_SALE";                       //闲置出售
     public static final String TIME_LOAD_SELFSALE = "TIME_LOAD_SELFSALE";               //我的闲置
     public static final String TIME_LOAD_CALENDAR = "TIME_LOAD_CALENDAR";               //校历资讯
+    public static final String TIME_COLLECT_REWARD = "TIME_COLLECT_REWARD";             //校内悬赏收藏
+    public static final String TIME_COLLECT_SALE = "TIME_COLLECT_SALE";                 //闲置出售收藏
 
     /**
      * description:判断是否需要刷新
@@ -146,6 +148,57 @@ public class LoadUtils {
     }
 
     /**
+     * description:刷新动态
+     *
+     * @param realm         数据库
+     * @param type          需要刷新的动态类型
+     * @param loadtime      对应的刷新时间的类型
+     * @param aroundLoading 回调
+     * @return
+     */
+    public static void getCollected(final Realm realm, String type, final String loadtime,
+                                    final Context context, final AroundLoading aroundLoading) {
+        if (aroundLoading != null) {
+            aroundLoading.before();
+        }
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.id);
+        jsonObject.addProperty(NS.CATEGORY, type);
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+
+        Subscriber<ResponseBody> subscriber1 = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                LoadUtils.refreshTime(loadtime);
+                if (aroundLoading != null) {
+                    aroundLoading.complete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (aroundLoading != null) {
+                    aroundLoading.error();
+                }
+                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    LoadUtils.parseData(responseBody, realm, context, aroundLoading);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        PublishNetwork.getInstance().getCollect(subscriber1, jsonObject, XSXApplication.getInstance());
+    }
+
+    /**
      * description:获取指定人的指定动态
      *
      * @param realm         数据库
@@ -226,6 +279,7 @@ public class LoadUtils {
             default:
                 Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
                 break;
+
         }
     }
 
@@ -273,6 +327,28 @@ public class LoadUtils {
             });
         }
 
+    }
+
+    public static void clearCollect(String category) {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<Published> realmResults;
+
+        if (category.equals(NS.COLLECT_REWARD)) {
+            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, 6)
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else if (category.equals(NS.COLLECT_SALE)) {
+            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, 5)
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else {
+            return;
+        }
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realmResults.deleteAllFromRealm();
+                Log.d("clear data ", "success");
+            }
+        });
     }
 
     /**

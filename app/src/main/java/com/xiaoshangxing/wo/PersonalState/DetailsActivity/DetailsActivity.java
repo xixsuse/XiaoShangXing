@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -209,7 +210,10 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
         if (!TextUtils.isEmpty(published.getPraiseUserIds())) {
             parsePraise();
+        } else {
+            praisePeople.setVisibility(View.GONE);
         }
+
         if (published.getComments() != null && published.getComments().size() > 0) {
             parseComment();
         }
@@ -363,6 +367,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                     @Override
                     public void onBackData(Object o) {
                         refreshPager((Published) o);
+                        Log.d("refreshpager", "ok");
                     }
                 });
 

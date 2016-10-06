@@ -35,11 +35,17 @@ public class NS {
     public static final String CLIENTTIME = "clientTime";
     public static final String NOTICE = "notice";
     public static final String FOBIDDEN = "forbidden";
+
     public static final String CATEGORY_STATE = "1";
     public static final String CATEGORY_HELP = "2";
     public static final String CATEGORY_PLAN = "3";
     public static final String CATEGORY_CALENDAR = "4";
     public static final String CATEGORY_SALE = "5";
+    public static final String CATEGORY_REWARD = "6";
+
+    public static final String COLLECT_REWARD = "4";
+    public static final String COLLECT_SALE = "2";
+
     public static final String APPLY_PLAN = "APPLY_PLAN";
     public static final String PRICE = "price";
     public static final String CREATETIME = "createTime";
@@ -53,9 +59,9 @@ public class NS {
     public static final String COLLECT = "2";
     public static final String INFO = "3";
     public static final String STATU = "status";
+    public static final String COLLECT_STATU = "collectStatus";
 
 
-    public static final String CATEGORY_REWARD = "6";
 
     //    好友
     public static final String MARK = "MARK";//留心

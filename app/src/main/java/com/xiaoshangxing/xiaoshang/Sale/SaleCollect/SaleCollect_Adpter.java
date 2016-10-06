@@ -14,16 +14,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
+import com.xiaoshangxing.xiaoshang.Sale.SaleDetail.SaleDetailsActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleFrafment.SaleGridAdapter;
+import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,39 +71,31 @@ public class SaleCollect_Adpter extends ArrayAdapter<Published> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        final Published published = publisheds.get(position);
+
+        UserInfoCache.getInstance().getHead(viewHolder.headImage, published.getUserId(), context);
+        UserInfoCache.getInstance().getName(viewHolder.name, published.getUserId());
+        UserInfoCache.getInstance().getCollege(viewHolder.college, published.getUserId());
+        viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewHolder.text.setText(published.getText());
+        viewHolder.price.setText(NS.RMB + published.getPrice());
+        viewHolder.dorm.setText(published.getDorm());
+        viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
+
         viewHolder.downArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.showCollectDialog(99);
+                fragment.showCollectDialog(published.getId());
             }
         });
 
         final ViewHolder finalViewHolder = viewHolder;
-//        viewHolder.input.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                handler = new Handler();
-//                fragment.showEdittext(true, finalViewHolder.input);
-//                final int[] xy = new int[2];
-//                v.getLocationOnScreen(xy);
-//                final View mv = v;
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        int[] xy1 = new int[2];
-//                        finalViewHolder.input.getLocationOnScreen(xy1);
-//                        int destination = xy[1] + mv.getHeight() - xy1[1];
-//                        fragment.moveListview(destination);
-//                    }
-//                }, 300);
-//                finalViewHolder.input.setFocusable(true);
-//                finalViewHolder.input.setFocusableInTouchMode(true);
-//                finalViewHolder.input.requestFocus();
-//                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-//            }
-//        });
-
+        viewHolder.input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragment.showEdittext(true, finalViewHolder.input);
+            }
+        });
         viewHolder.input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -118,10 +119,35 @@ public class SaleCollect_Adpter extends ArrayAdapter<Published> {
             }
         });
 
+
+        viewHolder.chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, "4"/*String.valueOf(published.getUserId())*/, fragment,
+                        finalViewHolder.input.getText().toString(), new SimpleCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                ChatActivity.start(context, "4", null, SessionTypeEnum.P2P);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+
+                            }
+                        });
+            }
+        });
+
         final ArrayList<String> imageUrls = new ArrayList<>();
-        imageUrls.add("http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg");
-        imageUrls.add("http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg");
-        imageUrls.add("http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg");
+        if (!TextUtils.isEmpty(published.getImage())) {
+            for (String i : published.getImage().split(NS.SPLIT)) {
+                imageUrls.add(i);
+            }
+        }
 
         viewHolder.pictures.setVisibility(View.VISIBLE);
         viewHolder.pictures.setAdapter(new SaleGridAdapter(context, imageUrls));
@@ -131,6 +157,15 @@ public class SaleCollect_Adpter extends ArrayAdapter<Published> {
                 Intent intent = new Intent(context, ImagePagerActivity.class);
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, imageUrls);
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
+                context.startActivity(intent);
+            }
+        });
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SaleDetailsActivity.class);
+                intent.putExtra(IntentStatic.DATA, published.getId());
                 context.startActivity(intent);
             }
         });
@@ -168,36 +203,4 @@ public class SaleCollect_Adpter extends ArrayAdapter<Published> {
             ButterKnife.bind(this, view);
         }
     }
-
-
-//    static class ViewHolder {
-//        @Bind(R.id.head_image)
-//        CirecleImage headImage;
-//        @Bind(R.id.name)
-//        Name name;
-//        @Bind(R.id.college)
-//        TextView college;
-//        @Bind(R.id.time)
-//        TextView time;
-//        @Bind(R.id.dorm)
-//        TextView dorm;
-//        @Bind(R.id.price)
-//        TextView price;
-//        @Bind(R.id.down_arrow)
-//        ImageView downArrow;
-//        @Bind(R.id.text)
-//        EmotinText text;
-//        @Bind(R.id.pictures)
-//        NoScrollGridView pictures;
-//        @Bind(R.id.input)
-//        EditText input;
-//        @Bind(R.id.chat)
-//        Button chat;
-//        @Bind(R.id.complete)
-//        ImageView complete;
-//
-//        ViewHolder(View view) {
-//            ButterKnife.bind(this, view);
-//        }
-//    }
 }

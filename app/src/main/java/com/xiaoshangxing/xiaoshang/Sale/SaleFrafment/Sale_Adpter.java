@@ -122,14 +122,13 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
             }
         });
 
-        final ViewHolder finalViewHolder1 = viewHolder;
 
         viewHolder.chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, "4"/*String.valueOf(published.getUserId())*/, fragment,
-                        finalViewHolder1.input.getText().toString(), new SimpleCallBack() {
+                        finalViewHolder.input.getText().toString(), new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
                                 ChatActivity.start(context, "4", null, SessionTypeEnum.P2P);

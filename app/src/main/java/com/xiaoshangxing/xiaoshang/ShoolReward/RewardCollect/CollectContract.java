@@ -1,4 +1,4 @@
-package com.xiaoshangxing.xiaoshang.ShoolReward.collect;
+package com.xiaoshangxing.xiaoshang.ShoolReward.RewardCollect;
 
 import com.xiaoshangxing.utils.IBasePresenter;
 import com.xiaoshangxing.utils.IBaseView;
@@ -17,7 +17,7 @@ public class CollectContract {
         /*
         **describe:弹出删除对话框
         */
-        void showDeleteSureDialog();
+        void showDeleteSureDialog(final int publishedId);
 
         /*
         **describe:没有内容时
@@ -26,7 +26,7 @@ public class CollectContract {
         /*
         **describe:弹出取消收藏对话框
         */
-        void showCollectDialog();
+        void showCollectDialog(final int id);
         /*
         **describe:提示弹窗
         */

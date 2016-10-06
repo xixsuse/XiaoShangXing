@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.xiaoshang.Calendar.CalendarActivity;
 import com.xiaoshangxing.xiaoshang.MessageNotice.MessageNoticeActivity;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
 import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
-import com.xiaoshangxing.xiaoshang.schoolcalender.SchoolCalenderActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -187,7 +187,9 @@ public class XiaoShangFragment extends BaseFragment {
     public void gotoOther(int position) {
         switch (position) {
             case 1:
-                Intent schoolCalender = new Intent(getContext(), SchoolCalenderActivity.class);
+//                Intent schoolCalender = new Intent(getContext(), SchoolCalenderActivity.class);
+//                getContext().startActivity(schoolCalender);
+                Intent schoolCalender = new Intent(getContext(), CalendarActivity.class);
                 getContext().startActivity(schoolCalender);
                 break;
             case 2:

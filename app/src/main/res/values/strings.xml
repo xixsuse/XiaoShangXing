@@ -362,5 +362,15 @@
     <string name="shenheNotice">请确保证件文字清晰可读，四角完整</string>
     <string name="vertifying">已提交，请等待验证...</string>
 
+    <string-array name="calendar">
+        <item>SUN</item>
+        <item>MON</item>
+        <item>TUE</item>
+        <item>WED</item>
+        <item>THU</item>
+        <item>FRI</item>
+        <item>SAT</item>
+    </string-array>
+
 
 </resources>

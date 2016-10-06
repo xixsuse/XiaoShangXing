@@ -258,6 +258,14 @@ public class TimeUtil {
         return weekDaysName[intWeek];
     }
 
+    public static String getWeekOfDate_zhou(Date date) {
+        String[] weekDaysName = {"周日", "周一", "周二", "周三", "周四", "周五", "周六"};
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int intWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        return weekDaysName[intWeek];
+    }
+
     public static boolean isSameDay(long time1, long time2) {
         return isSameDay(new Date(time1), new Date(time2));
     }

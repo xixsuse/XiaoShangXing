@@ -1,4 +1,4 @@
-package com.xiaoshangxing.xiaoshang.ShoolReward.collect;
+package com.xiaoshangxing.xiaoshang.ShoolReward.RewardCollect;
 
 import android.content.Context;
 

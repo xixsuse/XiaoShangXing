@@ -279,4 +279,8 @@ public class ScreenUtils
 		return context.getResources().getDimensionPixelSize(px);
 	}
 
+	public static int getAdpterDp(int value, Context context) {
+		return px2dip(getAdapterPx(value, context));
+	}
+
 }
