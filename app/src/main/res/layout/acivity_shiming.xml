@@ -5,7 +5,6 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
@@ -40,7 +39,6 @@
             android:layout_centerInParent="true"
             android:text="@string/shiming" />
     </RelativeLayout>
-
 
     <RelativeLayout
         android:id="@+id/xueshengzheng"
@@ -79,8 +77,8 @@
             android:src="@mipmap/right_arrow" />
     </RelativeLayout>
 
-
     <RelativeLayout
+        android:paddingStart="@dimen/x42"
         android:id="@+id/xueshengka"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
@@ -88,7 +86,7 @@
         android:background="@color/w0"
         android:onClick="xueshengka"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/x42">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/img2"
@@ -116,8 +114,8 @@
             android:src="@mipmap/right_arrow" />
     </RelativeLayout>
 
-
     <RelativeLayout
+        android:paddingStart="@dimen/x42"
         android:id="@+id/tongzhishu"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
@@ -125,7 +123,7 @@
         android:background="@color/w0"
         android:onClick="tongzhishu"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/x42">
+        android:visibility="gone">
 
 
         <ImageView

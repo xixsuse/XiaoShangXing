@@ -3,6 +3,7 @@ package com.xiaoshangxing.xiaoshang.Calendar;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -19,12 +20,19 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter;
+import com.xiaoshangxing.Network.Formmat;
+import com.xiaoshangxing.Network.netUtil.BaseUrl;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,7 +43,7 @@ import butterknife.OnClick;
  * on 2016/10/6
  */
 
-public class CalendarInput extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener {
+public class CalendarInput extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener, IBaseView {
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
@@ -112,6 +120,7 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
         calendarView.setTileHeightDp(35);
         calendarView.setCurrentDate(CalendarDay.today());
         calendarView.setSelectionColor(Color.TRANSPARENT);
+        initMonth(CalendarDay.today());
     }
 
     private void showOrHideCalendar() {
@@ -120,6 +129,31 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
         } else if (mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
+    }
+
+    private void PublishCalendar() {
+        final Map<String, String> map = new HashMap<>();
+        map.put(NS.USER_ID, String.valueOf(TempUser.id));
+        map.put(NS.TEXT, text.getText().toString());
+        map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
+        map.put(NS.CATEGORY, NS.CATEGORY_CALENDAR);
+        CalendarDay calendarDay = calendarView.getCurrentDate();
+        if (calendarDay == null) {
+            showToast("日期有误");
+            return;
+        }
+        map.put("day", String.valueOf(calendarDay.getDay()));
+        map.put("month", String.valueOf(calendarDay.getMonth() + 1));
+        map.put("year", String.valueOf(calendarDay.getYear()));
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Formmat formmat = new Formmat(CalendarInput.this, CalendarInput.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
+                formmat.addFormField(map)
+                        .doUpload();
+            }
+        });
+        thread.start();
     }
 
     @OnClick({R.id.back, R.id.data_layout, R.id.text, R.id.complete, R.id.up_layout})
@@ -137,6 +171,7 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
                 }
                 break;
             case R.id.complete:
+                PublishCalendar();
                 break;
             case R.id.up_layout:
                 showOrHideCalendar();
@@ -177,5 +212,10 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
     @Override
     public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
         initMonth(date);
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 }

@@ -58,7 +58,7 @@
             android:layout_height="@dimen/x68"
             android:layout_centerVertical="true"
             android:layout_marginStart="@dimen/x43"
-            android:src="@mipmap/wrongsmall" />
+            android:src="@mipmap/wrong_small" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +97,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/img1"
             android:text="@string/shenhe1" />
 
 
@@ -127,7 +126,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/img2"
             android:text="@string/shenhe2" />
 
         <ImageView
@@ -156,7 +154,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/img3"
             android:text="@string/shenhe3" />
 
 

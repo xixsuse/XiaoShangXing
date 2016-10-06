@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xiaoshangxing">
 
-
     <!-- 加入应用需要的权限 -->
     <!-- 网络相关 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -45,43 +44,43 @@
     <application
         android:name=".utils.XSXApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/cirecleimage_default"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name">
-        <!--百度地图-->
+
+        <!-- 百度地图 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="ewb5y1CEha88lk208jtDIr6VW0WPiywB" />
 
-        <!--IM-->
-        <!--<meta-data-->
-        <!--android:name="com.amap.api.v2.apikey"-->
-        <!--android:value="${AMAP_KEY}" />-->
+        <!-- IM -->
+        <!-- <meta-data -->
+        <!-- android:name="com.amap.api.v2.apikey" -->
+        <!-- android:value="${AMAP_KEY}" /> -->
 
         <meta-data
             android:name="com.netease.nim.appKey"
             android:value="17eca5f8ecdc35ee6e413e0306b6d702" />
 
-        <!--<uses-library-->
-        <!--android:name="com.google.android.maps"-->
-        <!--android:required="false" />-->
-        <!--Glide-->
+        <!-- <uses-library -->
+        <!-- android:name="com.google.android.maps" -->
+        <!-- android:required="false" /> -->
+        <!-- Glide -->
         <meta-data
             android:name="com.xiaoshangxing.utils.image.MyGlideMoudle"
             android:value="GlideModule" />
 
-        <!--百度地图-->
+        <!-- 百度地图 -->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote">
             <intent-filter>
-                <action android:name="com.baidu.location.service_v2.2"></action>
+                <action android:name="com.baidu.location.service_v2.2" />
             </intent-filter>
         </service>
-
 
         <!-- 声明云信后台服务 -->
         <service
@@ -109,24 +108,25 @@
 
         <!-- 申明自定义通知的广播接收器，第三方APP集成时，action中的com.netease.nim.demo请替换为自己的包名 -->
         <!-- 需要权限申明 <uses-permission android:name="com.netease.nim.demo.permission.RECEIVE_MSG"/> -->
-        <!--<receiver-->
-        <!--android:name=".receiver.CustomNotificationReceiver"-->
-        <!--android:enabled="true"-->
-        <!--android:exported="false">-->
-        <!--<intent-filter>-->
-        <!--<action android:na0me="com.netease.nim.demo.ACTION.RECEIVE_CUSTOM_NOTIFICATION" />-->
-        <!--</intent-filter>-->
-        <!--</receiver>-->
+        <!-- <receiver -->
+        <!-- android:name=".receiver.CustomNotificationReceiver" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="false"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:na0me="com.netease.nim.demo.ACTION.RECEIVE_CUSTOM_NOTIFICATION" /> -->
+        <!-- </intent-filter> -->
+        <!-- </receiver> -->
+
 
         <!-- cosine -->
         <service
             android:name="com.netease.cosine.core.CosineService"
-            android:process=":cosine"></service>
+            android:process=":cosine" />
 
         <receiver
             android:name="com.netease.cosine.target.CosineReceiver"
             android:exported="true"
-            android:process=":cosine"></receiver>
+            android:process=":cosine" />
 
         <!-- cosine target SDK integrated -->
         <meta-data
@@ -144,41 +144,27 @@
             </intent-filter>
         </activity>
         <activity android:name=".login_register.StartActivity.StartActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity android:name=".login_register.LoginRegisterActivity.LoginRegisterActivity" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden|adjustPan">
-
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
         <activity android:name=".wo.PersonalState.PersonalStateActivity" />
         <activity
             android:name=".wo.PersonalState.DetailsActivity.DetailsActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity android:name=".wo.NewsActivity.NewsActivity" />
         <activity android:name=".wo.WoFrafment.check_photo.ImagePagerActivity" />
         <activity android:name=".wo.PersonalState.check_photo.myStateImagePagerActivity" />
         <activity android:name=".wo.roll.rollActivity" />
         <activity
             android:name=".report.ReportActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden"></activity>
         <activity android:name=".setting.SettingActivity" />
         <activity
             android:name=".setting.personalinfo.PersonalInfoActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity android:name=".setting.feedback.FeedbackActivity" />
         <activity android:name=".setting.newNotice.NewNoticeActivity" />
         <activity android:name=".setting.mailboxbind.MailBoxBindActivity" />
@@ -189,31 +175,25 @@
         <activity android:name=".setting.mailboxbind.ModifyMailBoxActivity" />
 
         <!-- 互帮 -->
-        <activity android:name=".xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity"></activity>
-        <activity android:name=".xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity"></activity>
-        <activity android:name=".xiaoshang.ShoolReward.ShoolRewardActivity"></activity>
-        <activity android:name=".xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity"></activity>
+        <activity android:name=".xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity" />
+        <activity android:name=".xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity" />
+        <activity android:name=".xiaoshang.ShoolReward.ShoolRewardActivity" />
+        <activity android:name=".xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity" />
         <activity
             android:name=".input_activity.InputActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".input_activity.check_photo.inputSelectPhotoPagerActivity"></activity>
-        <activity android:name=".input_activity.check_photo.ReviewPictureActivity"></activity>
-        <activity android:name=".SelectPerson.SelectPersonActivity"></activity>
-        <activity android:name=".xiaoshang.MessageNotice.MessageNoticeActivity"></activity>
-        <activity android:name=".input_activity.album.AlbumActivity"></activity>
+        <activity android:name=".input_activity.check_photo.inputSelectPhotoPagerActivity" />
+        <activity android:name=".input_activity.check_photo.ReviewPictureActivity" />
+        <activity android:name=".SelectPerson.SelectPersonActivity" />
+        <activity android:name=".xiaoshang.MessageNotice.MessageNoticeActivity" />
+        <activity android:name=".input_activity.album.AlbumActivity" />
 
-        <!-- 遇见-->
-        <activity android:name=".yujian.personInfo.PersonInfoActivity"></activity>
+        <!-- 遇见 -->
+        <activity android:name=".yujian.personInfo.PersonInfoActivity" />
         <activity android:name=".yujian.personInfo.MoreInfoActivity" />
         <activity android:name=".yujian.personInfo.SetInfoActivity" />
-
-        <activity android:name=".yujian.groupchatInfo.ChatInfoActivity"></activity>
+        <activity android:name=".yujian.groupchatInfo.ChatInfoActivity" />
         <activity android:name=".yujian.groupchatInfo.groupCode.GroupCodeActivity" />
         <activity android:name=".yujian.groupchatInfo.groupName.GroupNameActivity" />
         <activity android:name=".yujian.groupchatInfo.groupNotice.GroupNoticeEditActivity" />
@@ -225,9 +205,7 @@
         <activity android:name=".setting.personalinfo.TagView.TagViewActivity" />
         <activity android:name=".yujian.pearsonalTag.PeraonalTagActivity" />
         <activity android:name=".yujian.personChatInfo.PersonChatInfoActivity" />
-
-        <activity android:name=".yujian.xiaoyou.XiaoYouActivity"></activity>
-
+        <activity android:name=".yujian.xiaoyou.XiaoYouActivity" />
         <activity android:name=".xiaoshang.schoolcalender.SchoolCalenderActivity" />
         <activity android:name=".xiaoshang.planpropose.PlanProposeActivity" />
         <activity android:name=".xiaoshang.idlesale.IdleSaleActivity" />
@@ -236,47 +214,27 @@
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.PreviewActivity" />
         <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivity.ImageDirectoryActivity" />
         <activity android:name=".input_activity.Location.LocationActivity">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
         </activity>
-        <activity android:name=".xiaoshang.TextBoard"></activity>
+        <activity android:name=".xiaoshang.TextBoard" />
         <activity
             android:name=".input_activity.Location.SerchLocationActivity"
-            android:theme="@style/global_search_bg">
-
-        </activity>
-
+            android:theme="@style/global_search_bg"></activity>
         <activity
             android:name=".yujian.ChatActivity.ChatActivity"
             android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".yujian.ChatActivity.GroupActivity"
             android:configChanges="keyboardHidden|orientation"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
-        <activity android:name=".yujian.FriendActivity.FriendActivity">
-
-        </activity>
-
-        <activity android:name=".yujian.FriendActivity.LoveOrStartActivity">
-
-        </activity>
-
-
-        <activity android:name=".yujian.FriendActivity.GroupListActivity">
-
-        </activity>
-
-        <activity android:name=".yujian.WatchMessagePicture.WatchMessagePictureActivity">
-
-        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity android:name=".yujian.FriendActivity.FriendActivity"></activity>
+        <activity android:name=".yujian.FriendActivity.LoveOrStartActivity"></activity>
+        <activity android:name=".yujian.FriendActivity.GroupListActivity"></activity>
+        <activity android:name=".yujian.WatchMessagePicture.WatchMessagePictureActivity"></activity>
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -287,23 +245,20 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/global_search_bg"
-            android:windowSoftInputMode="stateUnspecified"></activity>
-
+            android:windowSoftInputMode="stateUnspecified" />
         <activity
             android:name=".yujian.Serch.GlobalSearchDetailActivity2"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
 
-        <!--常规搜索-->
+        <!-- 常规搜索 -->
         <activity
             android:name=".yujian.Serch.NormalSerch"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/global_search_bg"
-            android:windowSoftInputMode="stateUnspecified"></activity>
-
-
+            android:windowSoftInputMode="stateUnspecified" />
         <activity android:name=".setting.shiming.ShenheActivity" />
         <activity android:name=".setting.shiming.shenhe.XueShengZhenActivity" />
         <activity android:name=".setting.shiming.shenhe.XueShengKaActivity" />
@@ -313,18 +268,13 @@
         <activity android:name=".setting.shiming.chooseschool.DiQUActivity" />
         <activity
             android:name=".setting.shiming.shenhe.PreviewActivity"
-            android:screenOrientation="landscape">
-
-        </activity>
-        <activity android:name=".setting.shiming.sucess.VertifySucessActivity" />
-        <activity android:name=".setting.shiming.vertify.VertifyingActivity" />
             android:screenOrientation="landscape"></activity>
         <activity android:name=".setting.shiming.result.VertifySucessActivity" />
         <activity android:name=".setting.shiming.result.VertifyingActivity" />
         <activity android:name=".setting.shiming.chooseschool.SchoolActivity" />
         <activity
             android:name=".setting.shiming.vertify.VertifyActivity"
-            android:launchMode="singleTask"></activity>
+            android:launchMode="singleTask" />
         <activity android:name=".setting.shiming.vertify.NameActivity" />
         <activity android:name=".setting.shiming.vertify.XueHaoActivity" />
         <activity android:name=".setting.shiming.vertify.YearActivity" />
@@ -333,51 +283,23 @@
         <activity android:name=".setting.shiming.vertify.XueXiaoActivity" />
         <activity
             android:name=".setting.shiming.vertify.XueYuanActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-        </activity>
-
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
             android:name=".setting.shiming.vertify.ZhuanYeActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-        </activity>
-
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
             android:name=".xiaoshang.Sale.SaleActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-
-        </activity>
-
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
             android:name=".xiaoshang.Sale.SaleDetail.SaleDetailsActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan">
-
-        </activity>
-
-        <activity android:name=".xiaoshang.Plan.PlanActivity">
-
-        </activity>
-
-        <activity android:name=".xiaoshang.Plan.PlanDetail.PlanDetailActivity">
-
-        </activity>
-
-        <activity android:name=".xiaoshang.Calendar.CalendarActivity">
-
-        </activity>
-
-        <activity android:name=".xiaoshang.Calendar.CalendarDetail">
-
-        </activity>
-
-        <activity android:name=".xiaoshang.Calendar.CalendarInputer.CalendarInputer">
-
-        </activity>
-
-        <activity android:name=".xiaoshang.Calendar.CalendarInput">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+        <activity android:name=".xiaoshang.Plan.PlanActivity"></activity>
+        <activity android:name=".xiaoshang.Plan.PlanDetail.PlanDetailActivity"></activity>
+        <activity android:name=".xiaoshang.Calendar.CalendarActivity"></activity>
+        <activity android:name=".xiaoshang.Calendar.CalendarDetail"></activity>
+        <activity android:name=".xiaoshang.Calendar.CalendarInputer.CalendarInputer"></activity>
+        <activity android:name=".xiaoshang.Calendar.CalendarInput"></activity>
 
     </application>
-
 
 </manifest>

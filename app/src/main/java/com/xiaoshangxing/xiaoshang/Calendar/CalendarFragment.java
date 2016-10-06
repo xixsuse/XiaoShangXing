@@ -85,6 +85,8 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     ImageButton ibArrowUp;
     @Bind(R.id.bottom_layout)
     RelativeLayout bottomLayout;
+    @Bind(R.id.notice)
+    TextView notice;
     private View mview;
     private Realm realm;
     private BottomSheetBehavior mBottomSheetBehavior;
@@ -111,10 +113,11 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     }
 
     private void initView() {
+        today = CalendarDay.today();
         mBottomSheetBehavior = BottomSheetBehavior.from(mview.findViewById(R.id.calendar_lay));
         initCalendar();
         initMonth(calendarView.getCurrentDate());
-        initListview();
+        initListview(today);
         View view = new View(getContext());
         listview.addHeaderView(view);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -148,7 +151,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         allDatas = new ArrayList<>();
         previous = new ArrayList<>();
         future = new ArrayList<>();
-        today = CalendarDay.today();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
         for (int i = 0; i < 30; i++) {
@@ -217,9 +219,17 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
 
     }
 
-    private void initListview() {
+    private void initListview(CalendarDay day) {
         for (int i = 0; i < 20; i++) {
             publisheds.add(new Published());
+        }
+        if (publisheds.size() < 1) {
+            refleshLayout.setVisibility(View.GONE);
+            notice.setText("当天没有活动");
+            notice.setVisibility(View.VISIBLE);
+        } else {
+            refleshLayout.setVisibility(View.VISIBLE);
+            notice.setVisibility(View.GONE);
         }
         adpter = new Calendar_adpter(getContext(), 1, publisheds);
         listview.setAdapter(adpter);
@@ -287,6 +297,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         initMonth(date);
         oneDayDecorator.setDate(date.getDate());
 //        initDecorator();
+        initListview(date);
         widget.invalidateDecorators();
     }
 

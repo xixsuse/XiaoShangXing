@@ -10,17 +10,22 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.Location.NearCollege;
 import com.xiaoshangxing.utils.BaseActivity;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by tianyang on 2016/10/5.
  */
 public class XueXiaoActivity extends BaseActivity {
     private ListView mListView;
-    private String[] strings;
     private ArrayAdapter mAdapter;
     private TextView next, schoolText;
     public static String xuexiao; //学校
+    private NearCollege nearCollege;
+    private ArrayList<String> schools = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +36,42 @@ public class XueXiaoActivity extends BaseActivity {
         next = (TextView) findViewById(R.id.next);
         schoolText = (TextView) findViewById(R.id.schoolTx);
 
-        strings = getResources().getStringArray(R.array.Year);
-        mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, strings);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        nearCollege = new NearCollege(this, new NearCollege.NearShoolCallback() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                schoolText.setText(strings[position]);
+            public void Star() {
+                schoolText.setText("定位中...");
+            }
+
+            @Override
+            public void Erro() {
+                schoolText.setText("定位失败");
+            }
+
+            @Override
+            public void Success(HashSet<String> hashSet) {
+                for (String i : hashSet) {
+                    schools.add(i);
+                }
+
+                mAdapter = new ArrayAdapter<String>(XueXiaoActivity.this, R.layout.item_nodisturb, schools);
+                mListView.setAdapter(mAdapter);
+                if (schools.size() > 0) {
+                    schoolText.setText(schools.get(0));
+                }
+
             }
         });
 
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                schoolText.setText(schools.get(position));
+            }
+        });
+
+        nearCollege.start();
     }
+
 
     public void Back(View view) {
         finish();

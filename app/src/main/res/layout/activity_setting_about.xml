@@ -45,13 +45,15 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y600"
         android:orientation="vertical">
-        <ImageView
+
+        <com.xiaoshangxing.utils.layout.CirecleImage
             android:layout_width="@dimen/x180"
             android:layout_height="@dimen/x180"
             android:layout_marginTop="@dimen/y200"
             android:layout_gravity="center"
             android:src="@mipmap/cirecleimage_default"/>
         <TextView
+            android:id="@+id/version_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/y20"
@@ -71,6 +73,7 @@
         android:showDividers="middle">
 
         <RelativeLayout
+            android:id="@+id/comment"
             android:onClick="evaluate"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144">
@@ -92,6 +95,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/function"
             android:onClick="FunctionIntroduction"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144">
@@ -113,6 +117,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/feeback"
             android:onClick="FeedBack"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144">
@@ -133,6 +138,7 @@
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/update"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144">
 

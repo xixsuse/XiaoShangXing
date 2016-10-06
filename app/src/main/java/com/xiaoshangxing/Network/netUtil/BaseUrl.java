@@ -36,4 +36,6 @@ public class BaseUrl {
     public static final String GET_COLLECT = "moment/catCollect";
 
 
+    public static final String UPDATE = "operation/updateVersion";
+
 }

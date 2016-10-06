@@ -107,7 +107,7 @@
                     android:layout_width="@dimen/x48"
                     android:layout_height="@dimen/x48"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/wrongsmall"
+                    android:src="@mipmap/wrong_small"
                     android:visibility="gone" />
 
                 <TextView
@@ -146,7 +146,7 @@
                     android:layout_width="@dimen/x48"
                     android:layout_height="@dimen/x48"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/wrongsmall"
+                    android:src="@mipmap/wrong_small"
                     android:visibility="gone" />
 
 

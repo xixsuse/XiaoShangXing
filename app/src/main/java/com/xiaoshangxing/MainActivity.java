@@ -2,10 +2,14 @@ package com.xiaoshangxing;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,6 +22,7 @@ import com.netease.nimlib.sdk.NimIntent;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.xiaoshangxing.Network.AutoUpdate.UpdateManager;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
@@ -84,6 +89,8 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
     private static final int BAIDU_READ_PHONE_STATE =1000;
     private AbortableFuture<LoginInfo> loginRequest;
 
+    private float x1, y1, move_x, move_y;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +102,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         initInputBox();
         initAllFragments();
         onParseIntent();
+        update();
     }
 
     @Override
@@ -208,6 +216,25 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         setXiaoshang(true);
 //        setYUjian(true);
     }
+
+    private void update() {
+        PackageManager manager = getPackageManager();
+        PackageInfo info = null;
+        String version = null;
+        try {
+            info = manager.getPackageInfo(this.getPackageName(), 0);
+            version = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (!TextUtils.isEmpty(version)) {
+            UpdateManager updateManager = new UpdateManager(this, version, false);
+            updateManager.checkUpdateInfo();
+        }
+
+    }
+
 
     @OnClick({R.id.xiaoshang_lay, R.id.yujian_lay, R.id.wolay, R.id.emotion, R.id.normal_emot, R.id.favorite
             , R.id.send, R.id.delete_emot})
@@ -336,4 +363,36 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         return TAG;
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        switch (ev.getAction()) {
+////            case MotionEvent.ACTION_DOWN:
+////                x1 = ev.getX();
+////                y1 = ev.getY();
+////                break;
+////            case MotionEvent.ACTION_MOVE:
+////                return false;
+//            case MotionEvent.ACTION_UP:
+////                return (Math.abs(ev.getX() - x1) > 100 || Math.abs(ev.getY() - y1) > 100);
+//                return true;
+//            default:
+//                return false;
+//        }
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            //这个函数其实是个空函数，啥也没干，如果你没重写的话，不用关心
+            x1 = ev.getX();
+            y1 = ev.getY();
+            onUserInteraction();
+        }
+        //这里事件开始交给Activity所附属的Window进行派发，如果返回true，整个事件循环就结束了
+        //返回false意味着事件没人处理，所有人的onTouchEvent都返回了false，那么Activity就要来做最后的收场。
+        if (getWindow().superDispatchTouchEvent(ev)) {
+//            if (ev.getAction() == MotionEvent.ACTION_UP) {
+//                return (Math.abs(ev.getX() - x1) > 100 || Math.abs(ev.getY() - y1) > 100);
+            return true;
+//            }
+        }
+        //这里，Activity来收场了，Activity的onTouchEvent被调用
+        return onTouchEvent(ev);
+    }
 }

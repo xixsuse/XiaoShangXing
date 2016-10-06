@@ -80,7 +80,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/x10"
             android:layout_toLeftOf="@+id/name"
-            android:src="@mipmap/wrongsmall"
+            android:src="@mipmap/wrong_small"
             android:visibility="gone" />
 
         <TextView
@@ -125,7 +125,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/x10"
             android:layout_toLeftOf="@+id/sex"
-            android:src="@mipmap/wrongsmall"
+            android:src="@mipmap/wrong_small"
             android:visibility="gone" />
 
         <TextView
@@ -177,7 +177,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/x10"
             android:layout_toLeftOf="@+id/xuehao"
-            android:src="@mipmap/wrongsmall"
+            android:src="@mipmap/wrong_small"
             android:visibility="gone" />
 
         <TextView
@@ -217,7 +217,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/x10"
             android:layout_toLeftOf="@+id/school"
-            android:src="@mipmap/wrongsmall"
+            android:src="@mipmap/wrong_small"
             android:visibility="gone" />
 
 
@@ -271,7 +271,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/x10"
             android:layout_toLeftOf="@+id/ruxuenianfen"
-            android:src="@mipmap/wrongsmall"
+            android:src="@mipmap/wrong_small"
             android:visibility="gone" />
 
         <TextView

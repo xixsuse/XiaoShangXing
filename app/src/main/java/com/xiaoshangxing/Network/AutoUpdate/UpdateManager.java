@@ -16,12 +16,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.AppNetwork;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.FileUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,17 +39,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import okhttp3.ResponseBody;
+import rx.Subscriber;
+
 public class UpdateManager {
 
     private Context mContext;
 
     //提示语
-    private String updateMsg = "有最新的软件包哦，亲快下载吧~";
+    private String updateMsg;
 
     //返回的安装包url
-    private String apkUrl = "http://softfile.3g.qq.com:8080/msoft/179/24659/43549/qq_hd_mini_1.4.apk";
-
-
+    private String apkUrl;
+    //版本号
+    private String version;
     private Dialog noticeDialog;
 
     private Dialog downloadDialog;
@@ -52,6 +63,9 @@ public class UpdateManager {
 
     /* 进度条与通知ui刷新的handler和msg常量 */
     private ProgressBar mProgress;
+
+    //    无更新时是否需要通知用户
+    private boolean needNotice;
 
 
     private static final int DOWN_UPDATE = 1;
@@ -82,15 +96,24 @@ public class UpdateManager {
         ;
     };
 
-    public UpdateManager(Context context) {
+    public String getApkUrl() {
+        return apkUrl;
+    }
+
+    public void setApkUrl(String apkUrl) {
+        this.apkUrl = apkUrl;
+    }
+
+    public UpdateManager(Context context, String version, boolean needNotice) {
         this.mContext = context;
+        this.version = version;
+        this.needNotice = needNotice;
     }
 
     //外部接口让主Activity调用
     public void checkUpdateInfo() {
-        showNoticeDialog();
+        update();
     }
-
 
     private void showNoticeDialog() {
         AlertDialog.Builder builder = new Builder(mContext);
@@ -131,6 +154,7 @@ public class UpdateManager {
         });
         downloadDialog = builder.create();
         downloadDialog.show();
+        downloadDialog.setCancelable(false);
 
         downloadApk();
     }
@@ -209,4 +233,48 @@ public class UpdateManager {
         mContext.startActivity(i);
 
     }
+
+    private void update() {
+        final JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("version", "" + version);
+
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
+                    if (jsonObject1.getString(NS.CODE).equals("900010006")) {
+                        apkUrl = jsonObject1.getJSONObject(NS.MSG).getString("path");
+                        updateMsg = jsonObject1.getJSONObject(NS.MSG).getString("updateContent");
+                        if (!TextUtils.isEmpty(apkUrl)) {
+                            showNoticeDialog();
+                        } else {
+                            Toast.makeText(mContext, "解析下载路径出错", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        if (needNotice) {
+                            Toast.makeText(mContext, "已经是最新版本", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        AppNetwork.getInstance().Update(subscriber, jsonObject, mContext);
+    }
+
+
 }
