@@ -169,6 +169,7 @@ public class PersonalInfoFragment extends BaseFragment {
         if (user.getIsActive() != null) {
             realName.setText(user.getIsActive() == 0 ? "未认证" : "已认证");
         }
+
     }
 
     @Override

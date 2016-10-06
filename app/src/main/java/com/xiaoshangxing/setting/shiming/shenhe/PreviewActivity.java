@@ -5,19 +5,13 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.util.Size;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.XSXApplication;
-import com.xiaoshangxing.yujian.IM.kit.permission.MPermission;
-import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionDenied;
-import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionGranted;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,13 +30,21 @@ public class PreviewActivity extends Activity {
     TextView text1;
     @Bind(R.id.text2)
     TextView text2;
+    @Bind(R.id.use)
+    TextView use;
+    @Bind(R.id.cancel)
+    TextView cancel;
+    @Bind(R.id.retake)
+    TextView retake;
+    @Bind(R.id.take)
+    ImageView take;
 
     private CameraPreview mPreview;
-    private boolean isSaved = false;
+    //    private boolean isSaved = false;
     private String type;
     private int zuoyou;
     public static String imgName = "img.jpeg";
-    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
+    private FrameLayout preview;
 
 
     @Override
@@ -51,42 +53,14 @@ public class PreviewActivity extends Activity {
         setContentView(R.layout.activity_vertify_preview);
         ButterKnife.bind(this);
 //        requestBasicPermission();
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview = (FrameLayout) findViewById(R.id.camera_preview);
         initText();
 
         mPreview = new CameraPreview(this);
         preview.addView(mPreview);
-        preview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isSaved) {
-                    if (mPreview.getmCamera() != null) {
-                        //解决拍照后照片模糊的bug
-                        Camera mCamera = mPreview.getmCamera();
-                        Camera.Parameters parameters = mCamera.getParameters();// 获取相机参数集 
-//                        List<Camera.Size> SupportedPreviewSizes = parameters.getSupportedPreviewSizes();// 获取支持预览照片的尺寸  
-//                        Camera.Size previewSize = SupportedPreviewSizes.get(0);// 从List取出Size  
-//                        parameters.setPreviewSize(previewSize.width, previewSize.height);//  
-                        //  设置预览照片的大小  
-                        List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();// 获取支持保存图片的尺寸  
-                        int index = getPictureSize(supportedPictureSizes);
-                        Camera.Size pictureSize = supportedPictureSizes.get(index);
-                        parameters.setPictureSize(pictureSize.width, pictureSize.height);
-                        // 设置照片的大小  
-                        mCamera.setParameters(parameters);
 
-                        mCamera.takePicture(null, null, mPicture);
-                        isSaved = true;
-
-                    }
-                } else {
-                    finish();
-                }
-            }
-        });
 
     }
-
 
 
     private void initText() {
@@ -113,7 +87,6 @@ public class PreviewActivity extends Activity {
 
 
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
-
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
 
@@ -183,31 +156,68 @@ public class PreviewActivity extends Activity {
     }
 
 
-//    private void requestBasicPermission() {
-//        MPermission.with(PreviewActivity.this)
-//                .addRequestCode(BASIC_PERMISSION_REQUEST_CODE)
-//                .permissions(
-//                        android.Manifest.permission.CAMERA
-//                )
-//                .request();
-//    }
-//
-//
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-//        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-//    }
-//
-//    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
-//    public void onBasicPermissionSuccess() {
-//        Toast.makeText(this, "授权成功", Toast.LENGTH_SHORT).show();
-//    }
-//
-//    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
-//    public void onBasicPermissionFailed() {
-//        Toast.makeText(this, "授权失败", Toast.LENGTH_SHORT).show();
-//        finish();
-//    }
+    public void Use(View view) {
+        finish();
+    }
+
+
+    public void Take(View view) {
+        if (mPreview.getmCamera() != null) {
+            //解决拍照后照片模糊的bug
+            Camera mCamera = mPreview.getmCamera();
+            Camera.Parameters parameters = mCamera.getParameters();// 获取相机参数集 
+//                        List<Camera.Size> SupportedPreviewSizes = parameters.getSupportedPreviewSizes();// 获取支持预览照片的尺寸  
+//                        Camera.Size previewSize = SupportedPreviewSizes.get(0);// 从List取出Size  
+//                        parameters.setPreviewSize(previewSize.width, previewSize.height);//  
+            //  设置预览照片的大小  
+            List<Camera.Size> supportedPictureSizes = parameters.getSupportedPictureSizes();// 获取支持保存图片的尺寸  
+            int index = getPictureSize(supportedPictureSizes);
+            Camera.Size pictureSize = supportedPictureSizes.get(index);
+            parameters.setPictureSize(pictureSize.width, pictureSize.height);
+            // 设置照片的大小  
+            mCamera.setParameters(parameters);
+            mCamera.takePicture(null, null, mPicture);
+
+            cancel.setVisibility(View.GONE);
+            use.setVisibility(View.VISIBLE);
+            retake.setVisibility(View.VISIBLE);
+            take.setEnabled(false);
+        }
+
+    }
+
+    public void Cancel(View view) {
+        File pictureFile = getOutputMediaFile();
+        if (pictureFile != null) {
+            pictureFile.delete();
+        }
+        finish();
+    }
+
+    public void ReTake(View view) {
+        take.setEnabled(true);
+
+        mPreview.getmCamera().startPreview();
+
+        retake.setVisibility(View.GONE);
+        use.setVisibility(View.GONE);
+        cancel.setVisibility(View.VISIBLE);
+    }
+
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            File pictureFile = getOutputMediaFile();
+            if (pictureFile != null) {
+                pictureFile.delete();
+            }
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 }

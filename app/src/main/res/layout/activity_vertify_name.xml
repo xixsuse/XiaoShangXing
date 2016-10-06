@@ -5,6 +5,7 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
@@ -37,7 +38,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/XingBie" />
+            android:text="@string/realname" />
+
 
         <TextView
             android:id="@+id/finish"
@@ -51,16 +53,29 @@
             android:text="@string/finish"
             android:textColor="@color/green1"
             android:textSize="16sp" />
+
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/y126"
         android:layout_marginTop="@dimen/y48"
-        android:background="@color/w0"
-        android:choiceMode="singleChoice"
-        android:divider="@color/g1"
-        android:dividerHeight="@dimen/y1" />
+        android:background="@color/w0">
+
+        <EditText
+            android:id="@+id/edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x48"
+            android:layout_marginStart="@dimen/x42"
+            android:background="@color/transparent"
+            android:maxLength="15"
+            android:singleLine="true"
+            android:textColor="@color/b0"
+            android:textCursorDrawable="@drawable/cursor_blue4"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
 
 </LinearLayout>

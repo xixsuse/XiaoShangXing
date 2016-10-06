@@ -37,27 +37,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/XingBie" />
+            android:text="@string/RuXueNianFen" />
 
         <TextView
-            android:id="@+id/finish"
+            android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/x48"
             android:alpha="0.5"
-            android:onClick="Finish"
-            android:text="@string/finish"
+            android:onClick="Next"
+            android:text="@string/nextStep"
             android:textColor="@color/green1"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/y16"
+        android:layout_marginStart="@dimen/x48"
+        android:layout_marginTop="@dimen/y24"
+        android:text="选择入学年份"
+        android:textColor="@color/g0"
+        android:textSize="14sp" />
+
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y48"
         android:background="@color/w0"
         android:choiceMode="singleChoice"
         android:divider="@color/g1"

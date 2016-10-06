@@ -178,8 +178,7 @@
         <activity android:name=".setting.SettingActivity" />
         <activity
             android:name=".setting.personalinfo.PersonalInfoActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity android:name=".setting.feedback.FeedbackActivity" />
         <activity android:name=".setting.newNotice.NewNoticeActivity" />
         <activity android:name=".setting.mailboxbind.MailBoxBindActivity" />
@@ -319,7 +318,28 @@
         </activity>
         <activity android:name=".setting.shiming.sucess.VertifySucessActivity" />
         <activity android:name=".setting.shiming.vertify.VertifyingActivity" />
+            android:screenOrientation="landscape"></activity>
+        <activity android:name=".setting.shiming.result.VertifySucessActivity" />
+        <activity android:name=".setting.shiming.result.VertifyingActivity" />
         <activity android:name=".setting.shiming.chooseschool.SchoolActivity" />
+        <activity
+            android:name=".setting.shiming.vertify.VertifyActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".setting.shiming.vertify.NameActivity" />
+        <activity android:name=".setting.shiming.vertify.XueHaoActivity" />
+        <activity android:name=".setting.shiming.vertify.YearActivity" />
+        <activity android:name=".setting.shiming.vertify.XueLiActivity" />
+        <activity android:name=".setting.shiming.result.VertifyFailedActivity" />
+        <activity android:name=".setting.shiming.vertify.XueXiaoActivity" />
+        <activity
+            android:name=".setting.shiming.vertify.XueYuanActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+        </activity>
+
+        <activity
+            android:name=".setting.shiming.vertify.ZhuanYeActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+        </activity>
 
         <activity
             android:name=".xiaoshang.Sale.SaleActivity"

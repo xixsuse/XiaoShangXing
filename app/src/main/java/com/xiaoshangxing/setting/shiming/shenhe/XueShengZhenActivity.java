@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,14 +11,11 @@ import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.shiming.VertifyUtil;
+import com.xiaoshangxing.setting.shiming.vertify.VertifyActivity;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyShiMingActivity;
-import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.utils.BaseActivity;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,6 +33,11 @@ public class XueShengZhenActivity extends BaseActivity {
 
     private static boolean flagLeft = false, flagRight = false;
 
+    @Bind(R.id.wrongLeft)
+    ImageView wrongLeft;
+    @Bind(R.id.wrongRight)
+    ImageView wrongRight;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,7 @@ public class XueShengZhenActivity extends BaseActivity {
     }
 
     public void Next(View view) {
-        startActivity(new Intent(this, VertifyShiMingActivity.class));
+        startActivity(new Intent(this, VertifyActivity.class));
         //成功后跳转VertifySucessActivity
 //        startActivity(new Intent(this, VertifySucessActivity.class));
     }
@@ -109,6 +110,8 @@ public class XueShengZhenActivity extends BaseActivity {
             VertifyUtil.saveFile(bitmap, VertifyUtil.imgRightName);
         }
 
+//        setButtonStyleGreen();
+
         if (flagLeft && flagRight) setButtonStyleGreen();
         else resetButtonStyle();
 
@@ -138,9 +141,6 @@ public class XueShengZhenActivity extends BaseActivity {
         flagLeft = false;
         flagRight = false;
     }
-
-
-
 
 
 }

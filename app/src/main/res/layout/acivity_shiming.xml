@@ -50,13 +50,23 @@
         android:background="@color/w0"
         android:onClick="xueshengzheng"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/x48">
+        android:paddingStart="@dimen/x42">
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="@dimen/x66"
+            android:layout_height="@dimen/y66"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/xueshengzheng" />
 
         <TextView
             style="@style/black_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x36"
+            android:layout_toRightOf="@id/img1"
             android:text="@string/shenhe1" />
 
 
@@ -78,13 +88,23 @@
         android:background="@color/w0"
         android:onClick="xueshengka"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/x48">
+        android:paddingStart="@dimen/x42">
+
+        <ImageView
+            android:id="@+id/img2"
+            android:layout_width="@dimen/x66"
+            android:layout_height="@dimen/y66"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/xueshengka" />
 
         <TextView
             style="@style/black_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x36"
+            android:layout_toRightOf="@id/img2"
             android:text="@string/shenhe2" />
 
         <ImageView
@@ -105,13 +125,24 @@
         android:background="@color/w0"
         android:onClick="tongzhishu"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/x48">
+        android:paddingStart="@dimen/x42">
+
+
+        <ImageView
+            android:id="@+id/img3"
+            android:layout_width="@dimen/x66"
+            android:layout_height="@dimen/y66"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/tongzhishu" />
 
         <TextView
             style="@style/black_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x36"
+            android:layout_toRightOf="@id/img3"
             android:text="@string/shenhe3" />
 
 

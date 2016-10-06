@@ -1,4 +1,4 @@
-package com.xiaoshangxing.setting.shiming.sucess;
+package com.xiaoshangxing.setting.shiming.result;
 
 import android.os.Bundle;
 import android.view.View;
@@ -22,10 +22,6 @@ public class VertifySucessActivity extends BaseActivity {
     TextView xuehao;
     @Bind(R.id.school)
     TextView school;
-    @Bind(R.id.xueyuan)
-    TextView xueyuan;
-    @Bind(R.id.zhuanye)
-    TextView zhuanye;
     @Bind(R.id.ruxuenianfen)
     TextView ruxuenianfen;
 

@@ -14,6 +14,8 @@ import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
 import com.xiaoshangxing.setting.shiming.ShenheActivity;
+import com.xiaoshangxing.setting.shiming.result.VertifyFailedActivity;
+import com.xiaoshangxing.setting.shiming.result.VertifySucessActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 
 /**
@@ -85,7 +87,12 @@ public class PersonalInfoActivity extends BaseActivity {
                 .replace(R.id.setting_personinfo_Content, new VertifyFragment(), VertifyFragment.TAG)
                 .commit();*/
 
-        startActivity(new Intent(PersonalInfoActivity.this,ShenheActivity.class));
+        //尚未认证
+        startActivity(new Intent(PersonalInfoActivity.this, ShenheActivity.class));
+        //认证成功
+//        startActivity(new Intent(PersonalInfoActivity.this,VertifySucessActivity.class));
+        //认证失败
+//        startActivity(new Intent(PersonalInfoActivity.this,VertifyFailedActivity.class));
     }
 
     public void back(View view) {

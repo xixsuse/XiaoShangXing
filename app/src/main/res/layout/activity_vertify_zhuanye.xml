@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/w3"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/XingBie" />
+            android:text="@string/ZhuanYe" />
 
         <TextView
             android:id="@+id/finish"
@@ -53,14 +53,48 @@
             android:textSize="16sp" />
     </RelativeLayout>
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y126"
+        android:layout_marginTop="@dimen/y48"
+        android:background="@color/w0">
+
+        <EditText
+            android:id="@+id/edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x48"
+            android:layout_marginStart="@dimen/x42"
+            android:background="@color/transparent"
+            android:hint="请输入你的专业全称"
+            android:maxLength="15"
+            android:textColor="@color/b0"
+            android:textCursorDrawable="@drawable/cursor_blue4"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/y16"
+        android:layout_marginStart="@dimen/x48"
+        android:layout_marginTop="@dimen/y24"
+        android:text="已有专业"
+        android:textColor="@color/g0"
+        android:textSize="14sp" />
+
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y48"
         android:background="@color/w0"
         android:choiceMode="singleChoice"
         android:divider="@color/g1"
         android:dividerHeight="@dimen/y1" />
+
 
 </LinearLayout>

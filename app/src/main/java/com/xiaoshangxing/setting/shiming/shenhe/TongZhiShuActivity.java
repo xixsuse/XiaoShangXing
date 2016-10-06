@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.shiming.VertifyUtil;
+import com.xiaoshangxing.setting.shiming.vertify.VertifyActivity;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyShiMingActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 
@@ -32,6 +33,12 @@ public class TongZhiShuActivity extends BaseActivity {
     @Bind(R.id.NextButtom)
     Button NextButtom;
 
+    //两个红色警告图
+    @Bind(R.id.wrongLeft)
+    ImageView wrongLeft;
+    @Bind(R.id.wrongRight)
+    ImageView wrongRight;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +52,7 @@ public class TongZhiShuActivity extends BaseActivity {
     }
 
     public void Next(View view) {
-        startActivity(new Intent(this, VertifyShiMingActivity.class));
+        startActivity(new Intent(this, VertifyActivity.class));
     }
 
     public void imgLeft(View view) {
@@ -80,6 +87,7 @@ public class TongZhiShuActivity extends BaseActivity {
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageLeft.setImageBitmap(bitmap);
             flagLeft = true;
+            fileLeft.delete();
             VertifyUtil.saveFile(bitmap, VertifyUtil.imgLeftName);
         }
 
@@ -94,11 +102,15 @@ public class TongZhiShuActivity extends BaseActivity {
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageRight.setImageBitmap(bitmap);
             flagRight = true;
+            fileRight.delete();
             VertifyUtil.saveFile(bitmap, VertifyUtil.imgRightName);
         }
 
+//        setButtonStyleGreen();
         if (flagLeft && flagRight) setButtonStyleGreen();
         else resetButtonStyle();
+
+
 
     }
 
