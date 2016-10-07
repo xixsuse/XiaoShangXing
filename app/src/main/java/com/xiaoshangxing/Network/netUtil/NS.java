@@ -61,6 +61,13 @@ public class NS {
     public static final String STATU = "status";
     public static final String COLLECT_STATU = "collectStatus";
 
+    public static final String YEAR = "year";
+    public static final String MONTH = "month";
+
+
+    public static final String MONTH_C = "月";
+
+
 
 
     //    好友

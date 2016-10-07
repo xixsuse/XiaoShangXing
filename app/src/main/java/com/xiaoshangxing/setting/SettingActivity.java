@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.setting.about.AboutActivity;
@@ -135,6 +135,7 @@ public class SettingActivity extends BaseActivity implements IBaseView {
             @Override
             public void onItemSelected(int position, String item) {
                 SPUtils.put(SettingActivity.this, SPUtils.IS_QUIT, true);
+                SPUtils.remove(SettingActivity.this, SPUtils.ID);
                 XSXApplication xsxApplication = (XSXApplication) getApplication();
                 xsxApplication.exit();
             }
@@ -220,7 +221,7 @@ public class SettingActivity extends BaseActivity implements IBaseView {
                         ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<ResponseBody>(next, iBaseView);
 
                         JsonObject jsonObject = new JsonObject();
-                        jsonObject.addProperty("phone", (String) SPUtils.get(SettingActivity.this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING));
+                        jsonObject.addProperty("phone", (String) SPUtils.get(SettingActivity.this, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING));
                         jsonObject.addProperty("password", dialogUtils.getText());
                         jsonObject.addProperty(NS.TIMESTAMP, System.currentTimeMillis());
 

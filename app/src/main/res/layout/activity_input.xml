@@ -345,7 +345,6 @@
             android:background="@color/w1"
             android:orientation="horizontal">
 
-
             <ImageView
                 android:id="@+id/delete"
                 style="@style/input_select"

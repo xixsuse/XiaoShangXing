@@ -22,6 +22,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter;
+import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -148,33 +149,8 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
 
         currentSelected = CalendarDay.today();
 
-        allDatas = new ArrayList<>();
-        previous = new ArrayList<>();
-        future = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -1);
-        for (int i = 0; i < 30; i++) {
-            CalendarDay day = CalendarDay.from(calendar);
-            allDatas.add(day);
-            calendar.add(Calendar.DATE, 2);
-            if (day.isAfter(today)) {
-                future.add(day);
-            } else if (day.isBefore(today)) {
-                previous.add(day);
-            }
-        }
-//        initDecorator();
-        calendarView.addDecorator(new EventDecorator(Color.parseColor("#b2b2b2"), previous));
-        calendarView.addDecorator(new EventDecorator(Color.parseColor("#00aeef"), future));
-        calendarView.addDecorators(
-                oneDayDecorator,
-                new WeekDecorator(getContext())
-        );
-        if (allDatas.contains(today)) {
-            ArrayList<CalendarDay> todays = new ArrayList<>();
-            todays.add(today);
-            calendarView.addDecorator(new EventDecorator(Color.parseColor("#45C01A"), todays));
-        }
+        refresh();
+
     }
 
     private void initDecorator() {
@@ -270,6 +246,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
+                getActivity().finish();
                 break;
             case R.id.more:
                 Intent intent = new Intent(getContext(), CalendarInputer.class);
@@ -292,6 +269,61 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         }
     }
 
+    private void refresh() {
+        allDatas = new ArrayList<>();
+        previous = new ArrayList<>();
+        future = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        for (int i = 0; i < 30; i++) {
+            CalendarDay day = CalendarDay.from(calendar);
+            allDatas.add(day);
+            calendar.add(Calendar.DATE, 2);
+            if (day.isAfter(today)) {
+                future.add(day);
+            } else if (day.isBefore(today)) {
+                previous.add(day);
+            }
+        }
+        calendarView.addDecorator(new EventDecorator(Color.parseColor("#b2b2b2"), previous));
+        calendarView.addDecorator(new EventDecorator(Color.parseColor("#00aeef"), future));
+        calendarView.addDecorators(
+                oneDayDecorator,
+                new WeekDecorator(getContext())
+        );
+        if (allDatas.contains(today)) {
+            ArrayList<CalendarDay> todays = new ArrayList<>();
+            todays.add(today);
+            calendarView.addDecorator(new EventDecorator(Color.parseColor("#45C01A"), todays));
+        }
+    }
+
+    private void getData(CalendarDay calendarDay) {
+        String year = String.valueOf(calendarDay.getYear());
+        String month = String.valueOf(calendarDay.getMonth());
+        LoadUtils.getCalendar(year, month, getContext(), realm, new LoadUtils.AroundLoading() {
+            @Override
+            public void before() {
+
+            }
+
+            @Override
+            public void complete() {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                refresh();
+            }
+
+            @Override
+            public void error() {
+
+            }
+        });
+    }
+
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         initMonth(date);
@@ -304,5 +336,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     @Override
     public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
         initMonth(date);
+        getData(date);
     }
 }

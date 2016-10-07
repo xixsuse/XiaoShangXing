@@ -16,5 +16,7 @@ public class IntentStatic {
     public static final int OTHERS=10002;
     public static final int MINE=10003;
 
+    public static final int CLOSE=1000;
+
 
 }

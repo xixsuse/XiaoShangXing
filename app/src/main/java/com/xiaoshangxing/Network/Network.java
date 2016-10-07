@@ -63,7 +63,7 @@ public class Network {
                             Request request = chain.request()
                                     .newBuilder()
                                     .addHeader("Content-Type", "application/json")
-                                    .addHeader("User-Phone", (String) SPUtils.get(context,SPUtils.CURRENT_COUNT,SPUtils.DEFAULT_STRING))
+                                    .addHeader("User-Phone", (String) SPUtils.get(context,SPUtils.PHONENUMNBER,SPUtils.DEFAULT_STRING))
                                     .addHeader("User-Digest",  (String) SPUtils.get(context,SPUtils.DIGEST,SPUtils.DEFAULT_STRING))
                                     .build();
                             Log.d("digest2", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
@@ -94,7 +94,7 @@ public class Network {
                         public Response intercept(Chain chain) throws IOException {
                             Request request = chain.request()
                                     .newBuilder()
-                                    .addHeader("User-Phone", (String) SPUtils.get(context, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING))
+                                    .addHeader("User-Phone", (String) SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING))
                                     .addHeader("User-Digest", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING))
                                     .build();
                             Log.d("digest2", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));

@@ -142,9 +142,9 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
             showToast("日期有误");
             return;
         }
-        map.put("day", String.valueOf(calendarDay.getDay()));
-        map.put("month", String.valueOf(calendarDay.getMonth() + 1));
-        map.put("year", String.valueOf(calendarDay.getYear()));
+        map.put(NS.DAY, String.valueOf(calendarDay.getDay()));
+        map.put(NS.MONTH, String.valueOf(calendarDay.getMonth()));
+        map.put(NS.YEAR, String.valueOf(calendarDay.getYear()));
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -180,8 +180,8 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
     }
 
     private void initMonth(CalendarDay date) {
-        currentMonth.setText(getCurrentMonth(date) + "月");
-        nextMonth.setText(getNextMonth(date) + "月");
+        currentMonth.setText((getCurrentMonth(date) + NS.MONTH_C));
+        nextMonth.setText((getNextMonth(date) + NS.MONTH_C));
         tvNowDate.setText(FORMATTER.format(date.getDate()));
         tvDateWeek.setText(TimeUtil.getWeekOfDate_zhou(date.getDate()));
     }

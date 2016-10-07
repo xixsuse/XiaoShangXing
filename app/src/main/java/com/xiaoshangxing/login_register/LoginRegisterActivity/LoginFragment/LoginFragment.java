@@ -142,7 +142,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
     @Override
     public void gotoMainActivity() {
         //记录当前账号
-        SPUtils.put(getContext(), SPUtils.CURRENT_COUNT, getPhoneNumber());
+        SPUtils.put(getContext(), SPUtils.PHONENUMNBER, getPhoneNumber());
 
         Intent main_intent = new Intent(getContext(), MainActivity.class);
         startActivity(main_intent);

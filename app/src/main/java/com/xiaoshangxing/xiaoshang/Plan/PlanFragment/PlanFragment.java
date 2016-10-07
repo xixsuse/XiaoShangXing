@@ -173,13 +173,18 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     }
 
     @OnClick({R.id.back, R.id.more, R.id.mengban, R.id.collasp})
-    public void onClick(View view) {
+    public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.back:
                 getActivity().finish();
                 break;
             case R.id.more:
-                showPublishMenu(view);
+                LayoutHelp.PermissionClick(getActivity(), new LayoutHelp.PermisionMethod() {
+                    @Override
+                    public void doSomething() {
+                        showPublishMenu(view);
+                    }
+                });
                 break;
             case R.id.mengban:
                 clickOnRule(false);
@@ -298,7 +303,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
         publisheds = realm.where(Published.class)
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_PLAN))
                 .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
-        adpter = new Plan_Adpter(getContext(), 1, publisheds);
+        adpter = new Plan_Adpter(getContext(), 1, getActivity(),publisheds);
         listview.setAdapter(adpter);
     }
 

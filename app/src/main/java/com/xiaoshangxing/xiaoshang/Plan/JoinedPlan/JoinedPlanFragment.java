@@ -168,7 +168,7 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
         for (int i = 0; i <= 10; i++) {
             publisheds.add(new Published());
         }
-        adpter = new Plan_Adpter(getContext(), 1, publisheds);
+        adpter = new Plan_Adpter(getContext(), 1, getActivity(),publisheds);
         listview.setAdapter(adpter);
     }
 

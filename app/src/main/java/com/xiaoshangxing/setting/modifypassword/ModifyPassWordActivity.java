@@ -136,7 +136,7 @@ public class ModifyPassWordActivity extends BaseActivity implements IBaseView {
             @Override
             public void onClick(View v) {
                 if (!editText1.getText().toString().equals((String)SPUtils.get(ModifyPassWordActivity.this,
-                        SPUtils.CURRENT_COUNT,SPUtils.DEFAULT_STRING))){
+                        SPUtils.PHONENUMNBER,SPUtils.DEFAULT_STRING))){
                     showToast("手机号码错误");
                     return;
                 }

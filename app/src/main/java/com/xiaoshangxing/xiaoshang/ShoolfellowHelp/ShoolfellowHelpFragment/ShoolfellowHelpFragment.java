@@ -307,13 +307,18 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     }
 
     @OnClick({R.id.back, R.id.more,R.id.collasp,R.id.mengban})
-    public void onClick(View view) {
+    public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.back:
                 getActivity().finish();
                 break;
             case R.id.more:
-                showPublishMenu(view);
+                LayoutHelp.PermissionClick(getActivity(), new LayoutHelp.PermisionMethod() {
+                    @Override
+                    public void doSomething() {
+                        showPublishMenu(view);
+                    }
+                });
                 break;
             case R.id.collasp:
                 clickOnRule(false);

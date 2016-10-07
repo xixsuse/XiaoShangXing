@@ -8,6 +8,7 @@ import com.xiaoshangxing.Network.api.getAndPublish.ChangePublishStatu;
 import com.xiaoshangxing.Network.api.getAndPublish.Comment;
 import com.xiaoshangxing.Network.api.getAndPublish.DeletePublished;
 import com.xiaoshangxing.Network.api.getAndPublish.GetAllPublished;
+import com.xiaoshangxing.Network.api.getAndPublish.GetCalendar;
 import com.xiaoshangxing.Network.api.getAndPublish.GetCollect;
 import com.xiaoshangxing.Network.api.getAndPublish.GetPublishedApi;
 import com.xiaoshangxing.Network.api.getAndPublish.GetTransmitInfo;
@@ -37,6 +38,7 @@ public class PublishNetwork {
     private CancelOperate cancelOperate;
     private ChangePublishStatu changePublishStatu;
     private GetCollect getCollect;
+    private GetCalendar getCalendar;
 
     private PublishNetwork() {
 
@@ -137,6 +139,14 @@ public class PublishNetwork {
             getCollect = Network.getRetrofitWithHeader(context).create(GetCollect.class);
         }
         Observable<ResponseBody> observable = getCollect.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void getCalendar(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (getCalendar == null) {
+            getCalendar = Network.getRetrofitWithHeader(context).create(GetCalendar.class);
+        }
+        Observable<ResponseBody> observable = getCalendar.start(jsonObject);
         toSubscribe(observable, subscriber);
     }
 

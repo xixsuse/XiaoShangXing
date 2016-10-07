@@ -6,8 +6,9 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
+import com.xiaoshangxing.setting.shiming.ShenheActivity;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 
 /**
  * Created by tianyang on 2016/9/20.
@@ -21,13 +22,21 @@ public class VertifyingActivity extends BaseActivity {
     }
 
     public void Back(View view) {
-        startActivity(new Intent(this, PersonalInfoActivity.class));
+        Intent intent = new Intent(this, ShenheActivity.class);
+        intent.putExtra(IntentStatic.TYPE, IntentStatic.CLOSE);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            startActivity(new Intent(this, PersonalInfoActivity.class));
+            Intent intent = new Intent(this, ShenheActivity.class);
+            intent.putExtra(IntentStatic.TYPE, IntentStatic.CLOSE);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
             return true;
         }
         return super.onKeyDown(keyCode, event);

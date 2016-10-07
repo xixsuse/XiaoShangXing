@@ -279,7 +279,6 @@ public class LoadUtils {
             default:
                 Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
                 break;
-
         }
     }
 
@@ -329,6 +328,13 @@ public class LoadUtils {
 
     }
 
+    /**
+     * description:清除收藏
+     *
+     * @param category 清除的类型
+     * @return
+     */
+
     public static void clearCollect(String category) {
         Realm realm = Realm.getDefaultInstance();
         final RealmResults<Published> realmResults;
@@ -349,6 +355,60 @@ public class LoadUtils {
                 Log.d("clear data ", "success");
             }
         });
+    }
+
+
+    /**
+     * description:获取校历
+     *
+     * @param year          年份
+     * @param month         月份
+     * @param realm         数据库
+     * @param aroundLoading 回调
+     * @return
+     */
+
+    public static void getCalendar(String year, String month, final Context context, final Realm realm,
+                                   final AroundLoading aroundLoading) {
+
+        if (aroundLoading != null) {
+            aroundLoading.before();
+        }
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.YEAR, year);
+        jsonObject.addProperty(NS.MONTH, month);
+        jsonObject.addProperty(NS.CATEGORY, NS.CATEGORY_CALENDAR);
+
+        Subscriber<ResponseBody> subscriber1 = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                if (aroundLoading != null) {
+                    aroundLoading.complete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (aroundLoading != null) {
+                    aroundLoading.error();
+                }
+                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    LoadUtils.parseData(responseBody, realm, context, aroundLoading);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        PublishNetwork.getInstance().getCalendar(subscriber1, jsonObject, XSXApplication.getInstance());
     }
 
     /**

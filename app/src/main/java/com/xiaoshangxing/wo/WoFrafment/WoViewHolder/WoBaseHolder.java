@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -21,14 +20,13 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.data.UserCache;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.MoreTextView;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.utils.school_circle.Item_Comment;
@@ -38,15 +36,8 @@ import com.xiaoshangxing.wo.WoFrafment.Wo_listview_adpter;
 import com.xiaoshangxing.wo.roll.rollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmList;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by FengChaoQun
@@ -202,8 +193,6 @@ public abstract class WoBaseHolder {
         UserInfoCache.getInstance().getHead(headImage, published.getUserId(), context);
         UserInfoCache.getInstance().getName(name, published.getUserId());
         UserInfoCache.getInstance().getCollege(college, published.getUserId());
-//        name.setText(published.getUser().getUsername());
-//        college.setText(published.getUser().getIsCollege());
 
 //        是否头条
         headline.setVisibility(published.getIsHeadline() == 1 ? View.VISIBLE : View.INVISIBLE);
@@ -231,15 +220,6 @@ public abstract class WoBaseHolder {
         praise.setChecked(Published_Help.isPraised(published));
         Published_Help.buildPrasiPeople(published, praisePeople, context);
 
-
-//         评论
-//        if (published.getComments() != null && published.getComments().size() > 0) {
-//            simpleParse();
-//        } else {
-//            comments.removeAllViews();
-//            comments_fragment.removeAllViews();
-//        }
-
         parseComment(published);
 
 //        隐藏尖角
@@ -251,128 +231,7 @@ public abstract class WoBaseHolder {
         }
     }
 
-    public void parseComment(int publish_id) {
-
-        final int[] ints = new int[1];
-        ints[0] = publish_id;
-
-        comments.removeAllViews();
-        comments_fragment.removeAllViews();
-
-        Observable<List<TextView>> observable = Observable.create(new Observable.OnSubscribe<List<TextView>>() {
-            @Override
-            public void call(Subscriber<? super List<TextView>> subscriber) {
-
-                Realm realm1 = Realm.getDefaultInstance();
-                List<TextView> list = new ArrayList<>();
-
-                Published a_pulished = realm1.where(Published.class).equalTo(NS.ID, ints[0]).findFirst();
-
-                List<CommentsBean> commentsBeen = a_pulished.getComments();
-                final List<Integer> commentIds = new ArrayList<Integer>();
-
-                for (int j = 0; j < commentsBeen.size(); j++) {
-                    CommentsBean i = commentsBeen.get(j);
-                    commentIds.add(i.getId());
-                    User user = realm1.where(User.class).equalTo(NS.ID, i.getUserId()).findFirst();
-                    if (user == null) {
-                        user = UserCache.getUserByBlock(String.valueOf(i.getUserId()), context);
-                    }
-                    Item_Comment item_comment = new Item_Comment(context, user.getUsername(),
-                            i.getText(), String.valueOf(i.getId()));
-                    TextView textView = item_comment.getTextView();
-                    list.add(textView);
-                }
-
-                for (int i = 0; i < commentIds.size(); i++) {
-                    TextView textView = list.get(i);
-                    final int finalI = i;
-                    textView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showEdittext(v);
-                            woFragment.setEditCallback(new InputBoxLayout.CallBack() {
-                                @Override
-                                public void callback(String text) {
-//                                    JsonObject jsonObject = new JsonObject();
-//                                    jsonObject.addProperty(NS.USER_ID, TempUser.id);
-//                                    jsonObject.addProperty("momentId", published.getId());
-//                                    jsonObject.addProperty(NS.CONTENT, text);
-//                                    jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-//                                    jsonObject.addProperty("commentId", commentIds.get(finalI));
-//                                    sendComment(jsonObject);
-                                }
-                            });
-                        }
-                    });
-                }
-
-                realm1.close();
-
-                subscriber.onNext(list);
-            }
-        });
-
-        Subscriber<List<TextView>> subscriber = new Subscriber<List<TextView>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                TextView textView = new TextView(context);
-                textView.setText(e.toString());
-                comments.addView(textView);
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(List<TextView> textViews) {
-                int jh = 0;
-                LinearLayout linearLayout = (LinearLayout) View.inflate(context, R.layout.util_comment_linearlayout, null);
-                for (TextView i : textViews) {
-//                    comments.addView(i);
-                    linearLayout.addView(i);
-                    Log.d("add textview", "" + jh++);
-                }
-                comments_fragment.addView(linearLayout);
-            }
-        };
-
-        observable.subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
-    }
-
-//    public void
-
-    public void simpleParse() {
-        comments.removeAllViews();
-        comments_fragment.removeAllViews();
-
-        RealmList<CommentsBean> realmResults = published.getComments();
-        for (final CommentsBean i : realmResults) {
-            Item_Comment item_comment = new Item_Comment(context, String.valueOf(i.getUserId()),
-                    i.getText(), String.valueOf(i.getId()));
-            comments.addView(item_comment.getTextView());
-            item_comment.getTextView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showEdittext(v);
-                    woFragment.setEditCallback(new InputBoxLayout.CallBack() {
-                        @Override
-                        public void callback(String text) {
-                            sendComment(text, i.getId());
-                        }
-                    });
-                }
-            });
-        }
-    }
-
-    public void parseComment(Published published) {
+    private void parseComment(Published published) {
 
         comments.removeAllViews();
 
@@ -393,6 +252,11 @@ public abstract class WoBaseHolder {
             }
 
             comments.addView(item_comment.getTextView());
+
+            if (!TempUser.isRealName) {
+                continue;
+            }
+
             item_comment.getTextView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -462,39 +326,50 @@ public abstract class WoBaseHolder {
         //       评论
         comment.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                woFragment.setEditCallback(new InputBoxLayout.CallBack() {
+            public void onClick(final View v) {
+                LayoutHelp.PermissionClick(activity, new LayoutHelp.PermisionMethod() {
                     @Override
-                    public void callback(String text) {
-                        sendComment(text, -1);
+                    public void doSomething() {
+                        woFragment.setEditCallback(new InputBoxLayout.CallBack() {
+                            @Override
+                            public void callback(String text) {
+                                sendComment(text, -1);
+                            }
+                        });
+                        showEdittext(v);
                     }
                 });
-                showEdittext(v);
             }
         });
 
         praise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.operate(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
-                        new SimpleCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            woFragment.showToast("操作成功");
-                        }
+                LayoutHelp.PermissionClick(activity, new LayoutHelp.PermisionMethod() {
+                    @Override
+                    public void doSomething() {
+                        OperateUtils.operate(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
+                                new SimpleCallBack() {
+                                    @Override
+                                    public void onSuccess() {
+                                        woFragment.showToast("操作成功");
+                                    }
 
-                        @Override
-                        public void onError(Throwable e) {
+                                    @Override
+                                    public void onError(Throwable e) {
 //                            praise.setChecked(!praise.isChecked());
-                        }
+                                    }
 
-                        @Override
-                        public void onBackData(Object o) {
-                            if (o != null) {
-                                refresh((Published) o);
-                            }
-                        }
-                    });
+                                    @Override
+                                    public void onBackData(Object o) {
+                                        if (o != null) {
+                                            refresh((Published) o);
+                                        }
+                                    }
+                                });
+                    }
+                });
+
             }
         });
     }

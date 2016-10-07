@@ -55,7 +55,7 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
                             String token = jsonObject.getJSONObject(NS.MSG).getString(NS.TOKEN);
                             String digest= HmacSHA256Utils.digest(token,mView.getPhone());
                             SPUtils.put(XSXApplication.getInstance(),SPUtils.DIGEST,digest);
-                            SPUtils.put(XSXApplication.getInstance(),SPUtils.CURRENT_COUNT,mView.getPhone());
+                            SPUtils.put(XSXApplication.getInstance(),SPUtils.PHONENUMNBER,mView.getPhone());
                             Log.d("digest",digest);
                             mView.gotoWhere();
                             break;

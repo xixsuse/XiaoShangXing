@@ -26,10 +26,11 @@ public class TempUser {
 
     public static String account;
     public static int id;
+    public static boolean isRealName = true;
 
     //    获取当前账号
     public static String getAccount(Context context) {
-        String account = (String) SPUtils.get(context, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING);
+        String account = (String) SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING);
         return account.equals(SPUtils.DEFAULT_STRING) ? null : account;
     }
 

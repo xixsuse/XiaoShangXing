@@ -29,6 +29,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.StartActivity.FlashActivity;
 import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.normalUtils.MyLog;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.Contact.ContactProvider;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
@@ -214,13 +215,18 @@ public class XSXApplication extends Application {
 
     //    获取用户信息
     private LoginInfo getLoginInfo() {
-//        String account = (String) SPUtils.get(this, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING);
-//        if (!(boolean) SPUtils.get(this, SPUtils.IS_QUIT, true) && !account.equals(SPUtils.DEFAULT_STRING)) {
-//            NimUIKit.setAccount(account);
-//            return new LoginInfo(account, "123456");
-//        } else {
-//            return null;
-//        }
+        if ((boolean) SPUtils.get(this, SPUtils.IS_FIRS_COME, true) || (boolean) SPUtils.get(this, SPUtils.IS_QUIT, true)) {
+            return null;
+        }
+        String token = (String) SPUtils.get(this, SPUtils.TOKEN, SPUtils.DEFAULT_STRING);
+        if (SPUtils.DEFAULT_STRING.equals(token)) {
+            return null;
+        }
+        String account = (String) SPUtils.get(this, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING);
+        if (!SPUtils.DEFAULT_STRING.equals(account)) {
+            NimUIKit.setAccount(String.valueOf(account));
+            return new LoginInfo(String.valueOf(account), token);
+        }
         return null;
     }
 

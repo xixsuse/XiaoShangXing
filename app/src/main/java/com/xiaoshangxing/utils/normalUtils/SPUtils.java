@@ -22,11 +22,12 @@ public class SPUtils
 	*/
 	public static final String IS_FIRS_COME = "IS_FIRS_COME";//记录是否为第一次进入APP
 	public static final String IS_QUIT = "IS_QUIT";//记录是否有退出账号的操作
-	public static final String CURRENT_COUNT = "CURRENT_COUNT";//记录当前存储的账号
+	public static final String PHONENUMNBER = "PHONENUMNBER";//记录当前存储的账号
 	public static final String CURRENT_COUNT_HEAD = "CURRENT_COUNT_HEAD";//记录当前存储的账号的头像
 	public static final String ID="ID"; //当前账号的id
 
 	public static final String DIGEST="DIGEST";
+	public static final String TOKEN = "TOKEN";
 
 	/*
 	**describe:遇见

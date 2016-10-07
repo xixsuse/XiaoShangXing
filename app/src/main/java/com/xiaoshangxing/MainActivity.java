@@ -308,8 +308,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
             imageXiaoshang.setImageResource(R.mipmap.xiaoshang_on);
             xiaoshang.setTextColor(getResources().getColor(R.color.green1));
 
-//            mFragmentManager.beginTransaction().replace(R.id.main_fragment,
-//                    xiaoShangFragment, XiaoShangFragment.TAG).commit();
             mFragmentManager.beginTransaction().hide(woFragment).hide(yuJianFragment).show(xiaoShangFragment)
                     .commit();
             current = 1;

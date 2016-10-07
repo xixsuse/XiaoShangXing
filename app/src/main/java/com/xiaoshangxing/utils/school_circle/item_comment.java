@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 
 /**
@@ -62,6 +63,7 @@ public class Item_Comment {
             @Override
             public void onClick(View widget) {
                 Intent intent=new Intent(context,PersonalStateActivity.class);
+                intent.putExtra(IntentStatic.EXTRA_ACCOUNT,user_id);
                 context.startActivity(intent);
                 Log.d("name",reply_person);
             }
@@ -84,6 +86,7 @@ public class Item_Comment {
             public void onClick(View widget) {
                 Intent intent=new Intent(context,PersonalStateActivity.class);
                 context.startActivity(intent);
+                intent.putExtra(IntentStatic.EXTRA_ACCOUNT,user_id);
                 Log.d("name",reply_person);
             }
 
@@ -102,6 +105,7 @@ public class Item_Comment {
             @Override
             public void onClick(View widget) {
                 Intent intent=new Intent(context,PersonalStateActivity.class);
+                intent.putExtra(IntentStatic.EXTRA_ACCOUNT,objectId);
                 context.startActivity(intent);
                 Log.d("name",replyed_person);
             }

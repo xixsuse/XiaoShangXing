@@ -1,5 +1,6 @@
 package com.xiaoshangxing.xiaoshang.Plan.PlanFragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -17,6 +18,7 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -34,11 +36,13 @@ public class Plan_Adpter extends ArrayAdapter<Published> {
     private Context context;
     List<Published> publisheds;
     protected Handler handler;
+    private Activity activity;
 
-    public Plan_Adpter(Context context, int resource, List<Published> objects) {
+    public Plan_Adpter(Context context, int resource, Activity activity, List<Published> objects) {
         super(context, resource, objects);
         this.context = context;
         this.publisheds = objects;
+        this.activity = activity;
     }
 
     @Override
@@ -72,9 +76,14 @@ public class Plan_Adpter extends ArrayAdapter<Published> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PlanDetailActivity.class);
-                intent.putExtra(IntentStatic.DATA, published.getId());
-                context.startActivity(intent);
+                LayoutHelp.PermissionClick(activity, new LayoutHelp.PermisionMethod() {
+                    @Override
+                    public void doSomething() {
+                        Intent intent = new Intent(context, PlanDetailActivity.class);
+                        intent.putExtra(IntentStatic.DATA, published.getId());
+                        context.startActivity(intent);
+                    }
+                });
             }
         });
 

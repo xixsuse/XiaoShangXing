@@ -63,7 +63,7 @@ public class Formmat {
         try {
             multipartUtility = new MultipartUtility(path, "UTF-8");
             multipartUtility.addHeaderField("User-Phone",
-                    (String) SPUtils.get(context, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING));
+                    (String) SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING));
             multipartUtility.addHeaderField("User-Digest",
                     (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
 

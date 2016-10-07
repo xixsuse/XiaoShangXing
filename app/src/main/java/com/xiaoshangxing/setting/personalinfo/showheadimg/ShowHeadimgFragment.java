@@ -20,9 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
@@ -119,7 +119,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 else if (position == 2) saveToPhone();
             }
 
-
             @Override
             public void onCancel() {
             }
@@ -162,7 +161,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                     }
                     CommonUtils.cutPhoto(getActivity(), data.getData(), true,
                             mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
-
                 }
                 break;
             case ACTIVITY_CAMERA_REQUESTCODE:
@@ -172,9 +170,11 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 }
                 break;
             case ACTIVITY_MODIFY_PHOTO_REQUESTCODE:
-                if (requestCode != Activity.RESULT_OK) {
+
+                if (resultCode != Activity.RESULT_OK) {
                     return;
                 }
+
                 String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
 
                 ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
@@ -201,7 +201,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 };
 
                 ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, iBaseView);
-
 
                 File file = new File(coverPath);
                 RequestBody requestFile =

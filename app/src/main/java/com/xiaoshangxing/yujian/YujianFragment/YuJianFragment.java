@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,14 +16,17 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
@@ -37,14 +39,20 @@ import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.TopChat;
+import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 import com.xiaoshangxing.yujian.FriendActivity.FriendActivity;
+import com.xiaoshangxing.yujian.IM.NimUIKit;
+import com.xiaoshangxing.yujian.IM.cache.DataCacheManager;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.kit.ListViewUtil;
@@ -728,33 +736,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
     };
 
     private void initFresh() {
-//        StoreHouseHeader header = new StoreHouseHeader(getContext());
-//        header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
-//        header.initWithString("SWALK");
-//        header.setTextColor(getResources().getColor(R.color.green1));
-//        header.setBackgroundColor(getResources().getColor(R.color.w0));
-//        header.setAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fade_in));
-//        ptrFrameLayout.setDurationToCloseHeader(2000);
-//        ptrFrameLayout.setHeaderView(header);
-//        ptrFrameLayout.addPtrUIHandler(header);
-//        ptrFrameLayout.disableWhenHorizontalMove(true);
-//        ptrFrameLayout.setPtrHandler(new PtrHandler() {
-//            @Override
-//            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-//                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-//            }
-//
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout frame) {
-//                ptrFrameLayout.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        ptrFrameLayout.refreshComplete();
-//                    }
-//                }, 1500);
-//            }
-//        });
-
         LayoutHelp.initPTR(ptrFrameLayout, false, new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -800,7 +781,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         registerObservers(false);
     }
 
-    @OnClick({R.id.schoolfellow, R.id.serch_layout, R.id.friend})
+    @OnClick({R.id.schoolfellow, R.id.serch_layout, R.id.friend, R.id.current_state})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.schoolfellow:
@@ -813,7 +794,67 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
                 Intent friendIntent = new Intent(getContext(), FriendActivity.class);
                 startActivity(friendIntent);
                 break;
+            case R.id.current_state:
+                Login();
+                break;
+
         }
+    }
+
+    //  登录IM  并存储和初始化相关信息
+    private AbortableFuture<LoginInfo> loginRequest;
+
+    private void Login() {
+        final String account = TempUser.account;
+        String token = (String) SPUtils.get(getContext(), SPUtils.TOKEN, SPUtils.DEFAULT_STRING);
+        if (SPUtils.DEFAULT_STRING.equals(token)) {
+            showToast("账号有误，请重新登录");
+            return;
+        }
+        Log.d("login:", "user:" + account + "--" + "token:" + token);
+        loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(account, token));
+//            打开本地数据库
+        loginRequest.setCallback(new RequestCallback() {
+            @Override
+            public void onSuccess(Object o) {
+                NimUIKit.setAccount(account);
+                // 初始化消息提醒
+                NIMClient.toggleNotification(DataSetting.IsAcceptedNews(getContext()));
+                // 初始化免打扰
+                if (DataSetting.getStatusConfig() == null) {
+                    DataSetting.setStatusConfig(XSXApplication.getInstance().notificationConfig);
+                }
+                NIMClient.updateStatusBarNotificationConfig(DataSetting.getStatusConfig());
+                // 构建缓存
+                DataCacheManager.buildDataCacheAsync();
+
+                showToast("登录成功");
+            }
+
+            @Override
+            public void onFailed(int i) {
+                Log.d("loginok", "fail");
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+
+            }
+        });
+        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(new Observer<StatusCode>() {
+            @Override
+            public void onEvent(StatusCode statusCode) {
+
+                if (statusCode == StatusCode.LOGINED) {
+                    Log.d("loginok", "ok");
+                } else {
+                    Log.d("loginok2", "" + statusCode.name());
+                }
+                if (statusCode == StatusCode.KICKOUT) {
+                    Log.d("kit", "" + NIMClient.getService(AuthService.class).getKickedClientType());
+                }
+            }
+        }, true);
     }
 
     //  设置消息通知

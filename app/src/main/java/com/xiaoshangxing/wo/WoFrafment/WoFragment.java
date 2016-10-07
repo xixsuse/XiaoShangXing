@@ -235,7 +235,13 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                 gotoSet();
                 break;
             case R.id.publish:
-                gotopublish();
+                LayoutHelp.PermissionClick(getActivity(), new LayoutHelp.PermisionMethod() {
+                    @Override
+                    public void doSomething() {
+                        gotopublish();
+                    }
+                });
+//                gotopublish();
                 break;
         }
     }

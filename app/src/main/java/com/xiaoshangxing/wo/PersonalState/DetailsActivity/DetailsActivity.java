@@ -34,6 +34,7 @@ import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.wo.PersonalState.check_photo.myStateNoScrollGridAdapter;
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
@@ -243,6 +244,11 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         for (final CommentsBean i : list) {
             Comment_layout comment_layout = new Comment_layout(this, i, realm);
             comments.addView(comment_layout.getView());
+
+            if (!TempUser.isRealName) {
+                continue;
+            }
+
             comment_layout.getView().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -352,34 +358,46 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                 showSureDelete();
                 break;
             case R.id.praise:
-                OperateUtils.operate(published_id, DetailsActivity.this, true, NS.PRAISE, Published_Help.isPraised(published),
-                        new SimpleCallBack() {
+                LayoutHelp.PermissionClick(DetailsActivity.this, new LayoutHelp.PermisionMethod() {
                     @Override
-                    public void onSuccess() {
+                    public void doSomething() {
+                        OperateUtils.operate(published_id, DetailsActivity.this, true, NS.PRAISE, Published_Help.isPraised(published),
+                                new SimpleCallBack() {
+                                    @Override
+                                    public void onSuccess() {
 
-                    }
+                                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        praise.setChecked(Published_Help.isPraised(published));
-                    }
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        praise.setChecked(Published_Help.isPraised(published));
+                                    }
 
-                    @Override
-                    public void onBackData(Object o) {
-                        refreshPager((Published) o);
-                        Log.d("refreshpager", "ok");
+                                    @Override
+                                    public void onBackData(Object o) {
+                                        refreshPager((Published) o);
+                                        Log.d("refreshpager", "ok");
+                                    }
+                                });
                     }
                 });
+
 
                 break;
             case R.id.comment:
-                inputBoxLayout.showOrHideLayout(true);
-                inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
+                LayoutHelp.PermissionClick(DetailsActivity.this, new LayoutHelp.PermisionMethod() {
                     @Override
-                    public void callback(String text) {
-                        sendComment(text, -1);
+                    public void doSomething() {
+                        inputBoxLayout.showOrHideLayout(true);
+                        inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
+                            @Override
+                            public void callback(String text) {
+                                sendComment(text, -1);
+                            }
+                        });
                     }
                 });
+
                 break;
             case R.id.checkbox_lay:
                 praise.performClick();

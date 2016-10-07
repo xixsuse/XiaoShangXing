@@ -70,33 +70,6 @@ public class LoginRegisterActivity extends BaseActivity {
             frag = getLoginFragment();
             mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
                     frag, LoginFragment.TAG).commit();
-//            frag = getRgInputVertifyCodeFragment();
-//            mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
-//                    frag, RgInputVertifyCodeFragment.TAG).commit();
-//            frag = getSetPasswordFragment();
-//            mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
-//                    frag, SetPasswordFragment.TAG).commit();
-//            frag = getAlterPasswordFragment();
-//            mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
-//                    frag, AlterPasswordFragment.TAG).commit();
-//            frag = getInputEmailFragment();
-//            mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
-//                    frag, InputEmailFragment.TAG).commit();
-//            frag = getSendEmailFragment();
-//            mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
-//                    frag, SendEmailFragment.TAG).commit();
-//            frag = getNoEmailFragment();
-//            mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
-//                    frag, NoEmailFragment.TAG).commit();
-//            frag = getSelectSchoolFragment();
-//            mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
-//                    frag, SelectSchoolFragment.TAG).commit();
-//            frag = getSchoolNoOpenFragment();
-//            mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
-//                    frag, SchoolNoOpenFragment.TAG).commit();
-//            frag = getSerchFragment();
-//            mFragmentManager.beginTransaction().add(R.id.loginregisterContent,
-//                    frag, SerchFragment.TAG).commit();
         } else {
             frag = getRgInputPhoNumberFragment();
             mFragmentManager.beginTransaction().add(R.id.loginregisterContent, frag, RgInputPhoNumberFragment.TAG).commit();

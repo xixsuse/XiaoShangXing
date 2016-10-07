@@ -35,6 +35,8 @@ public class BaseUrl {
     public static final String CHANGE_PUBLISHED_STATU = "moment/changeMomentStatus";
     public static final String GET_COLLECT = "moment/catCollect";
 
+    public static final String GET_CALENDAR = "moment/getSchoolCalendar";
+
 
     public static final String UPDATE = "operation/updateVersion";
 

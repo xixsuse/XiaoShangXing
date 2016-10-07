@@ -5,11 +5,11 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.netUtil.HmacSHA256Utils;
 import com.xiaoshangxing.Network.LoginNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.HmacSHA256Utils;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
@@ -42,11 +42,11 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
 
     @Override
     public void isHasHeadPotrait() {
-        String count = (String) SPUtils.get(context, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING);
+        String count = (String) SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING);
         if (count.equals(SPUtils.DEFAULT_STRING)) {
             return;
         }
-        if (mView.getPhoneNumber().equals(SPUtils.get(context, SPUtils.CURRENT_COUNT, SPUtils.DEFAULT_STRING))) {
+        if (mView.getPhoneNumber().equals(SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING))) {
             mView.showHeadPotrait(true);
         } else {
             mView.showHeadPotrait(false);
@@ -73,9 +73,10 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                             if (jsonObject.get(NS.MSG) instanceof JSONObject) {
                                 String token=jsonObject.getJSONObject(NS.MSG).getString(NS.TOKEN);
                                 String digest= HmacSHA256Utils.digest(token,mView.getPhoneNumber());
-                                //  存储摘要 账号 id  头像
+                                //  存储 token 摘要 账号 id  头像
+                                SPUtils.put(context, SPUtils.TOKEN, token);
                                 SPUtils.put(context,SPUtils.DIGEST,digest);
-                                SPUtils.put(context,SPUtils.CURRENT_COUNT,mView.getPhoneNumber());
+                                SPUtils.put(context,SPUtils.PHONENUMNBER,mView.getPhoneNumber());
                                 String headPath = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto").getString("userImage");
                                 if (!TextUtils.isEmpty(headPath) && !headPath.equals("null")) {
                                     SPUtils.put(context, SPUtils.CURRENT_COUNT_HEAD, headPath);
@@ -125,7 +126,7 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
         JsonObject jsonObject1 = new JsonObject();
         jsonObject1.addProperty("phone", mView.getPhoneNumber());
         jsonObject1.addProperty("password", mView.getPassword());
-        jsonObject1.addProperty("timeStamp", System.currentTimeMillis());
+        jsonObject1.addProperty(NS.TIMESTAMP, System.currentTimeMillis());
         LoginNetwork.getInstance().Login(observer, jsonObject1);
     }
 
