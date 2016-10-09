@@ -92,7 +92,6 @@ public class SelectSchoolFragment extends BaseFragment implements SelectSchoolCo
         school_list = arrayList;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 R.layout.item_textview_no_pad, arrayList);
-//        MyAdapter adapter=new MyAdapter(getContext(),R.layout.item_textview_no_pad,arrayList);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

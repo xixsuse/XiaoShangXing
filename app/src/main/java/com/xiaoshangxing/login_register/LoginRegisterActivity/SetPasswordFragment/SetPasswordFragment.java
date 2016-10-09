@@ -1,6 +1,7 @@
 package com.xiaoshangxing.login_register.LoginRegisterActivity.SetPasswordFragment;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -27,9 +28,10 @@ import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
-import com.xiaoshangxing.login_register.LoginRegisterActivity.SelectSchoolFreagment.SelectSchoolFragment;
+import com.xiaoshangxing.setting.shiming.vertify.XueXiaoActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
@@ -174,6 +176,10 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordCont
 //                        .replace(R.id.loginregisterContent, frag)
 //                        .addToBackStack(SelectSchoolFragment.TAG)
 //                        .commit();
+                Intent intent = new Intent(getContext(), XueXiaoActivity.class);
+                intent.putExtra(IntentStatic.TYPE, IntentStatic.REGISTER);
+                startActivity(intent);
+                getActivity().finish();
                 login();
             }
         }, 1000);
@@ -214,16 +220,6 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordCont
                                 });
                                 realm.close();
                             }
-
-                            SelectSchoolFragment frag = ((LoginRegisterActivity) mActivity).getSelectSchoolFragment();
-                            getFragmentManager().beginTransaction()
-                                    .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                            R.anim.slide_in_left, R.anim.slide_out_left)
-                                    .replace(R.id.loginregisterContent, frag)
-                                    .addToBackStack(SelectSchoolFragment.TAG)
-                                    .commit();
-
-                            break;
 //                        case 9001:
 //                            mView.showFailDialog("用户名不存在");
 //                            break;

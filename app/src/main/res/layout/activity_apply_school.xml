@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/cancel"
+        style="@style/green1_16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/y124"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/x24"
+        android:text="@string/cancle" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/height_48"
+        android:text="填写你想申请的学校"
+        android:textColor="@color/b0"
+        android:textSize="23sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y126"
+        android:layout_marginTop="@dimen/y126"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/input_school"
+            android:textSize="16sp"
+            android:textColor="@color/b0"
+            android:hint="输入学校全称"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/width_48" />
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="@dimen/y84"
+        android:text="@string/appeal_open"
+        android:id="@+id/appeal_open"
+        android:enabled="true"
+        android:alpha="0.5"
+        style="@style/long_btn"/>
+
+    <TextView
+        android:text="感谢你对校上行的支持!"
+        android:layout_marginTop="@dimen/y36"
+        android:textSize="14sp"
+        android:clickable="false"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/g2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

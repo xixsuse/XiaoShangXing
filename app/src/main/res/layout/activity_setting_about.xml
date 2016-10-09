@@ -137,6 +137,7 @@
                 android:layout_marginEnd="@dimen/x48"
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/update"
             android:layout_width="match_parent"
@@ -157,8 +158,7 @@
                 android:layout_marginEnd="@dimen/x48"
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
+
     </LinearLayout>
-
-
 
 </LinearLayout>

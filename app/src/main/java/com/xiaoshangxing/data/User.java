@@ -39,6 +39,7 @@ public class User extends RealmObject {
     private String isClass;
     private String isCollege;
     private String isGrade;
+    private String role;
 
     private long serverTime;
 
@@ -176,6 +177,14 @@ public class User extends RealmObject {
 
     public void setIsGrade(String isGrade) {
         this.isGrade = isGrade;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

@@ -117,7 +117,6 @@
             android:layout_toRightOf="@+id/img_msg_status"
             android:ellipsize="end"
             android:lines="1"
-            android:text="@string/longtext"
             android:scrollHorizontally="true"
             android:textColor="@color/g0"
             android:autoLink="none"

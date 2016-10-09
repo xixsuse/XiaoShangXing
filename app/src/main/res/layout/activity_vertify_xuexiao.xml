@@ -46,7 +46,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/x48"
-            android:clickable="true"
+            android:clickable="false"
             android:onClick="Next"
             android:text="@string/nextStep"
             android:textColor="@color/green1"
@@ -121,15 +121,32 @@
         android:textColor="@color/g0"
         android:textSize="14sp" />
 
-
-    <ListView
-        android:id="@+id/list"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/w0"
-        android:choiceMode="singleChoice"
-        android:divider="@color/g1"
-        android:dividerHeight="@dimen/y1" />
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/w0"
+            android:choiceMode="singleChoice"
+            android:divider="@color/g1"
+            android:dividerHeight="@dimen/y1" />
+
+        <TextView
+            android:id="@+id/aplly_shcool"
+            android:textSize="14sp"
+            android:textColor="@color/blue1"
+            android:text="申请开通"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/y68"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+
 
 
 </LinearLayout>

@@ -92,6 +92,7 @@ public class AboutActivity extends BaseActivity {
             case R.id.function:
                 break;
             case R.id.feeback:
+                FeedBack(view);
                 break;
             case R.id.update:
                 update();

@@ -39,5 +39,7 @@ public class BaseUrl {
 
 
     public static final String UPDATE = "operation/updateVersion";
+    public static final String SUGGESTION = "suggestion/suggest";
+    public static final String GET_CALENDAR_INPUTER = "base/getLeaderInfo";
 
 }

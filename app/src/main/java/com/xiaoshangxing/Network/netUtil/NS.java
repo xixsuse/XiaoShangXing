@@ -53,6 +53,7 @@ public class NS {
     public static final String PERSON_LIMIT = "personLimit";
     public static final String PLAN_NAME = "planName";
     public static final String DAY = "day";
+    public static final String PLAN_GROUP = "groupNo";
     //    动态操作
     public static final String PRAISE = "0";
     public static final String JOIN = "1";

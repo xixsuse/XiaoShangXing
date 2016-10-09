@@ -20,7 +20,7 @@ import com.xiaoshangxing.utils.BaseFragment;
  * on 2016/6/25
  */
 public class AppealFragment extends BaseFragment implements AppealContract.View, View.OnClickListener {
-    public static final String TAG = BaseFragment.TAG + "-AlterPasswordFragment";
+    public static final String TAG = BaseFragment.TAG + "-AppealFragment";
 
     private View mView;
     private AppealContract.Presenter mPresenter;

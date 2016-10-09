@@ -2,6 +2,7 @@ package com.xiaoshangxing.yujian.IM;
 
 import android.content.Context;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -120,5 +121,45 @@ public class TeamCreateHelper {
                 GroupActivity.start(context, team.getId(), null, SessionTypeEnum.Team);
             }
         }, 50);
+    }
+
+    public static void createPlanTeam(String planName, final RequestCallback<Team> callback) {
+        String teamName = "群聊";
+        if (!TextUtils.isEmpty(planName)) {
+            teamName = planName;
+        }
+
+        // 创建群
+        TeamTypeEnum type = TeamTypeEnum.Advanced;
+        HashMap<TeamFieldEnum, Serializable> fields = new HashMap<>();
+        fields.put(TeamFieldEnum.Name, teamName);
+        fields.put(TeamFieldEnum.VerifyType, VerifyTypeEnum.Free);
+        fields.put(TeamFieldEnum.InviteMode, TeamInviteModeEnum.All);
+        fields.put(TeamFieldEnum.BeInviteMode, TeamBeInviteModeEnum.NoAuth);
+        NIMClient.getService(TeamService.class).createTeam(fields, type, "", null).setCallback(new RequestCallback<Team>() {
+            @Override
+            public void onSuccess(Team team) {
+                callback.onSuccess(team);
+                Map<String, Object> content = new HashMap<>(1);
+                content.put("content", "成功创建计划群");
+                IMMessage msg = MessageBuilder.createTipMessage(team.getId(), SessionTypeEnum.Team);
+                msg.setRemoteExtension(content);
+                CustomMessageConfig config = new CustomMessageConfig();
+                config.enableUnreadCount = false;
+                msg.setConfig(config);
+                msg.setStatus(MsgStatusEnum.success);
+                NIMClient.getService(MsgService.class).saveMessageToLocal(msg, true);
+            }
+
+            @Override
+            public void onFailed(int i) {
+                callback.onFailed(i);
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                callback.onException(throwable);
+            }
+        });
     }
 }

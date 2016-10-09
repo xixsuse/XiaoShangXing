@@ -2,16 +2,17 @@ package com.xiaoshangxing.setting.shiming.vertify;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.Location.NearCollege;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,10 +23,11 @@ import java.util.HashSet;
 public class XueXiaoActivity extends BaseActivity {
     private ListView mListView;
     private ArrayAdapter mAdapter;
-    private TextView next, schoolText;
+    private TextView next, schoolText, applySchool;
     public static String xuexiao; //学校
     private NearCollege nearCollege;
     private ArrayList<String> schools = new ArrayList<>();
+    private boolean isRegister;//标记是否是注册时选择学校
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,19 @@ public class XueXiaoActivity extends BaseActivity {
         mListView = (ListView) findViewById(R.id.list);
         next = (TextView) findViewById(R.id.next);
         schoolText = (TextView) findViewById(R.id.schoolTx);
+        applySchool = (TextView) findViewById(R.id.aplly_shcool);
+
+        if (getIntent().getIntExtra(IntentStatic.TYPE, -1) == IntentStatic.REGISTER) {
+            isRegister = true;
+        }
+
+        applySchool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(XueXiaoActivity.this, ApplyForSchool.class);
+                startActivity(intent);
+            }
+        });
 
         nearCollege = new NearCollege(this, new NearCollege.NearShoolCallback() {
             @Override
@@ -49,6 +64,7 @@ public class XueXiaoActivity extends BaseActivity {
 
             @Override
             public void Success(HashSet<String> hashSet) {
+                next.setClickable(true);
                 for (String i : hashSet) {
                     schools.add(i);
                 }
@@ -78,13 +94,17 @@ public class XueXiaoActivity extends BaseActivity {
     }
 
     public void Next(View view) {
-        xuexiao = schoolText.getText().toString();
-        Log.d("qqq", "xuexiao   " + xuexiao);
-
-        startActivity(new Intent(this, XueYuanActivity.class));
+        if (isRegister) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            startActivity(new Intent(this, XueYuanActivity.class));
+        }
 
     }
 
     public void SearchView(View view) {
+        showToast("暂未开通");
     }
 }

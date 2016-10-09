@@ -3,13 +3,13 @@ package com.xiaoshangxing.xiaoshang.Calendar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,9 +23,13 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter;
 import com.xiaoshangxing.Network.netUtil.LoadUtils;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.CalendarData;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
+import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Calendar.CalendarInputer.CalendarInputer;
 import com.xiaoshangxing.xiaoshang.Calendar.Decorator.CurrentDecorator;
@@ -37,13 +41,13 @@ import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -86,8 +90,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     ImageButton ibArrowUp;
     @Bind(R.id.bottom_layout)
     RelativeLayout bottomLayout;
-    @Bind(R.id.notice)
-    TextView notice;
     private View mview;
     private Realm realm;
     private BottomSheetBehavior mBottomSheetBehavior;
@@ -103,6 +105,10 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     private List<CalendarDay> allDatas, previous, future;
     private CalendarDay today, currentSelected;
 
+    private Handler handler = new Handler();
+    private Runnable runnable;
+    private View headView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -110,24 +116,31 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         ButterKnife.bind(this, mview);
         realm = Realm.getDefaultInstance();
         initView();
+        initFresh();
         return mview;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+        realm.close();
+        handler.removeCallbacks(runnable);
+    }
+
     private void initView() {
+        allDatas = new ArrayList<>();
+        previous = new ArrayList<>();
+        future = new ArrayList<>();
         today = CalendarDay.today();
+
+        headView = View.inflate(getContext(), R.layout.util_textview, null);
+
         mBottomSheetBehavior = BottomSheetBehavior.from(mview.findViewById(R.id.calendar_lay));
         initCalendar();
         initMonth(calendarView.getCurrentDate());
         initListview(today);
-        View view = new View(getContext());
-        listview.addHeaderView(view);
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), CalendarDetail.class);
-                startActivity(intent);
-            }
-        });
+        listview.addHeaderView(headView);
     }
 
     private void initCalendar() {
@@ -149,7 +162,12 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
 
         currentSelected = CalendarDay.today();
 
-        refresh();
+        calendarView.addDecorators(
+                oneDayDecorator,
+                new WeekDecorator(getContext())
+        );
+
+        refresh(today);
 
     }
 
@@ -195,20 +213,56 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
 
     }
 
-    private void initListview(CalendarDay day) {
-        for (int i = 0; i < 20; i++) {
-            publisheds.add(new Published());
-        }
-        if (publisheds.size() < 1) {
-            refleshLayout.setVisibility(View.GONE);
-            notice.setText("当天没有活动");
-            notice.setVisibility(View.VISIBLE);
+    private void initListview(CalendarDay calendarDay) {
+
+        List<CalendarData> calendarDatas = realm.where(CalendarData.class)
+                .equalTo(NS.YEAR, String.valueOf(calendarDay.getYear()))
+                .equalTo(NS.MONTH, String.valueOf(calendarDay.getMonth()))
+                .equalTo(NS.DAY, String.valueOf(calendarDay.getDay()))
+                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+
+        if (calendarDatas.size() < 1) {
+            headView.setVisibility(View.VISIBLE);
+            headView.setPadding(0, 48, 0, 0);
         } else {
-            refleshLayout.setVisibility(View.VISIBLE);
-            notice.setVisibility(View.GONE);
+            headView.setVisibility(View.GONE);
+            headView.setPadding(0, 0, 0, 0);
         }
-        adpter = new Calendar_adpter(getContext(), 1, publisheds);
+
+        adpter = new Calendar_adpter(getContext(), 1, calendarDatas);
         listview.setAdapter(adpter);
+    }
+
+    private void initFresh() {
+        LayoutHelp.initPTR(refleshLayout, false,
+                new PtrDefaultHandler() {
+                    @Override
+                    public void onRefreshBegin(final PtrFrameLayout frame) {
+                        LoadUtils.getCalendar(String.valueOf(currentSelected.getYear()),
+                                String.valueOf(currentSelected.getMonth()), getContext(),
+                                realm, new LoadUtils.AroundLoading() {
+                                    @Override
+                                    public void before() {
+
+                                    }
+
+                                    @Override
+                                    public void complete() {
+                                        refleshLayout.refreshComplete();
+                                    }
+
+                                    @Override
+                                    public void onSuccess() {
+                                        refresh(currentSelected);
+                                    }
+
+                                    @Override
+                                    public void error() {
+                                        refleshLayout.refreshComplete();
+                                    }
+                                });
+                    }
+                });
     }
 
     private void initMonth(CalendarDay date) {
@@ -216,13 +270,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         nextMonth.setText(getNextMonth(date) + "月");
         tvNowDate.setText(FORMATTER.format(date.getDate()));
         tvDateWeek.setText(TimeUtil.getWeekOfDate_zhou(date.getDate()));
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-        realm.close();
     }
 
     private String getCurrentMonth(CalendarDay date) {
@@ -269,38 +316,72 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         }
     }
 
-    private void refresh() {
-        allDatas = new ArrayList<>();
-        previous = new ArrayList<>();
-        future = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -1);
-        for (int i = 0; i < 30; i++) {
-            CalendarDay day = CalendarDay.from(calendar);
-            allDatas.add(day);
-            calendar.add(Calendar.DATE, 2);
+    private void refresh(CalendarDay calendarDay) {
+        List<CalendarData> calendarDatas = realm.where(CalendarData.class)
+                .equalTo(NS.YEAR, String.valueOf(calendarDay.getYear()))
+                .equalTo(NS.MONTH, String.valueOf(calendarDay.getMonth()))
+                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+
+        ArrayList<CalendarDay> calendarDays = new ArrayList<>();
+        for (CalendarData i : calendarDatas) {
+            CalendarDay j = new CalendarDay(Integer.valueOf(i.getYear()),
+                    Integer.valueOf(i.getMonth()), Integer.valueOf(i.getDay()));
+            calendarDays.add(j);
+        }
+
+        switch (compareDayByYearMonth(calendarDay, today)) {
+            case -1:
+                calendarView.addDecorator(new EventDecorator(Color.parseColor("#b2b2b2"), calendarDays));
+                break;
+            case 0:
+                parseThisMonthData(calendarDays);
+                break;
+            case 1:
+                calendarView.addDecorator(new EventDecorator(Color.parseColor("#00aeef"), calendarDays));
+                break;
+        }
+
+    }
+
+    private void parseThisMonthData(ArrayList<CalendarDay> calendarDays) {
+        for (CalendarDay day : calendarDays) {
             if (day.isAfter(today)) {
                 future.add(day);
             } else if (day.isBefore(today)) {
                 previous.add(day);
             }
         }
+
         calendarView.addDecorator(new EventDecorator(Color.parseColor("#b2b2b2"), previous));
         calendarView.addDecorator(new EventDecorator(Color.parseColor("#00aeef"), future));
-        calendarView.addDecorators(
-                oneDayDecorator,
-                new WeekDecorator(getContext())
-        );
-        if (allDatas.contains(today)) {
+
+        if (calendarDays.contains(today)) {
             ArrayList<CalendarDay> todays = new ArrayList<>();
             todays.add(today);
             calendarView.addDecorator(new EventDecorator(Color.parseColor("#45C01A"), todays));
         }
     }
 
-    private void getData(CalendarDay calendarDay) {
+    public static int compareDayByYearMonth(CalendarDay origin, CalendarDay object) {
+        if (origin.getYear() == object.getYear()) {
+            if (origin.getMonth() == object.getMonth()) {
+                return 0;
+            } else {
+                return origin.getMonth() > object.getMonth() ? 1 : -1;
+            }
+        } else {
+            return origin.getYear() > object.getYear() ? 1 : -1;
+        }
+    }
+
+    private void getData(final CalendarDay calendarDay) {
+
         String year = String.valueOf(calendarDay.getYear());
         String month = String.valueOf(calendarDay.getMonth());
+
+        if (realm.where(CalendarData.class).equalTo(NS.YEAR, year).equalTo(NS.MONTH, month).findAll().size() > 0)
+            return;
+
         LoadUtils.getCalendar(year, month, getContext(), realm, new LoadUtils.AroundLoading() {
             @Override
             public void before() {
@@ -314,7 +395,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
 
             @Override
             public void onSuccess() {
-                refresh();
+                refresh(calendarDay);
             }
 
             @Override
@@ -326,6 +407,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        currentSelected = date;
         initMonth(date);
         oneDayDecorator.setDate(date.getDate());
 //        initDecorator();
@@ -334,8 +416,15 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     }
 
     @Override
-    public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
+    public void onMonthChanged(MaterialCalendarView widget, final CalendarDay date) {
         initMonth(date);
-        getData(date);
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                getData(date);
+            }
+        };
+        handler.postDelayed(runnable, 500);
+        currentSelected = date;
     }
 }

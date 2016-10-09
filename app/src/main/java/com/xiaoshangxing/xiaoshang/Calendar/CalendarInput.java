@@ -76,6 +76,7 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
     TextView complete;
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private BottomSheetBehavior mBottomSheetBehavior;
+    private CalendarDay current_day;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,14 +138,14 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
         map.put(NS.TEXT, text.getText().toString());
         map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
         map.put(NS.CATEGORY, NS.CATEGORY_CALENDAR);
-        CalendarDay calendarDay = calendarView.getCurrentDate();
-        if (calendarDay == null) {
+
+        if (current_day == null) {
             showToast("日期有误");
             return;
         }
-        map.put(NS.DAY, String.valueOf(calendarDay.getDay()));
-        map.put(NS.MONTH, String.valueOf(calendarDay.getMonth()));
-        map.put(NS.YEAR, String.valueOf(calendarDay.getYear()));
+        map.put(NS.DAY, String.valueOf(current_day.getDay()));
+        map.put(NS.MONTH, String.valueOf(current_day.getMonth()));
+        map.put(NS.YEAR, String.valueOf(current_day.getYear()));
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -184,6 +185,7 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
         nextMonth.setText((getNextMonth(date) + NS.MONTH_C));
         tvNowDate.setText(FORMATTER.format(date.getDate()));
         tvDateWeek.setText(TimeUtil.getWeekOfDate_zhou(date.getDate()));
+        current_day = date;
     }
 
     private String getCurrentMonth(CalendarDay date) {

@@ -32,6 +32,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.team.model.Team;
 import com.xiaoshangxing.Network.Formmat;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
@@ -69,6 +71,7 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.Flog;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.yujian.IM.TeamCreateHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -279,7 +282,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 break;
             case XIANZHI:
                 initSale();
-
                 break;
             case TRANSMIT:
                 initTransmit();
@@ -878,18 +880,45 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     private void publishPlan() {
-        Map<String, String> map = new HashMap<>();
-        map.put(NS.USER_ID, String.valueOf(TempUser.id));
-        map.put(NS.TEXT, emotionEdittext.getText().toString());
-        map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
-        map.put(NS.CATEGORY, NS.CATEGORY_PLAN);
-        map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
-        map.put(NS.PERSON_LIMIT, peopleLimit.getText().toString());
-        map.put(NS.PLAN_NAME, planName.getText().toString());
-        map.put(NS.DAY, timeLimit.getText().toString());
-        NS.getPermissionString(NS.NOTICE, notices, map);
-        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
-        publish(map);
+
+        showLoadingDialog("");
+        TeamCreateHelper.createPlanTeam(planName.getText().toString(), new RequestCallback<Team>() {
+            @Override
+            public void onSuccess(Team team) {
+
+                hideLoadingDialog();
+
+                Map<String, String> map = new HashMap<>();
+                map.put(NS.USER_ID, String.valueOf(TempUser.id));
+                map.put(NS.TEXT, emotionEdittext.getText().toString());
+                map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
+                map.put(NS.CATEGORY, NS.CATEGORY_PLAN);
+                map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
+                map.put(NS.PERSON_LIMIT, peopleLimit.getText().toString());
+                map.put(NS.PLAN_NAME, planName.getText().toString());
+                map.put(NS.DAY, timeLimit.getText().toString());
+                map.put(NS.PLAN_GROUP, String.valueOf(team.getId()));
+                Log.d("plan_group", "--" + team.getId());
+                NS.getPermissionString(NS.NOTICE, notices, map);
+                NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+                publish(map);
+            }
+
+            @Override
+            public void onFailed(int i) {
+                showToast("创建计划群失败：" + i);
+                hideLoadingDialog();
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                showToast("创建计划群失败：异常");
+                throwable.printStackTrace();
+                hideLoadingDialog();
+            }
+        });
+
+
     }
 
     private void publishSale() {

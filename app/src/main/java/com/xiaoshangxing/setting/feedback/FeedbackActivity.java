@@ -1,19 +1,24 @@
 package com.xiaoshangxing.setting.feedback;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.xiaoshangxing.Network.netUtil.AppNetUtil;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IBaseView;
 
 /**
  * Created by 15828 on 2016/7/12.
  */
-public class FeedbackActivity extends BaseActivity {
+public class FeedbackActivity extends BaseActivity implements IBaseView {
     private EditText editText;
     private Button submit;
     @Override
@@ -44,7 +49,30 @@ public class FeedbackActivity extends BaseActivity {
                    }
             }
         });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(editText.getText().toString())) {
+                    AppNetUtil.Suggest(editText.getText().toString(), FeedbackActivity.this, new SimpleCallBack() {
+                        @Override
+                        public void onSuccess() {
+                            showToast("反馈成功");
+                            finish();
+                        }
 
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onBackData(Object o) {
+
+                        }
+                    });
+                }
+            }
+        });
     }
 
     public void back(View view) {
@@ -52,6 +80,29 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     public void Commit(View view) {
+        if (!TextUtils.isEmpty(editText.getText().toString())) {
+            AppNetUtil.Suggest(editText.getText().toString(), FeedbackActivity.this, new SimpleCallBack() {
+                @Override
+                public void onSuccess() {
+                    showToast("反馈成功");
+                    finish();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onBackData(Object o) {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
 
     }
 }

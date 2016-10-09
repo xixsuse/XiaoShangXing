@@ -299,6 +299,7 @@
         <activity android:name=".xiaoshang.Calendar.CalendarDetail"></activity>
         <activity android:name=".xiaoshang.Calendar.CalendarInputer.CalendarInputer"></activity>
         <activity android:name=".xiaoshang.Calendar.CalendarInput"></activity>
+        <activity android:name=".setting.shiming.vertify.ApplyForSchool"></activity>
 
     </application>
 

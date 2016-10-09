@@ -90,16 +90,10 @@
 
         </ListView>
 
+
     </com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout>
 
-    <!--提醒-->
-    <TextView
-        android:id="@+id/notice"
-        style="@style/black_16sp"
-        android:layout_margin="@dimen/width_48"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title_lay" />
+
 
     <!--当前日期-->
     <RelativeLayout

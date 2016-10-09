@@ -3,8 +3,8 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.api.AppApi.SuggestionApi;
 import com.xiaoshangxing.Network.api.AppApi.UpdateApi;
-import com.xiaoshangxing.Network.api.InfoApi.GetUser;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -19,6 +19,8 @@ import rx.schedulers.Schedulers;
 
 public class AppNetwork {
     private UpdateApi updateApi;
+    private SuggestionApi suggestionApi;
+
     private AppNetwork() {
 
     }
@@ -38,6 +40,14 @@ public class AppNetwork {
             updateApi = Network.getRetrofitWithHeader(context).create(UpdateApi.class);
         }
         Observable<ResponseBody> observable = updateApi.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void Suggest(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (suggestionApi == null) {
+            suggestionApi = Network.getRetrofitWithHeader(context).create(SuggestionApi.class);
+        }
+        Observable<ResponseBody> observable = suggestionApi.start(jsonObject);
         toSubscribe(observable, subscriber);
     }
 

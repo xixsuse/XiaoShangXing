@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.Network.netUtil.HmacSHA256Utils;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.User;
@@ -95,6 +96,9 @@ public class LoginFragmentPresenter implements LoginFragmentContract.Presenter {
                                     }
                                 });
                                 realm.close();
+
+                                //登录IM
+                                AppNetUtil.LoginIm(context);
                             }
                             mView.gotoMainActivity();
                             break;

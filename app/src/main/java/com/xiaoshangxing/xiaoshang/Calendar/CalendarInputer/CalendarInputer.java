@@ -1,21 +1,20 @@
 package com.xiaoshangxing.xiaoshang.Calendar.CalendarInputer;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.xiaoshang.Calendar.CalendarInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,23 +77,39 @@ public class CalendarInputer extends BaseActivity {
             }
         });
         content.setText(getString(R.string.calender));
-        for (int i = 0; i < 10; i++) {
-            publisheds.add(new Published());
-        }
-        adpter = new CalendarInputer_Adpter(this, 1, publisheds);
-        listview.setAdapter(adpter);
+
+        LoadUtils.getCalendarInputer(this, realm, new LoadUtils.AroundLoading() {
+            @Override
+            public void before() {
+
+            }
+
+            @Override
+            public void complete() {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                List<User> users = realm.where(User.class).equalTo("isVip", "1").findAll();
+                if (users.size() > 1) {
+                    adpter = new CalendarInputer_Adpter(CalendarInputer.this, 1, users);
+                    listview.setAdapter(adpter);
+                }
+            }
+
+            @Override
+            public void error() {
+
+            }
+        });
+
+
 
         title.setText("添加入口");
         more.setVisibility(View.GONE);
         backText.setText("返回");
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CalendarInputer.this, CalendarInput.class);
-                startActivity(intent);
-            }
-        });
 
     }
 

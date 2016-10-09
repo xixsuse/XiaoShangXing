@@ -17,16 +17,12 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.StatusCode;
-import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
-import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.SystemMessageObserver;
@@ -37,22 +33,17 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
+import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.TopChat;
-import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 import com.xiaoshangxing.yujian.FriendActivity.FriendActivity;
-import com.xiaoshangxing.yujian.IM.NimUIKit;
-import com.xiaoshangxing.yujian.IM.cache.DataCacheManager;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.kit.ListViewUtil;
@@ -795,67 +786,12 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
                 startActivity(friendIntent);
                 break;
             case R.id.current_state:
-                Login();
+                AppNetUtil.LoginIm(getContext());
                 break;
 
         }
     }
 
-    //  登录IM  并存储和初始化相关信息
-    private AbortableFuture<LoginInfo> loginRequest;
-
-    private void Login() {
-        final String account = TempUser.account;
-        String token = (String) SPUtils.get(getContext(), SPUtils.TOKEN, SPUtils.DEFAULT_STRING);
-        if (SPUtils.DEFAULT_STRING.equals(token)) {
-            showToast("账号有误，请重新登录");
-            return;
-        }
-        Log.d("login:", "user:" + account + "--" + "token:" + token);
-        loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(account, token));
-//            打开本地数据库
-        loginRequest.setCallback(new RequestCallback() {
-            @Override
-            public void onSuccess(Object o) {
-                NimUIKit.setAccount(account);
-                // 初始化消息提醒
-                NIMClient.toggleNotification(DataSetting.IsAcceptedNews(getContext()));
-                // 初始化免打扰
-                if (DataSetting.getStatusConfig() == null) {
-                    DataSetting.setStatusConfig(XSXApplication.getInstance().notificationConfig);
-                }
-                NIMClient.updateStatusBarNotificationConfig(DataSetting.getStatusConfig());
-                // 构建缓存
-                DataCacheManager.buildDataCacheAsync();
-
-                showToast("登录成功");
-            }
-
-            @Override
-            public void onFailed(int i) {
-                Log.d("loginok", "fail");
-            }
-
-            @Override
-            public void onException(Throwable throwable) {
-
-            }
-        });
-        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(new Observer<StatusCode>() {
-            @Override
-            public void onEvent(StatusCode statusCode) {
-
-                if (statusCode == StatusCode.LOGINED) {
-                    Log.d("loginok", "ok");
-                } else {
-                    Log.d("loginok2", "" + statusCode.name());
-                }
-                if (statusCode == StatusCode.KICKOUT) {
-                    Log.d("kit", "" + NIMClient.getService(AuthService.class).getKickedClientType());
-                }
-            }
-        }, true);
-    }
 
     //  设置消息通知
     private void enableMsgNotification(boolean enable) {

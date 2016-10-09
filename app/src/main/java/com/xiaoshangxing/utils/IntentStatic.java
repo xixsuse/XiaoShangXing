@@ -18,5 +18,7 @@ public class IntentStatic {
 
     public static final int CLOSE=1000;
 
+    public static final int REGISTER = 2000;
+
 
 }

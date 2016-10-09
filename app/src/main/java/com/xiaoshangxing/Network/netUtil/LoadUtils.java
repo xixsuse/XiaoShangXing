@@ -6,8 +6,10 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.PublishNetwork;
+import com.xiaoshangxing.data.CalendarData;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -400,7 +402,7 @@ public class LoadUtils {
             @Override
             public void onNext(ResponseBody responseBody) {
                 try {
-                    LoadUtils.parseData(responseBody, realm, context, aroundLoading);
+                    LoadUtils.parseCalendarData(responseBody, realm, context, aroundLoading);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -409,6 +411,105 @@ public class LoadUtils {
             }
         };
         PublishNetwork.getInstance().getCalendar(subscriber1, jsonObject, XSXApplication.getInstance());
+    }
+
+    /**
+     * description:  将返回校历数据存入数据库
+     *
+     * @param responseBody  返回体
+     * @param realm         数据库
+     * @param aroundLoading 回调
+     * @return
+     */
+
+    public static void parseCalendarData(ResponseBody responseBody, Realm realm, Context context, AroundLoading aroundLoading) throws IOException, JSONException {
+        JSONObject jsonObject = new JSONObject(responseBody.string());
+        switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+            case 200:
+                final JSONArray jsonArray = jsonObject.getJSONObject(NS.MSG).getJSONArray("moments");
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.createOrUpdateAllFromJson(CalendarData.class, jsonArray);
+                    }
+                });
+                RealmResults<CalendarData> publisheds = realm.where(CalendarData.class).findAll();
+                Log.d("saved_calendar", "--" + publisheds);
+                if (aroundLoading != null) {
+                    aroundLoading.onSuccess();
+                }
+                Toast.makeText(context, NS.REFRESH_SUCCESS, Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    /**
+     * description:获取校历发布者
+     *
+     * @param realm         数据库
+     * @param aroundLoading 回调
+     * @return
+     */
+
+    public static void getCalendarInputer(final Context context, final Realm realm, final AroundLoading aroundLoading) {
+
+        if (aroundLoading != null) {
+            aroundLoading.before();
+        }
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.CATEGORY, NS.CATEGORY_CALENDAR);
+
+        Subscriber<ResponseBody> subscriber1 = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                if (aroundLoading != null) {
+                    aroundLoading.complete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (aroundLoading != null) {
+                    aroundLoading.error();
+                }
+                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+                        case 200:
+                            final JSONArray jsonArray = jsonObject.getJSONObject(NS.MSG).getJSONArray("leaders");
+                            realm.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    realm.createOrUpdateAllFromJson(User.class, jsonArray);
+                                }
+                            });
+                            if (aroundLoading != null) {
+                                aroundLoading.onSuccess();
+                            }
+                            Toast.makeText(context, NS.REFRESH_SUCCESS, Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        PublishNetwork.getInstance().getCalendarInputer(subscriber1, jsonObject, XSXApplication.getInstance());
     }
 
     /**
