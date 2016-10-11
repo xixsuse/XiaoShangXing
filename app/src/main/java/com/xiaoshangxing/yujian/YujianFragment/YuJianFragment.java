@@ -878,7 +878,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
                     currentState.setText(R.string.no_net);
                 } else if (code == StatusCode.UNLOGIN) {
                     noNetLay.setVisibility(View.VISIBLE);
-                    currentState.setText(R.string.nim_status_unlogin);
+                    currentState.setText(R.string.nim_status_unlogin + "点击重新连接");
                 } else if (code == StatusCode.CONNECTING) {
                     noNetLay.setVisibility(View.VISIBLE);
                     currentState.setText(R.string.nim_status_connecting);

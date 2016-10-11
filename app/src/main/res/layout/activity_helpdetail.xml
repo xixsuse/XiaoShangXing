@@ -89,7 +89,7 @@
                     <com.xiaoshangxing.utils.layout.CirecleImage
                         android:id="@+id/head_image"
                         android:layout_width="@dimen/x108"
-                        android:layout_height="@dimen/y108"
+                        android:layout_height="@dimen/x108"
                         android:layout_centerVertical="true"
                         android:src="@mipmap/cirecleimage_default" />
                     <!--姓名-->

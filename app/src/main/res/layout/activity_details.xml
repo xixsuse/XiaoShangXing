@@ -64,7 +64,7 @@
             <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/head_image"
                 android:layout_width="@dimen/x120"
-                android:layout_height="@dimen/y120"
+                android:layout_height="@dimen/x120"
                 android:src="@mipmap/cirecleimage_default" />
 
             <!--右侧布局-->
@@ -96,7 +96,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/x18"
-                        android:text="物联网"
                         android:textColor="@color/g0"
                         android:textSize="11sp" />
                 </LinearLayout>
@@ -107,7 +106,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y36"
-                    android:text="今天我们被采访啦，心情十分激动啊有木有！！这照片拍的，我们是多么认真呀，祝我们的项目越来越好哦！新的队员们，期待和你们早日见面^^~"
                     android:textColor="@color/b4"
                     android:textSize="13sp" />
 
@@ -141,7 +139,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/y18"
-                    android:text="无锡·江南大学北区"
                     android:textSize="12sp" />
 
                 <RelativeLayout
@@ -153,7 +150,6 @@
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5分钟前"
                         android:textSize="11sp" />
                     <!--权限-->
 
@@ -246,21 +242,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/blue_heart_big" />
-
-                    <!--<GridLayout-->
-                    <!--android:id="@+id/praise_people"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:cacheColorHint="@color/transparent"-->
-                    <!--android:columnCount="9"-->
-                    <!--android:fadeScrollbars="false"-->
-                    <!--android:fadingEdge="none"-->
-                    <!--android:fastScrollEnabled="false"-->
-                    <!--android:listSelector="@color/transparent"-->
-                    <!--android:overScrollMode="never"-->
-                    <!--android:scrollbars="none">-->
-
-                    <!--</GridLayout>-->
 
                     <com.xiaoshangxing.wo.WoFrafment.NoScrollGridView
                         android:layout_height="wrap_content"

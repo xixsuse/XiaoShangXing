@@ -46,22 +46,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_width="@dimen/x228"
-        android:layout_height="@dimen/y228" />
-
-
-        <!--&lt;!&ndash;新消息&ndash;&gt;-->
-            <!--<TextView-->
-                <!--android:id="@+id/news"-->
-                <!--android:background="@drawable/lay_circular_g1"-->
-                <!--android:layout_marginStart="@dimen/x8"-->
-                <!--android:padding="6dp"-->
-                <!--android:textSize="13sp"-->
-                <!--android:textColor="@color/w0"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:text="1条新消息"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content" />-->
+        android:layout_height="@dimen/x228" />
 
     </RelativeLayout>
 
@@ -83,7 +68,7 @@
             android:layout_centerVertical="true"
             android:src="@mipmap/cirecleimage_default"
             android:layout_width="@dimen/x84"
-            android:layout_height="@dimen/y84" />
+            android:layout_height="@dimen/x84" />
 
         <TextView
             android:id="@+id/news"

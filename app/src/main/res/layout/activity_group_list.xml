@@ -73,7 +73,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/height_48"
-        android:text="3个群聊"
         android:textColor="@color/g0"
         android:textSize="14sp" />
 

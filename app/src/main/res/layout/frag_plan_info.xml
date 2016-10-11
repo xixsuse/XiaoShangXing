@@ -59,7 +59,7 @@
             <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/iv_headImage"
                 android:layout_width="@dimen/x102"
-                android:layout_height="@dimen/y102"
+                android:layout_height="@dimen/x102"
                 android:layout_marginTop="@dimen/y24"
                 android:layout_marginLeft="@dimen/x24"
                 android:src="@mipmap/cirecleimage_default"/>
@@ -165,7 +165,7 @@
                     android:orientation="horizontal">
                     <com.xiaoshangxing.utils.layout.CirecleImage
                         android:layout_width="@dimen/x30"
-                        android:layout_height="@dimen/y30"
+                        android:layout_height="@dimen/x30"
                         android:layout_gravity="center_vertical"
                         android:background="@color/orange"/>
                     <TextView
@@ -203,7 +203,7 @@
                 <com.xiaoshangxing.utils.layout.CirecleImage
 
                     android:layout_width="@dimen/x30"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/x30"
                     android:layout_gravity="center_vertical"
                     android:background="@color/r4"/>
                 <TextView
@@ -223,7 +223,7 @@
                 <com.xiaoshangxing.utils.layout.CirecleImage
 
                     android:layout_width="@dimen/x30"
-                    android:layout_height="@dimen/y30"
+                    android:layout_height="@dimen/x30"
                     android:layout_gravity="center_vertical"
                     android:background="@color/blue6"/>
                 <TextView

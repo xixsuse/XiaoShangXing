@@ -65,7 +65,7 @@
         android:layout_marginTop="@dimen/height_48"
         android:src="@mipmap/cirecleimage_default"
         android:layout_width="@dimen/x76"
-        android:layout_height="@dimen/y76" />
+        android:layout_height="@dimen/x76" />
 
     <!--输入框-->
     <EditText

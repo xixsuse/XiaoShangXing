@@ -10,6 +10,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.Contact.ContactEventListener;
@@ -23,6 +24,8 @@ import com.xiaoshangxing.yujian.IM.kit.MsgForwardFilter;
 import com.xiaoshangxing.yujian.IM.kit.storage.StorageType;
 import com.xiaoshangxing.yujian.IM.kit.storage.StorageUtil;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -87,7 +90,18 @@ public final class NimUIKit {
         Observer<CustomNotification> commandObserver = new Observer<CustomNotification>() {
             @Override
             public void onEvent(CustomNotification message) {
-                NotifycationUtil.show();
+                String content = message.getContent();
+                try {
+                    JSONObject json = new JSONObject(content);
+                    int id = json.getInt(NS.ID);
+                    if (id != 1) {
+                        NotifycationUtil.show();
+                    }
+
+                } catch (Exception e) {
+
+                }
+
             }
         };
 

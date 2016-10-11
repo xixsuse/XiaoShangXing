@@ -222,8 +222,9 @@ public class XSXApplication extends Application {
         if (SPUtils.DEFAULT_STRING.equals(token)) {
             return null;
         }
-        String account = (String) SPUtils.get(this, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING);
-        if (!SPUtils.DEFAULT_STRING.equals(account)) {
+
+        int account = (int) SPUtils.get(this, SPUtils.ID, SPUtils.DEFAULT_int);
+        if (account != SPUtils.DEFAULT_int) {
             NimUIKit.setAccount(String.valueOf(account));
             return new LoginInfo(String.valueOf(account), token);
         }

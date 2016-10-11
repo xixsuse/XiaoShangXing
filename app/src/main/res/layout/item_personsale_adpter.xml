@@ -19,9 +19,9 @@
             <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/head_image"
                 android:layout_width="@dimen/x126"
-                android:layout_height="@dimen/y126"
+                android:layout_height="@dimen/x126"
                 android:layout_marginStart="@dimen/x36"
-                android:layout_marginTop="@dimen/y24"
+                android:layout_marginTop="@dimen/x24"
                 android:src="@mipmap/cirecleimage_default" />
 
             <!--姓名-->

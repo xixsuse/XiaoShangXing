@@ -76,6 +76,7 @@ public class Published extends RealmObject {
     private String planName;
     private String collectStatus;
     private Integer status;
+    private String groupNo;
     /**
      * id : 2
      * userId : 2
@@ -354,6 +355,14 @@ public class Published extends RealmObject {
 
     public ArrayList<String> getJoinPeopleOnlyIds() {
         return getOnlyIds(getJoinUserIds());
+    }
+
+    public String getGroupNo() {
+        return groupNo;
+    }
+
+    public void setGroupNo(String groupNo) {
+        this.groupNo = groupNo;
     }
 
     public ArrayList<String> getOnlyIds(String id_names) {

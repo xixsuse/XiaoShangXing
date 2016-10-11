@@ -29,9 +29,9 @@ public class PersonalInfoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_personinfo);
+        setContentView(R.layout.activity_only_fraglayout);
         mFragmentManager.beginTransaction()
-                .add(R.id.setting_personinfo_Content, new PersonalInfoFragment(), PersonalInfoFragment.TAG)
+                .add(R.id.main_fragment, new PersonalInfoFragment(), PersonalInfoFragment.TAG)
                 .commit();
     }
 
@@ -41,7 +41,7 @@ public class PersonalInfoActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(ShowHeadimgFragment.TAG)
-                .replace(R.id.setting_personinfo_Content, new ShowHeadimgFragment(), ShowHeadimgFragment.TAG)
+                .replace(R.id.main_fragment, new ShowHeadimgFragment(), ShowHeadimgFragment.TAG)
                 .commit();
     }
 
@@ -50,7 +50,7 @@ public class PersonalInfoActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.setting_personinfo_Content, new MyCodeFragment())
+                .replace(R.id.main_fragment, new MyCodeFragment())
                 .commit();
     }
 
@@ -59,7 +59,7 @@ public class PersonalInfoActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.setting_personinfo_Content, new HometownFragment())
+                .replace(R.id.main_fragment, new HometownFragment())
                 .commit();
     }
 
@@ -74,7 +74,7 @@ public class PersonalInfoActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.setting_personinfo_Content, new QianMingFragment())
+                .replace(R.id.main_fragment, new QianMingFragment())
                 .commit();
     }
 

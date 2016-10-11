@@ -16,9 +16,9 @@ public class NewNoticeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_newnotice);
+        setContentView(R.layout.activity_only_fraglayout);
         mFragmentManager.beginTransaction()
-                .replace(R.id.setting_newnotice_Content, new NewNoticeFrament())
+                .replace(R.id.main_fragment, new NewNoticeFrament())
                 .commit();
     }
 
@@ -30,7 +30,7 @@ public class NewNoticeActivity extends BaseActivity {
     public void nodisturb(View view) {
         mFragmentManager.beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.setting_newnotice_Content, new NoDisturbFragment())
+                .replace(R.id.main_fragment, new NoDisturbFragment())
                 .commit();
     }
 }

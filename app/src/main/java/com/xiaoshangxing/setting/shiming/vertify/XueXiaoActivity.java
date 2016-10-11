@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class XueXiaoActivity extends BaseActivity {
     private NearCollege nearCollege;
     private ArrayList<String> schools = new ArrayList<>();
     private boolean isRegister;//标记是否是注册时选择学校
+    private ImageView refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,14 @@ public class XueXiaoActivity extends BaseActivity {
         next = (TextView) findViewById(R.id.next);
         schoolText = (TextView) findViewById(R.id.schoolTx);
         applySchool = (TextView) findViewById(R.id.aplly_shcool);
+        refresh = (ImageView) findViewById(R.id.refresh);
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nearCollege.start();
+            }
+        });
 
         if (getIntent().getIntExtra(IntentStatic.TYPE, -1) == IntentStatic.REGISTER) {
             isRegister = true;

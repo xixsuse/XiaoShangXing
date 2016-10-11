@@ -8,7 +8,7 @@
         android:paddingStart="@dimen/x2"
         android:id="@+id/head_image"
         android:layout_width="@dimen/x152"
-        android:layout_height="@dimen/y152"
+        android:layout_height="@dimen/x152"
         android:layout_centerVertical="true"
         android:layout_marginTop="@dimen/y38"
         android:src="@mipmap/cirecleimage_default" />

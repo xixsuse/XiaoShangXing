@@ -6,7 +6,6 @@
 
     <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
         android:id="@+id/text"
-        android:text="@string/longtext"
         android:textSize="15sp"
         android:textColor="@color/b0"
         android:layout_width="match_parent"

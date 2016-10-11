@@ -8,7 +8,7 @@
     <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/circle"
         android:layout_width="@dimen/x28"
-        android:layout_height="@dimen/y28"
+        android:layout_height="@dimen/x28"
         android:layout_marginStart="@dimen/x32"
         android:layout_marginTop="@dimen/y72"
         android:background="@color/green1" />

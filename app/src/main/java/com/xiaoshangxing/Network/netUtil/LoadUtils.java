@@ -150,10 +150,10 @@ public class LoadUtils {
     }
 
     /**
-     * description:刷新动态
+     * description:刷新收藏
      *
      * @param realm         数据库
-     * @param type          需要刷新的动态类型
+     * @param type          需要刷新的收藏类型
      * @param loadtime      对应的刷新时间的类型
      * @param aroundLoading 回调
      * @return
@@ -271,12 +271,9 @@ public class LoadUtils {
                         realm.createOrUpdateAllFromJson(Published.class, jsonArray);
                     }
                 });
-                RealmResults<Published> publisheds = realm.where(Published.class).findAll();
-                Log.d("saved_published", "--" + publisheds);
                 if (aroundLoading != null) {
                     aroundLoading.onSuccess();
                 }
-                Toast.makeText(context, NS.REFRESH_SUCCESS, Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
@@ -433,12 +430,9 @@ public class LoadUtils {
                         realm.createOrUpdateAllFromJson(CalendarData.class, jsonArray);
                     }
                 });
-                RealmResults<CalendarData> publisheds = realm.where(CalendarData.class).findAll();
-                Log.d("saved_calendar", "--" + publisheds);
                 if (aroundLoading != null) {
                     aroundLoading.onSuccess();
                 }
-                Toast.makeText(context, NS.REFRESH_SUCCESS, Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();

@@ -40,7 +40,7 @@ public class FlashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
+        setContentView(R.layout.activity_flash);
         if (getIntent().hasExtra(NimIntent.EXTRA_NOTIFY_CONTENT)){
             handler = new Handler();
             handler.postDelayed(new Runnable() {

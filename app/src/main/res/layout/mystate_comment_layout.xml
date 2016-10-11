@@ -13,7 +13,7 @@
         <com.xiaoshangxing.utils.layout.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x96"
-            android:layout_height="@dimen/y96"
+            android:layout_height="@dimen/x96"
             android:layout_marginEnd="@dimen/x12"
             android:src="@mipmap/cirecleimage_default" />
 

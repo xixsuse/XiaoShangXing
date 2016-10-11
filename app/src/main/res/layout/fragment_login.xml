@@ -9,7 +9,7 @@
         android:layout_marginTop="@dimen/y196"
         android:layout_centerHorizontal="true"
         android:layout_width="@dimen/x228"
-        android:layout_height="@dimen/y228"
+        android:layout_height="@dimen/x228"
         android:src="@mipmap/cirecleimage_default"
         />
 

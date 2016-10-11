@@ -117,7 +117,7 @@ public class VertifyFragment extends BaseFragment implements View.OnClickListene
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                                 R.anim.slide_in_left, R.anim.slide_out_left)
                         .addToBackStack(null)
-                        .replace(R.id.setting_personinfo_Content, new VertifySucessFragment(), VertifySucessFragment.TAG)
+                        .replace(R.id.main_fragment, new VertifySucessFragment(), VertifySucessFragment.TAG)
                         .commit();
 
                 getActivity().getSupportFragmentManager()
@@ -134,7 +134,7 @@ public class VertifyFragment extends BaseFragment implements View.OnClickListene
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                                 R.anim.slide_in_left, R.anim.slide_out_left)
                         .addToBackStack(null)
-                        .replace(R.id.setting_personinfo_Content, new VertifyAgreementFragment())
+                        .replace(R.id.main_fragment, new VertifyAgreementFragment())
                         .commit();
                 break;
             default:

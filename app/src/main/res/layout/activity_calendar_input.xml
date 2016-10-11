@@ -141,7 +141,6 @@
                     android:id="@+id/current_month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="10月"
                     android:textColor="@color/red1"
                     android:textSize="17sp" />
 
@@ -165,7 +164,6 @@
                 android:layout_height="@dimen/y132"
                 android:layout_marginStart="@dimen/x36"
                 android:layout_marginTop="@dimen/y42"
-                android:text="11月"
                 android:textColor="@color/g0"
                 android:textSize="17sp" />
 

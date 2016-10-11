@@ -56,7 +56,7 @@ public class AboutActivity extends BaseActivity {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        versionText.setText("" + version);
+        versionText.setText("校上行内测版:" + version);
     }
 
     public void Back(View view) {

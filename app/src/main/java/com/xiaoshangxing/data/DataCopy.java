@@ -25,6 +25,7 @@ public class DataCopy {
         user1.setIsClass(user.getIsClass());
         user1.setIsCollege(user.getIsCollege());
         user1.setIsGrade(user.getIsGrade());
+        user1.setRole(user.getRole());
         return user1;
     }
 
@@ -54,6 +55,13 @@ public class DataCopy {
         published1.setJoinUserIds(published.getJoinUserIds());
         published1.setTransmitCount(published.getTransmitCount());
         published1.setUser(published.getUser());
+        published1.setNotice(published.getNotice());
+        published1.setForbidden(published.getForbidden());
+        published1.setServerTime(published.getServerTime());
+        published1.setPlanName(published.getPlanName());
+        published1.setCollectStatus(published.getCollectStatus());
+        published1.setStatus(published.getStatus());
+        published1.setGroupNo(published.getGroupNo());
         published1.setComments(published.getComments());
         published1.setCdto(published.getCdto());
         return published1;

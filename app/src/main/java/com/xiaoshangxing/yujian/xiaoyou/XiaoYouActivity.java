@@ -6,12 +6,15 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.yujian.Serch.SerchPerson.SerchPersonActivity;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 import com.xiaoshangxing.yujian.xiaoyou.tree.Node;
 import com.xiaoshangxing.yujian.xiaoyou.tree.TreeListViewAdapter;
@@ -19,10 +22,22 @@ import com.xiaoshangxing.yujian.xiaoyou.tree.TreeListViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by 15828 on 2016/8/15.
  */
 public class XiaoYouActivity extends BaseActivity {
+    @Bind(R.id.xiaoyou_leftarrow)
+    ImageView xiaoyouLeftarrow;
+    @Bind(R.id.xiaoyou_back)
+    TextView xiaoyouBack;
+    @Bind(R.id.serch)
+    RelativeLayout serch;
+    @Bind(R.id.id_tree)
+    ListView idTree;
     private List<Node> mDatas = new ArrayList<Node>();
     private List<Node> datas = new ArrayList<Node>();
     private ListView mTree;
@@ -40,6 +55,7 @@ public class XiaoYouActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yujian_xiaoyou);
+        ButterKnife.bind(this);
         initDatas();
         mTree = (ListView) findViewById(R.id.id_tree);
         try {
@@ -161,5 +177,11 @@ public class XiaoYouActivity extends BaseActivity {
 
     public void Back(View view) {
         finish();
+    }
+
+    @OnClick(R.id.serch)
+    public void onClick() {
+        Intent intent = new Intent(XiaoYouActivity.this, SerchPersonActivity.class);
+        startActivity(intent);
     }
 }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.xiaoshang.Calendar.CalendarActivity;
@@ -106,8 +107,9 @@ public class XiaoShangFragment extends BaseFragment {
         xiaoshangNotice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent notice_intent = new Intent(getContext(), MessageNoticeActivity.class);
-                startActivity(notice_intent);
+                showToast(NS.ON_DEVELOPING);
+//                Intent notice_intent = new Intent(getContext(), MessageNoticeActivity.class);
+//                startActivity(notice_intent);
             }
         });
     }

@@ -194,7 +194,7 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
                         new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
-                                showTransmitSuccess();
+                                showTransmitSuccess("已分享");
                             }
 
                             @Override
@@ -207,7 +207,6 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
 
                             }
                         });
-                showTransmitSuccess();
                 dialog.dismiss();
             }
         });
@@ -215,9 +214,9 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
     }
 
-    public void showTransmitSuccess() {
+    public void showTransmitSuccess(String text) {
         DialogUtils.Dialog_No_Button dialog_no_button =
-                new DialogUtils.Dialog_No_Button(PlanDetailActivity.this, "已分享");
+                new DialogUtils.Dialog_No_Button(PlanDetailActivity.this, text);
         final Dialog notice_dialog = dialog_no_button.create();
         notice_dialog.show();
         LocationUtil.setWidth(PlanDetailActivity.this, notice_dialog,
@@ -256,11 +255,11 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
     }
 
     private void apply() {
-        OperateUtils.Tranmit(published_id, NS.APPLY_PLAN, "4", PlanDetailActivity.this, "",
+        OperateUtils.Tranmit(published_id, NS.APPLY_PLAN, String.valueOf(published.getUserId()), PlanDetailActivity.this, "",
                 new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
-                        showTransmitSuccess();
+                        showTransmitSuccess("已申请");
                     }
 
                     @Override

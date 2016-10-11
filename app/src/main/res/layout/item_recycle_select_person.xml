@@ -8,6 +8,6 @@
         android:id="@+id/head_image"
         android:layout_marginEnd="@dimen/x30"
         android:layout_width="@dimen/x102"
-        android:layout_height="@dimen/y102" />
+        android:layout_height="@dimen/x102" />
 
 </LinearLayout>

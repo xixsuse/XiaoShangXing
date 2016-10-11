@@ -1,11 +1,18 @@
 package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.team.TeamService;
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
@@ -13,6 +20,8 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
+
+import java.util.ArrayList;
 
 
 /**
@@ -26,6 +35,7 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
     private RelativeLayout up_lay1;
     private ApplyPlanMessage applyPlanMessage;
     private int state_id;
+    private String group_account;
 
     @Override
     protected int getContentResId() {
@@ -60,6 +70,7 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
                 UserInfoCache.getInstance().getName(name, userId);
                 UserInfoCache.getInstance().getCollege(college, userId);
                 text.setText(published.getText());
+                group_account = published.getGroupNo();
             }
         });
     }
@@ -72,8 +83,11 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
             total_lay.setLayoutParams(layoutParams);
             up_lay1.setPadding(ScreenUtils.getAdapterPx(R.dimen.x55, context),
                     ScreenUtils.getAdapterPx(R.dimen.y30, context), 0, 0);
+
             horizontal_line.setVisibility(View.VISIBLE);
             bellow_lay.setVisibility(View.VISIBLE);
+            state.setText("申请加入计划");
+            initClick();
         } else {
             total_lay.setBackgroundResource(R.mipmap.apply_plan_rightblock);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScreenUtils.getAdapterPx(R.dimen.x752, context),
@@ -83,13 +97,71 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
                     ScreenUtils.getAdapterPx(R.dimen.y30, context), 0, 0);
             horizontal_line.setVisibility(View.GONE);
             bellow_lay.setVisibility(View.GONE);
+            state.setText("我已申请加入计划,等待对方回应...");
         }
     }
 
-    @Override
-    protected void onItemClick() {
-        Toast.makeText(context, "点击", Toast.LENGTH_SHORT).show();
+    private void initClick() {
+        refuse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Map<String, Object> map = new HashMap<>();
+//                map.put(OperateUtils.APPLY_PLAN_STATE, OperateUtils.REFUSE);
+//                message.setRemoteExtension(map);
+//                refresh(message);
+            }
+        });
+
+        agree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OperateUtils.operate(state_id, context, true, NS.JOIN, false, new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        if (TextUtils.isEmpty(group_account)) {
+                            Toast.makeText(context, "群号异常", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        ArrayList<String> arrayList = new ArrayList<String>();
+                        arrayList.add(message.getSessionId());
+                        NIMClient.getService(TeamService.class).addMembers(group_account, arrayList).setCallback(new RequestCallback<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+//                                Map<String, Object> map = new HashMap<>();
+//                                map.put(OperateUtils.APPLY_PLAN_STATE, OperateUtils.AGREE);
+//                                message.setRemoteExtension(map);
+//                                refresh(message);
+                                Toast.makeText(context, "同意成功", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onFailed(int i) {
+                                Toast.makeText(context, "拉入计划群失败" + i, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onException(Throwable throwable) {
+                                Toast.makeText(context, "拉入计划群异常", Toast.LENGTH_SHORT).show();
+                                throwable.printStackTrace();
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
+            }
+        });
     }
+
 
     @Override
     protected int leftBackground() {

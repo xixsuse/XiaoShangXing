@@ -47,7 +47,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
         android:layout_width="@dimen/x228"
-        android:layout_height="@dimen/y228" />
+        android:layout_height="@dimen/x228" />
             <TextView
                 android:visibility="gone"
                 android:background="@drawable/lay_circular_g1"
@@ -60,9 +60,7 @@
                 android:text="1条新消息"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-        <!--</RelativeLayout>-->
 
     </RelativeLayout>
-
 
 </RelativeLayout>

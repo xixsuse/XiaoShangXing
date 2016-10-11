@@ -17,9 +17,9 @@ public class PrivacyActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_privacy);
+        setContentView(R.layout.activity_only_fraglayout);
         mFragmentManager.beginTransaction()
-                .replace(R.id.setting_privacy_Content, new PrivacyFragment())
+                .replace(R.id.main_fragment, new PrivacyFragment())
                 .commit();
     }
 
@@ -34,7 +34,7 @@ public class PrivacyActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.setting_privacy_Content, new BlackListFragment())
+                .replace(R.id.main_fragment, new BlackListFragment())
                 .commit();
     }
 
@@ -43,7 +43,7 @@ public class PrivacyActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.setting_privacy_Content, new PrivacyFistFragment())
+                .replace(R.id.main_fragment, new PrivacyFistFragment())
                 .commit();
     }
 
@@ -53,7 +53,7 @@ public class PrivacyActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.setting_privacy_Content, new PrivacySecondFragment())
+                .replace(R.id.main_fragment, new PrivacySecondFragment())
                 .commit();
     }
 }

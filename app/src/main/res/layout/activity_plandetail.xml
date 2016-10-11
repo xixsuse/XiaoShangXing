@@ -84,7 +84,7 @@
                     <com.xiaoshangxing.utils.layout.CirecleImage
                         android:id="@+id/head_image"
                         android:layout_width="@dimen/x102"
-                        android:layout_height="@dimen/y102"
+                        android:layout_height="@dimen/x102"
                         android:layout_marginStart="@dimen/x24"
                         android:layout_marginTop="@dimen/y24"
                         android:src="@mipmap/cirecleimage_default" />
@@ -203,7 +203,7 @@
                         <com.xiaoshangxing.utils.layout.CirecleImage
                             android:id="@+id/orange"
                             android:layout_width="@dimen/x30"
-                            android:layout_height="@dimen/y30"
+                            android:layout_height="@dimen/x30"
                             android:layout_gravity="center_vertical"
                             android:background="@color/orange" />
 
@@ -263,7 +263,7 @@
                         <com.xiaoshangxing.utils.layout.CirecleImage
                             android:id="@+id/r4"
                             android:layout_width="@dimen/x30"
-                            android:layout_height="@dimen/y30"
+                            android:layout_height="@dimen/x30"
                             android:layout_gravity="center_vertical"
                             android:background="@color/r4" />
 
@@ -288,7 +288,7 @@
                         <com.xiaoshangxing.utils.layout.CirecleImage
                             android:id="@+id/blue6"
                             android:layout_width="@dimen/x30"
-                            android:layout_height="@dimen/y30"
+                            android:layout_height="@dimen/x30"
                             android:layout_gravity="center_vertical"
                             android:background="@color/blue6" />
 

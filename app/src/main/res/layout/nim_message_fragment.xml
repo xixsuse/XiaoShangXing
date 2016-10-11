@@ -247,7 +247,6 @@
                 android:layout_width="@dimen/x84"
                 android:layout_height="@dimen/x84"
                 android:layout_marginStart="@dimen/x216"
-                android:padding="@dimen/x10"
                 android:src="@drawable/selector_picture" />
 
             <ImageView
@@ -255,7 +254,6 @@
                 android:layout_width="@dimen/x84"
                 android:layout_height="@dimen/x84"
                 android:layout_marginStart="@dimen/x216"
-                android:padding="@dimen/x10"
                 android:src="@mipmap/camera" />
 
             <ImageView
@@ -263,7 +261,6 @@
                 android:layout_width="@dimen/x84"
                 android:layout_height="@dimen/x84"
                 android:layout_marginStart="@dimen/x216"
-                android:padding="@dimen/x10"
                 android:src="@drawable/selector_emot" />
 
         </LinearLayout>

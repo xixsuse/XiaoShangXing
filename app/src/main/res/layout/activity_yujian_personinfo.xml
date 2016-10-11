@@ -6,6 +6,7 @@
     android:background="@color/w0"
     android:orientation="vertical">
 
+    <!--导航栏-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
@@ -13,7 +14,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/personinfo_leftarrow"
+            android:id="@+id/leftarrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -23,13 +24,13 @@
 
         <TextView
             style="@style/black_16sp"
+            android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@+id/personinfo_leftarrow"
+            android:layout_toRightOf="@+id/leftarrow"
             android:clickable="true"
-            android:onClick="Back"
             android:text="@string/back" />
 
         <TextView
@@ -40,13 +41,12 @@
             android:text="@string/persondata" />
 
         <ImageView
-            android:id="@+id/personinfo_threepoint"
+            android:id="@+id/more"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/x48"
-            android:onClick="Next"
             android:src="@mipmap/toolbar_right_threepoint" />
     </RelativeLayout>
 
@@ -56,12 +56,14 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/mark_star"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/x72"
             android:src="@mipmap/mark_xingbiao" />
 
         <ImageView
+            android:id="@+id/mark_love"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/x30"
@@ -77,13 +79,13 @@
         android:layout_marginBottom="@dimen/y84"
         android:orientation="horizontal">
 
-        <com.xiaoshangxing.utils.layout.RoundedImageView
-            android:id="@+id/personinfo_headimg"
+        <com.xiaoshangxing.utils.layout.CirecleImage
+            android:id="@+id/head_image"
             android:layout_width="@dimen/x180"
             android:layout_height="@dimen/x180"
             android:layout_gravity="center_vertical"
             android:scaleType="centerCrop"
-            android:src="@mipmap/head_init"
+            android:src="@mipmap/cirecleimage_default"
             app:corner_radius="90dp" />
 
         <LinearLayout
@@ -99,23 +101,24 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/personinfo_name"
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:text="王振华"
+                    android:text="@string/app_name"
                     android:textColor="@color/b0"
                     android:textSize="17sp" />
 
                 <ImageView
+                    android:id="@+id/sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:src="@mipmap/setting_mycode_men" />
+                    android:src="@mipmap/sex_male" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/personinfo_xueyaun"
+                android:id="@+id/college"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="设计学院"
@@ -132,10 +135,10 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/chat"
             android:layout_width="@dimen/x300"
             android:layout_height="@dimen/y84"
             android:background="@drawable/buttonstyle"
-            android:onClick="SayHello"
             android:text="@string/sayhello"
             android:textColor="@color/b4"
             android:textSize="14sp" />
@@ -159,6 +162,7 @@
         android:showDividers="middle">
 
         <RelativeLayout
+            android:id="@+id/hometown_lay"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
             android:orientation="horizontal">
@@ -172,7 +176,7 @@
                 android:text="@string/hometown" />
 
             <TextView
-                android:id="@+id/personifo_hometown_content"
+                android:id="@+id/hometown"
                 style="@style/black_16sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -184,9 +188,9 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/tag_lay"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
-            android:onClick="Tag"
             android:orientation="horizontal">
 
             <TextView
@@ -198,7 +202,7 @@
                 android:text="@string/tag" />
 
             <TextView
-                android:id="@+id/personinfo_tag_content"
+                android:id="@+id/tag_content"
                 style="@style/green1_16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -219,6 +223,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/state_lay"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y236"
             android:orientation="horizontal">
@@ -286,9 +291,9 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/more_buttom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
-            android:onClick="More"
             android:orientation="horizontal">
 
             <TextView

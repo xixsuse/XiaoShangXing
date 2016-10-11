@@ -22,7 +22,7 @@
                 android:src="@mipmap/cirecleimage_default"
                 android:id="@+id/head_image"
                 android:layout_width="@dimen/x108"
-                android:layout_height="@dimen/y108" />
+                android:layout_height="@dimen/x108" />
 
             <!--姓名和来源-->
             <LinearLayout

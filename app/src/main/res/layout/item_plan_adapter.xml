@@ -168,7 +168,7 @@
     <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/head_image"
         android:layout_width="@dimen/x126"
-        android:layout_height="@dimen/y126"
+        android:layout_height="@dimen/x126"
         android:layout_marginStart="@dimen/x30"
         android:layout_marginTop="@dimen/y42"
         android:src="@mipmap/greyblock" />

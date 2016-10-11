@@ -14,7 +14,7 @@
             android:layout_centerVertical="true"
             android:id="@+id/head_image"
             android:layout_width="@dimen/x132"
-            android:layout_height="@dimen/y132" />
+            android:layout_height="@dimen/x132" />
 
         <!--姓名-->
         <TextView

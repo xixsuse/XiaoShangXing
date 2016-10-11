@@ -78,6 +78,7 @@ public class NS {
     //    toast
     public static final String REFRESH_SUCCESS = "加载成功";
     public static final String REFRESH_FAIL = "加载失败";
+    public static final String ON_DEVELOPING = "正在调试";
 
 
 

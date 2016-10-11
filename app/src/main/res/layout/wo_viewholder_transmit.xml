@@ -11,7 +11,7 @@
     <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/transmit_image"
         android:layout_width="@dimen/x84"
-        android:layout_height="@dimen/y84"
+        android:layout_height="@dimen/x84"
         android:layout_gravity="center_vertical" />
     <!--转发内容的文字-->
     <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText

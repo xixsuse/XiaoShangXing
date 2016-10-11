@@ -152,20 +152,20 @@ public class NormalSerch extends AppCompatActivity {
     }
 
     private void showResult() {
-        List<String> list = new ArrayList<>();
-        list.add("1");
-        list.add("1");
-
-        switch (current_type) {
-            case LoveOrStartActivity.LOVE:
-                adpter = new love_satr_adpter(this, 1, list, current_type);
-                lvContacts.setAdapter(adpter);
-                break;
-            case LoveOrStartActivity.STAR:
-                adpter = new love_satr_adpter(this, 1, list, current_type);
-                lvContacts.setAdapter(adpter);
-                break;
-        }
+//        List<String> list = new ArrayList<>();
+//        list.add("1");
+//        list.add("1");
+//
+//        switch (current_type) {
+//            case LoveOrStartActivity.LOVE:
+//                adpter = new love_satr_adpter(this, 1, list, current_type);
+//                lvContacts.setAdapter(adpter);
+//                break;
+//            case LoveOrStartActivity.STAR:
+//                adpter = new love_satr_adpter(this, 1, list, current_type);
+//                lvContacts.setAdapter(adpter);
+//                break;
+//        }
     }
 
 

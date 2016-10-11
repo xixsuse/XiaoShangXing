@@ -40,6 +40,10 @@ import rx.Subscriber;
  */
 public class OperateUtils {
 
+    public static final Integer UNHANL = 0;
+    public static final Integer AGREE = 1;
+    public static final Integer REFUSE = 2;
+    public static String APPLY_PLAN_STATE = "APPLY_PLAN_STATE";
     /**
      * description:动态操作处理方法  类型：赞  加入 举报 收藏
      *

@@ -42,7 +42,7 @@
             <!--人物图片-->
             <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/person_image"
-                android:layout_width="@dimen/y126"
+                android:layout_width="@dimen/x126"
                 android:layout_height="@dimen/x126"
                 android:src="@mipmap/cirecleimage_default" />
         </FrameLayout>

@@ -8,14 +8,19 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.friend.model.Friend;
+import com.xiaoshangxing.Network.IMNetwork;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.CharacterParser;
 import com.xiaoshangxing.SelectPerson.PinyinComparator;
 import com.xiaoshangxing.SelectPerson.SideBar;
 import com.xiaoshangxing.SelectPerson.SortModel;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
@@ -26,6 +31,10 @@ import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoObservable;
 import com.xiaoshangxing.yujian.Serch.GlobalSearchActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +42,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import rx.Subscriber;
 
 /**
  * Created by FengChaoQun
@@ -64,6 +75,9 @@ public class FriendActivity extends BaseActivity {
     private TextView star_count;
 
     private View headView, serch;
+
+    private List<User> loves = new ArrayList<>();
+    private List<User> stars = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +162,80 @@ public class FriendActivity extends BaseActivity {
         Collections.sort(SourceDateList, pinyinComparator);
         adapter = new FriendSortAdapter(this, SourceDateList);
         sortListView.setAdapter(adapter);
+        getLoveCount();
+        getStarCount();
+    }
+
+    private void getLoveCount() {
+
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case 200:
+                            Gson gson = new Gson();
+                            loves = gson.fromJson(jsonObject.getJSONArray(NS.MSG).toString(), new TypeToken<List<User>>() {
+                            }.getType());
+                            love_count.setText("" + loves.size());
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        IMNetwork.getInstance().MyFavor(subscriber, String.valueOf(TempUser.id), this);
+
+    }
+
+    private void getStarCount() {
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case 200:
+                            Gson gson = new Gson();
+                            stars = gson.fromJson(jsonObject.getJSONArray(NS.MSG).toString(), new TypeToken<List<User>>() {
+                            }.getType());
+                            star_count.setText("" + stars.size());
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        IMNetwork.getInstance().MyStar(subscriber, String.valueOf(TempUser.id), this);
     }
 
     private List<SortModel> filledData(String[] date) {

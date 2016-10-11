@@ -51,7 +51,7 @@
             android:src="@mipmap/cirecleimage_default"
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/x102"
-            android:layout_height="@dimen/y102" />
+            android:layout_height="@dimen/x102" />
 
         <TextView
             android:id="@+id/name"

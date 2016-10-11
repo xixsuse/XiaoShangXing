@@ -277,7 +277,7 @@
                 android:id="@+id/transmit_type_image"
                 android:layout_gravity="center_vertical"
                 android:layout_width="@dimen/x88"
-                android:layout_height="@dimen/y88" />
+                android:layout_height="@dimen/x88" />
 
             <TextView
                 android:id="@+id/transmit_type_text"

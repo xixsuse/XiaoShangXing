@@ -12,8 +12,6 @@ import com.netease.nimlib.sdk.team.model.MemberChangeAttachment;
 import com.netease.nimlib.sdk.team.model.MuteMemberAttachment;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.yujian.IM.NimUIKit;
 
 import java.util.List;
 import java.util.Map;
@@ -109,6 +107,10 @@ public class TeamNotificationHelper {
             sb.append(getTeamMemberDisplayName(account));
             sb.append(",");
         }
+        /*防止不邀请人异常问题*/
+        if (sb.length() < 1) {
+            return null;
+        }
         sb.deleteCharAt(sb.length() - 1);
 
         return sb.toString();
@@ -120,6 +122,10 @@ public class TeamNotificationHelper {
 
         sb.append(selfName);
         sb.append("邀请 ");
+        /*防止不邀请人异常问题*/
+        if (TextUtils.isEmpty(buildMemberListString(a.getTargets(), fromAccount))) {
+            return null;
+        }
         sb.append(buildMemberListString(a.getTargets(), fromAccount));
         Team team = TeamDataCache.getInstance().getTeamById(teamId.get());
         if (team.getType() == TeamTypeEnum.Advanced) {

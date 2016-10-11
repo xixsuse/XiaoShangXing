@@ -34,10 +34,10 @@ public class ChatBackgroundActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting_chatbackground);
+        setContentView(R.layout.activity_only_fraglayout);
 
         mFragmentManager.beginTransaction()
-                .replace(R.id.setting_background_Content, new ChatBackgroundFragment())
+                .replace(R.id.main_fragment, new ChatBackgroundFragment())
                 .commit();
     }
 
@@ -47,7 +47,7 @@ public class ChatBackgroundActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.setting_background_Content, new ChooseBackgroundFragment())
+                .replace(R.id.main_fragment, new ChooseBackgroundFragment())
                 .commit();
     }
 

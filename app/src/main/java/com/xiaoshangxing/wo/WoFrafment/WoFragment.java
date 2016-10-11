@@ -35,7 +35,6 @@ import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +167,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         //设置listview头
         initHead();
 
-
         initListview();
 
         //实现双击title返回第一条动态
@@ -298,7 +296,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
         listView.setAdapter(wo_listview_adpter);
         wo_listview_adpter.notifyDataSetChanged();
-        Log.d("ssssss", "sssss");
 
 //        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 //            @Override
@@ -407,8 +404,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void gotoNews() {
-        Intent new_intent = new Intent(getContext(), NewsActivity.class);
-        startActivity(new_intent);
+        showToast(NS.ON_DEVELOPING);
+//        Intent new_intent = new Intent(getContext(), NewsActivity.class);
+//        startActivity(new_intent);
     }
 
     @Override
@@ -558,6 +556,5 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             }
         }
     }
-
 
 }

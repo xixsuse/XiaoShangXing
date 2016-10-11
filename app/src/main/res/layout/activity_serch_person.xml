@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/w3"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/w0"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/input"
+            style="@style/black_16sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/x24"
+            android:layout_weight="1"
+            android:background="@drawable/et_circular_4_white"
+            android:drawableLeft="@mipmap/serch"
+            android:hint="输入手机号/名字"
+            android:padding="@dimen/x10"
+            android:textCursorDrawable="@drawable/cursor_blue4" />
+
+        <TextView
+            android:id="@+id/cancel"
+            style="@style/green1_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/x24"
+            android:text="@string/cancle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/serch"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y168"
+        android:background="@color/w0"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/x132"
+            android:layout_height="@dimen/x132"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="@dimen/width_48"
+            android:layout_marginStart="@dimen/width_48"
+            android:src="@mipmap/serch_big_green" />
+
+        <TextView
+            style="@style/black_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="搜索:" />
+
+        <TextView
+            android:id="@+id/serch_param"
+            style="@style/green1_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/x24"
+            android:text="手机号/名字" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@color/transparent"
+        android:dividerHeight="1px"
+        android:fadingEdge="none"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:listSelector="@color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:transcriptMode="normal">
+
+    </ListView>
+
+
+</LinearLayout>

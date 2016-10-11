@@ -8,10 +8,14 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.xiaoshangxing.Network.netUtil.MultipartUtility;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -55,6 +59,7 @@ public class Formmat {
                         break;
                     default:
                         iBaseView.hideLoadingDialog();
+                        iBaseView.showToast("" + msg.what);
                         break;
                 }
                 super.handleMessage(msg);
@@ -114,6 +119,17 @@ public class Formmat {
             List<String> result = multipartUtility.finish();
             String result_String = result.toString();
             Log.d("result", "--" + result_String);
+
+//            JSONObject jsonObject = new JSONObject(result_String);
+//            switch (jsonObject.getInt(NS.CODE)) {
+//                case 200:
+//                    endLoading(2);
+//                    break;
+//                default:
+//                    endLoading(jsonObject.getInt(NS.CODE));
+//                    break;
+//
+//            }
             if (result_String.contains("200")) {
                 endLoading(2);
             } else {

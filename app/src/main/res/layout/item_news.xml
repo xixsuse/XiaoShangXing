@@ -20,7 +20,7 @@
     android:layout_centerVertical="true"
     android:id="@+id/news_head"
     android:layout_width="@dimen/x96"
-    android:layout_height="@dimen/y96" />
+    android:layout_height="@dimen/x96" />
 
     <TextView
     style="@style/black_16sp"

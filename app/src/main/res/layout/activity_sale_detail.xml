@@ -75,7 +75,7 @@
                 <com.xiaoshangxing.utils.layout.CirecleImage
                     android:id="@+id/head_image"
                     android:layout_width="@dimen/x112"
-                    android:layout_height="@dimen/y112"
+                    android:layout_height="@dimen/x112"
                     android:layout_marginStart="@dimen/width_48"
                     android:layout_marginTop="@dimen/height_48"
                     android:src="@mipmap/cirecleimage_default" />

@@ -50,8 +50,6 @@ public class AppNetUtil {
     public static void Suggest(String text, final IBaseView iBaseView, final SimpleCallBack simpleCallBack) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(NS.USER_ID, TempUser.id);
-        jsonObject.addProperty(NS.CREATETIME, NS.currentTime());
-        jsonObject.addProperty(NS.TIMESTAMP, NS.TIMESTAMP);
         jsonObject.addProperty("suggestion", text);
 
         ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
@@ -59,7 +57,7 @@ public class AppNetUtil {
             public void onNext(ResponseBody e) {
                 try {
                     JSONObject jsonObject1 = new JSONObject(e.string());
-                    if (jsonObject1.getString(NS.CODE).equals("400010005")) {
+                    if (jsonObject1.getString(NS.CODE).equals("200")) {
                         simpleCallBack.onSuccess();
                     } else {
                         iBaseView.showToast(jsonObject1.getString(NS.MSG));
@@ -86,9 +84,9 @@ public class AppNetUtil {
      */
     public static void LoginIm(final Context context) {
         AbortableFuture<LoginInfo> loginRequest;
-        final String account = String.valueOf(TempUser.id);
+        final String account = String.valueOf(SPUtils.get(context, SPUtils.ID, -1));
         String token = (String) SPUtils.get(context, SPUtils.TOKEN, SPUtils.DEFAULT_STRING);
-        if (SPUtils.DEFAULT_STRING.equals(token)) {
+        if (SPUtils.DEFAULT_STRING.equals(token) || account.equals("-1")) {
             Toast.makeText(context, "账号有误，请重新登录", Toast.LENGTH_SHORT).show();
             return;
         }

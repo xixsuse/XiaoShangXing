@@ -61,7 +61,7 @@
                     android:maxLines="2"
                     android:paddingEnd="@dimen/x22"
                     android:paddingStart="@dimen/x27"
-                    android:text="@string/longtext" />
+                     />
 
             </LinearLayout>
 

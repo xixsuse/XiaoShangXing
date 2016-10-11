@@ -300,6 +300,7 @@
         <activity android:name=".xiaoshang.Calendar.CalendarInputer.CalendarInputer"></activity>
         <activity android:name=".xiaoshang.Calendar.CalendarInput"></activity>
         <activity android:name=".setting.shiming.vertify.ApplyForSchool"></activity>
+        <activity android:name=".yujian.Serch.SerchPerson.SerchPersonActivity"></activity>
 
     </application>
 

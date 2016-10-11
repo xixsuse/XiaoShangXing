@@ -10,8 +10,8 @@
     <!--图片-->
     <ImageView
         android:id="@+id/login_img"
-        android:layout_width="@dimen/x888"
-        android:layout_height="@dimen/y1386"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/y186"
         android:elevation="20dp"

@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.auth.AuthService;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
@@ -136,6 +138,7 @@ public class SettingActivity extends BaseActivity implements IBaseView {
             public void onItemSelected(int position, String item) {
                 SPUtils.put(SettingActivity.this, SPUtils.IS_QUIT, true);
                 SPUtils.remove(SettingActivity.this, SPUtils.ID);
+                NIMClient.getService(AuthService.class).logout();
                 XSXApplication xsxApplication = (XSXApplication) getApplication();
                 xsxApplication.exit();
             }

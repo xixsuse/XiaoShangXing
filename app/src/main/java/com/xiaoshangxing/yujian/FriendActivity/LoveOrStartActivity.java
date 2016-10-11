@@ -1,29 +1,44 @@
 package com.xiaoshangxing.yujian.FriendActivity;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.xiaoshangxing.Network.IMNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.yujian.Serch.NormalSerch;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 
 /**
  * Created by FengChaoQun
  * on 2016/9/5
  */
-public class LoveOrStartActivity extends BaseActivity {
+public class LoveOrStartActivity extends BaseActivity implements IBaseView {
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.myState)
@@ -43,6 +58,8 @@ public class LoveOrStartActivity extends BaseActivity {
     public static final int LOVE = 0;
     public static final int STAR = 1;
 
+    private List<User> users = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,18 +76,52 @@ public class LoveOrStartActivity extends BaseActivity {
         }
 
         type = getIntent().getIntExtra(IntentStatic.TYPE, LoveOrStartActivity.LOVE);
-        List<String> list= new ArrayList<>();
-        for (int i=0;i<5;i++){
-            list.add("1");
+
+        getData();
+    }
+
+    private void refreshListview() {
+        adpter = new love_satr_adpter(this, 1, users, type);
+        listview.setAdapter(adpter);
+
+        if (type == LoveOrStartActivity.LOVE) {
+            count.setText(adpter.getCount() + "个我留心的人");
+        } else {
+            count.setText(adpter.getCount() + "个我的星星们");
+        }
+    }
+
+    public void getData() {
+
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case 200:
+                            Gson gson = new Gson();
+                            users = gson.fromJson(jsonObject.getJSONArray(NS.MSG).toString(), new TypeToken<List<User>>() {
+                            }.getType());
+                            refreshListview();
+                            break;
+                        default:
+                            showToast(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, this);
+        if (type == LOVE) {
+            IMNetwork.getInstance().MyFavor(progressSubsciber, String.valueOf(TempUser.id), this);
+        } else {
+            IMNetwork.getInstance().MyStar(progressSubsciber, String.valueOf(TempUser.id), this);
         }
 
-        adpter=new love_satr_adpter(this,1,list,type);
-        listview.setAdapter(adpter);
-        if (type == LoveOrStartActivity.LOVE) {
-            count.setText(adpter.getCount()+"个我留心的人");
-        }else {
-            count.setText(adpter.getCount()+"个我的星星们");
-        }
     }
 
     @OnClick({R.id.back, R.id.serch_layout})
@@ -83,5 +134,10 @@ public class LoveOrStartActivity extends BaseActivity {
                 NormalSerch.start(LoveOrStartActivity.this, type);
                 break;
         }
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 }

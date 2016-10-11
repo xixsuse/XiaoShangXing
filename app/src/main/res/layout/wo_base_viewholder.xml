@@ -18,7 +18,7 @@
         <com.xiaoshangxing.utils.layout.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x108"
-            android:layout_height="@dimen/y108"
+            android:layout_height="@dimen/x108"
             android:src="@mipmap/cirecleimage_default" />
 
         <View
@@ -26,7 +26,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/y18"
-            android:background="@color/g1"></View>
+            android:background="@color/g1">
+
+        </View>
     </LinearLayout>
 
     <RelativeLayout
@@ -206,10 +208,7 @@
 
                 </LinearLayout>
 
-
             </LinearLayout>
-
-        <!--</LinearLayout>-->
 
         <!--头条-->
         <ImageView
@@ -219,6 +218,5 @@
             android:layout_alignParentRight="true"
             android:src="@mipmap/headline" />
     </RelativeLayout>
-
 
 </LinearLayout>
