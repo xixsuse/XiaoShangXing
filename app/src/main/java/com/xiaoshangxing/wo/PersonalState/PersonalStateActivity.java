@@ -181,7 +181,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
                 }
             });
         } else {
-            LayoutHelp.initPTR(ptrFrameLayout, false, new PtrDefaultHandler() {
+            LayoutHelp.initPTR(ptrFrameLayout, true, new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
                     LoadUtils.getOthersPublished(realm, NS.CATEGORY_STATE, Integer.valueOf(account), PersonalStateActivity.this,

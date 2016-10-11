@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.xiaoshangxing.yujian.ChatActivity.ModuleProxy;
 import com.xiaoshangxing.yujian.IM.kit.LogUtil;
 
 import java.util.HashMap;
@@ -24,6 +25,8 @@ public class TAdapter<T> extends BaseAdapter  {
     private final LayoutInflater inflater;
 
     private final Map<Class<?>, Integer> viewTypes;
+
+    protected ModuleProxy moduleProxy;
 
     private Object tag;
 
@@ -56,6 +59,14 @@ public class TAdapter<T> extends BaseAdapter  {
         return items;
     }
 
+    public ModuleProxy getModuleProxy() {
+        return moduleProxy;
+    }
+
+    public void setModuleProxy(ModuleProxy moduleProxy) {
+        this.moduleProxy = moduleProxy;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         return getView(position, convertView, parent, true);
@@ -68,6 +79,11 @@ public class TAdapter<T> extends BaseAdapter  {
 
         TViewHolder holder = (TViewHolder) convertView.getTag();
         holder.setPosition(position);
+
+        if (moduleProxy != null) {
+            holder.setModuleProxy(moduleProxy);
+        }
+
         if (needRefresh) {
             try {
                 holder.refresh(getItem(position));

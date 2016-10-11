@@ -21,6 +21,7 @@ import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
+import com.xiaoshangxing.yujian.IM.CustomMessage.CustomNotificationMessage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
 
@@ -242,6 +243,16 @@ public class OperateUtils {
                 }
             }
         });
+    }
+
+    public static void sendCustomNotifycation(int type, String text, String sessionId,
+                                              SessionTypeEnum sessionTypeEnum, RequestCallback callback) {
+        IMMessage imMessage = null;
+        CustomNotificationMessage customNotificationMessage = new CustomNotificationMessage();
+        customNotificationMessage.setNotificationType(type);
+        customNotificationMessage.setText(TextUtils.isEmpty(text) ? "11" : text);
+        imMessage = MessageBuilder.createCustomMessage(sessionId, sessionTypeEnum, customNotificationMessage);
+        NIMClient.getService(MsgService.class).sendMessage(imMessage, false).setCallback(callback);
     }
 
     /**

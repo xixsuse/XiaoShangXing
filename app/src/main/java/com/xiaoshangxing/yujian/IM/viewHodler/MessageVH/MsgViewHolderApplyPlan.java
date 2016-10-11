@@ -9,6 +9,9 @@ import android.widget.Toast;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.OperateUtils;
@@ -20,6 +23,7 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
+import com.xiaoshangxing.yujian.IM.CustomMessage.CustomNotificationMessage;
 
 import java.util.ArrayList;
 
@@ -105,10 +109,12 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
         refuse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Map<String, Object> map = new HashMap<>();
-//                map.put(OperateUtils.APPLY_PLAN_STATE, OperateUtils.REFUSE);
-//                message.setRemoteExtension(map);
-//                refresh(message);
+                IMMessage imMessage = null;
+                CustomNotificationMessage customNotificationMessage = new CustomNotificationMessage();
+                customNotificationMessage.setNotificationType(CustomNotificationText.ApllyPlan_REFUSE);
+                customNotificationMessage.setText(null);
+                imMessage = MessageBuilder.createCustomMessage(message.getFromAccount(), SessionTypeEnum.P2P, customNotificationMessage);
+                moduleProxy.sendMessage(imMessage);
             }
         });
 
@@ -127,11 +133,12 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
                         NIMClient.getService(TeamService.class).addMembers(group_account, arrayList).setCallback(new RequestCallback<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-//                                Map<String, Object> map = new HashMap<>();
-//                                map.put(OperateUtils.APPLY_PLAN_STATE, OperateUtils.AGREE);
-//                                message.setRemoteExtension(map);
-//                                refresh(message);
-                                Toast.makeText(context, "同意成功", Toast.LENGTH_SHORT).show();
+                                IMMessage imMessage = null;
+                                CustomNotificationMessage customNotificationMessage = new CustomNotificationMessage();
+                                customNotificationMessage.setNotificationType(CustomNotificationText.ApllyPlan_PASS);
+                                customNotificationMessage.setText(null);
+                                imMessage = MessageBuilder.createCustomMessage(message.getFromAccount(), SessionTypeEnum.P2P, customNotificationMessage);
+                                moduleProxy.sendMessage(imMessage);
                             }
 
                             @Override
@@ -161,7 +168,6 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
             }
         });
     }
-
 
     @Override
     protected int leftBackground() {

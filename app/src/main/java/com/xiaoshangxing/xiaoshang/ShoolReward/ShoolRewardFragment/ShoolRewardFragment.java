@@ -83,6 +83,8 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     private boolean isLoading;
     private Realm realm;
     private List<Published> publisheds = new ArrayList<>();
+    private String account;
+    private boolean isOthers;
 
     @Nullable
     @Override
@@ -133,39 +135,53 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
             this.title.setText("他的悬赏");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
+            account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+            isOthers = true;
         }
 
     }
 
     private void initFresh() {
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_REWARD),
-                new PtrDefaultHandler() {
-                    @Override
-                    public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_REWARD, LoadUtils.TIME_LOAD_REWARD, getContext(), false,
-                                new LoadUtils.AroundLoading() {
-                                    @Override
-                                    public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_REWARD, false, true);
-                                    }
+        final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
+            @Override
+            public void before() {
+                LoadUtils.clearDatabase(NS.CATEGORY_REWARD, false, true);
+            }
 
-                                    @Override
-                                    public void complete() {
-                                        frame.refreshComplete();
-                                    }
+            @Override
+            public void complete() {
+                ptrFrameLayout.refreshComplete();
+            }
 
-                                    @Override
-                                    public void onSuccess() {
-                                        refreshPager();
-                                    }
+            @Override
+            public void onSuccess() {
+                refreshPager();
+            }
 
-                                    @Override
-                                    public void error() {
-                                        frame.refreshComplete();
-                                    }
-                                });
-                    }
-                });
+            @Override
+            public void error() {
+                ptrFrameLayout.refreshComplete();
+            }
+        };
+
+        if (isOthers) {
+            LayoutHelp.initPTR(ptrFrameLayout, true, new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    LoadUtils.getOthersPublished(realm, NS.CATEGORY_REWARD, Integer.parseInt(account), getContext(),
+                            aroundLoading);
+                }
+            });
+        } else {
+            LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_REWARD), new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    LoadUtils.getPublished(realm, NS.CATEGORY_REWARD, LoadUtils.TIME_LOAD_REWARD, getContext(), true,
+                            aroundLoading);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -300,9 +316,16 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
     @Override
     public void refreshPager() {
-        publisheds = realm.where(Published.class)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
-                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        if (isOthers) {
+            publisheds = realm.where(Published.class)
+                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
+                    .equalTo(NS.USER_ID, Integer.valueOf(account))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else {
+            publisheds = realm.where(Published.class)
+                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        }
         adpter = new shoolreward_adpter(getContext(), 1, publisheds, this, (ShoolRewardActivity) getActivity());
         listview.setAdapter(adpter);
     }

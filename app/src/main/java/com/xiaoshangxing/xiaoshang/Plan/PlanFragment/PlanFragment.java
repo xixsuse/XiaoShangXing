@@ -75,6 +75,8 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     public static final String TAG = BaseFragment.TAG + "-PlanFragment";
     private List<Published> publisheds = new ArrayList<>();
     private Plan_Adpter adpter;
+    private boolean isOthers;
+    private String account;
 
     @Nullable
     @Override
@@ -135,6 +137,8 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
             this.title.setText("他的计划");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
+            isOthers = true;
+            account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
         }
         initFresh();
         refreshPager();
@@ -142,34 +146,45 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
 
 
     private void initFresh() {
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_PLAN),
-                new PtrDefaultHandler() {
-                    @Override
-                    public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_PLAN, LoadUtils.TIME_LOAD_PLAN, getContext(), false,
-                                new LoadUtils.AroundLoading() {
-                                    @Override
-                                    public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_SALE, false, true);
-                                    }
+        final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
+            @Override
+            public void before() {
+                LoadUtils.clearDatabase(NS.CATEGORY_SALE, false, true);
+            }
 
-                                    @Override
-                                    public void complete() {
-                                        frame.refreshComplete();
-                                    }
+            @Override
+            public void complete() {
+                ptrFrameLayout.refreshComplete();
+            }
 
-                                    @Override
-                                    public void onSuccess() {
-                                        refreshPager();
-                                    }
+            @Override
+            public void onSuccess() {
+                refreshPager();
+            }
 
-                                    @Override
-                                    public void error() {
-                                        frame.refreshComplete();
-                                    }
-                                });
-                    }
-                });
+            @Override
+            public void error() {
+                ptrFrameLayout.refreshComplete();
+            }
+        };
+        if (isOthers) {
+            LayoutHelp.initPTR(ptrFrameLayout, true, new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    LoadUtils.getOthersPublished(realm, NS.CATEGORY_PLAN, Integer.parseInt(account), getContext(),
+                            aroundLoading);
+                }
+            });
+        } else {
+            LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_PLAN), new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    LoadUtils.getPublished(realm, NS.CATEGORY_PLAN, LoadUtils.TIME_LOAD_PLAN, getContext(), true,
+                            aroundLoading);
+                }
+            });
+        }
+
     }
 
     @OnClick({R.id.back, R.id.more, R.id.mengban, R.id.collasp})
@@ -300,9 +315,17 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
 
     @Override
     public void refreshPager() {
-        publisheds = realm.where(Published.class)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_PLAN))
-                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        if (isOthers) {
+            publisheds = realm.where(Published.class)
+                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_PLAN))
+                    .equalTo(NS.USER_ID, Integer.valueOf(account))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else {
+            publisheds = realm.where(Published.class)
+                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_PLAN))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        }
+
         adpter = new Plan_Adpter(getContext(), 1, getActivity(),publisheds);
         listview.setAdapter(adpter);
     }

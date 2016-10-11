@@ -22,6 +22,7 @@ import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
@@ -133,6 +134,17 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         } else {
             peopleLimit.setText(("0-" + published.getPersonLimit()));
         }
+
+        if (!TextUtils.isEmpty(published.getPersonLimit())) {
+            if (published.getPraiseCount() == Integer.valueOf(published.getPersonLimit())) {
+                full.setVisibility(View.VISIBLE);
+            } else {
+                full.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            full.setVisibility(View.INVISIBLE);
+        }
+
         data.setText(TimeUtil.getPlanDate(published.getCreateTime()) + "-" +
                 TimeUtil.getPlanDate(Long.valueOf(published.getValidationDate())));
         UserInfoCache.getInstance().getName(launchPeople, userId);
@@ -255,6 +267,17 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
     }
 
     private void apply() {
+
+        if (published.getUserId() == TempUser.id) {
+            showToast("不能申请加入自己发起的计划");
+            return;
+        }
+
+        if (published.getStatus() == 0) {
+            showToast("计划已结束,不能申请");
+            return;
+        }
+
         OperateUtils.Tranmit(published_id, NS.APPLY_PLAN, String.valueOf(published.getUserId()), PlanDetailActivity.this, "",
                 new SimpleCallBack() {
                     @Override

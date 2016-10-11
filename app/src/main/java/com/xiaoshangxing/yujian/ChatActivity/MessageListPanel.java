@@ -171,6 +171,7 @@ public class MessageListPanel implements TAdapterDelegate {
     private void initListView(IMMessage anchor) {
         items = new ArrayList<>();
         adapter = new MsgAdapter(container.activity, items, this);
+        adapter.setModuleProxy(container.proxy);
         adapter.setEventListener(new MsgItemEventListener());
 //      聊天背景
         listviewBk = (ImageView) rootView.findViewById(R.id.message_activity_background);

@@ -66,12 +66,24 @@ public class Plan_Adpter extends ArrayAdapter<Published> {
         viewHolder.text.setText(published.getText());
         viewHolder.planName.setText(published.getPlanName());
         viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
+
         if (TextUtils.isEmpty(published.getPersonLimit())) {
             viewHolder.peopleLimit.setText("不限人数");
         } else {
             viewHolder.peopleLimit.setText(("0-" + published.getPersonLimit()));
         }
+
         viewHolder.joinedCount.setText("" + published.getJoinCount());
+
+        if (!TextUtils.isEmpty(published.getPersonLimit())) {
+            if (published.getPraiseCount() == Integer.valueOf(published.getPersonLimit())) {
+                viewHolder.full.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.full.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            viewHolder.full.setVisibility(View.INVISIBLE);
+        }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

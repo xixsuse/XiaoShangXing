@@ -56,9 +56,9 @@ public class NS {
     public static final String PLAN_GROUP = "groupNo";
     //    动态操作
     public static final String PRAISE = "0";
-    public static final String JOIN = "1";
+    public static final String INFO = "1";
     public static final String COLLECT = "2";
-    public static final String INFO = "3";
+    public static final String JOIN = "3";
     public static final String STATU = "status";
     public static final String COLLECT_STATU = "collectStatus";
 

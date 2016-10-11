@@ -31,6 +31,9 @@ public class CustomAttachParser implements MsgAttachmentParser {
                 case CustomAttachmentType.ApplyPlan:
                     attachment = new ApplyPlanMessage();
                     break;
+                case CustomAttachmentType.CustomNotification:
+                    attachment = new CustomNotificationMessage();
+                    break;
                 default:
                     attachment = new DefaultCustomAttachment();
                     break;

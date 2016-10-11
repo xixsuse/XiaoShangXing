@@ -27,7 +27,6 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
@@ -181,7 +180,12 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     }
 
     public void Next() {
-        showToast(NS.ON_DEVELOPING);
+
+        if (!FriendDataCache.getInstance().isMyFriend(account)) {
+            showToast(NS.ON_DEVELOPING);
+            return;
+        }
+
         Intent intent = new Intent(this, SetInfoActivity.class);
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
         startActivity(intent);
@@ -189,28 +193,32 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
 
     public void More() {
 
-        if (DataSetting.IsFocused(this)) {
-            Intent intent = new Intent(this, MoreInfoActivity.class);
+        Intent intent = new Intent(this, MoreInfoActivity.class);
+        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
             startActivity(intent);
-        } else {
-            final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
-            final Dialog alertDialog = dialogUtils.Message("你未留心对方，不能查看\n对方更多资料")
-                    .Button("确定").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
-                        @Override
-                        public void onButton1() {
-                            dialogUtils.close();
-                        }
 
-                        @Override
-                        public void onButton2() {
-
-                        }
-
-                    }).create();
-            alertDialog.show();
-            LocationUtil.setWidth(this, alertDialog,
-                    getResources().getDimensionPixelSize(R.dimen.x780));
-        }
+//        if (DataSetting.IsFocused(this)) {
+//            Intent intent = new Intent(this, MoreInfoActivity.class);
+//            startActivity(intent);
+//        } else {
+//            final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+//            final Dialog alertDialog = dialogUtils.Message("你未留心对方，不能查看\n对方更多资料")
+//                    .Button("确定").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+//                        @Override
+//                        public void onButton1() {
+//                            dialogUtils.close();
+//                        }
+//
+//                        @Override
+//                        public void onButton2() {
+//
+//                        }
+//
+//                    }).create();
+//            alertDialog.show();
+//            LocationUtil.setWidth(this, alertDialog,
+//                    getResources().getDimensionPixelSize(R.dimen.x780));
+//        }
 
     }
 

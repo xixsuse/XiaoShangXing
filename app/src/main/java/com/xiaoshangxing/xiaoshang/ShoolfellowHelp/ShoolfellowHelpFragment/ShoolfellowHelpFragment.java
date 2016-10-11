@@ -76,6 +76,8 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     private boolean isLoading;
     private Realm realm;
     RealmResults<Published> publisheds;
+    private String account;
+    private boolean isOthers;
 
     @Nullable
     @Override
@@ -108,6 +110,8 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
             this.myState.setText("他的互帮");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
+            account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+            isOthers = true;
         }
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -132,42 +136,61 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     }
 
     private void initListview() {
-        publisheds = realm.where(Published.class)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
-                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        if (isOthers) {
+            publisheds = realm.where(Published.class)
+                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
+                    .equalTo(NS.USER_ID, Integer.valueOf(account))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else {
+            publisheds = realm.where(Published.class)
+                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        }
         adpter = new shoolfellow_adpter(getContext(), 1, publisheds, this, (ShoolfellowHelpActivity) getActivity());
         listview.setAdapter(adpter);
     }
 
     private void initFresh() {
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_HELP),
-                new PtrDefaultHandler() {
-                    @Override
-                    public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_HELP, LoadUtils.TIME_LOAD_HELP, getContext(), false,
-                                new LoadUtils.AroundLoading() {
-                                    @Override
-                                    public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_HELP, false, true);
-                                    }
+        final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
+            @Override
+            public void before() {
+                LoadUtils.clearDatabase(NS.CATEGORY_HELP, false, true);
+            }
 
-                                    @Override
-                                    public void complete() {
-                                        frame.refreshComplete();
-                                    }
+            @Override
+            public void complete() {
+                ptrFrameLayout.refreshComplete();
+            }
 
-                                    @Override
-                                    public void onSuccess() {
-                                        initListview();
-                                    }
+            @Override
+            public void onSuccess() {
+                initListview();
+            }
 
-                                    @Override
-                                    public void error() {
-                                        frame.refreshComplete();
-                                    }
-                                });
-                    }
-                });
+            @Override
+            public void error() {
+                ptrFrameLayout.refreshComplete();
+            }
+        };
+
+        if (isOthers) {
+            LayoutHelp.initPTR(ptrFrameLayout, true, new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    LoadUtils.getOthersPublished(realm, NS.CATEGORY_HELP, Integer.parseInt(account), getContext(),
+                            aroundLoading);
+                }
+            });
+        } else {
+            LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_HELP), new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    LoadUtils.getPublished(realm, NS.CATEGORY_HELP, LoadUtils.TIME_LOAD_HELP, getContext(), true,
+                            aroundLoading);
+                }
+            });
+        }
+
     }
 
     @Override

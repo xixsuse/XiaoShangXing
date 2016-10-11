@@ -150,6 +150,9 @@ public class Published extends RealmObject {
     }
 
     public String getPersonLimit() {
+        if ((!TextUtils.isEmpty(personLimit)) && personLimit.equals("0")) {
+            return null;
+        }
         return personLimit;
     }
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.xiaoshangxing.yujian.ChatActivity.ModuleProxy;
+
 import io.realm.Realm;
 
 public abstract class TViewHolder {
@@ -26,6 +28,8 @@ public abstract class TViewHolder {
      * index of item
      */
     protected int position;
+
+    protected ModuleProxy moduleProxy;
 
 
     public TViewHolder() {
@@ -70,6 +74,13 @@ public abstract class TViewHolder {
 
     protected abstract void refresh(Object item);
 
+    public ModuleProxy getModuleProxy() {
+        return moduleProxy;
+    }
+
+    public void setModuleProxy(ModuleProxy moduleProxy) {
+        this.moduleProxy = moduleProxy;
+    }
 
     public void destory() {
 

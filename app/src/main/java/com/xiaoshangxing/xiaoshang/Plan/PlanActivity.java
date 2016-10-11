@@ -45,6 +45,8 @@ public class PlanActivity extends BaseActivity implements IBaseView {
     private JoinedPlanFragment joinedPlanFragment;
     private PersonalPlanFragment personalPlanFragment;
 
+    private String account;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,7 @@ public class PlanActivity extends BaseActivity implements IBaseView {
                 planFragment = (frag == null) ? PlanFragment.newInstance() : (PlanFragment) frag;
                 mFragmentManager.beginTransaction().add(R.id.main_fragment,
                         planFragment, PlanFragment.TAG).commit();
+                account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
                 break;
             case IntentStatic.MINE:
                 frag = mFragmentManager.findFragmentByTag(PersonalPlanFragment.TAG);

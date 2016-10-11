@@ -206,13 +206,6 @@
         <activity android:name=".yujian.pearsonalTag.PeraonalTagActivity" />
         <activity android:name=".yujian.personChatInfo.PersonChatInfoActivity" />
         <activity android:name=".yujian.xiaoyou.XiaoYouActivity" />
-        <activity android:name=".xiaoshang.schoolcalender.SchoolCalenderActivity" />
-        <activity android:name=".xiaoshang.planpropose.PlanProposeActivity" />
-        <activity android:name=".xiaoshang.idlesale.IdleSaleActivity" />
-        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.AllIPhotosActivity" />
-        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.AllPhotoActivity.SelectPhotoPagerActivity" />
-        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.PreviewActivity" />
-        <activity android:name=".xiaoshang.idlesale.SelectImageFromSd.ImageSelectActivity.ImageDirectoryActivity" />
         <activity android:name=".input_activity.Location.LocationActivity">
         </activity>
         <activity android:name=".xiaoshang.TextBoard" />

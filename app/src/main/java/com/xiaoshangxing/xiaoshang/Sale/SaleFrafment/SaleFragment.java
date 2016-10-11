@@ -99,6 +99,8 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     private InputMethodManager imm;
     private Uri came_photo_path;
     private List<String> select_image_urls = new ArrayList<String>();//选择的图片
+    private String account;
+    private boolean isOthers;
 
     @Nullable
     @Override
@@ -161,40 +163,54 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
             this.title.setText("他的闲置");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
+            account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+            isOthers = true;
         }
         initFresh();
         refreshPager();
     }
 
     private void initFresh() {
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SALE),
-                new PtrDefaultHandler() {
-                    @Override
-                    public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_SALE, LoadUtils.TIME_LOAD_SALE, getContext(), false,
-                                new LoadUtils.AroundLoading() {
-                                    @Override
-                                    public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_SALE, false, true);
-                                    }
+        final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
+            @Override
+            public void before() {
+                LoadUtils.clearDatabase(NS.CATEGORY_SALE, false, true);
+            }
 
-                                    @Override
-                                    public void complete() {
-                                        frame.refreshComplete();
-                                    }
+            @Override
+            public void complete() {
+                ptrFrameLayout.refreshComplete();
+            }
 
-                                    @Override
-                                    public void onSuccess() {
-                                        refreshPager();
-                                    }
+            @Override
+            public void onSuccess() {
+                refreshPager();
+            }
 
-                                    @Override
-                                    public void error() {
-                                        frame.refreshComplete();
-                                    }
-                                });
-                    }
-                });
+            @Override
+            public void error() {
+                ptrFrameLayout.refreshComplete();
+            }
+        };
+
+        if (isOthers) {
+            LayoutHelp.initPTR(ptrFrameLayout, true, new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    LoadUtils.getOthersPublished(realm, NS.CATEGORY_SALE, Integer.parseInt(account), getContext(),
+                            aroundLoading);
+                }
+            });
+        } else {
+            LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SALE), new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    LoadUtils.getPublished(realm, NS.CATEGORY_SALE, LoadUtils.TIME_LOAD_SALE, getContext(), true,
+                            aroundLoading);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -353,9 +369,16 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
 
     @Override
     public void refreshPager() {
-        publisheds = realm.where(Published.class)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_SALE))
-                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        if (isOthers) {
+            publisheds = realm.where(Published.class)
+                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_SALE))
+                    .equalTo(NS.USER_ID, Integer.valueOf(account))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else {
+            publisheds = realm.where(Published.class)
+                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_SALE))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        }
         adpter = new Sale_Adpter(getContext(), 1, publisheds, this, (SaleActivity) getActivity());
         listview.setAdapter(adpter);
     }

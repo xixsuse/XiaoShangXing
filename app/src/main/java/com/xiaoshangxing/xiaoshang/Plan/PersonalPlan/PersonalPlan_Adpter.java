@@ -78,6 +78,16 @@ public class PersonalPlan_Adpter extends ArrayAdapter<Published> {
         }
         viewHolder.joinedCount.setText("" + published.getJoinCount());
 
+        if (!TextUtils.isEmpty(published.getPersonLimit())) {
+            if (published.getPraiseCount() == Integer.valueOf(published.getPersonLimit())) {
+                viewHolder.full.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.full.setVisibility(View.INVISIBLE);
+            }
+        } else {
+            viewHolder.full.setVisibility(View.INVISIBLE);
+        }
+
         //完成状态
         viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
         viewHolder.iscomplete.setChecked(published.isAlive());

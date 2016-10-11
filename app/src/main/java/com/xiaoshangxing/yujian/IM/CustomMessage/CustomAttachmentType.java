@@ -8,4 +8,5 @@ public interface CustomAttachmentType {
     int Transmit_noimage = 1;
     int Transmit_withimage = 2;
     int ApplyPlan = 3;
+    int CustomNotification=4;
 }
