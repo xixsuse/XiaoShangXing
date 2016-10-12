@@ -14,13 +14,13 @@ import android.widget.TextView;
 import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.JoinedPlan;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.xiaoshang.Plan.PlanFragment.Plan_Adpter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +29,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * Created by FengChaoQun
@@ -61,8 +62,8 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     private TextView loadingText;
     private boolean isRefreshing;
     private boolean isLoading;
-    private List<Published> publisheds = new ArrayList<>();
-    private Plan_Adpter adpter;
+    private List<JoinedPlan> joinedPlen = new ArrayList<>();
+    private JoinedPlan_Adpter adpter;
 
     @Nullable
     @Override
@@ -71,6 +72,7 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
         ButterKnife.bind(this, mview);
         realm = Realm.getDefaultInstance();
         initView();
+        initFresh();
         return mview;
     }
 
@@ -101,32 +103,31 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
 
 
     private void initFresh() {
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_SALE),
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_JOINED_PLAN),
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_SALE, LoadUtils.TIME_LOAD_SALE, getContext(), false,
-                                new LoadUtils.AroundLoading() {
-                                    @Override
-                                    public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_SALE, false, true);
-                                    }
+                        LoadUtils.getJoinedPlan(String.valueOf(TempUser.id), realm, getContext(), new LoadUtils.AroundLoading() {
+                            @Override
+                            public void before() {
+                                LoadUtils.clearJoinPlan(TempUser.id);
+                            }
 
-                                    @Override
-                                    public void complete() {
-                                        frame.refreshComplete();
-                                    }
+                            @Override
+                            public void complete() {
+                                frame.refreshComplete();
+                            }
 
-                                    @Override
-                                    public void onSuccess() {
-                                        refreshPager();
-                                    }
+                            @Override
+                            public void onSuccess() {
+                                refreshPager();
+                            }
 
-                                    @Override
-                                    public void error() {
-                                        frame.refreshComplete();
-                                    }
-                                });
+                            @Override
+                            public void error() {
+                                frame.refreshComplete();
+                            }
+                        });
                     }
                 });
     }
@@ -165,10 +166,10 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
 
     @Override
     public void refreshPager() {
-        for (int i = 0; i <= 10; i++) {
-            publisheds.add(new Published());
-        }
-        adpter = new Plan_Adpter(getContext(), 1, getActivity(),publisheds);
+        joinedPlen = realm.where(JoinedPlan.class)
+                .equalTo(NS.USER_ID, TempUser.id)
+                .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        adpter = new JoinedPlan_Adpter(getContext(), 1, getActivity(), joinedPlen);
         listview.setAdapter(adpter);
     }
 

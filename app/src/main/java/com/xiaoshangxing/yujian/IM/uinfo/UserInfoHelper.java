@@ -1,12 +1,13 @@
 package com.xiaoshangxing.yujian.IM.uinfo;
 
-;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
 import java.util.List;
+
+;
 
 public class UserInfoHelper {
 
@@ -16,7 +17,8 @@ public class UserInfoHelper {
     public static String getUserTitleName(String id, SessionTypeEnum sessionType) {
         if (sessionType == SessionTypeEnum.P2P) {
             if (NimUIKit.getAccount().equals(id)) {
-                return "我的电脑";
+//                return "我的电脑";
+                return "自己";
             } else {
                 return NimUserInfoCache.getInstance().getUserDisplayName(id);
             }

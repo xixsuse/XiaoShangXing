@@ -74,7 +74,7 @@ public class PersonalPlan_Adpter extends ArrayAdapter<Published> {
         if (TextUtils.isEmpty(published.getPersonLimit())) {
             viewHolder.peopleLimit.setText("不限人数");
         } else {
-            viewHolder.peopleLimit.setText(("0-" + published.getPersonLimit()));
+            viewHolder.peopleLimit.setText((published.getJoinCount() + "-" + published.getPersonLimit()));
         }
         viewHolder.joinedCount.setText("" + published.getJoinCount());
 

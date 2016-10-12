@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.data.CalendarData;
+import com.xiaoshangxing.data.JoinedPlan;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
@@ -50,6 +51,7 @@ public class LoadUtils {
     public static final String TIME_LOAD_CALENDAR = "TIME_LOAD_CALENDAR";               //校历资讯
     public static final String TIME_COLLECT_REWARD = "TIME_COLLECT_REWARD";             //校内悬赏收藏
     public static final String TIME_COLLECT_SALE = "TIME_COLLECT_SALE";                 //闲置出售收藏
+    public static final String TIME_JOINED_PLAN = "TIME_JOINED_PLAN";                   //加入的计划
 
     /**
      * description:判断是否需要刷新
@@ -251,6 +253,63 @@ public class LoadUtils {
         PublishNetwork.getInstance().getPublished(subscriber1, jsonObject, XSXApplication.getInstance());
     }
 
+    public static void getJoinedPlan(String userid, final Realm realm, final Context context,
+                                     final AroundLoading aroundLoading) {
+        if (aroundLoading != null) {
+            aroundLoading.before();
+        }
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, userid);
+
+        Subscriber<ResponseBody> subscriber1 = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                LoadUtils.refreshTime(TIME_JOINED_PLAN);
+                if (aroundLoading != null) {
+                    aroundLoading.complete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (aroundLoading != null) {
+                    aroundLoading.error();
+                }
+                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+                        case 200:
+                            final JSONArray jsonArray = jsonObject.getJSONObject(NS.MSG).getJSONArray("moments");
+                            realm.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    realm.createOrUpdateAllFromJson(JoinedPlan.class, jsonArray);
+                                }
+                            });
+                            if (aroundLoading != null) {
+                                aroundLoading.onSuccess();
+                            }
+                            break;
+                        default:
+                            Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        PublishNetwork.getInstance().getJoinedPlan(subscriber1, jsonObject, XSXApplication.getInstance());
+    }
+
     /**
      * description:  将返回数据存入数据库
      *
@@ -352,6 +411,18 @@ public class LoadUtils {
             public void execute(Realm realm) {
                 realmResults.deleteAllFromRealm();
                 Log.d("clear data ", "success");
+            }
+        });
+    }
+
+    public static void clearJoinPlan(int id) {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<JoinedPlan> joinedPlen = realm.where(JoinedPlan.class).equalTo(NS.USER_ID, id).findAll();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                joinedPlen.deleteAllFromRealm();
+                Log.d("clear joined_plan ", "success");
             }
         });
     }

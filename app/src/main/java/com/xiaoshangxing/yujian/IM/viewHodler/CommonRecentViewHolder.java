@@ -5,6 +5,7 @@ import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.xiaoshangxing.yujian.IM.cache.TeamNotificationHelper;
+import com.xiaoshangxing.yujian.IM.viewHodler.MessageVH.CustomNotificationText;
 
 public class CommonRecentViewHolder extends RecentViewHolder {
 
@@ -65,7 +66,7 @@ public class CommonRecentViewHolder extends RecentViewHolder {
                         recent.getFromAccount(),
                         (NotificationAttachment) recent.getAttachment());
             default:
-                return "[分享]";
+                return CustomNotificationText.getRencentContactShowText(recent);
         }
     }
 }

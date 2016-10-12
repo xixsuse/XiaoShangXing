@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.xiaoshangxing.Network.netUtil.NS;
@@ -20,6 +21,7 @@ import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
@@ -127,11 +129,15 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
             @Override
             public void onClick(View v) {
 
-                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, "4"/*String.valueOf(published.getUserId())*/, fragment,
+                if (published.getId() == TempUser.id) {
+                    Toast.makeText(context, "不能和自己私聊", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, String.valueOf(published.getUserId()), fragment,
                         finalViewHolder.input.getText().toString(), new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
-                                ChatActivity.start(context, "4", null, SessionTypeEnum.P2P);
+                                ChatActivity.start(context, String.valueOf(published.getUserId()), null, SessionTypeEnum.P2P);
                             }
 
                             @Override

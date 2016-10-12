@@ -125,11 +125,13 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
         if (!getIntent().hasExtra(IntentStatic.EXTRA_ACCOUNT)) {
             showToast("账号有误");
             finish();
+            return;
         }
         account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
         if (account == null) {
             showToast("账号有误");
             finish();
+            return;
         }
         UserInfoCache.getInstance().getName(name1, Integer.valueOf(account));
         UserInfoCache.getInstance().getName(name2, Integer.valueOf(account));

@@ -108,12 +108,14 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         if (!getIntent().hasExtra(IntentStatic.DATA)) {
             showToast("动态id错误");
             finish();
+            return;
         }
         published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
         published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
         if (published == null) {
             showToast("没有该动态的消息");
             finish();
+            return;
         }
         refreshPager();
     }

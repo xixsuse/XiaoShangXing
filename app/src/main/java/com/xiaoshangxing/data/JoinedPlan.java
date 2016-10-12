@@ -14,7 +14,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by FengChaoQun
  * on 2016/9/9
  */
-public class Published extends RealmObject {
+public class JoinedPlan extends RealmObject {
 
     /**
      * id : 2
@@ -68,7 +68,7 @@ public class Published extends RealmObject {
     private String sightUserIds;
     private String praiseUserIds;
     private String joinUserIds;
-    private String transmitCount;
+    private int transmitCount;
     private User user;
     private String notice;
     private String forbidden;
@@ -272,11 +272,11 @@ public class Published extends RealmObject {
         this.joinUserIds = joinUserIds;
     }
 
-    public String getTransmitCount() {
-        return TextUtils.isEmpty(transmitCount) ? "0" : transmitCount;
+    public int getTransmitCount() {
+        return transmitCount;
     }
 
-    public void setTransmitCount(String transmitCount) {
+    public void setTransmitCount(int transmitCount) {
         this.transmitCount = transmitCount;
     }
 

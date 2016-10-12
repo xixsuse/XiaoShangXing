@@ -129,12 +129,14 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         if (!getIntent().hasExtra(IntentStatic.DATA)) {
             showToast("动态id错误");
             finish();
+            return;
         }
         published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
         published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
         if (published == null) {
             showToast("没有该动态的消息");
             finish();
+            return;
         }
 
 
@@ -261,7 +263,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
 
     @Override
     public void setCount() {
-        int transmit = published.getTransmitCount();
+        String transmit = published.getTransmitCount();
         int comment = published.getComments() == null ? 0 : published.getComments().size();
         int praise = TextUtils.isEmpty(published.getPraiseUserIds()) ? 0 : published.getPraiseUserIds().split(NS.SPLIT).length;
         transmitText.setText("转发" + transmit);

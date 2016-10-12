@@ -43,7 +43,7 @@ public class IMNetwork {
     }
 
 
-    public void SerchPerson(Subscriber<ResponseBody> subscriber, String param, Context context) {
+    public void SerchPerson(Subscriber<ResponseBody> subscriber, JsonObject param, Context context) {
         if (serchPersonApi == null) {
             serchPersonApi = Network.getRetrofitWithHeader(context).create(SerchPersonApi.class);
         }

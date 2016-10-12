@@ -11,6 +11,7 @@ import com.xiaoshangxing.Network.api.getAndPublish.GetAllPublished;
 import com.xiaoshangxing.Network.api.getAndPublish.GetCalendar;
 import com.xiaoshangxing.Network.api.getAndPublish.GetCalendarInputer;
 import com.xiaoshangxing.Network.api.getAndPublish.GetCollect;
+import com.xiaoshangxing.Network.api.getAndPublish.GetJoinedPlan;
 import com.xiaoshangxing.Network.api.getAndPublish.GetPublishedApi;
 import com.xiaoshangxing.Network.api.getAndPublish.GetTransmitInfo;
 import com.xiaoshangxing.Network.api.getAndPublish.Operate;
@@ -41,6 +42,7 @@ public class PublishNetwork {
     private GetCollect getCollect;
     private GetCalendar getCalendar;
     private GetCalendarInputer getCalendarInputer;
+    private GetJoinedPlan getJoinedPlan;
 
     private PublishNetwork() {
 
@@ -157,6 +159,14 @@ public class PublishNetwork {
             getCalendarInputer = Network.getRetrofitWithHeader(context).create(GetCalendarInputer.class);
         }
         Observable<ResponseBody> observable = getCalendarInputer.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void getJoinedPlan(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (getJoinedPlan == null) {
+            getJoinedPlan = Network.getRetrofitWithHeader(context).create(GetJoinedPlan.class);
+        }
+        Observable<ResponseBody> observable = getJoinedPlan.start(jsonObject);
         toSubscribe(observable, subscriber);
     }
 

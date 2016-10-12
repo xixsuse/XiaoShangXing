@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.xiaoshangxing.Network.IMNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
@@ -157,7 +158,9 @@ public class SerchPersonActivity extends BaseActivity implements IBaseView {
         };
 
         ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, this);
-        IMNetwork.getInstance().SerchPerson(progressSubsciber, input.getText().toString(), this);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("param", input.getText().toString());
+        IMNetwork.getInstance().SerchPerson(progressSubsciber, jsonObject, this);
     }
 
     @Override

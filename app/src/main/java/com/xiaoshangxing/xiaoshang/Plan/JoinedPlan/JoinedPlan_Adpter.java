@@ -1,4 +1,4 @@
-package com.xiaoshangxing.xiaoshang.Plan.PlanFragment;
+package com.xiaoshangxing.xiaoshang.Plan.JoinedPlan;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.JoinedPlan;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
@@ -32,16 +32,16 @@ import butterknife.ButterKnife;
  * Created by FengChaoQun
  * on 2016/4/20
  */
-public class Plan_Adpter extends ArrayAdapter<Published> {
+public class JoinedPlan_Adpter extends ArrayAdapter<JoinedPlan> {
     private Context context;
-    List<Published> publisheds;
+    List<JoinedPlan> joinedPlen;
     protected Handler handler;
     private Activity activity;
 
-    public Plan_Adpter(Context context, int resource, Activity activity, List<Published> objects) {
+    public JoinedPlan_Adpter(Context context, int resource, Activity activity, List<JoinedPlan> objects) {
         super(context, resource, objects);
         this.context = context;
-        this.publisheds = objects;
+        this.joinedPlen = objects;
         this.activity = activity;
     }
 
@@ -57,7 +57,7 @@ public class Plan_Adpter extends ArrayAdapter<Published> {
         }
 
 
-        final Published published = publisheds.get(position);
+        final JoinedPlan published = joinedPlen.get(position);
 
         UserInfoCache.getInstance().getHead(viewHolder.headImage, published.getUserId(), context);
         UserInfoCache.getInstance().getName(viewHolder.name, published.getUserId());

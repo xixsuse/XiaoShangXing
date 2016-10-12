@@ -176,27 +176,28 @@
                     android:paddingEnd="@dimen/width_48"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/x30"
-                    android:background="@drawable/circular_17_w0" />
+                    android:background="@drawable/et_circular_4_white" />
 
                 <!--发送按钮-->
-                <!--<Button-->
-                    <!--android:id="@+id/send"-->
-                    <!--android:layout_width="@dimen/x162"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:layout_marginEnd="@dimen/x24"-->
-                    <!--android:layout_marginStart="@dimen/x24"-->
-                    <!--android:background="@drawable/circular_15_g2"-->
-                    <!--android:text="@string/send"-->
-                    <!--android:textColor="@color/w0"-->
-                    <!--android:textSize="14sp" />-->
-
-                <ImageView
+                <Button
+                    android:layout_width="@dimen/x150"
                     android:id="@+id/send"
+                    android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/x30"
-                    android:src="@mipmap/input_send_grey"
-                    android:layout_width="@dimen/x168"
-                    android:layout_height="match_parent" />
+                    android:layout_marginEnd="@dimen/x24"
+                    android:layout_marginStart="@dimen/x24"
+                    android:background="@drawable/btn_circular_g1"
+                    android:text="@string/send"
+                    android:textColor="@color/w0"
+                    android:textSize="14sp" />
+
+                <!--<ImageView-->
+                <!--android:id="@+id/send"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:layout_marginEnd="@dimen/x30"-->
+                <!--android:src="@mipmap/input_send_grey"-->
+                <!--android:layout_width="@dimen/x168"-->
+                <!--android:layout_height="match_parent" />-->
 
             </RelativeLayout>
 

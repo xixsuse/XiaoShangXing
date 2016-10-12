@@ -35,7 +35,6 @@ import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -204,7 +203,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
 
                 File file = new File(coverPath);
                 RequestBody requestFile =
-                        RequestBody.create(MediaType.parse("multipart/form-data"), SendImageHelper.getLittleImage(coverPath, getContext()));
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file/*SendImageHelper.getLittleImage(coverPath, getContext())*/);
                 MultipartBody.Part body =
                         MultipartBody.Part.createFormData("file", file.getName(), requestFile);
 

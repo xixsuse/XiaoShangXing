@@ -34,6 +34,7 @@ public class BaseUrl {
     public static final String CANCLE_OPERATE = "operation/cancelOperate";
     public static final String CHANGE_PUBLISHED_STATU = "moment/changeMomentStatus";
     public static final String GET_COLLECT = "moment/catCollect";
+    public static final String GET_JOINED_PLAN = "moment/getJoinedPlanInfo";
 
     public static final String GET_CALENDAR = "moment/getSchoolCalendar";
 
@@ -42,5 +43,8 @@ public class BaseUrl {
     public static final String SUGGESTION = "suggestion/suggest";
     public static final String GET_CALENDAR_INPUTER = "base/getLeaderInfo";
     public static final String FAVOR = "friend/favor";
+
+
+    public static final String SERCH_PERSON = "base/userSearch";
 
 }

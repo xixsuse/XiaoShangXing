@@ -145,6 +145,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         if (!getIntent().hasExtra(IntentStatic.DATA)) {
             showToast("动态id出错");
             finish();
+            return;
         }
         published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
 
@@ -152,6 +153,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         if (published == null) {
             showToast("获取动态信息出错");
             finish();
+            return;
         }
 
         refreshPager(published);

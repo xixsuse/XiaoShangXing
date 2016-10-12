@@ -130,6 +130,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         if (account == null) {
             showToast("账号有误");
             finish();
+            return;
         }
 
         initView();
