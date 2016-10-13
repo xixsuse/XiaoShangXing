@@ -1,5 +1,6 @@
 package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,8 +21,10 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
 import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.CustomNotificationMessage;
 
@@ -112,7 +115,6 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
                 IMMessage imMessage = null;
                 CustomNotificationMessage customNotificationMessage = new CustomNotificationMessage();
                 customNotificationMessage.setNotificationType(CustomNotificationText.ApllyPlan_REFUSE);
-                customNotificationMessage.setText(null);
                 imMessage = MessageBuilder.createCustomMessage(message.getFromAccount(), SessionTypeEnum.P2P, customNotificationMessage);
                 moduleProxy.sendMessage(imMessage);
             }
@@ -136,7 +138,6 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
                                 IMMessage imMessage = null;
                                 CustomNotificationMessage customNotificationMessage = new CustomNotificationMessage();
                                 customNotificationMessage.setNotificationType(CustomNotificationText.ApllyPlan_PASS);
-                                customNotificationMessage.setText(null);
                                 imMessage = MessageBuilder.createCustomMessage(message.getFromAccount(), SessionTypeEnum.P2P, customNotificationMessage);
                                 moduleProxy.sendMessage(imMessage);
                             }
@@ -167,6 +168,14 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
                 });
             }
         });
+    }
+
+    // 内容区域点击事件响应处理。
+    @Override
+    protected void onItemClick() {
+        Intent intent = new Intent(context, PlanDetailActivity.class);
+        intent.putExtra(IntentStatic.DATA, state_id);
+        context.startActivity(intent);
     }
 
     @Override

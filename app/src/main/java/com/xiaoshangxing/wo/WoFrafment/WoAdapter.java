@@ -38,7 +38,7 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.MoreTextView;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
-import com.xiaoshangxing.wo.roll.rollActivity;
+import com.xiaoshangxing.wo.roll.RollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import org.json.JSONException;
@@ -141,8 +141,8 @@ public class WoAdapter extends RealmBaseAdapter<Published> {
         viewHolder.permission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, rollActivity.class);
-                intent.putExtra(rollActivity.TYPE, rollActivity.NOTICE);
+                Intent intent = new Intent(context, RollActivity.class);
+                intent.putExtra(RollActivity.TYPE, RollActivity.NOTICE);
                 context.startActivity(intent);
             }
         });

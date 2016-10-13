@@ -6,12 +6,18 @@ import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.constant.FriendFieldEnum;
 import com.netease.nimlib.sdk.friend.model.Friend;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.report.ReportActivity;
@@ -27,36 +33,75 @@ import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by 15828 on 2016/7/25.
  */
 public class SetInfoActivity extends BaseActivity {
+    @Bind(R.id.setinfo_leftarrow)
+    ImageView setinfoLeftarrow;
+    @Bind(R.id.setinfo_back)
+    TextView setinfoBack;
+    @Bind(R.id.StarMarkfriends)
+    SwitchView StarMarkfriends;
+    @Bind(R.id.mark_star)
+    RelativeLayout markStar;
+    @Bind(R.id.love)
+    RelativeLayout love;
+    @Bind(R.id.love_notice)
+    TextView loveNotice;
+    @Bind(R.id.permission)
+    LinearLayout permission;
+    @Bind(R.id.addtoblacklist)
+    SwitchView addtoblacklist;
+    @Bind(R.id.blacklist)
+    RelativeLayout blacklist;
+    @Bind(R.id.divider)
+    ImageView divider;
+    @Bind(R.id.info)
+    RelativeLayout info;
+    @Bind(R.id.confirm_modify)
+    Button confirmModify;
+    @Bind(R.id.delete)
+    LinearLayout delete;
     private SwitchView starMarkfriends, crush, bukanwo, bukanta, addToBlackList;
     private ActionSheet mActionSheet1;
     private ActionSheet mActionSheet2;
     private String account;
     private Friend friend;
+    private NimUserInfo userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yujian_setinfo);
+        ButterKnife.bind(this);
 
         if (getIntent().hasExtra(IntentStatic.EXTRA_ACCOUNT)) {
             account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
             if (TextUtils.isEmpty(account)) {
                 showToast("账号有误");
                 finish();
+                return;
             }
         } else {
             showToast("账号有误");
             finish();
+            return;
+        }
+
+        if (!FriendDataCache.getInstance().isMyFriend(account)) {
+            initNotFriend();
+            return;
         }
 
         friend = FriendDataCache.getInstance().getFriendByAccount(account);
         if (friend == null) {
             showToast("账号信息有误");
             finish();
+            return;
         }
 
         starMarkfriends = (SwitchView) findViewById(R.id.StarMarkfriends);
@@ -118,6 +163,22 @@ public class SetInfoActivity extends BaseActivity {
                 bukanta.setState(false);
             }
         });
+
+        addToBlacklist();
+    }
+
+    private void initNotFriend() {
+        markStar.setVisibility(View.GONE);
+        love.setVisibility(View.GONE);
+        loveNotice.setVisibility(View.GONE);
+        permission.setVisibility(View.GONE);
+        delete.setVisibility(View.GONE);
+        divider.setVisibility(View.VISIBLE);
+        addToBlacklist();
+    }
+
+    private void addToBlacklist() {
+        addToBlackList = (SwitchView) findViewById(R.id.addtoblacklist);
         addToBlackList.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
@@ -187,7 +248,6 @@ public class SetInfoActivity extends BaseActivity {
                         });
             }
         });
-
     }
 
     private void markFriend(final boolean is) {
@@ -216,7 +276,7 @@ public class SetInfoActivity extends BaseActivity {
     }
 
     private void setUpData() {
-        if (friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)) {
+        if (friend != null && friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)) {
             starMarkfriends.setState((boolean) friend.getExtension().get(NS.MARK));
         } else {
             starMarkfriends.setState(false);

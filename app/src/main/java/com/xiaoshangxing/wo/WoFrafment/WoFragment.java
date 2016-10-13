@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +28,7 @@ import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.setting.SettingActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
@@ -399,7 +399,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         Intent publish_intent = new Intent(getContext(), InputActivity.class);
         publish_intent.putExtra(InputActivity.LIMIT,9);
         publish_intent.putExtra(InputActivity.EDIT_STATE, InputActivity.PUBLISH_STATE);
-        startActivity(publish_intent);
+        startActivityForResult(publish_intent, IntentStatic.PUBLISH);
     }
 
     @Override
@@ -557,4 +557,12 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == IntentStatic.PUBLISH && resultCode == IntentStatic.PUBLISH_SUCCESS) {
+            if (ptrFrameLayout != null) {
+                ptrFrameLayout.autoRefresh();
+            }
+        }
+    }
 }

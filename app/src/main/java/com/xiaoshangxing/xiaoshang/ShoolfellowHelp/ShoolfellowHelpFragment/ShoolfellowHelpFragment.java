@@ -3,6 +3,7 @@ package com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +60,10 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     LinearLayout collasp;
     @Bind(R.id.rules)
     RelativeLayout rules;
+    @Bind(R.id.anounce)
+    ImageView anounce;
+    @Bind(R.id.content)
+    TextView content;
 
     private View mview;
     private shoolfellow_adpter adpter;
@@ -92,7 +97,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     }
 
     private void initView() {
-        headview = View.inflate(getContext(), R.layout.headview_help_list, null);
+        headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
         loadingText = (TextView) footview.findViewById(R.id.text);
@@ -100,7 +105,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
 
-        headview.setOnClickListener(new View.OnClickListener() {
+        anounce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickOnRule(true);
@@ -236,7 +241,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
     public void gotoPublish() {
         Intent intent = new Intent(getContext(), InputActivity.class);
         intent.putExtra(InputActivity.EDIT_STATE, InputActivity.SHOOLFELLOW_HELP);
-        startActivity(intent);
+        startActivityForResult(intent, IntentStatic.PUBLISH);
     }
 
     @Override
@@ -291,21 +296,18 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
 
     @Override
     public void clickOnRule(boolean is) {
-        if (is){
+        if (is) {
             rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top));
-        }else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top1));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_show));
+        } else {
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_hide));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 800);
+            }, 300);
         }
-//        Intent intent = new Intent(getContext(), TextBoard.class);
-//        intent.putExtra(IntentStatic.TYPE, TextBoard.HELP);
-//        startActivity(intent);
     }
 
     @Override
@@ -329,7 +331,7 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
         super.onStop();
     }
 
-    @OnClick({R.id.back, R.id.more,R.id.collasp,R.id.mengban})
+    @OnClick({R.id.back, R.id.more, R.id.collasp, R.id.mengban})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -349,6 +351,17 @@ public class ShoolfellowHelpFragment extends BaseFragment implements ShoolHelpCo
             case R.id.mengban:
                 clickOnRule(false);
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("1012" + requestCode, "--" + resultCode);
+        if (requestCode == IntentStatic.PUBLISH && resultCode == IntentStatic.PUBLISH_SUCCESS) {
+            if (ptrFrameLayout != null) {
+                ptrFrameLayout.autoRefresh();
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 
 import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
+import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
@@ -26,10 +27,10 @@ public class MsgVHCustomNotification extends MsgViewHolderBase {
     @Override
     protected void bindContentView() {
         handleTextNotification(getDisplayText());
+        readReceiptTextView.setVisibility(View.GONE);
     }
 
     protected String getDisplayText() {
-
         return CustomNotificationText.getNotificationText(message);
     }
 

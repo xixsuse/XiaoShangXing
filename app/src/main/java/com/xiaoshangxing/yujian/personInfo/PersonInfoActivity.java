@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.IMNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
@@ -25,7 +27,6 @@ import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -37,7 +38,6 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.RoundedImageView;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
-import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.pearsonalTag.PeraonalTagActivity;
 
@@ -106,7 +106,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     RelativeLayout moreButtom;
     private String tagContents;
     private String account;
-    private User user;
+    private NimUserInfo user;
     private MyBroadcastReceiver myBroadcastReceiver;
     public static final String FINISH = "FINISH";
 
@@ -142,20 +142,51 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         UserInfoCache.getInstance().getCollege(college, id);
         UserInfoCache.getInstance().getName(name, id);
 
-        if (FriendDataCache.getInstance().isMyFriend(account)) {
-            more.setVisibility(View.VISIBLE);
-            bt1.setChecked(true);
-            Log.d(account, "is my friend");
+//        if (FriendDataCache.getInstance().isMyFriend(account)) {
+//            more.setVisibility(View.VISIBLE);
+//            bt1.setChecked(true);
+//        } else {
+//            more.setVisibility(View.GONE);
+//            bt1.setChecked(false);
+//        }
+        if (user == null) {
+            NimUserInfoCache.getInstance().getUserInfoFromRemote(account, new RequestCallback<NimUserInfo>() {
+                @Override
+                public void onSuccess(NimUserInfo nimUserInfo) {
+                    user = nimUserInfo;
+                    refreshPager();
+                }
+
+                @Override
+                public void onFailed(int i) {
+                    showToast("获取用户信息失败:" + i);
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    showToast("获取用户信息失败:异常");
+                    throwable.printStackTrace();
+                }
+            });
         } else {
-            more.setVisibility(View.GONE);
-            bt1.setChecked(false);
+            refreshPager();
         }
 
-//        if (user.getSex() == 0) {
-//            sex.setImageResource(R.mipmap.sex_female);
-//        } else {
-//            sex.setImageResource(R.mipmap.sex_male);
-//        }
+    }
+
+    private void refreshPager() {
+        if (user.getGenderEnum() == GenderEnum.FEMALE) {
+            sex.setImageResource(R.mipmap.sex_female);
+        } else if (user.getGenderEnum() == GenderEnum.MALE) {
+            sex.setImageResource(R.mipmap.sex_male);
+        } else {
+            sex.setVisibility(View.GONE);
+        }
+
+        if (user.getExtensionMap()!=null){
+            String h = (String) user.getExtensionMap().get(NS.HOMETOWN);
+            hometown.setText(TextUtils.isEmpty(h) ? "未知" : h);
+        }
 
         NimUserInfoCache.getInstance().getUserInfoFromRemote(account, new RequestCallback<NimUserInfo>() {
             @Override
@@ -177,15 +208,9 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
                 throwable.printStackTrace();
             }
         });
-
     }
 
     public void Next() {
-
-        if (!FriendDataCache.getInstance().isMyFriend(account)) {
-            showToast(NS.ON_DEVELOPING);
-            return;
-        }
 
         Intent intent = new Intent(this, SetInfoActivity.class);
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);

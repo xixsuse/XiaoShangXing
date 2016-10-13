@@ -77,8 +77,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <android.support.v4.view.ViewPager
-                android:paddingStart="@dimen/width_48"
-                android:paddingEnd="@dimen/width_48"
+                android:paddingEnd="@dimen/x20"
+                android:paddingStart="@dimen/x30"
                 android:paddingBottom="@dimen/y30"
                 android:paddingTop="@dimen/y30"
                 android:id="@+id/scrollview"
@@ -86,8 +86,6 @@
                 android:layout_height="@dimen/y432">
 
             </android.support.v4.view.ViewPager>
-
-
 
             <!--表情类型-->
             <RelativeLayout
@@ -102,7 +100,8 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@mipmap/emot_grey_total"
+                        android:layout_marginLeft="@dimen/width_48"
+                        android:src="@mipmap/emot_unselect"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
                         android:layout_width="match_parent"
@@ -128,11 +127,12 @@
                 <RelativeLayout
                     android:id="@+id/delete_emot"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/width_48"
                     android:layout_width="@dimen/x152"
                     android:layout_height="match_parent">
                     <ImageView
-                        android:layout_centerInParent="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/width_48"
                         android:src="@mipmap/delete_emot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />

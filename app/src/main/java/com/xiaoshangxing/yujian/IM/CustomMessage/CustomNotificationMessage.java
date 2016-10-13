@@ -1,5 +1,7 @@
 package com.xiaoshangxing.yujian.IM.CustomMessage;
 
+import android.util.Log;
+
 import com.xiaoshangxing.Network.netUtil.NS;
 
 import org.json.JSONException;
@@ -7,11 +9,10 @@ import org.json.JSONObject;
 
 /**
  * Created by FengChaoQun
- * on 2016/9/16
- * 用于转发没有图片的动态消息
+ * on 2016/10/12
+ * 自定义通知
  */
 public class CustomNotificationMessage extends CustomAttachment {
-    private String text;
     private int notificationType;
 
     public CustomNotificationMessage() {
@@ -21,8 +22,8 @@ public class CustomNotificationMessage extends CustomAttachment {
     @Override
     protected void parseData(JSONObject data) {
         try {
+            Log.d("parseData", data.toString());
             notificationType = data.getInt(NS.CODE);
-            text = data.getString(NS.TEXT);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -33,19 +34,11 @@ public class CustomNotificationMessage extends CustomAttachment {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(NS.CODE, notificationType);
-            jsonObject.put(NS.TEXT, text);
+            Log.d("packData", jsonObject.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     public int getNotificationType() {

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +16,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.xiaoshangxing.MainActivity;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.login_register.LoginRegisterActivity.InputAccountFragment.InputAccountFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
-import com.xiaoshangxing.login_register.LoginRegisterActivity.RetrieveByMesFragment.RetrieveByMesFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
 import com.xiaoshangxing.login_register.StartActivity.StartActivity;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -56,10 +56,6 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
     private DialogUtils.Dialog_Center mDialogUtils;
     private Realm realm;
 
-    public static LoginFragment newInstance() {
-        return new LoginFragment();
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,6 +69,16 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
             mPresenter.loginWithAccount(getNumber);
         }
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        realm.close();
+        super.onDestroy();
+    }
+
+    public static LoginFragment newInstance() {
+        return new LoginFragment();
     }
 
     private void initView() {
@@ -145,6 +151,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
         SPUtils.put(getContext(), SPUtils.PHONENUMNBER, getPhoneNumber());
 
         Intent main_intent = new Intent(getContext(), MainActivity.class);
+        main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(main_intent);
         getActivity().finish();
         XSXApplication xsxApplication = (XSXApplication) getActivity().getApplication();
@@ -232,22 +239,25 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
             public void onItemSelected(int position, String item) {
                 switch (position) {
                     case 0:
-                        RetrieveByMesFragment frag = ((LoginRegisterActivity) mActivity).getRetrieveByMesFragment();
-                        getFragmentManager().beginTransaction()
-                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                        R.anim.slide_in_left, R.anim.slide_out_left)
-                                .replace(R.id.loginregisterContent, frag)
-                                .addToBackStack(RgInputPhoNumberFragment.TAG)
-                                .commit();
+                        showToast(NS.ON_DEVELOPING);
+//                        RetrieveByMesFragment frag = ((LoginRegisterActivity) mActivity).getRetrieveByMesFragment();
+//                        getFragmentManager().beginTransaction()
+//                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+//                                        R.anim.slide_in_left, R.anim.slide_out_left)
+//                                .replace(R.id.loginregisterContent, frag)
+//                                .addToBackStack(RgInputPhoNumberFragment.TAG)
+//                                .commit();
                         break;
                     case 1:
-                        InputAccountFragment frag2 = ((LoginRegisterActivity) mActivity).getInputEmailFragment();
-                        getFragmentManager().beginTransaction()
-                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                        R.anim.slide_in_left, R.anim.slide_out_left)
-                                .replace(R.id.loginregisterContent, frag2)
-                                .addToBackStack(InputAccountFragment.TAG)
-                                .commit();
+                        showToast(NS.ON_DEVELOPING);
+//                        InputAccountFragment frag2 = ((LoginRegisterActivity) mActivity).getInputEmailFragment();
+//                        getFragmentManager().beginTransaction()
+//                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+//                                        R.anim.slide_in_left, R.anim.slide_out_left)
+//                                .replace(R.id.loginregisterContent, frag2)
+//                                .addToBackStack(InputAccountFragment.TAG)
+//                                .commit();
+                        break;
                 }
             }
 
@@ -267,12 +277,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
             btn_login.setEnabled(false);
             btn_login.setAlpha(0.5f);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        realm.close();
-        super.onDestroy();
+        Log.d("enable", "-" + is_enable);
     }
 
     @Override

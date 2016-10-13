@@ -66,6 +66,10 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     RelativeLayout rules;
     @Bind(R.id.mengban)
     View mengban;
+    @Bind(R.id.anounce)
+    ImageView anounce;
+    @Bind(R.id.content)
+    TextView content;
 
     private View mview;
     private shoolreward_adpter adpter;
@@ -100,14 +104,15 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     }
 
     private void initView() {
-        headview = View.inflate(getContext(), R.layout.headview_help_list, null);
+//        headview = View.inflate(getContext(), R.layout.headview_help_list, null);
+        headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
         dotsTextView.start();
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
-        headview.setOnClickListener(new View.OnClickListener() {
+        anounce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickOnRule(true);
@@ -191,7 +196,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.back, R.id.more, R.id.collasp,R.id.mengban})
+    @OnClick({R.id.back, R.id.more, R.id.collasp, R.id.mengban})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -288,7 +293,7 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     public void gotoPublish() {
         Intent intent = new Intent(getContext(), InputActivity.class);
         intent.putExtra(InputActivity.EDIT_STATE, InputActivity.SHOOL_REWARD);
-        startActivity(intent);
+        startActivityForResult(intent, IntentStatic.PUBLISH);
     }
 
     @Override
@@ -353,17 +358,17 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
 
     @Override
     public void clickOnRule(boolean is) {
-        if (is){
+        if (is) {
             rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top));
-        }else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top1));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_show));
+        } else {
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_hide));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 800);
+            }, 300);
         }
     }
 
@@ -419,5 +424,14 @@ public class ShoolRewardFragment extends BaseFragment implements ShoolRewardCont
     @Override
     public void setmPresenter(@Nullable ShoolRewardContract.Presenter presenter) {
         this.mPresenter = presenter;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == IntentStatic.PUBLISH && resultCode == IntentStatic.PUBLISH_SUCCESS) {
+            if (ptrFrameLayout != null) {
+                ptrFrameLayout.autoRefresh();
+            }
+        }
     }
 }

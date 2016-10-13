@@ -162,47 +162,6 @@
                 android:orientation="horizontal">
             </GridView>
 
-            <!--<LinearLayout-->
-                <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:layout_alignParentEnd="true"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent">-->
-
-                <!--<com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView-->
-                    <!--android:id="@+id/select_location_imag1"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_width="@dimen/x84"-->
-                    <!--android:layout_height="@dimen/x84"-->
-                    <!--android:scaleType="centerCrop"-->
-                    <!--android:src="@mipmap/greyblock"-->
-                    <!--app:corner_radius="4dp">-->
-                <!--</com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>-->
-
-                <!--<com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView-->
-                    <!--android:id="@+id/select_location_imag2"-->
-                    <!--android:layout_marginStart="@dimen/x28"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_width="@dimen/x84"-->
-                    <!--android:layout_height="@dimen/x84"-->
-                    <!--android:scaleType="centerCrop"-->
-                    <!--android:src="@mipmap/greyblock"-->
-                    <!--app:corner_radius="4dp">-->
-                <!--</com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>-->
-
-                <!--<com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView-->
-                    <!--android:id="@+id/select_location_imag3"-->
-                    <!--android:layout_marginStart="@dimen/x28"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_width="@dimen/x84"-->
-                    <!--android:layout_height="@dimen/x84"-->
-                    <!--android:scaleType="centerCrop"-->
-                    <!--android:src="@mipmap/greyblock"-->
-                    <!--app:corner_radius="4dp">-->
-                <!--</com.xiaoshangxing.setting.utils.photo_choosing.RoundedImageView>-->
-            <!--</LinearLayout>-->
-
         </RelativeLayout>
 
         <!--计划发起-->
@@ -407,9 +366,10 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.v4.view.ViewPager
-                android:paddingStart="@dimen/width_48"
-                android:paddingEnd="@dimen/width_48"
+                android:paddingStart="@dimen/x30"
+                android:paddingEnd="@dimen/x20"
                 android:paddingBottom="@dimen/y30"
                 android:paddingTop="@dimen/y30"
                 android:id="@+id/scrollview"
@@ -430,7 +390,8 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:src="@mipmap/emot_grey_total"
+                        android:layout_marginLeft="@dimen/width_48"
+                        android:src="@mipmap/emot_unselect"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
                         android:layout_width="match_parent"
@@ -457,17 +418,16 @@
                 <RelativeLayout
                     android:id="@+id/delete_emot"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/width_48"
                     android:layout_width="@dimen/x152"
                     android:layout_height="match_parent">
                     <ImageView
-                        android:layout_centerInParent="true"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="@dimen/width_48"
                         android:src="@mipmap/delete_emot"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </RelativeLayout>
-
-
 
             </RelativeLayout>
         </LinearLayout>

@@ -27,7 +27,7 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/12
  */
-public class rollActivity extends BaseActivity {
+public class RollActivity extends BaseActivity {
     public static final String TYPE="TYPE";
     public static final int FORBIDDEN=1000;
     public static final int NOTICE=2000;
@@ -52,19 +52,21 @@ public class rollActivity extends BaseActivity {
 
     private void initView(){
 
-        if (getIntent().hasExtra(IntentStatic.DATA)) {
-            publishedId = getIntent().getIntExtra(IntentStatic.DATA, -1);
-            published = realm.where(Published.class).equalTo(NS.ID, publishedId).findFirst();
-            if (published == null) {
-                showToast("信息不明");
-                finish();
-            }
-        } else {
+        publishedId = getIntent().getIntExtra(IntentStatic.DATA, -1);
+        if (publishedId == -1) {
             showToast("信息不明");
             finish();
+            return;
         }
 
-        String ids = published.getForbidden();
+        published = realm.where(Published.class).equalTo(NS.ID, publishedId).findFirst();
+        if (published == null) {
+            showToast("没有找到该动态信息");
+            finish();
+            return;
+        }
+
+        String ids = published.getNotice();
         if (TextUtils.isEmpty(ids)) {
             return;
         } else {
@@ -88,8 +90,9 @@ public class rollActivity extends BaseActivity {
                 listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent state_intent = new Intent(rollActivity.this, PersonalStateActivity.class);
+                        Intent state_intent = new Intent(RollActivity.this, PersonalStateActivity.class);
                         state_intent.putExtra(PersonalStateActivity.TYPE, PersonalStateActivity.OTHRE);
+                        state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, list.get(position));
                         startActivity(state_intent);
                     }
                 });

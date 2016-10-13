@@ -17,13 +17,14 @@ import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.image.MyGlide;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
-
-import io.realm.Realm;
 
 /**
  * 会话窗口消息列表项的ViewHolder基类，负责每个消息项的外层框架，包括头像，昵称，发送/接收进度条，重发按钮等。<br>
@@ -227,7 +228,10 @@ public abstract class MsgViewHolderBase extends TViewHolder {
             show.setVisibility(View.GONE);
         } else {
             show.setVisibility(View.VISIBLE);
-            show.loadBuddyAvatar(message.getFromAccount());
+            NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(message.getFromAccount());
+            if (userInfo != null) {
+                MyGlide.with_app_log(context, userInfo.getAvatar(), show);
+            }
         }
 
     }

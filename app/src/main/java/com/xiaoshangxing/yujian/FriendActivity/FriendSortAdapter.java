@@ -15,12 +15,13 @@ import android.widget.CheckBox;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SortModel;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
 import java.util.List;
@@ -103,7 +104,10 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
                 mContext.startActivity(intent);
             }
         });
-
+        NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(list.get(position).getAccount());
+        if (userInfo != null) {
+            MyGlide.with_app_log(mContext, userInfo.getAvatar(), viewHolder.head);
+        }
         return view;
 
     }

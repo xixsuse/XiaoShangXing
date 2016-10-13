@@ -157,7 +157,7 @@
         <activity android:name=".wo.NewsActivity.NewsActivity" />
         <activity android:name=".wo.WoFrafment.check_photo.ImagePagerActivity" />
         <activity android:name=".wo.PersonalState.check_photo.myStateImagePagerActivity" />
-        <activity android:name=".wo.roll.rollActivity" />
+        <activity android:name=".wo.roll.RollActivity" />
         <activity
             android:name=".report.ReportActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>

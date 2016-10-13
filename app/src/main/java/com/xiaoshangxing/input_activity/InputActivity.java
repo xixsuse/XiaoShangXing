@@ -65,6 +65,7 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.layout.CirecleImage;
@@ -742,7 +743,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         }
     }
 
-//    test
+
     private void send(){
         switch (current_state) {
             case PUBLISH_STATE:
@@ -773,6 +774,30 @@ public class InputActivity extends BaseActivity implements IBaseView {
             @Override
             public void run() {
                 Formmat formmat = new Formmat(iBaseView, InputActivity.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
+                formmat.setSimpleCallBack(new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        setResult(IntentStatic.PUBLISH_SUCCESS);
+                        KeyBoardUtils.closeKeybord(emotionEdittext, InputActivity.this);
+                        runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        };
+                        handler.postDelayed(runnable, 250);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
                 try {
                     formmat.addFormField(map)
                             .addFilePart(select_image_urls, InputActivity.this)

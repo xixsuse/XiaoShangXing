@@ -12,11 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.auth.AuthService;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
@@ -33,7 +32,6 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
@@ -136,11 +134,12 @@ public class SettingActivity extends BaseActivity implements IBaseView {
         mActionSheet.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                SPUtils.put(SettingActivity.this, SPUtils.IS_QUIT, true);
-                SPUtils.remove(SettingActivity.this, SPUtils.ID);
-                NIMClient.getService(AuthService.class).logout();
-                XSXApplication xsxApplication = (XSXApplication) getApplication();
-                xsxApplication.exit();
+//                SPUtils.put(SettingActivity.this, SPUtils.IS_QUIT, true);
+//                SPUtils.remove(SettingActivity.this, SPUtils.ID);
+//                NIMClient.getService(AuthService.class).logout();
+//                XSXApplication xsxApplication = (XSXApplication) getApplication();
+//                xsxApplication.exit();
+                AppNetUtil.LogOut(SettingActivity.this);
             }
 
             @Override

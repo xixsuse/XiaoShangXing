@@ -6,10 +6,10 @@ android {
 
     defaultConfig {
         applicationId "com.xiaoshangxing"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 2
-        versionName "1.0.5"
+        versionName "1.0.7"
         ndk {
             abiFilters "armeabi", "armeabi-v7a", "x86"
         }
@@ -65,4 +65,5 @@ dependencies {
     compile 'io.realm:android-adapters:1.3.0'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.prolificinteractive:material-calendarview:1.4.0'
+    compile 'com.alibaba:fastjson:1.2.17'
 }

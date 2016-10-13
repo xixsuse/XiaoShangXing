@@ -1,7 +1,6 @@
 package com.xiaoshangxing.wo.WoFrafment;
 
 import android.content.Context;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -107,7 +106,6 @@ public class Wo_listview_adpter extends ArrayAdapter<Published> {
         view = holder.getView(LayoutInflater.from(context));
         view.setTag(holder);
         holder.setContext(view.getContext());
-        Log.d("new view", "----ok");
         return view;
     }
 

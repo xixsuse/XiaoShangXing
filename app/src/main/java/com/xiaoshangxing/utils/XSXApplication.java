@@ -58,6 +58,7 @@ public class XSXApplication extends Application {
     private int activityCount = 0;
     private static XSXApplication instance;
     public static StatusBarNotificationConfig notificationConfig;
+    public static Activity currentActivity;
 
     public static XSXApplication getInstance() {
         return instance;
@@ -110,6 +111,7 @@ public class XSXApplication extends Application {
             @Override
             public void onActivityResumed(Activity activity) {
                 MyLog.d(activity,"resumed");
+                currentActivity = activity;
             }
 
             @Override
@@ -237,10 +239,10 @@ public class XSXApplication extends Application {
         SDKOptions options = new SDKOptions();
 
         // 如果将新消息通知提醒托管给SDK完成，需要添加以下配置。
-        StatusBarNotificationConfig config = new StatusBarNotificationConfig();
-//        if (config == null) {
-//            config = new StatusBarNotificationConfig();
-//        }
+        StatusBarNotificationConfig config = DataSetting.getStatusConfig();
+        if (config == null) {
+            config = new StatusBarNotificationConfig();
+        }
         // 点击通知需要跳转到的界面
         config.notificationEntrance = FlashActivity.class;
         config.notificationSmallIconId = R.mipmap.cirecleimage_default;

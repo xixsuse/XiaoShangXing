@@ -13,6 +13,7 @@
         android:includeFontPadding="false"
         android:lineSpacingExtra="3dip"
         android:maxWidth="222dip"
+        android:minHeight="@dimen/x112"
         android:textColor="@color/b0"
         android:textSize="14sp"/>
 </LinearLayout>

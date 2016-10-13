@@ -172,7 +172,7 @@
                     android:textCursorDrawable="@drawable/cursor_blue4"
                     android:gravity="center_vertical"
                     android:layout_width="@dimen/x864"
-                    android:paddingStart="@dimen/width_48"
+                    android:paddingStart="@dimen/x24"
                     android:paddingEnd="@dimen/width_48"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/x30"

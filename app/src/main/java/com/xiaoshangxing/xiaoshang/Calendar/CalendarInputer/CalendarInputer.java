@@ -53,6 +53,8 @@ public class CalendarInputer extends BaseActivity {
     RelativeLayout rules;
     @Bind(R.id.back_text)
     TextView backText;
+    @Bind(R.id.anounce)
+    ImageView anounce;
     private View headview;
 
     private CalendarInputer_Adpter adpter;
@@ -67,10 +69,10 @@ public class CalendarInputer extends BaseActivity {
     }
 
     private void initView() {
-        headview = View.inflate(this, R.layout.headview_help_list, null);
+        headview = new View(this);
         listview.addHeaderView(headview);
         listview.setDividerHeight(1);
-        headview.setOnClickListener(new View.OnClickListener() {
+        anounce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickOnRule(true);
@@ -105,7 +107,6 @@ public class CalendarInputer extends BaseActivity {
         });
 
 
-
         title.setText("添加入口");
         more.setVisibility(View.GONE);
         backText.setText("返回");
@@ -116,15 +117,15 @@ public class CalendarInputer extends BaseActivity {
     public void clickOnRule(boolean is) {
         if (is) {
             rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.verify_success_top));
+            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_y_show));
         } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.verify_success_top1));
+            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_y_hide));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 800);
+            }, 300);
         }
 
     }

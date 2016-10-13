@@ -878,7 +878,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
                     currentState.setText(R.string.no_net);
                 } else if (code == StatusCode.UNLOGIN) {
                     noNetLay.setVisibility(View.VISIBLE);
-                    currentState.setText(R.string.nim_status_unlogin + "点击重新连接");
+                    currentState.setText("未登录,点击重新连接");
                 } else if (code == StatusCode.CONNECTING) {
                     noNetLay.setVisibility(View.VISIBLE);
                     currentState.setText(R.string.nim_status_connecting);
@@ -896,7 +896,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
     private void kickOut(StatusCode code) {
         if (code == StatusCode.PWD_ERROR) {
             noNetLay.setVisibility(View.VISIBLE);
-            currentState.setText("您处于离线状态");
+            currentState.setText("密码错误,点击重新连接");
         }
     }
 

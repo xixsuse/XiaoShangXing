@@ -65,6 +65,10 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     LinearLayout collasp;
     @Bind(R.id.rules)
     RelativeLayout rules;
+    @Bind(R.id.back_text)
+    TextView backText;
+    @Bind(R.id.anounce)
+    ImageView anounce;
     private View mview;
     private Realm realm;
     private View headview, footview;
@@ -103,14 +107,14 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
         title.setText("计划发起");
         listview.setDividerHeight(0);
         content.setText(getString(R.string.launch_plan));
-        headview = View.inflate(getContext(), R.layout.headview_help_list, null);
+        headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
         dotsTextView.start();
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
-        headview.setOnClickListener(new View.OnClickListener() {
+        anounce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickOnRule(true);
@@ -264,7 +268,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     public void gotoPublish() {
         Intent intent = new Intent(getContext(), InputActivity.class);
         intent.putExtra(InputActivity.EDIT_STATE, InputActivity.LANCH_PLAN);
-        startActivity(intent);
+        startActivityForResult(intent, IntentStatic.PUBLISH);
     }
 
     @Override
@@ -326,7 +330,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
                     .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         }
 
-        adpter = new Plan_Adpter(getContext(), 1, getActivity(),publisheds);
+        adpter = new Plan_Adpter(getContext(), 1, getActivity(), publisheds);
         listview.setAdapter(adpter);
     }
 
@@ -346,20 +350,29 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     public void clickOnRule(boolean is) {
         if (is) {
             rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_show));
         } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top1));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_hide));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 800);
+            }, 300);
         }
     }
 
     @Override
     public void setmPresenter(@Nullable PlanContract.Presenter presenter) {
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == IntentStatic.PUBLISH && resultCode == IntentStatic.PUBLISH_SUCCESS) {
+            if (ptrFrameLayout != null) {
+                ptrFrameLayout.autoRefresh();
+            }
+        }
     }
 }

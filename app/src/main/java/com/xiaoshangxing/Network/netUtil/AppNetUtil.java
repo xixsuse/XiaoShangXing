@@ -1,7 +1,10 @@
 package com.xiaoshangxing.Network.netUtil;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -16,13 +19,18 @@ import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.xiaoshangxing.Network.AppNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.login_register.StartActivity.FlashActivity;
 import com.xiaoshangxing.setting.DataSetting;
+import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.DataCacheManager;
+import com.xiaoshangxing.yujian.IM.kit.LoginSyncDataStatusObserver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +46,9 @@ import okhttp3.ResponseBody;
 
 public class AppNetUtil {
 
+    public static AppNetUtil getInstance() {
+        return new AppNetUtil();
+    }
 
     /**
      * description:意见反馈
@@ -133,5 +144,73 @@ public class AppNetUtil {
                 }
             }
         }, true);
+    }
+
+    /**
+     * description:用户被踢下线
+     *
+     * @param
+     * @return
+     */
+
+    public static void KitOut(final Context context) {
+        final DialogUtils.Dialog_Center dialog_center = new DialogUtils.Dialog_Center(context);
+        Dialog dialog = dialog_center.Message("你的账号在别处登录,\n是否重新登录?").
+                Button("重新登录", "直接退出")
+                .MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
+                    @Override
+                    public void onButton1() {
+                        dialog_center.close();
+                        ReLogin(context);
+                    }
+
+                    @Override
+                    public void onButton2() {
+                        dialog_center.close();
+                        LogOut(context);
+
+                    }
+                }).create();
+        dialog.show();
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.width = (ScreenUtils.getAdapterPx(R.dimen.x780, context)); //设置宽度
+        dialog.getWindow().setAttributes(lp);
+        dialog.setCancelable(false);
+    }
+
+    /**
+     * description:退出APP
+     *
+     * @param
+     * @return
+     */
+
+    public static void LogOut(Context context) {
+        ClearData(context);
+        XSXApplication.getInstance().exit();
+    }
+
+    /**
+     * description:重新登录
+     *
+     * @param
+     * @return
+     */
+    public static void ReLogin(Context context) {
+        ClearData(context);
+        Intent intent = new Intent(context, FlashActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        context.startActivity(intent);
+
+    }
+
+    //清除有关缓存信息
+    public static void ClearData(Context context) {
+        // 清理缓存&注销监听&清除状态
+        NimUIKit.clearCache();
+        LoginSyncDataStatusObserver.getInstance().reset();
+        SPUtils.put(context, SPUtils.IS_QUIT, true);
+        SPUtils.remove(context, SPUtils.ID);
+        NIMClient.getService(AuthService.class).logout();
     }
 }

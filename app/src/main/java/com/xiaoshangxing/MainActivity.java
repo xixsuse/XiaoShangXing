@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,14 +17,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.netease.nimlib.sdk.AbortableFuture;
+import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.NimIntent;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.Network.AutoUpdate.UpdateManager;
+import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
@@ -103,6 +108,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         initAllFragments();
         onParseIntent();
         update();
+        ObservalOlineState(true);
     }
 
     @Override
@@ -115,6 +121,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
     protected void onDestroy() {
         super.onDestroy();
         registerMsgUnreadInfoObserver(false);
+        ObservalOlineState(false);
     }
 
     private void onParseIntent(){
@@ -214,7 +221,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         }
 
         setXiaoshang(true);
-//        setYUjian(true);
     }
 
     private void update() {
@@ -276,11 +282,8 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
             imageWo.setImageResource(R.mipmap.wo_on);
             wo.setTextColor(getResources().getColor(R.color.green1));
 
-//            mFragmentManager.beginTransaction().replace(R.id.main_fragment,
-//                    woFragment, XiaoShangFragment.TAG).commit();
             mFragmentManager.beginTransaction().hide(xiaoShangFragment).hide(yuJianFragment).show(woFragment)
                     .commit();
-//            woFragment.autoRefresh();
             current = 3;
         } else {
             imageWo.setImageResource(R.mipmap.wo_off);
@@ -361,36 +364,26 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         return TAG;
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        switch (ev.getAction()) {
-////            case MotionEvent.ACTION_DOWN:
-////                x1 = ev.getX();
-////                y1 = ev.getY();
-////                break;
-////            case MotionEvent.ACTION_MOVE:
-////                return false;
-//            case MotionEvent.ACTION_UP:
-////                return (Math.abs(ev.getX() - x1) > 100 || Math.abs(ev.getY() - y1) > 100);
-//                return true;
-//            default:
-//                return false;
-//        }
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            //这个函数其实是个空函数，啥也没干，如果你没重写的话，不用关心
-            x1 = ev.getX();
-            y1 = ev.getY();
-            onUserInteraction();
+
+    private Observer<StatusCode> statusCodeObserver;
+
+    private void ObservalOlineState(boolean is) {
+        if (is) {
+            if (statusCodeObserver == null) {
+                statusCodeObserver = new Observer<StatusCode>() {
+                    @Override
+                    public void onEvent(StatusCode statusCode) {
+                        if (statusCode.wontAutoLogin()) {
+                            if (statusCode == StatusCode.KICKOUT || statusCode == StatusCode.KICK_BY_OTHER_CLIENT) {
+//                                AppNetUtil.KitOut(MainActivity.this);
+                                AppNetUtil.KitOut(XSXApplication.currentActivity);
+                            }
+                        }
+                    }
+                };
+            }
         }
-        //这里事件开始交给Activity所附属的Window进行派发，如果返回true，整个事件循环就结束了
-        //返回false意味着事件没人处理，所有人的onTouchEvent都返回了false，那么Activity就要来做最后的收场。
-        if (getWindow().superDispatchTouchEvent(ev)) {
-//            if (ev.getAction() == MotionEvent.ACTION_UP) {
-//                return (Math.abs(ev.getX() - x1) > 100 || Math.abs(ev.getY() - y1) > 100);
-            return true;
-//            }
-        }
-        //这里，Activity来收场了，Activity的onTouchEvent被调用
-        return onTouchEvent(ev);
+        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(statusCodeObserver, is);
     }
+
 }

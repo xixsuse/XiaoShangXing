@@ -153,7 +153,7 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .replace(R.id.loginregisterContent, frag)
-                .addToBackStack(RgInputPhoNumberFragment.TAG)
+                .addToBackStack(RgInputVertifyCodeFragment.TAG)
                 .commit();
     }
 

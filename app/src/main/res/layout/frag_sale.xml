@@ -66,12 +66,22 @@
 
     </View>
 
+    <ImageView
+        android:id="@+id/anounce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/line"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/width_48"
+        android:layout_marginRight="@dimen/width_48"
+        android:src="@mipmap/notice_rule_new" />
+
     <!--listview-->
     <com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/reflesh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/line"
+        android:layout_below="@+id/anounce"
         cube_ptr:ptr_duration_to_close="200"
         cube_ptr:ptr_duration_to_close_header="1000"
         cube_ptr:ptr_keep_header_when_refresh="true"
@@ -124,8 +134,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/collasp"
-                android:layout_marginEnd="@dimen/x24"
-                android:layout_marginStart="@dimen/x24"
+                android:layout_marginEnd="@dimen/width_48"
+                android:layout_marginStart="@dimen/width_48"
                 android:alpha="0.95"
                 android:background="@color/w1"
                 android:overScrollMode="never"

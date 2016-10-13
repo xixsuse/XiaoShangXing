@@ -1,6 +1,7 @@
 package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
+import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
@@ -32,15 +33,26 @@ public class CustomNotificationText {
 
     private static String getApllyPlanText(IMMessage message, boolean pass) {
         StringBuilder sb = new StringBuilder();
-        String selfName = NimUserInfoCache.getInstance().getUserDisplayNameYou(message.getFromAccount());
-        sb.append(selfName);
-        if (pass) {
-            sb.append("同意了");
+        if (message.getDirect() == MsgDirectionEnum.Out) {
+            sb.append("你");
+            if (pass) {
+                sb.append("同意了");
+            } else {
+                sb.append("拒绝了");
+            }
+            sb.append(NimUserInfoCache.getInstance().getUserDisplayNameYou(message.getSessionId()));
+            sb.append("的加入计划请求");
         } else {
-            sb.append("拒绝了");
+            sb.append(NimUserInfoCache.getInstance().getUserDisplayNameYou(message.getFromAccount()));
+            if (pass) {
+                sb.append("同意了");
+            } else {
+                sb.append("拒绝了");
+            }
+
+            sb.append("你的加入计划请求");
         }
-        sb.append(NimUserInfoCache.getInstance().getUserDisplayNameYou(message.getSessionId()));
-        sb.append("的加入计划请求");
+
         return sb.toString();
     }
 

@@ -8,14 +8,11 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.xiaoshangxing.Network.netUtil.MultipartUtility;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +29,7 @@ public class Formmat {
     private String path;
     private MultipartUtility multipartUtility;
     private Handler handler;
+    private SimpleCallBack simpleCallBack;
 
     public Formmat(final IBaseView iBaseView, final Activity context, String path) {
         this.iBaseView = iBaseView;
@@ -44,8 +42,11 @@ public class Formmat {
                         iBaseView.showLoadingDialog("上传中...");
                         break;
                     case 2:
+                        if (simpleCallBack != null) {
+                            simpleCallBack.onSuccess();
+                        }
                         iBaseView.hideLoadingDialog();
-                        context.finish();
+//                        context.finish();
                         iBaseView.showToast("发布成功");
                         FileUtils.deleteFolderFile(FileUtils.getXSX_CameraPhotoPath(), false);
                         break;
@@ -151,5 +152,13 @@ public class Formmat {
         Message end = new Message();
         end.what = i;
         handler.sendMessage(end);
+    }
+
+    public SimpleCallBack getSimpleCallBack() {
+        return simpleCallBack;
+    }
+
+    public void setSimpleCallBack(SimpleCallBack simpleCallBack) {
+        this.simpleCallBack = simpleCallBack;
     }
 }

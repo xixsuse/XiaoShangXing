@@ -2,6 +2,7 @@ package com.xiaoshangxing.xiaoshang.Calendar;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
@@ -23,10 +24,12 @@ import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter
 import com.xiaoshangxing.Network.Formmat;
 import com.xiaoshangxing.Network.netUtil.BaseUrl;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.text.DateFormat;
@@ -77,6 +80,8 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private BottomSheetBehavior mBottomSheetBehavior;
     private CalendarDay current_day;
+    private Runnable runnable;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +155,31 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
             @Override
             public void run() {
                 Formmat formmat = new Formmat(CalendarInput.this, CalendarInput.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
+
+                formmat.setSimpleCallBack(new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        KeyBoardUtils.closeKeybord(text, CalendarInput.this);
+                        runnable = new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        };
+                        handler.postDelayed(runnable, 250);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
+
                 formmat.addFormField(map)
                         .doUpload();
             }

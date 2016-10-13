@@ -84,6 +84,10 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     LinearLayout collasp;
     @Bind(R.id.rules)
     RelativeLayout rules;
+    @Bind(R.id.back_text)
+    TextView backText;
+    @Bind(R.id.anounce)
+    ImageView anounce;
 
     private View mview;
     private Realm realm;
@@ -129,14 +133,14 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     }
 
     private void initView() {
-        headview = View.inflate(getContext(), R.layout.headview_help_list, null);
+        headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
         dotsTextView.start();
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
-        headview.setOnClickListener(new View.OnClickListener() {
+        anounce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickOnRule(true);
@@ -267,7 +271,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         Intent intent = new Intent(getContext(), InputActivity.class);
         intent.putExtra(InputActivity.EDIT_STATE, InputActivity.XIANZHI);
         intent.putExtra(InputActivity.SELECT_IMAGE_URLS, (ArrayList<String>) select_image_urls);
-        startActivity(intent);
+        startActivityForResult(intent, IntentStatic.PUBLISH);
     }
 
     @Override
@@ -399,15 +403,15 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     public void clickOnRule(boolean is) {
         if (is) {
             rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_show));
         } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.verify_success_top1));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_hide));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 800);
+            }, 300);
         }
 
     }
@@ -475,9 +479,17 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == IntentStatic.PUBLISH && resultCode == IntentStatic.PUBLISH_SUCCESS) {
+            if (ptrFrameLayout != null) {
+                ptrFrameLayout.autoRefresh();
+            }
+        }
+
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
+
         select_image_urls.clear();
         switch (requestCode) {
             case InputActivity.TAKE_PHOTO:
@@ -518,6 +530,5 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
                 break;
         }
     }
-
 
 }

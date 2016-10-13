@@ -6,10 +6,13 @@ import android.util.Log;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.StatusCode;
+import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
+import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
@@ -106,8 +109,8 @@ public final class NimUIKit {
         };
 
         NIMClient.getService(MsgServiceObserve.class).observeCustomNotification(commandObserver, true);
-
     }
+
 
     /**
      * 释放缓存，一般在注销时调用

@@ -253,6 +253,7 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode== SelectPersonActivity.SELECT_PERSON_CODE ){
             if (data!=null){
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size()>0){

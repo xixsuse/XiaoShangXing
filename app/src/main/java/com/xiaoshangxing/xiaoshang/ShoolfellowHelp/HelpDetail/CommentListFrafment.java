@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.Published;
@@ -23,8 +22,6 @@ import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
-
-import io.realm.Sort;
 
 /**
  * Created by FengChaoQun

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
@@ -85,6 +86,9 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
 
     private View rootView;
 
+    private Handler handler = new Handler();
+    private Runnable runnable;
+
     public static void start(Context context, String contactId, IMMessage anchor, SessionTypeEnum sessionType) {
         Intent intent = new Intent();
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, contactId);   //id
@@ -147,6 +151,7 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
         messageListPanel.onDestroy();
 //        取消监听
         registerObservers(false);
+        handler.removeCallbacks(runnable);
     }
 
     //  刷新消息列表
@@ -177,6 +182,13 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
         if (inputPanel == null) {
             inputPanel = new InputPanel(container, rootView, true);
         }
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                requestBuddyInfo();
+            }
+        };
     }
 
     /**
@@ -306,7 +318,9 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
             int id = json.getInt(NS.ID);
             if (id == 1) {
                 // 正在输入
-                Toast.makeText(ChatActivity.this, "对方正在输入...", Toast.LENGTH_LONG).show();
+//                Toast.makeText(ChatActivity.this, "对方正在输入...", Toast.LENGTH_LONG).show();
+                name.setText("对方正在输入...");
+                handler.postDelayed(runnable, 3000);
             } else {
                 Toast.makeText(ChatActivity.this, "command: " + content, Toast.LENGTH_SHORT).show();
             }

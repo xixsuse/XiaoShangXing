@@ -24,6 +24,7 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
@@ -33,7 +34,7 @@ import com.xiaoshangxing.utils.school_circle.Item_Comment;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.wo.WoFrafment.Wo_listview_adpter;
-import com.xiaoshangxing.wo.roll.rollActivity;
+import com.xiaoshangxing.wo.roll.RollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import io.realm.Realm;
@@ -209,8 +210,10 @@ public abstract class WoBaseHolder {
 
 //        显示权限列表
         if (TempUser.isMine(String.valueOf(published.getUserId()))) {
-            permission.setVisibility(View.VISIBLE);
-            delete.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(published.getNotice())) {
+                permission.setVisibility(View.VISIBLE);
+                delete.setVisibility(View.VISIBLE);
+            }
         } else {
             permission.setVisibility(View.GONE);
             delete.setVisibility(View.GONE);
@@ -317,8 +320,9 @@ public abstract class WoBaseHolder {
         permission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, rollActivity.class);
-                intent.putExtra(rollActivity.TYPE, rollActivity.NOTICE);
+                Intent intent = new Intent(context, RollActivity.class);
+                intent.putExtra(RollActivity.TYPE, RollActivity.NOTICE);
+                intent.putExtra(IntentStatic.DATA, published.getId());
                 context.startActivity(intent);
             }
         });

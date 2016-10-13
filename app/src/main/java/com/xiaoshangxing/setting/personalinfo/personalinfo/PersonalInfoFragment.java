@@ -157,8 +157,12 @@ public class PersonalInfoFragment extends BaseFragment {
         MyGlide.with(XSXApplication.getInstance(), user.getUserImage(), settingPersoninfoHeadView);
 
         name.setText(user.getUsername());
-        if (user.getSex() != null) {
-            sex.setText(user.getSex() == 0 ? "女" : "男");
+        if (user.getSex() == 1) {
+            sex.setText("男");
+        } else if (user.getSex() == 2) {
+            sex.setText("女");
+        } else {
+            sex.setText("未知");
         }
         personinfoHometown.setText(user.getHometown());
         if (!TextUtils.isEmpty(user.getSignature())&&!user.getSignature().equals("null")){

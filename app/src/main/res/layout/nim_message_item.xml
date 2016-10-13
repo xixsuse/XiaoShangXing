@@ -17,23 +17,42 @@
         android:layout_marginBottom="@dimen/y24"
         android:visibility="gone" />
 
+    <!--<com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView-->
+    <!--android:id="@+id/message_item_portrait_left"-->
+    <!--android:layout_width="@dimen/avatar_size_in_session"-->
+    <!--android:layout_height="@dimen/avatar_size_in_session"-->
+    <!--android:layout_alignParentLeft="true"-->
+    <!--android:layout_below="@id/message_item_time"-->
+    <!--android:layout_marginRight="8dip"-->
+    <!--android:visibility="gone" />-->
+
+    <!--<com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView-->
+    <!--android:id="@+id/message_item_portrait_right"-->
+    <!--android:layout_width="@dimen/avatar_size_in_session"-->
+    <!--android:layout_height="@dimen/avatar_size_in_session"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_below="@id/message_item_time"-->
+    <!--android:layout_marginLeft="8dip"-->
+    <!--android:visibility="gone" />-->
+
     <com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView
         android:id="@+id/message_item_portrait_left"
-        android:layout_width="@dimen/avatar_size_in_session"
-        android:layout_height="@dimen/avatar_size_in_session"
+        android:layout_width="@dimen/x112"
+        android:layout_height="@dimen/x112"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/message_item_time"
-        android:layout_marginRight="8dip"
+        android:layout_marginRight="@dimen/x24"
         android:visibility="gone" />
 
     <com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView
         android:id="@+id/message_item_portrait_right"
-        android:layout_width="@dimen/avatar_size_in_session"
-        android:layout_height="@dimen/avatar_size_in_session"
+        android:layout_width="@dimen/x112"
+        android:layout_height="@dimen/x112"
         android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/x24"
         android:layout_below="@id/message_item_time"
-        android:layout_marginLeft="8dip"
-        android:visibility="gone" />
+        android:src="@color/b0"
+        android:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/message_item_name_layout"

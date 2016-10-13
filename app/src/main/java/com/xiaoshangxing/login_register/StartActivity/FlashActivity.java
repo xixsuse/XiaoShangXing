@@ -3,29 +3,15 @@ package com.xiaoshangxing.login_register.StartActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.netease.nimlib.sdk.AbortableFuture;
-import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.NimIntent;
-import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.StatusCode;
-import com.netease.nimlib.sdk.auth.AuthService;
-import com.netease.nimlib.sdk.auth.AuthServiceObserver;
-import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
-import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
-import com.xiaoshangxing.yujian.IM.NimUIKit;
-import com.xiaoshangxing.yujian.IM.cache.DataCacheManager;
 
 import java.util.ArrayList;
 
@@ -35,7 +21,6 @@ import java.util.ArrayList;
  */
 public class FlashActivity extends BaseActivity {
     private Handler handler;
-    private AbortableFuture<LoginInfo> loginRequest;
     public static final String MESSAGE="MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +58,6 @@ public class FlashActivity extends BaseActivity {
             }
         }, 2000);
 
-//        Login();
     }
 
     private void GotoSeeMessage(){
@@ -101,55 +85,6 @@ public class FlashActivity extends BaseActivity {
         finish();
     }
 
-    //  登录IM  并存储和初始化相关信息
-    private void Login() {
-        final String account = "17768345313";
-        loginRequest = NIMClient.getService(AuthService.class).login(new LoginInfo(account, "123456"));
-//            打开本地数据库
-            loginRequest.setCallback(new RequestCallback() {
-                @Override
-                public void onSuccess(Object o) {
-                    NimUIKit.setAccount(account);
-                    // 初始化消息提醒
-                    NIMClient.toggleNotification(DataSetting.IsAcceptedNews(FlashActivity.this));
-                    // 初始化免打扰
-                    if (DataSetting.getStatusConfig() == null) {
-                        DataSetting.setStatusConfig(XSXApplication.getInstance().notificationConfig);
-                    }
-                    NIMClient.updateStatusBarNotificationConfig(DataSetting.getStatusConfig());
-                    // 构建缓存
-                    DataCacheManager.buildDataCacheAsync();
-
-                    Toast.makeText(FlashActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailed(int i) {
-                    Log.d("loginok", "fail");
-                }
-
-                @Override
-                public void onException(Throwable throwable) {
-
-                }
-            });
-            NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(new Observer<StatusCode>() {
-                @Override
-                public void onEvent(StatusCode statusCode) {
-
-                    if (statusCode == StatusCode.LOGINED) {
-                        Log.d("loginok", "ok");
-                    } else {
-                        Log.d("loginok2", "" + statusCode.name());
-                    }
-                    if (statusCode == StatusCode.KICKOUT) {
-                        Log.d("kit", "" + NIMClient.getService(AuthService.class).getKickedClientType());
-                    }
-                }
-            }, true);
-
-
-    }
 
     public boolean isFirstCome() {
         return (boolean) SPUtils.get(this, SPUtils.IS_FIRS_COME, true);
@@ -176,6 +111,7 @@ public class FlashActivity extends BaseActivity {
    */
     public void intentMainActivity() {
         Intent main_intent = new Intent(this, MainActivity.class);
+        main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(main_intent);
         finish();
     }

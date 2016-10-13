@@ -20,5 +20,8 @@ public class IntentStatic {
 
     public static final int REGISTER = 2000;
 
+    public static final int PUBLISH = 3000;
+    public static final int PUBLISH_SUCCESS = 3001;
+
 
 }

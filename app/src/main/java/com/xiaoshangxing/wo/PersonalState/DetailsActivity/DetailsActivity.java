@@ -40,7 +40,7 @@ import com.xiaoshangxing.wo.PersonalState.check_photo.myStateNoScrollGridAdapter
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
-import com.xiaoshangxing.wo.roll.rollActivity;
+import com.xiaoshangxing.wo.roll.RollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.ArrayList;
@@ -290,8 +290,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
     @Override
     public void gotoPermisson() {
-        Intent intent = new Intent(this, rollActivity.class);
-        intent.putExtra(rollActivity.TYPE, rollActivity.FORBIDDEN);
+        Intent intent = new Intent(this, RollActivity.class);
+        intent.putExtra(RollActivity.TYPE, RollActivity.FORBIDDEN);
         intent.putExtra(IntentStatic.DATA, published_id);
         startActivity(intent);
     }

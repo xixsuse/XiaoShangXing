@@ -3,10 +3,9 @@ package com.xiaoshangxing.utils.normalUtils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.alibaba.fastjson.JSONObject;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.xiaoshangxing.utils.XSXApplication;
-
-import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -159,7 +158,7 @@ public class SPUtils
 		StatusBarNotificationConfig config = new StatusBarNotificationConfig();
 		String jsonString = (String) get(XSXApplication.getInstance(), PERSONAL_SETTING, "");
 		try {
-			JSONObject jsonObject = new JSONObject(jsonString);
+			JSONObject jsonObject = JSONObject.parseObject(jsonString);
 			if (jsonObject == null) {
 				return null;
 			}
@@ -168,12 +167,12 @@ public class SPUtils
 			config.downTimeToggle = jsonObject.getBoolean("downTimeToggle");
 			config.ring = jsonObject.getBoolean("ring");
 			config.vibrate = jsonObject.getBoolean("vibrate");
-			config.notificationSmallIconId = jsonObject.getInt("notificationSmallIconId");
+			config.notificationSmallIconId = jsonObject.getIntValue("notificationSmallIconId");
 			config.notificationSound = jsonObject.getString("notificationSound");
 			config.hideContent = jsonObject.getBoolean("hideContent");
-			config.ledARGB = jsonObject.getInt("ledargb");
-			config.ledOnMs = jsonObject.getInt("ledonms");
-			config.ledOffMs = jsonObject.getInt("ledoffms");
+			config.ledARGB = jsonObject.getIntValue("ledargb");
+			config.ledOnMs = jsonObject.getIntValue("ledonms");
+			config.ledOffMs = jsonObject.getIntValue("ledoffms");
 			config.titleOnlyShowAppName = jsonObject.getBoolean("titleOnlyShowAppName");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -181,6 +180,7 @@ public class SPUtils
 
 		return config;
 	}
+
 
 	/**
 	 * 移除某个key值已经对应的值
