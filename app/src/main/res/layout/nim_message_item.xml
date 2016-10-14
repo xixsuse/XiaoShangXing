@@ -35,7 +35,26 @@
     <!--android:layout_marginLeft="8dip"-->
     <!--android:visibility="gone" />-->
 
-    <com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView
+    <!--<com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView-->
+        <!--android:id="@+id/message_item_portrait_left"-->
+        <!--android:layout_width="@dimen/x112"-->
+        <!--android:layout_height="@dimen/x112"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_below="@id/message_item_time"-->
+        <!--android:layout_marginRight="@dimen/x24"-->
+        <!--android:visibility="gone" />-->
+
+    <!--<com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView-->
+        <!--android:id="@+id/message_item_portrait_right"-->
+        <!--android:layout_width="@dimen/x112"-->
+        <!--android:layout_height="@dimen/x112"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginLeft="@dimen/x24"-->
+        <!--android:layout_below="@id/message_item_time"-->
+        <!--android:src="@color/b0"-->
+        <!--android:visibility="visible" />-->
+
+    <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/message_item_portrait_left"
         android:layout_width="@dimen/x112"
         android:layout_height="@dimen/x112"
@@ -44,7 +63,7 @@
         android:layout_marginRight="@dimen/x24"
         android:visibility="gone" />
 
-    <com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView
+    <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/message_item_portrait_right"
         android:layout_width="@dimen/x112"
         android:layout_height="@dimen/x112"

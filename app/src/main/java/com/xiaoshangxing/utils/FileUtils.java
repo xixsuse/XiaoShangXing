@@ -219,6 +219,11 @@ public class FileUtils {
         return TEMP_IMAGE;
     }
 
+    public static File getTempImageFile() {
+        File file = new File(getTempImage());
+        return file;
+    }
+
     public static Uri newPhotoPath(){
         File file = new File(getXSX_CameraPhotoPath(), UUID.randomUUID().toString() + ".jpg");
         return Uri.fromFile(file);

@@ -134,6 +134,30 @@ public class UpdateManager {
         });
         noticeDialog = builder.create();
         noticeDialog.show();
+
+//        final Dialog dialog = new Dialog(mContext, R.style.ActionSheetDialog);
+//        LinearLayout linearLayout = (LinearLayout) View
+//                .inflate(mContext, R.layout.dialog_update, null);
+//
+//        TextView message = (TextView) linearLayout.findViewById(R.id.dialog_message);
+//        message.setText(updateMsg);
+//        Button cancle = (Button) linearLayout.findViewById(R.id.cancel);
+//        Button ok = (Button) linearLayout.findViewById(R.id.ok);
+//        cancle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        ok.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//                showDownloadDialog();
+//            }
+//        });
+//        dialog.setCancelable(false);
+//        dialog.show();
     }
 
     private void showDownloadDialog() {

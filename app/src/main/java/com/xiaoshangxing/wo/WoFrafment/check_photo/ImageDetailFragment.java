@@ -76,10 +76,6 @@ public class ImageDetailFragment extends Fragment {
 						mAttacher.update();
 					}
 				});
-		File file=Glide.getPhotoCacheDir(getContext());
-		Log.d("length",""+ FileUtils.getFormatSize(FileUtils.getFolderSize(file)));
-
-//		mImageView.setImageResource(R.mipmap.test);
 	}
 
 	@Override

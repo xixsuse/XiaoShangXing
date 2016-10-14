@@ -44,8 +44,8 @@ public class FlashActivity extends BaseActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (isFirstCome()) {
-                    Intent intent = new Intent(FlashActivity.this, StartActivity.class);
+                if (isNeedGuide()) {
+                    Intent intent = new Intent(FlashActivity.this, IndicatorActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -88,6 +88,11 @@ public class FlashActivity extends BaseActivity {
 
     public boolean isFirstCome() {
         return (boolean) SPUtils.get(this, SPUtils.IS_FIRS_COME, true);
+    }
+
+    public boolean isNeedGuide() {
+//        return (boolean) SPUtils.get(this, SPUtils.IS_NEED_GUIDE, true);
+        return true;
     }
 
     public boolean isQuit() {

@@ -28,6 +28,7 @@ import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.setting.personalinfo.showheadimg.HeadImageActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
@@ -142,13 +143,6 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         UserInfoCache.getInstance().getCollege(college, id);
         UserInfoCache.getInstance().getName(name, id);
 
-//        if (FriendDataCache.getInstance().isMyFriend(account)) {
-//            more.setVisibility(View.VISIBLE);
-//            bt1.setChecked(true);
-//        } else {
-//            more.setVisibility(View.GONE);
-//            bt1.setChecked(false);
-//        }
         if (user == null) {
             NimUserInfoCache.getInstance().getUserInfoFromRemote(account, new RequestCallback<NimUserInfo>() {
                 @Override
@@ -171,6 +165,15 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         } else {
             refreshPager();
         }
+
+        headImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PersonInfoActivity.this, HeadImageActivity.class);
+                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+                startActivity(intent);
+            }
+        });
 
     }
 

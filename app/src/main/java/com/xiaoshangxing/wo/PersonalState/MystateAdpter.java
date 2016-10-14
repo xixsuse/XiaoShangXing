@@ -9,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.MyStateHodlerBase;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_holder_transmit;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_image_text;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_onlytext;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +45,7 @@ public class MystateAdpter extends RealmBaseAdapter<Published> {
         mHandler = new Handler();
         this.context = context;
         this.viewTypes = new HashMap<Class<?>, Integer>(getViewTypeCount());
+        date_position.put(TimeUtil.getFavoriteCollectTime(NS.currentTime()), -1);
     }
 
     @Override

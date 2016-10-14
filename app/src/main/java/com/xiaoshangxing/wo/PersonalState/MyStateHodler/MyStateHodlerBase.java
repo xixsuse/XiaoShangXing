@@ -1,7 +1,7 @@
 package com.xiaoshangxing.wo.PersonalState.MyStateHodler;
 
 import android.content.Context;
-import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.wo.PersonalState.MystateAdpter;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -35,14 +34,13 @@ public abstract class MyStateHodlerBase {
     /**
      * list item view
      */
-    protected View view;
+    protected View view, left_lay;
 
     protected Realm realm;
 
     public int position;
 
     private TextView day, month, location;
-    private View publish;
     protected FrameLayout content;
 
     public MyStateHodlerBase() {
@@ -61,14 +59,13 @@ public abstract class MyStateHodlerBase {
         day = (TextView) view.findViewById(R.id.day);
         month = (TextView) view.findViewById(R.id.month);
         location = (TextView) view.findViewById(R.id.location);
-        publish = view.findViewById(R.id.publish);
         content = (FrameLayout) view.findViewById(R.id.content);
+        left_lay = view.findViewById(R.id.left_lay);
     }
 
     public abstract void refresh(Published published);
 
     protected void refreshBase() {
-
         String data = TimeUtil.getFavoriteCollectTime(published.getCreateTime());
         if (adpter.isNeedShowDate(data, position)) {
             String[] datas = data.split("-");
@@ -84,20 +81,19 @@ public abstract class MyStateHodlerBase {
             month.setText("");
         }
 
-        location.setText(published.getLocation());
-        if (TempUser.isMine(String.valueOf(published.getUserId())) && position == 0) {
-            publish.setVisibility(View.VISIBLE);
-            publish.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent publish_intent = new Intent(getContext(), InputActivity.class);
-                    publish_intent.putExtra(InputActivity.LIMIT, 9);
-                    publish_intent.putExtra(InputActivity.EDIT_STATE, InputActivity.PUBLISH_STATE);
-                    context.startActivity(publish_intent);
-                }
-            });
+        String location_text = published.getLocation();
+        if (TextUtils.isEmpty(location_text)) {
+            location.setVisibility(View.GONE);
         } else {
-            publish.setVisibility(View.GONE);
+            location.setText(location_text);
+            location.setVisibility(View.VISIBLE);
+        }
+        if (position == 0) {
+            left_lay.setPadding(0, 0, 0, 0);
+            content.setPadding(0, 0, 0, 0);
+        } else {
+            left_lay.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, context), 0, 0);
+            content.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, context), 0, 0);
         }
     }
 

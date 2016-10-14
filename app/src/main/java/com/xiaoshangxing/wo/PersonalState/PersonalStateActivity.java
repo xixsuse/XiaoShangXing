@@ -16,6 +16,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
@@ -50,6 +51,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
     TextView title;
     private ListView listView;
     private RelativeLayout headView;
+    private View headView2;
     private StateContract.Presenter mPresenter;
     private String account;
     private TextView name1;
@@ -80,7 +82,19 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
         name2 = (TextView) headView.findViewById(R.id.name2);
         head = (CirecleImage) headView.findViewById(R.id.head_image);
         listView.addHeaderView(headView);
+        headView2 = View.inflate(this, R.layout.publish_lay, null);
+        listView.addHeaderView(headView2);
         headView.setEnabled(false);
+        listView.setHeaderDividersEnabled(false);
+        headView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent publish_intent = new Intent(PersonalStateActivity.this, InputActivity.class);
+                publish_intent.putExtra(InputActivity.LIMIT, 9);
+                publish_intent.putExtra(InputActivity.EDIT_STATE, InputActivity.PUBLISH_STATE);
+                startActivity(publish_intent);
+            }
+        });
     }
 
     @Override

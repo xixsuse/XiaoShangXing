@@ -24,14 +24,19 @@
             android:layout_height="@dimen/x108"
             android:layout_centerVertical="true" >
 
-            <com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView
+            <!--<com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView-->
+            <!--android:id="@+id/img_head"-->
+            <!--android:layout_width="@dimen/x108"-->
+            <!--android:layout_height="@dimen/x108"-->
+            <!--android:src="@mipmap/greyblock"-->
+            <!--android:layout_gravity="center"-->
+            <!--/>-->
+            <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/img_head"
                 android:layout_width="@dimen/x108"
                 android:layout_height="@dimen/x108"
-                android:src="@mipmap/greyblock"
                 android:layout_gravity="center"
                 />
-
             <!--<TextView-->
                 <!--android:id="@+id/unread_number_tip"-->
                 <!--android:layout_width="20dp"-->

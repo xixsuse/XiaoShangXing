@@ -11,14 +11,12 @@ import android.widget.TextView;
 import com.netease.nimlib.sdk.msg.constant.MsgStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
-import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.image.MyGlide;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
-import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
-import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
 import com.xiaoshangxing.yujian.YujianFragment.YuJianFragment;
@@ -27,7 +25,8 @@ public abstract class RecentViewHolder extends TViewHolder implements OnClickLis
 
     protected FrameLayout portraitPanel;
 
-    protected HeadImageView imgHead;
+    //    protected HeadImageView imgHead;
+    protected CirecleImage imgHead;
 
     protected TextView tvNickname;
 
@@ -92,8 +91,9 @@ public abstract class RecentViewHolder extends TViewHolder implements OnClickLis
                 MyGlide.with_app_log(context, userInfo.getAvatar(), imgHead);
             }
         } else if (recent.getSessionType() == SessionTypeEnum.Team) {
-            Team team = TeamDataCache.getInstance().getTeamById(recent.getContactId());
-            imgHead.loadTeamIconByTeam(team);
+//            Team team = TeamDataCache.getInstance().getTeamById(recent.getContactId());
+//            imgHead.loadTeamIconByTeam(team);
+            imgHead.setImageResource(R.mipmap.cirecleimage_default);
         }
     }
 
@@ -158,7 +158,7 @@ public abstract class RecentViewHolder extends TViewHolder implements OnClickLis
 
     public void inflate() {
         this.portraitPanel = (FrameLayout) view.findViewById(R.id.portrait_panel);
-        this.imgHead = (HeadImageView) view.findViewById(R.id.img_head);
+        this.imgHead = (CirecleImage) view.findViewById(R.id.img_head);
         this.tvNickname = (TextView) view.findViewById(R.id.tv_nickname);
         this.tvMessage = (EmotinText) view.findViewById(R.id.tv_message);
         this.tvUnread = (TextView) view.findViewById(R.id.unread_number_tip);

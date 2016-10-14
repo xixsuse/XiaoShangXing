@@ -20,6 +20,7 @@ public class SPUtils
 	**describe:登录注册有关键值对
 	*/
 	public static final String IS_FIRS_COME = "IS_FIRS_COME";//记录是否为第一次进入APP
+	public static final String IS_NEED_GUIDE = "IS_NEED_GUIDE";//记录是否需要引导
 	public static final String IS_QUIT = "IS_QUIT";//记录是否有退出账号的操作
 	public static final String PHONENUMNBER = "PHONENUMNBER";//记录当前存储的账号
 	public static final String CURRENT_COUNT_HEAD = "CURRENT_COUNT_HEAD";//记录当前存储的账号的头像

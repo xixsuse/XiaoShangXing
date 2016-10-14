@@ -109,6 +109,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         onParseIntent();
         update();
         ObservalOlineState(true);
+        initDot();
     }
 
     @Override
@@ -122,6 +123,12 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         super.onDestroy();
         registerMsgUnreadInfoObserver(false);
         ObservalOlineState(false);
+    }
+
+    private void initDot() {
+        xiaoshangDot.setVisibility(View.GONE);
+        yujianDot.setVisibility(View.GONE);
+        woDot.setVisibility(View.GONE);
     }
 
     private void onParseIntent(){
@@ -341,7 +348,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
     @Override
     public void onUnreadNumChanged(ReminderItem item) {
         int unread = item.unread() + SystemMessageUnreadManager.getInstance().getSysMsgUnreadCount();
-        yujianDot.setVisibility(unread > 0 ? View.VISIBLE : View.INVISIBLE);
+//        yujianDot.setVisibility(unread > 0 ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override

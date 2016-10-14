@@ -1,5 +1,6 @@
 package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,9 +13,11 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
 
 
@@ -67,9 +70,9 @@ public class MsgViewHolderTransmitWithImage extends MsgViewHolderBase {
                 contentContainer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Intent intent = new Intent(context, HelpDetailActivity.class);
-//                        intent.putExtra(IntentStatic.DATA, state_id);
-//                        context.startActivity(intent);
+                        Intent intent = new Intent(context, SaleActivity.class);
+                        intent.putExtra(IntentStatic.DATA, state_id);
+                        context.startActivity(intent);
                     }
                 });
             }

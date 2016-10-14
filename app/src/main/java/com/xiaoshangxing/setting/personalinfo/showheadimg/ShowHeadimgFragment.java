@@ -33,6 +33,7 @@ import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.image.MyGlide;
 
@@ -174,7 +175,8 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
-                String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
+//                String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
+                String coverPath = FileUtils.getTempImage();
 
                 ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
                     @Override
@@ -183,7 +185,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                             JSONObject jsonObject = new JSONObject(e.string());
                             if (jsonObject.getString(NS.CODE).equals("200")) {
                                 showToast("头像修改成功");
-                                FileUtil.deleteTempAndRaw();
+//                                FileUtil.deleteTempAndRaw();
                                 UserInfoCache.getInstance().reload(new UserInfoCache.ReloadCallback() {
                                     @Override
                                     public void callback(JSONObject jsonObject) throws JSONException {

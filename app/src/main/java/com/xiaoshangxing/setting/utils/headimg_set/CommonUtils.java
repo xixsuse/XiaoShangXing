@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
+import com.xiaoshangxing.utils.FileUtils;
 
 
 public class CommonUtils {
@@ -52,14 +53,17 @@ public class CommonUtils {
             intent.putExtra("aspectX", 1);
             intent.putExtra("aspectY", 1);
             // outputX outputY 是裁剪图片宽高
-            intent.putExtra("outputX", width);
-            intent.putExtra("outputY", height);
+            intent.putExtra("outputX", 500);
+            intent.putExtra("outputY", 500);
             
             intent.putExtra("scale", true);
             //只能设置成false，k920无法返回
             intent.putExtra("return-data", false);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtil.getHeadPhotoFileTemp()));
-            intent.putExtra("*+---", Bitmap.CompressFormat.PNG.toString());
+            intent.putExtra("circleCrop", true);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtil.getHeadPhotoFileTemp()));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtils.getTempImageFile()));
+//            intent.putExtra("*+---", Bitmap.CompressFormat.PNG.toString());
+            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
             intent.putExtra("noFaceDetection", true);
         } else {
             // 是否保留比例

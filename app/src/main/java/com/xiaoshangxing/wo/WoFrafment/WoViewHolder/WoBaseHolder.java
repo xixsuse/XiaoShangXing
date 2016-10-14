@@ -248,10 +248,10 @@ public abstract class WoBaseHolder {
 
             if (i.isReply()) {
                 item_comment = new Item_Comment(context, i.getUserName(), i.getObjectName(),
-                        i.getText(), String.valueOf(i.getId()), String.valueOf(i.getObejectId()));
+                        i.getText(), String.valueOf(i.getUserId()), String.valueOf(i.getObejectId()));
             } else {
                 item_comment = new Item_Comment(context, i.getUserName(),
-                        i.getText(), String.valueOf(i.getId()));
+                        i.getText(), String.valueOf(i.getUserId()));
             }
 
             comments.addView(item_comment.getTextView());

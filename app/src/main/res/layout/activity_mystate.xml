@@ -73,14 +73,12 @@
         android:overScrollMode="never"
         android:scrollbars="none"
         android:cacheColorHint="@color/transparent"
-        android:listSelector="@color/transparent"
-        android:dividerHeight="@dimen/y96"
-        android:divider="@color/transparent"
+            android:divider="@color/transparent"
+            android:listSelector="@color/transparent"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
     </ListView>
 
     </com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout>

@@ -294,6 +294,8 @@
         <activity android:name=".xiaoshang.Calendar.CalendarInput"></activity>
         <activity android:name=".setting.shiming.vertify.ApplyForSchool"></activity>
         <activity android:name=".yujian.Serch.SerchPerson.SerchPersonActivity"></activity>
+        <activity android:name=".setting.personalinfo.showheadimg.HeadImageActivity"></activity>
+        <activity android:name=".login_register.StartActivity.IndicatorActivity"></activity>
 
     </application>
 

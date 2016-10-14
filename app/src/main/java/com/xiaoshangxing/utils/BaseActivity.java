@@ -9,7 +9,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 
 import io.realm.Realm;
 import rx.Subscription;

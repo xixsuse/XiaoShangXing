@@ -6,6 +6,8 @@
 
     <!--左侧布局-->
     <RelativeLayout
+        android:id="@+id/left_lay"
+        android:paddingTop="@dimen/y96"
         android:layout_width="@dimen/x208"
         android:layout_height="wrap_content">
         <!--日期-->
@@ -46,46 +48,12 @@
     </RelativeLayout>
 
     <!--右侧布局-->
-    <RelativeLayout
+
+    <FrameLayout
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:paddingTop="@dimen/y96">
 
-        <!--说点什么吧-->
-        <RelativeLayout
-            android:id="@+id/publish"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/height_144"
-            android:paddingBottom="@dimen/y18"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/say_something"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:ellipsize="end"
-                android:text="@string/say_something"
-                android:textColor="@color/blue1"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_toRightOf="@+id/say_something"
-                android:src="@mipmap/feather_blue" />
-        </RelativeLayout>
-
-        <FrameLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/publish">
-
-        </FrameLayout>
-
-
-    </RelativeLayout>
-
+    </FrameLayout>
 </LinearLayout>

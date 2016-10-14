@@ -20,9 +20,10 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.image.MyGlide;
+import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
-import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
 
@@ -43,8 +44,10 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     protected LinearLayout nameContainer;
     protected TextView readReceiptTextView;
 
-    private HeadImageView avatarLeft;
-    private HeadImageView avatarRight;
+    //    private HeadImageView avatarLeft;
+//    private HeadImageView avatarRight;
+    private CirecleImage avatarLeft;
+    private CirecleImage avatarRight;
 
     public ImageView nameIconView;
 
@@ -217,8 +220,8 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     }
 
     private void setHeadImageView() {
-        HeadImageView show = isReceivedMessage() ? avatarLeft : avatarRight;
-        HeadImageView hide = isReceivedMessage() ? avatarRight : avatarLeft;
+        CirecleImage show = isReceivedMessage() ? avatarLeft : avatarRight;
+        CirecleImage hide = isReceivedMessage() ? avatarRight : avatarLeft;
         hide.setVisibility(View.GONE);
         if (!isShowHeadImage()) {
             show.setVisibility(View.GONE);
@@ -256,6 +259,8 @@ public abstract class MsgViewHolderBase extends TViewHolder {
             }
         });
 
+        avatarLeft.setIntent_type(CirecleImage.PERSON_INFO, message.getFromAccount());
+//        avatarRight.setIntent_type(CirecleImage.PERSON_INFO, NimUIKit.getAccount());
         // 头像点击事件响应
 //        if (NimUIKit.getSessionListener() != null) {
 //            View.OnClickListener portraitListener = new View.OnClickListener() {
