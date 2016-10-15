@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 
 import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
@@ -101,11 +103,38 @@ public class IndicatorActivity extends BaseActivity {
             startActivity(intent);
             finish();
         } else {
-            Intent main_intent = new Intent(IndicatorActivity.this, MainActivity.class);
-            main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(main_intent);
-            finish();
+            if (isQuit()) {
+                intentLoginRegisterActivity();
+            } else {
+                intentMainActivity();
+            }
         }
+    }
+
+    /*
+  **describe:跳转到主页面 并关闭该页面
+  */
+    public void intentMainActivity() {
+        Intent main_intent = new Intent(this, MainActivity.class);
+        main_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(main_intent);
+        finish();
+    }
+
+    /*
+ **describe:跳转到登录注册页面 携带账号并关闭该页面
+ */
+    public void intentLoginRegisterActivity() {
+        Intent intent = new Intent(this, LoginRegisterActivity.class);
+        intent.putExtra(LoginRegisterActivity.INTENT_TYPE, LoginRegisterActivity.LOGIN);
+        intent.putExtra(LoginFragment.LOGIN_WITH_NUMBER,
+                (String) SPUtils.get(this, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING));
+        startActivity(intent);
+        finish();
+    }
+
+    public boolean isQuit() {
+        return (boolean) SPUtils.get(this, SPUtils.IS_QUIT, true);
     }
 
     private void setBottomImage(int position) {

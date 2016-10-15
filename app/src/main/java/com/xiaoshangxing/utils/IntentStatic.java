@@ -23,5 +23,7 @@ public class IntentStatic {
     public static final int PUBLISH = 3000;
     public static final int PUBLISH_SUCCESS = 3001;
 
+    public static final String IS_ORIG = "IS_ORIG";
+
 
 }

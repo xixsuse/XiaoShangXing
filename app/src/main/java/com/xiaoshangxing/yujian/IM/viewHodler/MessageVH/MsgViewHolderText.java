@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.MoonUtil;
-import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 
 
@@ -48,10 +47,10 @@ public class MsgViewHolderText extends MsgViewHolderBase {
         TextView bodyTextView = findViewById(R.id.nim_message_item_text_body);
         if (isReceivedMessage()) {
             bodyTextView.setBackgroundResource(R.drawable.message_receive);
-            bodyTextView.setPadding(ScreenUtils.dip2px(15), ScreenUtils.dip2px(8), ScreenUtils.dip2px(10), ScreenUtils.dip2px(8));
+//            bodyTextView.setPadding(ScreenUtils.dip2px(15), ScreenUtils.dip2px(8), ScreenUtils.dip2px(10), ScreenUtils.dip2px(8));
         } else {
             bodyTextView.setBackgroundResource(R.drawable.message_send);
-            bodyTextView.setPadding(ScreenUtils.dip2px(10), ScreenUtils.dip2px(8), ScreenUtils.dip2px(15), ScreenUtils.dip2px(8));
+//            bodyTextView.setPadding(ScreenUtils.dip2px(10), ScreenUtils.dip2px(8), ScreenUtils.dip2px(15), ScreenUtils.dip2px(8));
         }
     }
 

@@ -95,6 +95,7 @@
             android:button="@null"
             android:focusable="false" />
         <TextView
+            android:id="@+id/original_text"
             android:text="@string/original"
             android:textColor="@color/b0"
             android:layout_centerVertical="true"

@@ -2,6 +2,7 @@ package com.xiaoshangxing.input_activity.album;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,4 +133,5 @@ public class AlbumListFragment extends BaseFragment {
         activity.setSelect_image_urls(list);
         getActivity().finish();
     }
+
 }

@@ -95,18 +95,22 @@ public class AlbumDetailFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.back:
                 activity.setSelect_image_urls(albumDetailAdapter.getSelect_image_urls());
+                activity.setSelectPicturesOK(false);
                 getFragmentManager().popBackStack();
                 break;
             case R.id.cancel:
+                activity.setSelectPicturesOK(false);
                 getFragmentManager().popBackStack();
                 break;
             case R.id.original:
+                activity.setOrig(original.isChecked());
                 break;
             case R.id.original_text:
                 original.performClick();
                 break;
             case R.id.details_entry_layout:
                 activity.setSelect_image_urls(albumDetailAdapter.getSelect_image_urls());
+                activity.setSelectPicturesOK(true);
                 activity.finish();
                 break;
         }
@@ -124,28 +128,9 @@ public class AlbumDetailFragment extends BaseFragment {
         setSelect_image_urls(activity.getSelect_image_urls());
     }
 
-//    public void SortImages(ImageBucket imageBucket){
-//        List<ImageItem> imageItems=imageBucket.imageList;
-//        ImageItem [] lists=new ImageItem[imageItems.size()];
-//        imageItems.toArray(lists);
-//        Arrays.sort(imageItems.toArray(lists),new TimeComparator());
-//        imageItems.clear();
-//        for (int i=0;i<lists.length;i++){
-//            imageItems.add(i,lists[i]);
-//        }
-//        imageBucket.imageList=imageItems;
-//    }
-//
-//    private class TimeComparator implements Comparator<ImageItem> {
-//
-//        public int compare(ImageItem o1, ImageItem o2) {
-//            File file1=new File(o1.imagePath);
-//            File file2=new File(o2.imagePath);
-//            if (file1.lastModified()>file2.lastModified()){
-//                return -1;
-//            }else {
-//                return 1;
-//            }
-//        }
-//    }
+    public void setOriginalChcekBox(boolean is) {
+        original.setChecked(is);
+    }
+
+
 }

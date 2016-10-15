@@ -60,10 +60,10 @@ public class CommonUtils {
             //只能设置成false，k920无法返回
             intent.putExtra("return-data", false);
             intent.putExtra("circleCrop", true);
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtil.getHeadPhotoFileTemp()));
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtils.getTempImageFile()));
-//            intent.putExtra("*+---", Bitmap.CompressFormat.PNG.toString());
-            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtil.getHeadPhotoFileTemp()));
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtils.getTempImageFile()));
+            intent.putExtra("*+---", Bitmap.CompressFormat.PNG.toString());
+//            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
             intent.putExtra("noFaceDetection", true);
         } else {
             // 是否保留比例

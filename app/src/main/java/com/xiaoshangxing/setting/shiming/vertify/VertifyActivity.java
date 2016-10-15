@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.shiming.result.VertifyingActivity;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.BroadCast.FinishActivityRecever;
+import com.xiaoshangxing.utils.IntentStatic;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,6 +46,8 @@ public class VertifyActivity extends BaseActivity {
     @Bind(R.id.VertifyButton)
     Button VertifyButton;
 
+    private FinishActivityRecever finishActivityRecever;
+
     public static String nameStr, sexStr, xuehaoStr, schoolStr, ruxuenianfenStr;
 
     public static boolean nameFlag = false, sexFlag = false, xuehaoFlag = false,
@@ -54,7 +58,9 @@ public class VertifyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertify);
         ButterKnife.bind(this);
-
+        finishActivityRecever = new FinishActivityRecever(this);
+        finishActivityRecever.register();
+        ;
     }
 
     public void Back(View view) {
@@ -121,6 +127,11 @@ public class VertifyActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finishActivityRecever.unregister();
+    }
 
     public void setButtonStyleGreen() {
         VertifyButton.setAlpha(1);
@@ -141,5 +152,10 @@ public class VertifyActivity extends BaseActivity {
         return nameFlag && sexFlag && xuehaoFlag && xuexiaoFlag && nianfenFlag;
     }
 
-
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (intent.getIntExtra(IntentStatic.TYPE, -1) == IntentStatic.CLOSE) {
+            finish();
+        }
+    }
 }

@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.check_photo.inputSelectPhotoPagerActivity;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 
@@ -43,6 +42,7 @@ public class ChatPictureAdapter extends RecyclerView.Adapter<ChatPictureAdapter.
         viewHolder.view = view;
         viewHolder.checkBox = (CheckBox) view.findViewById(R.id.checkbox);
         viewHolder.imageView = (ImageView) view.findViewById(R.id.iamge);
+        viewHolder.CheckBox_lay = view.findViewById(R.id.checkbox_lay);
         return viewHolder;
     }
 
@@ -59,6 +59,13 @@ public class ChatPictureAdapter extends RecyclerView.Adapter<ChatPictureAdapter.
         }else {
             holder.checkBox.setChecked(false);
         }
+
+        holder.CheckBox_lay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.checkBox.performClick();
+            }
+        });
 
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +125,7 @@ public class ChatPictureAdapter extends RecyclerView.Adapter<ChatPictureAdapter.
     class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         CheckBox checkBox;
-        View view;
+        View view, CheckBox_lay;
 
         public MyViewHolder(View view) {
             super(view);

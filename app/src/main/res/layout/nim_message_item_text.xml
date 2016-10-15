@@ -13,7 +13,9 @@
         android:includeFontPadding="false"
         android:lineSpacingExtra="3dip"
         android:maxWidth="222dip"
+        android:minWidth="@dimen/x112"
         android:minHeight="@dimen/x112"
+        android:padding="8dp"
         android:textColor="@color/b0"
-        android:textSize="14sp"/>
+        android:textSize="15sp" />
 </LinearLayout>

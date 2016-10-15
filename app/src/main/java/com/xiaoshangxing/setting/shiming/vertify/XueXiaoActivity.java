@@ -110,6 +110,7 @@ public class XueXiaoActivity extends BaseActivity {
             finish();
         } else {
             startActivity(new Intent(this, XueYuanActivity.class));
+            VertifyActivity.schoolStr = schoolText.getText().toString();
         }
 
     }

@@ -102,8 +102,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         setContentView(R.layout.main);
         ButterKnife.bind(this);
         requestBasicPermission();
-        TempUser.account = TempUser.getAccount(this);
-        TempUser.id = TempUser.getID(this);
+        doSomethingWhenEnter();
         initInputBox();
         initAllFragments();
         onParseIntent();
@@ -129,6 +128,14 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         xiaoshangDot.setVisibility(View.GONE);
         yujianDot.setVisibility(View.GONE);
         woDot.setVisibility(View.GONE);
+    }
+
+    private void doSomethingWhenEnter() {
+        TempUser.account = TempUser.getAccount(this);
+        TempUser.id = TempUser.getID(this);
+        SPUtils.put(this, SPUtils.IS_FIRS_COME, false);//当这个页面打开时，表明不是第一次进入APP了
+        SPUtils.put(this, SPUtils.IS_QUIT, false);//当这个页面打开时，清除退出记录
+        SPUtils.put(this,SPUtils.IS_NEED_GUIDE,false);//当这个页面打开时，表示已看过引导页
     }
 
     private void onParseIntent(){
@@ -201,8 +208,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
     }
 
     private void initAllFragments() {
-        SPUtils.put(this, SPUtils.IS_FIRS_COME, false);//当这个页面打开时，表明不是第一次进入APP了
-        SPUtils.put(this, SPUtils.IS_QUIT, false);//当这个页面打开时，清除退出记录
         Fragment frag;
         frag = mFragmentManager.findFragmentByTag(WoFragment.TAG);
         woFragment = (frag == null) ? WoFragment.newInstance() : (WoFragment) frag;

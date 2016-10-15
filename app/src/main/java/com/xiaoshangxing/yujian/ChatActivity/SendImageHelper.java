@@ -62,8 +62,7 @@ public class SendImageHelper {
         }
     }
 
-    public static void sendImageAfterSelfImagePicker(Context context, List<String> data, final Callback callback){
-        boolean isOrig = false;
+    public static void sendImageAfterSelfImagePicker(Context context, boolean isOrig, List<String> data, final Callback callback) {
 
 //		List<PhotoInfo> photos = PickerContract.getPhotos(data);
         if(data == null) {

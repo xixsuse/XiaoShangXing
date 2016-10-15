@@ -175,8 +175,8 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
-//                String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
-                String coverPath = FileUtils.getTempImage();
+//                String coverPath = FileUtils.getTempImage();
+                String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
 
                 ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
                     @Override
@@ -185,13 +185,15 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                             JSONObject jsonObject = new JSONObject(e.string());
                             if (jsonObject.getString(NS.CODE).equals("200")) {
                                 showToast("头像修改成功");
-//                                FileUtil.deleteTempAndRaw();
+                                FileUtil.deleteTempAndRaw();
                                 UserInfoCache.getInstance().reload(new UserInfoCache.ReloadCallback() {
                                     @Override
                                     public void callback(JSONObject jsonObject) throws JSONException {
                                         MyGlide.with(getContext(), jsonObject.getString("userImage"), bigImg);
                                     }
                                 }, TempUser.id);
+                                File file = new File(FileUtils.getTempImage());
+                                file.delete();
                             } else {
                                 showToast("头像修改失败");
                             }
@@ -213,6 +215,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                 break;
         }
     }
+
 
     @Override
     public void onDestroyView() {

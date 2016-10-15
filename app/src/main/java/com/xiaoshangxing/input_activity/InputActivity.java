@@ -233,6 +233,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
     private Handler handler = new Handler();
     private Runnable runnable;
 
+    private boolean isOrig;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -385,6 +387,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         getDatas();
         adapter = new PictureAdapter(this, iamgeurls, this);
         recycleView.setAdapter(adapter);
+        setSelectCount(0);
     }
 
     private void initKeyboard() {
@@ -661,7 +664,12 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     public void setSelectCount(int count) {
-        pictureCount.setText("" + count);
+        if (count == 0) {
+            pictureCountLay.setVisibility(View.GONE);
+        } else {
+            pictureCountLay.setVisibility(View.VISIBLE);
+            pictureCount.setText("" + count);
+        }
     }
 
     public List<String> getSelect_image_urls() {
@@ -1080,9 +1088,11 @@ public class InputActivity extends BaseActivity implements IBaseView {
         switch (requestCode) {
             case SELECT_PHOTO_ONE_BY_ONE:
                 setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
+                isOrig=data.getBooleanExtra(IntentStatic.IS_ORIG,false);
                 break;
             case SELECT_PHOTO_FROM_ALBUM:
                 setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));
+                isOrig=data.getBooleanExtra(IntentStatic.IS_ORIG,false);
                 break;
             case REVIEW_PHOTO:
                 setSelect_image_urls(data.getStringArrayListExtra(SELECT_IMAGE_URLS));

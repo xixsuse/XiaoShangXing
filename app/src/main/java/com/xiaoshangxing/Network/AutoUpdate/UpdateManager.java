@@ -27,6 +27,8 @@ import com.xiaoshangxing.Network.AppNetwork;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -248,6 +250,8 @@ public class UpdateManager {
      * @param
      */
     private void installApk() {
+        //标记需要展示引导页
+        SPUtils.put(XSXApplication.getInstance(), SPUtils.IS_NEED_GUIDE, true);
         File apkfile = new File(saveFileName);
         if (!apkfile.exists()) {
             return;

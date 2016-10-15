@@ -58,9 +58,13 @@ public class ZhuanYeActivity extends BaseActivity {
 
     public void Finish(View view) {
         zhuanye = editText.getText().toString();
-        VertifyActivity.schoolStr = XueXiaoActivity.xuexiao;
-        Log.d("qqq", "..." + XueXiaoActivity.xuexiao);
-        startActivity(new Intent(this, VertifyActivity.class));
+//        VertifyActivity.schoolStr = XueXiaoActivity.xuexiao;
+
+        Intent intent = new Intent(this, VertifyActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+//        startActivity(new Intent(this, VertifyActivity.class));
     }
 
 }

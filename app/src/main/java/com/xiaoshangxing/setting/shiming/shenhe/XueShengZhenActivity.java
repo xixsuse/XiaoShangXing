@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.shiming.VertifyUtil;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyActivity;
-import com.xiaoshangxing.setting.shiming.vertify.VertifyShiMingActivity;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.BroadCast.FinishActivityRecever;
 
 import java.io.File;
 
@@ -30,6 +30,7 @@ public class XueShengZhenActivity extends BaseActivity {
     ImageView imageRight;
     @Bind(R.id.NextButtom)
     Button NextButtom;
+    private FinishActivityRecever finishActivityRecever;
 
     private static boolean flagLeft = false, flagRight = false;
 
@@ -43,7 +44,8 @@ public class XueShengZhenActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shenhe_xueshengzhen);
         ButterKnife.bind(this);
-
+        finishActivityRecever = new FinishActivityRecever(this);
+        finishActivityRecever.register();
     }
 
     public void Back(View view) {
@@ -140,6 +142,7 @@ public class XueShengZhenActivity extends BaseActivity {
         super.onDestroy();
         flagLeft = false;
         flagRight = false;
+        finishActivityRecever.unregister();
     }
 
 

@@ -59,6 +59,7 @@ import com.xiaoshangxing.input_activity.check_photo.inputSelectPhotoPagerActivit
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.kit.string.StringUtil;
@@ -127,6 +128,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     // state
     private boolean actionPanelBottomLayoutHasSetup = false;
     private boolean isTextAudioSwitchShow = true;
+    private boolean isOrig;
 
 
     // data
@@ -257,6 +259,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         getDatas();
         adapter = new ChatPictureAdapter(container.activity, iamgeurls, this);
         picture_recyclerview.setAdapter(adapter);
+        setSelectCount(0);
     }
 
     public void getDatas() {
@@ -282,7 +285,12 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     }
 
     public void setSelectCount(int count) {
-        picture_count.setText("" + count);
+        if (count == 0) {
+            picture_count_lay.setVisibility(View.GONE);
+        } else {
+            picture_count_lay.setVisibility(View.VISIBLE);
+            picture_count.setText("" + count);
+        }
     }
 
     @Override
@@ -425,28 +433,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
             NIMClient.getService(MsgService.class).sendCustomNotification(command);
         }
     }
-
-    /**
-     * ************************* 键盘布局切换 *******************************
-     */
-
-//    private View.OnClickListener clickListener = new View.OnClickListener() {
-//
-//        @Override
-//        public void onClick(View v) {
-//            if (v == switchToTextButtonInInputBar) {
-//                switchToTextLayout(true);// 显示文本发送的布局
-//            } else if (v == sendMessageButtonInInputBar) {
-//                onTextMessageSendButtonPressed();//发送消息
-//            } else if (v == switchToAudioButtonInInputBar) {
-//                switchToAudioLayout();//显示发送语音消息布局
-//            } else if (v == moreFuntionButtonInInputBar) {
-//                toggleActionPanelLayout();//显示更多布局
-//            } else if (v == emojiButtonInInputBar) {
-//                toggleEmojiLayout();//显示表情输入布局
-//            }
-//        }
-//    };
 
     // 点击edittext，切换键盘和更多布局
     private void switchToTextLayout(boolean needShowInput) {
@@ -836,10 +822,14 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         switch (requestCode) {
             case AlbumActivity.SELECT_PHOTO_FROM_ALBUM:
                 setSelect_image_urls(data.getStringArrayListExtra(InputActivity.SELECT_IMAGE_URLS));
-                sendImage();
+                isOrig = data.getBooleanExtra(IntentStatic.IS_ORIG, false);
+                if (resultCode == Activity.RESULT_OK) {
+                    sendImage();
+                }
                 break;
             case inputSelectPhotoPagerActivity.REQUEST_CODE:
                 setSelect_image_urls(data.getStringArrayListExtra(InputActivity.SELECT_IMAGE_URLS));
+                isOrig = data.getBooleanExtra(IntentStatic.IS_ORIG, false);
                 if (data.getIntExtra(inputSelectPhotoPagerActivity.BACK_STATE, 1) == 0) {
                     sendImage();
                 } else {
@@ -849,29 +839,12 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
                 break;
             case TAKE_PHOTO:
                 if (resultCode == Activity.RESULT_OK) {
-//                    List<String> temp = new ArrayList<String>();
-//                    temp.add("///storage/emulated/0/XSX/XSX_Camera/7ef5cd5d-3f26-422c-9c74-39df99fd5c1d.jpg");
                     final String path = came_photo_path.getPath();
-//                    temp.add(path);
-//                    setSelect_image_urls(temp);
                     Select_image_urls.add(path);
                     Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                     intent.setData(came_photo_path);
                     container.activity.sendBroadcast(intent);
                     sendImage();
-//                    uiHandler.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            sendImage();
-//                            File fi=new File(path);
-//                            if (fi.exists()){
-//                                Log.d("image","exists");
-//                            }else {
-//                                Log.d("image","noexists");
-//                            }
-//                        }
-//                    },1000);
-
                 } else {
                     Toast.makeText(container.activity, "相片获取失败", Toast.LENGTH_SHORT).show();
                 }
@@ -883,18 +856,22 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
             Toast.makeText(container.activity, "没有图片", Toast.LENGTH_SHORT).show();
             return;
         }
-        SendImageHelper.sendImageAfterSelfImagePicker(getActivity(), Select_image_urls, new SendImageHelper.Callback() {
+        SendImageHelper.sendImageAfterSelfImagePicker(getActivity(), false, Select_image_urls, new SendImageHelper.Callback() {
             @Override
             public void sendImage(File file, boolean isOrig) {
                 IMMessage message = MessageBuilder.createImageMessage(container.account, container.sessionType, file, file.getName());
                 container.proxy.sendMessage(message);
-
                 Select_image_urls.clear();
                 adapter.setSelect_image_urls(Select_image_urls);
                 adapter.notifyDataSetChanged();
                 showPictureLay(false);
+                setOrig(false);
             }
         });
+    }
+
+    public void setOrig(boolean orig) {
+        isOrig = orig;
     }
 
     /**

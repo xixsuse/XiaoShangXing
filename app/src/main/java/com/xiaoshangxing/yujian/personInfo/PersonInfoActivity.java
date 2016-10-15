@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
@@ -39,6 +40,7 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.RoundedImageView;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
+import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.pearsonalTag.PeraonalTagActivity;
 
@@ -137,6 +139,12 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         initView();
     }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(myBroadcastReceiver);
+        super.onDestroy();
+    }
+
     private void initView() {
         int id = Integer.valueOf(account);
         UserInfoCache.getInstance().getHead(headImage, id, this);
@@ -190,6 +198,23 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
             String h = (String) user.getExtensionMap().get(NS.HOMETOWN);
             hometown.setText(TextUtils.isEmpty(h) ? "未知" : h);
         }
+
+        if (FriendDataCache.getInstance().isMyFriend(account)) {
+            bt1.setChecked(true);
+            bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_select);
+//            markStar.setVisibility(View.INVISIBLE);
+//            markLove.setVisibility(View.INVISIBLE);
+        } else {
+            bt1.setChecked(false);
+            bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_g2);
+            Friend friend = FriendDataCache.getInstance().getFriendByAccount(account);
+            if (friend != null && friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)
+                    && (boolean) friend.getExtension().get(NS.MARK)) {
+                markStar.setVisibility(View.VISIBLE);
+            }
+        }
+
+
 
         NimUserInfoCache.getInstance().getUserInfoFromRemote(account, new RequestCallback<NimUserInfo>() {
             @Override
@@ -349,12 +374,6 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
                 notice_dialog.dismiss();
             }
         }, 500);
-    }
-
-    @Override
-    protected void onDestroy() {
-        unregisterReceiver(myBroadcastReceiver);
-        super.onDestroy();
     }
 
     @OnClick({R.id.back, R.id.more, R.id.mark_star, R.id.mark_love, R.id.chat, R.id.hometown_lay, R.id.tag_lay, R.id.state_lay, R.id.more_buttom})

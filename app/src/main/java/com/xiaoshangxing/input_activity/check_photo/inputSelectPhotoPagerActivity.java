@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.HackyViewPager;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImageDetailFragment;
 
@@ -36,8 +37,12 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
     public static final String EXTRA_IMAGE_URLS = "image_urls";
     public static final String SELECT_PICTURE = "select_picture";
     public static final int REQUEST_CODE = 10000;
-    private int back_state = 0;//0表示完成 1表示返回
-    public static final String BACK_STATE="BACK_STATE";  //标记返回状态
+    @Bind(R.id.pager)
+    HackyViewPager pager;
+    @Bind(R.id.original_text)
+    TextView originalText;
+    private int back_state = 1;//0表示完成 1表示返回
+    public static final String BACK_STATE = "BACK_STATE";  //标记返回状态
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.checkbox)
@@ -56,6 +61,7 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
     private HackyViewPager mPager;
     private int pagerPosition;
     private TextView indicator;
+    private boolean isOrig;
 
 
     private ArrayList<String> urls;
@@ -70,7 +76,7 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
         setContentView(R.layout.image_detail_select);
         ButterKnife.bind(this);
 
-        limit=getIntent().getIntExtra(LIMIT,9);
+        limit = getIntent().getIntExtra(LIMIT, 9);
 
         pagerPosition = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
         urls = getIntent().getStringArrayListExtra(EXTRA_IMAGE_URLS);
@@ -87,14 +93,14 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkbox.isChecked()){
+                if (checkbox.isChecked()) {
                     if (select_image_urls.size() >= limit) {
-                        Toast.makeText(inputSelectPhotoPagerActivity.this, "最多只能选择"+limit+"张图片", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(inputSelectPhotoPagerActivity.this, "最多只能选择" + limit + "张图片", Toast.LENGTH_SHORT).show();
                         checkbox.setChecked(false);
-                    }else {
+                    } else {
                         select_image_urls.add(urls.get(currentItem));
                     }
-                }else {
+                } else {
                     if (select_image_urls.contains(urls.get(currentItem))) {
                         select_image_urls.remove(urls.get(currentItem));
                     }
@@ -124,7 +130,7 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
                 indicator.setText(text);
                 pagerPosition = arg0;
                 setCheckBox(arg0);
-                currentItem=arg0;
+                currentItem = arg0;
             }
 
         });
@@ -135,16 +141,16 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
         mPager.setCurrentItem(pagerPosition);
     }
 
-    private void setCheckBox(int position){
+    private void setCheckBox(int position) {
         if (select_image_urls.contains(urls.get(position))) {
             checkbox.setChecked(true);
-        }else {
+        } else {
             checkbox.setChecked(false);
         }
     }
 
-    private void setCount(int x){
-        count.setText("("+x+")");
+    private void setCount(int x) {
+        count.setText("(" + x + ")");
     }
 
 
@@ -153,19 +159,25 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
         outState.putInt(STATE_POSITION, mPager.getCurrentItem());
     }
 
-    @OnClick({R.id.back, R.id.checkbox, R.id.complete})
+    @OnClick({R.id.back, R.id.checkbox, R.id.complete, R.id.original_text, R.id.original})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
 //                getBack();
-                back_state=1;
+                back_state = 1;
                 finish();
                 break;
             case R.id.checkbox:
                 break;
             case R.id.complete:
-                back_state=0;
+                back_state = 0;
                 finish();
+                break;
+            case R.id.original_text:
+                original.performClick();
+                break;
+            case R.id.original:
+                isOrig = original.isChecked();
                 break;
         }
     }
@@ -173,13 +185,14 @@ public class inputSelectPhotoPagerActivity extends FragmentActivity {
 
     @Override
     public void finish() {
-        Intent intent=new Intent();
+        Intent intent = new Intent();
         ArrayList<String> select_picture_urls2 = new ArrayList<String>();
         for (int i = 0; i < select_image_urls.size(); i++) {
             select_picture_urls2.add(select_image_urls.get(i));
         }
         intent.putExtra(InputActivity.SELECT_IMAGE_URLS, select_picture_urls2);
         intent.putExtra(BACK_STATE, back_state);
+        intent.putExtra(IntentStatic.IS_ORIG, isOrig);
         setResult(RESULT_OK, intent);
         super.finish();
     }

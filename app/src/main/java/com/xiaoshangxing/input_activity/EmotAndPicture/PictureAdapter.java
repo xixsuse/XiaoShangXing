@@ -48,6 +48,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
         viewHolder.view = view;
         viewHolder.checkBox = (CheckBox) view.findViewById(R.id.checkbox);
         viewHolder.imageView = (ImageView) view.findViewById(R.id.iamge);
+        viewHolder.checkBox_lay = view.findViewById(R.id.checkbox_lay);
         return viewHolder;
     }
 
@@ -64,6 +65,13 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
         }else {
             holder.checkBox.setChecked(false);
         }
+
+        holder.checkBox_lay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.checkBox.performClick();
+            }
+        });
 
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +131,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
     class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         CheckBox checkBox;
-        View view;
+        View view, checkBox_lay;
 
         public MyViewHolder(View view) {
             super(view);

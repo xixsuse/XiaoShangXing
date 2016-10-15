@@ -50,6 +50,11 @@ public class XueLiActivity extends BaseActivity {
 
     public void Finish(View view) {
         VertifyActivity.ruxuenianfenStr = yearStr;
-        startActivity(new Intent(this, VertifyActivity.class));
+
+        Intent intent = new Intent(this, VertifyActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+//        startActivity(new Intent(this, VertifyActivity.class));
     }
 }

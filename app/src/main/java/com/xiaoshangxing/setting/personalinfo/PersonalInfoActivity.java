@@ -16,6 +16,7 @@ import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
 import com.xiaoshangxing.setting.shiming.ShenheActivity;
 import com.xiaoshangxing.setting.shiming.result.VertifyFailedActivity;
 import com.xiaoshangxing.setting.shiming.result.VertifySucessActivity;
+import com.xiaoshangxing.setting.shiming.shenhe.XueShengZhenActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 
 /**
@@ -88,7 +89,8 @@ public class PersonalInfoActivity extends BaseActivity {
                 .commit();*/
 
         //尚未认证
-        startActivity(new Intent(PersonalInfoActivity.this, ShenheActivity.class));
+//        startActivity(new Intent(PersonalInfoActivity.this, ShenheActivity.class));
+        startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
         //认证成功
 //        startActivity(new Intent(PersonalInfoActivity.this,VertifySucessActivity.class));
         //认证失败

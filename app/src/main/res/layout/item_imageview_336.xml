@@ -11,15 +11,22 @@
             android:scaleType="centerCrop"
             android:layout_centerInParent="true" />
 
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="@dimen/x72"
-            android:layout_height="@dimen/y72"
+        <FrameLayout
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/x3"
-            android:background="@drawable/selector_picture_input"
-            android:button="@null"
-            android:focusable="false" />
+            android:id="@+id/checkbox_lay"
+            android:layout_width="@dimen/x112"
+            android:layout_height="@dimen/x112">
+
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="@dimen/x72"
+                    android:layout_height="@dimen/y72"
+                    android:layout_gravity="right"
+                    android:background="@drawable/selector_picture_input"
+                    android:button="@null"
+                    android:focusable="false" />
+        </FrameLayout>
 
 
 </RelativeLayout>
