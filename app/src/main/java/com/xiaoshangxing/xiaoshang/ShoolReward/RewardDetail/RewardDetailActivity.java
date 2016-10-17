@@ -189,10 +189,10 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
                 moveToPosition(2);
             }
         }, 300);
-        int userId = published.getUserId();
-        UserInfoCache.getInstance().getHead(headImage, userId, this);
-        UserInfoCache.getInstance().getName(name, userId);
-        UserInfoCache.getInstance().getCollege(college, userId);
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
         price.setText(NS.RMB + published.getPrice());
@@ -357,10 +357,10 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         TextView text = (TextView) dialogView.findViewById(R.id.text);
         final EditText input = (EditText) dialogView.findViewById(R.id.input);
 
-        int userId = published.getUserId();
-        UserInfoCache.getInstance().getHead(head, userId, RewardDetailActivity.this);
-        UserInfoCache.getInstance().getName(name, userId);
-        UserInfoCache.getInstance().getCollege(college, userId);
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, head);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         text.setText(published.getText());
 
         cancle.setOnClickListener(new View.OnClickListener() {

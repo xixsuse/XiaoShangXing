@@ -83,13 +83,13 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
             public void onNext(ResponseBody e) throws JSONException {
                 try {
                     JSONObject jsonObject=new JSONObject(e.string());
-                    switch (Integer.valueOf(jsonObject.getString("code"))){
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))){
                         case 200:
                             mView.showToast("发送成功");
                             startCountTime();
                             break;
                         default:
-                            mView.showToast(jsonObject.get("msg").toString());
+                            mView.showToast(jsonObject.get(NS.MSG).toString());
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -100,7 +100,7 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
         ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(onNext,mView);
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("phone",mView.getPhone());
-        jsonObject.addProperty("timeStamp",System.currentTimeMillis());
+        jsonObject.addProperty(NS.TIMESTAMP,NS.currentTime());
 
         LoginNetwork.getInstance().sendCode(progressSubsciber,jsonObject);
     }

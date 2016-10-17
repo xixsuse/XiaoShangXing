@@ -87,12 +87,6 @@ public class RetrieveByMesFragment extends BaseFragment implements RetrieveByMes
                     @Override
                     public void onButton2() {
                         dialogUtils.close();
-//                        //test
-//                        if (getPhoneNumber().equals("88888888888")){
-//
-//                        }else {
-//                            showUnRegiter();
-//                        }
                         mPresenter.clickOnSure();
 
                     }

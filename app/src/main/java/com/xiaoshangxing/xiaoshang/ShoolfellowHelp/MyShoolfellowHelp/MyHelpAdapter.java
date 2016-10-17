@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
@@ -103,10 +104,10 @@ public class MyHelpAdapter extends RealmBaseAdapter<Published> {
                 }
             }
         });
-
-        UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
-        UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
-        UserInfoCache.getInstance().getCollege(viewholder.college, published.getId());
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, viewholder.headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewholder.name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewholder.college);
         viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewholder.text.setText(published.getText());
 

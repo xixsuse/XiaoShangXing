@@ -173,10 +173,10 @@ public class ShoolRewardActivity extends BaseActivity implements RewardContract.
             showToast("信息有误");
             return;
         }
-        int userId = published.getUserId();
-        UserInfoCache.getInstance().getHead(head, userId, ShoolRewardActivity.this);
-        UserInfoCache.getInstance().getName(name, userId);
-        UserInfoCache.getInstance().getCollege(college, userId);
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, head);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         text.setText(published.getText());
 
         Log.d("transmit object id", "" + id);

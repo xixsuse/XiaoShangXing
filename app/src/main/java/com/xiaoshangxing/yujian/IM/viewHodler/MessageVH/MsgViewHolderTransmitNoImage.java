@@ -54,10 +54,10 @@ public class MsgViewHolderTransmitNoImage extends MsgViewHolderBase {
         PublishCache.getPublished(String.valueOf(state_id), new PublishCache.publishedCallback() {
             @Override
             public void callback(Published published) {
-                int userId = published.getUserId();
-                UserInfoCache.getInstance().getHead(head, userId, context);
-                UserInfoCache.getInstance().getName(name, userId);
-                UserInfoCache.getInstance().getCollege(college, userId);
+                String userId = String.valueOf(published.getUserId());
+                UserInfoCache.getInstance().getHeadIntoImage(userId,head);
+                UserInfoCache.getInstance().getExIntoTextview(userId,NS.USER_NAME,name);
+                UserInfoCache.getInstance().getExIntoTextview(userId,NS.COLLEGE,college);
                 text.setText(published.getText());
                 if (published.getCategory() == Integer.valueOf(NS.CATEGORY_HELP)) {
                     from.setText("分享自校友互帮");

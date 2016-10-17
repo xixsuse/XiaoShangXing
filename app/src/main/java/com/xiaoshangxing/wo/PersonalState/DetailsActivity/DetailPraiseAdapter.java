@@ -54,7 +54,8 @@ public class DetailPraiseAdapter extends BaseAdapter {
         View view = View.inflate(ctx, R.layout.util_circle_image_96, null);
         CirecleImage imageView = (CirecleImage) view.findViewById(R.id.head_image);
         imageView.setIntent_type(CirecleImage.PERSON_STATE, imageUrls.get(position));
-        UserInfoCache.getInstance().getHead(imageView, Integer.valueOf(imageUrls.get(position)), ctx);
+        UserInfoCache.getInstance().getHeadIntoImage(imageUrls.get(position), imageView);
+//        UserInfoCache.getInstance().getHead(imageView, Integer.valueOf(imageUrls.get(position)), ctx);
         return view;
     }
 

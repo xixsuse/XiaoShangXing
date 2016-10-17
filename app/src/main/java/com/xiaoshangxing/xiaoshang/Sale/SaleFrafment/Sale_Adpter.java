@@ -74,9 +74,10 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
 
         final Published published = publisheds.get(position);
 
-        UserInfoCache.getInstance().getHead(viewHolder.headImage, published.getUserId(), context);
-        UserInfoCache.getInstance().getName(viewHolder.name, published.getUserId());
-        UserInfoCache.getInstance().getCollege(viewHolder.college, published.getUserId());
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, viewHolder.headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewHolder.name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
         viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewHolder.text.setText(published.getText());
         viewHolder.price.setText(NS.RMB + published.getPrice());

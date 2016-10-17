@@ -13,8 +13,8 @@ import org.json.JSONObject;
 public class TransmitMessage_NoImage extends CustomAttachment {
     private int state_id;
 
-    public TransmitMessage_NoImage() {
-        super(CustomAttachmentType.Transmit_noimage);
+    public TransmitMessage_NoImage(int type) {
+        super(type);
     }
 
     @Override

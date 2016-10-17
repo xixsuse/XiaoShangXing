@@ -1,16 +1,20 @@
 package com.xiaoshangxing.data;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.image.MyGlide;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import org.json.JSONException;
@@ -85,8 +89,70 @@ public class UserInfoCache {
                 }
             }, id);
         }
-
     }
+
+    public void getExIntoTextview(String id, String key, TextView textView) {
+        getExIntoTextview(id, key, textView, "未知");
+    }
+
+    public void getExIntoTextview(String id, final String key, final TextView textView, final String null_notice) {
+        final NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(id);
+        if (userInfo != null) {
+            textView.setText(getStringFromUserInfo(userInfo, key, null_notice));
+        } else {
+            NimUserInfoCache.getInstance().getUserInfoFromRemote(id, new RequestCallback<NimUserInfo>() {
+                @Override
+                public void onSuccess(NimUserInfo nimUserInfo) {
+                    textView.setText(getStringFromUserInfo(nimUserInfo, key, null_notice));
+                }
+
+                @Override
+                public void onFailed(int i) {
+                    textView.setText("error" + i);
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    textView.setText("error");
+                    throwable.printStackTrace();
+                }
+            });
+        }
+    }
+
+    private String getStringFromUserInfo(NimUserInfo userInfo, String key, String null_notice) {
+        if (userInfo.getExtensionMap() != null) {
+            String text = String.valueOf(userInfo.getExtensionMap().get(key));
+            return TextUtils.isEmpty(text) ? null_notice : text;
+        } else {
+            return "信息未同步";
+        }
+    }
+
+    public void getHeadIntoImage(String id, final ImageView imageView) {
+        NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(id);
+        if (userInfo != null) {
+            MyGlide.with_app_log(imageView.getContext(), userInfo.getAvatar(), imageView);
+        } else {
+            NimUserInfoCache.getInstance().getUserInfoFromRemote(id, new RequestCallback<NimUserInfo>() {
+                @Override
+                public void onSuccess(NimUserInfo nimUserInfo) {
+                    MyGlide.with_app_log(imageView.getContext(), nimUserInfo.getAvatar(), imageView);
+                }
+
+                @Override
+                public void onFailed(int i) {
+                    Log.e("get userInfo error", "" + i);
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            });
+        }
+    }
+
 
     public void getHead(final ImageView imageView, int id, final Context context) {
         if (userMap.containsKey(id)) {

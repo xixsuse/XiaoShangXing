@@ -22,11 +22,17 @@ public class CustomAttachParser implements MsgAttachmentParser {
             int type = object.getInt(KEY_TYPE);
             JSONObject data = object.getJSONObject(KEY_DATA);
             switch (type) {
-                case CustomAttachmentType.Transmit_noimage:
-                    attachment = new TransmitMessage_NoImage();
+                case CustomAttachmentType.Reward:
+                    attachment = new TransmitMessage_NoImage(CustomAttachmentType.Reward);
                     break;
-                case CustomAttachmentType.Transmit_withimage:
-                    attachment = new TransmitMessage_WithImage();
+                case CustomAttachmentType.Help:
+                    attachment = new TransmitMessage_NoImage(CustomAttachmentType.Help);
+                    break;
+                case CustomAttachmentType.Plan:
+                    attachment = new TransmitMessage_NoImage(CustomAttachmentType.Plan);
+                    break;
+                case CustomAttachmentType.Sale:
+                    attachment = new TransmitMessage_WithImage(CustomAttachmentType.Sale);
                     break;
                 case CustomAttachmentType.ApplyPlan:
                     attachment = new ApplyPlanMessage();

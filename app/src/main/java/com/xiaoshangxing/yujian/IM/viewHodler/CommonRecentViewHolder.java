@@ -1,11 +1,19 @@
 package com.xiaoshangxing.yujian.IM.viewHodler;
 
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.attachment.MsgAttachment;
 import com.netease.nimlib.sdk.msg.attachment.NotificationAttachment;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachmentType;
 import com.xiaoshangxing.yujian.IM.cache.TeamNotificationHelper;
 import com.xiaoshangxing.yujian.IM.viewHodler.MessageVH.CustomNotificationText;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommonRecentViewHolder extends RecentViewHolder {
 
@@ -16,7 +24,7 @@ public class CommonRecentViewHolder extends RecentViewHolder {
 
     protected String descOfMsg() {
         if (recent.getMsgType() == MsgTypeEnum.text) {
-            return recent.getContent();
+            return parseTextMessage();
         } else if (recent.getMsgType() == MsgTypeEnum.tip) {
             String digest = null;
             if (getCallback() != null) {
@@ -48,7 +56,7 @@ public class CommonRecentViewHolder extends RecentViewHolder {
     private String getDefaultDigest(MsgAttachment attachment) {
         switch (recent.getMsgType()) {
             case text:
-                return recent.getContent();
+                return parseTextMessage();
             case image:
                 return "[图片]";
             case video:
@@ -67,6 +75,40 @@ public class CommonRecentViewHolder extends RecentViewHolder {
                         (NotificationAttachment) recent.getAttachment());
             default:
                 return CustomNotificationText.getRencentContactShowText(recent);
+        }
+    }
+
+    private String parseTextMessage() {
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(recent.getRecentMessageId());
+        List<IMMessage> imMessages = new ArrayList<>();
+        IMMessage imMessage;
+        imMessages = NIMClient.getService(MsgService.class).queryMessageListByUuidBlock(arrayList);
+        if (imMessages.size() > 0) {
+            imMessage = imMessages.get(0);
+        } else {
+            return recent.getContent();
+        }
+        if (imMessage.getRemoteExtension() == null) {
+            return recent.getContent();
+        } else {
+            Integer s = (Integer) imMessage.getRemoteExtension().get(NS.TYPE);
+            if (s == null) {
+                return recent.getContent();
+            } else {
+                switch (s) {
+                    case CustomAttachmentType.Reward:
+                        return "[校内悬赏私聊]" + recent.getContent();
+                    case CustomAttachmentType.Help:
+                        return "[校友互帮私聊]" + recent.getContent();
+                    case CustomAttachmentType.Plan:
+                        return "[计划发起私聊]" + recent.getContent();
+                    case CustomAttachmentType.Sale:
+                        return "[闲置出售私聊]" + recent.getContent();
+                    default:
+                        return recent.getContent();
+                }
+            }
         }
     }
 }

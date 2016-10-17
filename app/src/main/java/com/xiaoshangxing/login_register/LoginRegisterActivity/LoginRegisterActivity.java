@@ -8,6 +8,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.AlterPasswordFragment.AlterPasswordFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.AppealFragment.AppealFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.AppealOKFragment.AppealOKFragment;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.CheckEmailCode.CheckEmailCodeFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.InputAccountFragment.InputAccountFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.NoEmailFragment.NoEmailFragment;
@@ -46,6 +47,7 @@ public class LoginRegisterActivity extends BaseActivity {
     private SelectSchoolFragment selectSchoolFragment;
     private SchoolNoOpenFragment schoolNoOpenFragment;
     private SerchFragment serchFragment;
+    private CheckEmailCodeFragment checkEmailCodeFragment;
 
     private String phoneNumer = "0000";
     private String emai = "599301283@qq.com";
@@ -133,6 +135,10 @@ public class LoginRegisterActivity extends BaseActivity {
         frag = mFragmentManager.findFragmentByTag(SerchFragment.TAG);
         serchFragment = (frag == null) ?
                 SerchFragment.newInstance() : (SerchFragment) frag;
+
+        frag = mFragmentManager.findFragmentByTag(CheckEmailCodeFragment.TAG);
+        checkEmailCodeFragment = (frag == null) ?
+                CheckEmailCodeFragment.newInstance() : (CheckEmailCodeFragment) frag;
     }
 
     public void resetRgInputVertifyCodeFragment() {
@@ -191,6 +197,10 @@ public class LoginRegisterActivity extends BaseActivity {
         return serchFragment;
     }
 
+    public CheckEmailCodeFragment getCheckEmailCodeFragment() {
+        return checkEmailCodeFragment;
+    }
+
     public String getSchool() {
         return school;
     }
@@ -244,8 +254,8 @@ public class LoginRegisterActivity extends BaseActivity {
     }
 
     /*
-     **describe:有的fragment需要截获back键事件
-     */
+         **describe:有的fragment需要截获back键事件
+         */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

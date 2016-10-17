@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -146,11 +145,12 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     }
 
     private void initView() {
-        int id = Integer.valueOf(account);
-        UserInfoCache.getInstance().getHead(headImage, id, this);
-        UserInfoCache.getInstance().getCollege(college, id);
-        UserInfoCache.getInstance().getName(name, id);
+//        int id = Integer.valueOf(account);
+//        UserInfoCache.getInstance().getHead(headImage, id, this);
+//        UserInfoCache.getInstance().getCollege(college, id);
+//        UserInfoCache.getInstance().getName(name, id);
 
+        user = NimUserInfoCache.getInstance().getUserInfo(account);
         if (user == null) {
             NimUserInfoCache.getInstance().getUserInfoFromRemote(account, new RequestCallback<NimUserInfo>() {
                 @Override
@@ -186,17 +186,18 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     }
 
     private void refreshPager() {
+
+        UserInfoCache.getInstance().getHeadIntoImage(account, headImage);
+        UserInfoCache.getInstance().getExIntoTextview(account, NS.COLLEGE, college);
+        UserInfoCache.getInstance().getExIntoTextview(account, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(account, NS.HOMETOWN, hometown);
+
         if (user.getGenderEnum() == GenderEnum.FEMALE) {
             sex.setImageResource(R.mipmap.sex_female);
         } else if (user.getGenderEnum() == GenderEnum.MALE) {
             sex.setImageResource(R.mipmap.sex_male);
         } else {
             sex.setVisibility(View.GONE);
-        }
-
-        if (user.getExtensionMap()!=null){
-            String h = (String) user.getExtensionMap().get(NS.HOMETOWN);
-            hometown.setText(TextUtils.isEmpty(h) ? "未知" : h);
         }
 
         if (FriendDataCache.getInstance().isMyFriend(account)) {
@@ -213,8 +214,6 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
                 markStar.setVisibility(View.VISIBLE);
             }
         }
-
-
 
         NimUserInfoCache.getInstance().getUserInfoFromRemote(account, new RequestCallback<NimUserInfo>() {
             @Override

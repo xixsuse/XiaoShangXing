@@ -45,7 +45,8 @@ public class Mystate_holder_transmit extends MyStateHodlerBase {
         PublishCache.getPublished(published.getOriginalId(), new PublishCache.publishedCallback() {
             @Override
             public void callback(final Published published) {
-                UserInfoCache.getInstance().getHead(head, published.getUserId(), context);
+                String userId = String.valueOf(published.getUserId());
+                UserInfoCache.getInstance().getHeadIntoImage(userId, head);
                 text.setText(TextUtils.isEmpty(published.getText()) ? "" : published.getText());
 
                 content.setOnClickListener(new View.OnClickListener() {

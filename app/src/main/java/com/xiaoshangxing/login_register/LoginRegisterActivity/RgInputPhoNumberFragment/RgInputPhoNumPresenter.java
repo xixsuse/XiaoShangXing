@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,14 +51,15 @@ public class RgInputPhoNumPresenter implements RgInputPhoNumContract.Presenter {
             public void onNext(ResponseBody e) throws JSONException {
                 try {
                     JSONObject jsonObject=new JSONObject(e.string());
-                    switch (Integer.valueOf(jsonObject.getString("code"))){
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))){
                         case 200:
                             mView.showSureDialog();
                             break;
                         case 9101:
                             mView.showRegisteredDialog();
+                            break;
                         default:
-                            mView.showToast(jsonObject.get("msg").toString());
+                            mView.showToast(jsonObject.get(NS.MSG).toString());
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -79,14 +81,14 @@ public class RgInputPhoNumPresenter implements RgInputPhoNumContract.Presenter {
             public void onNext(ResponseBody e) throws JSONException {
                 try {
                     JSONObject jsonObject=new JSONObject(e.string());
-                    switch (Integer.valueOf(jsonObject.getString("code"))){
+                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))){
                         case 200:
                             mView.gotoInputVertifyCode();
                             break;
                         case 9003:
                             mView.showRegisteredDialog();
                         default:
-                            mView.showToast(jsonObject.get("msg").toString());
+                            mView.showToast(jsonObject.get(NS.MSG).toString());
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -97,7 +99,7 @@ public class RgInputPhoNumPresenter implements RgInputPhoNumContract.Presenter {
         ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(onNext,mView);
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("phone",mView.getPhoneNum());
-        jsonObject.addProperty("timeStamp",System.currentTimeMillis());
+        jsonObject.addProperty(NS.TIMESTAMP,NS.currentTime());
 
         LoginNetwork.getInstance().sendCode(progressSubsciber,jsonObject);
 

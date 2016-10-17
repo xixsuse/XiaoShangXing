@@ -3,24 +3,11 @@ package com.xiaoshangxing.wo.WoFrafment;
 import android.content.Context;
 import android.text.TextUtils;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.data.DataCopy;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.data.UserCache;
 import com.xiaoshangxing.utils.school_circle.PraisePeople;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.realm.Realm;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by FengChaoQun

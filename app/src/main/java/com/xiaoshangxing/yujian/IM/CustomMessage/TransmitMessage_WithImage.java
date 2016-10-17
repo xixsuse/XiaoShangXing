@@ -13,8 +13,8 @@ import org.json.JSONObject;
 public class TransmitMessage_WithImage extends CustomAttachment {
     private int state_id;
 
-    public TransmitMessage_WithImage() {
-        super(CustomAttachmentType.Transmit_withimage);
+    public TransmitMessage_WithImage(int type) {
+        super(type);
     }
 
     @Override

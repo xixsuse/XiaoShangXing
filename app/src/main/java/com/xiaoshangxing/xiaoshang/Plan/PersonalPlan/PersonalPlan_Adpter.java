@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
@@ -65,9 +66,10 @@ public class PersonalPlan_Adpter extends ArrayAdapter<Published> {
 
         final Published published = publisheds.get(position);
 
-        UserInfoCache.getInstance().getHead(viewHolder.headImage, published.getUserId(), context);
-        UserInfoCache.getInstance().getName(viewHolder.name, published.getUserId());
-        UserInfoCache.getInstance().getCollege(viewHolder.college, published.getUserId());
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, viewHolder.headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewHolder.name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
         viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewHolder.text.setText(published.getText());
         viewHolder.planName.setText(published.getPlanName());

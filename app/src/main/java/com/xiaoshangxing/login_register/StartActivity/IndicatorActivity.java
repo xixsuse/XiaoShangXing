@@ -44,9 +44,9 @@ public class IndicatorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_indicator);
         ButterKnife.bind(this);
-        fragments.add(IndicatorFragment.newInstance(R.mipmap.guide_page01, R.mipmap.guide_page_letter01));
-        fragments.add(IndicatorFragment.newInstance(R.mipmap.guide_page02, R.mipmap.guide_page_letter02));
-        fragments.add(IndicatorFragment.newInstance(R.mipmap.guide_page03, R.mipmap.guide_page_letter03));
+        fragments.add(IndicatorFragment.newInstance(R.mipmap.guide_page01, R.mipmap.guide_page_letter01,false));
+        fragments.add(IndicatorFragment.newInstance(R.mipmap.guide_page02, R.mipmap.guide_page_letter02,false));
+        fragments.add(IndicatorFragment.newInstance(R.mipmap.guide_page03, R.mipmap.guide_page_letter03,true));
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
         viewpager.setAdapter(adapter);
         setBottomImage(0);
@@ -70,20 +70,20 @@ public class IndicatorActivity extends BaseActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-                switch (state) {
-                    case ViewPager.SCROLL_STATE_DRAGGING:
-                        misScrolled = false;
-                        break;
-                    case ViewPager.SCROLL_STATE_SETTLING:
-                        misScrolled = true;
-                        break;
-                    case ViewPager.SCROLL_STATE_IDLE:
-                        if (viewpager.getCurrentItem() == viewpager.getAdapter().getCount() - 1 && !misScrolled) {
-                            intent();
-                        }
-                        misScrolled = true;
-                        break;
-                }
+//                switch (state) {
+//                    case ViewPager.SCROLL_STATE_DRAGGING:
+//                        misScrolled = false;
+//                        break;
+//                    case ViewPager.SCROLL_STATE_SETTLING:
+//                        misScrolled = true;
+//                        break;
+//                    case ViewPager.SCROLL_STATE_IDLE:
+//                        if (viewpager.getCurrentItem() == viewpager.getAdapter().getCount() - 1 && !misScrolled) {
+//                            intent();
+//                        }
+//                        misScrolled = true;
+//                        break;
+//                }
             }
         });
 
@@ -97,7 +97,7 @@ public class IndicatorActivity extends BaseActivity {
         });
     }
 
-    private void intent() {
+    public void intent() {
         if (isFirstCome()) {
             Intent intent = new Intent(IndicatorActivity.this, StartActivity.class);
             startActivity(intent);

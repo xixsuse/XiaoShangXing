@@ -21,6 +21,7 @@ import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
+import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachmentType;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
 
@@ -28,6 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.realm.Realm;
 import okhttp3.ResponseBody;
@@ -179,26 +182,50 @@ public class OperateUtils {
     public static void Tranmit(final int publishedId, String categry, final String personId,
                                final IBaseView iBaseView, final String text1, final SimpleCallBack callback) {
         IMMessage imMessage = null;
-
-        if (categry.equals(NS.CATEGORY_REWARD) || categry.equals(NS.CATEGORY_HELP) || categry.equals(NS.CATEGORY_PLAN)) {
-            TransmitMessage_NoImage noImage = new TransmitMessage_NoImage();
-            noImage.setState_id(publishedId);
-            imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
-        } else if (categry.equals(NS.CATEGORY_SALE)) {
-            TransmitMessage_WithImage transmitMessage_withImage = new TransmitMessage_WithImage();
-            transmitMessage_withImage.setState_id(publishedId);
-            imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, transmitMessage_withImage);
-        } else if (categry.equals(NS.APPLY_PLAN)) {
-            ApplyPlanMessage applyPlanMessage = new ApplyPlanMessage();
-            applyPlanMessage.setState_id(publishedId);
-            imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, applyPlanMessage);
-        } else {
-            return;
+        TransmitMessage_NoImage noImage = null;
+        TransmitMessage_WithImage transmitMessage_withImage = null;
+        int type;
+        switch (categry) {
+            case NS.CATEGORY_REWARD:
+                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Reward);
+                noImage.setState_id(publishedId);
+                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+                type = CustomAttachmentType.Reward;
+                break;
+            case NS.CATEGORY_HELP:
+                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Help);
+                noImage.setState_id(publishedId);
+                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+                type = CustomAttachmentType.Help;
+                break;
+            case NS.CATEGORY_PLAN:
+                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Plan);
+                noImage.setState_id(publishedId);
+                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+                type = CustomAttachmentType.Plan;
+                break;
+            case NS.CATEGORY_SALE:
+                transmitMessage_withImage = new TransmitMessage_WithImage(CustomAttachmentType.Sale);
+                transmitMessage_withImage.setState_id(publishedId);
+                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, transmitMessage_withImage);
+                type = CustomAttachmentType.Sale;
+                break;
+            case NS.APPLY_PLAN:
+                ApplyPlanMessage applyPlanMessage = new ApplyPlanMessage();
+                applyPlanMessage.setState_id(publishedId);
+                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, applyPlanMessage);
+                type = CustomAttachmentType.ApplyPlan;
+                break;
+            default:
+                return;
         }
 
         if (!TextUtils.isEmpty(text1)) {
             IMMessage text = MessageBuilder.createTextMessage(personId, SessionTypeEnum.P2P,
                     text1);
+            Map<String, Object> map = new HashMap<>();
+            map.put(NS.TYPE, type);
+            text.setRemoteExtension(map);
             sendTransmitMessage(imMessage, text, callback, iBaseView);
         } else {
             sendTransmitMessage(imMessage, null, callback, iBaseView);

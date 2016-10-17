@@ -121,10 +121,10 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
     }
 
     private void refreshPager() {
-        int userId = published.getUserId();
-        UserInfoCache.getInstance().getHead(headImage, userId, this);
-        UserInfoCache.getInstance().getName(name, userId);
-        UserInfoCache.getInstance().getCollege(college, userId);
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
         joinedCount.setText("" + published.getJoinCount());
@@ -149,7 +149,8 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
 
         data.setText(TimeUtil.getPlanDate(published.getCreateTime()) + "-" +
                 TimeUtil.getPlanDate(Long.valueOf(published.getValidationDate())));
-        UserInfoCache.getInstance().getName(launchPeople, userId);
+
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, launchPeople);
     }
 
     public void showShareDialog() {
@@ -189,10 +190,10 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         TextView text = (TextView) dialogView.findViewById(R.id.text);
         final EditText input = (EditText) dialogView.findViewById(R.id.input);
 
-        int userId = published.getUserId();
-        UserInfoCache.getInstance().getHead(head, userId, PlanDetailActivity.this);
-        UserInfoCache.getInstance().getName(name, userId);
-        UserInfoCache.getInstance().getCollege(college, userId);
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId,head);
+        UserInfoCache.getInstance().getExIntoTextview(userId,NS.USER_NAME,name);
+        UserInfoCache.getInstance().getExIntoTextview(userId,NS.COLLEGE,college);
         text.setText(published.getText());
 
         cancle.setOnClickListener(new View.OnClickListener() {

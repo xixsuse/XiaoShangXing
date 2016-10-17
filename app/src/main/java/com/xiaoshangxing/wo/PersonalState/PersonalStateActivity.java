@@ -147,9 +147,9 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
             finish();
             return;
         }
-        UserInfoCache.getInstance().getName(name1, Integer.valueOf(account));
-        UserInfoCache.getInstance().getName(name2, Integer.valueOf(account));
-        UserInfoCache.getInstance().getHead(head, Integer.valueOf(account), this);
+        UserInfoCache.getInstance().getHeadIntoImage(account, head);
+        UserInfoCache.getInstance().getExIntoTextview(account, NS.USER_NAME, name1);
+        UserInfoCache.getInstance().getExIntoTextview(account, NS.USER_NAME, name2);
 
         if (TempUser.isMine(account)) {
             title.setText("我的动态");

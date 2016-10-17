@@ -40,7 +40,7 @@ public class roll_listview_adpter extends ArrayAdapter<String> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         try {
-            UserInfoCache.getInstance().getHead(viewHolder.headImage, Integer.valueOf(list.get(position)), context);
+            UserInfoCache.getInstance().getHeadIntoImage(list.get(position), viewHolder.headImage);
         } catch (Exception e) {
             e.printStackTrace();
         }

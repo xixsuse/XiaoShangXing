@@ -11,6 +11,9 @@ public class BaseUrl {
     public static final String SEND_CODE = "base/sendCode";
     public static final String CHECK_CODE = "base/checkCode";
     public static final String REGISTER = "base/setPassword";
+    public static final String FORGET = "base/forgetPassword";
+    public static final String FIND_PW_BY_EMAIL = "base/findPasswordByEmail";
+    public static final String CHECK_EMAIL_CODE = "base/chkEmailCode";
     public static final String CHECK_PHONE = "base/chkExist";
 
     public static final String BIND_EMAIL = "base/bindEmail";

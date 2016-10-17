@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.UserInfoCache;
@@ -33,10 +34,10 @@ public class Comment_layout {
         time = (TextView) relativeLayout.findViewById(R.id.time);
         text = (TextView) relativeLayout.findViewById(R.id.text);
 
-        int id = commentsBean.getUserId();
-        head.setIntent_type(CirecleImage.PERSON_STATE, String.valueOf(id));
-        UserInfoCache.getInstance().getHead(head,id,context);
-        UserInfoCache.getInstance().getName(name,id);
+        String id = String.valueOf(commentsBean.getUserId());
+        head.setIntent_type(CirecleImage.PERSON_STATE, id);
+        UserInfoCache.getInstance().getExIntoTextview(id, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getHeadIntoImage(id, head);
         time.setText(TimeUtil.getTimeShowString(commentsBean.getCreateTime(), false));
         text.setText(commentsBean.getText());
     }

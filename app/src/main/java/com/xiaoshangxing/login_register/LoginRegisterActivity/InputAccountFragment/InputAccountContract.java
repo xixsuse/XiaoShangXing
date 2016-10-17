@@ -41,6 +41,9 @@ public interface InputAccountContract {
         */
         void gotoRegister();
 
+        void gotoVerticyEmailCode();
+
+
     }
 
     interface Presenter extends IBasePresenter {

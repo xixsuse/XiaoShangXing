@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.Published;
@@ -96,9 +97,11 @@ public class CommentListFrafment extends Fragment {
 
             final CommentsBean i = commentsBeen.get(position);
             int userId = i.getUserId();
-            UserInfoCache.getInstance().getHead(holder.headImage, userId, getContext());
-            UserInfoCache.getInstance().getName(holder.name, userId);
-            UserInfoCache.getInstance().getCollege(holder.college, userId);
+            String id = String.valueOf(i.getUserId());
+            UserInfoCache.getInstance().getHeadIntoImage(id, holder.headImage);
+            UserInfoCache.getInstance().getExIntoTextview(id, NS.USER_NAME, holder.name);
+            UserInfoCache.getInstance().getExIntoTextview(id, NS.COLLEGE, holder.college);
+
             holder.text.setText(i.getText());
             holder.time.setText(TimeUtil.getTimeShowString(i.getCreateTime(), false));
             holder.headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(userId));

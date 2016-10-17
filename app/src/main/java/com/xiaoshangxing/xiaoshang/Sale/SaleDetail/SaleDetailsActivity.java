@@ -123,10 +123,10 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
     }
 
     private void refreshPager() {
-        int userId = published.getUserId();
-        UserInfoCache.getInstance().getHead(headImage, userId, this);
-        UserInfoCache.getInstance().getName(name, userId);
-        UserInfoCache.getInstance().getCollege(college, userId);
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
         price.setText(NS.RMB + published.getPrice());

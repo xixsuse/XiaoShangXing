@@ -25,7 +25,7 @@ import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.UserCache;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
@@ -174,10 +174,16 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         }
         this.published = published;
         headImage.setIntent_type(CirecleImage.PERSON_STATE, String.valueOf(published.getUserId()));
-        UserCache userCache = new UserCache(this, String.valueOf(published.getUserId()), realm);
-        userCache.getHead(headImage);
-        userCache.getName(name);
-        userCache.getCollege(college);
+
+        String id = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(id, headImage);
+        UserInfoCache.getInstance().getExIntoTextview(id, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(id, NS.COLLEGE, college);
+
+//        UserCache userCache = new UserCache(this, String.valueOf(published.getUserId()), realm);
+//        userCache.getHead(headImage);
+//        userCache.getName(name);
+//        userCache.getCollege(college);
         text.setText(TextUtils.isEmpty(published.getText()) ? "" : published.getText());
 
         praise.setChecked(Published_Help.isPraised(published));

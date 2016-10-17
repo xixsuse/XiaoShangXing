@@ -21,4 +21,14 @@
         android:layout_marginBottom="@dimen/y222"
         android:src="@mipmap/guide_page_letter01" />
 
+    <ImageView
+        android:id="@+id/entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/y90"
+        android:src="@mipmap/icon_tiyan"
+        android:visibility="visible" />
+
 </RelativeLayout>

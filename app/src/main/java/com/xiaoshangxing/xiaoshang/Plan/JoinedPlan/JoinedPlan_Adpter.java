@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.JoinedPlan;
 import com.xiaoshangxing.data.UserInfoCache;
@@ -59,9 +60,11 @@ public class JoinedPlan_Adpter extends ArrayAdapter<JoinedPlan> {
 
         final JoinedPlan published = joinedPlen.get(position);
 
-        UserInfoCache.getInstance().getHead(viewHolder.headImage, published.getUserId(), context);
-        UserInfoCache.getInstance().getName(viewHolder.name, published.getUserId());
-        UserInfoCache.getInstance().getCollege(viewHolder.college, published.getUserId());
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, viewHolder.headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewHolder.name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
+
         viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewHolder.text.setText(published.getText());
         viewHolder.planName.setText(published.getPlanName());

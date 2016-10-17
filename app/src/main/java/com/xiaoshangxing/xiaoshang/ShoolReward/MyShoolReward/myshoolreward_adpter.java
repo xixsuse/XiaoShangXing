@@ -131,9 +131,10 @@ public class myshoolreward_adpter extends ArrayAdapter<Published> {
 
         viewholder.checkBox.setChecked(false);
 
-        UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
-        UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
-        UserInfoCache.getInstance().getCollege(viewholder.college, published.getUserId());
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, viewholder.headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewholder.name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewholder.college);
         viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewholder.text.setText(published.getText());
         viewholder.price.setText(NS.RMB + published.getPrice());

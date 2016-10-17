@@ -92,6 +92,7 @@ public class FlashActivity extends BaseActivity {
 
     public boolean isNeedGuide() {
         return (boolean) SPUtils.get(this, SPUtils.IS_NEED_GUIDE, true);
+//        return true;
     }
 
     public boolean isQuit() {

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.CheckEmailCode.CheckEmailCodeFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.NoEmailFragment.NoEmailFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
@@ -147,6 +148,17 @@ public class InputAccountFragment extends BaseFragment implements InputAccountCo
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .replace(R.id.loginregisterContent, frag)
                 .addToBackStack(RgInputPhoNumberFragment.TAG)
+                .commit();
+    }
+
+    @Override
+    public void gotoVerticyEmailCode() {
+        CheckEmailCodeFragment frag = ((LoginRegisterActivity) getActivity()).getCheckEmailCodeFragment();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                        R.anim.slide_in_left, R.anim.slide_out_left)
+                .replace(R.id.loginregisterContent, frag)
+                .addToBackStack(CheckEmailCodeFragment.TAG)
                 .commit();
     }
 

@@ -135,12 +135,13 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         today = CalendarDay.today();
 
         headView = View.inflate(getContext(), R.layout.util_textview, null);
+        listview.addHeaderView(headView);
 
         mBottomSheetBehavior = BottomSheetBehavior.from(mview.findViewById(R.id.calendar_lay));
         initCalendar();
         initMonth(calendarView.getCurrentDate());
         initListview(today);
-        listview.addHeaderView(headView);
+
     }
 
     private void initCalendar() {

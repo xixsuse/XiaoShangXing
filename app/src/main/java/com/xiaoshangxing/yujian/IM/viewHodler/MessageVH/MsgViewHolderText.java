@@ -3,6 +3,7 @@ package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 import android.graphics.Color;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -28,9 +29,7 @@ public class MsgViewHolderText extends MsgViewHolderBase {
     @Override
     protected void bindContentView() {
         layoutDirection();
-
         TextView bodyTextView = findViewById(R.id.nim_message_item_text_body);
-//        bodyTextView.setTextColor(isReceivedMessage() ? Color.BLACK : Color.WHITE);
         bodyTextView.setTextColor(Color.BLACK);
         bodyTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,10 +46,8 @@ public class MsgViewHolderText extends MsgViewHolderBase {
         TextView bodyTextView = findViewById(R.id.nim_message_item_text_body);
         if (isReceivedMessage()) {
             bodyTextView.setBackgroundResource(R.drawable.message_receive);
-//            bodyTextView.setPadding(ScreenUtils.dip2px(15), ScreenUtils.dip2px(8), ScreenUtils.dip2px(10), ScreenUtils.dip2px(8));
         } else {
             bodyTextView.setBackgroundResource(R.drawable.message_send);
-//            bodyTextView.setPadding(ScreenUtils.dip2px(10), ScreenUtils.dip2px(8), ScreenUtils.dip2px(15), ScreenUtils.dip2px(8));
         }
     }
 

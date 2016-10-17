@@ -66,7 +66,7 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
     @Bind(R.id.no_content)
     TextView noContent;
 
-    private View footview;
+    private View footview, headview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
     private SaleActivity activity;
@@ -86,15 +86,16 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
         view = inflater.inflate(R.layout.frag_myshoolreward, null);
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
-//        setmPresenter(new CollectPresenter(this,getContext()));
         initFresh();
         initView();
         return view;
     }
 
     private void initView() {
-        View view = new View(getContext());
-        listview.addHeaderView(view);
+        headview = new View(getContext());
+//        解决在4.3上不能设置header问题
+        listview.setAdapter(null);
+        listview.addHeaderView(headview);
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
         dotsTextView.start();

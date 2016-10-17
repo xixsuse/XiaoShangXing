@@ -3,9 +3,11 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 import com.xiaoshangxing.Network.api.Login_Register_Api.CheckCodeApi;
+import com.xiaoshangxing.Network.api.Login_Register_Api.CheckEmialCodeApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.ChkExistApi;
+import com.xiaoshangxing.Network.api.Login_Register_Api.FindPWByEmailApi;
+import com.xiaoshangxing.Network.api.Login_Register_Api.ForgetApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.LoginApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.RegisterApi;
 import com.xiaoshangxing.Network.api.Login_Register_Api.SendCodeApi;
@@ -25,9 +27,10 @@ public class LoginNetwork {
     private RegisterApi registerApi;
     private CheckCodeApi checkCodeApi;
     private SendCodeApi sendCodeApi;
-    private SetUserImage setUserImage;
     private ChkExistApi chkExistApi;
-
+    private ForgetApi forgetApi;
+    private FindPWByEmailApi findPWByEmailApi;
+    private CheckEmialCodeApi checkEmialCodeApi;
 
     private LoginNetwork() {
 
@@ -80,6 +83,30 @@ public class LoginNetwork {
             checkCodeApi = Network.getRetrofit().create(CheckCodeApi.class);
         }
         Observable<ResponseBody> observable = checkCodeApi.login(checkCode);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void ForgetPassword(Subscriber<ResponseBody> subscriber, JsonObject jsonObject) {
+        if (forgetApi == null) {
+            forgetApi = Network.getRetrofit().create(ForgetApi.class);
+        }
+        Observable<ResponseBody> observable = forgetApi.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void FindPWByEmail(Subscriber<ResponseBody> subscriber, JsonObject jsonObject) {
+        if (findPWByEmailApi == null) {
+            findPWByEmailApi = Network.getRetrofit().create(FindPWByEmailApi.class);
+        }
+        Observable<ResponseBody> observable = findPWByEmailApi.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void CheckEmailCode(Subscriber<ResponseBody> subscriber, JsonObject jsonObject) {
+        if (checkEmialCodeApi == null) {
+            checkEmialCodeApi = Network.getRetrofit().create(CheckEmialCodeApi.class);
+        }
+        Observable<ResponseBody> observable = checkEmialCodeApi.start(jsonObject);
         toSubscribe(observable, subscriber);
     }
 

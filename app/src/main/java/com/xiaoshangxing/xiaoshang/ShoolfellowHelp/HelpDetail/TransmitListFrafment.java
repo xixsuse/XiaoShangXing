@@ -146,10 +146,10 @@ public class TransmitListFrafment extends BaseFragment implements IBaseView {
         public void onBindViewHolder(MyViewHolder holder, int position)
         {
             TransmitInfo transmitInfo = transmitInfos.get(position);
-            int userId = Integer.valueOf(transmitInfo.getUserId());
-            UserInfoCache.getInstance().getHead(holder.headImage, userId, getContext());
-            UserInfoCache.getInstance().getName(holder.name, userId);
-            UserInfoCache.getInstance().getCollege(holder.college, userId);
+            String userId = String.valueOf(published.getUserId());
+            UserInfoCache.getInstance().getHeadIntoImage(userId, holder.headImage);
+            UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, holder.name);
+            UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, holder.college);
             holder.text.setText(TextUtils.isEmpty(transmitInfo.getComment()) ? "" : transmitInfo.getComment());
             holder.headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(userId));
         }

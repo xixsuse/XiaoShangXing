@@ -1,12 +1,10 @@
 package com.xiaoshangxing.login_register.LoginRegisterActivity.AlterPasswordFragment;
 
-import android.util.Log;
-
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.Network.netUtil.NS;
 
 import org.json.JSONObject;
 
@@ -41,21 +39,16 @@ public class AlterPasswordPresenter implements AlterPasswordContract.Presenter {
                     JSONObject jsonObject;
                     try {
                         jsonObject = new JSONObject(responseBody.string());
-                        switch (Integer.valueOf((String) jsonObject.get("code"))) {
-                            case 9000:
-                                Log.d("register", "success");
+                        switch (Integer.valueOf((String) jsonObject.get(NS.CODE))) {
+                            case 200:
                                 mView.showAlterSuccess();
                                 break;
-                            case 9003:
-                                Log.d("register","error");
-                                mView.showToast("该账号已存在，请前往注册。");
                             default:
-                                Log.d("register", "erro");
                                 String msg;
-                                if (jsonObject.get("msg") instanceof JSONObject) {
-                                    msg= (jsonObject.getJSONObject("msg")).getString("token");
+                                if (jsonObject.get(NS.MSG) instanceof JSONObject) {
+                                    msg = (jsonObject.getJSONObject(NS.MSG)).getString(NS.TOKEN);
                                 } else {
-                                    msg= jsonObject.getString("msg");
+                                    msg = jsonObject.getString(NS.MSG);
                                 }
                                 mView.showToast(msg);
                                 break;
@@ -68,10 +61,9 @@ public class AlterPasswordPresenter implements AlterPasswordContract.Presenter {
             };
             ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, mView);
             JsonObject jsonObject=new JsonObject();
-            jsonObject.addProperty("phone",mView.getPhoneNumber());
-            jsonObject.addProperty("password",mView.getPassword1());
-            jsonObject.addProperty("timestamp",System.currentTimeMillis());
-            LoginNetwork.getInstance().Register(observer, jsonObject, XSXApplication.getInstance());
+            jsonObject.addProperty("phone", mView.getPhoneNumber());
+            jsonObject.addProperty("newPassword", mView.getPassword1());
+            LoginNetwork.getInstance().ForgetPassword(observer, jsonObject);
         } else {
             mView.showPasswordDiffer();
         }

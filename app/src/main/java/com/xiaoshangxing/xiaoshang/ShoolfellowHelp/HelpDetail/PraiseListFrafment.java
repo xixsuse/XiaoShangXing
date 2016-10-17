@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
@@ -83,10 +84,11 @@ public class PraiseListFrafment extends Fragment {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position)
         {
-            UserInfoCache.getInstance().getHead(holder.headImage, Integer.valueOf(ids.get(position)), getContext());
-            UserInfoCache.getInstance().getName(holder.name, Integer.valueOf(ids.get(position)));
-            UserInfoCache.getInstance().getCollege(holder.college, Integer.valueOf(ids.get(position)));
-            holder.headImage.setIntent_type(CirecleImage.PERSON_INFO, ids.get(position));
+            String userId = ids.get(position);
+            UserInfoCache.getInstance().getHeadIntoImage(userId, holder.headImage);
+            UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, holder.name);
+            UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, holder.college);
+            holder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
         }
 
         @Override

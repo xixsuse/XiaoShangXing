@@ -55,6 +55,7 @@ public class NS {
     public static final String DAY = "day";
     public static final String PLAN_GROUP = "groupNo";
     public static final String HOMETOWN = "hometown";
+    public static final String COLLEGE = "isCollege";
     //    动态操作
     public static final String PRAISE = "0";
     public static final String INFO = "1";
@@ -80,6 +81,9 @@ public class NS {
     public static final String REFRESH_SUCCESS = "加载成功";
     public static final String REFRESH_FAIL = "加载失败";
     public static final String ON_DEVELOPING = "正在调试";
+
+
+    public static final String TYPE = "type";
 
 
 

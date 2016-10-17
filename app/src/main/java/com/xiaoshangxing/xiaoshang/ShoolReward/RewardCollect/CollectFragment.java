@@ -96,6 +96,8 @@ public class CollectFragment extends BaseFragment implements CollectContract.Vie
 
     private void initView() {
         View view = new View(getContext());
+        //        解决在4.3上不能设置header问题
+        listview.setAdapter(null);
         listview.addHeaderView(view);
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);

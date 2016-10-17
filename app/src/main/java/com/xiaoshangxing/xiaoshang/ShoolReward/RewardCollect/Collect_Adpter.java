@@ -70,10 +70,13 @@ public class Collect_Adpter extends ArrayAdapter<Published> {
         }
 
         final Published published = publisheds.get(position);
-
-        UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
-        UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
-        UserInfoCache.getInstance().getCollege(viewholder.college, published.getUserId());
+        String id = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(id, viewholder.headImage);
+        UserInfoCache.getInstance().getExIntoTextview(id, NS.USER_NAME, viewholder.name);
+        UserInfoCache.getInstance().getExIntoTextview(id, NS.COLLEGE, viewholder.college);
+//        UserInfoCache.getInstance().getHead(viewholder.headImage, published.getUserId(), context);
+//        UserInfoCache.getInstance().getName(viewholder.name, published.getUserId());
+//        UserInfoCache.getInstance().getCollege(viewholder.college, published.getUserId());
         viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewholder.text.setText(published.getText());
         viewholder.price.setText(NS.RMB + published.getPrice());

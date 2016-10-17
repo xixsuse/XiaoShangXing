@@ -16,10 +16,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.xiaoshangxing.MainActivity;
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.InputAccountFragment.InputAccountFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
+import com.xiaoshangxing.login_register.LoginRegisterActivity.RetrieveByMesFragment.RetrieveByMesFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
 import com.xiaoshangxing.login_register.StartActivity.StartActivity;
 import com.xiaoshangxing.utils.BaseFragment;
@@ -139,7 +140,6 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
-//                .setCustomAnimations(R.animator.slide_fragment_horizontal_right_in, R.animator.slide_fragment_horizontal_left_out, R.animator.slide_fragment_horizontal_left_in, R.animator.slide_fragment_horizontal_right_out)
                 .replace(R.id.loginregisterContent, frag)
                 .addToBackStack(RgInputPhoNumberFragment.TAG)
                 .commit();
@@ -239,24 +239,22 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
             public void onItemSelected(int position, String item) {
                 switch (position) {
                     case 0:
-                        showToast(NS.ON_DEVELOPING);
-//                        RetrieveByMesFragment frag = ((LoginRegisterActivity) mActivity).getRetrieveByMesFragment();
-//                        getFragmentManager().beginTransaction()
-//                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-//                                        R.anim.slide_in_left, R.anim.slide_out_left)
-//                                .replace(R.id.loginregisterContent, frag)
-//                                .addToBackStack(RgInputPhoNumberFragment.TAG)
-//                                .commit();
+                        RetrieveByMesFragment frag = ((LoginRegisterActivity) mActivity).getRetrieveByMesFragment();
+                        getFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                                        R.anim.slide_in_left, R.anim.slide_out_left)
+                                .replace(R.id.loginregisterContent, frag)
+                                .addToBackStack(RgInputPhoNumberFragment.TAG)
+                                .commit();
                         break;
                     case 1:
-                        showToast(NS.ON_DEVELOPING);
-//                        InputAccountFragment frag2 = ((LoginRegisterActivity) mActivity).getInputEmailFragment();
-//                        getFragmentManager().beginTransaction()
-//                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-//                                        R.anim.slide_in_left, R.anim.slide_out_left)
-//                                .replace(R.id.loginregisterContent, frag2)
-//                                .addToBackStack(InputAccountFragment.TAG)
-//                                .commit();
+                        InputAccountFragment frag2 = ((LoginRegisterActivity) mActivity).getInputEmailFragment();
+                        getFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                                        R.anim.slide_in_left, R.anim.slide_out_left)
+                                .replace(R.id.loginregisterContent, frag2)
+                                .addToBackStack(InputAccountFragment.TAG)
+                                .commit();
                         break;
                 }
             }

@@ -41,7 +41,8 @@ public class WoTrasnsmit extends WoBaseHolder {
         PublishCache.getPublished(orignalId, new PublishCache.publishedCallback() {
             @Override
             public void callback(final Published published) {
-                UserInfoCache.getInstance().getHead(head, published.getUserId(), context);
+                String userId = String.valueOf(published.getUserId());
+                UserInfoCache.getInstance().getHeadIntoImage(userId, head);
                 text.setText(published.getText());
                 content.setOnClickListener(new View.OnClickListener() {
                     @Override

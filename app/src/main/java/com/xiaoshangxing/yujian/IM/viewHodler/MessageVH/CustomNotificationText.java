@@ -5,6 +5,8 @@ import com.netease.nimlib.sdk.msg.constant.MsgDirectionEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
+import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachment;
+import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachmentType;
 import com.xiaoshangxing.yujian.IM.CustomMessage.CustomNotificationMessage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
@@ -64,12 +66,28 @@ public class CustomNotificationText {
         } else if (attachment instanceof ApplyPlanMessage) {
             return "[申请加入计划]";
         } else if (attachment instanceof TransmitMessage_NoImage) {
-            return "[分享]";
+            return getShareContactText(recent);
         } else if (attachment instanceof TransmitMessage_WithImage) {
-            return "[分享]";
+            return getShareContactText(recent);
         }
 
         return "未知消息";
+    }
+
+    private static String getShareContactText(RecentContact recent) {
+        CustomAttachment customAttachment = (CustomAttachment) recent.getAttachment();
+        switch (customAttachment.getType()) {
+            case CustomAttachmentType.Help:
+                return "[校友互帮]";
+            case CustomAttachmentType.Reward:
+                return "[校内悬赏]";
+            case CustomAttachmentType.Plan:
+                return "[计划发起]";
+            case CustomAttachmentType.Sale:
+                return "[闲置出售]";
+            default:
+                return "[未知]";
+        }
     }
 
     private static String getApllyPlanContactText(RecentContact recent) {

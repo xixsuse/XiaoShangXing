@@ -11,7 +11,7 @@ import org.json.JSONObject;
  * 用于转发有图片的动态消息
  */
 public class ApplyPlanMessage extends CustomAttachment {
-    private int state_id;
+    protected int state_id;
 
     public ApplyPlanMessage() {
         super(CustomAttachmentType.ApplyPlan);

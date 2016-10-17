@@ -154,10 +154,10 @@ public class SaleActivity extends BaseActivity implements IBaseView {
             showToast("信息有误");
             return;
         }
-        int userId = published.getUserId();
-        UserInfoCache.getInstance().getHead(head, userId, SaleActivity.this);
-        UserInfoCache.getInstance().getName(name, userId);
-        UserInfoCache.getInstance().getCollege(college, userId);
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, head);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         text.setText(published.getText());
         if (!TextUtils.isEmpty(published.getImage())) {
             MyGlide.with(SaleActivity.this, published.getImage().split(NS.SPLIT)[0], imageView);

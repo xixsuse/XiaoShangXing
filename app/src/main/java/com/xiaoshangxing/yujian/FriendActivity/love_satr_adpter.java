@@ -10,11 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.friend.FriendService;
-import com.netease.nimlib.sdk.friend.constant.VerifyType;
-import com.netease.nimlib.sdk.friend.model.AddFriendData;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.xiaoshangxing.Network.IMNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
@@ -65,10 +60,10 @@ public class love_satr_adpter extends ArrayAdapter<User> {
         }
 
         final User user = users.get(position);
-        final int id = user.getId();
-        UserInfoCache.getInstance().getHead(viewHolder.headImage, id, context);
-        UserInfoCache.getInstance().getName(viewHolder.name, id);
-        UserInfoCache.getInstance().getCollege(viewHolder.college, id);
+        final String userId = String.valueOf(user.getId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, viewHolder.headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewHolder.name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
         if (user.getSex().equals(0)) {
             viewHolder.sex.setImageResource(R.mipmap.sex_female);
         } else {
@@ -90,12 +85,12 @@ public class love_satr_adpter extends ArrayAdapter<User> {
             viewHolder.more.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    favor(id);
+                    favor(Integer.valueOf(userId));
                 }
             });
         }
 
-        viewHolder.headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(id));
+        viewHolder.headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(userId));
 
         return convertView;
     }

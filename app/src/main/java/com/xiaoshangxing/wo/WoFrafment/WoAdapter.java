@@ -29,7 +29,7 @@ import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.UserCache;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -152,9 +152,13 @@ public class WoAdapter extends RealmBaseAdapter<Published> {
         Published published = publisheds.get(position);
 
 //      头像  姓名 学院
-        UserCache userCache = new UserCache(context, String.valueOf(published.getUserId()), realm);
-        userCache.getHead(viewHolder.headImage);
-        userCache.getName(viewHolder.name);
+        String id = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(id, viewHolder.headImage);
+        UserInfoCache.getInstance().getExIntoTextview(id, NS.USER_NAME, viewHolder.name);
+        UserInfoCache.getInstance().getExIntoTextview(id, NS.COLLEGE, viewHolder.college);
+//        UserCache userCache = new UserCache(context, String.valueOf(published.getUserId()), realm);
+//        userCache.getHead(viewHolder.headImage);
+//        userCache.getName(viewHolder.name);
 
 //        是否头条
         viewHolder.headline.setVisibility(published.getIsHeadline() == 1 ? View.VISIBLE : View.INVISIBLE);

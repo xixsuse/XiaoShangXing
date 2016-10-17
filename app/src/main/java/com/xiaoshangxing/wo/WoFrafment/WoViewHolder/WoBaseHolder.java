@@ -191,9 +191,10 @@ public abstract class WoBaseHolder {
     private void initView() {
 
 //      头像  姓名 学院
-        UserInfoCache.getInstance().getHead(headImage, published.getUserId(), context);
-        UserInfoCache.getInstance().getName(name, published.getUserId());
-        UserInfoCache.getInstance().getCollege(college, published.getUserId());
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
 
 //        是否头条
         headline.setVisibility(published.getIsHeadline() == 1 ? View.VISIBLE : View.INVISIBLE);

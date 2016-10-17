@@ -89,8 +89,8 @@ public abstract class MyStateHodlerBase {
             location.setVisibility(View.VISIBLE);
         }
         if (position == 0) {
-            left_lay.setPadding(0, 0, 0, 0);
-            content.setPadding(0, 0, 0, 0);
+            left_lay.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y16, context), 0, 0);
+            content.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y16, context), 0, 0);
         } else {
             left_lay.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, context), 0, 0);
             content.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, context), 0, 0);
