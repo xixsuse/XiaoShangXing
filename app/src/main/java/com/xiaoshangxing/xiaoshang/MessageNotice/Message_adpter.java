@@ -11,10 +11,9 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.login_register.StartActivity.StartActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 
 import java.util.List;
 

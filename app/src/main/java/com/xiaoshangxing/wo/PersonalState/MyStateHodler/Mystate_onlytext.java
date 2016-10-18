@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.wo.PersonalState.DetailsActivity.DetailsActivity;
+import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 
 /**
  * Created by FengChaoQun

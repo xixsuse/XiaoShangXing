@@ -20,9 +20,8 @@ import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputVertifyCode
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.utils.LocationUtil;
-import com.xiaoshangxing.xiaoshang.TextBoard;
+import com.xiaoshangxing.utils.layout.TextBoard;
 
 /**
  * Created by FengChaoQun

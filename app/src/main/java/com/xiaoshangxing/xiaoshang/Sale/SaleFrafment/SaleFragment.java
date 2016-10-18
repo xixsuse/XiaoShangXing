@@ -39,7 +39,7 @@ import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
@@ -62,6 +62,10 @@ import io.realm.Sort;
  */
 public class SaleFragment extends BaseFragment implements SaleContract.View {
     public static final String TAG = BaseFragment.TAG + "-SaleFragment";
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
@@ -70,24 +74,22 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     ImageView more;
     @Bind(R.id.title_lay)
     RelativeLayout titleLay;
-    @Bind(R.id.line)
-    View line;
+    @Bind(R.id.anounce)
+    ImageView anounce;
     @Bind(R.id.listview)
     ListView listview;
     @Bind(R.id.reflesh_layout)
     PtrFrameLayout ptrFrameLayout;
     @Bind(R.id.mengban)
     View mengban;
-    @Bind(R.id.content)
-    TextView content;
+    @Bind(R.id.anounce_content)
+    TextView anounceContent;
     @Bind(R.id.collasp)
     LinearLayout collasp;
     @Bind(R.id.rules)
     RelativeLayout rules;
-    @Bind(R.id.back_text)
-    TextView backText;
-    @Bind(R.id.anounce)
-    ImageView anounce;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
 
     private View mview;
     private Realm realm;
@@ -109,7 +111,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mview = inflater.inflate(R.layout.frag_sale, null);
+        mview = inflater.inflate(R.layout.title_anounce_refresh_listview, null);
         ButterKnife.bind(this, mview);
         realm = Realm.getDefaultInstance();
         initView();
@@ -133,6 +135,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     }
 
     private void initView() {
+        title.setText("闲置出售");
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);

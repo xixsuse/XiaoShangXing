@@ -13,8 +13,8 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
+import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 
 /**
  * Created by FengChaoQun
@@ -58,7 +58,7 @@ public class Mystate_holder_transmit extends MyStateHodlerBase {
                             intent.putExtra(IntentStatic.DATA, published.getId());
                             context.startActivity(intent);
                         } else if (categry.equals(NS.CATEGORY_REWARD)) {
-                            Intent intent = new Intent(context, ShoolRewardActivity.class);
+                            Intent intent = new Intent(context, RewardActivity.class);
                             intent.putExtra(IntentStatic.DATA, published.getId());
                             context.startActivity(intent);
                         }

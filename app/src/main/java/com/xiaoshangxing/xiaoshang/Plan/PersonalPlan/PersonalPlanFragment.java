@@ -22,7 +22,7 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
@@ -42,8 +42,6 @@ import io.realm.Sort;
  */
 public class PersonalPlanFragment extends BaseFragment implements PersonalPlanContract.View {
     public static final String TAG = BaseFragment.TAG + "-PersonalPlanFragment";
-    @Bind(R.id.back_text)
-    TextView backText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.cancel)
@@ -65,7 +63,6 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
     @Bind(R.id.no_content)
     TextView noContent;
 
-
     public static PersonalPlanFragment newInstance() {
         return new PersonalPlanFragment();
     }
@@ -83,7 +80,7 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mview = inflater.inflate(R.layout.frag_myshoolhelp, null);
+        mview = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
         ButterKnife.bind(this, mview);
         realm = Realm.getDefaultInstance();
         initView();
@@ -91,9 +88,11 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
     }
 
     private void initView() {
-        title.setText("我的计划");
+        title.setText(R.string.myshoolfellowhelp);
+        noContent.setText("你还没有发布计划,快去发布你的互帮吧");
         View view = new View(getContext());
         listview.addHeaderView(view);
+        listview.setDividerHeight(0);
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
         dotsTextView.start();

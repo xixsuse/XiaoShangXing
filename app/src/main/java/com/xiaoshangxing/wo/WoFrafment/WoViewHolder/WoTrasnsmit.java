@@ -12,8 +12,8 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
+import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 
 /**
  * Created by FengChaoQun

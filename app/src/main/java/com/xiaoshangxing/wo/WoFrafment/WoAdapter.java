@@ -38,7 +38,7 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.MoreTextView;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
-import com.xiaoshangxing.wo.roll.RollActivity;
+import com.xiaoshangxing.wo.Roll.RollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import org.json.JSONException;

@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:visibility="gone"
         android:padding="16dp"
         android:orientation="horizontal"
         android:layout_centerInParent="true"
@@ -17,7 +18,8 @@
             android:text="没有数据了"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <com.xiaoshangxing.utils.loadingview.DotsTextView
+
+        <com.xiaoshangxing.utils.layout.loadingview.DotsTextView
             android:id="@+id/dot"
             android:textSize="45sp"
             android:textColor="@android:color/primary_text_light"
@@ -27,5 +29,45 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/list_bottom_view"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/x216"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/left_line"
+            android:layout_width="@dimen/x312"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/y102"
+            android:background="@color/g1">
+
+        </ImageView>
+
+        <com.xiaoshangxing.utils.layout.CirecleImage
+            android:id="@+id/center_dot"
+            android:layout_width="@dimen/x6"
+            android:layout_height="@dimen/x6"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/y100"
+            android:layout_marginLeft="@dimen/x6"
+            android:layout_marginRight="@dimen/x6"
+            android:layout_toRightOf="@+id/left_line"
+            android:background="@color/g1" />
+
+        <ImageView
+            android:id="@+id/right_line"
+            android:layout_width="@dimen/x312"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/y102"
+            android:layout_toRightOf="@+id/center_dot"
+            android:background="@color/g1">
+
+        </ImageView>
+
+    </RelativeLayout>
 
 </RelativeLayout>

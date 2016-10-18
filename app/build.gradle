@@ -27,7 +27,7 @@ android {
 
     dexOptions {
         javaMaxHeapSize "3g"
-
+        jumboMode = true
     }
 
     sourceSets {

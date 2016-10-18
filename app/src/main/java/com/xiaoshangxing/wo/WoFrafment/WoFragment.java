@@ -31,7 +31,7 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 

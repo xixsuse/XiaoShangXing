@@ -7,93 +7,22 @@
     android:orientation="vertical">
 
     <!--导航栏-->
-    <RelativeLayout
+    <include
         android:id="@+id/title_lay"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144"
-        android:background="@color/w0"
-        android:paddingEnd="@dimen/width_48"
-        android:paddingStart="@dimen/width_48">
+        layout="@layout/util_normal_title">
 
-        <!--返回-->
-        <LinearLayout
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/left_arrow_black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/x12"
-                android:text="@string/xiaoshang"
-                android:textColor="@color/b0"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="校历资讯" />
-
-        <!--点点点-->
-        <ImageView
-            android:id="@+id/more"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/nav_add" />
-    </RelativeLayout>
+    </include>
 
     <!--listview-->
-    <com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+    <include
         android:id="@+id/reflesh_layout"
+        layout="@layout/util_refresh_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_layout"
-        android:layout_below="@+id/title_lay"
-        cube_ptr:ptr_duration_to_close="200"
-        cube_ptr:ptr_duration_to_close_header="1000"
-        cube_ptr:ptr_keep_header_when_refresh="true"
-        cube_ptr:ptr_pull_to_fresh="false"
-        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.7">
+        android:layout_below="@+id/title_lay">
 
-        <ListView
-            android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/width_48"
-            android:layout_marginStart="@dimen/width_48"
-            android:cacheColorHint="@color/transparent"
-            android:divider="@color/transparent"
-            android:dividerHeight="@dimen/height_48"
-            android:fadingEdge="none"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:listSelector="@color/transparent"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            android:transcriptMode="normal">
-
-        </ListView>
-
-
-    </com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout>
-
-
+    </include>
 
     <!--当前日期-->
     <RelativeLayout

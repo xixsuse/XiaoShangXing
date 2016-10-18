@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rules"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="gone">
+    <!--蒙版-->
+    <View
+        android:id="@+id/mengban"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:background="@color/b0">
+
+    </View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/collasp"
+            android:layout_marginEnd="@dimen/width_48"
+            android:layout_marginStart="@dimen/width_48"
+            android:alpha="0.95"
+            android:background="@color/w1"
+            android:overScrollMode="never"
+            android:paddingEnd="@dimen/width_48"
+            android:paddingStart="@dimen/width_48"
+            android:paddingTop="@dimen/y66"
+            android:scrollbars="none">
+
+            <TextView
+                android:id="@+id/anounce_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reward_rules"
+                android:textColor="@color/b0"
+                android:textSize="15sp" />
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/collasp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/y102"
+            android:layout_marginEnd="@dimen/width_48"
+            android:layout_marginStart="@dimen/width_48"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y102"
+                android:alpha="0.95"
+                android:background="@color/w1"
+                android:visibility="gone">
+
+            </View>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitXY"
+                android:src="@mipmap/rules_up" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -22,7 +22,7 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
@@ -42,8 +42,6 @@ import io.realm.Sort;
  */
 public class PersonalSaleFragment extends BaseFragment implements PersonalSaleContract.View {
     public static final String TAG = BaseFragment.TAG + "-PersonalSaleFragment";
-    @Bind(R.id.back_text)
-    TextView backText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.cancel)
@@ -81,7 +79,7 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frag_myshoolhelp, null);
+        view = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
 //        setmPresenter(new MyHelpPresenter(this, getContext(), realm));
@@ -145,11 +143,7 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-//                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, IntentStatic.MINE) == IntentStatic.MINE) {
-//                    getActivity().finish();
-//                } else {
                 getFragmentManager().popBackStack();
-//                }
                 break;
             case R.id.cancel:
                 showHideMenu(false);

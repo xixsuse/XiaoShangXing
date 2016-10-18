@@ -30,11 +30,11 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.MoreTextView;
 import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.utils.school_circle.Item_Comment;
+import com.xiaoshangxing.wo.WoFrafment.Item_Comment;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.wo.WoFrafment.Wo_listview_adpter;
-import com.xiaoshangxing.wo.roll.RollActivity;
+import com.xiaoshangxing.wo.Roll.RollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import io.realm.Realm;

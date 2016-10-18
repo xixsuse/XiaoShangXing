@@ -14,7 +14,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
-import com.xiaoshangxing.wo.PersonalState.DetailsActivity.DetailsActivity;
+import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 
 import java.util.ArrayList;
 import java.util.List;

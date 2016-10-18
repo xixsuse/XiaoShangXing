@@ -152,12 +152,12 @@
         </activity>
         <activity android:name=".wo.PersonalState.PersonalStateActivity" />
         <activity
-            android:name=".wo.PersonalState.DetailsActivity.DetailsActivity"
+            android:name=".wo.StateDetailsActivity.DetailsActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity android:name=".wo.NewsActivity.NewsActivity" />
         <activity android:name=".wo.WoFrafment.check_photo.ImagePagerActivity" />
         <activity android:name=".wo.PersonalState.check_photo.myStateImagePagerActivity" />
-        <activity android:name=".wo.roll.RollActivity" />
+        <activity android:name=".wo.Roll.RollActivity" />
         <activity
             android:name=".report.ReportActivity"
             android:windowSoftInputMode="adjustPan|stateHidden"></activity>
@@ -175,10 +175,10 @@
         <activity android:name=".setting.mailboxbind.ModifyMailBoxActivity" />
 
         <!-- 互帮 -->
-        <activity android:name=".xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity" />
-        <activity android:name=".xiaoshang.ShoolfellowHelp.HelpDetail.HelpDetailActivity" />
-        <activity android:name=".xiaoshang.ShoolReward.ShoolRewardActivity" />
-        <activity android:name=".xiaoshang.ShoolReward.RewardDetail.RewardDetailActivity" />
+        <activity android:name=".xiaoshang.Help.HelpActivity" />
+        <activity android:name=".xiaoshang.Help.HelpDetail.HelpDetailActivity" />
+        <activity android:name=".xiaoshang.Reward.RewardActivity" />
+        <activity android:name=".xiaoshang.Reward.RewardDetail.RewardDetailActivity" />
         <activity
             android:name=".input_activity.InputActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
@@ -208,7 +208,7 @@
         <activity android:name=".yujian.xiaoyou.XiaoYouActivity" />
         <activity android:name=".input_activity.Location.LocationActivity">
         </activity>
-        <activity android:name=".xiaoshang.TextBoard" />
+        <activity android:name=".utils.layout.TextBoard" />
         <activity
             android:name=".input_activity.Location.SerchLocationActivity"
             android:theme="@style/global_search_bg"></activity>

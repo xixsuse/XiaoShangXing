@@ -29,6 +29,11 @@ import butterknife.OnClick;
  */
 
 public class CalendarInputer extends BaseActivity {
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
@@ -37,24 +42,22 @@ public class CalendarInputer extends BaseActivity {
     ImageView more;
     @Bind(R.id.title_lay)
     RelativeLayout titleLay;
-    @Bind(R.id.line)
-    View line;
+    @Bind(R.id.anounce)
+    ImageView anounce;
     @Bind(R.id.listview)
     ListView listview;
     @Bind(R.id.reflesh_layout)
     PtrFrameLayout refleshLayout;
     @Bind(R.id.mengban)
     View mengban;
-    @Bind(R.id.content)
-    TextView content;
+    @Bind(R.id.anounce_content)
+    TextView anounceContent;
     @Bind(R.id.collasp)
     LinearLayout collasp;
     @Bind(R.id.rules)
     RelativeLayout rules;
-    @Bind(R.id.back_text)
-    TextView backText;
-    @Bind(R.id.anounce)
-    ImageView anounce;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
     private View headview;
 
     private CalendarInputer_Adpter adpter;
@@ -63,7 +66,7 @@ public class CalendarInputer extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.frag_sale);
+        setContentView(R.layout.title_anounce_refresh_listview);
         ButterKnife.bind(this);
         initView();
     }
@@ -78,7 +81,10 @@ public class CalendarInputer extends BaseActivity {
                 clickOnRule(true);
             }
         });
-        content.setText(getString(R.string.calender));
+        anounceContent.setText(getString(R.string.calender));
+        title.setText("添加入口");
+        more.setVisibility(View.GONE);
+        leftText.setText("返回");
 
         LoadUtils.getCalendarInputer(this, realm, new LoadUtils.AroundLoading() {
             @Override
@@ -105,12 +111,6 @@ public class CalendarInputer extends BaseActivity {
 
             }
         });
-
-
-        title.setText("添加入口");
-        more.setVisibility(View.GONE);
-        backText.setText("返回");
-
 
     }
 

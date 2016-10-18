@@ -3,19 +3,19 @@ package com.xiaoshangxing.xiaoshang.MessageNotice;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
+import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
-import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 
 import java.util.ArrayList;
 
@@ -28,10 +28,19 @@ import butterknife.OnClick;
  * on 2016/8/2
  */
 public class MessageNoticeActivity extends BaseActivity implements MessageNoticeContract.View {
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
     TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.listview)
     ListView listview;
     @Bind(R.id.reflesh_layout)
@@ -49,7 +58,7 @@ public class MessageNoticeActivity extends BaseActivity implements MessageNotice
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_xiaoshang_message);
+        setContentView(R.layout.title_refresh_listview);
         ButterKnife.bind(this);
         setmPresenter(new MessageNoticePresenter(this, this));
         initView();
@@ -58,6 +67,9 @@ public class MessageNoticeActivity extends BaseActivity implements MessageNotice
     }
 
     private void initView() {
+        title.setText("消息通知");
+        leftText.setText("返回");
+        more.setVisibility(View.GONE);
         View view = new View(this);
         listview.addHeaderView(view);
         footview = View.inflate(this, R.layout.footer, null);
@@ -87,29 +99,7 @@ public class MessageNoticeActivity extends BaseActivity implements MessageNotice
     }
 
     private void initFresh() {
-        final StoreHouseHeader header = new StoreHouseHeader(this);
-        header.setPadding(0, getResources().getDimensionPixelSize(R.dimen.y144), 0, 20);
-        header.initWithString("SWALK");
-        header.setTextColor(getResources().getColor(R.color.green1));
-        header.setBackgroundColor(getResources().getColor(R.color.transparent));
-
-        header.setAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_in));
-
-        ptrFrameLayout.setDurationToCloseHeader(2000);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
-//        ptrFrameLayout.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                ptrFrameLayout.autoRefresh(false);
-//            }
-//        }, 100);
-        ptrFrameLayout.setPtrHandler(new PtrHandler() {
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
-            }
-
+        LayoutHelp.initPTR(ptrFrameLayout, false, new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 isRefreshing = true;
@@ -123,6 +113,7 @@ public class MessageNoticeActivity extends BaseActivity implements MessageNotice
                 }, 1500);
             }
         });
+
     }
 
     @Override

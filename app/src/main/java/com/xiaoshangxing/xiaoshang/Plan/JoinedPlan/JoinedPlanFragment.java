@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -18,7 +19,7 @@ import com.xiaoshangxing.data.JoinedPlan;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 
@@ -37,14 +38,18 @@ import io.realm.Sort;
  */
 public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContract.View {
     public static final String TAG = BaseFragment.TAG + "-JoinedPlanFragment";
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
     TextView title;
+    @Bind(R.id.more)
+    ImageView more;
     @Bind(R.id.title_lay)
     RelativeLayout titleLay;
-    @Bind(R.id.line)
-    View line;
     @Bind(R.id.listview)
     ListView listview;
     @Bind(R.id.reflesh_layout)
@@ -68,7 +73,7 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mview = inflater.inflate(R.layout.frag_joinedplan, null);
+        mview = inflater.inflate(R.layout.title_refresh_listview, null);
         ButterKnife.bind(this, mview);
         realm = Realm.getDefaultInstance();
         initView();
@@ -77,6 +82,10 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     }
 
     private void initView() {
+        leftText.setText(R.string.back);
+        title.setText("我加入的计划");
+        more.setVisibility(View.GONE);
+
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
         dotsTextView.start();

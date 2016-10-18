@@ -15,8 +15,8 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
-import com.xiaoshangxing.xiaoshang.ShoolReward.ShoolRewardActivity;
-import com.xiaoshangxing.xiaoshang.ShoolfellowHelp.ShoolfellowHelpActivity;
+import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
+import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -83,14 +83,14 @@ public class MoreInfoActivity extends BaseActivity {
     }
 
     public void HuBang(View view) {
-        Intent intent=new Intent(this, ShoolfellowHelpActivity.class);
+        Intent intent = new Intent(this, HelpActivity.class);
         intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
         startActivity(intent);
     }
 
     public void XuanShang(View view) {
-        Intent intent=new Intent(this, ShoolRewardActivity.class);
+        Intent intent = new Intent(this, RewardActivity.class);
         intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
         startActivity(intent);

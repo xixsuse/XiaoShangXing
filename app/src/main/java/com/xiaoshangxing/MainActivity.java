@@ -34,7 +34,7 @@ import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
-import com.xiaoshangxing.xiaoshang.XiaoShangFragment;
+import com.xiaoshangxing.xiaoshang.XiaoShangFragment.XiaoShangFragment;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 import com.xiaoshangxing.yujian.IM.kit.permission.MPermission;

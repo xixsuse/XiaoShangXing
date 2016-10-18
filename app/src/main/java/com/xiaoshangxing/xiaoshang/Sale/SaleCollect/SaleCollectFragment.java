@@ -24,7 +24,7 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
@@ -83,7 +83,7 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frag_myshoolreward, null);
+        view = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
         ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
         initFresh();

@@ -56,6 +56,10 @@ import io.realm.Sort;
 
 public class CalendarFragment extends BaseFragment implements OnDateSelectedListener, OnMonthChangedListener {
     public static final String TAG = BaseFragment.TAG + "-CalendarFragment";
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
@@ -68,18 +72,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     ListView listview;
     @Bind(R.id.reflesh_layout)
     PtrFrameLayout refleshLayout;
-    @Bind(R.id.current_month)
-    TextView currentMonth;
-    @Bind(R.id.down_arrow)
-    ImageView downArrow;
-    @Bind(R.id.calendarView)
-    MaterialCalendarView calendarView;
-    @Bind(R.id.next_month)
-    TextView nextMonth;
-    @Bind(R.id.calendar_lay)
-    LinearLayout calendarLay;
-    @Bind(R.id.up_layout)
-    RelativeLayout upLayout;
     @Bind(R.id.calender_log)
     ImageView calenderLog;
     @Bind(R.id.tv_nowDate)
@@ -90,6 +82,19 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     ImageButton ibArrowUp;
     @Bind(R.id.bottom_layout)
     RelativeLayout bottomLayout;
+    @Bind(R.id.current_month)
+    TextView currentMonth;
+    @Bind(R.id.down_arrow)
+    ImageView downArrow;
+    @Bind(R.id.up_layout)
+    RelativeLayout upLayout;
+    @Bind(R.id.calendarView)
+    MaterialCalendarView calendarView;
+    @Bind(R.id.next_month)
+    TextView nextMonth;
+    @Bind(R.id.calendar_lay)
+    LinearLayout calendarLay;
+
     private View mview;
     private Realm realm;
     private BottomSheetBehavior mBottomSheetBehavior;
@@ -129,6 +134,10 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     }
 
     private void initView() {
+
+        title.setText("校历资讯");
+        more.setImageResource(R.mipmap.nav_add);
+
         allDatas = new ArrayList<>();
         previous = new ArrayList<>();
         future = new ArrayList<>();

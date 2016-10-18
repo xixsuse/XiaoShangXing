@@ -1,22 +1,15 @@
 package com.xiaoshangxing.utils;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.DataSetting;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
-import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
 /**
  * Created by 15828 on 2016/7/25.

@@ -7,7 +7,6 @@ import android.widget.LinearLayout;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.utils.school_circle.PraisePeople;
 
 /**
  * Created by FengChaoQun
