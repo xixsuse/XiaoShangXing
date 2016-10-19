@@ -82,7 +82,6 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     }
 
     private void initView() {
-        leftText.setText(R.string.back);
         title.setText("我加入的计划");
         more.setVisibility(View.GONE);
 

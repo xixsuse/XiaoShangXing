@@ -26,7 +26,7 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.Help.HelpFragment.HelpFragment;
-import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalShoolHelpFragment;
+import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
 
 /**
  * Created by FengChaoQun
@@ -36,7 +36,7 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
     public static final String TAG = BaseActivity.TAG + "-ShoolfellowHelpActivity";
 
     private HelpFragment helpFragment;
-    private PersonalShoolHelpFragment personalShoolHelpFragment;
+    private PersonalHelpFragment personalHelpFragment;
     private HelpContract.Presenter mPresenter;
     public static final int OTHERS=10002;
     public static final int MINE=10003;
@@ -70,11 +70,11 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
                         frag, HelpFragment.TAG).commit();
                 break;
             case IntentStatic.MINE:
-                frag = mFragmentManager.findFragmentByTag(PersonalShoolHelpFragment.TAG);
-                personalShoolHelpFragment = (frag == null) ? PersonalShoolHelpFragment.newInstance() : (PersonalShoolHelpFragment) frag;
-                frag = getPersonalShoolHelpFragment();
+                frag = mFragmentManager.findFragmentByTag(PersonalHelpFragment.TAG);
+                personalHelpFragment = (frag == null) ? PersonalHelpFragment.newInstance() : (PersonalHelpFragment) frag;
+                frag = getPersonalHelpFragment();
                 mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                        frag, PersonalShoolHelpFragment.TAG).commit();
+                        frag, PersonalHelpFragment.TAG).commit();
                 break;
             default:
                 initAllFragments();
@@ -87,12 +87,12 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
         frag = mFragmentManager.findFragmentByTag(HelpFragment.TAG);
         helpFragment = (frag == null) ? HelpFragment.newInstance() : (HelpFragment) frag;
 
-        frag = mFragmentManager.findFragmentByTag(PersonalShoolHelpFragment.TAG);
-        personalShoolHelpFragment = (frag == null) ? PersonalShoolHelpFragment.newInstance() : (PersonalShoolHelpFragment) frag;
+        frag = mFragmentManager.findFragmentByTag(PersonalHelpFragment.TAG);
+        personalHelpFragment = (frag == null) ? PersonalHelpFragment.newInstance() : (PersonalHelpFragment) frag;
 
-        frag = getPersonalShoolHelpFragment();
+        frag = getPersonalHelpFragment();
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                frag, PersonalShoolHelpFragment.TAG).commit();
+                frag, PersonalHelpFragment.TAG).commit();
         frag = getHelpFragment();
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
                 frag, HelpFragment.TAG).commit();
@@ -102,8 +102,8 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
         return helpFragment;
     }
 
-    public PersonalShoolHelpFragment getPersonalShoolHelpFragment() {
-        return personalShoolHelpFragment;
+    public PersonalHelpFragment getPersonalHelpFragment() {
+        return personalHelpFragment;
     }
 
     public boolean isHideMenu() {
@@ -118,7 +118,7 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (isHideMenu) {
-                personalShoolHelpFragment.showHideMenu(false);
+                personalHelpFragment.showHideMenu(false);
                 return true;
             } else {
                 return super.onKeyDown(keyCode, event);

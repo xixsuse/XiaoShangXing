@@ -26,7 +26,7 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.Help.HelpFragment.HelpFragment;
-import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalShoolHelpFragment;
+import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
 import com.xiaoshangxing.xiaoshang.Reward.PersonalReward.PersonalRewardFragment;
 import com.xiaoshangxing.xiaoshang.Reward.RewardCollect.RewardCollectFragment;
 import com.xiaoshangxing.xiaoshang.Reward.RewardFragment.RewardFragment;
@@ -77,7 +77,7 @@ private RewardFragment rewardFragment;
                 rewardCollectFragment, RewardCollectFragment.TAG).commit();
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                personalRewardFragment, PersonalShoolHelpFragment.TAG).commit();
+                personalRewardFragment, PersonalHelpFragment.TAG).commit();
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
                 rewardFragment, HelpFragment.TAG).commit();
@@ -99,7 +99,7 @@ private RewardFragment rewardFragment;
                     frag = mFragmentManager.findFragmentByTag(PersonalRewardFragment.TAG);
                     personalRewardFragment = (frag == null) ? PersonalRewardFragment.newInstance() : (PersonalRewardFragment) frag;
                     mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                            personalRewardFragment, PersonalShoolHelpFragment.TAG).commit();
+                            personalRewardFragment, PersonalHelpFragment.TAG).commit();
                     break;
                 default:
                     initAllFrafments();

@@ -27,13 +27,13 @@ public class PersonalHlep_adpter extends ArrayAdapter<String> {
     private Context context;
     private int resource;
     List<String> strings;
-    private PersonalShoolHelpFragment fragment;
+    private PersonalHelpFragment fragment;
     private boolean showselect;
     private HelpActivity activity;
 
 
     public PersonalHlep_adpter(Context context, int resource, List<String> objects,
-                               PersonalShoolHelpFragment fragment, HelpActivity activity) {
+                               PersonalHelpFragment fragment, HelpActivity activity) {
         super(context, resource, objects);
         this.context = context;
         this.strings = objects;

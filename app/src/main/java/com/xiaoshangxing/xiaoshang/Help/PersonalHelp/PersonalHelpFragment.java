@@ -41,7 +41,7 @@ import io.realm.Sort;
  * Created by FengChaoQun
  * on 2016/7/21
  */
-public class PersonalShoolHelpFragment extends BaseFragment implements PersonalhelpContract.View {
+public class PersonalHelpFragment extends BaseFragment implements PersonalhelpContract.View {
 
     public static final String TAG = BaseFragment.TAG + "-MyShoolHelpFragment";
     @Bind(R.id.back)
@@ -66,8 +66,8 @@ public class PersonalShoolHelpFragment extends BaseFragment implements Personalh
     TextView noContent;
 
 
-    public static PersonalShoolHelpFragment newInstance() {
-        return new PersonalShoolHelpFragment();
+    public static PersonalHelpFragment newInstance() {
+        return new PersonalHelpFragment();
     }
 
     private View view;
@@ -206,7 +206,7 @@ public class PersonalShoolHelpFragment extends BaseFragment implements Personalh
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                OperateUtils.deleteOnePublished(publishId, getContext(), PersonalShoolHelpFragment.this, new SimpleCallBack() {
+                OperateUtils.deleteOnePublished(publishId, getContext(), PersonalHelpFragment.this, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
                         refreshData();

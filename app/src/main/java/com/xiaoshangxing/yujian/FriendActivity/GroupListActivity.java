@@ -49,19 +49,25 @@ import butterknife.OnClick;
  * on 2016/9/5
  */
 public class GroupListActivity extends BaseActivity implements IBaseView {
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.name)
-    TextView name;
+    @Bind(R.id.title)
+    TextView title;
     @Bind(R.id.more)
     ImageView more;
-    @Bind(R.id.title)
-    RelativeLayout title;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.listview)
     CustomSwipeListView listview;
     @Bind(R.id.count)
     TextView count;
-
     private Handler handler = new Handler();
 
     @Override
@@ -99,6 +105,9 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     }
 
     private void initView() {
+        title.setText("群聊");
+        more.setImageResource(R.mipmap.group_list_more);
+        more.setPadding(0, 0, 0, 0);
         teams.clear();
         teams = TeamDataCache.getInstance().getAllTeams();
 
@@ -180,7 +189,7 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                GroupActivity.start(GroupListActivity.this,teams.get(position).getId(),null, SessionTypeEnum.Team);
+                GroupActivity.start(GroupListActivity.this, teams.get(position).getId(), null, SessionTypeEnum.Team);
             }
         });
     }

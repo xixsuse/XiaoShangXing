@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -63,15 +65,22 @@ import butterknife.OnClick;
  * Created by FengChaoQun
  * on 2016/7/20
  */
-public class RewardDetailActivity extends BaseActivity implements RewardDetailContract.view,GetDataFromActivity {
+public class RewardDetailActivity extends BaseActivity implements RewardDetailContract.view, GetDataFromActivity {
     public static final String TAG = BaseFragment.TAG + "-RewardDetailActivity";
-
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.more)
     ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.head_image)
     CirecleImage headImage;
     @Bind(R.id.name)
@@ -86,6 +95,10 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     TextView price;
     @Bind(R.id.text)
     EmotinText text;
+    @Bind(R.id.button)
+    ImageView button;
+    @Bind(R.id.detail)
+    LinearLayout detail;
     @Bind(R.id.transmit_text)
     TextView transmitText;
     @Bind(R.id.comment_text)
@@ -94,8 +107,12 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     TextView praiseText;
     @Bind(R.id.cursor)
     View cursor;
-    @Bind(R.id.scrollview)
+    @Bind(R.id.app_bar)
+    AppBarLayout appBar;
+    @Bind(R.id.viewpager)
     ViewPager viewpager;
+    @Bind(R.id.coordinator)
+    CoordinatorLayout coordinator;
     @Bind(R.id.transmit)
     RelativeLayout transmit;
     @Bind(R.id.comment)
@@ -109,7 +126,6 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     private List<Fragment> fragments = new ArrayList<Fragment>();
     private Handler handler = new Handler();
     private RewardDetailContract.Presenter mPresenter;
-
     private int published_id;
     private Published published;
     private IBaseView iBaseView = this;
@@ -117,11 +133,23 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reward_detail);
+        setContentView(R.layout.reward_help_detail);
         ButterKnife.bind(this);
         setmPresenter(new RewardDetailPresenter(this, this));
         init();
         moveImediate(currentItem);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PublishCache.reload(String.valueOf(published_id), new PublishCache.publishedCallback() {
+            @Override
+            public void callback(Published published1) {
+                published = published1;
+                refresh();
+            }
+        });
     }
 
     private void init() {
@@ -172,11 +200,12 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
             e.printStackTrace();
             Log.d("修改viewpager滑动速度", "失败");
         }
-
+        title.setText("悬赏详情");
         refresh();
     }
 
     private void refresh() {
+        fragments.clear();
         fragments.add(new TransmitListFrafment());
         fragments.add(new CommentListFrafment());
         fragments.add(new PraiseListFrafment());
@@ -226,18 +255,6 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        PublishCache.reload(String.valueOf(published_id), new PublishCache.publishedCallback() {
-            @Override
-            public void callback(Published published1) {
-                published = published1;
-                refresh();
-            }
-        });
-    }
-
-    @Override
     public void gotoInput() {
         Intent comment_input = new Intent(this, InputActivity.class);
         comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
@@ -255,9 +272,9 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     @Override
     public void setPraise() {
         if (praiseOrCancel.getText().equals("赞")) {
-            praiseOrCancel.setText("取消");
+            praiseOrCancel.setText(R.string.cancle);
         } else {
-            praiseOrCancel.setText("赞");
+            praiseOrCancel.setText(R.string.praise);
         }
     }
 

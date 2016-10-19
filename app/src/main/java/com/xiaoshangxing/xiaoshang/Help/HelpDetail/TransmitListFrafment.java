@@ -43,7 +43,6 @@ public class TransmitListFrafment extends BaseFragment implements IBaseView {
     private TextView emptyText;
     private Published published;
     private List<TransmitInfo> transmitInfos;
-    private IBaseView ibaseView = this;
 
     @Nullable
     @Override

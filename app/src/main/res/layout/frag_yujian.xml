@@ -110,36 +110,35 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y126" />
 
-    <com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout
-        android:id="@+id/reflesh_layout"
-        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-        cube_ptr:ptr_duration_to_close="200"
-        cube_ptr:ptr_duration_to_close_header="1000"
-        cube_ptr:ptr_keep_header_when_refresh="true"
-        cube_ptr:ptr_pull_to_fresh="false"
-        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.7"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <!--<com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView-->
-        <!--android:id="@+id/recyclerView"-->
+    <include layout="@layout/util_refresh_listview">
+
+    </include>
+
+    <!--<com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout-->
+    <!--android:id="@+id/reflesh_layout"-->
+    <!--xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"-->
+    <!--cube_ptr:ptr_duration_to_close="200"-->
+    <!--cube_ptr:ptr_duration_to_close_header="1000"-->
+    <!--cube_ptr:ptr_keep_header_when_refresh="true"-->
+    <!--cube_ptr:ptr_pull_to_fresh="false"-->
+    <!--cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"-->
+    <!--cube_ptr:ptr_resistance="1.7"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent">-->
-    <!--</com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>-->
-        <ListView
-            android:divider="@null"
-            android:fadingEdge="none"
-            android:overScrollMode="never"
-            android:cacheColorHint="@color/transparent"
-            android:listSelector="@color/transparent"
-            android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:transcriptMode="normal"
-            android:id="@+id/listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <!--<ListView-->
+    <!--android:divider="@null"-->
+    <!--android:fadingEdge="none"-->
+    <!--android:overScrollMode="never"-->
+    <!--android:cacheColorHint="@color/transparent"-->
+    <!--android:listSelector="@color/transparent"-->
+    <!--android:footerDividersEnabled="false"-->
+    <!--android:headerDividersEnabled="false"-->
+    <!--android:transcriptMode="normal"-->
+    <!--android:id="@+id/listview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
 
-        </ListView>
-    </com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout>
+    <!--</ListView>-->
+    <!--</com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout>-->
 
 </LinearLayout>

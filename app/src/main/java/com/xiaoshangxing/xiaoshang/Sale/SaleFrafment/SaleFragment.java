@@ -136,6 +136,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
 
     private void initView() {
         title.setText("闲置出售");
+        leftText.setText(R.string.xiaoshang);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);

@@ -3,6 +3,7 @@ package com.xiaoshangxing.yujian.FriendActivity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -39,19 +40,28 @@ import okhttp3.ResponseBody;
  * on 2016/9/5
  */
 public class LoveOrStartActivity extends BaseActivity implements IBaseView {
+
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.myState)
-    TextView myState;
     @Bind(R.id.title)
-    RelativeLayout title;
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.serch_layout)
     RelativeLayout serchLayout;
     @Bind(R.id.listview)
     ListView listview;
     @Bind(R.id.count)
     TextView count;
-
     private love_satr_adpter adpter;
     private int type;
 
@@ -68,7 +78,10 @@ public class LoveOrStartActivity extends BaseActivity implements IBaseView {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
+
+        more.setVisibility(View.GONE);
+        titleBottomLine.setVisibility(View.GONE);
 
         if (!getIntent().hasExtra(IntentStatic.TYPE)) {
             showToast("跳转意图不明");
@@ -76,7 +89,11 @@ public class LoveOrStartActivity extends BaseActivity implements IBaseView {
         }
 
         type = getIntent().getIntExtra(IntentStatic.TYPE, LoveOrStartActivity.LOVE);
-
+        if (type == LOVE) {
+            title.setText("留心");
+        } else {
+            title.setText("星星");
+        }
         getData();
     }
 

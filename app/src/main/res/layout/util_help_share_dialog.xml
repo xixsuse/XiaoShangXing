@@ -12,6 +12,7 @@
         <TextView
             android:text="@string/webprovide"
             android:paddingTop="@dimen/y24"
+            android:visibility="gone"
             android:textSize="11sp"
             android:textColor="@color/b4"
             android:gravity="center_horizontal"
@@ -33,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:src="@mipmap/sharetoxsx"
+            <com.xiaoshangxing.utils.layout.CirecleImage
+                android:src="@mipmap/cirecleimage_default"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView

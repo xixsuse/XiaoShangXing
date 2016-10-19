@@ -6,55 +6,11 @@
     android:background="@color/w1">
 
     <!--导航栏-->
-    <RelativeLayout
-        android:id="@+id/title_lay"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144"
-        android:background="@color/w0"
-        android:paddingEnd="@dimen/width_48"
-        android:paddingStart="@dimen/width_48">
+    <include
+        layout="@layout/util_normal_title"
+        android:id="@+id/title_lay">
 
-        <!--返回-->
-        <LinearLayout
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/left_arrow_black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/x12"
-                android:text="@string/back"
-                android:textColor="@color/b0"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-        <!--悬赏详情-->
-        <TextView
-            android:id="@+id/title"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/rewaid_detail" />
-
-        <!--点点点-->
-        <ImageView
-            android:id="@+id/more"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/three_dot_black" />
-    </RelativeLayout>
+    </include>
 
     <!--上移控件-->
     <android.support.design.widget.CoordinatorLayout
@@ -256,7 +212,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/scrollview"
+            android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />

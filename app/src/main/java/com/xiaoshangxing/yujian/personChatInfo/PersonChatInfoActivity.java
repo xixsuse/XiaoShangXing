@@ -8,6 +8,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 /**
@@ -48,12 +50,23 @@ import io.realm.Realm;
  */
 public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
 
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.person_chatinfo_gridview)
     MyGridView mGridview;
-    @Bind(R.id.chatinfo_leftarrow)
-    ImageView chatinfoLeftarrow;
-    @Bind(R.id.chatinfo_back)
-    TextView chatinfoBack;
     @Bind(R.id.topChat)
     SwitchView topChat;
     @Bind(R.id.noDisturb)
@@ -79,6 +92,9 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yujian_personchatinfo);
         ButterKnife.bind(this);
+
+        title.setText("聊天详情");
+        more.setVisibility(View.GONE);
 
         account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
         String headPath = NimUserInfoCache.getInstance().getHeadImage(account);
@@ -234,9 +250,9 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
         });
     }
 
-    public void Back(View view) {
-        finish();
-    }
+//    public void Back(View view) {
+//        finish();
+//    }
 
     public void SetChatBackGround(View view) {
         Intent intent = new Intent(this, ChatBackgroundActivity.class);
@@ -300,5 +316,10 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
                         });
             }
         }
+    }
+
+    @OnClick(R.id.back)
+    public void onClick() {
+        finish();
     }
 }

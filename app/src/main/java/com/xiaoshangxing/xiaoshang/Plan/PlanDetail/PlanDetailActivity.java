@@ -48,12 +48,18 @@ import butterknife.OnClick;
  */
 public class PlanDetailActivity extends BaseActivity implements IBaseView {
     public static final String TAG = BaseFragment.TAG + "-PlanDetailActivity";
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.more)
     ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
     @Bind(R.id.title_lay)
     RelativeLayout titleLay;
     @Bind(R.id.head_image)
@@ -72,6 +78,8 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
     CirecleImage orange;
     @Bind(R.id.plan_name)
     TextView planName;
+    @Bind(R.id.complete)
+    ImageView complete;
     @Bind(R.id.r4)
     CirecleImage r4;
     @Bind(R.id.people_limit)
@@ -82,16 +90,15 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
     TextView data;
     @Bind(R.id.time)
     TextView time;
+    @Bind(R.id.launch_people)
+    Name launchPeople;
     @Bind(R.id.up_lay)
     LinearLayout upLay;
     @Bind(R.id.invite)
     Button invite;
     @Bind(R.id.apply)
     Button apply;
-    @Bind(R.id.launch_people)
-    Name launchPeople;
-    @Bind(R.id.complete)
-    ImageView complete;
+
 
     private int published_id;
     private Published published;
@@ -117,6 +124,9 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
             finish();
             return;
         }
+
+        title.setText("计划详情");
+
         refreshPager();
     }
 
@@ -191,9 +201,9 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         final EditText input = (EditText) dialogView.findViewById(R.id.input);
 
         String userId = String.valueOf(published.getUserId());
-        UserInfoCache.getInstance().getHeadIntoImage(userId,head);
-        UserInfoCache.getInstance().getExIntoTextview(userId,NS.USER_NAME,name);
-        UserInfoCache.getInstance().getExIntoTextview(userId,NS.COLLEGE,college);
+        UserInfoCache.getInstance().getHeadIntoImage(userId, head);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         text.setText(published.getText());
 
         cancle.setOnClickListener(new View.OnClickListener() {

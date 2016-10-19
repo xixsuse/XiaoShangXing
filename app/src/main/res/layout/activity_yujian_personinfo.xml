@@ -6,49 +6,13 @@
     android:background="@color/w0"
     android:orientation="vertical">
 
-    <!--导航栏-->
-    <RelativeLayout
+    <include
+        layout="@layout/util_normal_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
-        android:background="@color/w1"
-        android:orientation="horizontal">
+        android:background="@color/w1">
 
-        <ImageView
-            android:id="@+id/leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/left_arrow_black" />
-
-        <TextView
-            style="@style/black_16sp"
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@+id/leftarrow"
-            android:clickable="true"
-            android:text="@string/back" />
-
-        <TextView
-            style="@style/black_17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/persondata" />
-
-        <ImageView
-            android:id="@+id/more"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/x48"
-            android:src="@mipmap/toolbar_right_threepoint" />
-    </RelativeLayout>
+    </include>
 
     <LinearLayout
         android:layout_width="match_parent"

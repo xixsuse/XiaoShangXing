@@ -84,7 +84,6 @@ public class CalendarInputer extends BaseActivity {
         anounceContent.setText(getString(R.string.calender));
         title.setText("添加入口");
         more.setVisibility(View.GONE);
-        leftText.setText("返回");
 
         LoadUtils.getCalendarInputer(this, realm, new LoadUtils.AroundLoading() {
             @Override

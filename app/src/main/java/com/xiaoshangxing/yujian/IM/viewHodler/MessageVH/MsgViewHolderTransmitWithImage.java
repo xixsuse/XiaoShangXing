@@ -17,7 +17,7 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
-import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
+import com.xiaoshangxing.xiaoshang.Sale.SaleDetail.SaleDetailsActivity;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
 
 
@@ -70,7 +70,7 @@ public class MsgViewHolderTransmitWithImage extends MsgViewHolderBase {
                 contentContainer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(context, SaleActivity.class);
+                        Intent intent = new Intent(context, SaleDetailsActivity.class);
                         intent.putExtra(IntentStatic.DATA, state_id);
                         context.startActivity(intent);
                     }

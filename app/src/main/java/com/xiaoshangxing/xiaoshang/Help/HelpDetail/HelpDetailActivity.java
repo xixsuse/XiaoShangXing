@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -16,6 +18,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,6 +43,7 @@ import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -57,25 +61,36 @@ import butterknife.OnClick;
  */
 public class HelpDetailActivity extends BaseActivity implements HelpDetailContract.View, GetDataFromActivity {
     public static final String TAG = BaseFragment.TAG + "-HelpDetailActivity";
-
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.myState)
-    TextView myState;
+    @Bind(R.id.title)
+    TextView title;
     @Bind(R.id.more)
     ImageView more;
-    @Bind(R.id.title)
-    RelativeLayout title;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.head_image)
     CirecleImage headImage;
     @Bind(R.id.name)
-    TextView name;
+    Name name;
     @Bind(R.id.college)
     TextView college;
     @Bind(R.id.time)
     TextView time;
+    @Bind(R.id.collect)
+    CheckBox collect;
+    @Bind(R.id.price)
+    TextView price;
     @Bind(R.id.text)
     EmotinText text;
+    @Bind(R.id.button)
+    ImageView button;
     @Bind(R.id.detail)
     LinearLayout detail;
     @Bind(R.id.transmit_text)
@@ -86,8 +101,12 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     TextView praiseText;
     @Bind(R.id.cursor)
     View cursor;
-    @Bind(R.id.scrollview)
+    @Bind(R.id.app_bar)
+    AppBarLayout appBar;
+    @Bind(R.id.viewpager)
     ViewPager viewpager;
+    @Bind(R.id.coordinator)
+    CoordinatorLayout coordinator;
     @Bind(R.id.transmit)
     RelativeLayout transmit;
     @Bind(R.id.comment)
@@ -100,7 +119,6 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     private int currentItem = 2;
     private List<Fragment> fragments = new ArrayList<Fragment>();
     private HelpDetailContract.Presenter mPresenter;
-
     private Handler handler = new Handler();
     private int published_id;
     private Published published;
@@ -109,7 +127,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_helpdetail);
+        setContentView(R.layout.reward_help_detail);
         ButterKnife.bind(this);
         setmPresenter(new HelpDetailPresenter(this, this));
         init();
@@ -181,17 +199,19 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
             Log.d("修改viewpager滑动速度", "失败");
         }
 
+        title.setText("互帮详情");
+        price.setVisibility(View.GONE);
+        collect.setVisibility(View.GONE);
         refresh();
     }
 
     private void refresh() {
+        fragments.clear();
         fragments.add(new TransmitListFrafment());
         fragments.add(new CommentListFrafment());
         fragments.add(new PraiseListFrafment());
-
         FragAdapter adapter = new FragAdapter(getSupportFragmentManager(), fragments);
         viewpager.setAdapter(adapter);
-
         viewpager.setCurrentItem(1);
         handler.postDelayed(new Runnable() {
             @Override
@@ -199,7 +219,6 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
                 moveToPosition(2);
             }
         }, 300);
-
         String userId = String.valueOf(published.getUserId());
         UserInfoCache.getInstance().getHeadIntoImage(userId, headImage);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
@@ -341,9 +360,9 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     @Override
     public void setPraise() {
         if (praiseOrCancel.getText().equals("赞")) {
-            praiseOrCancel.setText("取消");
+            praiseOrCancel.setText(R.string.cancle);
         } else {
-            praiseOrCancel.setText("赞");
+            praiseOrCancel.setText(R.string.praise);
         }
     }
 
@@ -447,7 +466,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode ==SelectPersonActivity.SELECT_PERSON_CODE) {
+        if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
             if (data != null) {
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
                     List<String> list = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);

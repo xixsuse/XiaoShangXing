@@ -28,7 +28,7 @@ import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
-import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalShoolHelpFragment;
+import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -107,6 +107,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
 
     private void initView() {
         title.setText(R.string.shoolfellowhelp);
+        leftText.setText(R.string.xiaoshang);
         anounceContent.setText(R.string.help_rules);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
@@ -258,7 +259,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     @Override
     public void gotoPublished() {
         HelpActivity activity = (HelpActivity) getActivity();
-        PersonalShoolHelpFragment fragment = activity.getPersonalShoolHelpFragment();
+        PersonalHelpFragment fragment = activity.getPersonalHelpFragment();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)

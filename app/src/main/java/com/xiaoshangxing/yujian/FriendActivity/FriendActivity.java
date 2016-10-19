@@ -3,6 +3,7 @@ package com.xiaoshangxing.yujian.FriendActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -50,19 +51,28 @@ import rx.Subscriber;
  * on 2016/9/4
  */
 public class FriendActivity extends BaseActivity {
+
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.myState)
-    TextView myState;
     @Bind(R.id.title)
-    RelativeLayout title;
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.listview)
     ListView sortListView;
     @Bind(R.id.dialog)
     TextView dialog;
     @Bind(R.id.sidrbar)
     SideBar sideBar;
-
     private FriendSortAdapter adapter;
     private CharacterParser characterParser;
     private List<SortModel> SourceDateList = new ArrayList<>();
@@ -88,6 +98,11 @@ public class FriendActivity extends BaseActivity {
     }
 
     private void initView() {
+
+        title.setText("好友");
+        more.setVisibility(View.GONE);
+        titleBottomLine.setVisibility(View.GONE);
+
         characterParser = CharacterParser.getInstance();
         pinyinComparator = new PinyinComparator();
         sideBar.setTextView(dialog);
@@ -98,30 +113,30 @@ public class FriendActivity extends BaseActivity {
             public void onTouchingLetterChanged(String s) {
                 //该字母首次出现的位置
                 if (s.contains("☆")) {
-                    sortListView.setSelection(0+1);
+                    sortListView.setSelection(0 + 1);
                     return;
                 }
                 int position = adapter.getPositionForSection(s.charAt(0));
                 if (position != -1) {
-                    sortListView.setSelection(position+1);
+                    sortListView.setSelection(position + 1);
                 }
 
             }
         });
 
         headView = View.inflate(this, R.layout.head_friend, null);
-        group=headView.findViewById(R.id.group);
-        love=headView.findViewById(R.id.love);
-        star=headView.findViewById(R.id.star);
+        group = headView.findViewById(R.id.group);
+        love = headView.findViewById(R.id.love);
+        star = headView.findViewById(R.id.star);
         serch = headView.findViewById(R.id.serch_layout);
         sortListView.addHeaderView(headView);
-        group_count=(TextView)headView.findViewById(R.id.group_count);
-        love_count=(TextView)headView.findViewById(R.id.love_count);
-        star_count=(TextView)headView.findViewById(R.id.star_count);
+        group_count = (TextView) headView.findViewById(R.id.group_count);
+        love_count = (TextView) headView.findViewById(R.id.love_count);
+        star_count = (TextView) headView.findViewById(R.id.star_count);
         love.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(FriendActivity.this,LoveOrStartActivity.class);
+                Intent intent = new Intent(FriendActivity.this, LoveOrStartActivity.class);
                 intent.putExtra(IntentStatic.TYPE, LoveOrStartActivity.LOVE);
                 startActivity(intent);
             }
@@ -129,7 +144,7 @@ public class FriendActivity extends BaseActivity {
         star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(FriendActivity.this,LoveOrStartActivity.class);
+                Intent intent = new Intent(FriendActivity.this, LoveOrStartActivity.class);
                 intent.putExtra(IntentStatic.TYPE, LoveOrStartActivity.STAR);
                 startActivity(intent);
             }
@@ -137,7 +152,7 @@ public class FriendActivity extends BaseActivity {
         group.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(FriendActivity.this,GroupListActivity.class);
+                Intent intent = new Intent(FriendActivity.this, GroupListActivity.class);
                 startActivity(intent);
             }
         });
@@ -280,9 +295,10 @@ public class FriendActivity extends BaseActivity {
         registerObserver(false);
     }
 
-    private void setCount(){
-        group_count.setText(""+TeamDataCache.getInstance().getAllTeams().size());
+    private void setCount() {
+        group_count.setText("" + TeamDataCache.getInstance().getAllTeams().size());
     }
+
     /**
      * *********************************** 用户资料、好友关系变更、登录数据同步完成观察者 *******************************
      */
@@ -302,7 +318,7 @@ public class FriendActivity extends BaseActivity {
     FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
         @Override
         public void onAddedOrUpdatedFriends(List<String> accounts) {
-            NimUserInfoCache.getInstance().getUserInfoFromRemote(accounts,null);
+            NimUserInfoCache.getInstance().getUserInfoFromRemote(accounts, null);
             refreshData();
         }
 

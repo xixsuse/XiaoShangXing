@@ -46,14 +46,24 @@ import butterknife.OnClick;
  * on 2016/9/2
  */
 public class ChatActivity extends BaseActivity implements ModuleProxy {
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.name)
-    TextView name;
+    @Bind(R.id.title)
+    TextView title;
     @Bind(R.id.more)
     ImageView more;
-    @Bind(R.id.title)
-    RelativeLayout title;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.invalid_team_text)
+    TextView invalidTeamText;
+    @Bind(R.id.invalid_team_tip)
+    RelativeLayout invalidTeamTip;
     @Bind(R.id.message_activity_background)
     MsgBkImageView messageActivityBackground;
     @Bind(R.id.team_notify_bar_panel)
@@ -70,8 +80,32 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
     FrameLayout layoutPlayAudio;
     @Bind(R.id.message_activity_list_view_container)
     FrameLayout messageActivityListViewContainer;
-    @Bind(R.id.messageActivityLayout)
-    LinearLayout messageActivityLayout;
+//    @Bind(R.id.back)
+//    LinearLayout back;
+//    @Bind(R.id.name)
+//    TextView name;
+//    @Bind(R.id.more)
+//    ImageView more;
+//    @Bind(R.id.title)
+//    RelativeLayout title;
+//    @Bind(R.id.message_activity_background)
+//    MsgBkImageView messageActivityBackground;
+//    @Bind(R.id.team_notify_bar_panel)
+//    FrameLayout teamNotifyBarPanel;
+//    @Bind(R.id.messageListView)
+//    MessageListView messageListView;
+//    @Bind(R.id.timer)
+//    Chronometer timer;
+//    @Bind(R.id.timer_tip)
+//    TextView timerTip;
+//    @Bind(R.id.timer_tip_container)
+//    LinearLayout timerTipContainer;
+//    @Bind(R.id.layoutPlayAudio)
+//    FrameLayout layoutPlayAudio;
+//    @Bind(R.id.message_activity_list_view_container)
+//    FrameLayout messageActivityListViewContainer;
+//    @Bind(R.id.messageActivityLayout)
+//    LinearLayout messageActivityLayout;
 
     //  标志是否是resume状态
     private boolean isResume = false;
@@ -161,10 +195,12 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
 
     //  刷新标题名称
     private void requestBuddyInfo() {
-        name.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+        title.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
     }
 
     private void parseIntent() {
+        more.setImageResource(R.mipmap.chat_more);
+        more.setPadding(0, 0, 0, 0);
         sessionId = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
         sessionType = (SessionTypeEnum) getIntent().getSerializableExtra(IntentStatic.EXTRA_TYPE);
         IMMessage anchor = (IMMessage) getIntent().getSerializableExtra(IntentStatic.EXTRA_ANCHOR);
@@ -319,7 +355,7 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
             if (id == 1) {
                 // 正在输入
 //                Toast.makeText(ChatActivity.this, "对方正在输入...", Toast.LENGTH_LONG).show();
-                name.setText("对方正在输入...");
+                title.setText("对方正在输入...");
                 handler.postDelayed(runnable, 3000);
             } else {
                 Toast.makeText(ChatActivity.this, "command: " + content, Toast.LENGTH_SHORT).show();

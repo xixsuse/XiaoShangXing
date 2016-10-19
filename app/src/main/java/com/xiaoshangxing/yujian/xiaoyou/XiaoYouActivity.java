@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -30,12 +31,23 @@ import butterknife.OnClick;
  * Created by 15828 on 2016/8/15.
  */
 public class XiaoYouActivity extends BaseActivity {
-    @Bind(R.id.xiaoyou_leftarrow)
-    ImageView xiaoyouLeftarrow;
-    @Bind(R.id.xiaoyou_back)
-    TextView xiaoyouBack;
-    @Bind(R.id.serch)
-    RelativeLayout serch;
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.serch_layout)
+    RelativeLayout serchLayout;
     @Bind(R.id.id_tree)
     ListView idTree;
     private List<Node> mDatas = new ArrayList<Node>();
@@ -56,6 +68,9 @@ public class XiaoYouActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yujian_xiaoyou);
         ButterKnife.bind(this);
+        title.setText("校友");
+        more.setVisibility(View.GONE);
+        titleBottomLine.setVisibility(View.GONE);
         initDatas();
         mTree = (ListView) findViewById(R.id.id_tree);
         try {
@@ -179,7 +194,7 @@ public class XiaoYouActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick(R.id.serch)
+    @OnClick(R.id.serch_layout)
     public void onClick() {
         Intent intent = new Intent(XiaoYouActivity.this, SerchPersonActivity.class);
         startActivity(intent);

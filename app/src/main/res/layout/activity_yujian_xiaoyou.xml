@@ -5,61 +5,14 @@
     android:background="@color/w0"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:orientation="horizontal">
+    <include layout="@layout/util_normal_title">
 
-        <ImageView
-            android:id="@+id/xiaoyou_leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/left_arrow_black" />
+    </include>
 
-        <TextView
-            android:id="@+id/xiaoyou_back"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@id/xiaoyou_leftarrow"
-            android:clickable="true"
-            android:onClick="Back"
-            android:text="@string/back" />
 
-        <TextView
-            style="@style/black_17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/xiaoyou" />
-    </RelativeLayout>
+    <include layout="@layout/item_serch">
 
-    <RelativeLayout
-        android:id="@+id/serch"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y110"
-        android:layout_marginBottom="@dimen/y17"
-        android:layout_marginEnd="@dimen/x48"
-        android:layout_marginStart="@dimen/x48"
-        android:layout_marginTop="@dimen/y17"
-        android:background="@drawable/buttonstyle">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:drawableLeft="@mipmap/serch"
-            android:drawablePadding="@dimen/x20"
-            android:text="@string/search"
-            android:textColor="@color/g0"
-            android:textSize="14sp" />
-    </RelativeLayout>
+    </include>
 
     <ImageView
         android:layout_width="match_parent"

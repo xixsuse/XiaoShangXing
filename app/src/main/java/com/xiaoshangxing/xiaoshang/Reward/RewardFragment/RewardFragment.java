@@ -113,6 +113,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
 
     private void initView() {
         title.setText(R.string.shoolreward);
+        leftText.setText(R.string.xiaoshang);
         anounceContent.setText(R.string.reward_rules);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);

@@ -146,7 +146,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
 
 
     private void initView() {
-
+        listView.setDividerHeight(0);
         realm = Realm.getDefaultInstance();
         callback = new RecentContactsCallback() {
             @Override

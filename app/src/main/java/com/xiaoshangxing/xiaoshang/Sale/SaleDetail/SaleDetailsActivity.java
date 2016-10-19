@@ -51,12 +51,18 @@ import butterknife.OnClick;
  */
 public class SaleDetailsActivity extends BaseActivity implements IBaseView {
     public static final String TAG = BaseFragment.TAG + "-SaleDetailsActivity";
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.more)
     ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
     @Bind(R.id.title_lay)
     RelativeLayout titleLay;
     @Bind(R.id.head_image)
@@ -77,12 +83,13 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
     LinearLayout dorm;
     @Bind(R.id.complete)
     ImageView complete;
+    @Bind(R.id.price)
+    TextView price;
     @Bind(R.id.pictures)
     NoScrollGridView pictures;
     @Bind(R.id.scrollView)
     ScrollView scrollView;
-    @Bind(R.id.price)
-    TextView price;
+
     private int published_id;
     private Published published;
     private InputBoxLayout inputBoxLayout;
@@ -211,11 +218,11 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
             @Override
             public void callback(String text) {
-                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, "4"/*String.valueOf(published.getUserId())*/, SaleDetailsActivity.this,
+                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, String.valueOf(published.getUserId()), SaleDetailsActivity.this,
                         text, new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
-                                ChatActivity.start(SaleDetailsActivity.this, "4", null, SessionTypeEnum.P2P);
+                                ChatActivity.start(SaleDetailsActivity.this, String.valueOf(published.getUserId()), null, SessionTypeEnum.P2P);
                             }
 
                             @Override

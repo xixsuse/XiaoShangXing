@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,12 +61,47 @@ import io.realm.Realm;
  * Created by 15828 on 2016/8/12.
  */
 public class ChatInfoActivity extends BaseActivity {
-    @Bind(R.id.GroupChatName)
-    TextView GroupChatName;
+
+
+    Realm realm;
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.chatinfo_gridview)
     MyGridView mGridview;
+    @Bind(R.id.allGroupMember)
+    TextView allGroupMember;
+    @Bind(R.id.AllGroupMemberView)
+    RelativeLayout AllGroupMemberView;
+    @Bind(R.id.GroupChatName)
+    TextView GroupChatName;
+    @Bind(R.id.GroupChatNameImag)
+    ImageView GroupChatNameImag;
+    @Bind(R.id.GroupChatNameView)
+    RelativeLayout GroupChatNameView;
+    @Bind(R.id.GroupCodeImag)
+    ImageView GroupCodeImag;
+    @Bind(R.id.GroupCodeView)
+    RelativeLayout GroupCodeView;
+    @Bind(R.id.IsGroupNoticeSetted)
+    TextView IsGroupNoticeSetted;
+    @Bind(R.id.GroupNoticeImg)
+    ImageView GroupNoticeImg;
     @Bind(R.id.GroupNoticeView1)
     RelativeLayout GroupNoticeView1;
+    @Bind(R.id.GroupNotice_text1)
+    TextView GroupNoticeText1;
     @Bind(R.id.GroupNotice_content)
     TextView GroupNoticeContent;
     @Bind(R.id.GroupNoticeView2)
@@ -74,10 +112,14 @@ public class ChatInfoActivity extends BaseActivity {
     SwitchView noDisturb;
     @Bind(R.id.saveToFriend_GroupChat)
     SwitchView saveToFriendGroupChat;
-    @Bind(R.id.allGroupMember)
-    TextView allGroupMember;
-
-    Realm realm;
+    @Bind(R.id.SetChatBackGroundView)
+    RelativeLayout SetChatBackGroundView;
+    @Bind(R.id.TransferMainRightView)
+    RelativeLayout TransferMainRightView;
+    @Bind(R.id.CleanChatRecordView)
+    RelativeLayout CleanChatRecordView;
+    @Bind(R.id.bindmailbox_breakmaibox)
+    Button bindmailboxBreakmaibox;
 
     private Adapter adapter;
     private String groupNoticeContent;
@@ -100,6 +142,8 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
     private void initView() {
+        title.setText("聊天信息");
+        more.setVisibility(View.GONE);
         adapter = new Adapter(ChatInfoActivity.this, teamMembers, this);
         mGridview.setAdapter(adapter);
         isMyteam();
@@ -418,12 +462,6 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
 
-    @OnClick(R.id.chatinfo_back)
-    public void onClick() {
-        finish();
-    }
-
-
     public void AllGroupMember(View view) {
         Intent intent = new Intent(this, GroupMembersActivity.class);
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
@@ -626,5 +664,10 @@ public class ChatInfoActivity extends BaseActivity {
                 inviteMembers(arrayList);
             }
         }
+    }
+
+    @OnClick(R.id.back)
+    public void onClick() {
+        finish();
     }
 }

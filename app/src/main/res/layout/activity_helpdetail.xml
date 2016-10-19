@@ -6,55 +6,12 @@
     android:background="@color/w1">
 
     <!--导航栏-->
-    <RelativeLayout
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144"
-        android:background="@color/w0"
-        android:paddingEnd="@dimen/width_48"
-        android:paddingStart="@dimen/width_48">
+    <include
+        layout="@layout/util_normal_title"
+        android:id="@+id/title">
 
-        <!--返回-->
-        <LinearLayout
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+    </include>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/left_arrow_black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/x12"
-                android:text="@string/back"
-                android:textColor="@color/b0"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-        <!--互帮详情-->
-        <TextView
-            android:id="@+id/myState"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/helpdetail" />
-
-        <!--点点点-->
-        <ImageView
-            android:id="@+id/more"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/three_dot_black" />
-    </RelativeLayout>
 
     <!--上移控件-->
     <android.support.design.widget.CoordinatorLayout

@@ -37,13 +37,13 @@ import io.realm.RealmBaseAdapter;
 public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
     private Context context;
     List<Published> publisheds;
-    private PersonalShoolHelpFragment fragment;
+    private PersonalHelpFragment fragment;
     private boolean showselect;
     private HelpActivity activity;
     Realm realm;
 
     public PersonalHelpAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<Published> data,
-                               PersonalShoolHelpFragment fragment, Realm realm, HelpActivity activity) {
+                               PersonalHelpFragment fragment, Realm realm, HelpActivity activity) {
         super(context, data);
         this.publisheds = data;
         this.fragment = fragment;

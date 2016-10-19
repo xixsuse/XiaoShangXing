@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -58,12 +59,21 @@ import okhttp3.ResponseBody;
  */
 public class PersonInfoActivity extends BaseActivity implements IBaseView, ImageButtonText.OnImageButtonTextClickListener {
 
-    @Bind(R.id.leftarrow)
-    ImageView leftarrow;
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
-    TextView back;
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
     @Bind(R.id.more)
     ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.mark_star)
     ImageView markStar;
     @Bind(R.id.mark_love)
@@ -118,6 +128,8 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         setContentView(R.layout.activity_yujian_personinfo);
         ButterKnife.bind(this);
 
+        title.setText("个人资料");
+        titleBottomLine.setVisibility(View.GONE);
         bt1.setmOnImageButtonTextClickListener(this);
 
         myBroadcastReceiver = new MyBroadcastReceiver();
@@ -145,10 +157,6 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     }
 
     private void initView() {
-//        int id = Integer.valueOf(account);
-//        UserInfoCache.getInstance().getHead(headImage, id, this);
-//        UserInfoCache.getInstance().getCollege(college, id);
-//        UserInfoCache.getInstance().getName(name, id);
 
         user = NimUserInfoCache.getInstance().getUserInfo(account);
         if (user == null) {
@@ -248,7 +256,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
 
         Intent intent = new Intent(this, MoreInfoActivity.class);
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
-            startActivity(intent);
+        startActivity(intent);
 
 //        if (DataSetting.IsFocused(this)) {
 //            Intent intent = new Intent(this, MoreInfoActivity.class);

@@ -8,11 +8,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingEnd="@dimen/width_48"
-        android:paddingStart="@dimen/width_48">
+
+        >
         <!--left botton-->
         <LinearLayout
             android:id="@+id/back"
+            android:paddingStart="@dimen/width_48"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -30,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x12"
-                android:text="@string/xiaoshang"
+                android:text="@string/back"
                 android:textColor="@color/b0"
                 android:textSize="15sp" />
 
@@ -43,11 +44,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/shoolreward" />
+            android:text="标题" />
 
         <!--right button-->
         <ImageView
             android:id="@+id/more"
+            android:paddingEnd="@dimen/width_48"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"

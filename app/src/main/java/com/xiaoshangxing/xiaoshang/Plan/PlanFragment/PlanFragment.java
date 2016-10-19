@@ -108,6 +108,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     private void initView() {
         anounceContent.setText(R.string.launch_plan);
         title.setText("计划发起");
+        leftText.setText(R.string.xiaoshang);
         listview.setDividerHeight(0);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);

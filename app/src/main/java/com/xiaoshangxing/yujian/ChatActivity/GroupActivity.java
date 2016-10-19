@@ -44,14 +44,24 @@ import butterknife.OnClick;
  * on 2016/9/2
  */
 public class GroupActivity extends BaseActivity implements ModuleProxy {
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.name)
-    TextView name;
+    @Bind(R.id.title)
+    TextView title;
     @Bind(R.id.more)
     ImageView more;
-    @Bind(R.id.title)
-    RelativeLayout title;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.invalid_team_text)
+    TextView invalidTeamText;
+    @Bind(R.id.invalid_team_tip)
+    RelativeLayout invalidTeamTip;
     @Bind(R.id.message_activity_background)
     MsgBkImageView messageActivityBackground;
     @Bind(R.id.team_notify_bar_panel)
@@ -68,8 +78,6 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
     FrameLayout layoutPlayAudio;
     @Bind(R.id.message_activity_list_view_container)
     FrameLayout messageActivityListViewContainer;
-    @Bind(R.id.messageActivityLayout)
-    LinearLayout messageActivityLayout;
 
     //  标志是否是resume状态
     private boolean isResume = false;
@@ -124,6 +132,7 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
     protected void findViews() {
         invalidTeamTipView = findViewById(R.id.invalid_team_tip);
         invalidTeamTipText = (TextView) findViewById(R.id.invalid_team_text);
+        more.setPadding(0, 0, 0, 0);
         more.setImageResource(R.mipmap.group_chat_more);
     }
 
@@ -275,7 +284,7 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
         }
 
         team = d;
-        name.setText(team == null ? sessionId : team.getName() + "(" + team.getMemberCount() + "人)");
+        title.setText(team == null ? sessionId : team.getName() + "(" + team.getMemberCount() + "人)");
 
         invalidTeamTipText.setText(team.getType() == TeamTypeEnum.Normal ? "您已退出该讨论组" : "您已退出该群");
         invalidTeamTipView.setVisibility(team.isMyTeam() ? View.GONE : View.VISIBLE);

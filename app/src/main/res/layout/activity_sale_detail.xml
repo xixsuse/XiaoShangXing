@@ -17,55 +17,60 @@
             android:orientation="vertical">
 
             <!--导航栏-->
-            <RelativeLayout
-                android:id="@+id/title_lay"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_144"
-                android:background="@color/w0"
-                android:paddingEnd="@dimen/width_48"
-                android:paddingStart="@dimen/width_48">
+            <include
+                layout="@layout/util_normal_title"
+                android:id="@+id/title_lay">
 
-                <!--返回-->
-                <LinearLayout
-                    android:id="@+id/back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+            </include>
+            <!--<RelativeLayout-->
+            <!--android:id="@+id/title_lay"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/height_144"-->
+            <!--android:background="@color/w0"-->
+            <!--android:paddingEnd="@dimen/width_48"-->
+            <!--android:paddingStart="@dimen/width_48">-->
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:src="@mipmap/left_arrow_black" />
+            <!--&lt;!&ndash;返回&ndash;&gt;-->
+            <!--<LinearLayout-->
+            <!--android:id="@+id/back"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginStart="@dimen/x12"
-                        android:text="@string/back"
-                        android:textColor="@color/b0"
-                        android:textSize="15sp" />
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:src="@mipmap/left_arrow_black" />-->
 
-                </LinearLayout>
-                <!--详情-->
-                <TextView
-                    android:id="@+id/title"
-                    style="@style/black_16sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="闲置详情" />
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginStart="@dimen/x12"-->
+            <!--android:text="@string/back"-->
+            <!--android:textColor="@color/b0"-->
+            <!--android:textSize="15sp" />-->
 
-                <!--点点点-->
-                <ImageView
-                    android:id="@+id/more"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/three_dot_black" />
-            </RelativeLayout>
+            <!--</LinearLayout>-->
+            <!--&lt;!&ndash;详情&ndash;&gt;-->
+            <!--<TextView-->
+            <!--android:id="@+id/title"-->
+            <!--style="@style/black_16sp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:text="闲置详情" />-->
+
+            <!--&lt;!&ndash;点点点&ndash;&gt;-->
+            <!--<ImageView-->
+            <!--android:id="@+id/more"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:src="@mipmap/three_dot_black" />-->
+            <!--</RelativeLayout>-->
 
             <RelativeLayout
                 android:layout_width="match_parent"

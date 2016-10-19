@@ -6,55 +6,11 @@
     android:orientation="vertical">
 
     <!--导航栏-->
-    <RelativeLayout
-        android:background="@color/w0"
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144"
-        android:paddingStart="@dimen/width_48">
+    <include
+        layout="@layout/util_normal_title"
+        android:id="@+id/title_lay">
 
-        <!--返回-->
-        <LinearLayout
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/left_arrow_black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/x12"
-                android:text="@string/back"
-                android:textColor="@color/b0"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-        <!---->
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="群聊"
-            android:textColor="@color/b0"
-            android:textSize="17sp" />
-        <!--more-->
-        <ImageView
-            android:id="@+id/more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/group_list_more" />
-
-    </RelativeLayout>
+    </include>
 
     <com.xiaoshangxing.utils.layout.CustomSwipeListView
         android:background="@color/w0"
