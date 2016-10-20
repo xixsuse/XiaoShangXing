@@ -5,40 +5,9 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:background="@color/w1"
-        android:orientation="horizontal">
+    <include layout="@layout/util_normal_title">
 
-        <ImageView
-            android:id="@+id/moreinfo_leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/left_arrow_black" />
-
-        <TextView
-            android:id="@+id/moreinfo_back"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@id/moreinfo_leftarrow"
-            android:clickable="true"
-            android:onClick="Back"
-            android:text="@string/back" />
-
-        <TextView
-            style="@style/black_17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/moreinfo" />
-    </RelativeLayout>
+    </include>
 
     <LinearLayout
         android:layout_width="match_parent"

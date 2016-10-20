@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/linear1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@drawable/toolbar_divider"
         android:orientation="vertical"
@@ -52,7 +52,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/x48"
         android:layout_marginTop="@dimen/y48"
@@ -131,7 +131,7 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y48"
         android:orientation="vertical"
@@ -140,7 +140,6 @@
         android:paddingStart="@dimen/x48"
         android:divider="@drawable/toolbar_divider"
         android:showDividers="middle">
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -199,7 +198,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y48"
         android:paddingStart="@dimen/x48"
@@ -209,27 +208,6 @@
         android:divider="@drawable/toolbar_divider"
         android:showDividers="middle">
 
-        <!--<RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/y144"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/black_16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/feedback" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/x48"
-                android:src="@mipmap/right_arrow" />
-        </RelativeLayout>
--->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
@@ -267,8 +245,5 @@
             android:layout_centerInParent="true"
             android:text="@string/exitlongin" />
     </RelativeLayout>
-
-
-
 
 </LinearLayout>

@@ -113,6 +113,12 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
         showNoContentText(publisheds.size() < 1);
         personalHelpAdapter = new PersonalHelpAdapter(getContext(), publisheds, this, realm, (HelpActivity) getActivity());
         listview.setAdapter(personalHelpAdapter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText("你还没有发布互帮");
+        }
     }
 
     @Override

@@ -101,6 +101,7 @@
         android:orientation="horizontal">
 
         <Button
+            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/chat"
             android:layout_width="@dimen/x300"
             android:layout_height="@dimen/y84"

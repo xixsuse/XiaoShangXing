@@ -95,7 +95,7 @@
             <RelativeLayout
                 android:id="@+id/up_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/y132"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/x46"
                 android:layout_marginStart="@dimen/x36"
                 android:layout_marginTop="@dimen/y42">
@@ -123,6 +123,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/next_month"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y132"

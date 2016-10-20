@@ -24,9 +24,6 @@ import com.xiaoshangxing.yujian.FriendActivity.love_satr_adpter;
 import com.xiaoshangxing.yujian.IM.kit.string.StringUtil;
 import com.xiaoshangxing.yujian.WatchMessagePicture.ReflectionUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by FengChaoQun
  * on 2016/10/1

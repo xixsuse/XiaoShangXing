@@ -113,6 +113,12 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
         showNoContentText(publisheds.size() < 1);
         adpter = new SaleCollect_Adpter(getContext(), 1, publisheds, this, activity);
         listview.setAdapter(adpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText("你还没有收藏闲置");
+        }
     }
 
     private void initFresh() {

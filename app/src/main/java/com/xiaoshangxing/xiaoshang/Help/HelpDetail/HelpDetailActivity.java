@@ -202,6 +202,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         title.setText("互帮详情");
         price.setVisibility(View.GONE);
         collect.setVisibility(View.GONE);
+        headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(published.getUserId()));
         refresh();
     }
 

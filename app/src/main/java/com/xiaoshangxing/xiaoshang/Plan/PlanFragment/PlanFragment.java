@@ -71,6 +71,8 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     RelativeLayout rules;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
+    @Bind(R.id.no_content)
+    TextView noContent;
     private View mview;
     private Realm realm;
     private View headview, footview;
@@ -335,6 +337,12 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
 
         adpter = new Plan_Adpter(getContext(), 1, getActivity(), publisheds);
         listview.setAdapter(adpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText(isOthers ? "他还没有发布互帮" : "还没有人发布互帮");
+        }
     }
 
     @Override

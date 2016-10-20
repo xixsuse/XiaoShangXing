@@ -61,7 +61,7 @@ public class UpdateManager {
     /* 下载包安装路径 */
     private static final String savePath = FileUtils.XSX_PATH;
 
-    private static final String saveFileName = savePath + "UpdateDemoRelease.apk";
+    private static final String saveFileName = savePath + "UpdateRelease.apk";
 
     /* 进度条与通知ui刷新的handler和msg常量 */
     private ProgressBar mProgress;

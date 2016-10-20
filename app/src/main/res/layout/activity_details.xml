@@ -1,48 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/w0"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!--导航栏-->
-    <RelativeLayout
-        android:id="@+id/title"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144"
-        android:paddingStart="@dimen/width_48">
+    <include
+        android:id="@+id/title_lay"
+        layout="@layout/util_normal_title">
 
-        <!--返回-->
-        <LinearLayout
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+    </include>
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/title"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/height_144"-->
+    <!--android:paddingStart="@dimen/width_48">-->
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/left_arrow_black" />
+    <!--&lt;!&ndash;返回&ndash;&gt;-->
+    <!--<LinearLayout-->
+    <!--android:id="@+id/back"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="horizontal">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/x12"
-                android:text="@string/back"
-                android:textColor="@color/b0"
-                android:textSize="15sp" />
+    <!--<ImageView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:src="@mipmap/left_arrow_black" />-->
 
-        </LinearLayout>
-        <!--详情-->
-        <TextView
-            android:id="@+id/myState"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/detail" />
+    <!--<TextView-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:layout_marginStart="@dimen/x12"-->
+    <!--android:text="@string/back"-->
+    <!--android:textColor="@color/b0"-->
+    <!--android:textSize="15sp" />-->
 
-    </RelativeLayout>
+    <!--</LinearLayout>-->
+    <!--&lt;!&ndash;详情&ndash;&gt;-->
+    <!--<TextView-->
+    <!--android:id="@+id/myState"-->
+    <!--style="@style/black_16sp"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:text="@string/detail" />-->
+
+    <!--</RelativeLayout>-->
 
     <ScrollView
         android:id="@+id/scrollview"
@@ -50,7 +56,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/comment_input_layout"
         android:layout_marginBottom="@dimen/height_144"
-        android:layout_below="@+id/title">
+        android:layout_below="@+id/title_lay">
 
         <RelativeLayout
             android:layout_width="match_parent"

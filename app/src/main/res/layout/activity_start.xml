@@ -20,6 +20,7 @@
 
     <!--登录按钮-->
     <Button
+        style="?android:attr/borderlessButtonStyle"
         android:id="@+id/btn_login"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
@@ -37,6 +38,7 @@
 
     <!--注册按钮-->
     <Button
+        style="?android:attr/borderlessButtonStyle"
         android:id="@+id/btn_register"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"

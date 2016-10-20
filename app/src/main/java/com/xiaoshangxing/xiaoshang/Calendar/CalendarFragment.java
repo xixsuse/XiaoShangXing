@@ -235,6 +235,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         if (calendarDatas.size() < 1) {
             headView.setVisibility(View.VISIBLE);
             headView.setPadding(0, 48, 0, 0);
+            showToast("当天没有活动");
         } else {
             headView.setVisibility(View.GONE);
             headView.setPadding(0, 0, 0, 0);

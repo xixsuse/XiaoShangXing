@@ -230,6 +230,12 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
         showNoContentText(publisheds.size() < 1);
         adpter = new PersonalSale_Adpter(getContext(), 1, publisheds, this, (SaleActivity) getActivity());
         listview.setAdapter(adpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText("你还没有发布闲置");
+        }
     }
 
     @Override

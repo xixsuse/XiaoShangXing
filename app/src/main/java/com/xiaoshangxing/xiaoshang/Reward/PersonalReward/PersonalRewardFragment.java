@@ -109,6 +109,12 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
         showNoContentText(publisheds.size() < 1);
         adpter = new PersonalReward_adpter(getContext(), 1, publisheds, this, (RewardActivity) getActivity());
         listview.setAdapter(adpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText("你还没有发布悬赏");
+        }
     }
 
     private void initFresh() {

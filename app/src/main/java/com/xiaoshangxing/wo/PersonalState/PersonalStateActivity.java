@@ -40,18 +40,29 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
     public static final String TYPE = "TYPE";
     public static final int SELF = 1000;
     public static final int OTHRE = 2000;
-    @Bind(R.id.reflesh_layout)
-    PtrFrameLayout ptrFrameLayout;
-    private int current_type;
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.more)
-    ImageView newsList;
     @Bind(R.id.title)
     TextView title;
-    private ListView listView;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.listview)
+    ListView listView;
+    @Bind(R.id.reflesh_layout)
+    PtrFrameLayout ptrFrameLayout;
+    @Bind(R.id.no_content)
+    TextView noContent;
+    private int current_type;
     private RelativeLayout headView;
-    private View headView2;
+    private View headView2, footview;
     private StateContract.Presenter mPresenter;
     private String account;
     private TextView name1;
@@ -76,14 +87,22 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
     }
 
     private void initView() {
-        listView = (ListView) findViewById(R.id.listview);
+
+        back.setPadding(0, 0, 0, 0);
+        more.setImageResource(R.mipmap.bell);
+        more.setPadding(0, 0, 0, 0);
+        titleBottomLine.setVisibility(View.GONE);
+
+        listView.setDividerHeight(0);
         headView = (RelativeLayout) getLayoutInflater().inflate(R.layout.util_mystate_header, null);
         name1 = (TextView) headView.findViewById(R.id.name1);
         name2 = (TextView) headView.findViewById(R.id.name2);
         head = (CirecleImage) headView.findViewById(R.id.head_image);
         listView.addHeaderView(headView);
         headView2 = View.inflate(this, R.layout.publish_lay, null);
+        footview = View.inflate(this, R.layout.footer, null);
         listView.addHeaderView(headView2);
+        listView.addFooterView(footview);
         headView.setEnabled(false);
         listView.setHeaderDividersEnabled(false);
         headView2.setOnClickListener(new View.OnClickListener() {
@@ -106,6 +125,12 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
 
         MystateAdpter mystateAdpter = new MystateAdpter(this, publisheds, realm);
         listView.setAdapter(mystateAdpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText("你还没有发布动态");
+        }
     }
 
     @Override
@@ -130,8 +155,9 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
 
     @Override
     public void gotoNews() {
-        Intent news_intent = new Intent(PersonalStateActivity.this, NewsActivity.class);
-        startActivity(news_intent);
+        showToast(NS.ON_DEVELOPING);
+//        Intent news_intent = new Intent(PersonalStateActivity.this, NewsActivity.class);
+//        startActivity(news_intent);
     }
 
     @Override
@@ -153,10 +179,10 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
 
         if (TempUser.isMine(account)) {
             title.setText("我的动态");
-            newsList.setVisibility(View.VISIBLE);
+            more.setVisibility(View.VISIBLE);
         } else {
             title.setText("动态");
-            newsList.setVisibility(View.GONE);
+            more.setVisibility(View.GONE);
         }
     }
 

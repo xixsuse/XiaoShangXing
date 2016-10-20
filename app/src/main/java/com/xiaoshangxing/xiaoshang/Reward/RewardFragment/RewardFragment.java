@@ -78,6 +78,8 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     RelativeLayout titleLay;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
+    @Bind(R.id.no_content)
+    TextView noContent;
 
     private View mview;
     private Reward_adpter adpter;
@@ -344,6 +346,12 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         }
         adpter = new Reward_adpter(getContext(), 1, publisheds, this, (RewardActivity) getActivity());
         listview.setAdapter(adpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText(isOthers ? "他还没有发布互帮" : "还没有人发布互帮");
+        }
     }
 
     @Override

@@ -209,6 +209,12 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
         showNoContentText(publisheds.size() < 1);
         adpter = new PersonalPlan_Adpter(getContext(), 1, publisheds, this, (PlanActivity) getActivity());
         listview.setAdapter(adpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText("你还没有发布计划");
+        }
     }
 
     @Override

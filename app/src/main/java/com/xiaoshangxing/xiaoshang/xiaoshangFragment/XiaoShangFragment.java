@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.Network.netUtil.NS;
@@ -29,14 +31,25 @@ import butterknife.ButterKnife;
  */
 public class XiaoShangFragment extends BaseFragment {
     public static final String TAG = BaseFragment.TAG + "-XiaoShangFragment";
-    @Bind(R.id.xiaoshang_notice)
-    ImageView xiaoshangNotice;
-    @Bind(R.id.title)
-    TextView title;
+
     @Bind(R.id.tuch)
     ImageView tuch;
     @Bind(R.id.viewPager)
     ViewPager viewPager;
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
 
     private float current;
     private int currentImage = 1;
@@ -55,6 +68,12 @@ public class XiaoShangFragment extends BaseFragment {
     }
 
     private void init() {
+
+        leftText.setVisibility(View.GONE);
+        leftImage.setImageResource(R.mipmap.xiaoshang_notice);
+        titleBottomLine.setVisibility(View.GONE);
+        more.setVisibility(View.GONE);
+
         setImagePosition(currentImage);
         image_width = getResources().getDimensionPixelSize(R.dimen.x808);
         divider = getResources().getDimensionPixelSize(R.dimen.x48);
@@ -87,23 +106,23 @@ public class XiaoShangFragment extends BaseFragment {
                         break;
                     case MotionEvent.ACTION_UP:
                         final int des = (int) event.getX();
-                                if (des <= item) {
-                                    viewPager.setCurrentItem(0);
-                                } else if (des <= item * 2) {
-                                    viewPager.setCurrentItem(1);
-                                } else if (des <= item * 3) {
-                                    viewPager.setCurrentItem(2);
-                                } else if (des <= item * 4) {
-                                    viewPager.setCurrentItem(3);
-                                } else if (des <= item * 5) {
-                                    viewPager.setCurrentItem(4);
-                                }
-                            }
+                        if (des <= item) {
+                            viewPager.setCurrentItem(0);
+                        } else if (des <= item * 2) {
+                            viewPager.setCurrentItem(1);
+                        } else if (des <= item * 3) {
+                            viewPager.setCurrentItem(2);
+                        } else if (des <= item * 4) {
+                            viewPager.setCurrentItem(3);
+                        } else if (des <= item * 5) {
+                            viewPager.setCurrentItem(4);
+                        }
+                }
                 return false;
             }
         });
         initViewPager();
-        xiaoshangNotice.setOnClickListener(new View.OnClickListener() {
+        leftImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showToast(NS.ON_DEVELOPING);

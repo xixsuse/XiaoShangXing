@@ -69,6 +69,7 @@ public class JoinedPlan_Adpter extends ArrayAdapter<JoinedPlan> {
         viewHolder.text.setText(published.getText());
         viewHolder.planName.setText(published.getPlanName());
         viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
+        viewHolder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
 
         if (TextUtils.isEmpty(published.getPersonLimit())) {
             viewHolder.peopleLimit.setText("不限人数");

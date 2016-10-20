@@ -36,8 +36,7 @@
             <ImageView
                 android:id="@+id/good_image"
                 android:layout_width="@dimen/y126"
-                android:layout_height="@dimen/x126"
-                android:src="@mipmap/cirecleimage_default" />
+                android:layout_height="@dimen/x126" />
 
             <!--人物图片-->
             <com.xiaoshangxing.utils.layout.CirecleImage

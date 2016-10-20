@@ -76,6 +76,7 @@ public class Help_Adpter extends ArrayAdapter<Published> {
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewholder.college);
         viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewholder.text.setText(published.getText());
+        viewholder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
 
         viewholder.button.setOnClickListener(new View.OnClickListener() {
             @Override

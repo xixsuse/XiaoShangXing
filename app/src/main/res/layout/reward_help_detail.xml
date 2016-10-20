@@ -143,7 +143,6 @@
 
             </LinearLayout>
 
-
             <!--转发评论赞-->
             <RelativeLayout
                 android:layout_width="match_parent"

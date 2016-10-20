@@ -116,6 +116,12 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
         showNoContentText(publisheds.size() < 1);
         adpter = new RewardCollect_Adpter(getContext(), 1, publisheds, this, activity);
         listview.setAdapter(adpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText("你还没有收藏悬赏");
+        }
     }
 
     private void initFresh() {

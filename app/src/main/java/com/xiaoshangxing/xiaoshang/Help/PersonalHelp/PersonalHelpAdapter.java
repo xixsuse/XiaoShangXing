@@ -20,8 +20,8 @@ import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
+import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
@@ -110,6 +110,7 @@ public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewholder.college);
         viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewholder.text.setText(published.getText());
+        viewholder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
 
         viewholder.iscomplete.setChecked(published.isAlive());
         viewholder.iscomplete.setOnClickListener(new View.OnClickListener() {

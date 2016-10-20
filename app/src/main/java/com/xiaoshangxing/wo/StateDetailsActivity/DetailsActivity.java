@@ -26,7 +26,6 @@ import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
@@ -37,10 +36,10 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.wo.PersonalState.check_photo.myStateNoScrollGridAdapter;
+import com.xiaoshangxing.wo.Roll.RollActivity;
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
-import com.xiaoshangxing.wo.Roll.RollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.ArrayList;
@@ -56,12 +55,21 @@ import butterknife.OnClick;
  */
 public class DetailsActivity extends BaseActivity implements DetailsContract.View {
 
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.myState)
-    TextView myState;
     @Bind(R.id.title)
-    RelativeLayout title;
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.head_image)
     CirecleImage headImage;
     @Bind(R.id.name)
@@ -84,8 +92,12 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     TextView delete;
     @Bind(R.id.praise)
     CheckBox praise;
+    @Bind(R.id.checkbox_lay)
+    LinearLayout checkboxLay;
     @Bind(R.id.comment)
     ImageView comment;
+    @Bind(R.id.comment_click)
+    LinearLayout commentClick;
     @Bind(R.id.right_layout)
     LinearLayout rightLayout;
     @Bind(R.id.jianjiao)
@@ -98,33 +110,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     LinearLayout commentLayout;
     @Bind(R.id.scrollview)
     ScrollView scrollView;
-    @Bind(R.id.comment_input)
-    EmoticonsEditText commentInput;
-    @Bind(R.id.emotion)
-    ImageView emotion;
-    @Bind(R.id.input_layout)
-    RelativeLayout inputLayout;
-    @Bind(R.id.send)
-    TextView send;
-    @Bind(R.id.comment_input_layout)
-    RelativeLayout commentInputLayout;
-    @Bind(R.id.normal_emot)
-    LinearLayout normalEmot;
-    @Bind(R.id.favorite)
-    LinearLayout favorite;
-    @Bind(R.id.delete_emot)
-    RelativeLayout deleteEmot;
-    @Bind(R.id.emot_type)
-    RelativeLayout emotType;
-    @Bind(R.id.emot_lay)
-    LinearLayout emotLay;
-    @Bind(R.id.edit_and_emot)
-    RelativeLayout editAndEmot;
-    @Bind(R.id.checkbox_lay)
-    LinearLayout checkboxLay;
-    @Bind(R.id.comment_click)
-    LinearLayout commentClick;
-
     private Handler handler = new Handler();
     private InputBoxLayout inputBoxLayout;
     private DetailsContract.Presenter mPresenter;
@@ -156,6 +141,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
             return;
         }
 
+        title.setText("详情");
+        more.setVisibility(View.GONE);
         refreshPager(published);
     }
 
@@ -179,11 +166,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         UserInfoCache.getInstance().getHeadIntoImage(id, headImage);
         UserInfoCache.getInstance().getExIntoTextview(id, NS.USER_NAME, name);
         UserInfoCache.getInstance().getExIntoTextview(id, NS.COLLEGE, college);
-
-//        UserCache userCache = new UserCache(this, String.valueOf(published.getUserId()), realm);
-//        userCache.getHead(headImage);
-//        userCache.getName(name);
-//        userCache.getCollege(college);
         text.setText(TextUtils.isEmpty(published.getText()) ? "" : published.getText());
 
         praise.setChecked(Published_Help.isPraised(published));
@@ -237,6 +219,7 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
 
         initInputBox();
     }
+
     private void parsePraise() {
         praisePeople.setVisibility(View.VISIBLE);
         praisePeople.setAdapter(new DetailPraiseAdapter(this, published.getPraisePeopleOnlyIds(), realm));

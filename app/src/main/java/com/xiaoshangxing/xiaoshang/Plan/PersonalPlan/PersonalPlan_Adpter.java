@@ -73,6 +73,8 @@ public class PersonalPlan_Adpter extends ArrayAdapter<Published> {
         viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewHolder.text.setText(published.getText());
         viewHolder.planName.setText(published.getPlanName());
+        viewHolder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
+
         if (TextUtils.isEmpty(published.getPersonLimit())) {
             viewHolder.peopleLimit.setText("不限人数");
         } else {

@@ -1,32 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/title_lay"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/height_144"
-    android:background="@color/w0">
+    android:layout_height="@dimen/height_144">
 
     <RelativeLayout
+        android:id="@+id/title_lay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/height_144"
+        android:background="@color/w0">
 
-        >
-        <!--left botton-->
+        <!--返回-->
         <LinearLayout
             android:id="@+id/back"
-            android:paddingStart="@dimen/width_48"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/width_48">
 
             <ImageView
-                android:id="@+id/left_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/left_arrow_black" />
 
             <TextView
-                android:id="@+id/left_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -36,26 +33,28 @@
                 android:textSize="15sp" />
 
         </LinearLayout>
-
         <!--title-->
         <TextView
             android:id="@+id/title"
-            style="@style/black_16sp"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="标题" />
-
-        <!--right button-->
-        <ImageView
-            android:id="@+id/more"
-            android:paddingEnd="@dimen/width_48"
+            android:text="@string/message"
+            android:textColor="@color/b0"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+        <!--清空-->
+        <TextView
+            android:id="@+id/right_text"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@mipmap/three_dot_black" />
+            android:paddingEnd="@dimen/width_48"
+            android:text="@string/empty"
+            android:textColor="@color/b0"
+            android:textSize="16sp" />
+
     </RelativeLayout>
 
 

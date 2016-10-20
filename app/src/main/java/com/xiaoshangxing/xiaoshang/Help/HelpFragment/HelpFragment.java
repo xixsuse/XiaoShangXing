@@ -72,6 +72,8 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     RelativeLayout rules;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
+    @Bind(R.id.no_content)
+    TextView noContent;
 
 
     private View mview;
@@ -165,6 +167,12 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
         }
         adpter = new Help_Adpter(getContext(), 1, publisheds, this, (HelpActivity) getActivity());
         listview.setAdapter(adpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText(isOthers ? "他还没有发布互帮" : "还没有人发布互帮");
+        }
     }
 
     private void initFresh() {

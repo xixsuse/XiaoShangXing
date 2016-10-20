@@ -10,6 +10,6 @@ import rx.Observable;
  * on 2016/9/9
  */
 public interface MyStarApi {
-    @GET("base/favorme/{param}")
+    @GET("friend/favorme/{param}")
     Observable<ResponseBody> start(@Path("param") String param);
 }

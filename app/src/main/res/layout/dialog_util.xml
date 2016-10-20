@@ -8,11 +8,11 @@
 
     <!--Title-->
     <TextView
-        android:paddingTop="@dimen/y30"
+        android:paddingTop="@dimen/y60"
         android:id="@+id/dialog_title"
-        android:visibility="gone"
+        android:text="55555"
+        android:visibility="visible"
         android:background="@color/transparent"
-        android:text="Title"
         style="@style/black_16sp"
         android:textStyle="bold"
         android:layout_gravity="center_horizontal"
@@ -20,13 +20,12 @@
         android:layout_height="wrap_content" />
     <!--message-->
     <TextView
-        android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:id="@+id/dialog_message"
         android:background="@color/transparent"
-        android:text="Message"
         android:textStyle="bold"
         style="@style/black_16sp"
+        android:text="5555"
         android:layout_marginTop="@dimen/y24"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"

@@ -194,9 +194,16 @@ public class XiaoYouActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick(R.id.serch_layout)
-    public void onClick() {
-        Intent intent = new Intent(XiaoYouActivity.this, SerchPersonActivity.class);
-        startActivity(intent);
+    @OnClick({R.id.back, R.id.serch_layout})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                finish();
+                break;
+            case R.id.serch_layout:
+                Intent intent = new Intent(XiaoYouActivity.this, SerchPersonActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

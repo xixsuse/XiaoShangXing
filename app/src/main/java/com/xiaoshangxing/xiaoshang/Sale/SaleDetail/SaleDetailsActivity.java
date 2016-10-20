@@ -140,6 +140,7 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         tvDormitory.setText(TextUtils.isEmpty(published.getDorm()) ? "未选" : published.getDorm());
         collect.setChecked(published.isCollected());
         complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
+        headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
 
         collect.setOnClickListener(new View.OnClickListener() {
             @Override

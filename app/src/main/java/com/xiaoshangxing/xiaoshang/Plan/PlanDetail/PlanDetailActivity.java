@@ -135,6 +135,7 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         UserInfoCache.getInstance().getHeadIntoImage(userId, headImage);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
+        headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
         joinedCount.setText("" + published.getJoinCount());

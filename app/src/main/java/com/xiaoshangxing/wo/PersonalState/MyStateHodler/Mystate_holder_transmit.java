@@ -13,8 +13,10 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
+import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
+import com.xiaoshangxing.xiaoshang.Sale.SaleDetail.SaleDetailsActivity;
 
 /**
  * Created by FengChaoQun
@@ -53,15 +55,23 @@ public class Mystate_holder_transmit extends MyStateHodlerBase {
                     @Override
                     public void onClick(View v) {
                         String categry = String.valueOf(published.getCategory());
-                        if (categry.equals(NS.CATEGORY_HELP)) {
-                            Intent intent = new Intent(context, HelpDetailActivity.class);
-                            intent.putExtra(IntentStatic.DATA, published.getId());
-                            context.startActivity(intent);
-                        } else if (categry.equals(NS.CATEGORY_REWARD)) {
-                            Intent intent = new Intent(context, RewardActivity.class);
-                            intent.putExtra(IntentStatic.DATA, published.getId());
-                            context.startActivity(intent);
+                        Intent intent = new Intent();
+                        switch (categry) {
+                            case NS.CATEGORY_HELP:
+                                intent.setClass(context, HelpDetailActivity.class);
+                                break;
+                            case NS.CATEGORY_REWARD:
+                                intent.setClass(context, RewardDetailActivity.class);
+                                break;
+                            case NS.CATEGORY_PLAN:
+                                intent.setClass(context, PlanDetailActivity.class);
+                                break;
+                            case NS.CATEGORY_SALE:
+                                intent.setClass(context, SaleDetailsActivity.class);
+                                break;
                         }
+                        intent.putExtra(IntentStatic.DATA, published.getId());
+                        context.startActivity(intent);
                     }
                 });
             }

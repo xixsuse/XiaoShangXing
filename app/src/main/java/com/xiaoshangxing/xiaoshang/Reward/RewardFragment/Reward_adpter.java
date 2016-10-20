@@ -22,8 +22,8 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
-import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
+import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
@@ -78,6 +78,7 @@ public class Reward_adpter extends ArrayAdapter<Published> {
         viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewholder.text.setText(published.getText());
         viewholder.price.setText(NS.RMB + published.getPrice());
+        viewholder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
 
         viewholder.down_arrow.setOnClickListener(new View.OnClickListener() {
             @Override

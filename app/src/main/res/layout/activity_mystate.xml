@@ -8,79 +8,32 @@
     android:layout_height="match_parent">
 
     <!--导航栏-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144">
+    <include
+        android:id="@+id/title_lay"
+        layout="@layout/util_normal_title">
 
-        <!--返回-->
-        <LinearLayout
-            android:id="@+id/back"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+    </include>
 
-            <ImageView
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/left_arrow_black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/x12"
-                android:textSize="15sp"
-                android:textColor="@color/b0"
-                android:text="@string/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-        <!--我的动态-->
-        <TextView
-            style="@style/black_16sp"
-            android:layout_centerInParent="true"
-            android:id="@+id/title"
-            android:text="@string/mystate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <!--消息列表-->
-        <ImageView
-            android:id="@+id/more"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/bell"
-            android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
-
-    <com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+    <include
         android:id="@+id/reflesh_layout"
+        layout="@layout/util_refresh_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        cube_ptr:ptr_duration_to_close="200"
-        cube_ptr:ptr_duration_to_close_header="1000"
-        cube_ptr:ptr_keep_header_when_refresh="true"
-        cube_ptr:ptr_pull_to_fresh="false"
-        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.7">
+        android:layout_below="@+id/title_lay">
 
-        <ListView
-        android:id="@+id/listview"
-        android:fadingEdge="none"
-        android:fadeScrollbars="false"
-        android:fastScrollEnabled="false"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        android:cacheColorHint="@color/transparent"
-            android:divider="@color/transparent"
-            android:listSelector="@color/transparent"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
+    </include>
+
+    <!--没有内容-->
+    <TextView
+        android:id="@+id/no_content"
+        android:visibility="invisible"
+        android:paddingTop="@dimen/y502"
+        android:textSize="13sp"
+        android:textColor="@color/g1"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </ListView>
-
-    </com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_lay"
+        android:text="@string/no_published_help" />
 
 </LinearLayout>

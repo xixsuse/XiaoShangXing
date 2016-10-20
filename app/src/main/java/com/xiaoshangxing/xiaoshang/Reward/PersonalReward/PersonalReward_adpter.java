@@ -138,6 +138,7 @@ public class PersonalReward_adpter extends ArrayAdapter<Published> {
         viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         viewholder.text.setText(published.getText());
         viewholder.price.setText(NS.RMB + published.getPrice());
+        viewholder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
         return convertView;
     }
 

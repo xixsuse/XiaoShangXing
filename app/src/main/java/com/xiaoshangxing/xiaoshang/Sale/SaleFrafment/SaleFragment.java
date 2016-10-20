@@ -90,6 +90,8 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     RelativeLayout rules;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
+    @Bind(R.id.no_content)
+    TextView noContent;
 
     private View mview;
     private Realm realm;
@@ -389,6 +391,12 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         }
         adpter = new Sale_Adpter(getContext(), 1, publisheds, this, (SaleActivity) getActivity());
         listview.setAdapter(adpter);
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText(isOthers ? "他还没有发布互帮" : "还没有人发布互帮");
+        }
     }
 
     @Override

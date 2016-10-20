@@ -54,6 +54,10 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     ListView listview;
     @Bind(R.id.reflesh_layout)
     PtrFrameLayout ptrFrameLayout;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.no_content)
+    TextView noContent;
 
 
     public static JoinedPlanFragment newInstance() {
@@ -179,6 +183,12 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
                 .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         adpter = new JoinedPlan_Adpter(getContext(), 1, getActivity(), joinedPlen);
         listview.setAdapter(adpter);
+        if (joinedPlen.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText("你还没有加入任何计划");
+        }
     }
 
     @Override

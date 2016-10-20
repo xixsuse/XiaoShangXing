@@ -30,11 +30,11 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.MoreTextView;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.wo.Roll.RollActivity;
 import com.xiaoshangxing.wo.WoFrafment.Item_Comment;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
 import com.xiaoshangxing.wo.WoFrafment.Wo_listview_adpter;
-import com.xiaoshangxing.wo.Roll.RollActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import io.realm.Realm;
@@ -87,7 +87,8 @@ public abstract class WoBaseHolder {
     protected LinearLayout commentLayout;
     protected ImageView headline;
     protected View jianjiao;
-    protected FrameLayout comments_fragment;
+    protected LinearLayout commentsLay;
+    protected View lineBetweenPraiseComment;
 
     private boolean isLoadComment;
 
@@ -180,7 +181,8 @@ public abstract class WoBaseHolder {
         commentLayout = (LinearLayout) view.findViewById(R.id.comment_layout);
         headline = (ImageView) view.findViewById(R.id.headline);
         jianjiao = view.findViewById(R.id.jianjiao);
-        comments_fragment = (FrameLayout) view.findViewById(R.id.comment_fragment);
+        commentsLay = (LinearLayout) view.findViewById(R.id.comments_lay);
+        lineBetweenPraiseComment = view.findViewById(R.id.line_between_praise_comment);
     }
 
     protected void refreshBase() {
@@ -230,8 +232,10 @@ public abstract class WoBaseHolder {
         if (TextUtils.isEmpty(published.getPraiseUserIds()) &&
                 (published.getComments() == null || published.getComments().size() < 1)) {
             jianjiao.setVisibility(View.GONE);
+            commentLayout.setVisibility(View.GONE);
         } else {
             jianjiao.setVisibility(View.VISIBLE);
+            commentLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -240,7 +244,12 @@ public abstract class WoBaseHolder {
         comments.removeAllViews();
 
         if (published.getComments().size() < 1) {
+            lineBetweenPraiseComment.setVisibility(View.GONE);
+            commentsLay.setVisibility(View.GONE);
             return;
+        } else {
+            lineBetweenPraiseComment.setVisibility(View.VISIBLE);
+            commentsLay.setVisibility(View.VISIBLE);
         }
 
         RealmList<CommentsBean> realmResults = published.getComments();

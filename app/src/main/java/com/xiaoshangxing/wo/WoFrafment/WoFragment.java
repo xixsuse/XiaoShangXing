@@ -156,6 +156,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
         listView.addHeaderView(headView);
         listView.addFooterView(footerview);
+        listView.setDividerHeight(0);
         //设置listview头
         initHead();
 
@@ -231,7 +232,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                         gotopublish();
                     }
                 });
-//                gotopublish();
                 break;
         }
     }

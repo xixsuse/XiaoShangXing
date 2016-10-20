@@ -35,23 +35,41 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by 15828 on 2016/7/25.
  */
 public class SetInfoActivity extends BaseActivity {
-    @Bind(R.id.setinfo_leftarrow)
-    ImageView setinfoLeftarrow;
-    @Bind(R.id.setinfo_back)
-    TextView setinfoBack;
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.StarMarkfriends)
     SwitchView StarMarkfriends;
     @Bind(R.id.mark_star)
     RelativeLayout markStar;
+    @Bind(R.id.crush)
+    SwitchView crush;
     @Bind(R.id.love)
     RelativeLayout love;
     @Bind(R.id.love_notice)
     TextView loveNotice;
+    @Bind(R.id.bukanwo)
+    SwitchView bukanwo;
+    @Bind(R.id.bukanta)
+    SwitchView bukanta;
     @Bind(R.id.permission)
     LinearLayout permission;
     @Bind(R.id.addtoblacklist)
@@ -66,7 +84,7 @@ public class SetInfoActivity extends BaseActivity {
     Button confirmModify;
     @Bind(R.id.delete)
     LinearLayout delete;
-    private SwitchView starMarkfriends, crush, bukanwo, bukanta, addToBlackList;
+    private SwitchView starMarkfriends, addToBlackList;
     private ActionSheet mActionSheet1;
     private ActionSheet mActionSheet2;
     private String account;
@@ -78,6 +96,9 @@ public class SetInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yujian_setinfo);
         ButterKnife.bind(this);
+
+        title.setText("资料设置");
+        more.setVisibility(View.GONE);
 
         if (getIntent().hasExtra(IntentStatic.EXTRA_ACCOUNT)) {
             account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
@@ -287,10 +308,6 @@ public class SetInfoActivity extends BaseActivity {
         addToBlackList.setState(DataSetting.IsAddToBlackList(this));
     }
 
-    public void Back(View view) {
-        finish();
-    }
-
     public void Report(View view) {
         Intent intent = new Intent(this, ReportActivity.class);
         startActivity(intent);
@@ -339,5 +356,10 @@ public class SetInfoActivity extends BaseActivity {
 
             }
         });
+    }
+
+    @OnClick(R.id.back)
+    public void onClick() {
+        finish();
     }
 }

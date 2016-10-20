@@ -201,6 +201,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
             Log.d("修改viewpager滑动速度", "失败");
         }
         title.setText("悬赏详情");
+        headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(published.getUserId()));
         refresh();
     }
 

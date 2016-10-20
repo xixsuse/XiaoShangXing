@@ -29,20 +29,23 @@ import butterknife.OnClick;
  */
 public class NewsActivity extends BaseActivity implements NewsContract.View {
 
+
     @Bind(R.id.back)
     LinearLayout back;
-    @Bind(R.id.myState)
-    TextView myState;
-    @Bind(R.id.empty)
-    TextView empty;
     @Bind(R.id.title)
-    RelativeLayout title;
+    TextView title;
+    @Bind(R.id.right_text)
+    TextView rightText;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
     @Bind(R.id.listview)
     ListView listview;
-
     private NewsContract.Presenter mPresenter;
     private newsAdapter adapter;
-    private List<String> list=new ArrayList<String>();
+    private List<String> list = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,9 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
     }
 
     private void initView() {
+        title.setText("消息");
+        rightText.setText("清空");
+        titleBottomLine.setVisibility(View.GONE);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -64,10 +70,10 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
 
     @Override
     public void initData() {
-        for (int i=0;i<=15;i++){
-            list.add(""+i);
+        for (int i = 0; i <= 15; i++) {
+            list.add("" + i);
         }
-        adapter=new newsAdapter(this,11,list);
+        adapter = new newsAdapter(this, 11, list);
         listview.setAdapter(adapter);
     }
 
@@ -117,16 +123,14 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
         mPresenter = presenter;
     }
 
-    @OnClick({R.id.back, R.id.empty, R.id.title})
+    @OnClick({R.id.back, R.id.right_text})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
                 finish();
                 break;
-            case R.id.empty:
+            case R.id.right_text:
                 clickOnClean();
-                break;
-            case R.id.title:
                 break;
         }
     }

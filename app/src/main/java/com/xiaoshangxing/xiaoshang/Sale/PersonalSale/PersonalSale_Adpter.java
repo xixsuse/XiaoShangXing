@@ -78,6 +78,7 @@ public class PersonalSale_Adpter extends ArrayAdapter<Published> {
         viewHolder.text.setText(published.getText());
         viewHolder.price.setText(NS.RMB + published.getPrice());
         viewHolder.dorm.setText(published.getDorm());
+        viewHolder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
 
         final ArrayList<String> imageUrls = new ArrayList<>();
         if (!TextUtils.isEmpty(published.getImage())) {
