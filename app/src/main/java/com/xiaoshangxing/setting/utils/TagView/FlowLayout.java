@@ -142,7 +142,7 @@ public class FlowLayout extends ViewGroup {
 			controlMaxThickness = prevLinePosition + lineThickness;
 		}
 
-		/* need to take paddings into account */
+		/* need to take paddings into phone */
 		if (orientation == HORIZONTAL) {
 			controlMaxLength += getPaddingLeft() + getPaddingRight();
 			controlMaxThickness += getPaddingBottom() + getPaddingTop();

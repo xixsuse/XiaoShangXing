@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.layout.CirecleImage;
@@ -44,7 +45,8 @@ public class roll_listview_adpter extends ArrayAdapter<String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        UserInfoCache.getInstance().getName(viewHolder.name, Integer.valueOf(list.get(position)));
+//        UserInfoCache.getInstance().getName(viewHolder.name, Integer.valueOf(list.get(position)));
+        UserInfoCache.getInstance().getExIntoTextview(list.get(position), NS.USER_NAME, viewHolder.name);
 
         return convertView;
     }

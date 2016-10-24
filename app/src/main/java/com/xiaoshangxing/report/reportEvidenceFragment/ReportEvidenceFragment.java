@@ -54,7 +54,6 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_report_evidence, container, false);
-        Log.d("qqq", "onCreate...");
         reportActivity = (ReportActivity) getActivity();
         handler=new Handler();
         back = (TextView) mView.findViewById(R.id.toolbar_reportevidence_back);

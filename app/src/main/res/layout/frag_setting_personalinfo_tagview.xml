@@ -10,61 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:orientation="vertical"></View>
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/setting_tagview_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:background="@color/w1"
-        android:orientation="horizontal">
+    </View>
 
-        <ImageView
-            android:id="@+id/hometown_tagview_leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/left_arrow_black" />
+    <include
+        android:id="@id/title_lay"
+        layout="@layout/util_normal_title_end_text">
 
-        <TextView
-            android:id="@+id/tagview_back"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@+id/hometown_tagview_leftarrow"
-            android:clickable="true"
-            android:text="@string/back" />
-
-        <TextView
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/tag" />
-
-        <TextView
-            android:id="@+id/tagView_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/x48"
-            android:alpha="0.5"
-            android:clickable="true"
-            android:text="@string/save"
-            android:textColor="@color/green1"
-            android:textSize="16sp" />
-    </RelativeLayout>
+    </include>
 
     <TextView
         android:id="@+id/tagView_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/setting_tagview_toolbar"
+        android:layout_below="@id/title_lay"
         android:layout_marginBottom="@dimen/y18"
         android:layout_marginEnd="@dimen/x48"
         android:layout_marginStart="@dimen/x48"

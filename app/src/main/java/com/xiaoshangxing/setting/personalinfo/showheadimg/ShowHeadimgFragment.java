@@ -1,21 +1,19 @@
 package com.xiaoshangxing.setting.personalinfo.showheadimg;
 
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +23,6 @@ import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
@@ -35,7 +32,6 @@ import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.image.MyGlide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,7 +39,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 
-import io.realm.Realm;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -57,13 +55,26 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     public static final int ACTIVITY_ALBUM_REQUESTCODE = 2000;
     public static final int ACTIVITY_CAMERA_REQUESTCODE = 2001;
     public static final int ACTIVITY_MODIFY_PHOTO_REQUESTCODE = 2002;
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.setting_showhead_img)
+    ImageView settingShowheadImg;
     private View mView;
-    private ImageView img, bigImg;
     private ActionSheet mActionSheet;
     private PersonalInfoActivity mActivity;
-    private TextView back;
     private IBaseView iBaseView = this;
-    private Realm realm;
 
     @Override
     public void setmPresenter(@Nullable Object presenter) {
@@ -74,31 +85,19 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_personalinfo_showheadimg, container, false);
+        ButterKnife.bind(this, mView);
         mActivity = (PersonalInfoActivity) getActivity();
-        img = (ImageView) mView.findViewById(R.id.showhead_threepoint);
-        bigImg = (ImageView) mView.findViewById(R.id.setting_showhead_img);
-        back = (TextView) mView.findViewById(R.id.showheadimg_back);
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
-        img.setOnClickListener(this);
-        realm = Realm.getDefaultInstance();
+        title.setText("头像");
         initHead();
         return mView;
     }
 
     private void initHead() {
-        String path = realm.where(User.class).equalTo(NS.ID, TempUser.id).findFirst().getUserImage();
-        if (!TextUtils.isEmpty(path)) {
-            MyGlide.with(this, path, bigImg);
-        }
+        UserInfoCache.getInstance().getHeadIntoImage(TempUser.getId(), settingShowheadImg);
     }
 
-    @Override
-    public void onClick(View v) {
+
+    private void showMenu() {
         if (mActionSheet == null) {
             mActionSheet = new ActionSheet(getActivity());
             mActionSheet.addMenuItem(getResources().getString(R.string.takephoto))
@@ -175,7 +174,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
-//                String coverPath = FileUtils.getTempImage();
                 String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
 
                 ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
@@ -186,12 +184,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                             if (jsonObject.getString(NS.CODE).equals("200")) {
                                 showToast("头像修改成功");
                                 FileUtil.deleteTempAndRaw();
-                                UserInfoCache.getInstance().reload(new UserInfoCache.ReloadCallback() {
-                                    @Override
-                                    public void callback(JSONObject jsonObject) throws JSONException {
-                                        MyGlide.with(getContext(), jsonObject.getString("userImage"), bigImg);
-                                    }
-                                }, TempUser.id);
+                                initHead();
                                 File file = new File(FileUtils.getTempImage());
                                 file.delete();
                             } else {
@@ -219,50 +212,19 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onDestroyView() {
-        realm.close();
         super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
-    /**
-     * 解决小米手机上获取图片路径为null的情况
-     *
-     * @param intent
-     * @return
-     */
-    public Uri geturi(android.content.Intent intent) {
-        Uri uri = intent.getData();
-        String type = intent.getType();
-        if (uri.getScheme().equals("file") && (type.contains("image/"))) {
-            String path = uri.getEncodedPath();
-            if (path != null) {
-                path = Uri.decode(path);
-                ContentResolver cr = getActivity().getContentResolver();
-                StringBuffer buff = new StringBuffer();
-                buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=")
-                        .append("'" + path + "'").append(")");
-                Cursor cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                        new String[]{MediaStore.Images.ImageColumns._ID},
-                        buff.toString(), null, null);
-                int index = 0;
-                for (cur.moveToFirst(); !cur.isAfterLast(); cur.moveToNext()) {
-                    index = cur.getColumnIndex(MediaStore.Images.ImageColumns._ID);
-                    // set _id value
-                    index = cur.getInt(index);
-                }
-                if (index == 0) {
-                    // do nothing
-                } else {
-                    Uri uri_temp = Uri
-                            .parse("content://media/external/images/media/"
-                                    + index);
-                    if (uri_temp != null) {
-                        uri = uri_temp;
-                    }
-                }
-            }
+    @OnClick({R.id.back, R.id.more})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
+            case R.id.more:
+                showMenu();
+                break;
         }
-        Log.d("uri2", "" + uri);
-        return uri;
     }
-
 }

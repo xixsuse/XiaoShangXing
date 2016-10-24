@@ -3,6 +3,7 @@ package com.xiaoshangxing.data;
 /**
  * Created by FengChaoQun
  * on 2016/9/11
+ * 复制realm中的数据
  */
 public class DataCopy {
 

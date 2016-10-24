@@ -32,7 +32,6 @@
             android:layout_marginEnd="@dimen/x48"
             android:layout_marginTop="@dimen/y50"
             android:layout_weight="1"
-            android:text="@string/moreinfo_text2"
             android:textColor="@color/g0"
             android:textSize="13sp" />
     </LinearLayout>
@@ -43,19 +42,19 @@
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
         android:onClick="JiHua"
-        android:paddingStart="@dimen/x48">
+        android:paddingStart="@dimen/x42">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/mark_xuanshang" />
+            android:src="@mipmap/personal_plan" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/x48"
+            android:layout_marginLeft="@dimen/x24"
             android:text="@string/moreinfo_jihua"
             android:textColor="@color/b0"
             android:textSize="14sp" />
@@ -67,19 +66,19 @@
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
         android:onClick="HuBang"
-        android:paddingStart="@dimen/x48">
+        android:paddingStart="@dimen/x42">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/mark_hubang" />
+            android:src="@mipmap/personal_help" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/x48"
+            android:layout_marginLeft="@dimen/x24"
             android:text="@string/moreinfo_hubang"
             android:textColor="@color/b0"
             android:textSize="14sp" />
@@ -91,19 +90,19 @@
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
         android:onClick="XuanShang"
-        android:paddingStart="@dimen/x48">
+        android:paddingStart="@dimen/x42">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/mark_jihua" />
+            android:src="@mipmap/personal_reward" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/x48"
+            android:layout_marginLeft="@dimen/x24"
             android:text="@string/moreinfo_xuanshang"
             android:textColor="@color/b0"
             android:textSize="14sp" />
@@ -116,19 +115,19 @@
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
         android:onClick="XianZhi"
-        android:paddingStart="@dimen/x48">
+        android:paddingStart="@dimen/x42">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@mipmap/mark_xianzhi" />
+            android:src="@mipmap/personal_sale" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/x48"
+            android:layout_marginLeft="@dimen/x24"
             android:text="@string/moreinfo_xianzhi"
             android:textColor="@color/b0"
             android:textSize="14sp" />

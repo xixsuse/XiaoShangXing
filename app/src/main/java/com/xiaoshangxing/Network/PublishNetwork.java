@@ -48,7 +48,7 @@ public class PublishNetwork {
 
     }
 
-    //在访问LoginNetwork时创建单例
+    //在访问PublishNetwork时创建单例
     private static class SingletonHolder {
         private static final PublishNetwork INSTANCE = new PublishNetwork();
     }

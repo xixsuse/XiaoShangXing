@@ -2,6 +2,7 @@ package com.xiaoshangxing.yujian.personInfo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Display;
 import android.view.View;
@@ -19,11 +20,14 @@ import com.netease.nimlib.sdk.friend.constant.FriendFieldEnum;
 import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.report.ReportActivity;
 import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.SwitchView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
@@ -40,7 +44,7 @@ import butterknife.OnClick;
 /**
  * Created by 15828 on 2016/7/25.
  */
-public class SetInfoActivity extends BaseActivity {
+public class SetInfoActivity extends BaseActivity implements IBaseView {
 
     @Bind(R.id.left_image)
     ImageView leftImage;
@@ -329,9 +333,26 @@ public class SetInfoActivity extends BaseActivity {
         mActionSheet2.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                NIMClient.getService(FriendService.class).deleteFriend(account).setCallback(new RequestCallback<Void>() {
+//                NIMClient.getService(FriendService.class).deleteFriend(phone).setCallback(new RequestCallback<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int i) {
+//                        showToast("删除失败:" + i);
+//                    }
+//
+//                    @Override
+//                    public void onException(Throwable throwable) {
+//                        showToast("删除失败:异常");
+//                    }
+//                });
+
+                OperateUtils.CancelFavor(account, SetInfoActivity.this, SetInfoActivity.this, new SimpleCallBack() {
                     @Override
-                    public void onSuccess(Void aVoid) {
+                    public void onSuccess() {
                         showToast("删除成功");
                         Intent intent = new Intent();
                         intent.setAction(PersonInfoActivity.FINISH);
@@ -340,15 +361,16 @@ public class SetInfoActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onFailed(int i) {
-                        showToast("删除失败:" + i);
+                    public void onError(Throwable e) {
+
                     }
 
                     @Override
-                    public void onException(Throwable throwable) {
-                        showToast("删除失败:异常");
+                    public void onBackData(Object o) {
+
                     }
                 });
+
             }
 
             @Override
@@ -361,5 +383,10 @@ public class SetInfoActivity extends BaseActivity {
     @OnClick(R.id.back)
     public void onClick() {
         finish();
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 }

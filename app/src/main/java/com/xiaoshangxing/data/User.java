@@ -31,16 +31,15 @@ public class User extends RealmObject {
     private String signature;
     private String photoCover;
     private String isVip;
-    private Integer isActive;
+    private Integer isActive;//是否实名认证
     private Integer sex;
     private String userImage;
-    private Integer activeStatus;
+    private Integer activeStatus;//邮箱激活状态
     private String email;
     private String isClass;
     private String isCollege;
     private String isGrade;
     private String role;
-
     private long serverTime;
 
     public int getId() {
@@ -187,6 +186,10 @@ public class User extends RealmObject {
         this.role = role;
     }
 
+    public boolean isRealName() {
+        return getIsActive() != null && getIsActive() == 1;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -203,6 +206,11 @@ public class User extends RealmObject {
                 ", userImage='" + userImage + '\'' +
                 ", activeStatus=" + activeStatus +
                 ", email='" + email + '\'' +
+                ", isClass='" + isClass + '\'' +
+                ", isCollege='" + isCollege + '\'' +
+                ", isGrade='" + isGrade + '\'' +
+                ", role='" + role + '\'' +
+                ", serverTime=" + serverTime +
                 '}';
     }
 }

@@ -23,7 +23,6 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -101,7 +100,6 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
         listView.addHeaderView(headView);
         headView2 = View.inflate(this, R.layout.publish_lay, null);
         footview = View.inflate(this, R.layout.footer, null);
-        listView.addHeaderView(headView2);
         listView.addFooterView(footview);
         headView.setEnabled(false);
         listView.setHeaderDividersEnabled(false);
@@ -184,6 +182,10 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
             title.setText("动态");
             more.setVisibility(View.GONE);
         }
+
+        if (TempUser.isMine(account)) {
+            listView.addHeaderView(headView2);
+        }
     }
 
     public int getCurrent_type() {
@@ -226,7 +228,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
             LayoutHelp.initPTR(ptrFrameLayout, true, new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
-                    LoadUtils.getOthersPublished(realm, NS.CATEGORY_STATE, Integer.valueOf(account), PersonalStateActivity.this,
+                    LoadUtils.getPersonalPublished(realm, NS.CATEGORY_STATE, Integer.valueOf(account), PersonalStateActivity.this,
                             aroundLoading);
                 }
             });

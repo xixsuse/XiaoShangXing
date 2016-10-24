@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,12 +23,23 @@ import butterknife.OnClick;
  * Created by 15828 on 2016/7/15.
  */
 public class AboutActivity extends BaseActivity {
-    @Bind(R.id.about_leftarrow)
-    ImageView aboutLeftarrow;
-    @Bind(R.id.about_back)
-    TextView aboutBack;
-    @Bind(R.id.setting_about_toolbar)
-    RelativeLayout settingAboutToolbar;
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.version_text)
+    TextView versionText;
     @Bind(R.id.comment)
     RelativeLayout comment;
     @Bind(R.id.function)
@@ -36,8 +48,6 @@ public class AboutActivity extends BaseActivity {
     RelativeLayout feeback;
     @Bind(R.id.update)
     RelativeLayout update;
-    @Bind(R.id.version_text)
-    TextView versionText;
 
     private int versionCode;
     private String version;
@@ -47,6 +57,9 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_about);
         ButterKnife.bind(this);
+        title.setText("关于校上行");
+        more.setVisibility(View.GONE);
+
         PackageManager manager = getPackageManager();
         PackageInfo info = null;
         try {
@@ -59,14 +72,8 @@ public class AboutActivity extends BaseActivity {
         versionText.setText("校上行内测版:" + version);
     }
 
-    public void Back(View view) {
-        finish();
-    }
-
-//    public void ReportAndComplaint(View view) {
-//        Intent intent = new Intent(this, ReportActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+//    public void Back(View view) {
+//        finish();
 //    }
 
     public void FunctionIntroduction(View view) {
@@ -84,7 +91,7 @@ public class AboutActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.comment, R.id.function, R.id.feeback, R.id.update})
+    @OnClick({R.id.comment, R.id.function, R.id.feeback, R.id.update, R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.comment:
@@ -97,11 +104,18 @@ public class AboutActivity extends BaseActivity {
             case R.id.update:
                 update();
                 break;
+            case R.id.back:
+                finish();
+                break;
         }
     }
 
     private void update() {
-        UpdateManager updateManager = new UpdateManager(this, "" +"1.0.1" /*version*/, true);
+        UpdateManager updateManager = new UpdateManager(this, "" + version, true);
         updateManager.checkUpdateInfo();
+    }
+
+    @OnClick(R.id.back)
+    public void onClick() {
     }
 }

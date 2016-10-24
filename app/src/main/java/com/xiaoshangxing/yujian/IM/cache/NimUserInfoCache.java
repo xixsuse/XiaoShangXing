@@ -160,7 +160,7 @@ public class NimUserInfoCache {
 
     public NimUserInfo getUserInfo(String account) {
         if (TextUtils.isEmpty(account) || account2UserMap == null) {
-//            LogUtil.e(UIKitLogTag.USER_CACHE, "getUserInfo null, account=" + account + ", account2UserMap=" + account2UserMap);
+//            LogUtil.e(UIKitLogTag.USER_CACHE, "getUserInfo null, phone=" + phone + ", account2UserMap=" + account2UserMap);
             return null;
         }
 
@@ -174,7 +174,7 @@ public class NimUserInfoCache {
 
     public boolean hasUser(String account) {
         if (TextUtils.isEmpty(account) || account2UserMap == null) {
-//            LogUtil.e(UIKitLogTag.USER_CACHE, "hasUser null, account=" + account + ", account2UserMap=" + account2UserMap);
+//            LogUtil.e(UIKitLogTag.USER_CACHE, "hasUser null, phone=" + phone + ", account2UserMap=" + account2UserMap);
             return false;
         }
 

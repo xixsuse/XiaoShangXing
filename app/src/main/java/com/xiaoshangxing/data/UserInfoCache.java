@@ -64,32 +64,32 @@ public class UserInfoCache {
             return null;
         }
     }
-
-    public void getName(final TextView textView, int id) {
-        if (userMap.containsKey(id)) {
-            textView.setText(userMap.get(id).getUsername());
-        } else {
-            reload(new ReloadCallback() {
-                @Override
-                public void callback(JSONObject jsonObject) throws JSONException {
-                    textView.setText(jsonObject.getString(NS.USER_NAME));
-                }
-            }, id);
-        }
-    }
-
-    public void getCollege(final TextView textView, int id) {
-        if (userMap.containsKey(id)) {
-            textView.setText(userMap.get(id).getIsCollege());
-        } else {
-            reload(new ReloadCallback() {
-                @Override
-                public void callback(JSONObject jsonObject) throws JSONException {
-                    textView.setText(jsonObject.getString("isCollege"));
-                }
-            }, id);
-        }
-    }
+//
+//    public void getName(final TextView textView, int id) {
+//        if (userMap.containsKey(id)) {
+//            textView.setText(userMap.get(id).getUsername());
+//        } else {
+//            reload(new ReloadCallback() {
+//                @Override
+//                public void callback(JSONObject jsonObject) throws JSONException {
+//                    textView.setText(jsonObject.getString(NS.USER_NAME));
+//                }
+//            }, id);
+//        }
+//    }
+//
+//    public void getCollege(final TextView textView, int id) {
+//        if (userMap.containsKey(id)) {
+//            textView.setText(userMap.get(id).getIsCollege());
+//        } else {
+//            reload(new ReloadCallback() {
+//                @Override
+//                public void callback(JSONObject jsonObject) throws JSONException {
+//                    textView.setText(jsonObject.getString("isCollege"));
+//                }
+//            }, id);
+//        }
+//    }
 
     public void getExIntoTextview(String id, String key, TextView textView) {
         getExIntoTextview(id, key, textView, "未知");
@@ -153,19 +153,19 @@ public class UserInfoCache {
         }
     }
 
-
-    public void getHead(final ImageView imageView, int id, final Context context) {
-        if (userMap.containsKey(id)) {
-            MyGlide.with(context, userMap.get(id).getUserImage(), imageView);
-        } else {
-            reload(new ReloadCallback() {
-                @Override
-                public void callback(JSONObject jsonObject) throws JSONException {
-                    MyGlide.with(context, jsonObject.getString(NS.USER_IMAGE), imageView);
-                }
-            }, id);
-        }
-    }
+//
+//    public void getHead(final ImageView imageView, int id, final Context context) {
+//        if (userMap.containsKey(id)) {
+//            MyGlide.with(context, userMap.get(id).getUserImage(), imageView);
+//        } else {
+//            reload(new ReloadCallback() {
+//                @Override
+//                public void callback(JSONObject jsonObject) throws JSONException {
+//                    MyGlide.with(context, jsonObject.getString(NS.USER_IMAGE), imageView);
+//                }
+//            }, id);
+//        }
+//    }
 
     /*
     **describe:刷新指定数据

@@ -34,7 +34,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.realm.Sort;
 
 /**
@@ -74,7 +73,6 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     @Bind(R.id.no_content)
     TextView noContent;
     private View mview;
-    private Realm realm;
     private View headview, footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
@@ -91,14 +89,12 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mview = inflater.inflate(R.layout.title_anounce_refresh_listview, null);
         ButterKnife.bind(this, mview);
-        realm = Realm.getDefaultInstance();
         initView();
         return mview;
     }
 
     @Override
     public void onDestroyView() {
-        realm.close();
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
@@ -180,7 +176,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
             LayoutHelp.initPTR(ptrFrameLayout, true, new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
-                    LoadUtils.getOthersPublished(realm, NS.CATEGORY_PLAN, Integer.parseInt(account), getContext(),
+                    LoadUtils.getPersonalPublished(realm, NS.CATEGORY_PLAN, Integer.parseInt(account), getContext(),
                             aroundLoading);
                 }
             });

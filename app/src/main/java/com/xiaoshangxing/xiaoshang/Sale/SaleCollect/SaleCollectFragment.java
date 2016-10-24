@@ -72,24 +72,28 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
     private SaleActivity activity;
     private SaleCollect_Adpter adpter;
     private List<Published> publisheds = new ArrayList<>();
-    private Realm realm;
-
-    public static SaleCollectFragment newInstance() {
-        return new SaleCollectFragment();
-    }
-
-    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
         ButterKnife.bind(this, view);
-        realm = Realm.getDefaultInstance();
         initFresh();
         initView();
         return view;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    public static SaleCollectFragment newInstance() {
+        return new SaleCollectFragment();
+    }
+
+    private View view;
 
     private void initView() {
         headview = new View(getContext());
@@ -151,13 +155,6 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
                                 });
                     }
                 });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-        realm.close();
     }
 
     @OnClick({R.id.back, R.id.cancel, R.id.hide_trasmit, R.id.hide_delete})

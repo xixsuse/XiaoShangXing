@@ -5,12 +5,14 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.MyStateHodlerBase;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_holder_transmit;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_image_text;
@@ -36,6 +38,7 @@ public class MystateAdpter extends RealmBaseAdapter<Published> {
     Realm realm;
     private final Map<Class<?>, Integer> viewTypes;
     private Map<String, Integer> date_position = new HashMap<>();
+    private boolean isSelf;
 
     public MystateAdpter(@NonNull Context context, @Nullable OrderedRealmCollection<Published> data,
                          Realm realm) {
@@ -45,7 +48,16 @@ public class MystateAdpter extends RealmBaseAdapter<Published> {
         mHandler = new Handler();
         this.context = context;
         this.viewTypes = new HashMap<Class<?>, Integer>(getViewTypeCount());
-        date_position.put(TimeUtil.getFavoriteCollectTime(NS.currentTime()), -1);
+
+        if (data != null && data.size() > 0 && data.get(0).getId() == TempUser.id) {
+            isSelf = true;
+            date_position.put(TimeUtil.getFavoriteCollectTime(NS.currentTime()), -1);
+            Log.d("isMine", "true");
+        } else {
+            isSelf = false;
+            Log.d("isMine", "false");
+        }
+
     }
 
     @Override

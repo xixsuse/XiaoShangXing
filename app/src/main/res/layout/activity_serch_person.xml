@@ -47,7 +47,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/width_48"
             android:layout_marginStart="@dimen/width_48"
-            android:src="@mipmap/serch_big_green" />
+            android:src="@mipmap/serch_green" />
 
         <TextView
             style="@style/black_16sp"
@@ -58,7 +58,8 @@
 
         <TextView
             android:id="@+id/serch_param"
-            style="@style/green1_16sp"
+            android:textSize="16sp"
+            android:textColor="@color/green3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

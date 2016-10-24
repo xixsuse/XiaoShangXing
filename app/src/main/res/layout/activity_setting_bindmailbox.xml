@@ -5,59 +5,17 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/setting_mailboxbind_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:background="@color/w1"
-        android:orientation="horizontal">
+    <include
+        layout="@layout/util_normal_title_end_text"
+        android:id="@+id/title_lay">
 
-        <ImageView
-            android:id="@+id/hometown_mailboxbind_leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/left_arrow_black" />
-
-        <TextView
-            android:id="@+id/mailboxbind_back"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@+id/hometown_mailboxbind_leftarrow"
-            android:clickable="true"
-            android:text="@string/back" />
-
-        <TextView
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/bindMaibox" />
-
-        <TextView
-            android:id="@+id/mailboxbind_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/x48"
-            android:alpha="0.5"
-            android:clickable="true"
-            android:text="@string/send"
-            android:textColor="@color/green1"
-            android:textSize="16sp" />
-    </RelativeLayout>
+    </include>
 
     <LinearLayout
         android:id="@+id/bindmailbox_linear1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
-        android:layout_below="@id/setting_mailboxbind_toolbar"
+        android:layout_below="@id/title_lay"
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1">
 

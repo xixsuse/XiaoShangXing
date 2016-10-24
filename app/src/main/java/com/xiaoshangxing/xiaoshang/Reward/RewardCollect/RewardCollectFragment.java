@@ -66,7 +66,6 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
         ButterKnife.bind(this, view);
-        realm = Realm.getDefaultInstance();
         setmPresenter(new RewardCollectPresenter(this, getContext()));
         initFresh();
         initView();
@@ -77,7 +76,6 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        realm.close();
     }
 
     public static RewardCollectFragment newInstance() {
@@ -92,7 +90,6 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
-    private Realm realm;
 
     private void initView() {
         View view = new View(getContext());

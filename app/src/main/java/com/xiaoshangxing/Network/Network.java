@@ -23,6 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by FengChaoQun
  * on 2016/8/3
+ * 所有网络操作同意管理类
  */
 public class Network {
     public static Retrofit retrofit;

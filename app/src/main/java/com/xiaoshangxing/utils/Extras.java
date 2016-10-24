@@ -25,7 +25,7 @@ public interface Extras {
     String EXTRA_RETURN_DATA = "return-data";
 
     // 参数
-    String EXTRA_ACCOUNT = "account";
+    String EXTRA_ACCOUNT = "phone";
     String EXTRA_TYPE = "type";
     String EXTRA_ANCHOR = "anchor";
 

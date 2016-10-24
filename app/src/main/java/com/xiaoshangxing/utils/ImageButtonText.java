@@ -92,6 +92,10 @@ public class ImageButtonText extends LinearLayout implements View.OnClickListene
 
     }
 
+    public void setText(String text) {
+        textView.setText(text);
+    }
+
     public void setImgView(ImageView imgView){
         this.imgView = imgView;
     }

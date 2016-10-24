@@ -29,7 +29,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.realm.Sort;
 
 /**
@@ -60,12 +59,27 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     TextView noContent;
 
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mview = inflater.inflate(R.layout.title_refresh_listview, null);
+        ButterKnife.bind(this, mview);
+        initView();
+        initFresh();
+        return mview;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     public static JoinedPlanFragment newInstance() {
         return new JoinedPlanFragment();
     }
 
     private View mview;
-    private Realm realm;
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
@@ -73,17 +87,6 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     private boolean isLoading;
     private List<JoinedPlan> joinedPlen = new ArrayList<>();
     private JoinedPlan_Adpter adpter;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mview = inflater.inflate(R.layout.title_refresh_listview, null);
-        ButterKnife.bind(this, mview);
-        realm = Realm.getDefaultInstance();
-        initView();
-        initFresh();
-        return mview;
-    }
 
     private void initView() {
         title.setText("我加入的计划");
@@ -142,13 +145,6 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
                         });
                     }
                 });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        realm.close();
-        ButterKnife.unbind(this);
     }
 
     @OnClick(R.id.back)

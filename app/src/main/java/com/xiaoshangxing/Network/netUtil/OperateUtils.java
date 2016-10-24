@@ -8,10 +8,12 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.xiaoshangxing.Network.IMNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.PublishNetwork;
@@ -24,6 +26,7 @@ import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachmentType;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_WithImage;
+import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,10 +46,6 @@ import rx.Subscriber;
  */
 public class OperateUtils {
 
-    public static final Integer UNHANL = 0;
-    public static final Integer AGREE = 1;
-    public static final Integer REFUSE = 2;
-    public static String APPLY_PLAN_STATE = "APPLY_PLAN_STATE";
     /**
      * description:动态操作处理方法  类型：赞  加入 举报 收藏
      *
@@ -55,7 +54,6 @@ public class OperateUtils {
      * @param operate         操作类型
      * @param isCancle        是否是取消操作
      * @param callback        回调
-     * @return
      */
 
     public static void operate(final int publishedId, final Context context,
@@ -123,7 +121,6 @@ public class OperateUtils {
      * description:删除一条动态
      *
      * @param publishedId 动态id
-     * @return
      */
 
     public static void deleteOnePublished(final int publishedId, final Context context, final IBaseView iBaseView,
@@ -176,7 +173,6 @@ public class OperateUtils {
      * @param categry     动态类型
      * @param personId    转发对象id
      * @param text1       转发时说的话  可为空
-     * @return
      */
 
     public static void Tranmit(final int publishedId, String categry, final String personId,
@@ -238,7 +234,6 @@ public class OperateUtils {
      * @param imMessage 第一条消息
      * @param text      第二条消息
      * @param callBack  回调
-     * @return
      */
 
     public static void sendTransmitMessage(IMMessage imMessage, final IMMessage text,
@@ -276,7 +271,6 @@ public class OperateUtils {
      *
      * @param type        动态类型
      * @param publishedId 动态id
-     * @return
      */
 
     public static void Share(Context context, int type, int publishedId) {
@@ -296,11 +290,10 @@ public class OperateUtils {
      * @param text            评论的内容
      * @param needRefreshData 评论后是否需要刷新数据库
      * @param callBack        回调
-     * @return
      */
 
-    public static void Comment(final int publishId, int commentId, String text, final Context context, final boolean needRefreshData,
-                               final SimpleCallBack callBack) {
+    public static void Comment(final int publishId, int commentId, String text, final Context context,
+                               final boolean needRefreshData, final SimpleCallBack callBack) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(NS.USER_ID, TempUser.id);
         jsonObject.addProperty(NS.MOMENTID, publishId);
@@ -313,7 +306,7 @@ public class OperateUtils {
         Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
-                callBack.onSuccess();
+
             }
 
             @Override
@@ -325,7 +318,7 @@ public class OperateUtils {
             public void onNext(ResponseBody responseBody) {
                 try {
                     JSONObject jsonObject1 = new JSONObject(responseBody.string());
-                    switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
+                    switch (jsonObject1.getInt(NS.CODE)) {
                         case NS.CODE_200:
                             Toast.makeText(context, "评论成功", Toast.LENGTH_SHORT).show();
 
@@ -337,7 +330,7 @@ public class OperateUtils {
                                     }
                                 });
                             }
-
+                            callBack.onSuccess();
                             break;
                         default:
                             Toast.makeText(context, jsonObject1.getString(NS.MSG), Toast.LENGTH_SHORT).show();
@@ -354,6 +347,15 @@ public class OperateUtils {
         PublishNetwork.getInstance().comment(subscriber, jsonObject, context);
     }
 
+    /**
+     * description:改变动态的状态信息  结束或未结束
+     *
+     * @param publishId       动态id
+     * @param statu           动态当前状态 0表示结束 1表示未结束
+     * @param needRefreshData 是否需要刷新
+     * @param callBack        回调
+     */
+
     public static void ChangeStatu(final int publishId, int statu, final Context context, final boolean needRefreshData,
                                    final SimpleCallBack callBack) {
         JsonObject jsonObject = new JsonObject();
@@ -364,7 +366,6 @@ public class OperateUtils {
         Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
-                callBack.onSuccess();
             }
 
             @Override
@@ -387,7 +388,6 @@ public class OperateUtils {
                                     }
                                 });
                             }
-
                             break;
                         default:
                             Toast.makeText(context, jsonObject1.getString(NS.MSG), Toast.LENGTH_SHORT).show();
@@ -402,5 +402,118 @@ public class OperateUtils {
         };
 
         PublishNetwork.getInstance().changePublishStatu(subscriber, jsonObject, context);
+    }
+
+    /**
+     * description:留心某人
+     *
+     * @param account        留心对象的id
+     * @param simpleCallBack 回调
+     */
+
+    public static void Favor(String account, final Context context, final IBaseView iBaseView, final SimpleCallBack simpleCallBack) {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case 200:
+                            simpleCallBack.onSuccess();
+                            break;
+                        default:
+                            iBaseView.showToast(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> subscriber = new ProgressSubsciber<>(onNext, iBaseView);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.id);
+        jsonObject.addProperty("oppositeUserId", account);
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+
+        IMNetwork.getInstance().Favor(subscriber, jsonObject, context);
+    }
+
+    /**
+     * description:取消留心某人  如果是好友 则删除好友  (该方法也是校上行APP上删除好友的方法)
+     *
+     * @param account        对象id
+     * @param simpleCallBack 回调
+     */
+
+    public static void CancelFavor(final String account, final Context context, final IBaseView iBaseView, final SimpleCallBack simpleCallBack) {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case 200:
+                            if (FriendDataCache.getInstance().isMyFriend(account)) {
+                                deleteFriend(account, context, simpleCallBack);
+                            } else {
+                                simpleCallBack.onSuccess();
+                            }
+                            break;
+                        default:
+                            if (FriendDataCache.getInstance().isMyFriend(account)) {
+                                deleteFriend(account, context, simpleCallBack);
+                            } else {
+                                iBaseView.showToast(jsonObject.getString(NS.MSG));
+                            }
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> subscriber = new ProgressSubsciber<>(onNext, iBaseView);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.id);
+        jsonObject.addProperty("oppositeUserId", account);
+
+        IMNetwork.getInstance().CancelFavor(subscriber, jsonObject, context);
+    }
+
+    /**
+     * description:删除好友
+     *
+     * @param account        对方id
+     * @param simpleCallBack 回调
+     * @return
+     */
+
+    public static void deleteFriend(String account, final Context context, final SimpleCallBack simpleCallBack) {
+        NIMClient.getService(FriendService.class).deleteFriend(account).setCallback(new RequestCallback<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                simpleCallBack.onSuccess();
+            }
+
+            @Override
+            public void onFailed(int i) {
+                Toast.makeText(context, "删除失败:" + i, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onException(Throwable throwable) {
+                Toast.makeText(context, "删除失败:异常", Toast.LENGTH_SHORT).show();
+                throwable.printStackTrace();
+            }
+        });
     }
 }

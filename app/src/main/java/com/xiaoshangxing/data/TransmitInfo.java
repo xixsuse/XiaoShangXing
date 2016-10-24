@@ -3,6 +3,7 @@ package com.xiaoshangxing.data;
 /**
  * Created by FengChaoQun
  * on 2016/9/16
+ * 转发信息
  */
 public class TransmitInfo {
     private long serverTime;

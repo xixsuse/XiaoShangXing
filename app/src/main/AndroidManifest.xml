@@ -247,7 +247,7 @@
 
         <!-- 常规搜索 -->
         <activity
-            android:name=".yujian.Serch.NormalSerch"
+            android:name=".yujian.Serch.NormalSerch.NormalSerch"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/global_search_bg"

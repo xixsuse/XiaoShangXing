@@ -94,7 +94,13 @@ public class NS {
 
     public static final int CODE_200 = 200;
 
+    public static final String REQUEST_SUCCESS = "200";
+
     public static final String CONTENT="content";
+
+    interface Encoding {
+        String UTF8 = "UTF-8";
+    }
 
     public static void getPermissionString(String key, List<String> list, Map<String, String> map) {
         if (list != null && list.size() > 0) {

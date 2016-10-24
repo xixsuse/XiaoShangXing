@@ -4,21 +4,24 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.about.AboutActivity;
 import com.xiaoshangxing.setting.currency.CurrencyActivity;
 import com.xiaoshangxing.setting.mailboxbind.MailBoxBindActivity;
@@ -35,6 +38,7 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,33 +47,44 @@ import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.Realm;
+import butterknife.OnClick;
 import okhttp3.ResponseBody;
 
 /**
  * Created by tianyang on 2016/7/9.
  */
 public class SettingActivity extends BaseActivity implements IBaseView {
-    @Bind(R.id.toolbar_setting_leftarrow)
-    ImageView toolbarSettingLeftarrow;
-    @Bind(R.id.toolbar_setting_back)
-    TextView toolbarSettingBack;
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.setting_main_imag)
     CirecleImage settingMainImag;
+    @Bind(R.id.name)
+    TextView name;
     @Bind(R.id.linear1)
     LinearLayout linear1;
     @Bind(R.id.bindEmailStaet)
     TextView bindEmailStaet;
     @Bind(R.id.bindmail_rightarrow)
     ImageView bindmailRightarrow;
-    @Bind(R.id.name)
-    TextView name;
     private ActionSheet mActionSheet;
     private CirecleImage imgCover;
     private IBaseView iBaseView;
-    private Realm realm;
     private boolean bindEmail;
-    private User user;
+    private NimUserInfo nimUserInfo;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,19 +97,23 @@ public class SettingActivity extends BaseActivity implements IBaseView {
     private void initView() {
         imgCover = (CirecleImage) findViewById(R.id.setting_main_imag);
         iBaseView = this;
-        realm = Realm.getDefaultInstance();
-        user = realm.where(User.class).equalTo("id", (int) SPUtils.get(this, SPUtils.ID, SPUtils.DEFAULT_int))
-                .findFirst();
-        if (user == null) {
+        id = String.valueOf(TempUser.id);
+        nimUserInfo = NimUserInfoCache.getInstance().getUserInfo(id);
+        if (nimUserInfo == null) {
             showToast("账号异常");
             return;
         }
-        setImgCover();
-
-        bindEmail = user.getActiveStatus() == 1;
+        MyGlide.with(this, nimUserInfo.getAvatar(), imgCover);
+        if (nimUserInfo.getExtension() != null && nimUserInfo.getExtension().contains("activeStatus")) {
+            bindEmail = (int) nimUserInfo.getExtensionMap().get("activeStatus") == 1;
+            Log.d("activeStatus", "" + bindEmail);
+        }
 
         bindEmailStaet.setText(bindEmail ? "已绑定" : "未绑定");
-        name.setText(user.getUsername());
+        name.setText(nimUserInfo.getName());
+
+        title.setText("设置");
+        more.setVisibility(View.GONE);
     }
 
     @Override
@@ -113,12 +132,6 @@ public class SettingActivity extends BaseActivity implements IBaseView {
     public void setmPresenter(@Nullable Object presenter) {
 
     }
-
-    private void setImgCover() {
-        MyGlide.with(this, user.getUserImage(), imgCover);
-    }
-
-
     public void ExitSetting(View view) {
         if (mActionSheet == null) {
             mActionSheet = new ActionSheet(this);
@@ -134,11 +147,6 @@ public class SettingActivity extends BaseActivity implements IBaseView {
         mActionSheet.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-//                SPUtils.put(SettingActivity.this, SPUtils.IS_QUIT, true);
-//                SPUtils.remove(SettingActivity.this, SPUtils.ID);
-//                NIMClient.getService(AuthService.class).logout();
-//                XSXApplication xsxApplication = (XSXApplication) getApplication();
-//                xsxApplication.exit();
                 AppNetUtil.LogOut(SettingActivity.this);
             }
 
@@ -239,7 +247,8 @@ public class SettingActivity extends BaseActivity implements IBaseView {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
-    public void SettingBack(View view) {
+    @OnClick(R.id.back)
+    public void onClick() {
         finish();
     }
 }

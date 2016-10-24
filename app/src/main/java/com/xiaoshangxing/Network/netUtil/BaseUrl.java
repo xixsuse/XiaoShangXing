@@ -46,6 +46,7 @@ public class BaseUrl {
     public static final String SUGGESTION = "suggestion/suggest";
     public static final String GET_CALENDAR_INPUTER = "base/getLeaderInfo";
     public static final String FAVOR = "friend/favor";
+    public static final String CANCLE_FAVOR = "friend/cancelFavor";
 
 
     public static final String SERCH_PERSON = "base/userSearch";

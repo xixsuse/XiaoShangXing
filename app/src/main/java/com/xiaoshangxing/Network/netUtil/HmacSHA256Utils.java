@@ -1,7 +1,5 @@
 package com.xiaoshangxing.Network.netUtil;
 
-import com.xiaoshangxing.Network.netUtil.Constants;
-
 import org.apache.commons.codec.binary.Hex;
 
 import java.util.List;
@@ -23,15 +21,15 @@ public class HmacSHA256Utils {
 	public static String digest(String key, String content) {
         try {
             Mac mac = Mac.getInstance("HmacSHA256");
-            byte[] secretByte = key.getBytes(Constants.Encoding.UTF8);
-            byte[] dataBytes = content.getBytes(Constants.Encoding.UTF8);
+            byte[] secretByte = key.getBytes(NS.Encoding.UTF8);
+            byte[] dataBytes = content.getBytes(NS.Encoding.UTF8);
 
             SecretKey secret = new SecretKeySpec(secretByte, "HMACSHA256");
             mac.init(secret);
 
             byte[] doFinal = mac.doFinal(dataBytes);
             byte[] hexB = new Hex().encode(doFinal);
-            return new String(hexB, Constants.Encoding.UTF8);
+            return new String(hexB, NS.Encoding.UTF8);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

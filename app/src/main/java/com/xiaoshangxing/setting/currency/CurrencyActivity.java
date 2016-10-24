@@ -28,11 +28,6 @@ import com.xiaoshangxing.utils.BaseActivity;
  * Created by 15828 on 2016/7/14.
  */
 public class CurrencyActivity extends BaseActivity {
-    public static final int ACTIVITY_ALBUM_REQUESTCODE = 1000;
-    public static final int ACTIVITY_CAMERA_REQUESTCODE = 1001;
-    public static final int ACTIVITY_MODIFY_PHOTO_REQUESTCODE = 2002;
-    private Bitmap btmap_album, btmap_phone, mBitmap;
-    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +36,6 @@ public class CurrencyActivity extends BaseActivity {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_fragment, new CurrencyFragment())
                 .commit();
-    }
-
-    public void currency_back(View view) {
-        finish();
     }
 
     public void ChatBackground(View view) {

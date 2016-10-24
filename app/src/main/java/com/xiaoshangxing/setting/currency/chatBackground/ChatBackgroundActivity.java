@@ -94,8 +94,6 @@ public class ChatBackgroundActivity extends BaseActivity {
                     int degree = FileUtil.readPictureDegree(img_path);
                     btmap_album = BitmapFactory.decodeFile(img_path);
                     btmap_album = FileUtil.rotaingImageView(degree, btmap_album);
-//                    mImageView.setImageBitmap(btmap_album);
-//                    FileUtil.deleteTempAndRaw();
                     WindowManager wm = this.getWindowManager();
                     int width = wm.getDefaultDisplay().getWidth();
                     int height = wm.getDefaultDisplay().getHeight();
@@ -113,8 +111,6 @@ public class ChatBackgroundActivity extends BaseActivity {
                     FileUtil.saveCutBitmapForCache(this, cameraBitmap);
                     String mCoverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW;
                     btmap_phone = BitmapFactory.decodeFile(mCoverPath);
-//                    mImageView.setImageBitmap(btmap_phone);
-//                    FileUtil.deleteTempAndRaw();
                     WindowManager wm = this.getWindowManager();
                     int width = wm.getDefaultDisplay().getWidth();
                     int height = wm.getDefaultDisplay().getHeight();
@@ -122,12 +118,10 @@ public class ChatBackgroundActivity extends BaseActivity {
                 }
                 break;
             case ACTIVITY_MODIFY_PHOTO_REQUESTCODE:
-                Log.d("qqq", "aaaa...");
                 String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
                 mBitmap = BitmapFactory.decodeFile(coverPath);
                 mImageView.setImageBitmap(mBitmap);
             default:
-
                 break;
         }
     }

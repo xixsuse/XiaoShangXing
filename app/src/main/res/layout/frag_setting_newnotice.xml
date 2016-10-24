@@ -5,42 +5,9 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
+    <include layout="@layout/util_normal_title">
 
-    <RelativeLayout
-        android:id="@+id/setting_newnotice_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:background="@color/w1"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/hometown_newnotice_leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/left_arrow_black" />
-
-        <TextView
-            android:id="@+id/newnotice_back"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@+id/hometown_newnotice_leftarrow"
-            android:clickable="true"
-            android:onClick="NewNotice_back"
-            android:text="@string/back" />
-
-        <TextView
-            style="@style/black_17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/newnotice" />
-    </RelativeLayout>
+    </include>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -109,7 +76,6 @@
             android:paddingStart="@dimen/x48"
             android:text="@string/renewnotice3" />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/newnotice_lay3"
@@ -192,7 +158,6 @@
             android:src="@mipmap/right_arrow" />
     </RelativeLayout>
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
@@ -228,6 +193,5 @@
             android:paddingStart="@dimen/x48"
             android:text="@string/renewnotice2" />
     </LinearLayout>
-
 
 </LinearLayout>

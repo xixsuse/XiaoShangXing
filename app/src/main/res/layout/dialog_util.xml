@@ -10,8 +10,7 @@
     <TextView
         android:paddingTop="@dimen/y60"
         android:id="@+id/dialog_title"
-        android:text="55555"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@color/transparent"
         style="@style/black_16sp"
         android:textStyle="bold"
@@ -25,7 +24,6 @@
         android:background="@color/transparent"
         android:textStyle="bold"
         style="@style/black_16sp"
-        android:text="5555"
         android:layout_marginTop="@dimen/y24"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"

@@ -131,8 +131,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
     }
 
     private void doSomethingWhenEnter() {
-        TempUser.account = TempUser.getAccount(this);
-        TempUser.id = TempUser.getID(this);
+        TempUser.initTempUser(this);
         SPUtils.put(this, SPUtils.IS_FIRS_COME, false);//当这个页面打开时，表明不是第一次进入APP了
         SPUtils.put(this, SPUtils.IS_QUIT, false);//当这个页面打开时，清除退出记录
         SPUtils.put(this,SPUtils.IS_NEED_GUIDE,false);//当这个页面打开时，表示已看过引导页

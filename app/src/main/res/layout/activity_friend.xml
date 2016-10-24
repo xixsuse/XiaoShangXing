@@ -33,6 +33,7 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
+
         <com.xiaoshangxing.SelectPerson.SideBar
             android:layout_marginTop="@dimen/y250"
             android:id="@+id/sidrbar"

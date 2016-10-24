@@ -103,10 +103,46 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
     @Bind(R.id.current_state)
     TextView currentState;
 
-    Realm realm;
 
     // 置顶功能可直接使用，也可作为思路，供开发者充分利用RecentContact的tag字段
     public static final long RECENT_TAG_STICKY = 1; // 联系人置顶tag
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mView = View.inflate(getContext(), R.layout.frag_yujian, null);
+        ButterKnife.bind(this, mView);
+        initView();
+        initFresh();
+        return mView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        requestMessages(true);
+        registerObservers(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        enableMsgNotification(false);
+        RefreshContact();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        enableMsgNotification(true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+        registerObservers(false);
+    }
 
     public static YuJianFragment newInstance() {
         return new YuJianFragment();
@@ -127,27 +163,9 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
 
     private UserInfoObservable.UserInfoObserver userInfoObserver;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = View.inflate(getContext(), R.layout.frag_yujian, null);
-        ButterKnife.bind(this, mView);
-        initView();
-        initFresh();
-        return mView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        requestMessages(true);
-        registerObservers(true);
-    }
-
 
     private void initView() {
         listView.setDividerHeight(0);
-        realm = Realm.getDefaultInstance();
         callback = new RecentContactsCallback() {
             @Override
             public void onRecentContactsLoaded() {
@@ -362,7 +380,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                TopChat topChat = realm.where(TopChat.class).equalTo("account", recent.getContactId()).findFirst();
+                TopChat topChat = realm.where(TopChat.class).equalTo("phone", recent.getContactId()).findFirst();
                 if (topChat != null) {
                     topChat.deleteFromRealm();
                 }
@@ -740,13 +758,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        enableMsgNotification(false);
-        RefreshContact();
-    }
-
     //  在fragment展示 隐藏时设置会话状态
     @Override
     public void onHiddenChanged(boolean hidden) {
@@ -756,20 +767,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         } else {
             enableMsgNotification(false);
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        enableMsgNotification(true);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-        realm.close();
-        registerObservers(false);
     }
 
     @OnClick({R.id.schoolfellow, R.id.serch_layout, R.id.friend, R.id.current_state})
@@ -799,7 +796,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
             /**
              * 设置最近联系人的消息为已读
              *
-             * @param account,    聊天对象帐号，或者以下两个值：
+             * @param phone,    聊天对象帐号，或者以下两个值：
              *                    {@link #MSG_CHATTING_ACCOUNT_ALL} 目前没有与任何人对话，但能看到消息提醒（比如在消息列表界面），不需要在状态栏做消息通知
              *                    {@link #MSG_CHATTING_ACCOUNT_NONE} 目前没有与任何人对话，需要状态栏消息通知
              */

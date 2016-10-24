@@ -32,8 +32,6 @@ public class PraisePeople {
 
         spannableString = new SpannableString("image ");
         Drawable d = context.getResources().getDrawable(R.mipmap.blue_heart);
-//        d.setBounds(0, 0, context.getResources().getDimensionPixelSize(R.dimen.image_11sp),
-//                context.getResources().getDimensionPixelSize(R.dimen.image_10sp));
         d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
         spannableString.setSpan(new ImageSpan(d, ImageSpan.ALIGN_BASELINE), 0, spannableString.length() - 1,
                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE);

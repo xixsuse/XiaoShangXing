@@ -5,8 +5,10 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
@@ -16,12 +18,30 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.SwitchView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by 15828 on 2016/7/13.
  */
 public class NewNoticeFrament extends BaseFragment {
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     private View mView;
-    private SwitchView newnotice_accept,newnotice_inform,newnotice_sound,newnotice_vibration,newnotice_renew;
+    private SwitchView newnotice_accept, newnotice_inform, newnotice_sound, newnotice_vibration, newnotice_renew;
     private RelativeLayout layout1, layout4;
     private LinearLayout layout2, layout3;
 
@@ -29,6 +49,7 @@ public class NewNoticeFrament extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_newnotice, container, false);
+        ButterKnife.bind(this, mView);
         newnotice_accept = (SwitchView) mView.findViewById(R.id.newnotice_accept);
         newnotice_inform = (SwitchView) mView.findViewById(R.id.newnotice_inform);
         newnotice_sound = (SwitchView) mView.findViewById(R.id.newnotice_sound);
@@ -39,6 +60,9 @@ public class NewNoticeFrament extends BaseFragment {
         layout2 = (LinearLayout) mView.findViewById(R.id.newnotice_lay2);
         layout3 = (LinearLayout) mView.findViewById(R.id.newnotice_lay3);
         layout4 = (RelativeLayout) mView.findViewById(R.id.newnotice_lay4);
+
+        title.setText("新消息通知");
+        more.setVisibility(View.GONE);
 
         setUpData();
 
@@ -135,6 +159,7 @@ public class NewNoticeFrament extends BaseFragment {
                 NIMClient.updateStatusBarNotificationConfig(config);
             }
         });
+
         newnotice_renew.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
@@ -148,6 +173,7 @@ public class NewNoticeFrament extends BaseFragment {
                 newnotice_renew.setState(false);
             }
         });
+
         return mView;
     }
 
@@ -157,7 +183,7 @@ public class NewNoticeFrament extends BaseFragment {
         newnotice_sound.setState(DataSetting.IsSounded(getActivity()));
         newnotice_vibration.setState(DataSetting.IsVibrationed(getActivity()));
         newnotice_renew.setState(DataSetting.IsRenewed(getActivity()));
-        if(newnotice_accept.getState2()) {
+        if (newnotice_accept.getState2()) {
             layout1.setVisibility(View.VISIBLE);
             layout2.setVisibility(View.VISIBLE);
             layout3.setVisibility(View.VISIBLE);
@@ -165,7 +191,20 @@ public class NewNoticeFrament extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
 
+    @OnClick({R.id.back})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                getActivity().finish();
+                break;
+        }
+    }
 }
 
 

@@ -21,19 +21,6 @@ public interface IBaseView<T> {
     void  setonDismiss(LoadingDialog.onDismiss on);
 
     /*
-    **describe:注销Observer
-    */
-    void unsubscribe();
-
-    /*
-    **describe:获取Subscription
-    */
-    Subscription getSubscription();
-    /*
-    **describe:设置Subscription
-    */
-    void setSubscription(Subscription subscription);
-    /*
     **describe: Toast
     */
     void showToast(String toast);

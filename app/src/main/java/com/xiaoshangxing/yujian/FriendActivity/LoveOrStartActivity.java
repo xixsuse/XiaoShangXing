@@ -21,7 +21,7 @@ import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.yujian.Serch.NormalSerch;
+import com.xiaoshangxing.yujian.Serch.NormalSerch.NormalSerch;
 
 import org.json.JSONException;
 import org.json.JSONObject;

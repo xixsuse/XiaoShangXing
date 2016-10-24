@@ -6,6 +6,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by FengChaoQun
  * on 2016/10/9
+ * 校历数据
  */
 
 public class CalendarData extends RealmObject {

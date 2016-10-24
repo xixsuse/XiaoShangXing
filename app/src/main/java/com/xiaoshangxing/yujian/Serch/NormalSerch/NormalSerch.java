@@ -1,9 +1,10 @@
-package com.xiaoshangxing.yujian.Serch;
+package com.xiaoshangxing.yujian.Serch.NormalSerch;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -13,39 +14,64 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.xiaoshangxing.Network.IMNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.yujian.FriendActivity.LoveOrStartActivity;
-import com.xiaoshangxing.yujian.FriendActivity.love_satr_adpter;
 import com.xiaoshangxing.yujian.IM.kit.string.StringUtil;
+import com.xiaoshangxing.yujian.Serch.ToolBarOptions;
 import com.xiaoshangxing.yujian.WatchMessagePicture.ReflectionUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.ResponseBody;
+import rx.Subscription;
 
 /**
  * Created by FengChaoQun
  * on 2016/10/1
  */
 
-public class NormalSerch extends AppCompatActivity {
+public class NormalSerch extends AppCompatActivity implements IBaseView {
     private ListView lvContacts;
 
     private SearchView searchView;
 
     private Handler handler = new Handler();
-
+    protected LoadingDialog loadingDialog;
     private int current_type;
-    private love_satr_adpter adpter;
+    private Normal_Serch_adpter adpter;
+    private List<User> users = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.global_search_result);
-
+        loadingDialog = new LoadingDialog(this);
         current_type = getIntent().getIntExtra(IntentStatic.TYPE, LoveOrStartActivity.LOVE);
+        getData();
 
         ToolBarOptions options = new ToolBarOptions();
         setToolBar(R.id.toolbar, options);
@@ -149,20 +175,47 @@ public class NormalSerch extends AppCompatActivity {
     }
 
     private void showResult() {
-//        List<String> list = new ArrayList<>();
-//        list.add("1");
-//        list.add("1");
-//
-//        switch (current_type) {
-//            case LoveOrStartActivity.LOVE:
-//                adpter = new love_satr_adpter(this, 1, list, current_type);
-//                lvContacts.setAdapter(adpter);
-//                break;
-//            case LoveOrStartActivity.STAR:
-//                adpter = new love_satr_adpter(this, 1, list, current_type);
-//                lvContacts.setAdapter(adpter);
-//                break;
-//        }
+        if (users.size() < 1) {
+            return;
+        }
+        List<User> showList = new ArrayList<>();
+        for (User i : users) {
+            if (i.getUsername().contains(searchView.getQuery().toString())) {
+                showList.add(i);
+            }
+        }
+        adpter = new Normal_Serch_adpter(this, 1, showList, current_type);
+        lvContacts.setAdapter(adpter);
+    }
+
+    private void getData() {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case 200:
+                            Gson gson = new Gson();
+                            users = gson.fromJson(jsonObject.getJSONArray(NS.MSG).toString(), new TypeToken<List<User>>() {
+                            }.getType());
+                            break;
+                        default:
+                            showToast(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, this);
+        if (current_type == LoveOrStartActivity.LOVE) {
+            IMNetwork.getInstance().MyFavor(progressSubsciber, String.valueOf(TempUser.id), this);
+        } else {
+            IMNetwork.getInstance().MyStar(progressSubsciber, String.valueOf(TempUser.id), this);
+        }
     }
 
 
@@ -206,5 +259,35 @@ public class NormalSerch extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
+    }
+
+    @Override
+    public void showLoadingDialog(String text) {
+        loadingDialog.setLoadText(text);
+        loadingDialog.show();
+        WindowManager.LayoutParams lp = loadingDialog.getWindow().getAttributes();
+        lp.width = getResources().getDimensionPixelSize(R.dimen.x360); //设置宽度
+        lp.height = getResources().getDimensionPixelSize(R.dimen.y360); //设置宽度
+        loadingDialog.getWindow().setAttributes(lp);
+    }
+
+    @Override
+    public void hideLoadingDialog() {
+        loadingDialog.dismiss();
+    }
+
+    @Override
+    public void setonDismiss(LoadingDialog.onDismiss on) {
+
+    }
+
+    @Override
+    public void showToast(String toast) {
+        Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
     }
 }

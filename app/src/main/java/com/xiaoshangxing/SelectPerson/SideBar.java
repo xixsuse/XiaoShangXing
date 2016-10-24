@@ -4,9 +4,11 @@ package com.xiaoshangxing.SelectPerson;
  * Created by FengChaoQun
  * on 2016/7/27
  */
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -61,19 +63,28 @@ public class SideBar extends View {
         int singleHeight = height / b.length;// 获取每一个字母的高度
 
         for (int i = 0; i < b.length; i++) {
-            paint.setColor(Color.rgb(33, 65, 98));
-            // paint.setColor(Color.WHITE);
+
+            paint.setColor(getResources().getColor(R.color.b4));
             paint.setTypeface(Typeface.DEFAULT_BOLD);
             paint.setAntiAlias(true);
-            paint.setTextSize(20);
+            paint.setTextSize(34);
             // 选中的状态
             if (i == choose) {
-                paint.setColor(Color.parseColor("#3399ff"));
+                paint.setColor(getResources().getColor(R.color.green1));
                 paint.setFakeBoldText(true);
             }
             // x坐标等于中间-字符串宽度的一半.
             float xPos = width / 2 - paint.measureText(b[i]) / 2;
             float yPos = singleHeight * i + singleHeight;
+
+            if (i == 0) {
+                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.star_slidebar, null);
+                float xPos1 = width / 2 - bmp.getWidth() / 2;
+                float yPos1 = singleHeight / 2/* - bmp.getHeight() / 2*/;
+                canvas.drawBitmap(bmp, xPos1, yPos1, paint);
+                continue;
+            }
+
             canvas.drawText(b[i], xPos, yPos, paint);
 
             paint.reset();// 重置画笔

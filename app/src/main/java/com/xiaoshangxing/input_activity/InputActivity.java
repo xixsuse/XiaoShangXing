@@ -268,17 +268,17 @@ public class InputActivity extends BaseActivity implements IBaseView {
             case PUBLISH_STATE:
                 break;
             case SHOOLFELLOW_HELP:
-                location.setVisibility(View.INVISIBLE);
-                picture.setVisibility(View.INVISIBLE);
-                camera.setVisibility(View.INVISIBLE);
+                location.setVisibility(View.GONE);
+                picture.setVisibility(View.GONE);
+                camera.setVisibility(View.GONE);
                 emotionEdittext.setHint("输入互帮内容...");
                 break;
             case SHOOL_REWARD:
                 emotionEdittext.setHint("输入悬赏内容...");
                 rewardLay.setVisibility(View.VISIBLE);
-                location.setVisibility(View.INVISIBLE);
-                picture.setVisibility(View.INVISIBLE);
-                camera.setVisibility(View.INVISIBLE);
+                location.setVisibility(View.GONE);
+                picture.setVisibility(View.GONE);
+                camera.setVisibility(View.GONE);
                 break;
             case LANCH_PLAN:
                 initLanchPlan();
@@ -424,9 +424,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
         emotionEdittext.setHint("输入计划内容...");
         planNameLay.setVisibility(View.VISIBLE);
         peopleTimeLimitLay.setVisibility(View.VISIBLE);
-        location.setVisibility(View.INVISIBLE);
-        picture.setVisibility(View.INVISIBLE);
-        camera.setVisibility(View.INVISIBLE);
+        location.setVisibility(View.GONE);
+        picture.setVisibility(View.GONE);
+        camera.setVisibility(View.GONE);
         planName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -485,9 +485,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
             return;
         }
         emotionEdittext.setHint("顺便说点什么...");
-        location.setVisibility(View.INVISIBLE);
-        picture.setVisibility(View.INVISIBLE);
-        camera.setVisibility(View.INVISIBLE);
+        location.setVisibility(View.GONE);
+        picture.setVisibility(View.GONE);
+        camera.setVisibility(View.GONE);
         transmitLay.setVisibility(View.VISIBLE);
         int type = getIntent().getIntExtra(TRANSMIT_TYPE, 0);
         switch (type) {
@@ -513,11 +513,11 @@ public class InputActivity extends BaseActivity implements IBaseView {
 
     private void initComment() {
         emotionEdittext.setHint("输入评论内容...");
-        location.setVisibility(View.INVISIBLE);
-        picture.setVisibility(View.INVISIBLE);
-        camera.setVisibility(View.INVISIBLE);
-        noticeSomeone.setVisibility(View.INVISIBLE);
-        forbidSomeone.setVisibility(View.INVISIBLE);
+        location.setVisibility(View.GONE);
+        picture.setVisibility(View.GONE);
+        camera.setVisibility(View.GONE);
+        noticeSomeone.setVisibility(View.GONE);
+        forbidSomeone.setVisibility(View.GONE);
         String text = getIntent().getStringExtra(COMMENT_OBJECT);
         momentId = getIntent().getIntExtra(MOMENTID, -1);
         commentId = getIntent().getIntExtra(COMMENTID, -1);

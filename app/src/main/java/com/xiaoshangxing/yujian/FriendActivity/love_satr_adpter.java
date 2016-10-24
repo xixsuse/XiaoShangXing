@@ -64,10 +64,12 @@ public class love_satr_adpter extends ArrayAdapter<User> {
         UserInfoCache.getInstance().getHeadIntoImage(userId, viewHolder.headImage);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewHolder.name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
-        if (user.getSex().equals(0)) {
+        if (user.getSex().equals(1)) {
             viewHolder.sex.setImageResource(R.mipmap.sex_female);
-        } else {
+        } else if (user.getSex().equals(2)) {
             viewHolder.sex.setImageResource(R.mipmap.sex_male);
+        } else {
+            viewHolder.sex.setVisibility(View.GONE);
         }
 
         if (type == LoveOrStartActivity.LOVE) {
@@ -97,24 +99,6 @@ public class love_satr_adpter extends ArrayAdapter<User> {
 
     private void favor(int id) {
 
-//        NIMClient.getService(FriendService.class).addFriend(new AddFriendData(String.valueOf(id), VerifyType.DIRECT_ADD))
-//                .setCallback(new RequestCallback<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailed(int i) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onException(Throwable throwable) {
-//
-//                    }
-//                });
-
         ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
             public void onNext(ResponseBody e) throws JSONException {
@@ -143,7 +127,6 @@ public class love_satr_adpter extends ArrayAdapter<User> {
         jsonObject.addProperty(NS.USER_ID, TempUser.id);
         jsonObject.addProperty("oppositeUserId", id);
         jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-
 
         IMNetwork.getInstance().Favor(subscriber, jsonObject, context);
     }

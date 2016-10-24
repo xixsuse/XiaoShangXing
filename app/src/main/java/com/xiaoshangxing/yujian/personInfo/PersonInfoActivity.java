@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,18 +15,20 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.IMNetwork;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.HeadImageActivity;
 import com.xiaoshangxing.utils.BaseActivity;
@@ -48,17 +49,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.ResponseBody;
+import rx.Subscriber;
 
 /**
  * Created by 15828 on 2016/7/25.
  */
 public class PersonInfoActivity extends BaseActivity implements IBaseView, ImageButtonText.OnImageButtonTextClickListener {
-
 
     @Bind(R.id.left_image)
     ImageView leftImage;
@@ -121,6 +124,8 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     private NimUserInfo user;
     private MyBroadcastReceiver myBroadcastReceiver;
     public static final String FINISH = "FINISH";
+    private List<User> loves = new ArrayList<>();
+    private boolean isLoved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -208,45 +213,78 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
             sex.setVisibility(View.GONE);
         }
 
+        if (TempUser.isMine(account)) {
+            more.setVisibility(View.GONE);
+            bt1.setChecked(true);
+            bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_select);
+            bt1.setText("留心");
+            isLoved = true;
+            return;
+        }
+
         if (FriendDataCache.getInstance().isMyFriend(account)) {
             bt1.setChecked(true);
             bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_select);
+            bt1.setText("取消");
 //            markStar.setVisibility(View.INVISIBLE);
 //            markLove.setVisibility(View.INVISIBLE);
-        } else {
-            bt1.setChecked(false);
-            bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_g2);
+            isLoved = true;
             Friend friend = FriendDataCache.getInstance().getFriendByAccount(account);
             if (friend != null && friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)
                     && (boolean) friend.getExtension().get(NS.MARK)) {
                 markStar.setVisibility(View.VISIBLE);
             }
+        } else {
+            bt1.setChecked(false);
+            bt1.getImgView().setImageResource(R.mipmap.icon_liuxin);
+            bt1.setText("留心");
+            getStar();
         }
+    }
 
-        NimUserInfoCache.getInstance().getUserInfoFromRemote(account, new RequestCallback<NimUserInfo>() {
+
+    private void getStar() {
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
             @Override
-            public void onSuccess(NimUserInfo nimUserInfo) {
-                Log.d("123avatar", "" + nimUserInfo.getAvatar());
-                Log.d("123account", "" + nimUserInfo.getAccount());
-                Log.d("123name", "" + nimUserInfo.getName());
-                Log.d("123sex", "" + nimUserInfo.getGenderEnum().name());
-                Log.d("123ex", "" + nimUserInfo.getExtension());
+            public void onCompleted() {
+
             }
 
             @Override
-            public void onFailed(int i) {
-                showToast("" + i);
+            public void onError(Throwable e) {
+
             }
 
             @Override
-            public void onException(Throwable throwable) {
-                throwable.printStackTrace();
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case 200:
+                            Gson gson = new Gson();
+                            loves = gson.fromJson(jsonObject.getJSONArray(NS.MSG).toString(), new TypeToken<List<User>>() {
+                            }.getType());
+                            for (User user : loves) {
+                                if (user.getId() == Integer.valueOf(account)) {
+                                    isLoved = true;
+                                    bt1.setChecked(true);
+                                    bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_select);
+                                }
+                            }
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        };
+
+        IMNetwork.getInstance().MyFavor(subscriber, String.valueOf(TempUser.id), this);
     }
 
     public void Next() {
-
         Intent intent = new Intent(this, SetInfoActivity.class);
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
         startActivity(intent);
@@ -254,32 +292,29 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
 
     public void More() {
 
-        Intent intent = new Intent(this, MoreInfoActivity.class);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
-        startActivity(intent);
+        if (isLoved) {
+            Intent intent = new Intent(this, MoreInfoActivity.class);
+            intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+            startActivity(intent);
+        } else {
+            final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+            final Dialog alertDialog = dialogUtils.Message("你未留心对方，不能查看\n对方更多资料")
+                    .Button("确定").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                        @Override
+                        public void onButton1() {
+                            dialogUtils.close();
+                        }
 
-//        if (DataSetting.IsFocused(this)) {
-//            Intent intent = new Intent(this, MoreInfoActivity.class);
-//            startActivity(intent);
-//        } else {
-//            final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
-//            final Dialog alertDialog = dialogUtils.Message("你未留心对方，不能查看\n对方更多资料")
-//                    .Button("确定").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
-//                        @Override
-//                        public void onButton1() {
-//                            dialogUtils.close();
-//                        }
-//
-//                        @Override
-//                        public void onButton2() {
-//
-//                        }
-//
-//                    }).create();
-//            alertDialog.show();
-//            LocationUtil.setWidth(this, alertDialog,
-//                    getResources().getDimensionPixelSize(R.dimen.x780));
-//        }
+                        @Override
+                        public void onButton2() {
+
+                        }
+
+                    }).create();
+            alertDialog.show();
+            LocationUtil.setWidth(this, alertDialog,
+                    getResources().getDimensionPixelSize(R.dimen.x780));
+        }
 
     }
 
@@ -304,63 +339,69 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
 
     @Override
     public void OnImageButtonTextClick() {
+
+        if (TempUser.isMine(account)) {
+            return;
+        }
+
         if (!bt1.isChecked()) {
             favor();
         } else {
-//            final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
-//            Dialog alertDialog = dialogUtils.Message("确定不再留心？")
-//                    .Button("取消", "确定").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
-//                        @Override
-//                        public void onButton1() {
-//                            dialogUtils.close();
-//                        }
-//
-//                        @Override
-//                        public void onButton2() {
-//                            bt1.setChecked(false);
-//                            bt1.getImgView().setImageResource(R.mipmap.icon_liuxin);
-//                            SPUtils.put(PersonInfoActivity.this, "focus", false);
-//                            dialogUtils.close();
-//                        }
-//                    }).create();
-//            alertDialog.show();
-//            LocationUtil.setWidth(this, alertDialog,
-//                    getResources().getDimensionPixelSize(R.dimen.x780));
+            final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+            Dialog alertDialog = dialogUtils.Message("确定不再留心？")
+                    .Button("取消", "确定").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                        @Override
+                        public void onButton1() {
+                            dialogUtils.close();
+                        }
+
+                        @Override
+                        public void onButton2() {
+                            OperateUtils.CancelFavor(account, PersonInfoActivity.this, PersonInfoActivity.this, new SimpleCallBack() {
+                                @Override
+                                public void onSuccess() {
+                                    bt1.setChecked(false);
+                                    bt1.getImgView().setImageResource(R.mipmap.icon_liuxin);
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onBackData(Object o) {
+
+                                }
+                            });
+
+                            dialogUtils.close();
+                        }
+                    }).create();
+            alertDialog.show();
+            LocationUtil.setWidth(this, alertDialog,
+                    getResources().getDimensionPixelSize(R.dimen.x780));
         }
     }
 
     private void favor() {
 
-        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+        OperateUtils.Favor(account, this, this, new SimpleCallBack() {
             @Override
-            public void onNext(ResponseBody e) throws JSONException {
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject(e.string());
-                    switch (jsonObject.getInt(NS.CODE)) {
-                        case 200:
-                            showFavorSuccess();
-                            break;
-                        default:
-                            showToast(jsonObject.getString(NS.MSG));
-                            break;
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+            public void onSuccess() {
+                showFavorSuccess();
+            }
+
+            @Override
+            public void onError(Throwable e) {
 
             }
-        };
 
-        ProgressSubsciber<ResponseBody> subscriber = new ProgressSubsciber<>(onNext, this);
+            @Override
+            public void onBackData(Object o) {
 
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(NS.USER_ID, TempUser.id);
-        jsonObject.addProperty("oppositeUserId", account);
-        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-
-
-        IMNetwork.getInstance().Favor(subscriber, jsonObject, this);
+            }
+        });
     }
 
     private void showFavorSuccess() {

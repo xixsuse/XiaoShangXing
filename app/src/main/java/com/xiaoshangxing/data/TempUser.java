@@ -2,19 +2,7 @@ package com.xiaoshangxing.data;
 
 import android.content.Context;
 
-import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
-import io.realm.Realm;
-import okhttp3.ResponseBody;
-import rx.Subscriber;
 
 /**
  * Created by FengChaoQun
@@ -24,12 +12,12 @@ import rx.Subscriber;
 
 public class TempUser {
 
-    public static String account;
+    public static String phone;
     public static int id;
-    public static boolean isRealName = true;
+    public static boolean isRealName;
 
-    //    获取当前账号
-    public static String getAccount(Context context) {
+    //    获取当前账号注册号码
+    public static String getPhone(Context context) {
         String account = (String) SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING);
         return account.equals(SPUtils.DEFAULT_STRING) ? null : account;
     }
@@ -37,53 +25,24 @@ public class TempUser {
     //     获取当前账号id
     public static Integer getID(Context context) {
         Integer ID = (Integer) SPUtils.get(context, SPUtils.ID, SPUtils.DEFAULT_int);
-        return ID == SPUtils.DEFAULT_int ? null : ID;
+        return ID == SPUtils.DEFAULT_int ? -1 : ID;
     }
 
-    public static void reloadUserMessage(Context context) {
-        final Realm realm = Realm.getDefaultInstance();
-        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(ResponseBody responseBody) {
-                try {
-                    JSONObject jsonObject = new JSONObject(responseBody.string());
-                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
-                        case 9001:
-                            final JSONObject user = jsonObject.getJSONObject(NS.MSG);
-                            realm.executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    realm.createOrUpdateObjectFromJson(User.class, user);
-                                }
-                            });
-                            break;
-                        default:
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(NS.ID, getID(context));
-        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-        InfoNetwork.getInstance().GetUser(subscriber, jsonObject, context);
+    public static boolean isIsRealName(Context context) {
+        return (boolean) SPUtils.get(context, SPUtils.IS_REAL_NAME, false);
     }
 
     public static boolean isMine(String id) {
         return String.valueOf(TempUser.id).equals(id);
+    }
+
+    public static String getId() {
+        return String.valueOf(id);
+    }
+
+    public static void initTempUser(Context context) {
+        TempUser.phone = TempUser.getPhone(context);
+        TempUser.id = TempUser.getID(context);
+        TempUser.isRealName = TempUser.isIsRealName(context);
     }
 }

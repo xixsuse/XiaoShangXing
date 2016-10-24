@@ -11,18 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,7 +47,7 @@ public class MoreInfoActivity extends BaseActivity {
     TextView moreinfoText;
     private TextView personalInfo;
     private String account;
-    private User user;
+    private NimUserInfo nimUserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,19 +65,11 @@ public class MoreInfoActivity extends BaseActivity {
             return;
         }
 
-        user = UserInfoCache.getInstance().getUser(Integer.valueOf(account));
-        if (user != null) {
-            personalInfo.setText("" + user.getSignature());
-        } else {
-            UserInfoCache.getInstance().reload(new UserInfoCache.ReloadCallback() {
-                @Override
-                public void callback(JSONObject jsonObject) throws JSONException {
-                    personalInfo.setText(jsonObject.getString("signature"));
-                }
-            }, Integer.valueOf(account));
+        nimUserInfo = NimUserInfoCache.getInstance().getUserInfo(account);
+
+        if (nimUserInfo != null) {
+            personalInfo.setText("" + nimUserInfo.getSignature());
         }
-
-
         assert personalInfo != null;
         ViewTreeObserver vto = personalInfo.getViewTreeObserver();
         vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -89,11 +78,9 @@ public class MoreInfoActivity extends BaseActivity {
                 int lineCount = personalInfo.getLineCount();
                 if (lineCount == 1) personalInfo.setGravity(Gravity.RIGHT);
                 else personalInfo.setGravity(Gravity.LEFT);
-                // System.out.println(lineCount);
                 return true;
             }
         });
-
 
     }
 

@@ -22,14 +22,11 @@ public class NewNoticeActivity extends BaseActivity {
                 .commit();
     }
 
-    public void NewNotice_back(View view) {
-        finish();
-    }
-
-
     public void nodisturb(View view) {
         mFragmentManager.beginTransaction()
                 .addToBackStack(null)
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                        R.anim.slide_in_left, R.anim.slide_out_left)
                 .replace(R.id.main_fragment, new NoDisturbFragment())
                 .commit();
     }

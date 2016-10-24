@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,6 +25,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -474,6 +474,8 @@ public class DialogUtils {
                 title.setText(getTitle());
                 title.setVisibility(View.VISIBLE);
                 message.setTextSize(13);
+            } else {
+                message.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y48, activity), 0, ScreenUtils.getAdapterPx(R.dimen.y48, activity));
             }
 
             if (!TextUtils.isEmpty(getMessage())) {

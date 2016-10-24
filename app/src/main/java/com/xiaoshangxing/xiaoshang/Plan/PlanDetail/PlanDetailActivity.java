@@ -145,7 +145,7 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         if (TextUtils.isEmpty(published.getPersonLimit())) {
             peopleLimit.setText("不限人数");
         } else {
-            peopleLimit.setText(("0-" + published.getPersonLimit()));
+            peopleLimit.setText(("0-" + published.getPersonLimit() + "人"));
         }
 
         if (!TextUtils.isEmpty(published.getPersonLimit())) {

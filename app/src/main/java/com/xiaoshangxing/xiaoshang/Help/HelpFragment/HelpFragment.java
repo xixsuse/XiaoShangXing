@@ -33,7 +33,6 @@ import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -84,28 +83,37 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
 
     private HelpContract.Presenter mPresenter;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mview = inflater.inflate(R.layout.title_anounce_refresh_listview, null);
+        ButterKnife.bind(this, mview);
+        setmPresenter(new HelpPresenter(this, getContext()));
+        initView();
+        initFresh();
+        return mview;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     public static HelpFragment newInstance() {
         return new HelpFragment();
     }
 
     private boolean isRefreshing;
     private boolean isLoading;
-    private Realm realm;
     RealmResults<Published> publisheds;
     private String account;
     private boolean isOthers;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mview = inflater.inflate(R.layout.title_anounce_refresh_listview, null);
-        ButterKnife.bind(this, mview);
-        realm = Realm.getDefaultInstance();
-        setmPresenter(new HelpPresenter(this, getContext()));
-        initView();
-        initFresh();
-        return mview;
-    }
 
     private void initView() {
         title.setText(R.string.shoolfellowhelp);
@@ -202,7 +210,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
             LayoutHelp.initPTR(ptrFrameLayout, true, new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
-                    LoadUtils.getOthersPublished(realm, NS.CATEGORY_HELP, Integer.parseInt(account), getContext(),
+                    LoadUtils.getPersonalPublished(realm, NS.CATEGORY_HELP, Integer.parseInt(account), getContext(),
                             aroundLoading);
                 }
             });
@@ -337,18 +345,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
 
     public boolean isRefreshing() {
         return isRefreshing;
-    }
-
-    @Override
-    public void onDestroyView() {
-        realm.close();
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
     }
 
     @OnClick({R.id.back, R.id.more, R.id.collasp, R.id.mengban})

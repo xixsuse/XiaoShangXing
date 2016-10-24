@@ -33,7 +33,6 @@ import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -66,6 +65,22 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
     TextView noContent;
 
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
+        ButterKnife.bind(this, view);
+        setmPresenter(new PersonalHelpPresenter(this, getContext(), realm));
+        initView();
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     public static PersonalHelpFragment newInstance() {
         return new PersonalHelpFragment();
     }
@@ -75,19 +90,7 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
-    private Realm realm;
     private PersonalHelpAdapter personalHelpAdapter;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
-        ButterKnife.bind(this, view);
-        realm = Realm.getDefaultInstance();
-        setmPresenter(new PersonalHelpPresenter(this, getContext(), realm));
-        initView();
-        return view;
-    }
 
     private void initView() {
         title.setText("我的互帮");
@@ -168,13 +171,6 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
     @Override
     public void setmPresenter(@Nullable PersonalhelpContract.Presenter presenter) {
         this.mPresenter = presenter;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        realm.close();
-        ButterKnife.unbind(this);
     }
 
     @Override

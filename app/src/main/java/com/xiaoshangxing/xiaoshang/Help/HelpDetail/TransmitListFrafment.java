@@ -99,7 +99,6 @@ public class TransmitListFrafment extends BaseFragment implements IBaseView {
 
                             break;
                         default:
-//                            Toast.makeText(getContext(), jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
                             recyclerView.setVisibility(View.GONE);
                             emptyText.setVisibility(View.VISIBLE);
                             emptyText.setText("赶紧转发一下");

@@ -28,8 +28,6 @@ public class SimpleTreeAdapter<T> extends TreeListViewAdapter<T> {
     public View getConvertView(Node node, int position, View convertView, ViewGroup parent) {
 
         int level = node.getLevel();
-//        Log.d("qqq", "getlevel...");
-//        Log.d("qqq", "level   " + node.getLevel() + "    position   " + position + "  name   " + node.getName1());
 
         ViewHolder viewHolder = null;
 

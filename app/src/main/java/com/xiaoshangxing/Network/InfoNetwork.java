@@ -37,7 +37,7 @@ public class InfoNetwork {
 
     }
 
-    //在访问LoginNetwork时创建单例
+    //在访问InfoNetwork时创建单例
     private static class SingletonHolder {
         private static final InfoNetwork INSTANCE = new InfoNetwork();
     }

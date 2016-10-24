@@ -32,8 +32,6 @@ import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
-import io.realm.Realm;
-
 /**
  * Created by FengChaoQun
  * on 2016/6/22
@@ -55,14 +53,12 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
     private LoadingDialog mLoadingDialog;
     private String getNumber;
     private DialogUtils.Dialog_Center mDialogUtils;
-    private Realm realm;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         mview = view;
-        realm = Realm.getDefaultInstance();
         setmPresenter(new LoginFragmentPresenter(this, getActivity()));
         initView();
         getNumber = getActivity().getIntent().getStringExtra(LOGIN_WITH_NUMBER);
@@ -74,7 +70,6 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
 
     @Override
     public void onDestroy() {
-        realm.close();
         super.onDestroy();
     }
 

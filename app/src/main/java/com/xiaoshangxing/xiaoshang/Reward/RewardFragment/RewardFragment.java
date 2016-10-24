@@ -40,7 +40,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.realm.Sort;
 
 /**
@@ -89,29 +88,33 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     private DotsTextView dotsTextView;
     private TextView loadingText;
 
-    public static RewardFragment newInstance() {
-        return new RewardFragment();
-    }
-
-    private boolean isRefreshing;
-    private boolean isLoading;
-    private Realm realm;
-    private List<Published> publisheds = new ArrayList<>();
-    private String account;
-    private boolean isOthers;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mview = inflater.inflate(R.layout.title_anounce_refresh_listview, null);
         ButterKnife.bind(this, mview);
-        realm = Realm.getDefaultInstance();
         setmPresenter(new RewardPresenter(this, getContext()));
         initFresh();
         initView();
         refreshPager();
         return mview;
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    public static RewardFragment newInstance() {
+        return new RewardFragment();
+    }
+
+    private boolean isRefreshing;
+    private boolean isLoading;
+    private List<Published> publisheds = new ArrayList<>();
+    private String account;
+    private boolean isOthers;
 
     private void initView() {
         title.setText(R.string.shoolreward);
@@ -186,7 +189,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             LayoutHelp.initPTR(ptrFrameLayout, true, new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
-                    LoadUtils.getOthersPublished(realm, NS.CATEGORY_REWARD, Integer.parseInt(account), getContext(),
+                    LoadUtils.getPersonalPublished(realm, NS.CATEGORY_REWARD, Integer.parseInt(account), getContext(),
                             aroundLoading);
                 }
             });
@@ -200,13 +203,6 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             });
         }
 
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        realm.close();
-        ButterKnife.unbind(this);
     }
 
     @OnClick({R.id.back, R.id.more, R.id.collasp, R.id.mengban})

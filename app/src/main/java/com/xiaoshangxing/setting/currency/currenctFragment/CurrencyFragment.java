@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,6 +38,24 @@ public class CurrencyFragment extends BaseFragment implements View.OnClickListen
     RelativeLayout cleanCache;
     @Bind(R.id.clean_chat_data)
     RelativeLayout cleanChatData;
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.currency_receivemode)
+    SwitchView currencyReceivemode;
+    @Bind(R.id.clearcache_rightarrow)
+    ImageView clearcacheRightarrow;
     private View mView;
     private SwitchView receivemode;
 
@@ -43,6 +63,10 @@ public class CurrencyFragment extends BaseFragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_currency, container, false);
+        ButterKnife.bind(this, mView);
+        title.setText("通用");
+        more.setVisibility(View.GONE);
+
         receivemode = (SwitchView) mView.findViewById(R.id.currency_receivemode);
         receivemode.setState(DataSetting.isEarPhone(getActivity()));
         receivemode.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
@@ -58,7 +82,7 @@ public class CurrencyFragment extends BaseFragment implements View.OnClickListen
                 receivemode.setState(false);
             }
         });
-        ButterKnife.bind(this, mView);
+
         initView();
         return mView;
     }
@@ -79,7 +103,7 @@ public class CurrencyFragment extends BaseFragment implements View.OnClickListen
     }
 
 
-    @OnClick({R.id.clean_cache, R.id.clean_chat_data})
+    @OnClick({R.id.clean_cache, R.id.clean_chat_data, R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.clean_cache:
@@ -127,6 +151,9 @@ public class CurrencyFragment extends BaseFragment implements View.OnClickListen
                 dialog1.show();
                 LocationUtil.setWidth(getActivity(), dialog1,
                         getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+                break;
+            case R.id.back:
+                getActivity().finish();
                 break;
         }
     }

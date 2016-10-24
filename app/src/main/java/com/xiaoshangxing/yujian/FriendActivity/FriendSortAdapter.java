@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.xiaoshangxing.SelectPerson.SortModel;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
@@ -69,6 +71,8 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
             viewHolder.head = (CirecleImage) view.findViewById(R.id.head_image);
             viewHolder.checkBox = (CheckBox) view.findViewById(R.id.checkbox);
             viewHolder.line = view.findViewById(R.id.line);
+            viewHolder.start = (ImageView) view.findViewById(R.id.star);
+            viewHolder.top = view.findViewById(R.id.top_lay);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
@@ -81,15 +85,20 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
         if (position == getPositionForSection(section)) {
             viewHolder.tvLetter.setVisibility(View.VISIBLE);
             if (section == 64) {
-                viewHolder.tvLetter.setText("☆星标好友");
+                viewHolder.tvLetter.setText("星标好友");
+                viewHolder.start.setVisibility(View.VISIBLE);
+                viewHolder.top.setPadding(0, 0, 0, 0);
             } else {
                 viewHolder.tvLetter.setText(mContent.getSortLetters());
+                viewHolder.start.setVisibility(View.GONE);
+                viewHolder.top.setPadding(ScreenUtils.getAdapterPx(R.dimen.x48, mContext), 0, 0, 0);
             }
             viewHolder.line.setVisibility(View.GONE);
 
         } else {
             viewHolder.tvLetter.setVisibility(View.GONE);
             viewHolder.line.setVisibility(View.VISIBLE);
+            viewHolder.start.setVisibility(View.GONE);
         }
 
         viewHolder.name.setText(this.list.get(position).getName());
@@ -114,11 +123,12 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
 
 
     final static class ViewHolder {
+        ImageView start;
         TextView tvLetter;
         TextView name;
         CirecleImage head;
         CheckBox checkBox;
-        View line;
+        View line, top;
     }
 
 

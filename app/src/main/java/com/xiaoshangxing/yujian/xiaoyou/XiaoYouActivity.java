@@ -4,21 +4,23 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.BaseItemBean;
+import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.CollegeItem;
+import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.GradeItem;
+import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.MateItem;
+import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.ProfessionItem;
+import com.xiaoshangxing.yujian.Schoolfellow.List.ShoolfellowAdapter;
 import com.xiaoshangxing.yujian.Serch.SerchPerson.SerchPersonActivity;
-import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 import com.xiaoshangxing.yujian.xiaoyou.tree.Node;
-import com.xiaoshangxing.yujian.xiaoyou.tree.TreeListViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,7 @@ public class XiaoYouActivity extends BaseActivity {
     private List<Node> datas = new ArrayList<Node>();
     private ListView mTree;
     private SimpleTreeAdapter mAdapter;
+    private ShoolfellowAdapter adapter;
 
     private List<XiaoyouBean> data0 = new ArrayList<>();
     private List<XiaoyouBean> data1 = new ArrayList<>();
@@ -61,6 +64,9 @@ public class XiaoYouActivity extends BaseActivity {
     private List<XiaoyouBean> data3 = new ArrayList<>();
 
     private int size = 0, count = 0;
+
+    private List<BaseItemBean> itemBeanList = new ArrayList<>();
+    private View headview;
 
 
     @Override
@@ -71,39 +77,43 @@ public class XiaoYouActivity extends BaseActivity {
         title.setText("校友");
         more.setVisibility(View.GONE);
         titleBottomLine.setVisibility(View.GONE);
-        initDatas();
-        mTree = (ListView) findViewById(R.id.id_tree);
-        try {
-            mAdapter = new SimpleTreeAdapter<Node>(mTree, this, mDatas, 10);
-            mTree.setAdapter(mAdapter);
-            mAdapter.setOnTreeNodeClickListener(new TreeListViewAdapter.OnTreeNodeClickListener() {
-                @Override
-                public void onClick(Node node, int position) {
-                    if (node.getLevel() == 3) {
-                        Toast.makeText(getApplicationContext(), node.getName1()
-                                + "    parent1  " + node.getParent().getName1() + "   parent2   " + node.getParent().getParent().getName1() + "   parent3   " + node.getParent().getParent().getParent().getName1(), Toast.LENGTH_SHORT).show();
 
-
-                        Intent intent = new Intent(XiaoYouActivity.this, PersonInfoActivity.class);
-                        startActivity(intent);
-                    }
-                    if (node.getLevel() == 2) {
-                        Toast.makeText(getApplicationContext(), node.getName1()
-                                + "    parent1  " + node.getParent().getName1() + "   parent2   " + node.getParent().getParent().getName1(), Toast.LENGTH_SHORT).show();
-
-                        if (data3 != null) {
-                            mAdapter.removeChildrens(position);
-                            mAdapter.addExtraNodes(position, data3);
-                        }
-                        Log.d("qqq", "id   " + node.getId());
-                    }
-                }
-            });
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        headview = View.inflate(this, R.layout.schoolfellow_list_head, null);
+        idTree.setAdapter(null);
+        idTree.addHeaderView(headview);
+//        initDatas();
+//        mTree = (ListView) findViewById(R.id.id_tree);
+//        try {
+//            mAdapter = new SimpleTreeAdapter<Node>(mTree, this, mDatas, 10);
+//            mTree.setAdapter(mAdapter);
+//            mAdapter.setOnTreeNodeClickListener(new TreeListViewAdapter.OnTreeNodeClickListener() {
+//                @Override
+//                public void onClick(Node node, int position) {
+//                    if (node.getLevel() == 3) {
+//                        Toast.makeText(getApplicationContext(), node.getName1()
+//                                + "    parent1  " + node.getParent().getName1() + "   parent2   " + node.getParent().getParent().getName1() + "   parent3   " + node.getParent().getParent().getParent().getName1(), Toast.LENGTH_SHORT).show();
+//
+//
+//                        Intent intent = new Intent(XiaoYouActivity.this, PersonInfoActivity.class);
+//                        startActivity(intent);
+//                    }
+//                    if (node.getLevel() == 2) {
+//                        Toast.makeText(getApplicationContext(), node.getName1()
+//                                + "    parent1  " + node.getParent().getName1() + "   parent2   " + node.getParent().getParent().getName1(), Toast.LENGTH_SHORT).show();
+//
+//                        if (data3 != null) {
+//                            mAdapter.removeChildrens(position);
+//                            mAdapter.addExtraNodes(position, data3);
+//                        }
+//                        Log.d("qqq", "id   " + node.getId());
+//                    }
+//                }
+//            });
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        initListview();
 
     }
 
@@ -187,6 +197,51 @@ public class XiaoYouActivity extends BaseActivity {
 //        }
 //        size += data0.size() * data1.size() * data2.size() * data3.size();
 
+
+    }
+
+    private void initListview() {
+
+        for (int i = 0; i <= 9; i++) {
+            itemBeanList.add(new CollegeItem(i));
+        }
+        adapter = new ShoolfellowAdapter(this, itemBeanList, idTree);
+        idTree.setAdapter(adapter);
+        adapter.setOnItemClick(new ShoolfellowAdapter.onItemClick() {
+            @Override
+            public void click(int position, BaseItemBean itemBean) {
+                if (itemBean.isExpand()) {
+                    adapter.collasp(position);
+                    return;
+                }
+                adapter.removeChildrens(position);
+                switch (itemBean.getType()) {
+                    case BaseItemBean.COLLEGE:
+                        itemBean.getChildren().clear();
+                        for (int i = 0; i <= 5; i++) {
+                            itemBean.getChildren().add(new ProfessionItem(i, itemBean));
+                        }
+                        break;
+                    case BaseItemBean.PROFESSION:
+                        itemBean.getChildren().clear();
+                        itemBean.getChildren().add(new GradeItem(1, itemBean, GradeItem.GRADE_2012));
+                        itemBean.getChildren().add(new GradeItem(1, itemBean, GradeItem.GRADE_2013));
+                        itemBean.getChildren().add(new GradeItem(1, itemBean, GradeItem.GRADE_2014));
+                        itemBean.getChildren().add(new GradeItem(1, itemBean, GradeItem.GRADE_2015));
+                        break;
+                    case BaseItemBean.GRADE:
+                        itemBean.getChildren().clear();
+                        for (int i = 0; i <= 5; i++) {
+                            itemBean.getChildren().add(new MateItem(i, itemBean));
+                        }
+                        break;
+                    default:
+                        showToast("信息不完整");
+                        return;
+                }
+                adapter.addData(position, itemBean);
+            }
+        });
 
     }
 

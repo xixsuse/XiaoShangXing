@@ -5,7 +5,9 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_setting_set" />
+    <include layout="@layout/util_normal_title">
+
+    </include>
 
     <LinearLayout
         android:id="@+id/linear1"
@@ -38,7 +40,6 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/x36"
                 android:layout_toEndOf="@id/setting_main_imag"
-                android:text="吴天阳"
                 android:id="@+id/name" />
 
             <ImageView
@@ -128,7 +129,6 @@
                 android:src="@mipmap/right_arrow" />
         </RelativeLayout>
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"

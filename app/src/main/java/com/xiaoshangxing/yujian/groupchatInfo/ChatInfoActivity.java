@@ -379,7 +379,7 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
     private void ZhiDing() {
-        TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
+        TopChat mytopChat = realm.where(TopChat.class).equalTo("phone", account).findFirst();
         if (mytopChat == null) {
             topChat.setState(false);
         } else {
@@ -427,7 +427,7 @@ public class ChatInfoActivity extends BaseActivity {
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
+                        TopChat mytopChat = realm.where(TopChat.class).equalTo("phone", account).findFirst();
                         if (mytopChat != null) {
                             mytopChat.deleteFromRealm();
                         }
@@ -660,7 +660,7 @@ public class ChatInfoActivity extends BaseActivity {
             if (arrayList == null || arrayList.size() == 0) {
 //                Toast.makeText(ChatInfoActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
             } else {
-                Log.d("select account", arrayList.toString());
+                Log.d("select phone", arrayList.toString());
                 inviteMembers(arrayList);
             }
         }

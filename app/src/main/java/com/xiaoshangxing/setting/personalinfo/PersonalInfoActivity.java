@@ -97,9 +97,9 @@ public class PersonalInfoActivity extends BaseActivity {
 //        startActivity(new Intent(PersonalInfoActivity.this,VertifyFailedActivity.class));
     }
 
-    public void back(View view) {
-        finish();
-    }
+//    public void back(View view) {
+//        finish();
+//    }
 
 
     public int getImagCoverWidth() {

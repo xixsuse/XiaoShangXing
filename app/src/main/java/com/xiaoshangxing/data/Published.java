@@ -368,6 +368,7 @@ public class Published extends RealmObject {
         this.groupNo = groupNo;
     }
 
+    /*筛选出id*/
     public ArrayList<String> getOnlyIds(String id_names) {
         if (TextUtils.isEmpty(id_names)) {
             return null;
@@ -383,6 +384,7 @@ public class Published extends RealmObject {
         }
     }
 
+    //获取加入计划的人数
     public int getJoinCount() {
         if (TextUtils.isEmpty(getJoinUserIds())) {
             return 0;
@@ -391,6 +393,7 @@ public class Published extends RealmObject {
         }
     }
 
+    //获取点赞人数
     public int getPraiseCount() {
         if (TextUtils.isEmpty(getPraiseUserIds())) {
             return 0;
@@ -399,6 +402,7 @@ public class Published extends RealmObject {
         }
     }
 
+    //是否收藏
     public boolean isCollected() {
         if (TextUtils.isEmpty(getCollectStatus())) {
             return false;
@@ -407,6 +411,7 @@ public class Published extends RealmObject {
         }
     }
 
+    //是否未结束
     public boolean isAlive() {
         if (getStatus() == null) {
             return false;

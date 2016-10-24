@@ -272,21 +272,6 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
     }
 
     @Override
-    public void unsubscribe() {
-
-    }
-
-    @Override
-    public void setSubscription(Subscription subscription) {
-
-    }
-
-    @Override
-    public Subscription getSubscription() {
-        return null;
-    }
-
-    @Override
     public void setonDismiss(LoadingDialog.onDismiss on) {
 
     }

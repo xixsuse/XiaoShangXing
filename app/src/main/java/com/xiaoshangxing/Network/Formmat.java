@@ -109,7 +109,6 @@ public class Formmat {
                 multipartUtility.addFilePart("images", SendImageHelper.getLittleImage(path, context));
             }
         }
-        endLoading(5);
         return this;
     }
 

@@ -5,41 +5,9 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/setting_feedback_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:background="@color/w1"
-        android:orientation="horizontal">
+    <include layout="@layout/util_normal_title">
 
-        <ImageView
-            android:id="@+id/hometown_feedback_leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/left_arrow_black" />
-
-        <TextView
-            android:id="@+id/feedback_back"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@+id/hometown_feedback_leftarrow"
-            android:clickable="true"
-            android:onClick="back"
-            android:text="@string/back" />
-
-        <TextView
-            style="@style/black_17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/feedback" />
-    </RelativeLayout>
+    </include>
 
     <EditText
         android:id="@+id/feedback_editText"

@@ -12,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,13 +22,32 @@ import com.xiaoshangxing.utils.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by 15828 on 2016/7/15.
  */
-public class ChooseBackgroundFragment extends BaseFragment implements View.OnClickListener {
+public class ChooseBackgroundFragment extends BaseFragment {
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.background_gridview)
+    GridView backgroundGridview;
     private ArrayList<Bitmap> data = new ArrayList<Bitmap>();
     private View mView;
-    private TextView back;
     private GridView gridView;
     private ArrayList<RelativeLayout> completeViews = new ArrayList<RelativeLayout>();
 
@@ -37,8 +56,10 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_choosebackgd, container, false);
-        back = (TextView) mView.findViewById(R.id.choosebackground_back);
+        ButterKnife.bind(this, mView);
         gridView = (GridView) mView.findViewById(R.id.background_gridview);
+        title.setText("选择背景图");
+        more.setVisibility(View.GONE);
 
         for (int i = 0; i < 10; i++) {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.greyblock);
@@ -51,14 +72,23 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 for (int i = 0; i < parent.getCount(); i++) {
-                    Log.d("qqq", "count  " + position + "   " + parent.getCount());
                     completeViews.get(i).setVisibility(View.GONE);
                 }
                 completeViews.get(position).setVisibility(View.VISIBLE);
             }
         });
-        back.setOnClickListener(this);
         return mView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.back)
+    public void onClick() {
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     public class ViewHolder {
@@ -66,12 +96,6 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
         public RelativeLayout complete;
         public TextView textView;
     }
-
-    @Override
-    public void onClick(View v) {
-        getActivity().getSupportFragmentManager().popBackStack();
-    }
-
 
     class Adapter extends BaseAdapter {
         List<Bitmap> data;
@@ -106,26 +130,13 @@ public class ChooseBackgroundFragment extends BaseFragment implements View.OnCli
                 holder.complete = (RelativeLayout) convertView.findViewById(R.id.background_grida_complete);
                 holder.textView = (TextView) convertView.findViewById(R.id.background_grida_text);
                 completeViews.add(holder.complete);
-//                    holder.image.setFocusable(false);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             Bitmap b = data.get(position);
             holder.image.setImageBitmap(b);
-//            holder.image.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Log.d("qqq","0nclick...");
-//                        if (holder.complete.getVisibility() == View.GONE) {
-//                            holder.complete.setVisibility(View.VISIBLE);
-//                            holder.textView.setVisibility(View.GONE);
-//                        }
-//                    }
-//            });
             return convertView;
         }
     }
-
-
 }

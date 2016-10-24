@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
@@ -16,7 +19,7 @@ import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
 import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
@@ -35,13 +38,38 @@ import java.util.Map;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import io.realm.Realm;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import okhttp3.ResponseBody;
 
 /**
  * Created by tianyang on 2016/7/9.
  */
-public class HometownFragment extends BaseFragment implements View.OnClickListener,OnWheelChangedListener,IBaseView {
+public class HometownFragment extends BaseFragment implements View.OnClickListener, OnWheelChangedListener, IBaseView {
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.hometown_text)
+    TextView hometownText;
+    @Bind(R.id.hometown_rightarrow)
+    ImageView hometownRightarrow;
+    @Bind(R.id.id_province)
+    WheelView idProvince;
+    @Bind(R.id.id_city)
+    WheelView idCity;
+    @Bind(R.id.hometown_complete)
+    Button hometownComplete;
     private View mView;
     private WheelView mViewProvince;
     private WheelView mViewCity;
@@ -50,24 +78,26 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
     private Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
     private String mCurrentProviceName;
     private String mCurrentCityName;
-    private TextView textView,back;
+    private TextView textView;
     private PersonalInfoActivity mActivity;
-    private Realm realm;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.frag_setting_personinfo_hometown,container,false);
-        mActivity = (PersonalInfoActivity)getActivity();
+        mView = inflater.inflate(R.layout.frag_setting_personinfo_hometown, container, false);
+        ButterKnife.bind(this, mView);
+        title.setText("故乡");
+        more.setVisibility(View.GONE);
+        mActivity = (PersonalInfoActivity) getActivity();
         mViewProvince = (WheelView) mView.findViewById(R.id.id_province);
         mViewCity = (WheelView) mView.findViewById(R.id.id_city);
         mBtnComplete = (Button) mView.findViewById(R.id.hometown_complete);
         textView = (TextView) mView.findViewById(R.id.hometown_text);
-        mViewCity.setShadowColor(0xefefeff5,0xdfefeff5,0x0fefeff5);
-        mViewProvince.setShadowColor(0xefefeff5,0xdfefeff5,0x0fefeff5);
+        mViewCity.setShadowColor(0xefefeff5, 0xdfefeff5, 0x0fefeff5);
+        mViewProvince.setShadowColor(0xefefeff5, 0xdfefeff5, 0x0fefeff5);
         mViewProvince.addChangingListener(this);
         mViewCity.addChangingListener(this);
         mBtnComplete.setOnClickListener(this);
-        back = (TextView) mView.findViewById(R.id.hometown_back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,13 +105,14 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
             }
         });
         setUpData();
-        realm = Realm.getDefaultInstance();
-        User user = realm.where(User.class).equalTo(NS.ID,
-                TempUser.id).findFirst();
-        if (user != null && user.getHometown() != null) {
-            textView.setText(user.getHometown());
-        }
+        UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.HOMETOWN, textView);
         return mView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     @Override
@@ -91,34 +122,34 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        String hometown = mCurrentProviceName+" "+mCurrentCityName;
+        String hometown = mCurrentProviceName + " " + mCurrentCityName;
         textView.setText(hometown);
         ChangeInfo(hometown);
     }
 
-    private void ChangeInfo(String hometown){
-        ProgressSubscriberOnNext<ResponseBody> next=new ProgressSubscriberOnNext<ResponseBody>() {
+    private void ChangeInfo(String hometown) {
+        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
-            public void onNext(ResponseBody e)  {
+            public void onNext(ResponseBody e) {
                 try {
-                    JSONObject jsonObject=new JSONObject(e.string());
-                    if (jsonObject.getString(NS.CODE).equals("200")){
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    if (jsonObject.getString(NS.CODE).equals("200")) {
                         getActivity().getSupportFragmentManager().popBackStack();
                     }
-                }catch (Exception e1){
+                } catch (Exception e1) {
                     e1.printStackTrace();
                 }
             }
         };
 
-        ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<>(next,this);
+        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(next, this);
 
-        JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("id", (Integer)SPUtils.get(getContext(),SPUtils.ID,SPUtils.DEFAULT_int));
-        jsonObject.addProperty("hometown",hometown);
-        jsonObject.addProperty(NS.TIMESTAMP,NS.currentTime());
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.ID, (Integer) SPUtils.get(getContext(), SPUtils.ID, SPUtils.DEFAULT_int));
+        jsonObject.addProperty(NS.HOMETOWN, hometown);
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
 
-        InfoNetwork.getInstance().ModifyInfo(progressSubsciber,jsonObject,getContext());
+        InfoNetwork.getInstance().ModifyInfo(progressSubsciber, jsonObject, getContext());
     }
 
     @Override
@@ -132,7 +163,7 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
 
     private void setUpData() {
         initProvinceDatas();
-        mViewProvince.setViewAdapter(new ArrayWheelAdapter<String>(getActivity(),mProvinceDatas));
+        mViewProvince.setViewAdapter(new ArrayWheelAdapter<String>(getActivity(), mProvinceDatas));
         mViewProvince.setVisibleItems(7);
         mViewCity.setVisibleItems(7);
         updateCities();
@@ -149,15 +180,14 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
         mCurrentProviceName = mProvinceDatas[pCurrent];
         String[] cities = mCitisDatasMap.get(mCurrentProviceName);
         if (cities == null) {
-            cities = new String[] { "" };
+            cities = new String[]{""};
         }
         mViewCity.setViewAdapter(new ArrayWheelAdapter<String>(getActivity(), cities));
         mViewCity.setCurrentItem(0);
         updateAreas();
     }
 
-    private void initProvinceDatas()
-    {
+    private void initProvinceDatas() {
         List<ProvinceModel> provinceList = null;
         AssetManager asset = getActivity().getAssets();
         try {
@@ -168,19 +198,19 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
             parser.parse(input, handler);
             input.close();
             provinceList = handler.getDataList();
-            if (provinceList!= null && !provinceList.isEmpty()) {
+            if (provinceList != null && !provinceList.isEmpty()) {
                 mCurrentProviceName = provinceList.get(0).getName();
                 List<CityModel> cityList = provinceList.get(0).getCityList();
-                if (cityList!= null && !cityList.isEmpty()) {
+                if (cityList != null && !cityList.isEmpty()) {
                     mCurrentCityName = cityList.get(0).getName();
                 }
             }
             mProvinceDatas = new String[provinceList.size()];
-            for (int i=0; i< provinceList.size(); i++) {
+            for (int i = 0; i < provinceList.size(); i++) {
                 mProvinceDatas[i] = provinceList.get(i).getName();
                 List<CityModel> cityList = provinceList.get(i).getCityList();
                 String[] cityNames = new String[cityList.size()];
-                for (int j=0; j< cityList.size(); j++) {
+                for (int j = 0; j < cityList.size(); j++) {
                     cityNames[j] = cityList.get(j).getName();
                 }
                 mCitisDatasMap.put(provinceList.get(i).getName(), cityNames);
@@ -191,11 +221,9 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    public void setText(String text){
+    public void setText(String text) {
         textView.setText(text);
     }
-
-
 
 
 }

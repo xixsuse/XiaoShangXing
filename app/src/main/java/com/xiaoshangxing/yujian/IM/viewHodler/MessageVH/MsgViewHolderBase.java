@@ -21,7 +21,6 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -44,8 +43,6 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     protected LinearLayout nameContainer;
     protected TextView readReceiptTextView;
 
-    //    private HeadImageView avatarLeft;
-//    private HeadImageView avatarRight;
     private CirecleImage avatarLeft;
     private CirecleImage avatarRight;
 
@@ -260,18 +257,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         });
 
         avatarLeft.setIntent_type(CirecleImage.PERSON_INFO, message.getFromAccount());
-//        avatarRight.setIntent_type(CirecleImage.PERSON_INFO, NimUIKit.getAccount());
-        // 头像点击事件响应
-//        if (NimUIKit.getSessionListener() != null) {
-//            View.OnClickListener portraitListener = new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    NimUIKit.getSessionListener().onAvatarClicked(context, message);
-//                }
-//            };
-//            avatarLeft.setOnClickListener(portraitListener);
-//            avatarRight.setOnClickListener(portraitListener);
-//        }
+        avatarRight.setIntent_type(CirecleImage.PERSON_INFO, message.getFromAccount());
     }
 
     /**
@@ -293,19 +279,6 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         };
         // 消息长按事件响应处理
         contentContainer.setOnLongClickListener(longClickListener);
-
-        // 头像长按事件响应处理
-//        if (NimUIKit.getSessionListener() != null) {
-//            View.OnLongClickListener longClickListener = new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-//                    NimUIKit.getSessionListener().onAvatarLongClicked(context, message);
-//                    return true;
-//                }
-//            };
-//            avatarLeft.setOnLongClickListener(longClickListener);
-//            avatarRight.setOnLongClickListener(longClickListener);
-//        }
     }
 
     public void setNameTextView() {
@@ -347,7 +320,8 @@ public abstract class MsgViewHolderBase extends TViewHolder {
 
     private void setReadReceipt() {
         if (!TextUtils.isEmpty(getAdapter().getUuid()) && message.getUuid().equals(getAdapter().getUuid())) {
-            readReceiptTextView.setVisibility(View.VISIBLE);
+//            readReceiptTextView.setVisibility(View.VISIBLE);
+            readReceiptTextView.setVisibility(View.GONE);
         } else {
             readReceiptTextView.setVisibility(View.GONE);
         }

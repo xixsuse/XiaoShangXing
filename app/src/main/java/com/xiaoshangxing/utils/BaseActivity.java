@@ -26,8 +26,6 @@ public class BaseActivity extends AppCompatActivity {
 
     protected LoadingDialog loadingDialog;
 
-    protected Subscription subscription;
-
     protected Realm realm;
 
 
@@ -58,7 +56,6 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         realm.close();
-        unsubscribe();
         super.onDestroy();
     }
 
@@ -98,32 +95,13 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /*
-    **describe:注销Observer
-    */
-    public void unsubscribe() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
-    }
-
-    /*
-    **describe:获取Subscription
-    */
-    public Subscription getSubscription() {
-        return subscription;
-    }
-
-    /*
-    **describe:设置Subscription
-    */
-    public void setSubscription(Subscription subscription){
-        this.subscription=subscription;
-    }
-
-    /*
     **describe:Toast
     */
     public void showToast(String toast){
         Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+    }
+
+    public Realm getRealm() {
+        return realm;
     }
 }

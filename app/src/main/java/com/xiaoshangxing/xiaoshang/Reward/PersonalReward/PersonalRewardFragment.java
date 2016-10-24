@@ -31,7 +31,6 @@ import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -60,6 +59,23 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
     @Bind(R.id.cancel)
     LinearLayout cancel;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
+        ButterKnife.bind(this, view);
+        setmPresenter(new PersonalRewardPresenter(this, getContext(), realm));
+        initView();
+        initFresh();
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     public static PersonalRewardFragment newInstance() {
         return new PersonalRewardFragment();
     }
@@ -71,20 +87,7 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
-    private Realm realm;
     RealmResults<Published> publisheds;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
-        ButterKnife.bind(this, view);
-        realm = Realm.getDefaultInstance();
-        setmPresenter(new PersonalRewardPresenter(this, getContext(), realm));
-        initView();
-        initFresh();
-        return view;
-    }
 
     private void initView() {
         title.setText(R.string.myreward);
@@ -146,13 +149,6 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
                                 });
                     }
                 });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        realm.close();
-        ButterKnife.unbind(this);
     }
 
     @Override

@@ -5,11 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,16 +24,40 @@ import com.xiaoshangxing.utils.LocationUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by tianyang on 2016/8/20.
  */
 public class TagViewActivity extends BaseActivity implements View.OnClickListener,
         TagListView.OnTagClickListener, TagListView.OnTagLongClickListener {
+    @Bind(R.id.tagView_restView)
+    View tagViewRestView;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.right_text)
+    TextView save;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.tagView_text)
+    TextView tagViewText;
+    @Bind(R.id.tagView_editText)
+    EditText tagViewEditText;
+    @Bind(R.id.tagview_linear)
+    LinearLayout tagviewLinear;
+    @Bind(R.id.tag_title)
+    TextView tagTitle;
+    @Bind(R.id.tagview)
+    TagListView tagview;
     private View restView;
     private TagListView mTagListView;
     private final List<Tag> mTags = new ArrayList<Tag>();
     private EditText editText;
-    private TextView save, back;
     private boolean flag = false;
     private boolean isbacked = false;
 
@@ -40,18 +65,20 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frag_setting_personalinfo_tagview);
+        ButterKnife.bind(this);
+        title.setText("标签");
+        save.setTextColor(getResources().getColor(R.color.green1));
+        save.setAlpha(0.5f);
+
         mTagListView = (TagListView) findViewById(R.id.tagview);
         restView = findViewById(R.id.tagView_restView);
         mTagListView.setTags(mTags);
-        save = (TextView) findViewById(R.id.tagView_save);
-        back = (TextView) findViewById(R.id.tagview_back);
         back.setOnClickListener(this);
 
         editText = (EditText) findViewById(R.id.tagView_editText);
         editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                // return (event.getKeyCode() == KeyEvent.KEYCODE_ENTER);
                 if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     save();
                     return true;
@@ -92,7 +119,7 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tagView_save:
+            case R.id.right_text:
                 save();
                 break;
             case R.id.tagView_restView:
@@ -101,7 +128,7 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
                 mTagListView.setTags(mTags);
                 isbacked = false;
                 break;
-            case R.id.tagview_back:
+            case R.id.back:
                 if (!editText.getText().toString().equals("")) {
                     final Tag tag = new Tag();
                     tag.setId(0);
@@ -142,7 +169,6 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
             mTags.remove(tag);
             mTagListView.removeTag(tag);
             if (mTags.size() == 0) {
-                Log.d("qqq", "   " + mTags.size());
                 flag = false;
                 mTagListView.setDeleteMode(false);
                 isbacked = false;
@@ -167,7 +193,6 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
             tag.setId(0);
             tag.setChecked(true);
             tag.setTitle(editText.getText().toString());
-            Log.d("qqq", editText.getText().toString());
 
             if (Same(editText.getText().toString()))
                 Toast.makeText(this, "标签名不能相同", Toast.LENGTH_SHORT).show();
@@ -176,8 +201,6 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
                 mTagListView.addTag(tag);
             }
             editText.setText("");
-//                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//                    imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 
@@ -197,7 +220,6 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
         if (isbacked) {
             if (event.getAction() == KeyEvent.ACTION_DOWN) {
                 if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    Log.d("qqq", "back----" + flag);//表示按返回键 时的操作
                     if (flag) {
                         flag = false;
                         mTagListView.setDeleteMode(flag);
@@ -207,7 +229,7 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
             }
             isbacked = false;
             return true;
-        }else if (!editText.getText().toString().equals("")) {
+        } else if (!editText.getText().toString().equals("")) {
             final Tag tag = new Tag();
             tag.setId(0);
             tag.setChecked(true);

@@ -3,6 +3,7 @@ package com.xiaoshangxing.Network.netUtil;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -10,17 +11,16 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
-import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthService;
-import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.xiaoshangxing.Network.AppNetwork;
+import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.login_register.StartActivity.FlashActivity;
 import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -37,17 +37,27 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import io.realm.Realm;
 import okhttp3.ResponseBody;
 
 /**
  * Created by FengChaoQun
  * on 2016/10/8
+ *APP在全局中可能需要用到的网络操作，包括：登录IM 退出 重新登录 用户被踢下线 反馈
  */
 
 public class AppNetUtil {
+    private static AppNetUtil appNetUtil;
 
     public static AppNetUtil getInstance() {
+        if (appNetUtil == null) {
+            appNetUtil = new AppNetUtil();
+        }
         return new AppNetUtil();
+    }
+
+    private AppNetUtil() {
+
     }
 
     /**
@@ -55,7 +65,6 @@ public class AppNetUtil {
      *
      * @param text           内容
      * @param simpleCallBack 回调
-     * @return
      */
 
     public static void Suggest(String text, final IBaseView iBaseView, final SimpleCallBack simpleCallBack) {
@@ -68,7 +77,7 @@ public class AppNetUtil {
             public void onNext(ResponseBody e) {
                 try {
                     JSONObject jsonObject1 = new JSONObject(e.string());
-                    if (jsonObject1.getString(NS.CODE).equals("200")) {
+                    if (jsonObject1.getString(NS.CODE).equals(NS.REQUEST_SUCCESS)) {
                         simpleCallBack.onSuccess();
                     } else {
                         iBaseView.showToast(jsonObject1.getString(NS.MSG));
@@ -89,9 +98,6 @@ public class AppNetUtil {
 
     /**
      * description:登录IM
-     *
-     * @param
-     * @return
      */
     public static void LoginIm(final Context context) {
         AbortableFuture<LoginInfo> loginRequest;
@@ -117,12 +123,11 @@ public class AppNetUtil {
                 NIMClient.updateStatusBarNotificationConfig(DataSetting.getStatusConfig());
                 // 构建缓存
                 DataCacheManager.buildDataCacheAsync();
-
             }
 
             @Override
             public void onFailed(int i) {
-                Log.d("loginok", "fail");
+                Log.d("loginIM_failed", "fail");
             }
 
             @Override
@@ -130,27 +135,87 @@ public class AppNetUtil {
 
             }
         });
-        NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(new Observer<StatusCode>() {
-            @Override
-            public void onEvent(StatusCode statusCode) {
+    }
 
-                if (statusCode == StatusCode.LOGINED) {
-                    Log.d("login_state", "ok");
-                } else {
-                    Log.d("login_state", "" + statusCode.name());
-                }
-                if (statusCode == StatusCode.KICKOUT) {
-                    Log.d("kit", "" + NIMClient.getService(AuthService.class).getKickedClientType());
+    /**
+     * description:登录后台服务器
+     *
+     * @param phone        手机号
+     * @param password     密码
+     * @param loginXSXback 回调
+     * @return
+     */
+
+    public static void LoginXSX(final String phone, String password, final Context context, IBaseView iBaseView, final LoginXSXback loginXSXback) {
+
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(responseBody.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case 200:
+                            String token = jsonObject.getJSONObject(NS.MSG).getString(NS.TOKEN);
+                            String digest = HmacSHA256Utils.digest(token, phone);
+
+                            //  存储 token 摘要 账号 id 是否实名认证 头像
+
+                            SPUtils.put(context, SPUtils.TOKEN, token);
+                            SPUtils.put(context, SPUtils.DIGEST, digest);
+                            SPUtils.put(context, SPUtils.PHONENUMNBER, phone);
+
+                            String headPath = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto").getString("userImage");
+                            if (!TextUtils.isEmpty(headPath) && !headPath.equals("null")) {
+                                SPUtils.put(context, SPUtils.CURRENT_COUNT_HEAD, headPath);
+                            }
+                            int id = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto").getInt(NS.ID);
+                            SPUtils.put(context, SPUtils.ID, id);
+                            Log.d("digest", digest);
+                            //   存储账号信息
+                            final JSONObject userDao = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto");
+                            Realm realm = Realm.getDefaultInstance();
+                            realm.executeTransaction(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    User user = realm.createOrUpdateObjectFromJson(User.class, userDao);
+                                    SPUtils.put(context, SPUtils.IS_REAL_NAME, user.isRealName());
+                                    Log.d("user", user.toString());
+                                }
+                            });
+                            realm.close();
+
+                            //登录IM
+                            AppNetUtil.LoginIm(context);
+                            loginXSXback.onSuccess();
+                            break;
+                        default:
+                            loginXSXback.onError(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-        }, true);
+        };
+        ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, iBaseView);
+
+        JsonObject jsonObject1 = new JsonObject();
+        jsonObject1.addProperty("phone", phone);
+        jsonObject1.addProperty("password", password);
+        jsonObject1.addProperty(NS.TIMESTAMP, System.currentTimeMillis());
+        LoginNetwork.getInstance().Login(observer, jsonObject1);
+    }
+
+    public interface LoginXSXback {
+        void onSuccess();
+
+        void onError(String msg);
+
     }
 
     /**
      * description:用户被踢下线
-     *
-     * @param
-     * @return
      */
 
     public static void KitOut(final Context context) {
@@ -180,9 +245,6 @@ public class AppNetUtil {
 
     /**
      * description:退出APP
-     *
-     * @param
-     * @return
      */
 
     public static void LogOut(Context context) {
@@ -192,16 +254,13 @@ public class AppNetUtil {
 
     /**
      * description:重新登录
-     *
-     * @param
-     * @return
      */
+
     public static void ReLogin(Context context) {
         ClearData(context);
         Intent intent = new Intent(context, FlashActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);
-
     }
 
     //清除有关缓存信息
@@ -212,5 +271,12 @@ public class AppNetUtil {
         SPUtils.put(context, SPUtils.IS_QUIT, true);
         SPUtils.remove(context, SPUtils.ID);
         NIMClient.getService(AuthService.class).logout();
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
     }
 }

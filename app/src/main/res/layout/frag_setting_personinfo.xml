@@ -5,7 +5,9 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_setting_personinfo" />
+    <include layout="@layout/util_normal_title">
+
+    </include>
 
     <View
         android:layout_width="match_parent"

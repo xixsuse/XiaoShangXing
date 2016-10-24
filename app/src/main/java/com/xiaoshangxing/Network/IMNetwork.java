@@ -3,12 +3,11 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.api.IMApi.CancleFavorApi;
 import com.xiaoshangxing.Network.api.IMApi.FavorApi;
 import com.xiaoshangxing.Network.api.IMApi.MyFavorApi;
 import com.xiaoshangxing.Network.api.IMApi.MyStarApi;
 import com.xiaoshangxing.Network.api.IMApi.SerchPersonApi;
-
-import org.json.JSONObject;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -27,12 +26,13 @@ public class IMNetwork {
     private MyFavorApi myFavorApi;
     private MyStarApi myStarApi;
     private FavorApi favorApi;
+    private CancleFavorApi cancleFavorApi;
 
     private IMNetwork() {
 
     }
 
-    //在访问LoginNetwork时创建单例
+    //在访问IMNetwork时创建单例
     private static class SingletonHolder {
         private static final IMNetwork INSTANCE = new IMNetwork();
     }
@@ -72,6 +72,14 @@ public class IMNetwork {
             favorApi = Network.getRetrofitWithHeader(context).create(FavorApi.class);
         }
         Observable<ResponseBody> observable = favorApi.start(param);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void CancelFavor(Subscriber<ResponseBody> subscriber, JsonObject param, Context context) {
+        if (cancleFavorApi == null) {
+            cancleFavorApi = Network.getRetrofitWithHeader(context).create(CancleFavorApi.class);
+        }
+        Observable<ResponseBody> observable = cancleFavorApi.start(param);
         toSubscribe(observable, subscriber);
     }
 

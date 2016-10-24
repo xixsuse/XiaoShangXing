@@ -69,7 +69,6 @@ public class LoadUtils {
      * description:记录刷新时间
      *
      * @param loadtime 类型
-     * @return
      */
 
     public static void refreshTime(String loadtime) {
@@ -83,7 +82,6 @@ public class LoadUtils {
      * @param type          动态类型
      * @param loadtime      动态刷新时间类型
      * @param aroundLoading 回调
-     * @return
      */
 
     public static void tryLoadPublished(final Realm realm, String type, final String loadtime,
@@ -94,14 +92,13 @@ public class LoadUtils {
     }
 
     /**
-     * description:刷新动态
+     * description:刷新动态 校友或自己的动态
      *
      * @param realm         数据库
      * @param type          需要刷新的动态类型
      * @param loadtime      对应的刷新时间的类型
      * @param isSelf        是否刷新自己的动态 若否 则是刷新校友或好友的动态
      * @param aroundLoading 回调
-     * @return
      */
 
     public static void getPublished(final Realm realm, String type, final String loadtime,
@@ -158,7 +155,6 @@ public class LoadUtils {
      * @param type          需要刷新的收藏类型
      * @param loadtime      对应的刷新时间的类型
      * @param aroundLoading 回调
-     * @return
      */
     public static void getCollected(final Realm realm, String type, final String loadtime,
                                     final Context context, final AroundLoading aroundLoading) {
@@ -209,11 +205,10 @@ public class LoadUtils {
      * @param type          需要刷新的动态类型
      * @param peopleId      对象id
      * @param aroundLoading 回调
-     * @return
      */
 
-    public static void getOthersPublished(final Realm realm, String type, int peopleId,
-                                          final Context context, final AroundLoading aroundLoading) {
+    public static void getPersonalPublished(final Realm realm, String type, int peopleId,
+                                            final Context context, final AroundLoading aroundLoading) {
         if (aroundLoading != null) {
             aroundLoading.before();
         }
@@ -252,6 +247,14 @@ public class LoadUtils {
         };
         PublishNetwork.getInstance().getPublished(subscriber1, jsonObject, XSXApplication.getInstance());
     }
+
+    /**
+     * description:获取加入的计划
+     *
+     * @param userid        用户id
+     * @param realm         数据库
+     * @param aroundLoading 回调
+     */
 
     public static void getJoinedPlan(String userid, final Realm realm, final Context context,
                                      final AroundLoading aroundLoading) {
@@ -393,15 +396,17 @@ public class LoadUtils {
      * @return
      */
 
-    public static void clearCollect(String category) {
+    public static void clearCollect(final String category) {
         Realm realm = Realm.getDefaultInstance();
         final RealmResults<Published> realmResults;
 
         if (category.equals(NS.COLLECT_REWARD)) {
             realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, 6)
+                    .equalTo(NS.COLLECT_STATU, "1")
                     .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         } else if (category.equals(NS.COLLECT_SALE)) {
             realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, 5)
+                    .equalTo(NS.COLLECT_STATU, "1")
                     .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         } else {
             return;
@@ -410,14 +415,14 @@ public class LoadUtils {
             @Override
             public void execute(Realm realm) {
                 realmResults.deleteAllFromRealm();
-                Log.d("clear data ", "success");
+                Log.d("clear collect data " + category, "success");
             }
         });
     }
 
     public static void clearJoinPlan(int id) {
         Realm realm = Realm.getDefaultInstance();
-        final RealmResults<JoinedPlan> joinedPlen = realm.where(JoinedPlan.class).equalTo(NS.USER_ID, id).findAll();
+        final RealmResults<JoinedPlan> joinedPlen = realm.where(JoinedPlan.class).findAll();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

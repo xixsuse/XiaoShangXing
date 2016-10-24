@@ -96,7 +96,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     LinearLayout calendarLay;
 
     private View mview;
-    private Realm realm;
     private BottomSheetBehavior mBottomSheetBehavior;
 
     public static CalendarFragment newInstance() {
@@ -119,7 +118,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mview = inflater.inflate(R.layout.frag_calendar, null);
         ButterKnife.bind(this, mview);
-        realm = Realm.getDefaultInstance();
         initView();
         initFresh();
         return mview;
@@ -129,7 +127,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        realm.close();
         handler.removeCallbacks(runnable);
     }
 
@@ -137,7 +134,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
 
         title.setText("校历资讯");
         leftText.setText(R.string.xiaoshang);
-        more.setImageResource(R.mipmap.nav_add);
+        more.setImageResource(R.mipmap.add);
 
         allDatas = new ArrayList<>();
         previous = new ArrayList<>();
@@ -196,7 +193,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
             } else {
                 ArrayList<CalendarDay> todays = new ArrayList<>();
                 todays.add(today);
-                calendarView.addDecorator(new EventDecorator(Color.GREEN, todays));
+                calendarView.addDecorator(new EventDecorator(Color.GREEN, todays, getContext()));
             }
         }
 
@@ -205,10 +202,10 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
             if (previous.size() > 1) {
                 List<CalendarDay> current_previous = previous.subList(0, previous.size());
                 current_previous.remove(currentSelected);
-                calendarView.addDecorator(new EventDecorator(Color.GRAY, current_previous));
+                calendarView.addDecorator(new EventDecorator(Color.GRAY, current_previous, getContext()));
             }
         } else {
-            calendarView.addDecorator(new EventDecorator(Color.GRAY, previous));
+            calendarView.addDecorator(new EventDecorator(Color.GRAY, previous, getContext()));
         }
 
         if (future.contains(currentSelected)) {
@@ -216,10 +213,10 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
             if (future.size() > 1) {
                 List<CalendarDay> current_future = future.subList(0, future.size());
                 current_future.remove(currentSelected);
-                calendarView.addDecorator(new EventDecorator(Color.GRAY, current_future));
+                calendarView.addDecorator(new EventDecorator(Color.GRAY, current_future, getContext()));
             }
         } else {
-            calendarView.addDecorator(new EventDecorator(Color.BLUE, future));
+            calendarView.addDecorator(new EventDecorator(Color.BLUE, future, getContext()));
         }
 
     }
@@ -343,13 +340,13 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
 
         switch (compareDayByYearMonth(calendarDay, today)) {
             case -1:
-                calendarView.addDecorator(new EventDecorator(Color.parseColor("#b2b2b2"), calendarDays));
+                calendarView.addDecorator(new EventDecorator(Color.parseColor("#b2b2b2"), calendarDays, getContext()));
                 break;
             case 0:
                 parseThisMonthData(calendarDays);
                 break;
             case 1:
-                calendarView.addDecorator(new EventDecorator(Color.parseColor("#00aeef"), calendarDays));
+                calendarView.addDecorator(new EventDecorator(Color.parseColor("#00aeef"), calendarDays, getContext()));
                 break;
         }
 
@@ -364,13 +361,13 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
             }
         }
 
-        calendarView.addDecorator(new EventDecorator(Color.parseColor("#b2b2b2"), previous));
-        calendarView.addDecorator(new EventDecorator(Color.parseColor("#00aeef"), future));
+        calendarView.addDecorator(new EventDecorator(Color.parseColor("#b2b2b2"), previous, getContext()));
+        calendarView.addDecorator(new EventDecorator(Color.parseColor("#00aeef"), future, getContext()));
 
         if (calendarDays.contains(today)) {
             ArrayList<CalendarDay> todays = new ArrayList<>();
             todays.add(today);
-            calendarView.addDecorator(new EventDecorator(Color.parseColor("#45C01A"), todays));
+            calendarView.addDecorator(new EventDecorator(Color.parseColor("#45C01A"), todays, getContext()));
         }
     }
 

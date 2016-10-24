@@ -24,11 +24,6 @@ public class PrivacyActivity extends BaseActivity {
     }
 
 
-
-    public void privacy_back(View view) {
-        finish();
-    }
-
     public void blacklist(View view) {
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,

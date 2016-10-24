@@ -6,6 +6,8 @@
     android:background="@color/b0" >
 
     <ImageView
+        android:layout_marginBottom="@dimen/y144"
+        android:layout_marginTop="@dimen/y144"
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

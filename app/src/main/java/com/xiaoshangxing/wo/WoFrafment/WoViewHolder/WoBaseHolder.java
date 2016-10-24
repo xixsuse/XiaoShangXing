@@ -237,6 +237,15 @@ public abstract class WoBaseHolder {
             jianjiao.setVisibility(View.VISIBLE);
             commentLayout.setVisibility(View.VISIBLE);
         }
+
+//        隐藏评论与赞之间的分割线
+        if (!TextUtils.isEmpty(published.getPraiseUserIds()) &&
+                !(published.getComments() == null || published.getComments().size() < 1)) {
+            lineBetweenPraiseComment.setVisibility(View.VISIBLE);
+        } else {
+            lineBetweenPraiseComment.setVisibility(View.GONE);
+        }
+
     }
 
     private void parseComment(Published published) {
@@ -244,11 +253,11 @@ public abstract class WoBaseHolder {
         comments.removeAllViews();
 
         if (published.getComments().size() < 1) {
-            lineBetweenPraiseComment.setVisibility(View.GONE);
+//            lineBetweenPraiseComment.setVisibility(View.GONE);
             commentsLay.setVisibility(View.GONE);
             return;
         } else {
-            lineBetweenPraiseComment.setVisibility(View.VISIBLE);
+//            lineBetweenPraiseComment.setVisibility(View.VISIBLE);
             commentsLay.setVisibility(View.VISIBLE);
         }
 

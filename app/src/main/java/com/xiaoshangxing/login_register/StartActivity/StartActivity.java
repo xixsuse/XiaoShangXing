@@ -99,7 +99,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     public void showButton() {
         initButton();
 
-        flash.setBackgroundColor(getResources().getColor(R.color.flash_gray));
+        flash.setBackgroundColor(getResources().getColor(R.color.w0));
         login_imag.setVisibility(View.VISIBLE);
 
         btn_login.setVisibility(View.VISIBLE);

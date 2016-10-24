@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
 
-import rx.Subscription;
+import io.realm.Realm;
 
 /**
  * Created by FengChaoQun
@@ -16,15 +16,15 @@ public class BaseFragment extends Fragment {
     public static final String TAG = AppContracts.TAG + "-Fragment";
     protected BaseActivity mActivity;
     protected Context mContext;
-    public Subscription subscription;
+    protected Realm realm;
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mActivity = (BaseActivity) getActivity();
         mContext = mActivity;
+        realm = mActivity.getRealm();
     }
-
 
     /*
     **describe:显示LoadingDialog
@@ -46,32 +46,6 @@ public class BaseFragment extends Fragment {
     */
     public void setonDismiss(LoadingDialog.onDismiss on) {
         mActivity.setonDismiss(on);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unsubscribe();
-    }
-
-    /*
-    **describe:注销Observer
-    */
-    public void unsubscribe() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
-    }
-
-    /*
-    **describe:获取Subscription
-    */
-    public Subscription getSubscription() {
-        return subscription;
-    }
-
-    public void setSubscription(Subscription subscription){
-        this.subscription=subscription;
     }
 
     public void showToast(String toast){

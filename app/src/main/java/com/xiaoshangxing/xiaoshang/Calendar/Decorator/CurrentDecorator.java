@@ -1,8 +1,11 @@
 package com.xiaoshangxing.xiaoshang.Calendar.Decorator;
 
+import android.text.style.TextAppearanceSpan;
+
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.xiaoshangxing.R;
 
 /**
  * Decorate several days with a dot

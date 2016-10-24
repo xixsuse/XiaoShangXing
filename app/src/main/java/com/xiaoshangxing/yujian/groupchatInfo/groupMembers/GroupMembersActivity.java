@@ -166,7 +166,7 @@ public class GroupMembersActivity extends BaseActivity {
             if (arrayList == null || arrayList.size() == 0) {
                 Toast.makeText(GroupMembersActivity.this, "没有选择联系人", Toast.LENGTH_SHORT).show();
             } else {
-                Log.d("select account", arrayList.toString());
+                Log.d("select phone", arrayList.toString());
                 inviteMembers(arrayList);
             }
         }

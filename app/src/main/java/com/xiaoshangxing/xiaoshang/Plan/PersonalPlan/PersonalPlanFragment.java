@@ -33,7 +33,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.realm.Sort;
 
 /**
@@ -63,12 +62,26 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
     @Bind(R.id.no_content)
     TextView noContent;
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mview = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
+        ButterKnife.bind(this, mview);
+        initView();
+        return mview;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     public static PersonalPlanFragment newInstance() {
         return new PersonalPlanFragment();
     }
 
     private View mview;
-    private Realm realm;
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
@@ -76,16 +89,6 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
     private boolean isLoading;
     private List<Published> publisheds = new ArrayList<>();
     private PersonalPlan_Adpter adpter;
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mview = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
-        ButterKnife.bind(this, mview);
-        realm = Realm.getDefaultInstance();
-        initView();
-        return mview;
-    }
 
     private void initView() {
         title.setText("我的计划");
@@ -232,13 +235,6 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
     @Override
     public void setmPresenter(@Nullable PersonalPlanContract.Presenter presenter) {
 
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        realm.close();
-        ButterKnife.unbind(this);
     }
 
     @OnClick({R.id.back, R.id.cancel, R.id.hide_trasmit, R.id.hide_delete})

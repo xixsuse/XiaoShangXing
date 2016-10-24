@@ -23,6 +23,7 @@ import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.LoginNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.Network.netUtil.HmacSHA256Utils;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
@@ -176,80 +177,91 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordCont
 //                        .replace(R.id.loginregisterContent, frag)
 //                        .addToBackStack(SelectSchoolFragment.TAG)
 //                        .commit();
-                Intent intent = new Intent(getContext(), XueXiaoActivity.class);
-                intent.putExtra(IntentStatic.TYPE, IntentStatic.REGISTER);
-                startActivity(intent);
-                getActivity().finish();
                 login();
             }
         }, 1000);
     }
 
     private void login() {
-        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
-            @Override
-            public void onNext(ResponseBody responseBody) {
-                JSONObject jsonObject;
-                try {
-                    jsonObject = new JSONObject(responseBody.string());
-                    switch (Integer.valueOf((String) jsonObject.get(NS.CODE))) {
-                        case 200:
-                            if (jsonObject.get(NS.MSG) instanceof JSONObject) {
-                                String token = jsonObject.getJSONObject(NS.MSG).getString(NS.TOKEN);
-                                String digest = HmacSHA256Utils.digest(token, getPhone());
-                                //  存储摘要 账号 id  头像
-                                SPUtils.put(getContext(), SPUtils.TOKEN, token);
-                                SPUtils.put(getContext(), SPUtils.DIGEST, digest);
-                                SPUtils.put(getContext(), SPUtils.PHONENUMNBER, getPhone());
-                                String headPath = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto").getString("userImage");
-                                if (!TextUtils.isEmpty(headPath) && !headPath.equals("null")) {
-                                    SPUtils.put(getContext(), SPUtils.CURRENT_COUNT_HEAD, headPath);
-                                }
-                                int id = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto").getInt(NS.ID);
-                                SPUtils.put(getContext(), SPUtils.ID, id);
-                                Log.d("digest", digest);
-                                //   存储账号信息
-                                final JSONObject userDao = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto");
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.executeTransaction(new Realm.Transaction() {
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        User user = realm.createOrUpdateObjectFromJson(User.class, userDao);
-                                        Log.d("user", user.toString());
-                                    }
-                                });
-                                realm.close();
-                            }
-//                        case 9001:
-//                            mView.showFailDialog("用户名不存在");
+//        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+//            @Override
+//            public void onNext(ResponseBody responseBody) {
+//                JSONObject jsonObject;
+//                try {
+//                    jsonObject = new JSONObject(responseBody.string());
+//                    switch (Integer.valueOf((String) jsonObject.get(NS.CODE))) {
+//                        case 200:
+//                            if (jsonObject.get(NS.MSG) instanceof JSONObject) {
+//                                String token = jsonObject.getJSONObject(NS.MSG).getString(NS.TOKEN);
+//                                String digest = HmacSHA256Utils.digest(token, getPhone());
+//                                //  存储摘要 账号 id  头像
+//                                SPUtils.put(getContext(), SPUtils.TOKEN, token);
+//                                SPUtils.put(getContext(), SPUtils.DIGEST, digest);
+//                                SPUtils.put(getContext(), SPUtils.PHONENUMNBER, getPhone());
+//                                String headPath = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto").getString("userImage");
+//                                if (!TextUtils.isEmpty(headPath) && !headPath.equals("null")) {
+//                                    SPUtils.put(getContext(), SPUtils.CURRENT_COUNT_HEAD, headPath);
+//                                }
+//                                int id = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto").getInt(NS.ID);
+//                                SPUtils.put(getContext(), SPUtils.ID, id);
+//                                Log.d("digest", digest);
+//                                //   存储账号信息
+//                                final JSONObject userDao = jsonObject.getJSONObject(NS.MSG).getJSONObject("userDto");
+//                                Realm realm = Realm.getDefaultInstance();
+//                                realm.executeTransaction(new Realm.Transaction() {
+//                                    @Override
+//                                    public void execute(Realm realm) {
+//                                        User user = realm.createOrUpdateObjectFromJson(User.class, userDao);
+//                                        Log.d("user", user.toString());
+//                                    }
+//                                });
+//                                realm.close();
+//                            }
+////                        case 9001:
+////                            mView.showFailDialog("用户名不存在");
+////                            break;
+////                        case 9002:
+////                            mView.showFailDialog("账号或密码错误，请重新填写。");
+////                            break;
+////                        case 9003:
+////                            mView.showFailDialog("失败次数过多，该账号暂时被锁定");
+////                            break;
+//                        default:
+//                            if (jsonObject.get(NS.MSG) instanceof JSONObject) {
+//                                Log.d("login", (String) (jsonObject.getJSONObject(NS.MSG)).get(NS.TOKEN));
+//                            } else {
+//                                Log.d("login", jsonObject.getString(NS.MSG));
+//                                showToast(jsonObject.getString(NS.MSG));
+//                            }
 //                            break;
-//                        case 9002:
-//                            mView.showFailDialog("账号或密码错误，请重新填写。");
-//                            break;
-//                        case 9003:
-//                            mView.showFailDialog("失败次数过多，该账号暂时被锁定");
-//                            break;
-                        default:
-                            if (jsonObject.get(NS.MSG) instanceof JSONObject) {
-                                Log.d("login", (String) (jsonObject.getJSONObject(NS.MSG)).get(NS.TOKEN));
-                            } else {
-                                Log.d("login", jsonObject.getString(NS.MSG));
-                                showToast(jsonObject.getString(NS.MSG));
-                            }
-                            break;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, SetPasswordFragment.this);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        ProgressSubsciber<ResponseBody> observer = new ProgressSubsciber<ResponseBody>(onNext, SetPasswordFragment.this);
+//
+//        JsonObject jsonObject1 = new JsonObject();
+//        jsonObject1.addProperty("phone", getPhone());
+//        jsonObject1.addProperty("password", getPassword());
+//        jsonObject1.addProperty("timeStamp", System.currentTimeMillis());
+//        LoginNetwork.getInstance().Login(observer, jsonObject1);
 
-        JsonObject jsonObject1 = new JsonObject();
-        jsonObject1.addProperty("phone", getPhone());
-        jsonObject1.addProperty("password", getPassword());
-        jsonObject1.addProperty("timeStamp", System.currentTimeMillis());
-        LoginNetwork.getInstance().Login(observer, jsonObject1);
+        AppNetUtil.LoginXSX(getPhone(), getPassword(), mContext, this, new AppNetUtil.LoginXSXback() {
+            @Override
+            public void onSuccess() {
+                Intent intent = new Intent(getContext(), XueXiaoActivity.class);
+                intent.putExtra(IntentStatic.TYPE, IntentStatic.REGISTER);
+                startActivity(intent);
+                getActivity().finish();
+            }
+
+            @Override
+            public void onError(String msg) {
+                showToast(msg);
+            }
+        });
     }
 
     @Override

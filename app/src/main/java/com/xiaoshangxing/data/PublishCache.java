@@ -21,10 +21,18 @@ import rx.Subscriber;
 /**
  * Created by FengChaoQun
  * on 2016/9/12
+ * 动态信息缓存加载处理类
  */
 public class PublishCache {
 
-    public static void getPublished(String id, publishedCallback callback/*, Realm realm*/) {
+    /**
+     * description:获取指定动态内容 先从数据库中获取 如果需要刷新 则刷新
+     *
+     * @param id       动态id
+     * @param callback 回调
+     */
+
+    public static void getPublished(String id, publishedCallback callback) {
         Published published;
         Realm realm = Realm.getDefaultInstance();
         published = realm.where(Published.class).equalTo(NS.ID, Integer.valueOf(id)).findFirst();
@@ -37,33 +45,19 @@ public class PublishCache {
         realm.close();
     }
 
-    /*
-    **describe:刷新指定数据
-    */
-    public void refreshSomeone(User user) {
-
-    }
-
-    /*
-    **describe:尝试加载数据加载数据
-    */
-//    private void try_reloadData(User user) {
-//        if (needReload(user)) {
-//            reload(null, user.getId());
-//        }
-//    }
 
     /*
     **describe:判断是否需要刷新数据
     */
-    public static boolean needReload(Published published) {
+    private static boolean needReload(Published published) {
         if (published == null) {
             return true;
-        } else if (NS.currentTime() - published.getServerTime() > 10 * TimeUtil.MINUTE) {
+        } else if (NS.currentTime() - published.getServerTime() > 5 * TimeUtil.MINUTE) {
             return true;
         }
         return false;
     }
+
 
     /*
     **describe:刷新数据

@@ -1,7 +1,6 @@
 package com.xiaoshangxing.setting.personalinfo.personalinfo;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,43 +8,49 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.InfoNetwork;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
+import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.XSXApplication;
-import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import okhttp3.ResponseBody;
-import rx.Subscriber;
+import butterknife.OnClick;
 
 /**
  * Created by tianyang on 2016/7/9.
  */
 public class PersonalInfoFragment extends BaseFragment {
     public static final String TAG = BaseFragment.TAG + "-PersonalInfoFragment";
-    @Bind(R.id.toolbar_setting_leftarrow)
-    ImageView toolbarSettingLeftarrow;
-    @Bind(R.id.toolbar_setting_back)
-    TextView toolbarSettingBack;
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     @Bind(R.id.setting_personinfo_headView)
     CirecleImage settingPersoninfoHeadView;
     @Bind(R.id.right_arrow)
@@ -71,11 +76,12 @@ public class PersonalInfoFragment extends BaseFragment {
     @Bind(R.id.certification_rightarrow)
     ImageView certificationRightarrow;
 
+
     private View mView;
     private PersonalInfoActivity mActivity;
-    private Realm realm;
-    private Handler handler;
-    private User user;
+    private NimUserInfo nimUserInfo;
+    private String id;
+    private Observer<List<NimUserInfo>> observer;
 
     @Nullable
     @Override
@@ -92,88 +98,58 @@ public class PersonalInfoFragment extends BaseFragment {
     }
 
     private void initView() {
-        handler = new Handler();
-        realm = Realm.getDefaultInstance();
-        user = realm.where(User.class).equalTo(NS.ID,
-                (Integer) SPUtils.get(getContext(),SPUtils.ID,SPUtils.DEFAULT_int)).findFirst();
-        if (user == null) {
+        id = String.valueOf(TempUser.id);
+        title.setText("个人信息");
+        more.setVisibility(View.GONE);
+        oberverUserInfo(true);
+        initInfo();
+    }
+
+    private void oberverUserInfo(boolean is) {
+        if (observer == null) {
+            observer = new Observer<List<NimUserInfo>>() {
+                @Override
+                public void onEvent(List<NimUserInfo> nimUserInfos) {
+                    for (NimUserInfo userInfo : nimUserInfos) {
+                        if (userInfo.getAccount().equals(String.valueOf(TempUser.id))) {
+                            initInfo();
+                        }
+                    }
+                }
+            };
+        }
+        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(observer, is);
+    }
+
+    private void initInfo() {
+        nimUserInfo = NimUserInfoCache.getInstance().getUserInfo(id);
+        if (nimUserInfo == null) {
             Toast.makeText(getContext(), "账号异常,请重新登录", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        user.addChangeListener(new RealmChangeListener<User>() {
-            @Override
-            public void onChange(User element) {
-                initInfo(element);
-            }
-        });
-
-        Subscriber<ResponseBody> subscriber=new Subscriber<ResponseBody>() {
-            @Override
-            public void onCompleted() {
-                /*mActivity.showToast("更新信息成功");*/
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(ResponseBody responseBody) {
-                try {
-                    JSONObject jsonObject=new JSONObject(responseBody.string());
-                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))){
-                        case 9001:
-                            final JSONObject user=jsonObject.getJSONObject(NS.MSG);
-                            realm.executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    User user1 = realm.createOrUpdateObjectFromJson(User.class, user);
-                                    UserInfoCache.getInstance().refreshSomeone(user1);
-                                }
-                            });
-                            break;
-                        default:
-                            mActivity.showToast("更新信息失败");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("id",user.getId());
-        jsonObject.addProperty("timestamp",System.currentTimeMillis());
-        InfoNetwork.getInstance().GetUser(subscriber,jsonObject,getContext());
-
-        initInfo(user);
-    }
-
-    private void initInfo(final User user) {
-        MyGlide.with(XSXApplication.getInstance(), user.getUserImage(), settingPersoninfoHeadView);
-
-        name.setText(user.getUsername());
-        if (user.getSex() == 1) {
-            sex.setText("男");
-        } else if (user.getSex() == 2) {
+        name.setText(nimUserInfo.getName());
+        if (nimUserInfo.getGenderEnum().equals(GenderEnum.FEMALE)) {
             sex.setText("女");
+        } else if (nimUserInfo.getGenderEnum().equals(GenderEnum.MALE)) {
+            sex.setText("男");
         } else {
             sex.setText("未知");
         }
-        personinfoHometown.setText(user.getHometown());
-        if (!TextUtils.isEmpty(user.getSignature())&&!user.getSignature().equals("null")){
+
+        UserInfoCache.getInstance().getExIntoTextview(id, NS.HOMETOWN, personinfoHometown);
+        UserInfoCache.getInstance().getHeadIntoImage(id, settingPersoninfoHeadView);
+
+        if (!TextUtils.isEmpty(nimUserInfo.getSignature()) && !nimUserInfo.getSignature().equals("null")) {
             signature.setVisibility(View.GONE);
-        }else {
+        } else {
             signature.setVisibility(View.VISIBLE);
         }
-        if (user.getIsActive() != null) {
-            realName.setText(user.getIsActive() == 0 ? "未认证" : "已认证");
-        }
 
+        if (nimUserInfo.getExtensionMap() != null) {
+            if (nimUserInfo.getExtensionMap().get("isActive") != null) {
+                realName.setText((int) nimUserInfo.getExtensionMap().get("isActive") == 0 ? "未认证" : "已认证");
+            }
+        }
     }
 
     @Override
@@ -184,10 +160,12 @@ public class PersonalInfoFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (user!=null){
-            user.removeChangeListeners();
-        }
-        realm.close();
         ButterKnife.unbind(this);
+        oberverUserInfo(false);
+    }
+
+    @OnClick(R.id.back)
+    public void onClick() {
+        getActivity().finish();
     }
 }

@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.netease.nimlib.sdk.NIMClient;
@@ -17,28 +20,49 @@ import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by 15828 on 2016/7/13.
  */
-public class NoDisturbFragment extends BaseFragment implements View.OnClickListener,AdapterView.OnItemClickListener{
+public class NoDisturbFragment extends BaseFragment implements AdapterView.OnItemClickListener {
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.list_nodisturb)
+    ListView listNodisturb;
     private View mView;
     private ListView listView;
     private String[] strings;
     private ArrayAdapter mAdapter;
-    private TextView back;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.frag_setting_newnotice_nodisturb,container,false);
+        mView = inflater.inflate(R.layout.frag_setting_newnotice_nodisturb, container, false);
+        ButterKnife.bind(this, mView);
+        title.setText("消息免打扰");
+        more.setVisibility(View.GONE);
         strings = getResources().getStringArray(R.array.NoDisturb);
         mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_nodisturb, strings);
         listView = (ListView) mView.findViewById(R.id.list_nodisturb);
         listView.setAdapter(mAdapter);
         int i = DataSetting.getNoDisturbList(getActivity());
-        listView.setItemChecked(i,true);
+        listView.setItemChecked(i, true);
         listView.setOnItemClickListener(this);
-        back = (TextView) mView.findViewById(R.id.nodisturb_back);
-        back.setOnClickListener(this);
         return mView;
     }
 
@@ -76,7 +100,14 @@ public class NoDisturbFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void onClick(View v) {
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.back)
+    public void onClick() {
         getActivity().getSupportFragmentManager().popBackStack();
     }
+
 }

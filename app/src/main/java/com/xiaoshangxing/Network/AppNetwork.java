@@ -25,7 +25,7 @@ public class AppNetwork {
 
     }
 
-    //在访问LoginNetwork时创建单例
+    //在访问AppNetwork时创建单例
     private static class SingletonHolder {
         private static final AppNetwork INSTANCE = new AppNetwork();
     }

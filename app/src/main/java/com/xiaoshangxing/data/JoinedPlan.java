@@ -13,6 +13,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by FengChaoQun
  * on 2016/9/9
+ * 加入的计划数据  和published完全一样
  */
 public class JoinedPlan extends RealmObject {
 

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.netease.nimlib.sdk.NIMClient;
@@ -21,12 +23,31 @@ import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by 15828 on 2016/7/14.
  */
-public class BlackListFragment extends BaseFragment implements View.OnClickListener {
+public class BlackListFragment extends BaseFragment {
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.blacklist_listView)
+    CustomSwipeListView blacklistListView;
     private View mView;
-    private TextView back;
     private CustomSwipeListView blackList;
     private BaseAdapter baseAdapter;
     private List<String> accounts;
@@ -35,9 +56,10 @@ public class BlackListFragment extends BaseFragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_setting_blacklist, container, false);
-        back = (TextView) mView.findViewById(R.id.blacklist_back);
-        back.setOnClickListener(this);
+        ButterKnife.bind(this, mView);
         blackList = (CustomSwipeListView) mView.findViewById(R.id.blacklist_listView);
+        title.setText("黑名单");
+        more.setVisibility(View.GONE);
         init();
         return mView;
     }
@@ -100,8 +122,6 @@ public class BlackListFragment extends BaseFragment implements View.OnClickListe
                     @Override
                     public void onClick(View arg0) {
                         // TODO Auto-generated method stub
-//                        Toast.makeText(getActivity(), String.valueOf(position), Toast.LENGTH_SHORT).show();
-//                        notifyDataSetChanged();
                         NIMClient.getService(FriendService.class).removeFromBlackList(accounts.get(position))
                                 .setCallback(new RequestCallback<Void>() {
                                     @Override
@@ -125,9 +145,18 @@ public class BlackListFragment extends BaseFragment implements View.OnClickListe
                 return slideView;
             }
         };
-
         blackList.setAdapter(baseAdapter);
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.back)
+    public void onClick() {
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     private static class ViewHolder {
@@ -140,10 +169,5 @@ public class BlackListFragment extends BaseFragment implements View.OnClickListe
             name = (TextView) view.findViewById(R.id.blacklist_text);
             deleteHolder = (ViewGroup) view.findViewById(R.id.holder);
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

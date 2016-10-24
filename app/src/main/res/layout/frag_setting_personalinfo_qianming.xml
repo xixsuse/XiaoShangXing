@@ -5,53 +5,9 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/setting_qianming_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:background="@color/w1"
-        android:orientation="horizontal">
+    <include layout="@layout/util_normal_title_end_text">
 
-        <ImageView
-            android:id="@+id/hometown_qianming_leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/left_arrow_black" />
-
-        <TextView
-            android:id="@+id/qianming_back"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@+id/hometown_qianming_leftarrow"
-            android:clickable="true"
-            android:text="@string/back" />
-
-        <TextView
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/autograph" />
-
-        <TextView
-            android:id="@+id/qianming_save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/x48"
-            android:alpha="0.5"
-            android:clickable="true"
-            android:text="@string/save"
-            android:textColor="@color/green1"
-            android:textSize="16sp" />
-    </RelativeLayout>
+    </include>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,6 +40,5 @@
             android:textColor="@color/g0"
             android:textSize="15sp" />
     </LinearLayout>
-
 
 </LinearLayout>

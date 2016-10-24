@@ -113,7 +113,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:src="@mipmap/down_arrow_grey" />
+                    android:paddingEnd="@dimen/x24"
+                    android:paddingTop="@dimen/y8"
+                    android:src="@mipmap/down_arrow_gray" />
 
             </RelativeLayout>
 

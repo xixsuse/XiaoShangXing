@@ -6,6 +6,14 @@
     android:orientation="vertical">
 
     <ImageView
+        android:src="@mipmap/splash_screen_letter"
+        android:layout_marginTop="@dimen/y480"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:visibility="gone"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/y156"
         android:src="@mipmap/splashscreen_logo"
@@ -13,6 +21,7 @@
         android:layout_height="wrap_content" />
 
     <ImageView
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/y204"

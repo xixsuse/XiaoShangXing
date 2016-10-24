@@ -306,46 +306,83 @@
 
             <ImageView
                 android:id="@+id/delete"
-                style="@style/input_select"
-                android:paddingStart="@dimen/width_48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingEnd="@dimen/x32"
+                android:paddingStart="@dimen/x32"
                 android:src="@mipmap/cha" />
 
             <ImageView
-                android:id="@+id/emotion"
-                style="@style/input_select"
-                android:src="@drawable/selector_emot" />
+                android:layout_width="1px"
+                android:layout_height="@dimen/y58"
+                android:layout_gravity="center_vertical"
+                android:background="@color/g1">
+
+            </ImageView>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/x32"
+                android:paddingStart="@dimen/x32">
+
+                <ImageView
+                    android:id="@+id/emotion"
+                    style="@style/input_select"
+                    android:paddingEnd="@dimen/x43"
+                    android:src="@drawable/selector_emot" />
+
+                <ImageView
+                    android:id="@+id/picture"
+                    style="@style/input_select"
+                    android:paddingEnd="@dimen/x43"
+                    android:src="@drawable/selector_picture" />
+
+                <ImageView
+                    android:id="@+id/camera"
+                    style="@style/input_select"
+                    android:paddingEnd="@dimen/x43"
+                    android:src="@mipmap/camera" />
+
+                <ImageView
+                    android:id="@+id/location"
+                    style="@style/input_select"
+                    android:paddingEnd="@dimen/x43"
+                    android:src="@mipmap/location_grey" />
+
+                <ImageView
+                    android:id="@+id/notice_someone"
+                    style="@style/input_select"
+                    android:paddingEnd="@dimen/x43"
+                    android:src="@mipmap/noticesomeone" />
+
+                <ImageView
+                    android:id="@+id/forbid_someone"
+                    style="@style/input_select"
+                    android:src="@mipmap/forbidsomeone" />
+
+            </LinearLayout>
 
             <ImageView
-                android:id="@+id/notice_someone"
-                style="@style/input_select"
-                android:src="@mipmap/noticesomeone" />
+                android:layout_width="1px"
+                android:layout_height="@dimen/y58"
+                android:layout_gravity="center_vertical"
+                android:background="@color/g1">
 
-            <ImageView
-                android:id="@+id/forbid_someone"
-                style="@style/input_select"
-                android:src="@mipmap/forbidsomeone" />
-
-            <ImageView
-                android:id="@+id/location"
-                style="@style/input_select"
-                android:src="@mipmap/location_grey" />
-
-            <ImageView
-                android:id="@+id/picture"
-                style="@style/input_select"
-                android:src="@drawable/selector_picture" />
-
-            <ImageView
-                android:id="@+id/camera"
-                style="@style/input_select"
-                android:src="@mipmap/camera" />
+            </ImageView>
 
             <ImageButton
                 android:id="@+id/send"
+                android:layout_width="wrap_content"
                 android:background="@color/transparent"
-                style="@style/input_select"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:alpha="0.3"
-                android:paddingEnd="@dimen/width_48"
+                android:paddingEnd="@dimen/x32"
+                android:paddingStart="@dimen/x32"
                 android:src="@mipmap/plane_green" />
 
         </LinearLayout>

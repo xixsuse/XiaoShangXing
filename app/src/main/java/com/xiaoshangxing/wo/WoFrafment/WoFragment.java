@@ -88,7 +88,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private MainActivity activity;
     private InputBoxLayout inputBoxLayout;
 
-    private Realm realm;
     private RealmResults<Published> publisheds;
     private List<Published> pager_publisheds = new ArrayList<>();
     private Wo_listview_adpter wo_listview_adpter;
@@ -115,7 +114,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void onDestroyView() {
-        realm.close();
         super.onDestroyView();
     }
 
@@ -135,9 +133,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         set.setOnClickListener(this);
         publish = (ImageView) mView.findViewById(R.id.publish);
         publish.setOnClickListener(this);
-
-        realm = Realm.getDefaultInstance();
-
         //headview footview
         headView = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.util_wo_header, null);
         footerview = getActivity().getLayoutInflater().inflate(R.layout.footer, null);

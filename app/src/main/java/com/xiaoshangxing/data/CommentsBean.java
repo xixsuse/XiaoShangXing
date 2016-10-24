@@ -9,6 +9,7 @@ import io.realm.RealmObject;
 /**
  * Created by FengChaoQun
  * on 2016/8/24
+ * 评论数据
  */
 public class CommentsBean extends RealmObject {
 
@@ -86,6 +87,7 @@ public class CommentsBean extends RealmObject {
         this.momentId = momentId;
     }
 
+    //获取评论人id
     public int getUserId() {
         if (TextUtils.isEmpty(getUserInfo())) {
             return -1;
@@ -94,6 +96,7 @@ public class CommentsBean extends RealmObject {
         return Integer.valueOf(id_name[0]);
     }
 
+    //    获取评论人名字
     public String getUserName() {
         if (TextUtils.isEmpty(getUserInfo())) {
             return "未知";
@@ -102,6 +105,7 @@ public class CommentsBean extends RealmObject {
         return id_name[1];
     }
 
+    //    获取对象id
     public int getObejectId() {
 
         if (TextUtils.isEmpty(getLastUserInfo())) {
@@ -112,6 +116,7 @@ public class CommentsBean extends RealmObject {
         return Integer.valueOf(id_name[0]);
     }
 
+    //    获取对象名字
     public String getObjectName() {
         if (TextUtils.isEmpty(getLastUserInfo())) {
             return "未知";
@@ -120,6 +125,7 @@ public class CommentsBean extends RealmObject {
         return id_name[1];
     }
 
+    //    是否是回复某个人
     public boolean isReply() {
         return !TextUtils.isEmpty(getLastUserInfo());
     }
@@ -127,6 +133,5 @@ public class CommentsBean extends RealmObject {
     public int getId() {
         return commentId;
     }
-
 
 }

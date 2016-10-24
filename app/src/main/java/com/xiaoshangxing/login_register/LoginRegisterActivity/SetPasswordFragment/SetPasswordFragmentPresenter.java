@@ -42,11 +42,9 @@ public class SetPasswordFragmentPresenter implements SetPasswordContract.Present
                     jsonObject = new JSONObject(responseBody.string());
                     switch (Integer.valueOf((String) jsonObject.get("code"))) {
                         case 9000:
-                            Log.d("register", "success");
                             mView.showRegisterSuccess();
                             break;
                         case 9003:
-                            Log.d("register","error");
                             mView.showToast("该账号已存在，请前往注册。");
                         default:
                             Log.d("register", "erro");

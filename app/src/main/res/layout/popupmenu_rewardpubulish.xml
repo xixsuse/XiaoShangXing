@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="@mipmap/popup_menu_3_block"
-    android:layout_marginEnd="@dimen/x18"
     android:layout_width="@dimen/x397"
     android:layout_height="@dimen/y436">
 
     <!--我要发布-->
     <LinearLayout
+        android:layout_marginEnd="@dimen/x18"
         android:layout_marginTop="@dimen/y21"
         android:id="@+id/publish"
         android:orientation="horizontal"
@@ -39,6 +39,7 @@
 
     <!--已发布-->
     <LinearLayout
+        android:layout_marginEnd="@dimen/x18"
         android:id="@+id/published"
         android:orientation="horizontal"
         android:layout_weight="1"
@@ -69,6 +70,7 @@
 
     <!--收藏-->
     <LinearLayout
+        android:layout_marginEnd="@dimen/x18"
         android:id="@+id/collect"
         android:orientation="horizontal"
         android:layout_weight="1"
@@ -76,7 +78,7 @@
         android:layout_height="0dp">
 
         <LinearLayout
-            android:paddingStart="@dimen/x51"
+            android:paddingStart="@dimen/x56"
             android:layout_width="@dimen/x162"
             android:layout_height="match_parent">
             <ImageView
