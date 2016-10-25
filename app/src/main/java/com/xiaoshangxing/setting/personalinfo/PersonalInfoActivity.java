@@ -6,15 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.personalinfo.MyCode.MyCodeFragment;
 import com.xiaoshangxing.setting.personalinfo.QianMing.QianMingFragment;
-import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
 import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
-import com.xiaoshangxing.setting.shiming.ShenheActivity;
-import com.xiaoshangxing.setting.shiming.result.VertifyFailedActivity;
 import com.xiaoshangxing.setting.shiming.result.VertifySucessActivity;
 import com.xiaoshangxing.setting.shiming.shenhe.XueShengZhenActivity;
 import com.xiaoshangxing.utils.BaseActivity;
@@ -66,8 +65,9 @@ public class PersonalInfoActivity extends BaseActivity {
 
 
     public void TagView(View view) {
-        Intent intent = new Intent(this, TagViewActivity.class);
-        startActivity(intent);
+        showToast(NS.ON_DEVELOPING);
+//        Intent intent = new Intent(this, TagViewActivity.class);
+//        startActivity(intent);
     }
 
     public void QianName(View view) {
@@ -81,25 +81,18 @@ public class PersonalInfoActivity extends BaseActivity {
 
 
     public void Vertify(View view) {
- /*       mFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                        R.anim.slide_in_left, R.anim.slide_out_left)
-                .addToBackStack(VertifyFragment.TAG)
-                .replace(R.id.setting_personinfo_Content, new VertifyFragment(), VertifyFragment.TAG)
-                .commit();*/
-
         //尚未认证
 //        startActivity(new Intent(PersonalInfoActivity.this, ShenheActivity.class));
-        startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
-        //认证成功
-//        startActivity(new Intent(PersonalInfoActivity.this,VertifySucessActivity.class));
+        if (TempUser.isRealName) {
+            startActivity(new Intent(PersonalInfoActivity.this, VertifySucessActivity.class));
+        } else {
+            startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
+        }
+
+
         //认证失败
 //        startActivity(new Intent(PersonalInfoActivity.this,VertifyFailedActivity.class));
     }
-
-//    public void back(View view) {
-//        finish();
-//    }
 
 
     public int getImagCoverWidth() {

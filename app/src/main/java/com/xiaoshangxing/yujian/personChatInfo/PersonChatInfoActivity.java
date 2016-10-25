@@ -22,10 +22,10 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.model.Team;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.TopChat;
-import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
@@ -79,7 +79,6 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
     private PersonalAdapter adapter;
     private List<Member> data = new ArrayList<>();
     private String account;
-    private Realm realm;
     private boolean notice;
 
     @Override
@@ -108,7 +107,6 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
         }
         adapter = new PersonalAdapter(this, data, this, account);
         mGridview.setAdapter(adapter);
-        realm = Realm.getDefaultInstance();
         ZhiDing();
         notice = NIMClient.getService(FriendService.class).isNeedMessageNotify(account);
         MessageMute();
@@ -117,12 +115,11 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
     }
 
     private void ZhiDing() {
 
-        TopChat mytopChat = realm.where(TopChat.class).equalTo("phone", account).findFirst();
+        TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
         if (mytopChat == null) {
             topChat.setState(false);
         } else {
@@ -250,13 +247,10 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
         });
     }
 
-//    public void Back(View view) {
-//        finish();
-//    }
-
     public void SetChatBackGround(View view) {
-        Intent intent = new Intent(this, ChatBackgroundActivity.class);
-        startActivity(intent);
+        showToast(NS.ON_DEVELOPING);
+//        Intent intent = new Intent(this, ChatBackgroundActivity.class);
+//        startActivity(intent);
     }
 
     public void CleanChatRecord(View view) {

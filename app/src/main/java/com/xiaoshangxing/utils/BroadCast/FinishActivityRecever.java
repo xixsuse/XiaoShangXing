@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 /**
  * Created by FengChaoQun
  * on 2016/10/15
+ * 广播  关闭activity
  */
 
 public class FinishActivityRecever extends BroadcastReceiver {

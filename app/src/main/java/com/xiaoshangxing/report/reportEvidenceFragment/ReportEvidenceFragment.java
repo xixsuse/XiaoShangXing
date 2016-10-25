@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,50 +19,80 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.album.AlbumActivity;
-import com.xiaoshangxing.input_activity.album.Bimp;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.report.ReportActivity;
 import com.xiaoshangxing.report.reportCommitFragment.ReportCommitFragment;
 import com.xiaoshangxing.report.reportNoticeFragment.ReportNoticeFragment;
+import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.image.MyGlide;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by tianyang on 2016/7/2.
  */
-public class ReportEvidenceFragment extends BaseFragment implements View.OnClickListener {
+public class ReportEvidenceFragment extends BaseFragment {
     public static final String TAG = BaseFragment.TAG + "-ReportEvidenceFragment";
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.right_text)
+    TextView rightText;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.report_evidence_content1)
+    RelativeLayout reportEvidenceContent1;
+    @Bind(R.id.report_evidence_edittext)
+    EditText reportEvidenceEdittext;
+    @Bind(R.id.report_evidence_content2)
+    RelativeLayout reportEvidenceContent2;
+    @Bind(R.id.report_evidence_picture)
+    LinearLayout reportEvidencePicture;
+    @Bind(R.id.report_evidence_gridview)
+    GridView reportEvidenceGridview;
+    @Bind(R.id.report_evidence_notice)
+    TextView reportEvidenceNotice;
     private View mView;
-    private TextView back, submit, reportNotice;
+    private TextView reportNotice;
     private EditText reportText;
     public static Bitmap bimap;
     private GridView noScrollgridview;
     private GridAdapter adapter;
     private ReportActivity reportActivity;
-    private List<String> select_image_urls=new ArrayList<>();
+    private List<String> select_image_urls = new ArrayList<>();
     private Handler handler;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.frag_report_evidence, container, false);
+        ButterKnife.bind(this, mView);
+        title.setText("投诉");
+        rightText.setText("提交");
+        rightText.setTextColor(getResources().getColor(R.color.green1));
+
         reportActivity = (ReportActivity) getActivity();
-        handler=new Handler();
-        back = (TextView) mView.findViewById(R.id.toolbar_reportevidence_back);
-        submit = (TextView) mView.findViewById(R.id.toolbar_reportevidence_submit);
+        handler = new Handler();
         reportNotice = (TextView) mView.findViewById(R.id.report_evidence_notice);
         reportText = (EditText) mView.findViewById(R.id.report_evidence_edittext);
         reportText.setText(reportActivity.getReportText());
-        back.setOnClickListener(this);
-        submit.setOnClickListener(this);
-        reportNotice.setOnClickListener(this);
 
 //        Res.init(getActivity());
         bimap = BitmapFactory.decodeResource(
@@ -71,6 +100,7 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
                 R.mipmap.icon_addpic_unfocused);
 //        PublicWay.activityList.add(getActivity());
         Init();
+
         return mView;
     }
 
@@ -84,30 +114,49 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {//查看某个照片
 
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                //    if (arg2 == Bimp.tempSelectBitmap.size()) {
-               /* Intent intent = new Intent(getActivity(),
-                        AlbumFragment.class);
-                startActivity(intent);
-                getActivity().getSupportFragmentManager().popBackStack();*/
-                //     Toast.makeText(getActivity(), Bimp.tempSelectBitmap.get(arg2).imagePath, Toast.LENGTH_LONG).show();
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
                 imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
-//                getActivity().getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-//                                R.anim.slide_in_left, R.anim.slide_out_left)
-//                        .addToBackStack(null)
-//                        .replace(R.id.reportContent, new AlbumFragment())
-//                        .commit();
-//                Intent intent = new Intent(getActivity(), PhotoChoosingActivity.class);
-//                getActivity().startActivity(intent);
-                Intent album_intent=new Intent(getContext(), AlbumActivity.class);
-                album_intent.putExtra(AlbumActivity.LIMIT,9);
-                album_intent.putStringArrayListExtra(AlbumActivity.SELECTED,(ArrayList<String>) select_image_urls);
-                getActivity().startActivityForResult(album_intent,20000);
+                Intent album_intent = new Intent(getContext(), AlbumActivity.class);
+                album_intent.putExtra(AlbumActivity.LIMIT, 9);
+                album_intent.putStringArrayListExtra(AlbumActivity.SELECTED, (ArrayList<String>) select_image_urls);
+                getActivity().startActivityForResult(album_intent, 20000);
             }
         });
+    }
+
+    @OnClick({R.id.back, R.id.right_text, R.id.report_evidence_notice})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
+            case R.id.right_text:
+                InputMethodManager imm2 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm2.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
+                imm2.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                                R.anim.slide_in_left, R.anim.slide_out_left)
+                        .addToBackStack(null)
+                        .replace(R.id.main_fragment, new ReportCommitFragment(), ReportCommitFragment.TAG)
+                        .commit();
+                break;
+            case R.id.report_evidence_notice:
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                                R.anim.slide_in_left, R.anim.slide_out_left)
+                        .addToBackStack(null)
+                        .replace(R.id.main_fragment, new ReportNoticeFragment(), ReportNoticeFragment.TAG)
+                        .commit();
+                break;
+
+        }
     }
 
     @SuppressLint("HandlerLeak")
@@ -137,8 +186,8 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
 //                return 9;
 //            }
 //            return (Bimp.tempSelectBitmap.size() + 1);
-            int count=select_image_urls.size()+1;
-            return count>9?9:count;
+            int count = select_image_urls.size() + 1;
+            return count > 9 ? 9 : count;
         }
 
         public Object getItem(int arg0) {
@@ -170,9 +219,9 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            if (select_image_urls.size()>position){
-                MyGlide.with(getContext(),select_image_urls.get(position),holder.image);
-            }else {
+            if (select_image_urls.size() > position) {
+                MyGlide.with(getContext(), select_image_urls.get(position), holder.image);
+            } else {
                 holder.image.setImageResource(R.mipmap.icon_addpic_unfocused);
             }
             return convertView;
@@ -193,41 +242,6 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
         // adapter.update();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.toolbar_reportevidence_back:
-                   Toast.makeText(getActivity(),"back", Toast.LENGTH_SHORT).show();
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
-                imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
-                getActivity().getSupportFragmentManager().popBackStack();
-                break;
-            case R.id.toolbar_reportevidence_submit:
-                InputMethodManager imm2 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm2.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
-                imm2.hideSoftInputFromWindow(mView.getWindowToken(), 0);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                R.anim.slide_in_left, R.anim.slide_out_left)
-                        .addToBackStack(null)
-                        .replace(R.id.reportContent, new ReportCommitFragment(), ReportCommitFragment.TAG)
-                        .commit();
-                break;
-            case R.id.report_evidence_notice:
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                R.anim.slide_in_left, R.anim.slide_out_left)
-                        .addToBackStack(null)
-                        .replace(R.id.reportContent, new ReportNoticeFragment(), ReportNoticeFragment.TAG)
-                        .commit();
-                break;
-            default:
-                break;
-        }
-    }
 
     public void setSelect_image_urls(List<String> select_image_urls) {
         this.select_image_urls = select_image_urls;
@@ -237,7 +251,7 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
             public void run() {
                 adapter.notifyDataSetChanged();
             }
-        },300);
+        }, 300);
 
     }
 
@@ -245,5 +259,6 @@ public class ReportEvidenceFragment extends BaseFragment implements View.OnClick
     public void onDestroyView() {
         reportActivity.setReportText(reportText.getText().toString());
         super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

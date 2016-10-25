@@ -99,7 +99,7 @@
         android:layout_marginEnd="@dimen/y48"
         android:layout_marginStart="@dimen/x48"
         android:layout_marginBottom="@dimen/y54"
-        style="@style/g0_13sp"
+        style="@style/g0_14sp"
         android:text="@string/setinfo_text" />
 
     <LinearLayout

@@ -2,6 +2,7 @@ package com.xiaoshangxing.yujian.FriendActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -259,12 +260,9 @@ public class FriendActivity extends BaseActivity {
             SortModel sortModel = new SortModel();
             sortModel.setName(NimUserInfoCache.getInstance().getUserDisplayName(date[i]));
             sortModel.setAccount(date[i]);
-
             Friend friend = FriendDataCache.getInstance().getFriendByAccount(date[i]);
-            if (friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)) {
-                if ((boolean) friend.getExtension().get(NS.MARK)) {
+            if (friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK) && (boolean) friend.getExtension().get(NS.MARK)) {
                     sortModel.setSortLetters("@");
-                }
             } else {
                 //汉字转换成拼音
                 String pinyin = characterParser.getSelling(sortModel.getName());

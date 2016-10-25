@@ -175,7 +175,7 @@
 
         <TextView
             android:id="@+id/school"
-            style="@style/g0_13sp"
+            style="@style/g0_14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -217,7 +217,7 @@
 
         <TextView
             android:id="@+id/xueyuan"
-            style="@style/g0_13sp"
+            style="@style/g0_14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -261,7 +261,7 @@
 
         <TextView
             android:id="@+id/zhuanye"
-            style="@style/g0_13sp"
+            style="@style/g0_14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -303,7 +303,7 @@
 
         <TextView
             android:id="@+id/ruxuenianfen"
-            style="@style/g0_13sp"
+            style="@style/g0_14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

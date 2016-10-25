@@ -62,8 +62,6 @@ import io.realm.Realm;
  */
 public class ChatInfoActivity extends BaseActivity {
 
-
-    Realm realm;
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -141,6 +139,25 @@ public class ChatInfoActivity extends BaseActivity {
         initView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerObservers(true);
+        refresh();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        registerObservers(false);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void initView() {
         title.setText("聊天信息");
         more.setVisibility(View.GONE);
@@ -150,7 +167,6 @@ public class ChatInfoActivity extends BaseActivity {
         requestMembers();
         setGroupChatName();
         setGroupNoticeContent();
-        realm = Realm.getDefaultInstance();
         ZhiDing();
         MessageMute();
     }
@@ -177,26 +193,6 @@ public class ChatInfoActivity extends BaseActivity {
             showToast("获取群信息失败");
             finish();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerObservers(true);
-        refresh();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        registerObservers(false);
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
     }
 
     private void refresh() {

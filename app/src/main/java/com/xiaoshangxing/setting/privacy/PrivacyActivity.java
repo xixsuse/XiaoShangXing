@@ -1,6 +1,8 @@
 package com.xiaoshangxing.setting.privacy;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.xiaoshangxing.R;
@@ -50,5 +52,10 @@ public class PrivacyActivity extends BaseActivity {
                 .addToBackStack(null)
                 .replace(R.id.main_fragment, new PrivacySecondFragment())
                 .commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

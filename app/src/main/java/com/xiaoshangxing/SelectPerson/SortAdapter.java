@@ -16,6 +16,7 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
@@ -100,8 +101,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
         }
 
         viewHolder.name.setText(this.list.get(position).getName());
-
-
+        UserInfoCache.getInstance().getHeadIntoImage(this.list.get(position).getAccount(), viewHolder.head);
 
         if (locked != null && locked.contains(list.get(position).getAccount())) {
             viewHolder.checkBox.setEnabled(false);
@@ -109,7 +109,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
             viewHolder.checkBox.setBackgroundResource(R.mipmap.select_person_gray_gou);
         } else {
             viewHolder.checkBox.setBackgroundResource(R.drawable.selector_selectperson);
-            if (activity.getSelectPerson().contains(viewHolder.name.getText().toString())){
+            if (activity.getSelectPerson().contains(/*viewHolder.name.getText().toString()*/list.get(position).getAccount())) {
                 viewHolder.checkBox.setChecked(true);
 
             }else {

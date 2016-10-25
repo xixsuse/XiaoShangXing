@@ -68,7 +68,6 @@
                 android:textSize="13sp" />
         </LinearLayout>
 
-
         <!--more-->
         <ImageView
             android:id="@+id/more"
@@ -86,6 +85,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/y126"
         android:layout_alignParentBottom="true">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:alpha="0.3"
+            android:background="@color/b1">
+
+        </View>
 
         <!--评论 赞的数目-->
         <LinearLayout
@@ -128,6 +135,7 @@
                 android:textSize="15sp" />
 
         </LinearLayout>
+
     </RelativeLayout>
 
     <!--文字内容-->
@@ -141,7 +149,9 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:alpha="0.3"
-            android:background="@color/b1"></View>
+            android:background="@color/b1">
+
+        </View>
 
         <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
             android:id="@+id/text"
@@ -153,10 +163,8 @@
             android:paddingEnd="@dimen/width_48"
             android:paddingStart="@dimen/width_48"
             android:paddingTop="@dimen/y18"
-            android:text="@string/longtext"
             android:textColor="@color/w0"
             android:textSize="13sp" />
     </FrameLayout>
-
 
 </RelativeLayout>

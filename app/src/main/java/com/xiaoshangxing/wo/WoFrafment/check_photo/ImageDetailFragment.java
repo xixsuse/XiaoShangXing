@@ -51,7 +51,6 @@ public class ImageDetailFragment extends Fragment {
 		final View v = inflater.inflate(R.layout.frag_image_detail, container, false);
 		mImageView = (ImageView) v.findViewById(R.id.image);
 		mAttacher = new PhotoViewAttacher(mImageView);
-
 		mAttacher.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
 
 			@Override
@@ -59,7 +58,6 @@ public class ImageDetailFragment extends Fragment {
 				getActivity().finish();
 			}
 		});
-
 		return v;
 	}
 

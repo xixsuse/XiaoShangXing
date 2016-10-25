@@ -56,9 +56,9 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="g0_13sp">
+    <style name="g0_14sp">
         <item name="android:textColor">@color/g0</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="b1_13sp">

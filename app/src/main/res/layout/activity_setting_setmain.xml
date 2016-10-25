@@ -154,13 +154,12 @@
                 android:text="@string/bindmail" />
 
             <TextView
-                style="@style/g0_13sp"
+                style="@style/g0_14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/bindmail_rightarrow"
                 android:layout_marginEnd="@dimen/x20"
-                android:text="绑定邮箱"
                 android:id="@+id/bindEmailStaet" />
 
             <ImageView

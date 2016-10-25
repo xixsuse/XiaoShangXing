@@ -1,13 +1,12 @@
 package com.xiaoshangxing.setting.privacy.privacyFistFragment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,11 +14,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.privacy.PrivacyGridAdapter;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.setting.privacy.PermissionAdapter;
 import com.xiaoshangxing.utils.BaseFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,15 +39,14 @@ public class PrivacyFistFragment extends BaseFragment implements View.OnClickLis
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
     @Bind(R.id.privacyfirst_gridview)
-    GridView privacyfirstGridview;
+    GridView gridView;
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
     TextView leftText;
     private View mView;
-    private GridView gridView;
-    private boolean isAdded = true;
-    private List<Bitmap> data = new ArrayList<>(), dataTest1, dataTest2;
+    private PermissionAdapter adapter;
+    private ArrayList<String> accounts = new ArrayList<>();
 
     @Nullable
     @Override
@@ -60,65 +58,12 @@ public class PrivacyFistFragment extends BaseFragment implements View.OnClickLis
         title.setText("不让他(她)看我的校友圈");
         rightText.setText("完成");
         rightText.setTextColor(getResources().getColor(R.color.green1));
-        rightText.setAlpha(0.5f);
 
         back.setOnClickListener(this);
         rightText.setOnClickListener(this);
-        gridView = (GridView) mView.findViewById(R.id.privacyfirst_gridview);
 
-        final Bitmap bitmap1 = BitmapFactory.decodeResource(getActivity().getResources(), R.mipmap.cirecleimage_default);
-        dataTest1 = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            dataTest1.add(bitmap1);
-        }
-        dataTest2 = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            dataTest2.add(bitmap1);
-        }
-
-        final PrivacyGridAdapter adapter = new PrivacyGridAdapter(getActivity(), data);
+        adapter = new PermissionAdapter(accounts, this);
         gridView.setAdapter(adapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (data.size() != 0) {
-                    if (position == adapter.getCount() - 1) {
-                        //data!=null 点击删除键
-                        for (int i = 0; i < adapter.getCount() - 2; i++) {
-                            if (adapter.getRedDeleteViews().get(i).getVisibility() == View.GONE) {
-                                adapter.getRedDeleteViews().get(i).setVisibility(View.VISIBLE);
-                                isAdded = false;
-                            } else {
-                                adapter.getRedDeleteViews().get(i).setVisibility(View.GONE);
-                                isAdded = true;
-                            }
-                        }
-                    } else if (position == adapter.getCount() - 2) {
-                        //  data!=null isAdded=true 点击添加键
-                        if (isAdded) data.add(bitmap1);
-                    } else {
-                        //isAdded=false 点击好友图标进行删除
-                        if (!isAdded) {
-                            data.remove(position);
-                            if (data.size() != 0)
-                                adapter.getRedDeleteViews().get(adapter.getCount() - 2).setVisibility(View.GONE);
-                            else {
-                                rightText.setAlpha((float) 0.5);
-                                rightText.setClickable(false);
-                                adapter.getRedDeleteViews().get(adapter.getCount() - 1).setVisibility(View.GONE);
-                            }
-                        }
-                    }
-                    adapter.notifyDataSetChanged();
-                } else {
-                    rightText.setClickable(true);
-                    rightText.setAlpha(1);
-                    isAdded = true;
-                    data.add(bitmap1);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
         return mView;
     }
 
@@ -137,6 +82,20 @@ public class PrivacyFistFragment extends BaseFragment implements View.OnClickLis
             case R.id.right_text:
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                ArrayList<String> selected = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
+                if (selected.size() > 0) {
+                    accounts.addAll(selected);
+                    adapter.notifyDataSetChanged();
+                }
+            }
         }
     }
 }

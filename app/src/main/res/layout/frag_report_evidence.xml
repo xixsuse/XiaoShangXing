@@ -5,13 +5,17 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_report_evidence" />
+    <include
+        layout="@layout/util_normal_title_end_text"
+        android:id="@+id/title_lay">
+
+    </include>
 
     <RelativeLayout
         android:id="@+id/report_evidence_content1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y96"
-        android:layout_below="@+id/toolbar_report_evidence"
+        android:layout_below="@+id/title_lay"
         android:minHeight="@dimen/y96">
 
         <TextView

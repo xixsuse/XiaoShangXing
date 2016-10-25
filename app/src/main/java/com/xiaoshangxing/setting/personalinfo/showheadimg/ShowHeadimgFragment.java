@@ -32,6 +32,8 @@ import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.image.SaveImageTask;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,7 +127,8 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void saveToPhone() {
-
+        SaveImageTask s = new SaveImageTask(getContext());
+        s.execute(NimUserInfoCache.getInstance().getHeadImage(TempUser.getId()));
     }
 
     private void photo() {

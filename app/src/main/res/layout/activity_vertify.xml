@@ -5,41 +5,9 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y144"
-        android:background="@color/w0"
-        android:orientation="horizontal">
+    <include layout="@layout/util_normal_title">
 
-        <ImageView
-            android:id="@+id/xiaoyou_leftarrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/left_arrow_black" />
-
-        <TextView
-            android:id="@+id/xiaoyou_back"
-            style="@style/black_16sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/x12"
-            android:layout_toRightOf="@id/xiaoyou_leftarrow"
-            android:clickable="true"
-            android:onClick="Back"
-            android:text="@string/back" />
-
-        <TextView
-            style="@style/black_17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/shiming" />
-    </RelativeLayout>
-
+    </include>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -223,7 +191,7 @@
 
         <TextView
             android:id="@+id/school"
-            style="@style/g0_13sp"
+            style="@style/g0_14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -276,7 +244,7 @@
 
         <TextView
             android:id="@+id/ruxuenianfen"
-            style="@style/g0_13sp"
+            style="@style/g0_14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

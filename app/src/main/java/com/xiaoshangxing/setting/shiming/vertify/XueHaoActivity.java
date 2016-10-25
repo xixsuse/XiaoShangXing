@@ -5,24 +5,51 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by tianyang on 2016/10/5.
  */
-public class XueHaoActivity extends BaseActivity{
-    private EditText editText;
-    private TextView finish;
+public class XueHaoActivity extends BaseActivity {
+
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.right_text)
+    TextView finish;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.edittext)
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertify_xuehao);
-        editText = (EditText) findViewById(R.id.edittext);
-        finish = (TextView) findViewById(R.id.finish);
+        ButterKnife.bind(this);
+        title.setText("学号");
+        finish.setText("完成");
+        finish.setTextColor(getResources().getColor(R.color.green1));
+        finish.setAlpha(0.5f);
+        finish.setEnabled(false);
+
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -49,12 +76,16 @@ public class XueHaoActivity extends BaseActivity{
 
     }
 
-    public void Finish(View view) {
-        VertifyActivity.xuehaoStr = editText.getText().toString();
-        finish();
-    }
-
-    public void Back(View view) {
-        finish();
+    @OnClick({R.id.back, R.id.right_text})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                finish();
+                break;
+            case R.id.right_text:
+                VertifyActivity.xuehaoStr = editText.getText().toString();
+                finish();
+                break;
+        }
     }
 }

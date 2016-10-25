@@ -67,7 +67,6 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
     private TextView name1;
     private TextView name2;
     private CirecleImage head;
-    private Realm realm;
     private boolean is_refresh = false;           //记录是否正在刷新
     private boolean is_loadMore = false;          //记录是否正在加载更多
     private RealmResults<Published> publisheds;
@@ -77,7 +76,6 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mystate);
         ButterKnife.bind(this);
-        realm = Realm.getDefaultInstance();
         setmPresenter(new StatePresenter(this, this));
         initView();
         typeOfState();
@@ -171,6 +169,8 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
             finish();
             return;
         }
+        head.setIntent_type(CirecleImage.PERSON_INFO, account);
+
         UserInfoCache.getInstance().getHeadIntoImage(account, head);
         UserInfoCache.getInstance().getExIntoTextview(account, NS.USER_NAME, name1);
         UserInfoCache.getInstance().getExIntoTextview(account, NS.USER_NAME, name2);
@@ -238,7 +238,6 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
 
     @Override
     protected void onDestroy() {
-        realm.close();
         super.onDestroy();
     }
 

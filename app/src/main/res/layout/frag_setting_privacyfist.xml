@@ -34,7 +34,7 @@
     </RelativeLayout>
 
     <TextView
-        style="@style/g0_13sp"
+        style="@style/g0_14sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y30"

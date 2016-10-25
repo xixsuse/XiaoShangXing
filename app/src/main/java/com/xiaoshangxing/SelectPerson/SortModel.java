@@ -41,4 +41,14 @@ public class SortModel {
     public void setAccount(String account) {
         this.account = account;
     }
+
+    @Override
+    public String toString() {
+        return "SortModel{" +
+                "account='" + account + '\'' +
+                ", name='" + name + '\'' +
+                ", sortLetters='" + sortLetters + '\'' +
+                ", isSpecial=" + isSpecial +
+                '}';
+    }
 }

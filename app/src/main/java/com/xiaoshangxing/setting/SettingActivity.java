@@ -124,7 +124,6 @@ public class SettingActivity extends BaseActivity implements IBaseView {
 
     @Override
     protected void onDestroy() {
-        realm.close();
         super.onDestroy();
     }
 

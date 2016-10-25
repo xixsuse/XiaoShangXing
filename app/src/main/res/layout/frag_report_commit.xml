@@ -5,7 +5,9 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <include layout="@layout/toolbar_report_commit" />
+    <include layout="@layout/util_normal_title_end_text">
+
+    </include>
 
     <LinearLayout
         android:layout_width="match_parent"

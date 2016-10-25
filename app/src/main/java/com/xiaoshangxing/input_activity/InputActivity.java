@@ -228,7 +228,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
     public static final String COMMENTID = "COMMENTID";
     private int momentId;     //评论的动态id  转发的动态id
     private int commentId;     //评论的评论id
-    private Realm realm;
 
     private Handler handler = new Handler();
     private Runnable runnable;
@@ -240,7 +239,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
         ButterKnife.bind(this);
-        realm = Realm.getDefaultInstance();
         initPictureView();
         initState();
         initEmotView();
@@ -1125,7 +1123,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
     protected void onDestroy() {
         Bimp.tempSelectBitmap.clear();
         KeyBoardUtils.closeKeybord(emotionEdittext, this);
-        realm.close();
         handler.removeCallbacks(runnable);
         super.onDestroy();
     }

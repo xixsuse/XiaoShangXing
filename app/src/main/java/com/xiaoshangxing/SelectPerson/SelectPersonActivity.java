@@ -6,7 +6,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,10 +39,8 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     public static final int MY_FRIEND = 1;
     public static final int GROUP = 2;
     private int group_id;
-    private int requestCode;
     private ArrayList<String> locked_account;
 
-//    private int current_type;
     private ListView sortListView;
     private SideBar sideBar;
     private TextView dialog;
@@ -66,7 +63,6 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_person);
         limit = getIntent().getIntExtra("limit", noLimit);
-        requestCode=getIntent().getIntExtra(REQUSET_CODE,-1);
         initView();
         refreshCount();
     }
@@ -89,10 +85,6 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         recyclerView=(RecyclerView)findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-//        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL_LIST));
-//        for (int i=0;i<=10;i++){
-//            selectPerson.add(""+i);
-//        }
         selectedPersonAdapter=new SelectedPersonAdapter(this,selectPerson,this);
         recyclerView.setAdapter(selectedPersonAdapter);
         //设置右侧触摸监听
@@ -120,7 +112,6 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         adapter = new SortAdapter(this, SourceDateList,limit,this,locked_account);
         sortListView.setAdapter(adapter);
 
-//        current_type=getIntent().getIntExtra(TRANSMIT_TYPE,SCHOOL_HELP_TRANSMIT);
     }
 
     private void parseData() {
@@ -134,6 +125,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
                 friendss[i] = friends.get(i);
             }
             SourceDateList = filledData(friendss);
+
         }else if (getIntent().getIntExtra(IntentStatic.TYPE, MY_FRIEND) == GROUP){
             List<Team> teams= TeamDataCache.getInstance().getAllTeams();
             SourceDateList=filledGroup(teams);
@@ -148,10 +140,8 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
             sortModel.setAccount(date[i]);
 
             Friend friend = FriendDataCache.getInstance().getFriendByAccount(date[i]);
-            if (friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)) {
-                if ((boolean) friend.getExtension().get(NS.MARK)) {
-                    sortModel.setSortLetters("@");
-                }
+            if (friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK) && (boolean) friend.getExtension().get(NS.MARK)) {
+                sortModel.setSortLetters("@");
             } else {
                 //汉字转换成拼音
                 String pinyin = characterParser.getSelling(sortModel.getName());
@@ -213,8 +203,6 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
             }
         }
 
-        Log.d("hhhh", filterStr.toString().toUpperCase());
-
         // 根据a-z进行排序
         Collections.sort(filterDateList, pinyinComparator);
         adapter.updateListView(filterDateList);
@@ -259,7 +247,6 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         } else {
             sure.setText("确认(" + selectPerson.size() + "/" + limit + ")");
         }
-
     }
 
     @Override
@@ -277,11 +264,6 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     private void sure(){
         Intent intent=new Intent();
         intent.putStringArrayListExtra(SELECT_PERSON,(ArrayList<String>) selectPerson);
-//        if (requestCode!=0&&requestCode!=-1){
-//            setResult(RESULT_OK, intent);
-//        }else {
-//            setResult(SELECT_PERSON_CODE,intent);
-//        }
         setResult(RESULT_OK, intent);
         finish();
     }

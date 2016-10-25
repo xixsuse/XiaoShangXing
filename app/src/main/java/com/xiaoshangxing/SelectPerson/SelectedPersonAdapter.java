@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class SelectedPersonAdapter extends RecyclerView.Adapter<SelectedPersonAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.head.setImageResource(R.mipmap.cirecleimage_default);
+        UserInfoCache.getInstance().getHeadIntoImage(selectPerson.get(position), holder.head);
     }
 
     @Override

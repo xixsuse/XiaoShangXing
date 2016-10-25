@@ -117,7 +117,7 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
             return;
         }
 
-        if (!FriendDataCache.getInstance().isMyFriend(account)) {
+        if (!FriendDataCache.getInstance().isMyFriend(account) || FriendDataCache.getInstance().isInblack(account)) {
             initNotFriend();
             return;
         }
@@ -309,7 +309,8 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
         crush.setState(DataSetting.IsCrush(this));
         bukanwo.setState(DataSetting.IsBuKanWo(this));
         bukanta.setState(DataSetting.IsBuKanTa(this));
-        addToBlackList.setState(DataSetting.IsAddToBlackList(this));
+        addToBlackList.setState(FriendDataCache.getInstance().isInblack(account));
+
     }
 
     public void Report(View view) {

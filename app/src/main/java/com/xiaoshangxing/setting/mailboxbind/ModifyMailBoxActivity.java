@@ -58,7 +58,6 @@ public class ModifyMailBoxActivity extends BaseActivity implements IBaseView {
     Button bindmailboxBreakmaibox;
     private IBaseView iBaseView = this;
 
-    private Realm realm;
     User user;
 
     @Override
@@ -74,7 +73,6 @@ public class ModifyMailBoxActivity extends BaseActivity implements IBaseView {
         title.setText("修改邮箱地址");
         more.setVisibility(View.GONE);
 
-        realm = Realm.getDefaultInstance();
         user = realm.where(User.class).equalTo("id",
                 (Integer) SPUtils.get(ModifyMailBoxActivity.this,
                         SPUtils.ID, SPUtils.DEFAULT_int)).findFirst();
@@ -88,7 +86,6 @@ public class ModifyMailBoxActivity extends BaseActivity implements IBaseView {
 
     @Override
     protected void onDestroy() {
-        realm.close();
         super.onDestroy();
     }
 

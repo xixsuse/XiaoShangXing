@@ -12,6 +12,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.RoundedImageView;
 
 import java.util.ArrayList;
@@ -35,10 +36,8 @@ public class PrivacyGridAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         if (data.size() == 0) {
-            Log.d("qqq", "null...");
             return 1;
         } else {
-            Log.d("qqq", "notnull..." + data.size());
             return data.size() + 2;
         }
     }
@@ -59,13 +58,12 @@ public class PrivacyGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d("qqq", "position  " + position);
         ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_privacy_adapter, parent, false);
             holder = new ViewHolder();
-            holder.add = (RoundedImageView) convertView.findViewById(R.id.privacy_add);
-            holder.redDelete = (ImageView) convertView.findViewById(R.id.privacy_reddelete);
+            holder.add = (CirecleImage) convertView.findViewById(R.id.privacy_add);
+            holder.redDelete = (CirecleImage) convertView.findViewById(R.id.privacy_reddelete);
             redDeleteViews.add(holder.redDelete);
             convertView.setTag(holder);
         } else {
@@ -86,8 +84,8 @@ public class PrivacyGridAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        public RoundedImageView add;
-        public ImageView redDelete;
+        public CirecleImage add;
+        public CirecleImage redDelete;
     }
 
 

@@ -14,12 +14,12 @@ import android.widget.TextView;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.FriendService;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CustomSwipeListView;
 import com.xiaoshangxing.utils.layout.SwipeItemView;
-import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 import java.util.List;
 
@@ -115,8 +115,8 @@ public class BlackListFragment extends BaseFragment {
                     holder = (ViewHolder) slideView.getTag();
                 }
 
-                MyGlide.with(getContext(), NimUserInfoCache.getInstance().getHeadImage(accounts.get(position)), holder.image);
-                holder.name.setText(NimUserInfoCache.getInstance().getUserDisplayName(accounts.get(position)));
+                UserInfoCache.getInstance().getHeadIntoImage(accounts.get(position), holder.image);
+                UserInfoCache.getInstance().getExIntoTextview(accounts.get(position), NS.USER_NAME, holder.name);
                 holder.deleteHolder.setOnClickListener(new View.OnClickListener() {
 
                     @Override

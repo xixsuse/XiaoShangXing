@@ -5,29 +5,53 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by tianyang on 2016/10/5.
  */
 public class XueLiActivity extends BaseActivity {
-    private ListView mListView;
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.right_text)
+    TextView finish;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.list)
+    ListView mListView;
     private String[] strings;
     private ArrayAdapter mAdapter;
-    private TextView finish;
     public static String yearStr, xueli;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertify_xueli);
-
-        mListView = (ListView) findViewById(R.id.list);
-        finish = (TextView) findViewById(R.id.finish);
+        ButterKnife.bind(this);
+        title.setText("学历");
+        finish.setText("完成");
+        finish.setTextColor(getResources().getColor(R.color.green1));
+        finish.setAlpha(0.5f);
+        finish.setEnabled(false);
 
         strings = getResources().getStringArray(R.array.XueLi);
         mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, strings);
@@ -48,13 +72,24 @@ public class XueLiActivity extends BaseActivity {
         finish();
     }
 
-    public void Finish(View view) {
+    public void Finish() {
         VertifyActivity.ruxuenianfenStr = yearStr;
 
         Intent intent = new Intent(this, VertifyActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
-//        startActivity(new Intent(this, VertifyActivity.class));
+    }
+
+    @OnClick({R.id.back, R.id.right_text})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                finish();
+                break;
+            case R.id.right_text:
+                Finish();
+                break;
+        }
     }
 }

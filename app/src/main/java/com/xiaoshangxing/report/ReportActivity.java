@@ -29,12 +29,12 @@ public class ReportActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
+        setContentView(R.layout.activity_only_fraglayout);
         ReportReasonFragment reportReasonFragment = new ReportReasonFragment();
         reportEvidenceFragment = new ReportEvidenceFragment();
 
         mFragmentManager.beginTransaction()
-                .replace(R.id.reportContent, reportReasonFragment, ReportReasonFragment.TAG)
+                .replace(R.id.main_fragment, reportReasonFragment, ReportReasonFragment.TAG)
                 .commit();
 
     }

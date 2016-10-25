@@ -1,7 +1,6 @@
 package com.xiaoshangxing.yujian.IM.cache;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -107,6 +106,10 @@ public class FriendDataCache {
 
     public boolean isMyFriend(String account) {
         return friendAccountSet.contains(account);
+    }
+
+    public boolean isInblack(String account) {
+        return NIMClient.getService(FriendService.class).isInBlackList(account);
     }
 
     /**

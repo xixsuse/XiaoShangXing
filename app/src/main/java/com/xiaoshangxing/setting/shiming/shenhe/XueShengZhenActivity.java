@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.shiming.VertifyUtil;
@@ -19,19 +22,40 @@ import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by tianyang on 2016/9/19.
  */
 public class XueShengZhenActivity extends BaseActivity {
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
+    @Bind(R.id.back)
+    LinearLayout back;
+    @Bind(R.id.title)
+    TextView title;
+    @Bind(R.id.more)
+    ImageView more;
+    @Bind(R.id.title_bottom_line)
+    View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+    @Bind(R.id.personinfo_headimg)
+    ImageView personinfoHeadimg;
+    @Bind(R.id.personinfo_name)
+    TextView personinfoName;
     @Bind(R.id.imageLeft)
     ImageView imageLeft;
     @Bind(R.id.imageRight)
     ImageView imageRight;
+    @Bind(R.id.personinfo_xueyaun)
+    TextView personinfoXueyaun;
     @Bind(R.id.NextButtom)
     Button NextButtom;
-    private FinishActivityRecever finishActivityRecever;
 
+    private FinishActivityRecever finishActivityRecever;
     private static boolean flagLeft = false, flagRight = false;
 
     @Bind(R.id.wrongLeft)
@@ -46,32 +70,10 @@ public class XueShengZhenActivity extends BaseActivity {
         ButterKnife.bind(this);
         finishActivityRecever = new FinishActivityRecever(this);
         finishActivityRecever.register();
+        title.setText("实名认证");
+        more.setVisibility(View.GONE);
+        titleBottomLine.setVisibility(View.GONE);
     }
-
-    public void Back(View view) {
-        finish();
-    }
-
-    public void Next(View view) {
-        startActivity(new Intent(this, VertifyActivity.class));
-        //成功后跳转VertifySucessActivity
-//        startActivity(new Intent(this, VertifySucessActivity.class));
-    }
-
-    public void imgLeft(View view) {
-        Intent intent = new Intent(this, PreviewActivity.class);
-        intent.putExtra("VertifyType", "XueShengZhen");
-        intent.putExtra("ZuoYou", 0);
-        startActivity(intent);
-    }
-
-    public void imgRight(View view) {
-        Intent intent = new Intent(this, PreviewActivity.class);
-        intent.putExtra("VertifyType", "XueShengZhen");
-        intent.putExtra("ZuoYou", 1);
-        startActivity(intent);
-    }
-
 
     @Override
     protected void onResume() {
@@ -119,6 +121,34 @@ public class XueShengZhenActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        flagLeft = false;
+        flagRight = false;
+        finishActivityRecever.unregister();
+    }
+
+    public void Next(View view) {
+        startActivity(new Intent(this, VertifyActivity.class));
+        //成功后跳转VertifySucessActivity
+//        startActivity(new Intent(this, VertifySucessActivity.class));
+    }
+
+    public void imgLeft(View view) {
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra("VertifyType", "XueShengZhen");
+        intent.putExtra("ZuoYou", 0);
+        startActivity(intent);
+    }
+
+    public void imgRight(View view) {
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra("VertifyType", "XueShengZhen");
+        intent.putExtra("ZuoYou", 1);
+        startActivity(intent);
+    }
+
 
     //设置button为Green样式
     public void setButtonStyleGreen() {
@@ -137,13 +167,8 @@ public class XueShengZhenActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        flagLeft = false;
-        flagRight = false;
-        finishActivityRecever.unregister();
+    @OnClick(R.id.back)
+    public void onClick() {
+        finish();
     }
-
-
 }

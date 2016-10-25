@@ -1,27 +1,11 @@
 package com.xiaoshangxing.setting.currency;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
-import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundFragment;
-import com.xiaoshangxing.setting.currency.chooseBackgroundFragment.ChooseBackgroundFragment;
 import com.xiaoshangxing.setting.currency.currenctFragment.CurrencyFragment;
-import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
-import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
-import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseActivity;
 
 /**
@@ -39,9 +23,9 @@ public class CurrencyActivity extends BaseActivity {
     }
 
     public void ChatBackground(View view) {
-
-        Intent intent = new Intent(this, ChatBackgroundActivity.class);
-        startActivity(intent);
+        showToast(NS.ON_DEVELOPING);
+//        Intent intent = new Intent(this, ChatBackgroundActivity.class);
+//        startActivity(intent);
     }
 
 }

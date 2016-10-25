@@ -101,7 +101,7 @@ public class Adapter extends BaseAdapter {
         }
 
         if (position == getCount() - 2) {
-            holder.img.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.privacy_add));
+            Glide.with(context).load(R.mipmap.privacy_add).into(holder.img);
             holder.img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -116,7 +116,7 @@ public class Adapter extends BaseAdapter {
             });
             holder.name.setText("");
         } else if (position == getCount() - 1) {
-            holder.img.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.mipmap.privacy_remove));
+            Glide.with(context).load(R.mipmap.privacy_remove).into(holder.img);
             holder.img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
