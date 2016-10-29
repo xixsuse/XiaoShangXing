@@ -1,10 +1,11 @@
 package com.xiaoshangxing.setting.currency;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
 import com.xiaoshangxing.setting.currency.currenctFragment.CurrencyFragment;
 import com.xiaoshangxing.utils.BaseActivity;
 
@@ -23,9 +24,8 @@ public class CurrencyActivity extends BaseActivity {
     }
 
     public void ChatBackground(View view) {
-        showToast(NS.ON_DEVELOPING);
-//        Intent intent = new Intent(this, ChatBackgroundActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, ChatBackgroundActivity.class);
+        startActivity(intent);
     }
 
 }

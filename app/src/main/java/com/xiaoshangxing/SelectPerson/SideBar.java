@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
 public class SideBar extends View {
     // 触摸事件
@@ -67,7 +68,7 @@ public class SideBar extends View {
             paint.setColor(getResources().getColor(R.color.b4));
             paint.setTypeface(Typeface.DEFAULT_BOLD);
             paint.setAntiAlias(true);
-            paint.setTextSize(34);
+            paint.setTextSize(ScreenUtils.getAdapterPx(R.dimen.x34, getContext()));
             // 选中的状态
             if (i == choose) {
                 paint.setColor(getResources().getColor(R.color.green1));

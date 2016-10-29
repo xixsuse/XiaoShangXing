@@ -76,6 +76,7 @@ public class AlbumHelper {
 				thumbnailList.put("" + image_id, image_path);
 			} while (cur.moveToNext());
 		}
+		cur.close();
 	}
 
 	void getAlbum() {
@@ -134,7 +135,7 @@ public class AlbumHelper {
 
 	void buildImagesBucketList() {
 		long startTime = System.currentTimeMillis();
-
+		bucketList.clear();
 		getThumbnail();
 
 		String columns[] = new String[] { Media._ID, Media.BUCKET_ID,

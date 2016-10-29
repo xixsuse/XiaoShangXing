@@ -24,13 +24,11 @@ import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.report.ReportActivity;
-import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.SwitchView;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
@@ -152,39 +150,39 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
         crush.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                SPUtils.put(SetInfoActivity.this, "crush", true);
+                showToast(NS.ON_DEVELOPING);
                 crush.setState(true);
             }
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(SetInfoActivity.this, "crush", false);
+                showToast(NS.ON_DEVELOPING);
                 crush.setState(false);
             }
         });
         bukanwo.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                SPUtils.put(SetInfoActivity.this, "bukanwo", true);
+                showToast(NS.ON_DEVELOPING);
                 bukanwo.setState(true);
             }
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(SetInfoActivity.this, "bukanwo", false);
+                showToast(NS.ON_DEVELOPING);
                 bukanwo.setState(false);
             }
         });
         bukanta.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                SPUtils.put(SetInfoActivity.this, "bukanta", true);
+                showToast(NS.ON_DEVELOPING);
                 bukanta.setState(true);
             }
 
             @Override
             public void toggleToOff() {
-                SPUtils.put(SetInfoActivity.this, "bukanta", false);
+                showToast(NS.ON_DEVELOPING);
                 bukanta.setState(false);
             }
         });
@@ -306,9 +304,9 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
         } else {
             starMarkfriends.setState(false);
         }
-        crush.setState(DataSetting.IsCrush(this));
-        bukanwo.setState(DataSetting.IsBuKanWo(this));
-        bukanta.setState(DataSetting.IsBuKanTa(this));
+        crush.setState(false);
+        bukanwo.setState(false);
+        bukanta.setState(false);
         addToBlackList.setState(FriendDataCache.getInstance().isInblack(account));
 
     }

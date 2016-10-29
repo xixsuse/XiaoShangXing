@@ -6,6 +6,7 @@
     android:padding="6dp">
 
     <TextView
+        android:alpha="0.3"
         android:id="@+id/message_item_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

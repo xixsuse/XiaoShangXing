@@ -228,4 +228,8 @@ public class FileUtils {
         File file = new File(getXSX_CameraPhotoPath(), UUID.randomUUID().toString() + ".jpg");
         return Uri.fromFile(file);
     }
+
+    public static File newImageFile() {
+        return new File(getXsxSaveIamge(), UUID.randomUUID().toString() + ".jpg");
+    }
 }

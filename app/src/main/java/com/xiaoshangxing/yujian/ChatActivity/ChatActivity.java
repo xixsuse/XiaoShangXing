@@ -186,6 +186,7 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
 //        取消监听
         registerObservers(false);
         handler.removeCallbacks(runnable);
+        inputPanel.onDestroy();
     }
 
     //  刷新消息列表

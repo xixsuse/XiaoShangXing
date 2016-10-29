@@ -391,7 +391,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
             noContent.setVisibility(View.GONE);
         } else {
             noContent.setVisibility(View.VISIBLE);
-            noContent.setText(isOthers ? "他还没有发布互帮" : "还没有人发布互帮");
+            noContent.setText(isOthers ? "他还没有发布闲置" : "还没有人发布闲置");
         }
     }
 

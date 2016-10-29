@@ -94,7 +94,6 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
 
     private void initView() {
         title.setText("我的互帮");
-        noContent.setText("你还没有发布互帮,快去发布你的互帮吧");
         View view = new View(getContext());
         listview.addHeaderView(view);
         footview = View.inflate(getContext(), R.layout.footer, null);

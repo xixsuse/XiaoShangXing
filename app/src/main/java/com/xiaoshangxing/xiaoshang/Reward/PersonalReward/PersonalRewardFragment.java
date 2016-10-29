@@ -91,7 +91,6 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
 
     private void initView() {
         title.setText(R.string.myreward);
-        noContent.setText("你还没有发布悬赏,快去发布你的互帮吧");
         View view = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);

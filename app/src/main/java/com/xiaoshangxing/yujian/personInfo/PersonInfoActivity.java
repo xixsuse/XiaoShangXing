@@ -43,7 +43,6 @@ import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
-import com.xiaoshangxing.yujian.pearsonalTag.PeraonalTagActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -329,9 +328,10 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
 
     //标签
     public void Tag() {
+        showToast(NS.ON_DEVELOPING);
         //别人的
-        Intent intent = new Intent(this, PeraonalTagActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, PeraonalTagActivity.class);
+//        startActivity(intent);
         //自己的
 //        Intent intent = new Intent(this, TagViewActivity.class);
 //        startActivity(intent);

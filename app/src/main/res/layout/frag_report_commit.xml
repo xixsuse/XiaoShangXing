@@ -17,18 +17,18 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="@dimen/x264"
-            android:layout_height="@dimen/y360"
+            android:layout_width="@dimen/x254"
+            android:layout_height="@dimen/y354"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/y96"
-            android:layout_marginTop="@dimen/y144"
+            android:layout_marginBottom="@dimen/y100"
+            android:layout_marginTop="@dimen/y142"
             android:src="@mipmap/report_commit" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/y48"
+            android:layout_marginBottom="@dimen/y54"
             android:text="@string/submitted"
             android:textColor="@color/b1"
             android:textSize="18sp" />

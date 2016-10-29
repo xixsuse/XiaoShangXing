@@ -9,7 +9,6 @@
         android:layout_width="@dimen/x336"
         android:layout_height="@dimen/x336"
         android:scaleType="centerCrop"
-        android:src="@mipmap/greyblock"
         app:corner_radius="6dp" />
 
     <TextView

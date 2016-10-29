@@ -59,4 +59,5 @@ public class MyGlide {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
     }
+
 }

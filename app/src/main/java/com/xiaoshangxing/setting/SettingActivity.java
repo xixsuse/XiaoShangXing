@@ -35,6 +35,7 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
@@ -238,6 +239,7 @@ public class SettingActivity extends BaseActivity implements IBaseView {
                     }
                 }).create();
         alertDialog.show();
+        LocationUtil.setWidth(this, alertDialog, getResources().getDimensionPixelSize(R.dimen.x780));
     }
 
     public void about(View view) {

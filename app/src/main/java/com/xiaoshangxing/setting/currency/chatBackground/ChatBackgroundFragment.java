@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.LocalDataUtils;
 import com.xiaoshangxing.utils.BaseFragment;
 
 import butterknife.Bind;
@@ -39,6 +40,8 @@ public class ChatBackgroundFragment extends BaseFragment {
     RelativeLayout ChooseBackground;
     @Bind(R.id.chatbackground_img)
     ImageView chatbackgroundImg;
+    @Bind(R.id.use_for_all)
+    RelativeLayout useForAll;
     private View mView;
     private ImageView imageView;
     private ChatBackgroundActivity mActivity;
@@ -62,8 +65,20 @@ public class ChatBackgroundFragment extends BaseFragment {
         ButterKnife.unbind(this);
     }
 
-    @OnClick(R.id.back)
-    public void onClick() {
-        getActivity().finish();
+
+    @OnClick({R.id.back, R.id.use_for_all})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back:
+                getActivity().finish();
+                break;
+            case R.id.use_for_all:
+                useForAll();
+                break;
+        }
+    }
+
+    private void useForAll() {
+        LocalDataUtils.saveBackgroud(null, ChatBackgroundActivity.image, true, getContext());
     }
 }

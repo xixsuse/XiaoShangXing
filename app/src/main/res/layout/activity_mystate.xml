@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:paddingStart="@dimen/width_48"
     android:paddingEnd="@dimen/width_48"
@@ -36,4 +36,4 @@
         android:layout_below="@+id/title_lay"
         android:text="@string/no_published_help" />
 
-</LinearLayout>
+</RelativeLayout>

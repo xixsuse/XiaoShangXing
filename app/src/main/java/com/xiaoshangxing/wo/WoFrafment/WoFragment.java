@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
@@ -22,6 +23,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.setting.SettingActivity;
@@ -82,6 +84,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private ImageView newsHead;
     private DotsTextView dotsTextView;
     private TextView LoadingText;
+    private TextView noContent;
 
     private ImageView set, publish;
 
@@ -94,6 +97,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private int current_anchor = 10;
     private int selection;//记录listview的位置
     private WoAdapter1 woAdapter1;
+    private NimUserInfo nimUserInfo;
 
     @Nullable
     @Override
@@ -127,6 +131,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         inputBoxLayout=activity.getInputBoxLayout();
         listView=(ListView)mView.findViewById(R.id.listview);
         ptrFrameLayout=(PtrFrameLayout)mView.findViewById(R.id.reflesh_layout);
+        noContent = (TextView) mView.findViewById(R.id.no_content);
         divider_line=mView.findViewById(R.id.line);
         title = (RelativeLayout) mView.findViewById(R.id.title);
         set = (ImageView) mView.findViewById(R.id.set);
@@ -248,13 +253,16 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initHead() {
-        User user = realm.where(User.class).equalTo(NS.ID, TempUser.getID(getContext())).findFirst();
-        if (user == null) {
-            showToast("个人信息有误");
-            return;
-        }
-        setName(user.getUsername());
-        setHead(user.getUserImage());
+//        User user = realm.where(User.class).equalTo(NS.ID, TempUser.getID(getContext())).findFirst();
+//        if (user == null) {
+//            showToast("个人信息有误");
+//            return;
+//        }
+//        setName(user.getUsername());
+//        setHead(user.getUserImage());
+        UserInfoCache.getInstance().getHeadIntoImage(TempUser.getId(), headImage);
+        UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.USER_NAME, name1);
+        UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.USER_NAME, name2);
         setNews();
     }
 
@@ -275,6 +283,13 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 //                wo_listview_adpter.notifyDataSetChanged();
 //            }
 //        });
+
+        if (publisheds.size() > 0) {
+            noContent.setVisibility(View.GONE);
+        } else {
+            noContent.setVisibility(View.VISIBLE);
+            noContent.setText("还没有人发布动态");
+        }
 
         wo_listview_adpter = new Wo_listview_adpter(getContext(),
                 1, publisheds, this, (BaseActivity) getActivity(), realm, listView);

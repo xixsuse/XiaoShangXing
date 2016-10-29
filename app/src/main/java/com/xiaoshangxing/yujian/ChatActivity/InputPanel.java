@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
@@ -60,6 +61,7 @@ import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.kit.string.StringUtil;
@@ -70,6 +72,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.os.Looper.getMainLooper;
 
 /**
  * 底部文本编辑，语音等模块
@@ -129,6 +133,8 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     private boolean actionPanelBottomLayoutHasSetup = false;
     private boolean isTextAudioSwitchShow = true;
     private boolean isOrig;
+    private ContentObserver contentObserver;
+    private AlbumHelper albumHelper;
 
 
     // data
@@ -149,6 +155,10 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         }
     }
 
+    public void onDestroy() {
+        unRegisterContentObserver();
+    }
+
     //      收起输入面板
     public boolean collapse(boolean immediately) {
         boolean respond = (emotion_lay != null && emotion_lay.getVisibility() == View.VISIBLE
@@ -164,6 +174,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         initTextEdit();
         initAudioRecordButton();
         restoreText(false);
+        addContentObserver();
     }
 
     private void initViews() {
@@ -201,8 +212,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         picture_count = (TextView) view.findViewById(R.id.picture_count);
         select_picture_complete = (TextView) view.findViewById(R.id.complete);
         select_picture_complete.setOnClickListener(this);
-
-
         switchToTextLayout(false);
         initEmotView();
         initPictureView();
@@ -222,6 +231,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
                 start = (start < 0 ? 0 : start);
                 end = (start < 0 ? 0 : end);
                 mEditable.replace(start, end, emot);
+                checkSendButtonEnable(emoticonsEditText);
             }
         });
         gridView.setAdapter(emotionGrideViewAdapter);
@@ -263,13 +273,48 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     }
 
     public void getDatas() {
-        AlbumHelper albumHelper = AlbumHelper.getHelper();
-        albumHelper.init(container.activity);
-        ImageBucket imageBucket = albumHelper.getTotalImage(false);
+        albumHelper = AlbumHelper.getHelper();
+        albumHelper.init(XSXApplication.getInstance());
+        ImageBucket imageBucket = albumHelper.getTotalImage(true);
         ArrayList<ImageItem> imageItems = (ArrayList<ImageItem>) imageBucket.imageList;
         for (ImageItem i : imageItems) {
             iamgeurls.add(i.imagePath);
         }
+    }
+
+    private void addContentObserver() {
+        contentObserver = new ScreenshotContentObserver(new Handler(getMainLooper()));
+        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        container.activity.getContentResolver().registerContentObserver(uri, false, contentObserver);
+    }
+
+    private void unRegisterContentObserver() {
+        if (contentObserver != null) {
+            container.activity.getContentResolver().unregisterContentObserver(contentObserver);
+        }
+    }
+
+    class ScreenshotContentObserver extends ContentObserver {
+
+        public ScreenshotContentObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            refreshPictureView();
+        }
+    }
+
+    private void refreshPictureView() {
+        iamgeurls.clear();
+        ImageBucket imageBucket = albumHelper.getTotalImage(true);
+        ArrayList<ImageItem> imageItems = (ArrayList<ImageItem>) imageBucket.imageList;
+        for (ImageItem i : imageItems) {
+            iamgeurls.add(i.imagePath);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     public List<String> getSelect_image_urls() {
@@ -592,7 +637,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
      */
     private void checkSendButtonEnable(EditText editText) {
         String textMessage = editText.getText().toString();
-        if (!TextUtils.isEmpty(StringUtil.removeBlanks(textMessage)) && editText.hasFocus()) {
+        if (!TextUtils.isEmpty(/*StringUtil.removeBlanks(*/textMessage/*)*/)/* && editText.hasFocus()*/) {
             send.setBackgroundResource(R.drawable.btn_circular_green1);
             send.setClickable(true);
         } else {

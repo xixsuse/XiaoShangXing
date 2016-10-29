@@ -22,10 +22,10 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.model.Team;
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.TopChat;
+import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
@@ -166,7 +166,7 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        TopChat mytopChat = realm.where(TopChat.class).equalTo("phone", account).findFirst();
+                        TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
                         if (mytopChat != null) {
                             mytopChat.deleteFromRealm();
                         }
@@ -248,9 +248,9 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
     }
 
     public void SetChatBackGround(View view) {
-        showToast(NS.ON_DEVELOPING);
-//        Intent intent = new Intent(this, ChatBackgroundActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, ChatBackgroundActivity.class);
+        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        startActivity(intent);
     }
 
     public void CleanChatRecord(View view) {

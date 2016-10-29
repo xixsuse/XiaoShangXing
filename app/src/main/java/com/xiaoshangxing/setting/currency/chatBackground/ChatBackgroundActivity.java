@@ -2,24 +2,27 @@ package com.xiaoshangxing.setting.currency.chatBackground;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.LocalDataUtils;
 import com.xiaoshangxing.setting.currency.chooseBackgroundFragment.ChooseBackgroundFragment;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.utils.IntentStatic;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by tianyang on 2016/8/20.
@@ -30,6 +33,8 @@ public class ChatBackgroundActivity extends BaseActivity {
     public static final int ACTIVITY_MODIFY_PHOTO_REQUESTCODE = 2002;
     private Bitmap btmap_album, btmap_phone, mBitmap;
     private ImageView mImageView;
+    public static String image;
+    private String account;//记录是否是设置个别背景
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,8 @@ public class ChatBackgroundActivity extends BaseActivity {
         mFragmentManager.beginTransaction()
                 .replace(R.id.main_fragment, new ChatBackgroundFragment())
                 .commit();
+
+        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
     }
 
 
@@ -85,15 +92,6 @@ public class ChatBackgroundActivity extends BaseActivity {
                         ToastUtils.toast(this, getString(R.string.pic_not_valid));
                         return;
                     }
-                    Uri uri = data.getData();
-                    String[] proj = {MediaStore.Images.Media.DATA};
-                    Cursor actualimagecursor = this.managedQuery(uri, proj, null, null, null);
-                    int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                    actualimagecursor.moveToFirst();
-                    String img_path = actualimagecursor.getString(actual_image_column_index);
-                    int degree = FileUtil.readPictureDegree(img_path);
-                    btmap_album = BitmapFactory.decodeFile(img_path);
-                    btmap_album = FileUtil.rotaingImageView(degree, btmap_album);
                     WindowManager wm = this.getWindowManager();
                     int width = wm.getDefaultDisplay().getWidth();
                     int height = wm.getDefaultDisplay().getHeight();
@@ -103,14 +101,6 @@ public class ChatBackgroundActivity extends BaseActivity {
                 break;
             case ACTIVITY_CAMERA_REQUESTCODE:
                 if (resultCode == Activity.RESULT_OK) {
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-                    bitmapOptions.inSampleSize = 2;
-                    int degree = FileUtil.readPictureDegree(FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW);
-                    Bitmap cameraBitmap = BitmapFactory.decodeFile(FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW, bitmapOptions);
-                    cameraBitmap = FileUtil.rotaingImageView(degree, cameraBitmap);
-                    FileUtil.saveCutBitmapForCache(this, cameraBitmap);
-                    String mCoverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_RAW;
-                    btmap_phone = BitmapFactory.decodeFile(mCoverPath);
                     WindowManager wm = this.getWindowManager();
                     int width = wm.getDefaultDisplay().getWidth();
                     int height = wm.getDefaultDisplay().getHeight();
@@ -119,11 +109,21 @@ public class ChatBackgroundActivity extends BaseActivity {
                 break;
             case ACTIVITY_MODIFY_PHOTO_REQUESTCODE:
                 String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
-                mBitmap = BitmapFactory.decodeFile(coverPath);
-                mImageView.setImageBitmap(mBitmap);
+                final File file = FileUtils.newImageFile();
+                try {
+                    FileUtils.copyFileTo(new File(coverPath), file);
+                    image = file.getAbsolutePath();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                LocalDataUtils.saveBackgroud(account, image, false, this);
             default:
                 break;
         }
+    }
+
+    public String getAccount() {
+        return account;
     }
 
 }

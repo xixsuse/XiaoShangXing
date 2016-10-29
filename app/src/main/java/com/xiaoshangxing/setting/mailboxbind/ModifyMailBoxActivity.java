@@ -11,16 +11,20 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,7 +62,7 @@ public class ModifyMailBoxActivity extends BaseActivity implements IBaseView {
     Button bindmailboxBreakmaibox;
     private IBaseView iBaseView = this;
 
-    User user;
+    private NimUserInfo nimUserInfo;
 
     @Override
     public void setmPresenter(@Nullable Object presenter) {
@@ -73,15 +77,14 @@ public class ModifyMailBoxActivity extends BaseActivity implements IBaseView {
         title.setText("修改邮箱地址");
         more.setVisibility(View.GONE);
 
-        user = realm.where(User.class).equalTo("id",
-                (Integer) SPUtils.get(ModifyMailBoxActivity.this,
-                        SPUtils.ID, SPUtils.DEFAULT_int)).findFirst();
-        if (user == null) {
+        nimUserInfo = NimUserInfoCache.getInstance().getUserInfo(TempUser.getId());
+
+        if (nimUserInfo == null) {
             showToast("用户信息有误");
             finish();
         }
-        String email = user.getEmail();
-        text.setText(email);
+        String email = nimUserInfo.getEmail();
+        text.setText("" + email);
     }
 
     @Override
@@ -160,5 +163,6 @@ public class ModifyMailBoxActivity extends BaseActivity implements IBaseView {
                     }
                 }).create();
         alertDialog.show();
+        LocationUtil.setWidth(this, alertDialog, getResources().getDimensionPixelSize(R.dimen.x780));
     }
 }

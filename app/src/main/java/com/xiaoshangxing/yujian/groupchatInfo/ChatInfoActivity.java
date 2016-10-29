@@ -375,7 +375,7 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
     private void ZhiDing() {
-        TopChat mytopChat = realm.where(TopChat.class).equalTo("phone", account).findFirst();
+        TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
         if (mytopChat == null) {
             topChat.setState(false);
         } else {
@@ -505,6 +505,7 @@ public class ChatInfoActivity extends BaseActivity {
 
     public void SetChatBackGround(View view) {
         Intent intent = new Intent(this, ChatBackgroundActivity.class);
+        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
         startActivity(intent);
     }
 

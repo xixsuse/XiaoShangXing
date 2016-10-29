@@ -92,7 +92,6 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
 
     private void initView() {
         title.setText("我的计划");
-        noContent.setText("你还没有发布计划,快去发布你的互帮吧");
         View view = new View(getContext());
         listview.addHeaderView(view);
         listview.setDividerHeight(0);

@@ -3,6 +3,7 @@ package com.xiaoshangxing.input_activity;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -86,7 +87,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import okhttp3.ResponseBody;
 
 /**
@@ -233,6 +233,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
     private Runnable runnable;
 
     private boolean isOrig;
+    private ContentObserver contentObserver;
+    private AlbumHelper albumHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,6 +247,22 @@ public class InputActivity extends BaseActivity implements IBaseView {
         initKeyboard();
         initLocation();
         initShowSelect();
+        addContentObserver();
+    }
+
+    @Override
+    protected void onPause() {
+        KeyBoardUtils.closeKeybord(emotionEdittext, this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Bimp.tempSelectBitmap.clear();
+        KeyBoardUtils.closeKeybord(emotionEdittext, this);
+        handler.removeCallbacks(runnable);
+        unRegisterContentObserver();
+        super.onDestroy();
     }
 
     @Override
@@ -386,6 +404,16 @@ public class InputActivity extends BaseActivity implements IBaseView {
         adapter = new PictureAdapter(this, iamgeurls, this);
         recycleView.setAdapter(adapter);
         setSelectCount(0);
+    }
+
+    private void refreshPictureView() {
+        iamgeurls.clear();
+        ImageBucket imageBucket = albumHelper.getTotalImage(true);
+        ArrayList<ImageItem> imageItems = (ArrayList<ImageItem>) imageBucket.imageList;
+        for (ImageItem i : imageItems) {
+            iamgeurls.add(i.imagePath);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void initKeyboard() {
@@ -606,14 +634,38 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     public void getDatas() {
-        AlbumHelper albumHelper=AlbumHelper.getHelper();
+        albumHelper = AlbumHelper.getHelper();
         albumHelper.init(XSXApplication.getInstance());
-        ImageBucket imageBucket= albumHelper.getTotalImage(false);
+        ImageBucket imageBucket = albumHelper.getTotalImage(true);
         ArrayList<ImageItem> imageItems=(ArrayList<ImageItem>) imageBucket.imageList;
         for (ImageItem i:imageItems){
             iamgeurls.add(i.imagePath);
         }
+    }
 
+    private void addContentObserver() {
+        contentObserver = new ScreenshotContentObserver(new Handler(getMainLooper()));
+        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        getContentResolver().registerContentObserver(uri, false, contentObserver);
+    }
+
+    private void unRegisterContentObserver() {
+        if (contentObserver != null) {
+            getContentResolver().unregisterContentObserver(contentObserver);
+        }
+    }
+
+    class ScreenshotContentObserver extends ContentObserver {
+
+        public ScreenshotContentObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            refreshPictureView();
+        }
     }
 
     private void showEmot(int position) {
@@ -1117,20 +1169,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 Flog.logList("notices", notices);
                 break;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        Bimp.tempSelectBitmap.clear();
-        KeyBoardUtils.closeKeybord(emotionEdittext, this);
-        handler.removeCallbacks(runnable);
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onPause() {
-        KeyBoardUtils.closeKeybord(emotionEdittext, this);
-        super.onPause();
     }
 
     @Override

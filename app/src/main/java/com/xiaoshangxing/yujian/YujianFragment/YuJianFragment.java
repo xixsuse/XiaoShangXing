@@ -380,7 +380,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                TopChat topChat = realm.where(TopChat.class).equalTo("phone", recent.getContactId()).findFirst();
+                TopChat topChat = realm.where(TopChat.class).equalTo("account", recent.getContactId()).findFirst();
                 if (topChat != null) {
                     topChat.deleteFromRealm();
                 }

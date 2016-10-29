@@ -34,7 +34,6 @@ public class ImageButtonText extends LinearLayout implements View.OnClickListene
 
         this.setClickable(true);
         this.setFocusable(true);
-        checked = DataSetting.IsFocused(context);
         if (!checked) {
             imgView.setImageResource(R.mipmap.icon_liuxin);
         } else {

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -30,8 +31,11 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.AttachmentProgress;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.QueryDirectionEnum;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.BackGround;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.ClipboardUtil;
 import com.xiaoshangxing.utils.CustomAlertDialog;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -53,11 +57,14 @@ import com.xiaoshangxing.yujian.IM.viewHodler.MessageVH.MsgViewHolderFactory;
 import com.xiaoshangxing.yujian.IM.viewHodler.TAdapterDelegate;
 import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import io.realm.Realm;
 
 /**
  * 消息收发模块
@@ -176,6 +183,8 @@ public class MessageListPanel implements TAdapterDelegate {
 //      聊天背景
         listviewBk = (ImageView) rootView.findViewById(R.id.message_activity_background);
         listviewBk.setBackgroundColor(container.activity.getResources().getColor(R.color.w3));
+        initBackground();
+
         messageListView = (MessageListView) rootView.findViewById(R.id.messageListView);
         messageListView.requestDisallowInterceptTouchEvent(true);
 
@@ -199,6 +208,26 @@ public class MessageListPanel implements TAdapterDelegate {
         });
         messageListView.setOnRefreshListener(new MessageLoader(anchor, remote));
 
+    }
+
+    private void initBackground() {
+        Realm realm = Realm.getDefaultInstance();
+        BackGround backGround = realm.where(BackGround.class).equalTo(NS.ID, TempUser.getId() + container.account).findFirst();
+        if (backGround == null) {
+            backGround = realm.where(BackGround.class).equalTo(NS.ID, BackGround.DEFAULT).findFirst();
+        }
+        if (backGround == null || TextUtils.isEmpty(backGround.getImgae())) {
+            Glide.with(container.activity).load(R.color.w3).into(listviewBk);
+//            listviewBk.setBackgroundColor(container.activity.getResources().getColor(R.color.w3));
+            return;
+        } else {
+            File file = new File(backGround.getImgae());
+            if (file.exists()) {
+                Glide.with(container.activity).load(backGround.getImgae()).into(listviewBk);
+                return;
+            }
+        }
+        realm.close();
     }
 
     // 刷新消息列表

@@ -120,6 +120,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         title.setText(R.string.shoolreward);
         leftText.setText(R.string.xiaoshang);
         anounceContent.setText(R.string.reward_rules);
+        noContent.setText("还没有人发布悬赏");
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
@@ -346,7 +347,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             noContent.setVisibility(View.GONE);
         } else {
             noContent.setVisibility(View.VISIBLE);
-            noContent.setText(isOthers ? "他还没有发布互帮" : "还没有人发布互帮");
+            noContent.setText(isOthers ? "他还没有发布悬赏" : "还没有人发布悬赏");
         }
     }
 

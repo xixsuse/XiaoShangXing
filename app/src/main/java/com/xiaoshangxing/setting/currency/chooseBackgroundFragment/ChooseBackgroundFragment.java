@@ -1,14 +1,10 @@
 package com.xiaoshangxing.setting.currency.chooseBackgroundFragment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -17,6 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.LocalDataUtils;
+import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 
 import java.util.ArrayList;
@@ -46,11 +44,12 @@ public class ChooseBackgroundFragment extends BaseFragment {
     RelativeLayout titleLay;
     @Bind(R.id.background_gridview)
     GridView backgroundGridview;
-    private ArrayList<Bitmap> data = new ArrayList<Bitmap>();
     private View mView;
     private GridView gridView;
     private ArrayList<RelativeLayout> completeViews = new ArrayList<RelativeLayout>();
-
+    private List<String> data = new ArrayList<>();
+    private String account;
+    private ChatBackgroundActivity activity;
 
     @Nullable
     @Override
@@ -61,22 +60,12 @@ public class ChooseBackgroundFragment extends BaseFragment {
         title.setText("选择背景图");
         more.setVisibility(View.GONE);
 
-        for (int i = 0; i < 10; i++) {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.greyblock);
-            data.add(bitmap);
-        }
+        activity = (ChatBackgroundActivity) getActivity();
+        account = activity.getAccount();
+
 
         Adapter baseAdapter = new Adapter(data);
         gridView.setAdapter(baseAdapter);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                for (int i = 0; i < parent.getCount(); i++) {
-                    completeViews.get(i).setVisibility(View.GONE);
-                }
-                completeViews.get(position).setVisibility(View.VISIBLE);
-            }
-        });
         return mView;
     }
 
@@ -98,20 +87,20 @@ public class ChooseBackgroundFragment extends BaseFragment {
     }
 
     class Adapter extends BaseAdapter {
-        List<Bitmap> data;
+        List<String> data;
 
-        public Adapter(List<Bitmap> data) {
+        public Adapter(List<String> data) {
             super();
             this.data = data;
         }
 
         @Override
         public int getCount() {
-            return data.size();
+            return data.size() + 1;
         }
 
         @Override
-        public Bitmap getItem(int position) {
+        public String getItem(int position) {
             return data.get(position);
         }
 
@@ -134,8 +123,20 @@ public class ChooseBackgroundFragment extends BaseFragment {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            Bitmap b = data.get(position);
-            holder.image.setImageBitmap(b);
+
+            if (position == 0) {
+                holder.image.setBackgroundColor(getResources().getColor(R.color.w3));
+                holder.textView.setText("默认");
+                holder.image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        LocalDataUtils.saveBackgroud(account, null, false, getContext());
+                        ChatBackgroundActivity.image = null;
+                        holder.textView.setVisibility(View.GONE);
+                        holder.complete.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
             return convertView;
         }
     }

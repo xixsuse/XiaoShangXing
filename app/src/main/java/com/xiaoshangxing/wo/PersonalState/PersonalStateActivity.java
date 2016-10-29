@@ -125,7 +125,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
             noContent.setVisibility(View.GONE);
         } else {
             noContent.setVisibility(View.VISIBLE);
-            noContent.setText("你还没有发布动态");
+            noContent.setText("还没有发布动态");
         }
     }
 

@@ -170,6 +170,7 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
         messageListPanel.onDestroy();
 //        取消监听
         registerObservers(false);
+        inputPanel.onDestroy();
     }
 
     //  刷新消息列表

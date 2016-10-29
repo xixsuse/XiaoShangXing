@@ -107,6 +107,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
         anounceContent.setText(R.string.launch_plan);
         title.setText("计划发起");
         leftText.setText(R.string.xiaoshang);
+        noContent.setText("还没人发布计划");
         listview.setDividerHeight(0);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
@@ -337,7 +338,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
             noContent.setVisibility(View.GONE);
         } else {
             noContent.setVisibility(View.VISIBLE);
-            noContent.setText(isOthers ? "他还没有发布互帮" : "还没有人发布互帮");
+            noContent.setText(isOthers ? "他还没有发布互计划" : "还没有人发布计划");
         }
     }
 

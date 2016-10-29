@@ -2,6 +2,7 @@ package com.xiaoshangxing.setting.newNotice.noDisturbFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,8 +61,7 @@ public class NoDisturbFragment extends BaseFragment implements AdapterView.OnIte
         mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_nodisturb, strings);
         listView = (ListView) mView.findViewById(R.id.list_nodisturb);
         listView.setAdapter(mAdapter);
-        int i = DataSetting.getNoDisturbList(getActivity());
-        listView.setItemChecked(i, true);
+        initSelect();
         listView.setOnItemClickListener(this);
         return mView;
     }
@@ -76,6 +76,8 @@ public class NoDisturbFragment extends BaseFragment implements AdapterView.OnIte
                 setTime(false);
                 break;
             case 1:
+                SPUtils.put(getActivity(), SPUtils.NewNotice, true);
+                NIMClient.toggleNotification(true);
                 setTime(true);
                 break;
             case 2:
@@ -83,6 +85,19 @@ public class NoDisturbFragment extends BaseFragment implements AdapterView.OnIte
                 NIMClient.toggleNotification(true);
                 setTime(false);
                 break;
+        }
+    }
+
+    private void initSelect() {
+        if (DataSetting.IsAcceptedNews(getContext())) {
+            StatusBarNotificationConfig config = DataSetting.getStatusConfig();
+            if (TextUtils.isEmpty(config.downTimeBegin)) {
+                listView.setItemChecked(2, true);
+            } else {
+                listView.setItemChecked(1, true);
+            }
+        } else {
+            listView.setItemChecked(0, true);
         }
     }
 
