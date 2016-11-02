@@ -50,5 +50,6 @@ public class BaseUrl {
 
 
     public static final String SERCH_PERSON = "base/userSearch";
+    public static final String REAL_NAME = "auth/authentication";
 
 }

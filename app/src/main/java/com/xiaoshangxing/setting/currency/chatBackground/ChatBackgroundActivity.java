@@ -59,17 +59,7 @@ public class ChatBackgroundActivity extends BaseActivity {
     }
 
     public void ChooseFromPhone(View view) {
-        if (CommonUtils.isExistCamera(this)) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 调用android自带的照相机
-            Uri imageUri = Uri.fromFile(FileUtil.getHeadPhotoFileRaw());
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
-            startActivityForResult(intent, ACTIVITY_CAMERA_REQUESTCODE);
-        } else {
-            Toast.makeText(this,
-                    getResources().getString(R.string.user_no_camera),
-                    Toast.LENGTH_SHORT).show();
-        }
+        IntentStatic.openCamera(this, Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), ACTIVITY_CAMERA_REQUESTCODE);
     }
 
     public void ChooseFromAlbum(View view) {

@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/selector_myhelp_iscomplete"
+                android:background="@drawable/selector_plan_iscomplete"
                 android:button="@null"
                 android:focusable="false" />
 

@@ -1,15 +1,20 @@
 package com.xiaoshangxing.input_activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -510,7 +515,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
             showToast("动态信息异常");
             return;
         }
-        emotionEdittext.setHint("顺便说点什么...");
+        emotionEdittext.setHint("这一刻的想法...");
         location.setVisibility(View.GONE);
         picture.setVisibility(View.GONE);
         camera.setVisibility(View.GONE);
@@ -519,19 +524,19 @@ public class InputActivity extends BaseActivity implements IBaseView {
         switch (type) {
             case SHOOLFELLOW_HELP:
                 transmitTypeImage.setImageResource(R.mipmap.shool_help_log);
-                transmitTypeText.setText("校友互帮|");
+                transmitTypeText.setText("校友互帮");
                 break;
             case SHOOL_REWARD:
                 transmitTypeImage.setImageResource(R.mipmap.school_reward_log);
-                transmitTypeText.setText("校内悬赏|");
+                transmitTypeText.setText("校内悬赏");
                 break;
             case LANCH_PLAN:
                 transmitTypeImage.setImageResource(R.mipmap.launch_plan_log);
-                transmitTypeText.setText("计划发起|");
+                transmitTypeText.setText("计划发起");
                 break;
             case XIANZHI:
                 transmitTypeImage.setImageResource(R.mipmap.xianzhi_log);
-                transmitTypeText.setText("闲置出售|");
+                transmitTypeText.setText("闲置出售");
                 break;
         }
         transmitContent.setText(published.getText());
@@ -1048,21 +1053,17 @@ public class InputActivity extends BaseActivity implements IBaseView {
     public void gotoSelectPerson(int requestcode) {
         Intent intent = new Intent(InputActivity.this, SelectPersonActivity.class);
         intent.putExtra(SelectPersonActivity.REQUSET_CODE, requestcode);
+        if (requestcode == NOTICE) {
+            intent.putExtra(IntentStatic.DATA, (ArrayList<String>) notices);
+        } else if (requestcode == FOBIDDEN) {
+            intent.putExtra(IntentStatic.DATA, (ArrayList<String>) fobiddens);
+        }
         startActivityForResult(intent, requestcode);
     }
 
     private void openCamera() {
-        if (CommonUtils.isExistCamera(this)) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 调用android自带的照相机
-            came_photo_path = FileUtils.newPhotoPath();
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, came_photo_path);
-            intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
-            startActivityForResult(intent, TAKE_PHOTO);
-        } else {
-            Toast.makeText(this,
-                    getResources().getString(R.string.user_no_camera),
-                    Toast.LENGTH_SHORT).show();
-        }
+        came_photo_path = FileUtils.newPhotoPath();
+        IntentStatic.openCamera(this, came_photo_path, TAKE_PHOTO);
     }
 
     public List<String> merge2list(List<String> host, List<String> client) {

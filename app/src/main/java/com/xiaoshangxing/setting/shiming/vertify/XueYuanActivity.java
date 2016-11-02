@@ -47,7 +47,6 @@ public class XueYuanActivity extends BaseActivity {
     private ListView mListView;
     private String[] strings;
     private ArrayAdapter mAdapter;
-    private static String xueyuan; //学院
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +86,7 @@ public class XueYuanActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.right_text:
-                xueyuan = editText.getText().toString();
+                VertifyActivity.colleg = editText.getText().toString();
                 startActivity(new Intent(this, ZhuanYeActivity.class));
                 break;
         }

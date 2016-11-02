@@ -3,6 +3,7 @@ package com.xiaoshangxing.xiaoshang.Sale.SaleDetail;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -29,6 +30,7 @@ import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
@@ -125,6 +127,8 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
             }
         });
 
+        title.setText("闲置详情");
+
         refreshPager();
 
     }
@@ -159,8 +163,10 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
 
                             @Override
                             public void onBackData(Object o) {
-                                Published published = (Published) o;
-                                collect.setChecked(published.isCollected());
+                                Published published1 = (Published) o;
+                                collect.setChecked(published1.isCollected());
+                                noticeDialog(collect.isChecked() ? "已收藏" : "已取消收藏");
+                                published = published1;
                             }
                         });
             }
@@ -207,6 +213,20 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         });
         dialog.show();
         LocationUtil.bottom_FillWidth(this, dialog);
+    }
+
+    public void noticeDialog(String message) {
+        DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(this, message);
+        final Dialog alertDialog = dialog_no_button.create();
+        alertDialog.show();
+        LocationUtil.setWidth(this, alertDialog,
+                getResources().getDimensionPixelSize(R.dimen.x420));
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                alertDialog.dismiss();
+            }
+        }, 1000);
     }
 
     private void initInputBox() {

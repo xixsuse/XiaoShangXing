@@ -14,6 +14,7 @@ import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
@@ -53,32 +54,32 @@ public class ModifyPassWordActivity extends BaseActivity implements IBaseView {
     }
 
     private void addListener() {
-        editText1.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 0) {
-                    flag1 = true;
-                    if (flag2 && flag3) {
-                        confirm.setAlpha(1);
-                        confirm.setClickable(true);
-                    }
-                } else {
-                    flag1 = false;
-                    confirm.setAlpha((float) 0.5);
-                    confirm.setClickable(false);
-                }
-            }
-        });
+//        editText1.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (s.toString().length() > 0) {
+//                    flag1 = true;
+//                    if (flag2 && flag3) {
+//                        confirm.setAlpha(1);
+//                        confirm.setClickable(true);
+//                    }
+//                } else {
+//                    flag1 = false;
+//                    confirm.setAlpha((float) 0.5);
+//                    confirm.setClickable(false);
+//                }
+//            }
+//        });
         editText2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -135,11 +136,11 @@ public class ModifyPassWordActivity extends BaseActivity implements IBaseView {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!editText1.getText().toString().equals((String)SPUtils.get(ModifyPassWordActivity.this,
-                        SPUtils.PHONENUMNBER,SPUtils.DEFAULT_STRING))){
-                    showToast("手机号码错误");
-                    return;
-                }
+//                if (!editText1.getText().toString().equals((String)SPUtils.get(ModifyPassWordActivity.this,
+//                        SPUtils.PHONENUMNBER,SPUtils.DEFAULT_STRING))){
+//                    showToast("手机号码错误");
+//                    return;
+//                }
 
                 if (!editText2.getText().toString().equals(editText3.getText().toString())){
                     showToast("两次密码不一致");
@@ -166,7 +167,7 @@ public class ModifyPassWordActivity extends BaseActivity implements IBaseView {
                 ProgressSubsciber<ResponseBody> progressSubsciber=new ProgressSubsciber<ResponseBody>(next,iBaseView);
 
                 JsonObject jsonObject=new JsonObject();
-                jsonObject.addProperty("userId", (Integer) SPUtils.get(ModifyPassWordActivity.this,SPUtils.ID,SPUtils.DEFAULT_int));
+                jsonObject.addProperty("userId", TempUser.getId());
                 jsonObject.addProperty("oldPassword",oldPassword);
                 jsonObject.addProperty("newPassword",editText2.getText().toString());
                 jsonObject.addProperty(NS.TIMESTAMP,System.currentTimeMillis());

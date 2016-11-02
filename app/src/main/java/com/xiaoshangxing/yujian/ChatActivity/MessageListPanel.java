@@ -824,12 +824,12 @@ public class MessageListPanel implements TAdapterDelegate {
             dialog_center.Button("确定", "取消").Message("确认重发?").MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
                 @Override
                 public void onButton1() {
+                    resendMessage(message);
                     dialog_center.close();
                 }
 
                 @Override
                 public void onButton2() {
-                    resendMessage(message);
                     dialog_center.close();
                 }
             });

@@ -88,7 +88,7 @@
                     <!--收藏-->
                     <CheckBox
                         android:id="@+id/collect"
-                        android:layout_marginTop="@dimen/y20"
+                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -102,7 +102,7 @@
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/y36"
+                        android:layout_centerVertical="true"
                         android:layout_toStartOf="@+id/collect"
                         android:text="￥100"
                         android:textColor="@color/red1"
@@ -291,7 +291,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@mipmap/comment_xiaoshang_grey" />
+                        android:src="@mipmap/comment_grey" />
 
                     <TextView
                         android:layout_width="wrap_content"

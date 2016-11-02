@@ -80,32 +80,6 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
     FrameLayout layoutPlayAudio;
     @Bind(R.id.message_activity_list_view_container)
     FrameLayout messageActivityListViewContainer;
-//    @Bind(R.id.back)
-//    LinearLayout back;
-//    @Bind(R.id.name)
-//    TextView name;
-//    @Bind(R.id.more)
-//    ImageView more;
-//    @Bind(R.id.title)
-//    RelativeLayout title;
-//    @Bind(R.id.message_activity_background)
-//    MsgBkImageView messageActivityBackground;
-//    @Bind(R.id.team_notify_bar_panel)
-//    FrameLayout teamNotifyBarPanel;
-//    @Bind(R.id.messageListView)
-//    MessageListView messageListView;
-//    @Bind(R.id.timer)
-//    Chronometer timer;
-//    @Bind(R.id.timer_tip)
-//    TextView timerTip;
-//    @Bind(R.id.timer_tip_container)
-//    LinearLayout timerTipContainer;
-//    @Bind(R.id.layoutPlayAudio)
-//    FrameLayout layoutPlayAudio;
-//    @Bind(R.id.message_activity_list_view_container)
-//    FrameLayout messageActivityListViewContainer;
-//    @Bind(R.id.messageActivityLayout)
-//    LinearLayout messageActivityLayout;
 
     //  标志是否是resume状态
     private boolean isResume = false;

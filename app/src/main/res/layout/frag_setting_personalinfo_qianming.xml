@@ -26,6 +26,7 @@
             android:hint="@string/introduceOneself"
             android:paddingEnd="@dimen/x48"
             android:paddingStart="@dimen/x48"
+            android:paddingTop="@dimen/y24"
             android:textCursorDrawable="@drawable/cursor_blue4"
             android:textSize="16sp" />
 
@@ -34,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="bottom|end"
-            android:paddingBottom="@dimen/y30"
+            android:paddingBottom="@dimen/y15"
             android:paddingEnd="@dimen/x48"
             android:text="30"
             android:textColor="@color/g0"

@@ -82,6 +82,8 @@ public class SaleCollect_Adpter extends ArrayAdapter<Published> {
         viewHolder.price.setText(NS.RMB + published.getPrice());
         viewHolder.dorm.setText(published.getDorm());
         viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
+        viewHolder.price.setTextColor(published.isAlive() ? context.getResources().getColor(R.color.red1) :
+                context.getResources().getColor(R.color.g0));
         viewHolder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
 
         viewHolder.downArrow.setOnClickListener(new View.OnClickListener() {

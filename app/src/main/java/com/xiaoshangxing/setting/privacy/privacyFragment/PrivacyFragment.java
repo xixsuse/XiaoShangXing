@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.SwitchView;
 
@@ -49,7 +48,7 @@ public class PrivacyFragment extends BaseFragment {
         more.setVisibility(View.GONE);
 
         privacy_allow = (SwitchView) mView.findViewById(R.id.privacy_allow);
-        privacy_allow.setState(DataSetting.IsAllowedTenPicture(getActivity()));
+        privacy_allow.setState(true);
         privacy_allow.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {

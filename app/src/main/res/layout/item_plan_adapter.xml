@@ -7,7 +7,7 @@
     <LinearLayout
         android:id="@+id/up_lay"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y420"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/width_48"
         android:layout_marginStart="@dimen/width_48"
         android:layout_marginTop="@dimen/y60"
@@ -17,7 +17,7 @@
         <!--姓名 学院-->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y172">
+            android:layout_height="@dimen/y108">
 
             <!--姓名-->
             <com.xiaoshangxing.utils.layout.Name
@@ -53,23 +53,14 @@
                 android:src="@mipmap/down_arrow_gray"
                 android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/complete"
-                android:layout_width="@dimen/x155"
-                android:layout_height="@dimen/y188"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="end"
-                android:layout_marginRight="@dimen/x76"
-                android:layout_marginTop="@dimen/y30"
-                android:background="@android:color/transparent"
-                android:src="@mipmap/plan_complete"
-                android:visibility="visible" />
 
         </RelativeLayout>
 
         <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y69"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/y60"
             android:layout_marginEnd="@dimen/x60"
             android:layout_marginStart="@dimen/x66"
             android:orientation="vertical">
@@ -95,7 +86,6 @@
                 android:textSize="14sp" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
@@ -172,5 +162,17 @@
         android:layout_marginStart="@dimen/x30"
         android:layout_marginTop="@dimen/y42"
         android:src="@mipmap/greyblock" />
+
+    <!--完成标志-->
+    <ImageView
+        android:id="@+id/complete"
+        android:layout_width="@dimen/x150"
+        android:layout_height="@dimen/y188"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="end"
+        android:layout_marginRight="@dimen/x76"
+        android:layout_marginTop="@dimen/y60"
+        android:src="@mipmap/plan_complete"
+        android:visibility="visible" />
 
 </RelativeLayout>

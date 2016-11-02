@@ -112,6 +112,20 @@ public class Formmat {
         return this;
     }
 
+    public Formmat addFilePart(List<String> list, String key) throws IOException {
+        if (list == null || list.size() < 1) {
+            return this;
+        }
+        startLoading();
+
+        for (String path : list) {
+            if (!TextUtils.isEmpty(path)) {
+                multipartUtility.addFilePart(key, SendImageHelper.getLittleImage(path, context));
+            }
+        }
+        return this;
+    }
+
     public void doUpload() {
         try {
             startLoading();

@@ -67,6 +67,7 @@ public class Help_Adpter extends ArrayAdapter<Published> {
         } else {
             viewholder = (mystate_viewholder) convertView.getTag();
         }
+        viewholder.button.setVisibility(View.GONE);
 
         final Published published = publisheds.get(position);
 

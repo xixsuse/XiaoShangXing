@@ -121,7 +121,7 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
             noContent.setVisibility(View.GONE);
         } else {
             noContent.setVisibility(View.VISIBLE);
-            noContent.setText("你还没有收藏闲置");
+            noContent.setText("你还没有收藏的闲置");
         }
     }
 

@@ -205,7 +205,7 @@
     <string name="VertifyAgreement2">在读大学生验证服务协议</string>
     <string name="VertifyAgreement3">这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容这里是协议内容</string>
     <string name="checkupdate">检查更新</string>
-    <string name="nodisturb_text">如果只在夜间开启，则只在22：00—8：00间生效</string>
+    <string name="nodisturb_text">如果只在夜间开启，则只在22:00—8:00间生效</string>
     <string name="download">下载</string>
     <string name="privacy_text1">把通讯录的某个好友放在这里，选择“公开”这个可见范围发照片他（她）将无法看见。</string>
     <string name="privacy_text2">把通讯录的某个好友放在这里，他（她）更新的照片将不会在你的校友圈中出现。</string>

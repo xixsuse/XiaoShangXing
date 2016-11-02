@@ -32,7 +32,6 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:layout_marginTop="@dimen/y4"
                 android:text="群聊"
                 android:layout_gravity="center_horizontal"
                 android:textSize="13sp"
@@ -74,7 +73,6 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:layout_marginTop="@dimen/y4"
                 android:text="留心"
                 android:layout_gravity="center_horizontal"
                 android:textSize="13sp"
@@ -116,7 +114,6 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:layout_marginTop="@dimen/y4"
                 android:text="星星"
                 android:layout_gravity="center_horizontal"
                 android:textSize="13sp"

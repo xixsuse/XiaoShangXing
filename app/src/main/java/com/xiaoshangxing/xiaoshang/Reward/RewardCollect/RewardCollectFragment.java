@@ -117,7 +117,7 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
             noContent.setVisibility(View.GONE);
         } else {
             noContent.setVisibility(View.VISIBLE);
-            noContent.setText("你还没有收藏悬赏");
+            noContent.setText("你还没有收藏的悬赏");
         }
     }
 

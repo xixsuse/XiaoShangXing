@@ -69,6 +69,8 @@ public class Reward_adpter extends ArrayAdapter<Published> {
             viewholder = (mystate_viewholder) convertView.getTag();
         }
 
+        viewholder.button.setVisibility(View.GONE);
+
         final Published published = publisheds.get(position);
 
         String userId = String.valueOf(published.getUserId());

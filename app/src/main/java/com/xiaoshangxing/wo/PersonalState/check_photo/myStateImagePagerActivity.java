@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.Network.netUtil.NS;
@@ -21,9 +22,10 @@ import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.HackyViewPager;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImageDetailFragment;
-import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.ArrayList;
@@ -31,7 +33,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import rx.Subscription;
 
 /**
  * 图片查看器
@@ -44,6 +45,8 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
     TextView praisePeopleCount;
     @Bind(R.id.comment_count)
     TextView commentCount;
+    @Bind(R.id.comment_image)
+    ImageView commentImage;
 
     private HackyViewPager mPager;
     private int pagerPosition;
@@ -201,10 +204,20 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
 
     @Override
     public void setPraiseandComment() {
-        int praise = published.getPraiseUserIds().split(NS.SPLIT).length;
-        praisePeopleCount.setText(praise == 0 ? "" : "" + praise);
+        int praise = published.getPraiseCount();
         int comment = published.getComments().size();
-        commentCount.setText(comment == 0 ? "" : "" + comment);
+        if (praise == 0) {
+            praisePeopleCount.setVisibility(View.GONE);
+        } else {
+            praisePeopleCount.setText(String.valueOf(praise));
+        }
+        if (comment == 0) {
+            commentCount.setVisibility(View.GONE);
+            commentImage.setPadding(0, 0, ScreenUtils.getAdapterPx(R.dimen.x32, this), 0);
+        } else {
+            commentCount.setText(String.valueOf(comment));
+            commentImage.setPadding(0, 0, ScreenUtils.getAdapterPx(R.dimen.x12, this), 0);
+        }
     }
 
     @Override

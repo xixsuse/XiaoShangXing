@@ -228,7 +228,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(getContext().getResources().
                 getDrawable(R.drawable.nothing));
-        popupWindow.setAnimationStyle(R.style.popwindow_anim);
+//        popupWindow.setAnimationStyle(R.style.popwindow_anim);
 
         menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int mShowMorePopupWindowWidth = menu.getMeasuredWidth();

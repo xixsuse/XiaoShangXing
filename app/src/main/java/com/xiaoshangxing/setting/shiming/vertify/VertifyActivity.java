@@ -2,6 +2,8 @@ package com.xiaoshangxing.setting.shiming.vertify;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -9,11 +11,23 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.Formmat;
+import com.xiaoshangxing.Network.netUtil.BaseUrl;
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.shiming.result.VertifyingActivity;
+import com.xiaoshangxing.setting.shiming.shenhe.PreviewActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BroadCast.FinishActivityRecever;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,7 +36,7 @@ import butterknife.OnClick;
 /**
  * Created by tianyang on 2016/10/5.
  */
-public class VertifyActivity extends BaseActivity {
+public class VertifyActivity extends BaseActivity implements IBaseView {
 
     @Bind(R.id.left_image)
     ImageView leftImage;
@@ -68,10 +82,8 @@ public class VertifyActivity extends BaseActivity {
     Button VertifyButton;
     private FinishActivityRecever finishActivityRecever;
 
-    public static String nameStr, sexStr, xuehaoStr, schoolStr, ruxuenianfenStr;
-
-    public static boolean nameFlag = false, sexFlag = false, xuehaoFlag = false,
-            xuexiaoFlag = false, nianfenFlag = false;
+    public static String nameStr, sexStr, xuehaoStr, schoolStr, colleg,
+            professional, ruxuenianfenStr, degree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +119,54 @@ public class VertifyActivity extends BaseActivity {
     }
 
     public void VertifyNow(View view) {
-        startActivity(new Intent(this, VertifyingActivity.class));
+//        startActivity(new Intent(this, VertifyingActivity.class));
+
+        final Map<String, String> map = new HashMap<>();
+        map.put(NS.USER_ID, TempUser.getId());
+        map.put("name", nameStr);
+        map.put("sex", sexStr);
+        map.put("studentNum", xuehaoStr);
+        map.put("schoolName", schoolStr);
+        map.put("college", colleg);
+        map.put("profession", professional);
+        map.put("admissionYear", ruxuenianfenStr);
+        map.put("degree", degree);
+        final ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(PreviewActivity.getLeftImgPath("XueShengZhen"));
+        arrayList.add(PreviewActivity.getRightImgPath("XueShengZhen"));
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Formmat formmat = new Formmat(VertifyActivity.this, VertifyActivity.this, BaseUrl.BASE_URL + BaseUrl.REAL_NAME);
+                formmat.setSimpleCallBack(new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        startActivity(new Intent(VertifyActivity.this, VertifyingActivity.class));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
+
+                try {
+                    formmat.addFormField(map)
+                            .addFilePart(arrayList, "file")
+                            .doUpload();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showToast("图片出错");
+                }
+            }
+        });
+        thread.start();
     }
 
 
@@ -116,34 +175,21 @@ public class VertifyActivity extends BaseActivity {
         super.onResume();
         if (nameStr != null) {
             name.setText(nameStr);
-            nameFlag = true;
-            if (isfilled()) setButtonStyleGreen();
-            else resetButtonStyle();
         }
         if (xuehaoStr != null) {
             xuehao.setText(xuehaoStr);
-            xuehaoFlag = true;
-            if (isfilled()) setButtonStyleGreen();
-            else resetButtonStyle();
         }
         if (sexStr != null) {
             sex.setText(sexStr);
-            sexFlag = true;
-            if (isfilled()) setButtonStyleGreen();
-            else resetButtonStyle();
         }
         if (ruxuenianfenStr != null) {
             ruxuenianfen.setText(ruxuenianfenStr);
-            nianfenFlag = true;
-            if (isfilled()) setButtonStyleGreen();
-            else resetButtonStyle();
         }
         if (schoolStr != null) {
             school.setText(schoolStr);
-            xuexiaoFlag = true;
-            if (isfilled()) setButtonStyleGreen();
-            else resetButtonStyle();
         }
+        if (isfilled()) setButtonStyleGreen();
+        else resetButtonStyle();
     }
 
     @Override
@@ -168,7 +214,11 @@ public class VertifyActivity extends BaseActivity {
     }
 
     public boolean isfilled() {
-        return nameFlag && sexFlag && xuehaoFlag && xuexiaoFlag && nianfenFlag;
+
+//        return nameFlag && sexFlag && xuehaoFlag && xuexiaoFlag && nianfenFlag;
+        return !(TextUtils.isEmpty(nameStr) || TextUtils.isEmpty(sexStr) || TextUtils.isEmpty(xuehaoStr)
+                || TextUtils.isEmpty(schoolStr) || TextUtils.isEmpty(colleg) || TextUtils.isEmpty(sexStr)
+                || TextUtils.isEmpty(professional) || TextUtils.isEmpty(ruxuenianfenStr) || TextUtils.isEmpty(degree));
     }
 
     @Override
@@ -181,5 +231,10 @@ public class VertifyActivity extends BaseActivity {
     @OnClick(R.id.back)
     public void onClick() {
         finish();
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 }

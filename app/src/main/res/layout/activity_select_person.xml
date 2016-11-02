@@ -22,6 +22,7 @@
             android:textSize="15sp" />
         <!--title-->
         <TextView
+            android:textStyle="bold"
             android:id="@+id/myState"
             style="@style/black_16sp"
             android:layout_width="wrap_content"

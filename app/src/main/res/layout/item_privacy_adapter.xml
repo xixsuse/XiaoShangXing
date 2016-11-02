@@ -4,22 +4,27 @@
     android:layout_width="@dimen/x182"
     android:layout_height="match_parent">
 
-    <com.xiaoshangxing.utils.layout.CirecleImage
-        android:id="@+id/privacy_add"
-        android:layout_width="@dimen/x162"
-        android:layout_height="@dimen/x162"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/privacy_add"
-        app:corner_radius="90dp" />
+    <RelativeLayout
+        android:layout_width="@dimen/x182"
+        android:layout_height="wrap_content">
 
-    <com.xiaoshangxing.utils.layout.CirecleImage
-        android:id="@+id/privacy_reddelete"
-        android:layout_width="@dimen/x55"
-        android:layout_height="@dimen/x55"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:src="@mipmap/privacy_redremove"
-        android:visibility="gone" />
+        <com.xiaoshangxing.utils.layout.CirecleImage
+            android:id="@+id/privacy_add"
+            android:layout_width="@dimen/x162"
+            android:layout_height="@dimen/x162"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/privacy_add"
+            app:corner_radius="90dp" />
+
+        <com.xiaoshangxing.utils.layout.CirecleImage
+            android:id="@+id/privacy_reddelete"
+            android:layout_width="@dimen/x55"
+            android:layout_height="@dimen/x55"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:src="@mipmap/privacy_redremove"
+            android:visibility="visible" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

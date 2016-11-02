@@ -202,7 +202,7 @@ public class TimeUtil {
             dataString = getWeekOfDate(currentTime);
         } else {
             SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            dataString = dateformatter.format(currentTime);
+            dataString = dateformatter.format(currentTime) + " ";
         }
 
         SimpleDateFormat timeformatter24 = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -215,7 +215,7 @@ public class TimeUtil {
                 return dataString;
             }
         } else {
-            return dataString + " " + timeStringBy24;
+            return dataString + "" + timeStringBy24;
         }
     }
 

@@ -248,7 +248,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(getContext().getResources().
                 getDrawable(R.drawable.nothing));
-        popupWindow.setAnimationStyle(R.style.popwindow_anim);
+//        popupWindow.setAnimationStyle(R.style.popwindow_anim);
 
         menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int mShowMorePopupWindowWidth = menu.getMeasuredWidth();
@@ -375,8 +375,21 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     @Override
     public void clickOnRule(boolean is) {
         if (is) {
-            rules.setVisibility(View.VISIBLE);
             rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_show));
+//            final int top = ScreenUtils.getAdapterPx(R.dimen.height_144, getContext());
+//            ValueAnimator animator = ValueAnimator.ofInt(0,
+//                    ScreenUtils.getDisplayHeight() - top);
+//            animator.setDuration(1000);
+//
+//            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator animation) {
+//                    int curValue = (int) animation.getAnimatedValue();
+//                    rules.layout(0, top, ScreenUtils.getDisplayWidth(), top + curValue);
+//                }
+//            });
+//            animator.start();
+            rules.setVisibility(View.VISIBLE);
         } else {
             rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_hide));
             rules.postDelayed(new Runnable() {

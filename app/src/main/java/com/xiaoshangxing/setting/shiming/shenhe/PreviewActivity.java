@@ -3,7 +3,6 @@ package com.xiaoshangxing.setting.shiming.shenhe;
 import android.app.Activity;
 import android.hardware.Camera;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.FileUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,6 +45,8 @@ public class PreviewActivity extends Activity {
     private int zuoyou;
     public static String imgName = "img.jpeg";
     private FrameLayout preview;
+    public static String STUDENT_CARD_LEFT = "STUDENT_CARD_LEFT.jpg";
+    public static String STUDENT_CARD_RIGHT = "STUDENT_CARD_RIGHT.jpg";
 
 
     @Override
@@ -81,8 +83,9 @@ public class PreviewActivity extends Activity {
             else if (zuoyou == 1) text2.setText("【学校公章】");
         }
 
-        if (zuoyou == 0) imgName = type + "imgLeft.jpeg";
-        else imgName = type + "imgRight.jpeg";
+//        if (zuoyou == 0) imgName = type + "imgLeft.jpeg";
+//        else imgName = type + "imgRight.jpeg";
+
     }
 
 
@@ -108,32 +111,42 @@ public class PreviewActivity extends Activity {
     };
 
 
-    private static File getOutputMediaFile() {
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
+    private File getOutputMediaFile() {
+//        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+//        if (!mediaStorageDir.exists()) {
+//            if (!mediaStorageDir.mkdirs()) {
+//                Log.d("MyCameraApp", "failed to create directory");
+//                return null;
+//            }
+//        }
+//
+//
+//        File mediaFile;
+//        mediaFile = new File(mediaStorageDir.getPath() + File.separator + imgName);
+//        return mediaFile;
+        File file;
+        if (zuoyou == 0) {
+            file = new File(getLeftImgPath("0"));
+        } else {
+            file = new File(getRightImgPath("0"));
         }
-
-        File mediaFile;
-        mediaFile = new File(mediaStorageDir.getPath() + File.separator + imgName);
-        return mediaFile;
+        return file;
     }
 
 
     public static String getLeftImgPath(String type) {
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
-        return mediaStorageDir.getPath() + File.separator + type + "imgLeft.jpeg";
+//        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+//        return mediaStorageDir.getPath() + File.separator + type + "imgLeft.jpeg";
+        return FileUtils.getXSX_CameraPhotoPath() + STUDENT_CARD_LEFT;
     }
 
     public static String getRightImgPath(String type) {
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
-        return mediaStorageDir.getPath() + File.separator + type + "imgRight.jpeg";
+//        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+//                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+//        return mediaStorageDir.getPath() + File.separator + type + "imgRight.jpeg";
+        return FileUtils.getXSX_CameraPhotoPath() + STUDENT_CARD_RIGHT;
     }
 
 

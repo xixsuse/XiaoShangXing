@@ -247,8 +247,10 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
 
                             @Override
                             public void onBackData(Object o) {
-                                Published published = (Published) o;
-                                collect.setChecked(published.isCollected());
+                                Published published1 = (Published) o;
+                                collect.setChecked(published1.isCollected());
+                                noticeDialog(collect.isChecked() ? "已收藏" : "已取消收藏");
+                                published = published1;
                             }
                         });
             }
@@ -355,6 +357,20 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         });
         dialog.show();
         LocationUtil.bottom_FillWidth(this, dialog);
+    }
+
+    public void noticeDialog(String message) {
+        DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(this, message);
+        final Dialog alertDialog = dialog_no_button.create();
+        alertDialog.show();
+        LocationUtil.setWidth(this, alertDialog,
+                getResources().getDimensionPixelSize(R.dimen.x420));
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                alertDialog.dismiss();
+            }
+        }, 1000);
     }
 
     @Override

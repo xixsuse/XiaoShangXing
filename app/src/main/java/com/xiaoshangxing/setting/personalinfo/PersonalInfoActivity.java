@@ -82,7 +82,6 @@ public class PersonalInfoActivity extends BaseActivity {
 
     public void Vertify(View view) {
         //尚未认证
-//        startActivity(new Intent(PersonalInfoActivity.this, ShenheActivity.class));
         if (TempUser.isRealName) {
             startActivity(new Intent(PersonalInfoActivity.this, VertifySucessActivity.class));
         } else {

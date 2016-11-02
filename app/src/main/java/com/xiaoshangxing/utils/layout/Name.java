@@ -6,7 +6,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
+import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
 /**
  * Created by FengChaoQun
@@ -17,6 +19,7 @@ public class Name extends TextView {
     public static final int PERSON_INFO = 1000;
     public static final int PERSON_STATE = 2000;
     private int intent_type;
+    private String account;
     public Name(Context context) {
         super(context);
         init(context);
@@ -36,20 +39,26 @@ public class Name extends TextView {
         this.context=context;
     }
 
-    public void setIntent_type(int intent_type) {
+    public void setIntent_type(int intent_type, final String account) {
         this.intent_type = intent_type;
+        this.account = account;
         switch (intent_type) {
             case PERSON_INFO:
-
+                setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent state_intent = new Intent(context, PersonInfoActivity.class);
+                        state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+                        context.startActivity(state_intent);
+                    }
+                });
                 break;
             case PERSON_STATE:
-                intent_type = PERSON_STATE;
                 setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent state_intent = new Intent(context, PersonalStateActivity.class);
-//                        state_intent.putExtra(myStateActivity.TYPE,myStateActivity.OTHRE);
-                        state_intent.putExtra(PersonalStateActivity.TYPE, PersonalStateActivity.SELF);
+                        state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
                         context.startActivity(state_intent);
                     }
                 });

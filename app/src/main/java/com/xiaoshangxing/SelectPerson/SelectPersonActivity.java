@@ -15,6 +15,7 @@ import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
@@ -56,7 +57,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     private int limit;
 
 
-    private TextView cancel;
+    private TextView cancel, title;
     private TextView sure;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,17 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         sideBar = (SideBar) findViewById(R.id.sidrbar);
         dialog = (TextView) findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
+        //初始化标题
+        title = (TextView) findViewById(R.id.myState);
+        if (getIntent().getIntExtra(REQUSET_CODE, -1) == InputActivity.NOTICE) {
+            title.setText("提醒谁看");
+        } else if (getIntent().getIntExtra(REQUSET_CODE, -1) == InputActivity.FOBIDDEN) {
+            title.setText("不给谁看");
+        }
+
+        if (getIntent().hasExtra(IntentStatic.DATA)) {
+            selectPerson = getIntent().getStringArrayListExtra(IntentStatic.DATA);
+        }
 
         cancel=(TextView)findViewById(R.id.cancel);
         cancel.setOnClickListener(this);

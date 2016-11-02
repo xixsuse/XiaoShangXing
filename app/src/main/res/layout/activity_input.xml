@@ -223,36 +223,44 @@
             android:id="@+id/transmit_lay"
             android:layout_marginStart="@dimen/width_48"
             android:layout_marginEnd="@dimen/width_48"
-            android:layout_marginBottom="@dimen/y12"
+            android:layout_marginBottom="@dimen/y42"
             android:orientation="horizontal"
-            android:background="@drawable/et_circular_50_g1"
+            android:background="@drawable/et_circular_43_g1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y100">
+            android:layout_height="@dimen/y86">
 
             <!--转发内容标志-->
             <com.xiaoshangxing.utils.layout.CirecleImage
                 android:src="@mipmap/cirecleimage_default"
-                android:layout_marginStart="@dimen/x6"
+                android:layout_marginStart="@dimen/x4"
                 android:id="@+id/transmit_type_image"
                 android:layout_gravity="center_vertical"
-                android:layout_width="@dimen/x88"
-                android:layout_height="@dimen/x88" />
+                android:layout_width="@dimen/x78"
+                android:layout_height="@dimen/x78" />
 
             <TextView
                 android:id="@+id/transmit_type_text"
                 android:textSize="14sp"
-                android:layout_marginStart="@dimen/x12"
+                android:layout_marginStart="@dimen/x8"
+                android:layout_marginEnd="@dimen/x21"
                 android:layout_gravity="center_vertical"
-                android:text="闲置出售|"
-                android:textColor="@color/b4"
+                android:text="闲置出售"
+                android:textColor="#3a3a3a"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <ImageView
+                android:background="#3a3a3a"
+                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/x2"
+                android:layout_height="@dimen/y28" />
+
             <TextView
                 android:id="@+id/transmit_content"
                 android:textSize="14sp"
-                android:textColor="@color/b4"
+                android:textColor="#3a3a3a"
                 android:text="@string/longtext"
-                android:layout_marginStart="@dimen/x12"
+                android:layout_marginStart="@dimen/x21"
                 android:paddingEnd="@dimen/x36"
                 android:maxLines="1"
                 android:ellipsize="end"
@@ -280,6 +288,7 @@
                 android:inputType="number"
                 android:textColor="@color/b0"
                 android:textSize="16sp"
+                android:maxLength="5"
                 style="@style/input_box"
                 android:background="@drawable/et_circular_half_42_g0"
                 android:layout_width="@dimen/x224"

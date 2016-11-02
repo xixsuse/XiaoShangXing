@@ -19,7 +19,6 @@ public class VertifyUtil {
     public static String imgRightName = "imgRightName.jpeg";
 
     public static void saveFile(Bitmap bitmap, String fileName) {
-//        String path = getSDPath() + "/VertifyJieTu/";
         String path = FileUtils.getXSX_CameraPhotoPath();
         File file = new File(path);
         if (!file.exists()) {

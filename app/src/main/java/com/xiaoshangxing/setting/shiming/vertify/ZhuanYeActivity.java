@@ -45,7 +45,6 @@ public class ZhuanYeActivity extends BaseActivity {
     ListView mListView;
     private String[] strings;
     private ArrayAdapter mAdapter;
-    private static String zhuanye; //学院
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,14 +75,11 @@ public class ZhuanYeActivity extends BaseActivity {
     }
 
     public void Finish() {
-        zhuanye = editText.getText().toString();
-//        VertifyActivity.schoolStr = XueXiaoActivity.xuexiao;
-
+        VertifyActivity.professional = editText.getText().toString();
         Intent intent = new Intent(this, VertifyActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
-//        startActivity(new Intent(this, VertifyActivity.class));
     }
 
     @OnClick({R.id.back, R.id.right_text})

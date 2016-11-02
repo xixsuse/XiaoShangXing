@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.shiming.VertifyUtil;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BroadCast.FinishActivityRecever;
@@ -88,15 +86,11 @@ public class XueShengZhenActivity extends BaseActivity {
             y = (int) (bm.getHeight() * ((float) 174 / 1080));
             width = (int) (bm.getWidth() * ((float) 1146 / 1920));
             height = (int) (bm.getHeight() * ((float) 732 / 1080));
-            Log.d("qqq", "x:" + x + "  y:" + y + "  width:" + width + "  height:" + height);
-            Log.d("qqq", "bm    w:" + bm.getWidth() + "   h:" + bm.getHeight());
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageLeft.setImageBitmap(bitmap);
             flagLeft = true;
-            fileLeft.delete();
-            VertifyUtil.saveFile(bitmap, VertifyUtil.imgLeftName);
-
-            ImageView imageView = (ImageView) findViewById(R.id.image);
+//            fileLeft.delete();
+//            VertifyUtil.saveFile(bitmap, VertifyUtil.imgLeftName);
         }
 
         String pathRight = PreviewActivity.getRightImgPath("XueShengZhen");
@@ -110,8 +104,8 @@ public class XueShengZhenActivity extends BaseActivity {
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageRight.setImageBitmap(bitmap);
             flagRight = true;
-            fileRight.delete();
-            VertifyUtil.saveFile(bitmap, VertifyUtil.imgRightName);
+//            fileRight.delete();
+//            VertifyUtil.saveFile(bitmap, VertifyUtil.imgRightName);
         }
 
 //        setButtonStyleGreen();

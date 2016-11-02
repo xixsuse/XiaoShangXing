@@ -14,9 +14,9 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
-import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
 
 
@@ -101,11 +101,11 @@ public class MsgViewHolderTransmitNoImage extends MsgViewHolderBase {
         if (isReceivedMessage()) {
             up_lay.setBackgroundResource(R.mipmap.transmit_left);
             up_lay.setPadding(ScreenUtils.getAdapterPx(R.dimen.x48, context),
-                    ScreenUtils.getAdapterPx(R.dimen.y18, context), ScreenUtils.getAdapterPx(R.dimen.x52, context), 0);
+                    0, ScreenUtils.getAdapterPx(R.dimen.x52, context), 0);
         } else {
             up_lay.setBackgroundResource(R.mipmap.transmit_right);
             up_lay.setPadding(ScreenUtils.getAdapterPx(R.dimen.x24, context),
-                    ScreenUtils.getAdapterPx(R.dimen.y18, context), ScreenUtils.getAdapterPx(R.dimen.x72, context), 0);
+                    0, ScreenUtils.getAdapterPx(R.dimen.x72, context), 0);
         }
     }
 

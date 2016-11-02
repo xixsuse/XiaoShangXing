@@ -74,6 +74,7 @@ public class XueLiActivity extends BaseActivity {
 
     public void Finish() {
         VertifyActivity.ruxuenianfenStr = yearStr;
+        VertifyActivity.degree = xueli;
 
         Intent intent = new Intent(this, VertifyActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

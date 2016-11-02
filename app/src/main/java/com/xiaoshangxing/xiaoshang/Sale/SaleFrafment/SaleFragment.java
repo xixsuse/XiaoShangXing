@@ -33,6 +33,7 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.album.AlbumActivity;
 import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
+import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
@@ -227,7 +228,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(getContext().getResources().
                 getDrawable(R.drawable.nothing));
-        popupWindow.setAnimationStyle(R.style.popwindow_anim);
+//        popupWindow.setAnimationStyle(R.style.popwindow_anim);
 
         menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int mShowMorePopupWindowWidth = menu.getMeasuredWidth();
@@ -468,17 +469,8 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     }
 
     private void openCamera() {
-        if (CommonUtils.isExistCamera(getContext())) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 调用android自带的照相机
-            came_photo_path = FileUtils.newPhotoPath();
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, came_photo_path);
-            intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
-            startActivityForResult(intent, InputActivity.TAKE_PHOTO);
-        } else {
-            Toast.makeText(getContext(),
-                    getResources().getString(R.string.user_no_camera),
-                    Toast.LENGTH_SHORT).show();
-        }
+        came_photo_path = FileUtils.newPhotoPath();
+        IntentStatic.openCamera(this, came_photo_path, InputActivity.TAKE_PHOTO);
     }
 
     public void moveListview(int px) {

@@ -53,14 +53,12 @@
 
         <CheckBox
             android:id="@+id/checkbox"
-            android:enabled="false"
             android:layout_width="@dimen/x84"
             android:layout_height="@dimen/y84"
             android:layout_alignParentEnd="true"
             android:background="@drawable/selector_selectperson"
             android:layout_gravity="center_vertical"
-            android:button="@null"
-            android:focusable="false" />
+            android:button="@null" />
 
         <com.xiaoshangxing.utils.layout.CirecleImage
             android:layout_marginStart="@dimen/x18"

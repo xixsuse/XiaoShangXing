@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardview"
-        app:cardCornerRadius="8dp"
-        android:layout_marginStart="@dimen/x24"
-        android:layout_marginEnd="@dimen/x24"
-        android:background="@color/w0"
-        android:elevation="24dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <LinearLayout
+            android:id="@+id/parent_lay"
+            android:layout_marginEnd="@dimen/x24"
+            android:layout_marginStart="@dimen/x24"
+            android:background="@drawable/et_circular_8_w0"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -133,8 +127,14 @@
             </RelativeLayout>
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/finish"
+        android:layout_marginTop="@dimen/y24"
+        android:layout_marginEnd="@dimen/x60"
+        android:layout_alignParentEnd="true"
+        android:src="@mipmap/school_reward_end"
+        android:layout_width="@dimen/x184"
+        android:layout_height="@dimen/y150" />
 
-
-
-</LinearLayout>
+</RelativeLayout>

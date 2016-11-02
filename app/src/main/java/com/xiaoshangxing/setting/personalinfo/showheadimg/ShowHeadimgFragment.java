@@ -15,8 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
@@ -32,6 +35,7 @@ import com.xiaoshangxing.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.SaveImageTask;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
@@ -40,6 +44,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,6 +82,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     private ActionSheet mActionSheet;
     private PersonalInfoActivity mActivity;
     private IBaseView iBaseView = this;
+    private Observer<List<NimUserInfo>> observer;
 
     @Override
     public void setmPresenter(@Nullable Object presenter) {
@@ -90,6 +96,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
         ButterKnife.bind(this, mView);
         mActivity = (PersonalInfoActivity) getActivity();
         title.setText("头像");
+        oberverUserInfo(true);
         initHead();
         return mView;
     }
@@ -98,6 +105,21 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
         UserInfoCache.getInstance().getHeadIntoImage(TempUser.getId(), settingShowheadImg);
     }
 
+    private void oberverUserInfo(boolean is) {
+        if (observer == null) {
+            observer = new Observer<List<NimUserInfo>>() {
+                @Override
+                public void onEvent(List<NimUserInfo> nimUserInfos) {
+                    for (NimUserInfo userInfo : nimUserInfos) {
+                        if (userInfo.getAccount().equals(String.valueOf(TempUser.id))) {
+                            initHead();
+                        }
+                    }
+                }
+            };
+        }
+        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(observer, is);
+    }
 
     private void showMenu() {
         if (mActionSheet == null) {
@@ -132,17 +154,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void photo() {
-        if (CommonUtils.isExistCamera(getActivity())) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 调用android自带的照相机
-            Uri imageUri = Uri.fromFile(FileUtil.getHeadPhotoFileRaw());
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
-            startActivityForResult(intent, ACTIVITY_CAMERA_REQUESTCODE);
-        } else {
-            Toast.makeText(getActivity(),
-                    getResources().getString(R.string.user_no_camera),
-                    Toast.LENGTH_SHORT).show();
-        }
+        IntentStatic.openCamera(this, Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), ACTIVITY_CAMERA_REQUESTCODE);
     }
 
     private void album() {
@@ -150,7 +162,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
         i.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         startActivityForResult(i, ACTIVITY_ALBUM_REQUESTCODE);
     }
-
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -212,11 +223,11 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        oberverUserInfo(false);
     }
 
     @OnClick({R.id.back, R.id.more})

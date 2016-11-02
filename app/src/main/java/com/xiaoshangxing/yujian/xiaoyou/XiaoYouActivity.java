@@ -48,8 +48,6 @@ public class XiaoYouActivity extends BaseActivity {
     View titleBottomLine;
     @Bind(R.id.title_lay)
     RelativeLayout titleLay;
-    @Bind(R.id.serch_layout)
-    RelativeLayout serchLayout;
     @Bind(R.id.id_tree)
     ListView idTree;
     private List<Node> mDatas = new ArrayList<Node>();
@@ -57,6 +55,7 @@ public class XiaoYouActivity extends BaseActivity {
     private ListView mTree;
     private SimpleTreeAdapter mAdapter;
     private ShoolfellowAdapter adapter;
+    private View serch;
 
     private List<XiaoyouBean> data0 = new ArrayList<>();
     private List<XiaoyouBean> data1 = new ArrayList<>();
@@ -79,6 +78,14 @@ public class XiaoYouActivity extends BaseActivity {
         titleBottomLine.setVisibility(View.GONE);
 
         headview = View.inflate(this, R.layout.schoolfellow_list_head, null);
+        serch = headview.findViewById(R.id.serch_layout);
+        serch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(XiaoYouActivity.this, SerchPersonActivity.class);
+                startActivity(intent);
+            }
+        });
         idTree.setAdapter(null);
         idTree.addHeaderView(headview);
 //        initDatas();
@@ -249,15 +256,11 @@ public class XiaoYouActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.back, R.id.serch_layout})
+    @OnClick({R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
                 finish();
-                break;
-            case R.id.serch_layout:
-                Intent intent = new Intent(XiaoYouActivity.this, SerchPersonActivity.class);
-                startActivity(intent);
                 break;
         }
     }

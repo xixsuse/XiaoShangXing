@@ -23,6 +23,7 @@
             android:text="@string/cancle" />
 
         <TextView
+            android:textStyle="bold"
             style="@style/black_17sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,6 +43,7 @@
         android:showDividers="middle">
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
             android:orientation="horizontal">
@@ -75,6 +77,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/password" />
             <EditText
+                style="@style/black_16sp"
                 android:id="@+id/modify_editText2"
                 android:inputType="textWebPassword"
                 android:digits="@string/digits_password"
@@ -96,6 +99,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/comfirm_code" />
             <EditText
+                style="@style/black_16sp"
                 android:id="@+id/modify_editText3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

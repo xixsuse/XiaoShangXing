@@ -10,9 +10,9 @@
     </include>
 
 
-    <include layout="@layout/item_serch">
+    <!--<include layout="@layout/item_serch">-->
 
-    </include>
+    <!--</include>-->
 
     <!--<ImageView-->
     <!--android:layout_width="match_parent"-->

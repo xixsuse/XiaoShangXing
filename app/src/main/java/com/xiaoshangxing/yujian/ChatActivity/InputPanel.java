@@ -57,14 +57,12 @@ import com.xiaoshangxing.input_activity.album.AlbumHelper;
 import com.xiaoshangxing.input_activity.album.ImageBucket;
 import com.xiaoshangxing.input_activity.album.ImageItem;
 import com.xiaoshangxing.input_activity.check_photo.inputSelectPhotoPagerActivity;
-import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
-import com.xiaoshangxing.yujian.IM.kit.string.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -381,18 +379,10 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     private Uri came_photo_path;
     public static final int TAKE_PHOTO = 30000;
 
+    private final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private void openCamera() {
-        if (CommonUtils.isExistCamera(container.activity)) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);// 调用android自带的照相机
-            came_photo_path = FileUtils.newPhotoPath();
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, came_photo_path);
-            intent.putExtra(MediaStore.Images.Media.ORIENTATION, 0);
-            container.activity.startActivityForResult(intent, TAKE_PHOTO);
-        } else {
-            Toast.makeText(container.activity,
-                    "卧槽,没找到你手机上的相机你敢信?!",
-                    Toast.LENGTH_SHORT).show();
-        }
+        came_photo_path = FileUtils.newPhotoPath();
+        IntentStatic.openCamera(container.activity, came_photo_path, TAKE_PHOTO);
     }
 
     /*

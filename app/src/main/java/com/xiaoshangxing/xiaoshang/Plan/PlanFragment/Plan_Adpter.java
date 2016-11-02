@@ -57,7 +57,6 @@ public class Plan_Adpter extends ArrayAdapter<Published> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-
         final Published published = publisheds.get(position);
 
         String userId = String.valueOf(published.getUserId());
@@ -73,7 +72,7 @@ public class Plan_Adpter extends ArrayAdapter<Published> {
         if (TextUtils.isEmpty(published.getPersonLimit())) {
             viewHolder.peopleLimit.setText("不限人数");
         } else {
-            viewHolder.peopleLimit.setText((published.getJoinCount() + "-" + published.getPersonLimit()));
+            viewHolder.peopleLimit.setText((published.getJoinCount() + "-" + published.getPersonLimit() + "人"));
         }
 
         viewHolder.joinedCount.setText("" + published.getJoinCount());

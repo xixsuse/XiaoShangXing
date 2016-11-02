@@ -12,55 +12,6 @@
 
     </include>
 
-    <!--<RelativeLayout-->
-    <!--android:id="@+id/title"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/height_144"-->
-    <!--android:paddingStart="@dimen/width_48">-->
-
-    <!--&lt;!&ndash;返回&ndash;&gt;-->
-    <!--<LinearLayout-->
-    <!--android:id="@+id/back"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<ImageView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:src="@mipmap/left_arrow_black" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center_vertical"-->
-    <!--android:layout_marginStart="@dimen/x12"-->
-    <!--android:text="@string/back"-->
-    <!--android:textColor="@color/b0"-->
-    <!--android:textSize="15sp" />-->
-
-    <!--</LinearLayout>-->
-    <!--&lt;!&ndash;姓名&ndash;&gt;-->
-    <!--<TextView-->
-    <!--android:id="@+id/name"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:text="@string/app_name"-->
-    <!--android:textColor="@color/b0"-->
-    <!--android:textSize="17sp" />-->
-    <!--&lt;!&ndash;more&ndash;&gt;-->
-    <!--<ImageView-->
-    <!--android:id="@+id/more"-->
-    <!--android:src="@mipmap/chat_more"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentEnd="true"-->
-    <!--android:layout_centerVertical="true" />-->
-
-    <!--</RelativeLayout>-->
-
     <RelativeLayout
         android:id="@+id/invalid_team_tip"
         android:layout_width="match_parent"
@@ -197,14 +148,6 @@
                     android:textColor="@color/w0"
                     android:textSize="14sp" />
 
-                <!--<ImageView-->
-                <!--android:id="@+id/send"-->
-                <!--android:layout_alignParentEnd="true"-->
-                <!--android:layout_marginEnd="@dimen/x30"-->
-                <!--android:src="@mipmap/input_send_grey"-->
-                <!--android:layout_width="@dimen/x168"-->
-                <!--android:layout_height="match_parent" />-->
-
             </RelativeLayout>
 
             <!--语音按钮-->
@@ -313,10 +256,10 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:gravity="center"
+                            android:layout_marginStart="@dimen/x58"
                             android:src="@mipmap/emot_grey_total" />
 
                     </LinearLayout>

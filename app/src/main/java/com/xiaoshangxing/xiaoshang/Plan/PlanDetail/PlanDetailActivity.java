@@ -142,6 +142,9 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         planName.setText(published.getPlanName());
         complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
 
+        name.setIntent_type(Name.PERSON_INFO, userId);
+        launchPeople.setIntent_type(Name.PERSON_INFO, userId);
+
         if (TextUtils.isEmpty(published.getPersonLimit())) {
             peopleLimit.setText("不限人数");
         } else {
@@ -180,7 +183,7 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         xsx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.Share(PlanDetailActivity.this, InputActivity.SHOOL_REWARD, published_id);
+                OperateUtils.Share(PlanDetailActivity.this, InputActivity.LANCH_PLAN, published_id);
                 dialog.dismiss();
             }
         });

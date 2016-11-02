@@ -2,12 +2,12 @@ package com.xiaoshangxing.xiaoshang.Reward.RewardCollect;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -19,8 +19,8 @@ import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
+import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
@@ -62,7 +62,8 @@ public class RewardCollect_Adpter extends ArrayAdapter<Published> {
             viewholder.button = (ImageView) convertView.findViewById(R.id.button);
             viewholder.down_arrow = (ImageView) convertView.findViewById(R.id.down_arrow);
             viewholder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
-            viewholder.cardview = (CardView) convertView.findViewById(R.id.cardview);
+            viewholder.parentLay = (LinearLayout) convertView.findViewById(R.id.parent_lay);
+            viewholder.finish = (ImageView) convertView.findViewById(R.id.finish);
             convertView.setTag(viewholder);
 
         } else {
@@ -96,7 +97,7 @@ public class RewardCollect_Adpter extends ArrayAdapter<Published> {
             @Override
             public boolean onLongClick(View v) {
                 showMenu(v, viewholder, published.getId());
-                viewholder.cardview.setBackground(context.getResources()
+                viewholder.parentLay.setBackground(context.getResources()
                         .getDrawable(R.drawable.circular_8_g1_nostroke));
                 return true;
 
@@ -114,6 +115,14 @@ public class RewardCollect_Adpter extends ArrayAdapter<Published> {
 
         viewholder.checkBox.setChecked(false);
 
+        if (!published.isAlive()) {
+            viewholder.finish.setVisibility(View.VISIBLE);
+            viewholder.price.setTextColor(context.getResources().getColor(R.color.g0));
+        } else {
+            viewholder.finish.setVisibility(View.GONE);
+            viewholder.price.setTextColor(context.getResources().getColor(R.color.red1));
+        }
+
         return convertView;
     }
 
@@ -124,8 +133,8 @@ public class RewardCollect_Adpter extends ArrayAdapter<Published> {
         private Name name;
         private EmotinText text;
         private CheckBox checkBox;
-        private ImageView button, down_arrow;
-        private CardView cardview;
+        private ImageView button, down_arrow, finish;
+        private LinearLayout parentLay;
     }
 
     private void showMenu(View v, final mystate_viewholder viewholder, final int publishId) {
@@ -164,8 +173,8 @@ public class RewardCollect_Adpter extends ArrayAdapter<Published> {
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                viewholder.cardview.setBackground(context.getResources()
-                        .getDrawable(R.drawable.circular_8_w0_nostroke));
+                viewholder.parentLay.setBackground(context.getResources()
+                        .getDrawable(R.drawable.et_circular_8_w0));
             }
         });
 
