@@ -22,6 +22,7 @@
             android:src="@mipmap/cirecleimage_default" />
 
         <View
+            android:id="@+id/vertical_line"
             android:layout_width="1px"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"

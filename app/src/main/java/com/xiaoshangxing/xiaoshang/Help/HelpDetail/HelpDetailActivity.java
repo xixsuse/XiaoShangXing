@@ -130,6 +130,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         setContentView(R.layout.reward_help_detail);
         ButterKnife.bind(this);
         setmPresenter(new HelpDetailPresenter(this, this));
+        setEnableRightSlide(false);
         init();
         moveImediate(currentItem);
     }
@@ -152,7 +153,6 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     }
 
     private void init() {
-
         if (!getIntent().hasExtra(IntentStatic.DATA)) {
             showToast("动态id错误");
             finish();
@@ -370,7 +370,6 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     @Override
     public void gotoSelectPeson() {
         Intent intent_selectperson = new Intent(HelpDetailActivity.this, SelectPersonActivity.class);
-        intent_selectperson.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent_selectperson, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
@@ -382,7 +381,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         startActivity(comment_input);
     }
 
-    private void showTransmitDialog(final String id) {
+    private void showTransmitDialog(final List<String> id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
         dialog.setContentView(dialogView);
@@ -410,7 +409,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.Tranmit(published_id, NS.CATEGORY_REWARD, id, iBaseView, input.getText().toString(),
+                OperateUtils.Tranmit(published_id, NS.CATEGORY_HELP, id, iBaseView, input.getText().toString(),
                         new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
@@ -471,7 +470,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
             if (data != null) {
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
                     List<String> list = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
-                    showTransmitDialog(list.get(0));
+                    showTransmitDialog(list);
                 } else {
                     Toast.makeText(HelpDetailActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
                 }

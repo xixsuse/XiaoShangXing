@@ -32,7 +32,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -175,58 +177,58 @@ public class OperateUtils {
      * @param text1       转发时说的话  可为空
      */
 
-    public static void Tranmit(final int publishedId, String categry, final String personId,
-                               final IBaseView iBaseView, final String text1, final SimpleCallBack callback) {
-        IMMessage imMessage = null;
-        TransmitMessage_NoImage noImage = null;
-        TransmitMessage_WithImage transmitMessage_withImage = null;
-        int type;
-        switch (categry) {
-            case NS.CATEGORY_REWARD:
-                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Reward);
-                noImage.setState_id(publishedId);
-                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
-                type = CustomAttachmentType.Reward;
-                break;
-            case NS.CATEGORY_HELP:
-                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Help);
-                noImage.setState_id(publishedId);
-                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
-                type = CustomAttachmentType.Help;
-                break;
-            case NS.CATEGORY_PLAN:
-                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Plan);
-                noImage.setState_id(publishedId);
-                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
-                type = CustomAttachmentType.Plan;
-                break;
-            case NS.CATEGORY_SALE:
-                transmitMessage_withImage = new TransmitMessage_WithImage(CustomAttachmentType.Sale);
-                transmitMessage_withImage.setState_id(publishedId);
-                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, transmitMessage_withImage);
-                type = CustomAttachmentType.Sale;
-                break;
-            case NS.APPLY_PLAN:
-                ApplyPlanMessage applyPlanMessage = new ApplyPlanMessage();
-                applyPlanMessage.setState_id(publishedId);
-                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, applyPlanMessage);
-                type = CustomAttachmentType.ApplyPlan;
-                break;
-            default:
-                return;
-        }
-
-        if (!TextUtils.isEmpty(text1)) {
-            IMMessage text = MessageBuilder.createTextMessage(personId, SessionTypeEnum.P2P,
-                    text1);
-            Map<String, Object> map = new HashMap<>();
-            map.put(NS.TYPE, type);
-            text.setRemoteExtension(map);
-            sendTransmitMessage(imMessage, text, callback, iBaseView);
-        } else {
-            sendTransmitMessage(imMessage, null, callback, iBaseView);
-        }
-    }
+//    public static void Tranmit(final int publishedId, String categry, final String personId,
+//                               final IBaseView iBaseView, final String text1, final SimpleCallBack callback) {
+//        IMMessage imMessage = null;
+//        TransmitMessage_NoImage noImage = null;
+//        TransmitMessage_WithImage transmitMessage_withImage = null;
+//        int type;
+//        switch (categry) {
+//            case NS.CATEGORY_REWARD:
+//                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Reward);
+//                noImage.setState_id(publishedId);
+//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+//                type = CustomAttachmentType.Reward;
+//                break;
+//            case NS.CATEGORY_HELP:
+//                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Help);
+//                noImage.setState_id(publishedId);
+//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+//                type = CustomAttachmentType.Help;
+//                break;
+//            case NS.CATEGORY_PLAN:
+//                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Plan);
+//                noImage.setState_id(publishedId);
+//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+//                type = CustomAttachmentType.Plan;
+//                break;
+//            case NS.CATEGORY_SALE:
+//                transmitMessage_withImage = new TransmitMessage_WithImage(CustomAttachmentType.Sale);
+//                transmitMessage_withImage.setState_id(publishedId);
+//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, transmitMessage_withImage);
+//                type = CustomAttachmentType.Sale;
+//                break;
+//            case NS.APPLY_PLAN:
+//                ApplyPlanMessage applyPlanMessage = new ApplyPlanMessage();
+//                applyPlanMessage.setState_id(publishedId);
+//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, applyPlanMessage);
+//                type = CustomAttachmentType.ApplyPlan;
+//                break;
+//            default:
+//                return;
+//        }
+//
+//        if (!TextUtils.isEmpty(text1)) {
+//            IMMessage text = MessageBuilder.createTextMessage(personId, SessionTypeEnum.P2P,
+//                    text1);
+//            Map<String, Object> map = new HashMap<>();
+//            map.put(NS.TYPE, type);
+//            text.setRemoteExtension(map);
+//            sendTransmitMessage(imMessage, text, callback, iBaseView);
+//        } else {
+//            sendTransmitMessage(imMessage, null, callback, iBaseView);
+//        }
+//    }
 
     /**
      * description:发送消息
@@ -236,34 +238,162 @@ public class OperateUtils {
      * @param callBack  回调
      */
 
-    public static void sendTransmitMessage(IMMessage imMessage, final IMMessage text,
+//    public static void sendTransmitMessage(IMMessage imMessage, final IMMessage text,
+//                                           final SimpleCallBack callBack, final IBaseView iBaseView) {
+//
+//        NIMClient.getService(MsgService.class).sendMessage(imMessage, false).setCallback(new RequestCallback<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                if (text != null) {
+//                    NIMClient.getService(MsgService.class).sendMessage(text, false);
+//                }
+//                if (callBack != null) {
+//                    callBack.onSuccess();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailed(int i) {
+//                iBaseView.showToast("操作失败:" + i);
+//            }
+//
+//            @Override
+//            public void onException(Throwable throwable) {
+//                iBaseView.showToast("操作失败:异常");
+//                throwable.printStackTrace();
+//                if (callBack != null) {
+//                    callBack.onError(throwable);
+//                }
+//            }
+//        });
+//    }
+
+    /**
+     * description:转发一条动态给好友  目前仅限一次一人
+     *
+     * @param publishedId 动态id
+     * @param categry     动态类型
+     * @param personIds   转发对象id组
+     * @param text1       转发时说的话  可为空
+     */
+    public static void Tranmit(final int publishedId, String categry, final List<String> personIds,
+                               final IBaseView iBaseView, final String text1, final SimpleCallBack callback) {
+        List<IMMessage> imMessages = new ArrayList<>();
+        TransmitMessage_NoImage noImage = null;
+        TransmitMessage_WithImage transmitMessage_withImage = null;
+        int type;
+        switch (categry) {
+            case NS.CATEGORY_REWARD:
+                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Reward);
+                noImage.setState_id(publishedId);
+                for (String personId : personIds) {
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.Reward;
+                break;
+            case NS.CATEGORY_HELP:
+                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Help);
+                noImage.setState_id(publishedId);
+                for (String personId : personIds) {
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.Help;
+                break;
+            case NS.CATEGORY_PLAN:
+                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Plan);
+                noImage.setState_id(publishedId);
+                for (String personId : personIds) {
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.Plan;
+                break;
+            case NS.CATEGORY_SALE:
+                transmitMessage_withImage = new TransmitMessage_WithImage(CustomAttachmentType.Sale);
+                transmitMessage_withImage.setState_id(publishedId);
+                for (String personId : personIds) {
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, transmitMessage_withImage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.Sale;
+                break;
+            case NS.APPLY_PLAN:
+                ApplyPlanMessage applyPlanMessage = new ApplyPlanMessage();
+                applyPlanMessage.setState_id(publishedId);
+                for (String personId : personIds) {
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, applyPlanMessage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.ApplyPlan;
+                break;
+            default:
+                return;
+        }
+
+        if (!TextUtils.isEmpty(text1)) {
+            List<IMMessage> texts = new ArrayList<>();
+            Map<String, Object> map = new HashMap<>();
+            map.put(NS.TYPE, type);
+            for (String personId : personIds) {
+                IMMessage imMessage = MessageBuilder.createTextMessage(personId, SessionTypeEnum.P2P, text1);
+                imMessage.setRemoteExtension(map);
+                texts.add(imMessage);
+            }
+            sendTransmitMessage(imMessages, texts, callback, iBaseView);
+        } else {
+            sendTransmitMessage(imMessages, null, callback, iBaseView);
+        }
+    }
+
+    /**
+     * description:发送消息
+     *
+     * @param imMessages 第一条消息
+     * @param texts      第二条消息
+     * @param callBack   回调
+     */
+    public static void sendTransmitMessage(final List<IMMessage> imMessages, final List<IMMessage> texts,
                                            final SimpleCallBack callBack, final IBaseView iBaseView) {
 
-        NIMClient.getService(MsgService.class).sendMessage(imMessage, false).setCallback(new RequestCallback<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                if (text != null) {
-                    NIMClient.getService(MsgService.class).sendMessage(text, false);
-                }
-                if (callBack != null) {
-                    callBack.onSuccess();
-                }
+        final List<String> count = new ArrayList<>();
+
+        for (int i = 0; i < imMessages.size(); i++) {
+            IMMessage imMessage = imMessages.get(i);
+            IMMessage text = null;
+            if (texts != null && texts.size() > i) {
+                text = texts.get(i);
             }
 
-            @Override
-            public void onFailed(int i) {
-                iBaseView.showToast("操作失败:" + i);
-            }
-
-            @Override
-            public void onException(Throwable throwable) {
-                iBaseView.showToast("操作失败:异常");
-                throwable.printStackTrace();
-                if (callBack != null) {
-                    callBack.onError(throwable);
+            final IMMessage finalText = text;
+            NIMClient.getService(MsgService.class).sendMessage(imMessage, false).setCallback(new RequestCallback<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    if (finalText != null) {
+                        NIMClient.getService(MsgService.class).sendMessage(finalText, false);
+                    }
+                    count.add("1");
+                    if (count.size() == imMessages.size() && callBack != null) {
+                        callBack.onSuccess();
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void onFailed(int i) {
+                    iBaseView.showToast("操作失败:" + i);
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    iBaseView.showToast("操作失败:异常");
+                    throwable.printStackTrace();
+                    if (callBack != null) {
+                        callBack.onError(throwable);
+                    }
+                }
+            });
+        }
     }
 
     /**

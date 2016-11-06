@@ -11,10 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.Formmat;
-import com.xiaoshangxing.Network.netUtil.BaseUrl;
+import com.xiaoshangxing.Network.InfoNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.shiming.result.VertifyingActivity;
@@ -24,14 +24,19 @@ import com.xiaoshangxing.utils.BroadCast.FinishActivityRecever;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 /**
  * Created by tianyang on 2016/10/5.
@@ -121,52 +126,90 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
     public void VertifyNow(View view) {
 //        startActivity(new Intent(this, VertifyingActivity.class));
 
-        final Map<String, String> map = new HashMap<>();
-        map.put(NS.USER_ID, TempUser.getId());
-        map.put("name", nameStr);
-        map.put("sex", sexStr);
-        map.put("studentNum", xuehaoStr);
-        map.put("schoolName", schoolStr);
-        map.put("college", colleg);
-        map.put("profession", professional);
-        map.put("admissionYear", ruxuenianfenStr);
-        map.put("degree", degree);
-        final ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add(PreviewActivity.getLeftImgPath("XueShengZhen"));
-        arrayList.add(PreviewActivity.getRightImgPath("XueShengZhen"));
+//        final Map<String, String> map = new HashMap<>();
+//        map.put(NS.USER_ID, TempUser.getId());
+//        map.put("name", nameStr);
+//        map.put("sex", sexStr);
+//        map.put("studentNum", xuehaoStr);
+//        map.put("schoolName", schoolStr);
+//        map.put("college", colleg);
+//        map.put("profession", professional);
+//        map.put("admissionYear", ruxuenianfenStr);
+//        map.put("degree", degree);
+//        final ArrayList<String> arrayList = new ArrayList<>();
+//        arrayList.add(PreviewActivity.getLeftImgPath("XueShengZhen"));
+//        arrayList.add(PreviewActivity.getRightImgPath("XueShengZhen"));
+//
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                Formmat formmat = new Formmat(VertifyActivity.this, VertifyActivity.this, BaseUrl.BASE_URL + BaseUrl.REAL_NAME);
+//                formmat.setSimpleCallBack(new SimpleCallBack() {
+//                    @Override
+//                    public void onSuccess() {
+//                        startActivity(new Intent(VertifyActivity.this, VertifyingActivity.class));
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onBackData(Object o) {
+//
+//                    }
+//                });
+//
+//                try {
+//                    formmat.addFormField(map)
+//                            .addFilePart(arrayList, VertifyActivity.this)
+//                            .doUpload();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    showToast("图片出错");
+//                }
+//            }
+//        });
+//        thread.start();
+        realName();
+    }
 
-        Thread thread = new Thread(new Runnable() {
+    private void realName() {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
-            public void run() {
-                Formmat formmat = new Formmat(VertifyActivity.this, VertifyActivity.this, BaseUrl.BASE_URL + BaseUrl.REAL_NAME);
-                formmat.setSimpleCallBack(new SimpleCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        startActivity(new Intent(VertifyActivity.this, VertifyingActivity.class));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onBackData(Object o) {
-
-                    }
-                });
-
+            public void onNext(ResponseBody e) throws JSONException {
                 try {
-                    formmat.addFormField(map)
-                            .addFilePart(arrayList, "file")
-                            .doUpload();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showToast("图片出错");
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    if (jsonObject.getString(NS.CODE).equals("200")) {
+                        startActivity(new Intent(VertifyActivity.this, VertifyingActivity.class));
+                    } else {
+                        showToast(jsonObject.getString(NS.MSG));
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
             }
-        });
-        thread.start();
+        };
+
+        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, this);
+        progressSubsciber.setLoadingText("上传中...");
+
+        File left = new File(PreviewActivity.getLeftImgPath("XueShengZhen"));
+        File right = new File(PreviewActivity.getRightImgPath("XueShengZhen"));
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), left/*SendImageHelper.getLittleImage(coverPath, getContext())*/);
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("file", left.getName(), requestFile);
+        RequestBody requestFile1 =
+                RequestBody.create(MediaType.parse("multipart/form-data"), right/*SendImageHelper.getLittleImage(coverPath, getContext())*/);
+        MultipartBody.Part body1 =
+                MultipartBody.Part.createFormData("file", left.getName(), requestFile1);
+
+        String sex = sexStr.equals("男") ? "1" : "2";
+
+        InfoNetwork.getInstance().realName(progressSubsciber, TempUser.getID(this), nameStr, sex, xuehaoStr, schoolStr,
+                colleg, professional, ruxuenianfenStr, degree, body, body1, this);
     }
 
 
@@ -214,8 +257,6 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
     }
 
     public boolean isfilled() {
-
-//        return nameFlag && sexFlag && xuehaoFlag && xuexiaoFlag && nianfenFlag;
         return !(TextUtils.isEmpty(nameStr) || TextUtils.isEmpty(sexStr) || TextUtils.isEmpty(xuehaoStr)
                 || TextUtils.isEmpty(schoolStr) || TextUtils.isEmpty(colleg) || TextUtils.isEmpty(sexStr)
                 || TextUtils.isEmpty(professional) || TextUtils.isEmpty(ruxuenianfenStr) || TextUtils.isEmpty(degree));

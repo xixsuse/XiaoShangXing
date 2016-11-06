@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.widget.Toast;
 
 import io.realm.Realm;
@@ -17,6 +18,7 @@ public class BaseFragment extends Fragment {
     protected BaseActivity mActivity;
     protected Context mContext;
     protected Realm realm;
+    private boolean isDefaultPopFragment = true;//标记是否默认右滑关闭fragment
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +26,53 @@ public class BaseFragment extends Fragment {
         mActivity = (BaseActivity) getActivity();
         mContext = mActivity;
         realm = mActivity.getRealm();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setDefaultRightSlide();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            setDefaultRightSlide();
+        }
+    }
+
+    /*
+    **describe:设置默认右滑响应事件
+    */
+    private void setDefaultRightSlide() {
+        if (isDefaultPopFragment) {
+            setRightSlide(new BaseActivity.RightSlide() {
+                @Override
+                public boolean rightSlide() {
+                    getFragmentManager().popBackStack();
+                    return true;
+                }
+            });
+        }
+    }
+
+    /*
+    **describe:设置右滑关闭当前activity
+    */
+    public void setCloseActivity() {
+        setRightSlide(new BaseActivity.RightSlide() {
+            @Override
+            public boolean rightSlide() {
+                mActivity.finish();
+                return true;
+            }
+        });
     }
 
     /*
@@ -51,4 +100,17 @@ public class BaseFragment extends Fragment {
     public void showToast(String toast){
         Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
     }
+
+    public void setRightSlide(BaseActivity.RightSlide rightSlide) {
+        mActivity.setRightSlide(rightSlide);
+    }
+
+    public boolean isDefaultPopFragment() {
+        return isDefaultPopFragment;
+    }
+
+    public void setDefaultPopFragment(boolean defaultPopFragment) {
+        isDefaultPopFragment = defaultPopFragment;
+    }
+
 }

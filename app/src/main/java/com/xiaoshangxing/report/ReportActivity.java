@@ -23,8 +23,6 @@ import io.realm.annotations.Ignore;
 public class ReportActivity extends BaseActivity {
     public static final String TAG = BaseActivity.TAG + "-LoginRegisterActivity";
     private String reportText;
-//    private String folderName;
-//    private boolean isCanceled;
     private ReportEvidenceFragment reportEvidenceFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,23 +44,6 @@ public class ReportActivity extends BaseActivity {
     public String getReportText() {
         return reportText;
     }
-
-//    public void setFolderName(String folderName) {
-//        this.folderName = folderName;
-//    }
-//
-//    public String getFolderName() {
-//        return folderName;
-//    }
-
-//    public void setCanceled(boolean canceled) {
-//        isCanceled = canceled;
-//        Log.d("qqq","setting..."+isCanceled);
-//    }
-//
-//    public boolean isCanceled() {
-//        return isCanceled;
-//    }
 
     @Override
     protected void onDestroy() {

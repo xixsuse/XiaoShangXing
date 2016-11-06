@@ -87,6 +87,12 @@ public class CurrencyFragment extends BaseFragment implements View.OnClickListen
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCloseActivity();
+    }
+
     private void initView() {
         File glide_cache = new File(FileUtils.getGlideCache());
         File IM_cache = new File(FileUtils.getImCache());

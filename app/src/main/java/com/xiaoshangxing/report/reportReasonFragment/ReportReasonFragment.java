@@ -62,6 +62,8 @@ public class ReportReasonFragment extends BaseFragment implements AdapterView.On
         next.setEnabled(false);
         next.setAlpha(0.5f);
 
+        setCloseActivity();
+
         mReasons = getResources().getStringArray(R.array.report_reasons);
         mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_report, mReasons);
         listView = (ListView) mView.findViewById(R.id.list_reportReason);

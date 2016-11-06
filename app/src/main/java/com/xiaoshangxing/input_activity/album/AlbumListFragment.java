@@ -2,7 +2,6 @@ package com.xiaoshangxing.input_activity.album;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 
 import java.util.ArrayList;
@@ -56,6 +56,14 @@ public class AlbumListFragment extends BaseFragment {
     }
 
     private void initView() {
+        setRightSlide(new BaseActivity.RightSlide() {
+            @Override
+            public boolean rightSlide() {
+                AlbumActivity albumActivity = (AlbumActivity) getActivity();
+                albumActivity.finish();
+                return true;
+            }
+        });
         helper = AlbumHelper.getHelper();
         helper.init(getContext());
         contentList = helper.getImagesBucketList(false);
@@ -64,11 +72,7 @@ public class AlbumListFragment extends BaseFragment {
         }
 //最近照片
         if (!contentList.contains(totalImageBucket)) {
-//            for (int i = 0; i < contentList.size(); i++) {
-//                dataList.addAll(contentList.get(i).imageList);
-//            }
             totalImageBucket=helper.getTotalImage(false);
-//            totalImageBucket.imageList = dataList;
             totalImageBucket.bucketName = "最近照片";
             SortImage.SortImages(totalImageBucket);
             if (totalImageBucket.imageList.size() > 100) {
@@ -79,16 +83,6 @@ public class AlbumListFragment extends BaseFragment {
             contentList.add(0, totalImageBucket);
         }
 
-//        ImageItem imageList[] = (ImageItem[]) dataList.toArray();
-//        Arrays.sort(imageList, new RencentImageComparator());
-//        ImageBucket rencent = new ImageBucket();
-//        rencent.bucketName = "最近照片";
-//        List<ImageItem> temp_list=new ArrayList<>();
-//        for (int i=0;i<100;i++){
-//            temp_list.add(imageList[i]);
-//        }
-//        rencent.imageList=temp_list;
-//        contentList.add(0,rencent);
         albumListAdpter = new AlbumListAdpter(getContext(), 1, (ArrayList<ImageBucket>) contentList);
         listview.setAdapter(albumListAdpter);
         View view = new View(getContext());
@@ -110,7 +104,6 @@ public class AlbumListFragment extends BaseFragment {
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                                 R.anim.slide_in_left, R.anim.slide_out_left)
-//                        .replace(R.id.main_fragment, fragment)
                         .hide(albumListFragment)
                         .add(R.id.main_fragment, fragment)
                         .addToBackStack(null)

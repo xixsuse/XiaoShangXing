@@ -26,6 +26,7 @@ public class FlashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash);
+        setEnableRightSlide(false);
         if (getIntent().hasExtra(NimIntent.EXTRA_NOTIFY_CONTENT)){
             handler = new Handler();
             handler.postDelayed(new Runnable() {

@@ -12,7 +12,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y200"
+        android:layout_height="@dimen/y144"
         android:layout_below="@id/title_lay"
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
@@ -47,14 +47,31 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:background="@color/w0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/complete"
+                style="@style/black_16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="@dimen/x24"
+                android:text="@string/complete" />
+
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/y100"
+            android:layout_marginBottom="@dimen/y75"
+            android:layout_marginTop="@dimen/y50"
             android:orientation="horizontal">
 
             <com.xiaoshangxing.setting.utils.city_choosing.WheelView
@@ -70,18 +87,6 @@
                 android:layout_weight="1"></com.xiaoshangxing.setting.utils.city_choosing.WheelView>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/hometown_complete"
-            style="@style/black_16sp"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/y120"
-            android:layout_marginBottom="@dimen/y48"
-            android:layout_marginEnd="@dimen/x48"
-            android:layout_marginStart="@dimen/x48"
-            android:layout_marginTop="@dimen/y48"
-            android:background="@drawable/buttonstyle_green1"
-            android:text="@string/complete"
-            android:textColor="@color/w0" />
     </LinearLayout>
 
 </RelativeLayout>

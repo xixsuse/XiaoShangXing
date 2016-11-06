@@ -44,6 +44,7 @@ public class IndicatorActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_indicator);
         ButterKnife.bind(this);
+        setEnableRightSlide(false);
         fragments.add(IndicatorFragment.newInstance(R.mipmap.guide_page01, R.mipmap.guide_page_letter01,false));
         fragments.add(IndicatorFragment.newInstance(R.mipmap.guide_page02, R.mipmap.guide_page_letter02,false));
         fragments.add(IndicatorFragment.newInstance(R.mipmap.guide_page03, R.mipmap.guide_page_letter03,true));

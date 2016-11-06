@@ -75,7 +75,7 @@ public class RewardCollect_Adpter extends ArrayAdapter<Published> {
         UserInfoCache.getInstance().getHeadIntoImage(id, viewholder.headImage);
         UserInfoCache.getInstance().getExIntoTextview(id, NS.USER_NAME, viewholder.name);
         UserInfoCache.getInstance().getExIntoTextview(id, NS.COLLEGE, viewholder.college);
-        viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewholder.time.setText(TimeUtil.getSimplePublishedTime(published.getCreateTime()));
         viewholder.text.setText(published.getText());
         viewholder.price.setText(NS.RMB + published.getPrice());
         viewholder.headImage.setIntent_type(CirecleImage.PERSON_INFO, id);

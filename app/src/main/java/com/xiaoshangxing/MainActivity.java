@@ -101,6 +101,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.bind(this);
+        setEnableRightSlide(false);
         requestBasicPermission();
         doSomethingWhenEnter();
         initInputBox();

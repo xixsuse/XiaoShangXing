@@ -65,7 +65,7 @@ public class JoinedPlan_Adpter extends ArrayAdapter<JoinedPlan> {
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewHolder.name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
 
-        viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewHolder.time.setText(TimeUtil.getSimplePublishedTime(published.getCreateTime()));
         viewHolder.text.setText(published.getText());
         viewHolder.planName.setText(published.getPlanName());
         viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);

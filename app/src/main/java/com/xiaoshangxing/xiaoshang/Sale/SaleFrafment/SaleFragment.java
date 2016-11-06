@@ -2,11 +2,11 @@ package com.xiaoshangxing.xiaoshang.Sale.SaleFrafment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +22,6 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
@@ -32,8 +31,6 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.album.AlbumActivity;
-import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
-import com.xiaoshangxing.setting.utils.headimg_set.FileUtil;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
@@ -119,6 +116,20 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setCloseActivity();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            setCloseActivity();
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
@@ -149,16 +160,18 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
                 clickOnRule(true);
             }
         });
+        imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(),
+                            0);
+                }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-//                imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 //                if (imm != null) {
 //                    imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(),
 //                            0);
@@ -285,7 +298,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .hide(this)
-                .hide(activity.getSaleCollectFragment())
+//                .hide(activity.getSaleCollectFragment())
                 .show(fragment)
                 .addToBackStack(null)
                 .commit();
@@ -299,7 +312,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .hide(this)
-                .hide(activity.getPersonalSaleFragment())
+//                .hide(activity.getPersonalSaleFragment())
                 .show(fragment)
                 .addToBackStack(null)
                 .commit();
@@ -412,15 +425,15 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     public void clickOnRule(boolean is) {
         if (is) {
             rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_show));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
         } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_hide));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 300);
+            }, 500);
         }
 
     }

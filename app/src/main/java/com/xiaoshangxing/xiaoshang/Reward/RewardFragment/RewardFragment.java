@@ -101,9 +101,23 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setCloseActivity();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            setCloseActivity();
+        }
     }
 
     public static RewardFragment newInstance() {
@@ -159,6 +173,10 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
             isOthers = true;
         }
+
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        params.topMargin = ScreenUtils.getAdapterPx(R.dimen.y1920, getContext());
+//        rules.setLayoutParams(params);
 
     }
 
@@ -293,8 +311,8 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .hide(activity.getRewardFragment())
+//                .hide(activity.getPersonalRewardFragment())
                 .show(activity.getRewardCollectFragment())
-                .hide(activity.getPersonalRewardFragment())
                 .addToBackStack(null)
                 .commit();
     }
@@ -313,7 +331,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .hide(activity.getRewardFragment())
-                .hide(activity.getRewardCollectFragment())
+//                .hide(activity.getRewardCollectFragment())
                 .show(activity.getPersonalRewardFragment())
                 .addToBackStack(null)
                 .commit();
@@ -375,29 +393,16 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     @Override
     public void clickOnRule(boolean is) {
         if (is) {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_show));
-//            final int top = ScreenUtils.getAdapterPx(R.dimen.height_144, getContext());
-//            ValueAnimator animator = ValueAnimator.ofInt(0,
-//                    ScreenUtils.getDisplayHeight() - top);
-//            animator.setDuration(1000);
-//
-//            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//                @Override
-//                public void onAnimationUpdate(ValueAnimator animation) {
-//                    int curValue = (int) animation.getAnimatedValue();
-//                    rules.layout(0, top, ScreenUtils.getDisplayWidth(), top + curValue);
-//                }
-//            });
-//            animator.start();
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
             rules.setVisibility(View.VISIBLE);
         } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_hide));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 300);
+            }, 500);
         }
     }
 

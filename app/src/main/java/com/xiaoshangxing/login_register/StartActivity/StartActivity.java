@@ -31,6 +31,7 @@ public class StartActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setEnableRightSlide(false);
         setContentView(R.layout.activity_start);
         setmPresenter(new StartActivityPresenter(this, this));
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);

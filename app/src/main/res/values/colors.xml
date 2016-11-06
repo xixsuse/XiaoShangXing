@@ -93,6 +93,7 @@
     <!--IM-->
     <color name="im_list_select_hover">#dbdbdb</color>
     <color name="green_4DC0A4">#4DC0A4</color>
+    <color name="top">#f3f3f5</color>
     <color name="color_black_333333">#333333</color>
     <color name="color_activity_blue_bg">#f7389fff</color>
     <color name="contact_letter_idx_bg">#33000000</color>

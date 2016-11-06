@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 
 import java.util.List;
@@ -69,6 +70,15 @@ public class AlbumDetailFragment extends BaseFragment {
     }
 
     private void initView() {
+
+        setRightSlide(new BaseActivity.RightSlide() {
+            @Override
+            public boolean rightSlide() {
+                back.performClick();
+                return true;
+            }
+        });
+
         activity=(AlbumActivity)getActivity();
         limit = activity.getLimit();
         imageBucket = activity.getCurrent_imagebucket();

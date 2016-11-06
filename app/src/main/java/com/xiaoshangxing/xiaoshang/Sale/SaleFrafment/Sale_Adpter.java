@@ -78,7 +78,7 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
         UserInfoCache.getInstance().getHeadIntoImage(userId, viewHolder.headImage);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewHolder.name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
-        viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewHolder.time.setText(TimeUtil.getSimplePublishedTime(published.getCreateTime()));
         viewHolder.text.setText(published.getText());
         viewHolder.price.setText(NS.RMB + published.getPrice());
         viewHolder.dorm.setText(published.getDorm());
@@ -95,8 +95,8 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
             }
         });
 
-        viewHolder.input.setFocusable(true);
-        viewHolder.input.requestFocus();
+//        viewHolder.input.setFocusable(true);
+//        viewHolder.input.requestFocus();
 
         final ViewHolder finalViewHolder = viewHolder;
         viewHolder.input.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +129,6 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
             }
         });
 
-
         viewHolder.chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,7 +137,9 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
                     Toast.makeText(context, "不能和自己私聊", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, String.valueOf(published.getUserId()), fragment,
+                ArrayList<String> arrayList = new ArrayList<String>();
+                arrayList.add(String.valueOf(published.getUserId()));
+                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, arrayList, fragment,
                         finalViewHolder.input.getText().toString(), new SimpleCallBack() {
                             @Override
                             public void onSuccess() {

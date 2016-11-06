@@ -13,8 +13,10 @@ import rx.Observable;
  * Created by FengChaoQun
  * on 2016/8/23
  */
-public interface SetUserImage {
+public interface RealNameTest {
     @Multipart
-    @POST(BaseUrl.SET_IMAGE)
-    Observable<ResponseBody> setUserImage(@Part("id") Integer id, @Part MultipartBody.Part photo/*("*fields*")String path*/, @Part("timeStamp") long time);
+    @POST(BaseUrl.REAL_NAME)
+    Observable<ResponseBody> start(@Part("userId") Integer userId, @Part("name") String name,
+                                   @Part MultipartBody.Part left,
+                                   @Part MultipartBody.Part right);
 }

@@ -87,6 +87,7 @@ public abstract class WoBaseHolder {
     protected LinearLayout commentLayout;
     protected ImageView headline;
     protected View jianjiao;
+    protected View verticalLine;
     protected LinearLayout commentsLay;
     protected View lineBetweenPraiseComment;
 
@@ -183,6 +184,7 @@ public abstract class WoBaseHolder {
         jianjiao = view.findViewById(R.id.jianjiao);
         commentsLay = (LinearLayout) view.findViewById(R.id.comments_lay);
         lineBetweenPraiseComment = view.findViewById(R.id.line_between_praise_comment);
+        verticalLine = view.findViewById(R.id.vertical_line);
     }
 
     protected void refreshBase() {
@@ -209,14 +211,14 @@ public abstract class WoBaseHolder {
         location.setVisibility(TextUtils.isEmpty(published.getLocation()) ? View.GONE : View.VISIBLE);
 
 //        时间
-        time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        time.setText(TimeUtil.getSimplePublishedTime(published.getCreateTime()));
 
 //        显示权限列表
         if (TempUser.isMine(String.valueOf(published.getUserId()))) {
             if (!TextUtils.isEmpty(published.getNotice())) {
                 permission.setVisibility(View.VISIBLE);
-                delete.setVisibility(View.VISIBLE);
             }
+            delete.setVisibility(View.VISIBLE);
         } else {
             permission.setVisibility(View.GONE);
             delete.setVisibility(View.GONE);
@@ -244,6 +246,12 @@ public abstract class WoBaseHolder {
             lineBetweenPraiseComment.setVisibility(View.VISIBLE);
         } else {
             lineBetweenPraiseComment.setVisibility(View.GONE);
+        }
+
+        if (adpter.getCount() == position + 1) {
+            verticalLine.setVisibility(View.GONE);
+        } else {
+            verticalLine.setVisibility(View.VISIBLE);
         }
 
     }

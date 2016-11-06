@@ -3,7 +3,6 @@ package com.xiaoshangxing.yujian.ChatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -47,7 +46,6 @@ import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.kit.ListViewUtil;
-import com.xiaoshangxing.yujian.IM.media.BitmapDecoder;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoObservable;
 import com.xiaoshangxing.yujian.IM.viewHodler.MessageVH.MessageAudioControl;
@@ -58,8 +56,6 @@ import com.xiaoshangxing.yujian.IM.viewHodler.TAdapterDelegate;
 import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -472,30 +468,6 @@ public class MessageListPanel implements TAdapterDelegate {
         }
 
         return -1;
-    }
-
-    //      设置聊天背景
-    public void setChattingBackground(String uriString, int color) {
-        if (uriString != null) {
-            Uri uri = Uri.parse(uriString);
-            if (uri.getScheme().equalsIgnoreCase("file") && uri.getPath() != null) {
-                listviewBk.setImageBitmap(getBackground(uri.getPath()));
-            } else if (uri.getScheme().equalsIgnoreCase("android.resource")) {
-                List<String> paths = uri.getPathSegments();
-                if (paths == null || paths.size() != 2) {
-                    return;
-                }
-                String type = paths.get(0);
-                String name = paths.get(1);
-                String pkg = uri.getHost();
-                int resId = container.activity.getResources().getIdentifier(name, type, pkg);
-                if (resId != 0) {
-                    listviewBk.setBackgroundResource(resId);
-                }
-            }
-        } else if (color != 0) {
-            listviewBk.setBackgroundColor(color);
-        }
     }
 
     /*
@@ -987,33 +959,6 @@ public class MessageListPanel implements TAdapterDelegate {
         MessageAudioControl.getInstance(container.activity).setEarPhoneModeEnable(earPhoneMode);
     }
 
-    //      获取背景图片
-    private Bitmap getBackground(String path) {
-        if (background != null && path.equals(background.first) && background.second != null) {
-            return background.second;
-        }
-
-        if (background != null && background.second != null) {
-            background.second.recycle();
-        }
-
-        Bitmap bitmap = null;
-        if (path.startsWith("/android_asset")) {
-            String asset = path.substring(path.indexOf("/", 1) + 1);
-            try {
-                InputStream ais = container.activity.getAssets().open(asset);
-                bitmap = BitmapDecoder.decodeSampled(ais, ScreenUtils.screenWidth, ScreenUtils.screenHeight);
-                ais.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            bitmap = BitmapDecoder.decodeSampled(path, ScreenUtils.screenWidth, ScreenUtils.screenHeight);
-        }
-        background = new Pair<>(path, bitmap);
-        return bitmap;
-    }
-
     private UserInfoObservable.UserInfoObserver uinfoObserver;
 
     private void registerUserInfoObserver() {
@@ -1111,11 +1056,6 @@ public class MessageListPanel implements TAdapterDelegate {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (resultCode != Activity.RESULT_OK) {
-//            return;
-//        }
-
-//        if (selected != null && !selected.isEmpty()) {
         switch (requestCode) {
             case REQUEST_CODE_FORWARD_TEAM:
                 ArrayList<String> selected = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);

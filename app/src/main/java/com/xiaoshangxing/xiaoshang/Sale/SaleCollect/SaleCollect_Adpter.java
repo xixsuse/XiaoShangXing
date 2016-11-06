@@ -77,7 +77,7 @@ public class SaleCollect_Adpter extends ArrayAdapter<Published> {
         UserInfoCache.getInstance().getHeadIntoImage(userId, viewHolder.headImage);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewHolder.name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
-        viewHolder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewHolder.time.setText(TimeUtil.getSimplePublishedTime(published.getCreateTime()));
         viewHolder.text.setText(published.getText());
         viewHolder.price.setText(NS.RMB + published.getPrice());
         viewHolder.dorm.setText(published.getDorm());
@@ -127,11 +127,13 @@ public class SaleCollect_Adpter extends ArrayAdapter<Published> {
         viewHolder.chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, "4"/*String.valueOf(published.getUserId())*/, fragment,
+                ArrayList<String> arrayList = new ArrayList<String>();
+                arrayList.add(String.valueOf(published.getUserId()));
+                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, arrayList, fragment,
                         finalViewHolder.input.getText().toString(), new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
-                                ChatActivity.start(context, "4", null, SessionTypeEnum.P2P);
+                                ChatActivity.start(context, String.valueOf(published.getUserId()), null, SessionTypeEnum.P2P);
                             }
 
                             @Override

@@ -118,6 +118,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mview = inflater.inflate(R.layout.frag_calendar, null);
         ButterKnife.bind(this, mview);
+        setDefaultPopFragment(false);
         initView();
         initFresh();
         return mview;
@@ -131,7 +132,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     }
 
     private void initView() {
-
+        setCloseActivity();
         title.setText("校历资讯");
         leftText.setText(R.string.xiaoshang);
         more.setImageResource(R.mipmap.add);

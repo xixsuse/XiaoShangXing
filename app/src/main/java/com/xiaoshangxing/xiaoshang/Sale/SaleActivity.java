@@ -32,6 +32,8 @@ import com.xiaoshangxing.xiaoshang.Sale.PersonalSale.PersonalSaleFragment;
 import com.xiaoshangxing.xiaoshang.Sale.SaleCollect.SaleCollectFragment;
 import com.xiaoshangxing.xiaoshang.Sale.SaleFrafment.SaleFragment;
 
+import java.util.List;
+
 /**
  * Created by FengChaoQun
  * on 2016/9/28
@@ -99,6 +101,11 @@ public class SaleActivity extends BaseActivity implements IBaseView {
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
                 saleFragment, SaleFragment.TAG).commit();
+
+        mFragmentManager.beginTransaction()
+                .hide(personalSaleFragment)
+                .hide(saleCollectFragment)
+                .show(saleFragment).commit();
     }
 
     public SaleFragment getSaleFragment() {
@@ -123,7 +130,6 @@ public class SaleActivity extends BaseActivity implements IBaseView {
 
     public void gotoSelectPerson() {
         Intent intent = new Intent(this, SelectPersonActivity.class);
-        intent.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
@@ -135,7 +141,7 @@ public class SaleActivity extends BaseActivity implements IBaseView {
         this.transmitedId = transmitedId;
     }
 
-    public void showTransmitDialog(final String id) {
+    public void showTransmitDialog(final List<String> id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_sale_transmit_dialog, null);
         dialog.setContentView(dialogView);
@@ -234,7 +240,7 @@ public class SaleActivity extends BaseActivity implements IBaseView {
         if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
             if (data != null) {
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
-                    showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).get(0));
+                    showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON));
                 } else {
                     showToast("未选择联系人");
                 }

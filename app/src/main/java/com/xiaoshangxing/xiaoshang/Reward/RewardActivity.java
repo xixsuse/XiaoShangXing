@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -31,14 +30,15 @@ import com.xiaoshangxing.xiaoshang.Reward.PersonalReward.PersonalRewardFragment;
 import com.xiaoshangxing.xiaoshang.Reward.RewardCollect.RewardCollectFragment;
 import com.xiaoshangxing.xiaoshang.Reward.RewardFragment.RewardFragment;
 
+import java.util.List;
+
 /**
  * Created by FengChaoQun
  * on 2016/7/20
  */
 public class RewardActivity extends BaseActivity implements RewardContract.View {
     public static final String TAG = BaseActivity.TAG + "-ShoolRewardActivity";
-//    public static final int SELECT_PERSON = 10001;
-private RewardFragment rewardFragment;
+    private RewardFragment rewardFragment;
     private PersonalRewardFragment personalRewardFragment;
     private RewardCollectFragment rewardCollectFragment;
     private RewardContract.Presenter mPresenter;
@@ -77,12 +77,14 @@ private RewardFragment rewardFragment;
                 rewardCollectFragment, RewardCollectFragment.TAG).commit();
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                personalRewardFragment, PersonalHelpFragment.TAG).commit();
+                personalRewardFragment, PersonalRewardFragment.TAG).commit();
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
                 rewardFragment, HelpFragment.TAG).commit();
 
-        mFragmentManager.beginTransaction().hide(rewardCollectFragment).hide(personalRewardFragment)
+        mFragmentManager.beginTransaction()
+                .hide(rewardCollectFragment)
+                .hide(personalRewardFragment)
                 .show(rewardFragment).commit();
     }
 
@@ -151,11 +153,10 @@ private RewardFragment rewardFragment;
         } else {
             return super.onKeyDown(keyCode, event);
         }
-
     }
 
-    @Override
-    public void showTransmitDialog(final String id) {
+
+    public void showTransmitDialog(final List<String> id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
         dialog.setContentView(dialogView);
@@ -178,8 +179,6 @@ private RewardFragment rewardFragment;
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         text.setText(published.getText());
-
-        Log.d("transmit object id", "" + id);
 
         cancle.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +238,6 @@ private RewardFragment rewardFragment;
 
     public void gotoSelectPerson(){
         Intent intent=new Intent(this, SelectPersonActivity.class);
-        intent.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
@@ -257,7 +255,7 @@ private RewardFragment rewardFragment;
         if (requestCode== SelectPersonActivity.SELECT_PERSON_CODE ){
             if (data!=null){
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size()>0){
-                    showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).get(0));
+                    showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON));
                 }else {
                     showToast("未选择联系人");
                 }

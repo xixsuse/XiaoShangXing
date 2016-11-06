@@ -253,13 +253,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initHead() {
-//        User user = realm.where(User.class).equalTo(NS.ID, TempUser.getID(getContext())).findFirst();
-//        if (user == null) {
-//            showToast("个人信息有误");
-//            return;
-//        }
-//        setName(user.getUsername());
-//        setHead(user.getUserImage());
         UserInfoCache.getInstance().getHeadIntoImage(TempUser.getId(), headImage);
         UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.USER_NAME, name1);
         UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.USER_NAME, name2);
@@ -267,22 +260,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initListview() {
-//        adpter = new WoAdapter(getContext(), publisheds, this, getActivity(), realm);
-
-//        if (publisheds.size() > 10) {
-//            pager_publisheds.addAll(publisheds.subList(0, current_anchor - 1));
-//        }
-//        current_anchor += 10;
         publisheds = realm.where(Published.class)
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
                 .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
-
-//        publisheds.addChangeListener(new RealmChangeListener<RealmResults<Published>>() {
-//            @Override
-//            public void onChange(RealmResults<Published> element) {
-//                wo_listview_adpter.notifyDataSetChanged();
-//            }
-//        });
 
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
@@ -293,8 +273,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
         wo_listview_adpter = new Wo_listview_adpter(getContext(),
                 1, publisheds, this, (BaseActivity) getActivity(), realm, listView);
-
-//        woAdapter1 = new WoAdapter1(getContext(), publisheds, this, (BaseActivity) getActivity(), realm);
 
         listView.setAdapter(wo_listview_adpter);
         wo_listview_adpter.notifyDataSetChanged();
@@ -414,26 +392,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     @Override
     public void showFooter() {
         dotsTextView.start();
-//        if (!is_loadMore && publisheds.size() > current_anchor) {
-//            is_loadMore = true;
-//            selection = listView.getSelectedItemPosition();
-//            Log.d("current_anchor", "" + current_anchor);
-//            pager_publisheds.addAll(publisheds.subList(current_anchor,
-//                    current_anchor + 10 > publisheds.size() ? publisheds.size() : current_anchor + 10));
-//            wo_listview_adpter.notifyDataSetChanged();
-//            listView.setSelection(selection);
-//            Log.d("selection", "" + selection);
-//            current_anchor += 10;
-//
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    is_loadMore = false;
-//                }
-//            }, 2000);
-//            Log.d("load", "publishedsCount:" + publisheds.size() +
-//                    "--pager_publisheds:" + pager_publisheds.size());
-//        }
     }
 
     @Override

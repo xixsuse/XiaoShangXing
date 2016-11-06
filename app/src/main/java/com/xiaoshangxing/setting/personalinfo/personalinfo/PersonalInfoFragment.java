@@ -98,6 +98,7 @@ public class PersonalInfoFragment extends BaseFragment {
     }
 
     private void initView() {
+        setCloseActivity();
         id = String.valueOf(TempUser.id);
         title.setText("个人信息");
         more.setVisibility(View.GONE);
@@ -147,7 +148,18 @@ public class PersonalInfoFragment extends BaseFragment {
 
         if (nimUserInfo.getExtensionMap() != null) {
             if (nimUserInfo.getExtensionMap().get("isActive") != null) {
-                realName.setText((int) nimUserInfo.getExtensionMap().get("isActive") == 0 ? "未认证" : "已认证");
+                switch ((int) nimUserInfo.getExtensionMap().get("isActive")) {
+                    case 0:
+                        realName.setText("未认证");
+                        break;
+                    case 1:
+                        realName.setText("已认证");
+                        break;
+                    case 2:
+                        realName.setText("审核中");
+                        break;
+                }
+//                realName.setText((int) nimUserInfo.getExtensionMap().get("isActive") == 0 ? "未认证" : "已认证");
             }
         }
     }
@@ -155,6 +167,7 @@ public class PersonalInfoFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        setCloseActivity();
     }
 
     @Override

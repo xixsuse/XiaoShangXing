@@ -36,6 +36,7 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -191,7 +192,7 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
         LocationUtil.bottom_FillWidth(this, dialog);
     }
 
-    private void showTransmitDialog(final String id) {
+    private void showTransmitDialog(final List<String> id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
         dialog.setContentView(dialogView);
@@ -261,7 +262,6 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
 
     public void gotoSelectPeson() {
         Intent intent_selectperson = new Intent(PlanDetailActivity.this, SelectPersonActivity.class);
-        intent_selectperson.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent_selectperson, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
@@ -295,7 +295,10 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
             return;
         }
 
-        OperateUtils.Tranmit(published_id, NS.APPLY_PLAN, String.valueOf(published.getUserId()), PlanDetailActivity.this, "",
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(String.valueOf(published.getUserId()));
+
+        OperateUtils.Tranmit(published_id, NS.APPLY_PLAN, arrayList, PlanDetailActivity.this, "",
                 new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
@@ -319,7 +322,7 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
             if (data != null) {
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
                     List<String> list = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
-                    showTransmitDialog(list.get(0));
+                    showTransmitDialog(list);
                 } else {
                     Toast.makeText(PlanDetailActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
                 }

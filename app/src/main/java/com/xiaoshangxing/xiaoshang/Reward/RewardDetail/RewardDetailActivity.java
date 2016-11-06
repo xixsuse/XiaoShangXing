@@ -136,6 +136,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         setContentView(R.layout.reward_help_detail);
         ButterKnife.bind(this);
         setmPresenter(new RewardDetailPresenter(this, this));
+        setEnableRightSlide(false);
         init();
         moveImediate(currentItem);
     }
@@ -153,7 +154,6 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     }
 
     private void init() {
-
         if (!getIntent().hasExtra(IntentStatic.DATA)) {
             showToast("动态id错误");
             finish();
@@ -268,7 +268,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     @Override
     public void gotoSelectPeson() {
         Intent intent_selectperson = new Intent(RewardDetailActivity.this, SelectPersonActivity.class);
-        intent_selectperson.putExtra(SelectPersonActivity.LIMIT, 1);
+//        intent_selectperson.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent_selectperson, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
@@ -378,7 +378,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         this.mPresenter = presenter;
     }
 
-    private void showTransmitDialog(final String id) {
+    private void showTransmitDialog(final List<String> id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
         dialog.setContentView(dialogView);
@@ -505,8 +505,10 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
             if (data != null) {
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
+//                    List<String> list = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
+//                    showTransmitDialog(list.get(0));
                     List<String> list = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
-                    showTransmitDialog(list.get(0));
+                    showTransmitDialog(list);
                 } else {
                     Toast.makeText(RewardDetailActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
                 }

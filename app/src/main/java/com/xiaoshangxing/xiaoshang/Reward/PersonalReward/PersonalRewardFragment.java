@@ -2,6 +2,7 @@ package com.xiaoshangxing.xiaoshang.Reward.PersonalReward;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,12 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
         initView();
         initFresh();
         return view;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.d("personal", "" + isVisible());
     }
 
     @Override

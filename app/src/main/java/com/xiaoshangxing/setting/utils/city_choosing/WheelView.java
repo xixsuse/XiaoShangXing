@@ -3,7 +3,6 @@ package com.xiaoshangxing.setting.utils.city_choosing;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -14,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 
@@ -584,8 +584,8 @@ public class WheelView extends View {
 		super.onDraw(canvas);
 
 		if (viewAdapter != null && viewAdapter.getItemsCount() > 0) {
+			itemsLayout = null;
 			updateView();
-
 			drawItems(canvas);
 			drawCenterRect(canvas);
 		}
@@ -745,7 +745,7 @@ public class WheelView extends View {
 
 	/**
 	 * Scroll the wheel
-	 * @param itemsToSkip items to scroll
+	 * @param itemsToScroll items to scroll
 	 * @param time scrolling duration
 	 */
 	public void scroll(int itemsToScroll, int time) {
@@ -824,7 +824,8 @@ public class WheelView extends View {
 		}
 		firstItem = first;
 
-		return updated;
+//		return updated;
+		return true;
 	}
 
 	/**
@@ -882,6 +883,15 @@ public class WheelView extends View {
 				itemsLayout.addView(view);
 			}
 
+			TextView textView = (TextView) view;
+			if (index == currentItem) {
+				textView.setTextColor(getResources().getColor(R.color.b0));
+//				textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			} else {
+				textView.setTextColor(getResources().getColor(R.color.g2));
+//				textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+			}
+
 			return true;
 		}
 
@@ -903,7 +913,7 @@ public class WheelView extends View {
 	 * @param index the item index
 	 * @return item view or empty view if index is out of bounds
 	 */
-	private View getItemView(int index) {
+	public View getItemView(int index) {
 		if (viewAdapter == null || viewAdapter.getItemsCount() == 0) {
 			return null;
 		}

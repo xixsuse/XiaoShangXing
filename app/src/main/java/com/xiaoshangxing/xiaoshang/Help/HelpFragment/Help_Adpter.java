@@ -75,7 +75,7 @@ public class Help_Adpter extends ArrayAdapter<Published> {
         UserInfoCache.getInstance().getHeadIntoImage(userId, viewholder.headImage);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewholder.name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewholder.college);
-        viewholder.time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
+        viewholder.time.setText(TimeUtil.getSimplePublishedTime(published.getCreateTime()));
         viewholder.text.setText(published.getText());
         viewholder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
 

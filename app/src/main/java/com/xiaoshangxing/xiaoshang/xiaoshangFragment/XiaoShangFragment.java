@@ -67,8 +67,20 @@ public class XiaoShangFragment extends BaseFragment {
         return view;
     }
 
-    private void init() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        setImagePosition(currentImage);
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    private void init() {
+        setDefaultPopFragment(false);
         leftText.setVisibility(View.GONE);
         leftImage.setImageResource(R.mipmap.xiaoshang_notice);
         titleBottomLine.setVisibility(View.GONE);
@@ -230,15 +242,4 @@ public class XiaoShangFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        setImagePosition(currentImage);
-    }
 }

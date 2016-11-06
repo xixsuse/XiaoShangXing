@@ -1,20 +1,15 @@
 package com.xiaoshangxing.input_activity;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -35,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -66,7 +60,6 @@ import com.xiaoshangxing.input_activity.album.ImageItem;
 import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
 import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
 import com.xiaoshangxing.setting.utils.city_choosing.WheelView;
-import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
@@ -253,6 +246,13 @@ public class InputActivity extends BaseActivity implements IBaseView {
         initLocation();
         initShowSelect();
         addContentObserver();
+        setEnableRightSlide(false);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        reset();
     }
 
     @Override
@@ -806,7 +806,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
         }
     }
 
-
     private void send(){
         switch (current_state) {
             case PUBLISH_STATE:
@@ -1033,6 +1032,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
             center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
                 @Override
                 public void onButton1() {
+                    KeyBoardUtils.closeKeybord(emotionEdittext, InputActivity.this);
                     finish();
                     center.close();
                 }

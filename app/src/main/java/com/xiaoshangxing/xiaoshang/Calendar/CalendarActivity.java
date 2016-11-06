@@ -26,6 +26,7 @@ public class CalendarActivity extends BaseActivity {
             return;
         }
 //        parseIntent();
+        setEnableRightSlide(false);
         initAllFrafments();
     }
 

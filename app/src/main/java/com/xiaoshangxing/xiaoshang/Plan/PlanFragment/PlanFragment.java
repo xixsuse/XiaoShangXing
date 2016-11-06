@@ -94,6 +94,20 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setCloseActivity();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            setCloseActivity();
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
@@ -280,7 +294,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .hide(this)
-                .hide(activity.getJoinedPlanFragment())
+//                .hide(activity.getJoinedPlanFragment())
                 .show(activity.getPersonalPlanFragment())
                 .addToBackStack(null)
                 .commit();
@@ -293,7 +307,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .hide(this)
-                .hide(activity.getPersonalPlanFragment())
+//                .hide(activity.getPersonalPlanFragment())
                 .show(activity.getJoinedPlanFragment())
                 .addToBackStack(null)
                 .commit();
@@ -358,15 +372,15 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     public void clickOnRule(boolean is) {
         if (is) {
             rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_show));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
         } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_hide));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 300);
+            }, 500);
         }
     }
 

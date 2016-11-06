@@ -19,10 +19,10 @@
             <!--头像-->
             <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/head_image"
-                android:layout_width="@dimen/x126"
-                android:layout_height="@dimen/x126"
-                android:layout_marginStart="@dimen/x36"
-                android:layout_marginTop="@dimen/y24"
+                android:layout_width="@dimen/x120"
+                android:layout_height="@dimen/x120"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/y30"
                 android:src="@mipmap/cirecleimage_default" />
 
             <!--姓名-->
@@ -31,10 +31,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y18"
+                android:layout_marginTop="@dimen/y26"
                 android:singleLine="true"
                 android:textColor="@color/blue1"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <!--学院-->
             <TextView
@@ -42,10 +42,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y12"
+                android:layout_marginTop="@dimen/y20"
                 android:singleLine="true"
                 android:textColor="@color/b0"
-                android:textSize="13sp" />
+                android:textSize="11sp" />
 
             <!--时间-->
             <TextView
@@ -53,10 +53,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y12"
+                android:layout_marginTop="@dimen/y26"
                 android:singleLine="true"
                 android:textColor="@color/g0"
-                android:textSize="13sp" />
+                android:textSize="9sp" />
 
             <!--园区-->
             <TextView
@@ -64,10 +64,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y12"
+                android:layout_marginTop="@dimen/y42"
                 android:singleLine="true"
                 android:textColor="@color/b0"
-                android:textSize="13sp" />
+                android:textSize="11sp" />
 
             <!--价格-->
             <TextView
@@ -75,10 +75,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y33"
+                android:layout_marginTop="@dimen/y30"
                 android:singleLine="true"
                 android:textColor="@color/red1"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"

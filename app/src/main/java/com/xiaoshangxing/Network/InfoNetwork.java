@@ -8,6 +8,8 @@ import com.xiaoshangxing.Network.api.InfoApi.CheckPassword;
 import com.xiaoshangxing.Network.api.InfoApi.GetUser;
 import com.xiaoshangxing.Network.api.InfoApi.ModifyInfoApi;
 import com.xiaoshangxing.Network.api.InfoApi.ModifyPassword;
+import com.xiaoshangxing.Network.api.InfoApi.RealName;
+import com.xiaoshangxing.Network.api.InfoApi.RealNameTest;
 import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
 import com.xiaoshangxing.Network.api.InfoApi.UnBindEmailApi;
 import com.xiaoshangxing.Network.netUtil.NS;
@@ -31,6 +33,7 @@ public class InfoNetwork {
     private BindEmailApi bindEmailApi;
     private UnBindEmailApi unBindEmailApi;
     private SetUserImage setUserImage;
+    private RealName realName;
 
 
     private InfoNetwork() {
@@ -100,6 +103,25 @@ public class InfoNetwork {
             setUserImage = Network.getRetrofitWithHeader(context).create(SetUserImage.class);
         }
         Observable<ResponseBody> observable = setUserImage.setUserImage(id,photo, NS.currentTime());
+        toSubscribe(observable, subscriber);
+    }
+
+    public void realName(Subscriber<ResponseBody> subscriber, Integer userId, String name, String sex,
+                         String studentNum, String schoolName, String college, String profession,
+                         String admissionYear, String degree,
+                         MultipartBody.Part left, MultipartBody.Part right, Context context) {
+        if (realName == null) {
+            realName = Network.getRetrofit().create(RealName.class);
+        }
+        Observable<ResponseBody> observable = realName.start(userId, name, sex, studentNum, schoolName, college, profession,
+                admissionYear, degree, left, right);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void realNameTest(Subscriber<ResponseBody> subscriber, Integer userId, String name,
+                             MultipartBody.Part left, MultipartBody.Part right) {
+        RealNameTest realNameTest = Network.getRetrofit().create(RealNameTest.class);
+        Observable<ResponseBody> observable = realNameTest.start(userId, name, left, right);
         toSubscribe(observable, subscriber);
     }
 

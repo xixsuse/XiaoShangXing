@@ -28,7 +28,6 @@ import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
-import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -97,6 +96,20 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCloseActivity();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            setCloseActivity();
+        }
     }
 
     @Override
@@ -275,13 +288,11 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     @Override
     public void gotoPublished() {
         HelpActivity activity = (HelpActivity) getActivity();
-        PersonalHelpFragment fragment = activity.getPersonalHelpFragment();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
-                .hide(this)
-//                .add(R.id.main_fragment, fragment, MyShoolHelpFragment.TAG)
-                .show(fragment)
+                .hide(activity.getHelpFragment())
+                .show(activity.getPersonalHelpFragment())
                 .addToBackStack(null)
                 .commit();
     }
@@ -326,15 +337,15 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     public void clickOnRule(boolean is) {
         if (is) {
             rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_show));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
         } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.scale_y_hide));
+            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 300);
+            }, 500);
         }
     }
 

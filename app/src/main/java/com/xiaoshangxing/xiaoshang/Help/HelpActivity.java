@@ -28,6 +28,8 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.Help.HelpFragment.HelpFragment;
 import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
 
+import java.util.List;
+
 /**
  * Created by FengChaoQun
  * on 2016/7/20
@@ -96,6 +98,10 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
         frag = getHelpFragment();
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
                 frag, HelpFragment.TAG).commit();
+
+        mFragmentManager.beginTransaction()
+                .hide(personalHelpFragment)
+                .show(helpFragment).commit();
     }
 
     public HelpFragment getHelpFragment() {
@@ -129,8 +135,7 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
 
     }
 
-    @Override
-    public void showTransmitDialog(final String id) {
+    public void showTransmitDialog(final List<String> id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
         dialog.setContentView(dialogView);
@@ -163,7 +168,7 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.Tranmit(transmitedId, NS.CATEGORY_REWARD, id, HelpActivity.this, input.getText().toString(),
+                OperateUtils.Tranmit(transmitedId, NS.CATEGORY_HELP, id, HelpActivity.this, input.getText().toString(),
                         new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
@@ -207,7 +212,6 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
 
     public void gotoSelectPerson(){
         Intent intent=new Intent(this, SelectPersonActivity.class);
-        intent.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
@@ -230,7 +234,7 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
         if (requestCode== SelectPersonActivity.SELECT_PERSON_CODE ){
             if (data!=null){
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size()>0){
-                    showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).get(0));
+                    showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON));
                 }else {
                     Toast.makeText(HelpActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
                 }

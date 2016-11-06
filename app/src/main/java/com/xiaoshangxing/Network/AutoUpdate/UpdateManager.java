@@ -252,14 +252,16 @@ public class UpdateManager {
     private void installApk() {
         //标记需要展示引导页
         SPUtils.put(XSXApplication.getInstance(), SPUtils.IS_NEED_GUIDE, true);
+
         File apkfile = new File(saveFileName);
         if (!apkfile.exists()) {
             return;
         }
         Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
         mContext.startActivity(i);
-
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     private void update() {
@@ -303,6 +305,4 @@ public class UpdateManager {
         };
         AppNetwork.getInstance().Update(subscriber, jsonObject, mContext);
     }
-
-
 }

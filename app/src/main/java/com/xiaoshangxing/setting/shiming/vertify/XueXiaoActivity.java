@@ -137,14 +137,14 @@ public class XueXiaoActivity extends BaseActivity {
 
 
     public void Next() {
-        if (isRegister) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
+//        if (isRegister) {
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
+//        } else {
             startActivity(new Intent(this, XueYuanActivity.class));
             VertifyActivity.schoolStr = schoolText.getText().toString();
-        }
+//        }
 
     }
 

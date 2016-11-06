@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
@@ -14,9 +15,10 @@ import com.xiaoshangxing.setting.personalinfo.QianMing.QianMingFragment;
 import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
-import com.xiaoshangxing.setting.shiming.result.VertifySucessActivity;
+import com.xiaoshangxing.setting.shiming.result.VertifyingActivity;
 import com.xiaoshangxing.setting.shiming.shenhe.XueShengZhenActivity;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 /**
  * Created by tianyang on 2016/7/9.
@@ -82,11 +84,30 @@ public class PersonalInfoActivity extends BaseActivity {
 
     public void Vertify(View view) {
         //尚未认证
-        if (TempUser.isRealName) {
-            startActivity(new Intent(PersonalInfoActivity.this, VertifySucessActivity.class));
-        } else {
-            startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
+        NimUserInfo nimUserInfo = NimUserInfoCache.getInstance().getUserInfo(TempUser.getId());
+        if (nimUserInfo == null) {
+            showToast("账号异常,请重新登录");
+            return;
         }
+        if (nimUserInfo.getExtensionMap().get("isActive") != null) {
+            switch ((int) nimUserInfo.getExtensionMap().get("isActive")) {
+                case 0:
+                    startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
+                    break;
+                case 1:
+//                    startActivity(new Intent(PersonalInfoActivity.this, VertifySucessActivity.class));
+                    startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
+                    break;
+                case 2:
+                    startActivity(new Intent(PersonalInfoActivity.this, VertifyingActivity.class));
+                    break;
+            }
+        }
+//        if (TempUser.isRealName) {
+//            startActivity(new Intent(PersonalInfoActivity.this, VertifySucessActivity.class));
+//        } else {
+//            startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
+//        }
 
 
         //认证失败

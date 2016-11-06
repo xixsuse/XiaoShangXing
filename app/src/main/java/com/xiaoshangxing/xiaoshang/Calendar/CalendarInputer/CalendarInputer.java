@@ -116,15 +116,15 @@ public class CalendarInputer extends BaseActivity {
     public void clickOnRule(boolean is) {
         if (is) {
             rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_y_show));
+            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.translate_move_in));
         } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.scale_y_hide));
+            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.translate_move_out));
             rules.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     rules.setVisibility(View.GONE);
                 }
-            }, 300);
+            }, 500);
         }
 
     }

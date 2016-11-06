@@ -239,7 +239,9 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
             @Override
             public void callback(String text) {
-                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, String.valueOf(published.getUserId()), SaleDetailsActivity.this,
+                ArrayList<String> arrayList = new ArrayList<String>();
+                arrayList.add(String.valueOf(published.getUserId()));
+                OperateUtils.Tranmit(published.getId(), NS.CATEGORY_SALE, arrayList, SaleDetailsActivity.this,
                         text, new SimpleCallBack() {
                             @Override
                             public void onSuccess() {

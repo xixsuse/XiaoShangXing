@@ -40,12 +40,13 @@ import javax.xml.parsers.SAXParserFactory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import okhttp3.ResponseBody;
 
 /**
  * Created by tianyang on 2016/7/9.
  */
-public class HometownFragment extends BaseFragment implements View.OnClickListener, OnWheelChangedListener, IBaseView {
+public class HometownFragment extends BaseFragment implements OnWheelChangedListener, IBaseView {
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -68,12 +69,11 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
     WheelView idProvince;
     @Bind(R.id.id_city)
     WheelView idCity;
-    @Bind(R.id.hometown_complete)
-    Button hometownComplete;
+    @Bind(R.id.complete)
+    TextView complete;
     private View mView;
     private WheelView mViewProvince;
     private WheelView mViewCity;
-    private Button mBtnComplete;
     private String[] mProvinceDatas;
     private Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
     private String mCurrentProviceName;
@@ -91,13 +91,11 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
         mActivity = (PersonalInfoActivity) getActivity();
         mViewProvince = (WheelView) mView.findViewById(R.id.id_province);
         mViewCity = (WheelView) mView.findViewById(R.id.id_city);
-        mBtnComplete = (Button) mView.findViewById(R.id.hometown_complete);
         textView = (TextView) mView.findViewById(R.id.hometown_text);
         mViewCity.setShadowColor(0xefefeff5, 0xdfefeff5, 0x0fefeff5);
         mViewProvince.setShadowColor(0xefefeff5, 0xdfefeff5, 0x0fefeff5);
         mViewProvince.addChangingListener(this);
         mViewCity.addChangingListener(this);
-        mBtnComplete.setOnClickListener(this);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +103,10 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
             }
         });
         setUpData();
+        idCity.setDrawShadows(false);
+        idCity.setWheelBackground(R.color.w0);
+        idProvince.setDrawShadows(false);
+        idProvince.setWheelBackground(R.color.w0);
         UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.HOMETOWN, textView);
         return mView;
     }
@@ -118,13 +120,6 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void setmPresenter(@Nullable Object presenter) {
 
-    }
-
-    @Override
-    public void onClick(View v) {
-        String hometown = mCurrentProviceName + " " + mCurrentCityName;
-        textView.setText(hometown);
-        ChangeInfo(hometown);
     }
 
     private void ChangeInfo(String hometown) {
@@ -226,4 +221,10 @@ public class HometownFragment extends BaseFragment implements View.OnClickListen
     }
 
 
+    @OnClick(R.id.complete)
+    public void onClick() {
+        String hometown = mCurrentProviceName + " " + mCurrentCityName;
+        textView.setText(hometown);
+        ChangeInfo(hometown);
+    }
 }

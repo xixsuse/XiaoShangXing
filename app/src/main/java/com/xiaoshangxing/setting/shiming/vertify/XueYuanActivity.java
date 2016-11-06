@@ -3,7 +3,9 @@ package com.xiaoshangxing.setting.shiming.vertify;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -65,15 +67,37 @@ public class XueYuanActivity extends BaseActivity {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
-        strings = getResources().getStringArray(R.array.Year);
+        strings = new String[]{};
         mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, strings);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                next.setEnabled(true);
-                next.setAlpha(1);
+//                next.setEnabled(true);
+//                next.setAlpha(1);
                 editText.setText(strings[position]);
+            }
+        });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(editText.getText().toString())) {
+                    next.setEnabled(false);
+                    next.setAlpha(0.5f);
+                } else {
+                    next.setEnabled(true);
+                    next.setAlpha(1);
+                }
             }
         });
 

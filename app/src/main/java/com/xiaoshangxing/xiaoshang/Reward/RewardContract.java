@@ -12,10 +12,6 @@ import com.xiaoshangxing.utils.IBaseView;
 public interface RewardContract {
 
     interface View extends IBaseView<Presenter> {
-        /*
-        **describe:弹出转发对话框
-        */
-        void showTransmitDialog(String id);
 
         /*
         **describe:弹出转发成功对话框

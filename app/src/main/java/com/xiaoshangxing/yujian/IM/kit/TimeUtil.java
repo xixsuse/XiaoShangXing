@@ -368,4 +368,22 @@ public class TimeUtil {
         }
         return sb.toString();
     }
+
+    public static String getSimplePublishedTime(long milliseconds) {
+        long result = currentTimeMillis() - milliseconds;
+        if (result < 0) {
+            return "负数错误";
+        } else if (result < HOUR) {
+            long minute = result / MINUTE;
+            if (minute == 0) {
+                return "1分钟前";
+            } else {
+                return minute + "分钟前";
+            }
+        } else if (result < DAY) {
+            return result / HOUR + "小时前";
+        } else {
+            return result / DAY + "天前";
+        }
+    }
 }

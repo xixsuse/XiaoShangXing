@@ -32,6 +32,8 @@ import com.xiaoshangxing.xiaoshang.Plan.JoinedPlan.JoinedPlanFragment;
 import com.xiaoshangxing.xiaoshang.Plan.PersonalPlan.PersonalPlanFragment;
 import com.xiaoshangxing.xiaoshang.Plan.PlanFragment.PlanFragment;
 
+import java.util.List;
+
 /**
  * Created by FengChaoQun
  * on 2016/9/29
@@ -100,6 +102,11 @@ public class PlanActivity extends BaseActivity implements IBaseView {
 
         mFragmentManager.beginTransaction().add(R.id.main_fragment,
                 planFragment, PlanFragment.TAG).commit();
+
+        mFragmentManager.beginTransaction()
+                .hide(joinedPlanFragment)
+                .hide(personalPlanFragment)
+                .show(planFragment).commit();
     }
 
     public boolean isHideMenu() {
@@ -112,7 +119,6 @@ public class PlanActivity extends BaseActivity implements IBaseView {
 
     public void gotoSelectPerson() {
         Intent intent = new Intent(this, SelectPersonActivity.class);
-        intent.putExtra(SelectPersonActivity.LIMIT, 1);
         startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
@@ -124,7 +130,7 @@ public class PlanActivity extends BaseActivity implements IBaseView {
         this.transmitedId = transmitedId;
     }
 
-    public void showTransmitDialog(final String id) {
+    public void showTransmitDialog(final List<String> id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_sale_transmit_dialog, null);
         dialog.setContentView(dialogView);
@@ -161,7 +167,7 @@ public class PlanActivity extends BaseActivity implements IBaseView {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.Tranmit(transmitedId, NS.CATEGORY_SALE, id, PlanActivity.this, input.getText().toString(),
+                OperateUtils.Tranmit(transmitedId, NS.CATEGORY_PLAN, id, PlanActivity.this, input.getText().toString(),
                         new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
@@ -235,7 +241,7 @@ public class PlanActivity extends BaseActivity implements IBaseView {
         if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
             if (data != null) {
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
-                    showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).get(0));
+                    showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON));
                 } else {
                     showToast("未选择联系人");
                 }

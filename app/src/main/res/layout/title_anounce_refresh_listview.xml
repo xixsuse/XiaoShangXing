@@ -5,24 +5,6 @@
     android:background="@color/w3"
     android:orientation="vertical">
 
-    <!--导航栏-->
-    <include
-        android:id="@+id/title_lay"
-        layout="@layout/util_normal_title">
-
-    </include>
-
-
-    <ImageView
-        android:id="@+id/anounce"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title_lay"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/width_48"
-        android:layout_marginRight="@dimen/width_48"
-        android:src="@mipmap/notice_rule_new" />
-
     <!--listview-->
     <include
         android:id="@+id/reflesh_layout"
@@ -33,12 +15,30 @@
 
     </include>
 
+    <!--公告规则按钮-->
+    <ImageView
+        android:id="@+id/anounce"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_lay"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/width_48"
+        android:layout_marginRight="@dimen/width_48"
+        android:src="@mipmap/notice_rule_new" />
+
     <!--公告规则-->
     <include
         layout="@layout/util_anounce"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title_lay">
+
+    </include>
+
+    <!--导航栏-->
+    <include
+        android:id="@+id/title_lay"
+        layout="@layout/util_normal_title">
 
     </include>
 
