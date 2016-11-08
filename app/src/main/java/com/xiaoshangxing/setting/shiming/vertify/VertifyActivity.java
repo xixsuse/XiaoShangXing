@@ -89,6 +89,7 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
 
     public static String nameStr, sexStr, xuehaoStr, schoolStr, colleg,
             professional, ruxuenianfenStr, degree;
+    public static String collegeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,54 +125,6 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
     }
 
     public void VertifyNow(View view) {
-//        startActivity(new Intent(this, VertifyingActivity.class));
-
-//        final Map<String, String> map = new HashMap<>();
-//        map.put(NS.USER_ID, TempUser.getId());
-//        map.put("name", nameStr);
-//        map.put("sex", sexStr);
-//        map.put("studentNum", xuehaoStr);
-//        map.put("schoolName", schoolStr);
-//        map.put("college", colleg);
-//        map.put("profession", professional);
-//        map.put("admissionYear", ruxuenianfenStr);
-//        map.put("degree", degree);
-//        final ArrayList<String> arrayList = new ArrayList<>();
-//        arrayList.add(PreviewActivity.getLeftImgPath("XueShengZhen"));
-//        arrayList.add(PreviewActivity.getRightImgPath("XueShengZhen"));
-//
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Formmat formmat = new Formmat(VertifyActivity.this, VertifyActivity.this, BaseUrl.BASE_URL + BaseUrl.REAL_NAME);
-//                formmat.setSimpleCallBack(new SimpleCallBack() {
-//                    @Override
-//                    public void onSuccess() {
-//                        startActivity(new Intent(VertifyActivity.this, VertifyingActivity.class));
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onBackData(Object o) {
-//
-//                    }
-//                });
-//
-//                try {
-//                    formmat.addFormField(map)
-//                            .addFilePart(arrayList, VertifyActivity.this)
-//                            .doUpload();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    showToast("图片出错");
-//                }
-//            }
-//        });
-//        thread.start();
         realName();
     }
 

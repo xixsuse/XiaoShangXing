@@ -3,6 +3,7 @@ package com.xiaoshangxing.setting.shiming.vertify;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,17 +18,32 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.InfoNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IBaseView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 
 /**
  * Created by tianyang on 2016/10/5.
  */
-public class ZhuanYeActivity extends BaseActivity {
+public class ZhuanYeActivity extends BaseActivity implements IBaseView {
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -46,8 +62,9 @@ public class ZhuanYeActivity extends BaseActivity {
     EditText editText;
     @Bind(R.id.list)
     ListView mListView;
-    private String[] strings;
-    private ArrayAdapter mAdapter;
+    private List<String> strings = new ArrayList<>();
+    private ArrayAdapter<String> mAdapter;
+    private HashMap<String, String> hashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +80,6 @@ public class ZhuanYeActivity extends BaseActivity {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 
-        strings = new String[]{};
-        mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, strings);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                finish.setEnabled(true);
-//                finish.setAlpha(1);
-                editText.setText(strings[position]);
-            }
-        });
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -96,6 +102,50 @@ public class ZhuanYeActivity extends BaseActivity {
                 }
             }
         });
+        getCollege();
+    }
+
+    private void initListview() {
+        mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, strings);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                editText.setText(mAdapter.getItem(position));
+            }
+        });
+    }
+
+    private void getCollege() {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case NS.CODE_200:
+                            String[] temp = jsonObject.getString(NS.MSG).split(NS.SPLIT);
+                            for (String i : temp) {
+                                String[] temp2 = i.split(NS.SPLIT2);
+                                strings.add(temp2[1]);
+                                hashMap.put(temp2[1], temp2[0]);
+                            }
+                            initListview();
+                            break;
+                        default:
+                            showToast(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(onNext, this);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("collegeId", VertifyActivity.collegeId);
+        InfoNetwork.getInstance().getProfession(subsciber, jsonObject, this);
     }
 
     public void Finish() {
@@ -116,5 +166,10 @@ public class ZhuanYeActivity extends BaseActivity {
                 Finish();
                 break;
         }
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 }

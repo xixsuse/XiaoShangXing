@@ -261,11 +261,9 @@ public abstract class WoBaseHolder {
         comments.removeAllViews();
 
         if (published.getComments().size() < 1) {
-//            lineBetweenPraiseComment.setVisibility(View.GONE);
             commentsLay.setVisibility(View.GONE);
             return;
         } else {
-//            lineBetweenPraiseComment.setVisibility(View.VISIBLE);
             commentsLay.setVisibility(View.VISIBLE);
         }
 

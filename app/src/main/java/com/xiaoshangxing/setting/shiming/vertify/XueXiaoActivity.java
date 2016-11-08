@@ -12,9 +12,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.Location.NearCollege;
+import com.xiaoshangxing.setting.shiming.chooseschool.SerchSchoolActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 
@@ -137,19 +137,13 @@ public class XueXiaoActivity extends BaseActivity {
 
 
     public void Next() {
-//        if (isRegister) {
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-//        } else {
             startActivity(new Intent(this, XueYuanActivity.class));
             VertifyActivity.schoolStr = schoolText.getText().toString();
-//        }
-
     }
 
     public void SearchView(View view) {
-        showToast("暂未开通");
+//        showToast("暂未开通");
+        startActivity(new Intent(this, SerchSchoolActivity.class));
     }
 
     @OnClick({R.id.back, R.id.right_text})

@@ -51,5 +51,8 @@ public class BaseUrl {
 
     public static final String SERCH_PERSON = "base/userSearch";
     public static final String REAL_NAME = "auth/authentication";
+    public static final String GET_SCHOOL = "student/querySchoolInfo";
+    public static final String GET_COLLEGE = "student/queryCollegeInfo";
+    public static final String GET_PROFESSION = "student/queryProfessionInfo";
 
 }

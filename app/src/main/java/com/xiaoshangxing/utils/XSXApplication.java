@@ -37,6 +37,7 @@ import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.ImageLoaderKit;
+import com.xiaoshangxing.yujian.IM.kit.NotifyContent;
 import com.xiaoshangxing.yujian.IM.kit.SystemUtil;
 import com.xiaoshangxing.yujian.Serch.PinYin;
 
@@ -364,7 +365,8 @@ public class XSXApplication extends Application {
     private MessageNotifierCustomization messageNotifierCustomization = new MessageNotifierCustomization() {
         @Override
         public String makeNotifyContent(String nick, IMMessage message) {
-            return null; // 采用SDK默认文案
+//            return null; // 采用SDK默认文案
+            return NotifyContent.makeNotifyContent(nick, message);
         }
 
         @Override

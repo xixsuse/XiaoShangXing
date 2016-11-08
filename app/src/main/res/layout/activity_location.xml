@@ -41,6 +41,19 @@
             android:layout_centerInParent="true"
             android:text="所在位置" />
 
+        <!--完成-->
+        <TextView
+            android:enabled="false"
+            android:id="@+id/complete"
+            android:layout_centerVertical="true"
+            android:textSize="15sp"
+            android:alpha="0.5"
+            android:textColor="@color/green1"
+            android:text="@string/complete"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
 
     </RelativeLayout>
 

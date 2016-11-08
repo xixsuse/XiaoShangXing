@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,6 +37,7 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -123,6 +125,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     private int published_id;
     private Published published;
     private IBaseView iBaseView = this;
+    private InputBoxLayout inputBoxLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +136,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         setEnableRightSlide(false);
         init();
         moveImediate(currentItem);
+        initInputBox();
     }
 
     @Override
@@ -150,6 +154,36 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     @Override
     public Object getData() {
         return published;
+    }
+
+    @Override
+    public InputBoxLayout getInputBox() {
+        return inputBoxLayout;
+    }
+
+    @Override
+    public void hideInputBox() {
+        inputBoxLayout.showOrHideLayout(false);
+        moveToPosition(2);
+    }
+
+
+    @Override
+    public void comment(final int id) {
+        inputBoxLayout.showOrHideLayout(true);
+        inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
+            @Override
+            public void callback(String text) {
+                sendComment(text, id);
+            }
+        });
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                moveToPosition(2);
+            }
+        }, 300);
+        appBar.setExpanded(false, false);
     }
 
     private void init() {
@@ -170,7 +204,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                inputBoxLayout.showOrHideLayout(false);
             }
 
             @Override
@@ -228,6 +262,12 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         text.setText(published.getText());
         praiseOrCancel.setText(Published_Help.isPraised(published) ? "取消" : "赞");
         setCount();
+    }
+
+    private void initInputBox() {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.edit_and_emot);
+        inputBoxLayout = new InputBoxLayout(this, relativeLayout, this);
+        inputBoxLayout.setEmotion_layVisible(View.GONE);
     }
 
     @OnClick({R.id.back, R.id.more, R.id.transmit_text, R.id.comment_text, R.id.praise_text, R.id.transmit, R.id.comment, R.id.praiseOrCancel, R.id.praise})
@@ -375,10 +415,45 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
 
     @Override
     public void gotoInput() {
-        Intent comment_input = new Intent(this, InputActivity.class);
-        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
-        startActivity(comment_input);
+//        Intent comment_input = new Intent(this, InputActivity.class);
+//        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+//        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
+//        startActivity(comment_input);
+        inputBoxLayout.showOrHideLayout(true);
+        inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
+            @Override
+            public void callback(String text) {
+                sendComment(text, -1);
+            }
+        });
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                moveToPosition(2);
+            }
+        }, 300);
+        appBar.setExpanded(false);
+    }
+
+    private void sendComment(String text, int commenId) {
+        OperateUtils.Comment(published.getId(), commenId, text, this, true, new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
+                inputBoxLayout.setCallBack(null);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                inputBoxLayout.setCallBack(null);
+                showToast("评论失败");
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                published = (Published) o;
+                refresh();
+            }
+        });
     }
 
     private void showTransmitDialog(final List<String> id) {

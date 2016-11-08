@@ -20,6 +20,7 @@ import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
@@ -177,9 +178,14 @@ public class Reward_adpter extends ArrayAdapter<Published> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, RewardDetailActivity.class);
-                intent.putExtra(IntentStatic.DATA, published.getId());
-                context.startActivity(intent);
+                LayoutHelp.PermissionClick(activity, new LayoutHelp.PermisionMethod() {
+                    @Override
+                    public void doSomething() {
+                        Intent intent = new Intent(context, RewardDetailActivity.class);
+                        intent.putExtra(IntentStatic.DATA, published.getId());
+                        context.startActivity(intent);
+                    }
+                });
             }
         });
 

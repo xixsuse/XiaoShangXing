@@ -1,7 +1,7 @@
 package com.xiaoshangxing.xiaoshang.Help.HelpDetail;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,7 +17,6 @@ import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -34,13 +33,16 @@ public class CommentListFrafment extends Fragment {
     private boolean isCollect;//记录是否是collect界面
     private Published published;
     private List<CommentsBean> commentsBeen;
+    private GetDataFromActivity activity;
+    private Handler handler = new Handler();
+    private boolean isTuch = true;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.frag_comment_list,null);
 
-        GetDataFromActivity activity = (GetDataFromActivity) getActivity();
+        activity = (GetDataFromActivity) getActivity();
         published = (Published) (activity.getData());
         if (published == null) {
             return view;
@@ -57,6 +59,16 @@ public class CommentListFrafment extends Fragment {
             commentsBeen = published.getComments()/*.sort(NS.CREATETIME, Sort.DESCENDING)*/;
             recyclerView.setAdapter(new HomeAdapter());
         }
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (isTuch) {
+                    activity.hideInputBox();
+                }
+            }
+        });
 
         return view;
     }
@@ -87,8 +99,6 @@ public class CommentListFrafment extends Fragment {
             holder.time=(TextView)view.findViewById(R.id.time);
             holder.text=(EmotinText) view.findViewById(R.id.text);
             holder.headImage=(CirecleImage)view.findViewById(R.id.head_image);
-
-
             return holder;
         }
 
@@ -108,22 +118,46 @@ public class CommentListFrafment extends Fragment {
 
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    if (isCollect) {
-                        Intent comment_input = new Intent(getContext(), InputActivity.class);
-                        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-                        comment_input.putExtra(InputActivity.COMMENT_OBJECT, holder.name.getText());
-                        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
-                        comment_input.putExtra(InputActivity.COMMENTID, i.getId());
-                        startActivity(comment_input);
-                    } else {
-                        Intent comment_input = new Intent(getContext(), InputActivity.class);
-                        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-                        comment_input.putExtra(InputActivity.COMMENT_OBJECT, holder.name.getText());
-                        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
-                        comment_input.putExtra(InputActivity.COMMENTID, i.getId());
-                        startActivity(comment_input);
-                    }
+                public void onClick(final View v) {
+//                    if (isCollect) {
+//                        Intent comment_input = new Intent(getContext(), InputActivity.class);
+//                        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+//                        comment_input.putExtra(InputActivity.COMMENT_OBJECT, holder.name.getText());
+//                        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
+//                        comment_input.putExtra(InputActivity.COMMENTID, i.getId());
+//                        startActivity(comment_input);
+//                    } else {
+//                        Intent comment_input = new Intent(getContext(), InputActivity.class);
+//                        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+//                        comment_input.putExtra(InputActivity.COMMENT_OBJECT, holder.name.getText());
+//                        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
+//                        comment_input.putExtra(InputActivity.COMMENTID, i.getId());
+//                        startActivity(comment_input);
+//                    }
+                    activity.comment(i.getId());
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            final int[] xy = new int[2];
+                            v.getLocationOnScreen(xy);
+                            final View mv = v;
+                            int editextLocation = activity.getInputBox().getEdittext_height();
+                            int destination = xy[1] + mv.getHeight() - editextLocation;
+                            if (destination < 0) {
+                                return;
+                            }
+
+                            isTuch = false;
+                            recyclerView.smoothScrollBy(destination, Math.abs(destination));
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    isTuch = true;
+                                }
+                            }, Math.abs(destination) + 100);
+                        }
+                    }, 300);
                 }
             });
         }

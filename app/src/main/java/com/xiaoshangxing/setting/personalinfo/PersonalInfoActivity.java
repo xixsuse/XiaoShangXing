@@ -15,6 +15,7 @@ import com.xiaoshangxing.setting.personalinfo.QianMing.QianMingFragment;
 import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
+import com.xiaoshangxing.setting.shiming.result.VertifySucessActivity;
 import com.xiaoshangxing.setting.shiming.result.VertifyingActivity;
 import com.xiaoshangxing.setting.shiming.shenhe.XueShengZhenActivity;
 import com.xiaoshangxing.utils.BaseActivity;
@@ -95,8 +96,8 @@ public class PersonalInfoActivity extends BaseActivity {
                     startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
                     break;
                 case 1:
-//                    startActivity(new Intent(PersonalInfoActivity.this, VertifySucessActivity.class));
-                    startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
+                    startActivity(new Intent(PersonalInfoActivity.this, VertifySucessActivity.class));
+//                    startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
                     break;
                 case 2:
                     startActivity(new Intent(PersonalInfoActivity.this, VertifyingActivity.class));

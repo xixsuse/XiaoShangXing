@@ -1,6 +1,5 @@
 package com.xiaoshangxing.data;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ImageView;
@@ -8,12 +7,16 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.image.MyGlide;
+import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -21,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -36,6 +40,8 @@ import rx.Subscriber;
 public class UserInfoCache {
 
     private Map<Integer, User> userMap = new ConcurrentHashMap<>();
+
+    private Observer<List<NimUserInfo>> observer;
 
     public static UserInfoCache getInstance() {
         return InstanceHolder.instance;
@@ -273,6 +279,28 @@ public class UserInfoCache {
         jsonObject.addProperty(NS.ID, id);
         jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
         InfoNetwork.getInstance().GetUser(subscriber, jsonObject, XSXApplication.getInstance());
+    }
+
+    public void registerDataChangeListner(boolean is) {
+        if (observer == null) {
+            observer = new Observer<List<NimUserInfo>>() {
+                @Override
+                public void onEvent(List<NimUserInfo> nimUserInfos) {
+                    for (NimUserInfo userInfo : nimUserInfos) {
+                        if (userInfo.getAccount().equals(String.valueOf(TempUser.id))) {
+                            if (((Integer) userInfo.getExtensionMap().get("isActive")).equals(1)) {
+                                TempUser.isRealName = true;
+                                SPUtils.put(XSXApplication.getInstance(), SPUtils.IS_REAL_NAME, true);
+                            } else {
+                                TempUser.isRealName = false;
+                                SPUtils.put(XSXApplication.getInstance(), SPUtils.IS_REAL_NAME, false);
+                            }
+                        }
+                    }
+                }
+            };
+        }
+        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(observer, is);
     }
 
    public interface ReloadCallback {

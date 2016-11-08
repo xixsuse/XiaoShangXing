@@ -1,4 +1,4 @@
-package com.xiaoshangxing.setting.shiming.vertify;
+package com.xiaoshangxing.setting.shiming.chooseschool;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -19,12 +18,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.setting.shiming.vertify.VertifyActivity;
+import com.xiaoshangxing.setting.shiming.vertify.XueYuanActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
 
@@ -33,7 +33,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -44,7 +44,7 @@ import okhttp3.ResponseBody;
 /**
  * Created by tianyang on 2016/10/5.
  */
-public class XueYuanActivity extends BaseActivity implements IBaseView {
+public class SerchSchoolActivity extends BaseActivity implements IBaseView {
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -63,10 +63,11 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
     EditText editText;
     @Bind(R.id.list)
     ListView list;
+    @Bind(R.id.notice)
+    TextView notice;
     private ListView mListView;
-    private List<String> strings = new ArrayList<>();
+    private String[] strings;
     private ArrayAdapter<String> mAdapter;
-    private HashMap<String, String> hashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +75,13 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
         setContentView(R.layout.activity_vertify_xueyuan);
         ButterKnife.bind(this);
 
-        title.setText("学院");
+        title.setText("学校");
         next.setText("下一步");
         next.setTextColor(getResources().getColor(R.color.green1));
         next.setAlpha(0.5f);
         next.setEnabled(false);
+        editText.setHint("请输入你的学校");
+        notice.setText("已有学校");
 
         mListView = (ListView) findViewById(R.id.list);
 
@@ -98,20 +101,36 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(editText.getText().toString())) {
-                    next.setEnabled(false);
-                    next.setAlpha(0.5f);
-                } else {
-                    next.setEnabled(true);
-                    next.setAlpha(1);
-                }
+                onEdittextChange(s.toString());
             }
         });
         getSchool();
     }
 
-    private void initListview() {
-        mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, strings);
+    private void onEdittextChange(String s) {
+        if (TextUtils.isEmpty(editText.getText().toString())) {
+            next.setEnabled(false);
+            next.setAlpha(0.5f);
+        } else {
+            next.setEnabled(true);
+            next.setAlpha(1);
+        }
+        if (strings != null) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            for (String i : strings) {
+                if (i.contains(s)) {
+                    arrayList.add(i);
+                }
+            }
+            initListview(arrayList);
+        }
+    }
+
+    private void initListview(final List<String> arrayList) {
+        if (arrayList == null) {
+            return;
+        }
+        mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, arrayList);
         mListView.setAdapter(mAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -129,17 +148,14 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
                     JSONObject jsonObject = new JSONObject(e.string());
                     switch (jsonObject.getInt(NS.CODE)) {
                         case NS.CODE_200:
-                            String[] temp = jsonObject.getString(NS.MSG).split(NS.SPLIT);
-                            for (String i : temp) {
-                                String[] temp2 = i.split(NS.SPLIT2);
-                                strings.add(temp2[1]);
-                                hashMap.put(temp2[1], temp2[0]);
-                            }
-                            initListview();
+                            strings = jsonObject.getString(NS.MSG).split(NS.SPLIT);
+                            List<String> arrayList = Arrays.asList(strings);
+                            initListview(arrayList);
                             break;
                         default:
                             showToast(jsonObject.getString(NS.MSG));
                             break;
+
                     }
                 } catch (IOException e1) {
                     e1.printStackTrace();
@@ -148,9 +164,7 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
         };
 
         ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(onNext, this);
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("schoolName", VertifyActivity.schoolStr);
-        InfoNetwork.getInstance().getCollge(subsciber, jsonObject, this);
+        InfoNetwork.getInstance().getSchool(subsciber, this);
     }
 
     @OnClick({R.id.back, R.id.right_text})
@@ -160,14 +174,8 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
                 finish();
                 break;
             case R.id.right_text:
-                VertifyActivity.colleg = editText.getText().toString();
-                if (hashMap.containsKey(VertifyActivity.colleg)) {
-                    VertifyActivity.collegeId = hashMap.get(VertifyActivity.colleg);
-                } else {
-                    VertifyActivity.collegeId = null;
-                }
-                Log.d("collegeId", VertifyActivity.collegeId);
-                startActivity(new Intent(this, ZhuanYeActivity.class));
+                startActivity(new Intent(this, XueYuanActivity.class));
+                VertifyActivity.schoolStr = editText.getText().toString();
                 break;
         }
     }

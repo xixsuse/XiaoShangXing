@@ -43,14 +43,17 @@ public class LocationActivity extends BaseActivity {
     RelativeLayout serchLayout;
     @Bind(R.id.listview)
     ListView listview;
-    public static final String SELECTED ="SELECTED";
-    public   List<AddressBean> dataList = new ArrayList<>();
-    private  LocationBean  mLocationBean;
+    public static final String SELECTED = "SELECTED";
+    public List<AddressBean> dataList = new ArrayList<>();
+    @Bind(R.id.complete)
+    TextView complete;
+    private LocationBean mLocationBean;
     private Location_adpter adpter;
     private View head;
     private View head_gou;
-    private String selected="null";
+    private String selected = "null";
     public static final int LOCATION = 0x1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +63,7 @@ public class LocationActivity extends BaseActivity {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
 
         BaiduMapUtilByRacer.locateByBaiduMap(this, 1000,
                 new BaiduMapUtilByRacer.LocateListener() {
@@ -74,9 +77,9 @@ public class LocationActivity extends BaseActivity {
                             public void onGetSucceed(LocationBean locationBean, List<PoiInfo> poiList) {
                                 dataList.clear();
                                 for (int i = 0; i < poiList.size(); i++) {
-                                    AddressBean bean = new AddressBean(poiList.get(i).name ,poiList.get(i).address);
+                                    AddressBean bean = new AddressBean(poiList.get(i).name, poiList.get(i).address);
                                     dataList.add(bean);
-                                    adpter=new Location_adpter(LocationActivity.this,1,dataList);
+                                    adpter = new Location_adpter(LocationActivity.this, 1, dataList);
                                     listview.setAdapter(adpter);
                                     Log.d("qqq", poiList.get(i).name + "\n    " + poiList.get(i).address);
                                 }
@@ -102,23 +105,24 @@ public class LocationActivity extends BaseActivity {
                     }
                 });
 
-        head=View.inflate(this,R.layout.head_location,null);
-        head_gou=head.findViewById(R.id.gou);
+        head = View.inflate(this, R.layout.head_location, null);
+        head_gou = head.findViewById(R.id.gou);
         listview.addHeaderView(head);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (position==0){
+                if (position == 0) {
                     head_gou.setVisibility(View.VISIBLE);
                     adpter.setSelected(-1);
                     selected = null;
-                }else {
+                } else {
                     head_gou.setVisibility(View.INVISIBLE);
-                    adpter.setSelected(position-1);
+                    adpter.setSelected(position - 1);
                     selected = adpter.getItem(position - 1).getName();
                 }
+                complete.setAlpha(1);
+                complete.setEnabled(true);
             }
         });
     }
@@ -131,25 +135,25 @@ public class LocationActivity extends BaseActivity {
              * 定位权限为必须权限，用户如果禁止，则每次进入都会申请
              */
             // 定位精确位置
-            if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
             }
-            if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION);
             }
-            if(checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.READ_PHONE_STATE);
             }
-            if(checkSelfPermission(Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.WRITE_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.WRITE_SETTINGS);
             }
-            if(checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.ACCESS_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.ACCESS_WIFI_STATE);
             }
-            if(checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.ACCESS_NETWORK_STATE);
             }
-            if(checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED){
+            if (checkSelfPermission(Manifest.permission.CHANGE_WIFI_STATE) != PackageManager.PERMISSION_GRANTED) {
                 permissions.add(Manifest.permission.CHANGE_WIFI_STATE);
             }
 
@@ -168,26 +172,29 @@ public class LocationActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.back, R.id.serch_layout})
+    @OnClick({R.id.back, R.id.serch_layout, R.id.complete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-                selected="null";
+                selected = "null";
                 finish();
                 break;
             case R.id.serch_layout:
-                Intent intent=new Intent(LocationActivity.this,SerchLocationActivity.class);
-                intent.putExtra(SerchLocationActivity.LOCATION_BEAN,mLocationBean.getCity());
+                Intent intent = new Intent(LocationActivity.this, SerchLocationActivity.class);
+                intent.putExtra(SerchLocationActivity.LOCATION_BEAN, mLocationBean.getCity());
                 startActivityForResult(intent, IntentStatic.CODE);
+                break;
+            case R.id.complete:
+                finish();
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode==IntentStatic.CODE){
-            selected=data.getStringExtra(SELECTED);
-            if (!selected.equals("null")){
+        if (requestCode == IntentStatic.CODE) {
+            selected = data.getStringExtra(SELECTED);
+            if (!selected.equals("null")) {
                 finish();
             }
         }
@@ -196,10 +203,11 @@ public class LocationActivity extends BaseActivity {
     @Override
     public void finish() {
         if (!TextUtils.isEmpty(selected) && !selected.equals("null")) {
-            Intent intent=new Intent();
-            intent.putExtra(LocationActivity.SELECTED,selected);
+            Intent intent = new Intent();
+            intent.putExtra(LocationActivity.SELECTED, selected);
             setResult(RESULT_OK, intent);
         }
         super.finish();
     }
+
 }

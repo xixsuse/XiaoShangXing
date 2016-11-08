@@ -15,8 +15,9 @@
     <!--上移控件-->
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/height_144"
         android:layout_below="@+id/title_lay">
 
         <android.support.design.widget.AppBarLayout
@@ -350,5 +351,8 @@
 
     </LinearLayout>
 
+    <include layout="@layout/util_inputbox_and_emot">
+
+    </include>
 
 </RelativeLayout>

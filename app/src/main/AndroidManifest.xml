@@ -176,9 +176,13 @@
 
         <!-- 互帮 -->
         <activity android:name=".xiaoshang.Help.HelpActivity" />
-        <activity android:name=".xiaoshang.Help.HelpDetail.HelpDetailActivity" />
+        <activity
+            android:name=".xiaoshang.Help.HelpDetail.HelpDetailActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".xiaoshang.Reward.RewardActivity" />
-        <activity android:name=".xiaoshang.Reward.RewardDetail.RewardDetailActivity" />
+        <activity
+            android:name=".xiaoshang.Reward.RewardDetail.RewardDetailActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".input_activity.InputActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
@@ -296,7 +300,7 @@
         <activity android:name=".yujian.Serch.SerchPerson.SerchPersonActivity"></activity>
         <activity android:name=".setting.personalinfo.showheadimg.HeadImageActivity"></activity>
         <activity android:name=".login_register.StartActivity.IndicatorActivity"></activity>
-
+        <activity android:name=".setting.shiming.chooseschool.SerchSchoolActivity"></activity>
     </application>
 
 </manifest>

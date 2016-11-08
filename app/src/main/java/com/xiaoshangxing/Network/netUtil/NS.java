@@ -11,6 +11,7 @@ public class NS {
 
     public static final String SPLIT = "#";
     public static final String SPLIT2 = "\\$";
+    public static final String SPLIT3 = "\\^";
 
 
     public static final String CODE="code";

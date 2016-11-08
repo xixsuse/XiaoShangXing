@@ -1,7 +1,10 @@
 package com.xiaoshangxing.xiaoshang.Calendar;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -46,7 +49,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import io.realm.Sort;
 
 /**
@@ -146,6 +148,14 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         listview.addHeaderView(headView);
 
         mBottomSheetBehavior = BottomSheetBehavior.from(mview.findViewById(R.id.calendar_lay));
+        mBottomSheetBehavior.setHideable(true);
+
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.down_arrow_gray);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(180);
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        ibArrowUp.setImageBitmap(newBitmap);
+
         initCalendar();
         initMonth(calendarView.getCurrentDate());
         initListview(today);

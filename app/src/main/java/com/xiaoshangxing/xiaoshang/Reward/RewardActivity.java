@@ -108,7 +108,6 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
             }
     }
 
-
     public RewardFragment getRewardFragment() {
         return rewardFragment;
     }
@@ -154,7 +153,6 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
             return super.onKeyDown(keyCode, event);
         }
     }
-
 
     public void showTransmitDialog(final List<String> id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
