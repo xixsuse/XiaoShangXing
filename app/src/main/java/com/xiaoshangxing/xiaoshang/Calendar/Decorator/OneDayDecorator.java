@@ -1,9 +1,12 @@
 package com.xiaoshangxing.xiaoshang.Calendar.Decorator;
 
+import android.content.Context;
+
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.xiaoshangxing.R;
 
 import java.util.Date;
 
@@ -13,9 +16,11 @@ import java.util.Date;
 public class OneDayDecorator implements DayViewDecorator {
 
     private CalendarDay date;
+    private Context context;
 
-    public OneDayDecorator() {
+    public OneDayDecorator(Context context) {
         date = CalendarDay.today();
+        this.context = context;
     }
 
     @Override
@@ -27,6 +32,7 @@ public class OneDayDecorator implements DayViewDecorator {
     public void decorate(DayViewFacade view) {
 //        view.addSpan(new StyleSpan(Typeface.BOLD));
 //        view.addSpan(new RelativeSizeSpan(1.4f));
+        view.addSpan(new MyDotSpan(30, R.color.b6, false));
     }
 
     /**

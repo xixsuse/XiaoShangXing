@@ -29,9 +29,9 @@ import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.CalendarData;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Calendar.CalendarInputer.CalendarInputer;
@@ -104,9 +104,8 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         return new CalendarFragment();
     }
 
-    private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
+    private final OneDayDecorator oneDayDecorator = new OneDayDecorator(getContext());
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
-    private List<Published> publisheds = new ArrayList<>();
     private Calendar_adpter adpter;
     private List<CalendarDay> allDatas, previous, future;
     private CalendarDay today, currentSelected;
@@ -134,7 +133,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     }
 
     private void initView() {
-        setCloseActivity();
         title.setText("校历资讯");
         leftText.setText(R.string.xiaoshang);
         more.setImageResource(R.mipmap.add);
@@ -148,7 +146,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         listview.addHeaderView(headView);
 
         mBottomSheetBehavior = BottomSheetBehavior.from(mview.findViewById(R.id.calendar_lay));
-        mBottomSheetBehavior.setHideable(true);
+        mBottomSheetBehavior.setHideable(false);
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.down_arrow_gray);
         Matrix matrix = new Matrix();
@@ -170,19 +168,22 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         calendarView.setDateTextAppearance(R.style.black_17sp);
         calendarView.setWeekDayTextAppearance(R.style.b1_13sp);
         calendarView.setTileSize(-1);
-        calendarView.setTileWidthDp(50);
-        calendarView.setTileHeightDp(35);
+//        calendarView.setTileWidthDp(50);
+//        calendarView.setTileHeightDp(35);
+        calendarView.setTileHeight(ScreenUtils.getAdapterPx(R.dimen.y120, getContext()));
+        calendarView.setTileWidth(ScreenUtils.getAdapterPx(R.dimen.x154, getContext()));
         calendarView.setCurrentDate(CalendarDay.today());
-        calendarView.setSelectionColor(Color.TRANSPARENT);
+        calendarView.setSelectionColor(R.color.blue2);
 
         calendarView.state().edit()
-                .setMinimumDate(new CalendarDay(2016, 8, 1))
-                .setMaximumDate(new CalendarDay(2017, 6, 30));
+                .setMinimumDate(new CalendarDay(2016, 1, 1))
+                .setMaximumDate(new CalendarDay(2017, 12, 31))
+                .commit();
 
         currentSelected = CalendarDay.today();
 
         calendarView.addDecorators(
-                oneDayDecorator,
+//                oneDayDecorator,
                 new WeekDecorator(getContext())
         );
 
@@ -243,7 +244,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         if (calendarDatas.size() < 1) {
             headView.setVisibility(View.VISIBLE);
             headView.setPadding(0, 48, 0, 0);
-            showToast("当天没有活动");
+//            showToast("当天没有活动");
         } else {
             headView.setVisibility(View.GONE);
             headView.setPadding(0, 0, 0, 0);
@@ -429,10 +430,10 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
         currentSelected = date;
         initMonth(date);
-        oneDayDecorator.setDate(date.getDate());
+//        oneDayDecorator.setDate(date.getDate());
 //        initDecorator();
         initListview(date);
-        widget.invalidateDecorators();
+//        widget.invalidateDecorators();
     }
 
     @Override

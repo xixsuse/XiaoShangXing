@@ -2,7 +2,6 @@ package com.xiaoshangxing.yujian.FriendActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -89,6 +88,7 @@ public class FriendActivity extends BaseActivity {
 
     private List<User> loves = new ArrayList<>();
     private List<User> stars = new ArrayList<>();
+    public static final int gotoStar = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +96,13 @@ public class FriendActivity extends BaseActivity {
         setContentView(R.layout.activity_friend);
         ButterKnife.bind(this);
         initView();
+        parseType();
+    }
+
+    private void parseType() {
+        if (getIntent().getIntExtra(IntentStatic.TYPE, -1) == gotoStar) {
+            star.performClick();
+        }
     }
 
     private void initView() {

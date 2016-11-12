@@ -286,6 +286,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         }
         Intent intent = new Intent(getContext(), InputActivity.class);
         intent.putExtra(InputActivity.EDIT_STATE, InputActivity.XIANZHI);
+        intent.putExtra(InputActivity.LIMIT, 3);
         intent.putExtra(InputActivity.SELECT_IMAGE_URLS, (ArrayList<String>) select_image_urls);
         startActivityForResult(intent, IntentStatic.PUBLISH);
     }

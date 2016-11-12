@@ -36,9 +36,6 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
         this.list = list;
         this.activity=activity;
         select_image_urls =activity.getSelect_image_urls();
-        if (activity.getCurrent_state()==InputActivity.XIANZHI){
-            limit=3;
-        }
     }
 
     @Override
@@ -138,5 +135,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.MyViewHo
         }
     }
 
-
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
 }

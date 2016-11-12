@@ -111,7 +111,7 @@ public class AboutActivity extends BaseActivity {
     }
 
     private void update() {
-        UpdateManager updateManager = new UpdateManager(this, "" + version, true);
+        UpdateManager updateManager = new UpdateManager(this, version, true);
         updateManager.checkUpdateInfo();
     }
 

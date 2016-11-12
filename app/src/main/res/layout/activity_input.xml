@@ -176,6 +176,7 @@
             <EditText
                 android:id="@+id/people_limit"
                 android:hint="人数"
+                android:maxLength="5"
                 android:textColorHint="@color/g2"
                 android:layout_marginStart="@dimen/width_48"
                 android:paddingStart="@dimen/x42"
@@ -196,6 +197,7 @@
                 android:layout_height="wrap_content" />
 
             <EditText
+                android:maxLength="5"
                 android:id="@+id/time_limit"
                 android:hint="时间"
                 android:textColorHint="@color/g2"

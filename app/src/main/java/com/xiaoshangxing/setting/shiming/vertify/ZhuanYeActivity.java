@@ -132,6 +132,8 @@ public class ZhuanYeActivity extends BaseActivity implements IBaseView {
                             }
                             initListview();
                             break;
+                        case 403:
+                            break;
                         default:
                             showToast(jsonObject.getString(NS.MSG));
                             break;
@@ -144,8 +146,10 @@ public class ZhuanYeActivity extends BaseActivity implements IBaseView {
 
         ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(onNext, this);
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("collegeId", VertifyActivity.collegeId);
-        InfoNetwork.getInstance().getProfession(subsciber, jsonObject, this);
+        if (VertifyActivity.collegeId != null) {
+            jsonObject.addProperty("collegeId", VertifyActivity.collegeId);
+            InfoNetwork.getInstance().getProfession(subsciber, jsonObject, this);
+        }
     }
 
     public void Finish() {

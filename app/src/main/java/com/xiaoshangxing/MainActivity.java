@@ -30,13 +30,18 @@ import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
+import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
+import com.xiaoshangxing.xiaoshang.MessageNotice.MessageNoticeActivity;
 import com.xiaoshangxing.xiaoshang.XiaoShangFragment.XiaoShangFragment;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
+import com.xiaoshangxing.yujian.FriendActivity.FriendActivity;
 import com.xiaoshangxing.yujian.IM.kit.permission.MPermission;
 import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionDenied;
 import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionGranted;
@@ -152,8 +157,30 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
                 default:
                     break;
             }
-        }else {
-            Log.d("message","error");
+        } else if (intent.hasExtra(IntentStatic.TYPE)) {
+            Log.d("notifycation", "" + intent.getIntExtra(IntentStatic.TYPE, -1));
+            switch (intent.getIntExtra(IntentStatic.TYPE, -1)) {
+                case NotifycationUtil.NOTIFY_XIAOSHANG:
+                    xiaoshangLay.performClick();
+                    startActivity(new Intent(this, MessageNoticeActivity.class));
+                    break;
+                case NotifycationUtil.NOTIFY_LOVE:
+                    yujianLay.performClick();
+                    Intent loveIntent = new Intent(this, FriendActivity.class);
+                    loveIntent.putExtra(IntentStatic.TYPE, FriendActivity.gotoStar);
+                    startActivity(loveIntent);
+                    break;
+                case NotifycationUtil.NOTIFY_FRIEND:
+                    yujianLay.performClick();
+                    startActivity(new Intent(this, FriendActivity.class));
+                    break;
+                case NotifycationUtil.NOTIFY_WO:
+                    wolay.performClick();
+                    startActivity(new Intent(this, NewsActivity.class));
+                    break;
+                default:
+                    setYUjian(true);
+            }
         }
     }
 
@@ -295,7 +322,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
             wo.setTextColor(getResources().getColor(R.color.green1));
 
             mFragmentManager.beginTransaction().hide(xiaoShangFragment).hide(yuJianFragment).show(woFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
             current = 3;
         } else {
             imageWo.setImageResource(R.mipmap.wo_off);
@@ -309,7 +336,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
             imageYujian.setImageResource(R.mipmap.yujian_on);
             yujian.setTextColor(getResources().getColor(R.color.green1));
             mFragmentManager.beginTransaction().hide(woFragment).hide(xiaoShangFragment).show(yuJianFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
             current = 2;
         } else {
             imageYujian.setImageResource(R.mipmap.yujian_off);
@@ -324,7 +351,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
             xiaoshang.setTextColor(getResources().getColor(R.color.green1));
 
             mFragmentManager.beginTransaction().hide(woFragment).hide(yuJianFragment).show(xiaoShangFragment)
-                    .commit();
+                    .commitAllowingStateLoss();
             current = 1;
         } else {
             imageXiaoshang.setImageResource(R.mipmap.xiaoshang_off);

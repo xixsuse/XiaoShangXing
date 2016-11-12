@@ -176,7 +176,8 @@ public class ShoolfellowAdapter extends BaseAdapter {
 
     public void collasp(int positon) {
         BaseItemBean baseItemBean = showItems.get(positon);
-        baseItemBean.setExpand(false);
+//        baseItemBean.setExpand(false);
+        ItemHelp.Collasp(baseItemBean);
         showItems = ItemHelp.filterVisibleItem(allItems);
         notifyDataSetChanged();
     }

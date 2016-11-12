@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.shiming.VertifyUtil;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyActivity;
-import com.xiaoshangxing.setting.shiming.vertify.VertifyShiMingActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 
 import java.io.File;

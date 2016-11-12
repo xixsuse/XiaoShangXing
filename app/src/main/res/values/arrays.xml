@@ -166,4 +166,21 @@
         <item>Y</item>
         <item>Z</item>
     </string-array>
+
+    <string-array name="JN_Dormitory">
+        <item>桃园</item>
+        <item>李园</item>
+        <item>梅园</item>
+        <item>榴园</item>
+        <item>桂圆</item>
+        <item>杏园</item>
+        <item>桔园</item>
+        <item>竹园</item>
+        <item>清苑</item>
+        <item>溪苑</item>
+        <item>鸿苑</item>
+        <item>澈苑</item>
+        <item>涓苑</item>
+        <item>浩苑</item>
+    </string-array>
 </resources>

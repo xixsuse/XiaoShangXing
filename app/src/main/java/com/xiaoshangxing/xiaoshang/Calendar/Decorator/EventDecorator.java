@@ -7,6 +7,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -33,7 +34,7 @@ public class EventDecorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.addSpan(new MyDotSpan(50, color,false));
+        view.addSpan(new MyDotSpan(ScreenUtils.getAdapterPx(R.dimen.x50, context), color, false));
         view.addSpan(new TextAppearanceSpan(context, R.style.white));
     }
 }

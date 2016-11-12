@@ -2,9 +2,9 @@ package com.xiaoshangxing.wo.WoFrafment.WoViewHolder;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -50,12 +50,15 @@ public class WoJustOneImage extends WoBaseHolder {
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                        if (resource.getHeight() > context.getResources().getDimensionPixelSize(R.dimen.y600)) {
-//                            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-//                                    context.getResources().getDimensionPixelSize(R.dimen.y600));
-//                            params.gravity = Gravity.START;
-//                            justOne.setLayoutParams(params);
-//                        }
+                        if (resource.getHeight() > context.getResources().getDimensionPixelSize(R.dimen.y600)) {
+                            float width = resource.getWidth() * ((float) context.getResources().getDimensionPixelSize(R.dimen.y600) / resource.getHeight());
+                            Log.d("width", "" + width);
+
+                            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int) width,
+                                    context.getResources().getDimensionPixelSize(R.dimen.y600));
+                            params.gravity = Gravity.START;
+                            justOne.setLayoutParams(params);
+                        }
                         justOne.setImageBitmap(resource);
                     }
                 });

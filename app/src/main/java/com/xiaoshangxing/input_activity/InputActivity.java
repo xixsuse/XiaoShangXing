@@ -488,10 +488,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     private void initLocation() {
-        final String[] location = new String[10];
-        for (int i = 0; i < 10; i++) {
-            location[i] = "园区" + i;
-        }
+        final String[] location = getResources().getStringArray(R.array.JN_Dormitory);
         selectLocation.setViewAdapter(new ArrayWheelAdapter<String>(this, location));
         selectLocation.setVisibleItems(6);
         selectLocation.addChangingListener(new OnWheelChangedListener() {
@@ -564,10 +561,13 @@ public class InputActivity extends BaseActivity implements IBaseView {
         } else {
             setSelect_image_urls(getIntent().getStringArrayListExtra(SELECT_IMAGE_URLS));
         }
+        adapter.setLimit(3);
         emotionEdittext.setHint("输入闲置内容...");
         showSelect.setVisibility(View.GONE);
         xianzhiLay.setVisibility(View.VISIBLE);
         location.setVisibility(View.GONE);
+        selectLocation.setDrawShadows(false);
+        selectLocation.setWheelBackground(R.color.w0);
     }
 
     private void selectItem(int position) {
@@ -736,7 +736,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
         adapter.setSelect_image_urls(list);
         initShowSelect();
         addToBitm(list);
-        Flog.logList("select_image_urls", select_image_urls);
     }
 
     @OnClick({R.id.emotion_edittext, R.id.delete, R.id.emotion, R.id.notice_someone,

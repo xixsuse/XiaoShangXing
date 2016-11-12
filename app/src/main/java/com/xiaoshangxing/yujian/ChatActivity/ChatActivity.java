@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
@@ -14,17 +15,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
+import com.xiaoshangxing.Network.IMNetwork;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.MessageListView;
 import com.xiaoshangxing.utils.layout.MsgBkImageView;
@@ -33,19 +44,24 @@ import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoObservable;
 import com.xiaoshangxing.yujian.personChatInfo.PersonChatInfoActivity;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import rx.Subscriber;
 
 /**
  * Created by FengChaoQun
  * on 2016/9/2
  */
-public class ChatActivity extends BaseActivity implements ModuleProxy {
+public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView {
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -80,6 +96,14 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
     FrameLayout layoutPlayAudio;
     @Bind(R.id.message_activity_list_view_container)
     FrameLayout messageActivityListViewContainer;
+    @Bind(R.id.black_text)
+    TextView blackText;
+    @Bind(R.id.black)
+    RelativeLayout black;
+    @Bind(R.id.love)
+    RelativeLayout love;
+    @Bind(R.id.stranger_layout)
+    LinearLayout strangerLayout;
 
     //  标志是否是resume状态
     private boolean isResume = false;
@@ -170,8 +194,130 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
 
     //  刷新标题名称
     private void requestBuddyInfo() {
-        title.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+//        title.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+//        if (!FriendDataCache.getInstance().isMyFriend(sessionId)) {
+//            strangerLayout.setVisibility(View.VISIBLE);
+//            if (FriendDataCache.getInstance().isInblack(sessionId)) {
+//                blackText.setText("取消");
+//            }
+//            getStar();
+//        }
+        if (!FriendDataCache.getInstance().isMyFriend(sessionId)) {
+            title.setText("临时会话");
+        } else {
+            title.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+        }
     }
+
+    private List<User> loves = new ArrayList<>();
+
+    private void getStar() {
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case 200:
+                            Gson gson = new Gson();
+                            loves = gson.fromJson(jsonObject.getJSONArray(NS.MSG).toString(), new TypeToken<List<User>>() {
+                            }.getType());
+                            for (User user : loves) {
+                                if (user.getId() == Integer.valueOf(sessionId)) {
+//                                    isLoved = true;
+//                                    bt1.setChecked(true);
+//                                    bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_select);
+                                    strangerLayout.setVisibility(View.GONE);
+                                }
+                            }
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        IMNetwork.getInstance().MyFavor(subscriber, String.valueOf(TempUser.id), this);
+    }
+
+    private void black() {
+        if (FriendDataCache.getInstance().isMyFriend(sessionId)) {
+            NIMClient.getService(FriendService.class).addToBlackList(sessionId)
+                    .setCallback(new RequestCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            requestBuddyInfo();
+                            showToast("设置成功");
+                        }
+
+                        @Override
+                        public void onFailed(int i) {
+                            showToast("设置失败:" + i);
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            showToast("设置失败:异常");
+                            throwable.printStackTrace();
+                        }
+                    });
+        } else {
+            NIMClient.getService(FriendService.class).removeFromBlackList(sessionId)
+                    .setCallback(new RequestCallback<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            requestBuddyInfo();
+                            showToast("设置成功");
+                        }
+
+                        @Override
+                        public void onFailed(int i) {
+                            showToast("设置失败:" + i);
+                        }
+
+                        @Override
+                        public void onException(Throwable throwable) {
+                            showToast("设置失败:异常");
+                            throwable.printStackTrace();
+                        }
+                    });
+        }
+
+    }
+
+    private void favor() {
+
+        OperateUtils.Favor(sessionId, this, this, new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
+                requestBuddyInfo();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+
+            }
+        });
+    }
+
 
     private void parseIntent() {
         more.setImageResource(R.mipmap.chat_more);
@@ -389,5 +535,10 @@ public class ChatActivity extends BaseActivity implements ModuleProxy {
                 startActivity(more_intent);
                 break;
         }
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 }

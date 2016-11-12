@@ -79,4 +79,15 @@ public class ItemHelp {
         }
         return result;
     }
+
+    public static void Collasp(BaseItemBean baseItemBean) {
+        if (baseItemBean.isLeaf()) {
+            return;
+        } else {
+            baseItemBean.setExpand(false);
+            for (BaseItemBean i : baseItemBean.getChildren()) {
+                Collasp(i);
+            }
+        }
+    }
 }

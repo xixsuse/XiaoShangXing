@@ -96,7 +96,7 @@
                 android:id="@+id/up_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/x46"
+                android:layout_marginEnd="@dimen/x40"
                 android:layout_marginStart="@dimen/x36"
                 android:layout_marginTop="@dimen/y42">
 

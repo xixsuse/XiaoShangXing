@@ -1,5 +1,7 @@
 package com.xiaoshangxing.Network.netUtil;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -136,6 +138,7 @@ public class MultipartUtility {
             reader.close();
             httpConn.disconnect();
         } else {
+            Log.d("erro", httpConn.toString());
             throw new IOException("Server returned non-OK status: " + status);
         }
         return response;

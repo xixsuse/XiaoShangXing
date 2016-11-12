@@ -101,6 +101,7 @@ public class PersonalInfoActivity extends BaseActivity {
                     break;
                 case 2:
                     startActivity(new Intent(PersonalInfoActivity.this, VertifyingActivity.class));
+//                    startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
                     break;
             }
         }

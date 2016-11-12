@@ -11,10 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.Formmat;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.BaseUrl;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.shiming.result.VertifyingActivity;
@@ -29,6 +32,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -148,21 +154,71 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
         ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, this);
         progressSubsciber.setLoadingText("上传中...");
 
-        File left = new File(PreviewActivity.getLeftImgPath("XueShengZhen"));
-        File right = new File(PreviewActivity.getRightImgPath("XueShengZhen"));
+        final File left = new File(PreviewActivity.getLeftImgPath("XueShengZhen"));
+        final File right = new File(PreviewActivity.getRightImgPath("XueShengZhen"));
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("multipart/form-data"), left/*SendImageHelper.getLittleImage(coverPath, getContext())*/);
         MultipartBody.Part body =
-                MultipartBody.Part.createFormData("file", left.getName(), requestFile);
+                MultipartBody.Part.createFormData("sidImages", left.getName(), requestFile);
         RequestBody requestFile1 =
                 RequestBody.create(MediaType.parse("multipart/form-data"), right/*SendImageHelper.getLittleImage(coverPath, getContext())*/);
         MultipartBody.Part body1 =
-                MultipartBody.Part.createFormData("file", left.getName(), requestFile1);
+                MultipartBody.Part.createFormData("sidImages", left.getName(), requestFile1);
 
         String sex = sexStr.equals("男") ? "1" : "2";
 
-        InfoNetwork.getInstance().realName(progressSubsciber, TempUser.getID(this), nameStr, sex, xuehaoStr, schoolStr,
-                colleg, professional, ruxuenianfenStr, degree, body, body1, this);
+//        InfoNetwork.getInstance().realName(progressSubsciber, TempUser.getID(this), nameStr, sex, xuehaoStr, schoolStr,
+//                colleg, professional, ruxuenianfenStr, degree, body, body1, this);
+
+        final Map<String, String> map = new HashMap<>();
+        map.put(NS.USER_ID, TempUser.getId());
+        map.put("name", nameStr);
+        map.put("sex", sex);
+        map.put("studentNum", xuehaoStr);
+        map.put("schoolName", schoolStr);
+        map.put("college", colleg);
+        map.put("profession", professional);
+        map.put("admissionYear", ruxuenianfenStr);
+        map.put("degree", degree);
+        map.put(NS.CLIENTTIME, "" + NS.currentTime());
+
+        final ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add(PreviewActivity.getLeftImgPath("XueShengZhen"));
+        arrayList.add(PreviewActivity.getRightImgPath("XueShengZhen"));
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Formmat formmat = new Formmat(VertifyActivity.this, VertifyActivity.this, BaseUrl.BASE_URL + BaseUrl.REAL_NAME);
+                formmat.setSimpleCallBack(new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        startActivity(new Intent(VertifyActivity.this, VertifyingActivity.class));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
+                try {
+                    formmat.addFormField(map)
+//                            .addFilePart("sidImages", left)
+                            .addFilePart(arrayList, VertifyActivity.this)
+                            .doUpload();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showToast("图片出错");
+                }
+            }
+        });
+        thread.start();
+
     }
 
 

@@ -137,6 +137,8 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
                             }
                             initListview();
                             break;
+                        case 403:
+                            break;
                         default:
                             showToast(jsonObject.getString(NS.MSG));
                             break;
@@ -166,7 +168,7 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
                 } else {
                     VertifyActivity.collegeId = null;
                 }
-                Log.d("collegeId", VertifyActivity.collegeId);
+                Log.d("collegeId", "" + VertifyActivity.collegeId);
                 startActivity(new Intent(this, ZhuanYeActivity.class));
                 break;
         }
