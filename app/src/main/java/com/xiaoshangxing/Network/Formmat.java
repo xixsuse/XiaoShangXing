@@ -30,6 +30,7 @@ public class Formmat {
     private MultipartUtility multipartUtility;
     private Handler handler;
     private SimpleCallBack simpleCallBack;
+    private String successToast;
 
     public Formmat(final IBaseView iBaseView, final Activity context, String path) {
         this.iBaseView = iBaseView;
@@ -46,8 +47,12 @@ public class Formmat {
                             simpleCallBack.onSuccess();
                         }
                         iBaseView.hideLoadingDialog();
-//                        context.finish();
-                        iBaseView.showToast("发布成功");
+                        if (successToast != null) {
+                            iBaseView.showToast(successToast);
+                        } else {
+                            iBaseView.showToast("发布成功");
+                        }
+
                         FileUtils.deleteFolderFile(FileUtils.getXSX_CameraPhotoPath(), false);
                         break;
                     case 3:
@@ -173,5 +178,9 @@ public class Formmat {
 
     public void setSimpleCallBack(SimpleCallBack simpleCallBack) {
         this.simpleCallBack = simpleCallBack;
+    }
+
+    public void setSuccessToast(String successToast) {
+        this.successToast = successToast;
     }
 }

@@ -545,6 +545,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         uiHandler.removeCallbacks(showEmojiRunnable);
         if (emotion_lay != null) {
             emotion_lay.setVisibility(View.GONE);
+            emotion_lay.setSelected(false);
         }
     }
 
@@ -572,6 +573,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         hideAudioLayout();
         emoticonsEditText.requestFocus();
         uiHandler.postDelayed(showEmojiRunnable, 200);
+        emotion_lay.setSelected(true);
         emotion_lay.setVisibility(View.VISIBLE);
     }
 

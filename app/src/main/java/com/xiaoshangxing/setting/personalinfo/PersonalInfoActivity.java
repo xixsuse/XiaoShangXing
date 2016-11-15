@@ -15,10 +15,12 @@ import com.xiaoshangxing.setting.personalinfo.QianMing.QianMingFragment;
 import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
+import com.xiaoshangxing.setting.shiming.result.VertifyFailedActivity;
 import com.xiaoshangxing.setting.shiming.result.VertifySucessActivity;
 import com.xiaoshangxing.setting.shiming.result.VertifyingActivity;
 import com.xiaoshangxing.setting.shiming.shenhe.XueShengZhenActivity;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 /**
@@ -103,17 +105,13 @@ public class PersonalInfoActivity extends BaseActivity {
                     startActivity(new Intent(PersonalInfoActivity.this, VertifyingActivity.class));
 //                    startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
                     break;
+                case 3:
+                    Intent intent = new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class);
+                    intent.putExtra(IntentStatic.TYPE, true);
+                    startActivity(intent);
+                    break;
             }
         }
-//        if (TempUser.isRealName) {
-//            startActivity(new Intent(PersonalInfoActivity.this, VertifySucessActivity.class));
-//        } else {
-//            startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
-//        }
-
-
-        //认证失败
-//        startActivity(new Intent(PersonalInfoActivity.this,VertifyFailedActivity.class));
     }
 
 

@@ -194,7 +194,9 @@
                     android:layout_height="2px"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="@dimen/width_48"
-                    android:background="@color/green1"></View>
+                    android:background="@color/green1">
+
+                </View>
 
                 <include layout="@layout/line_horizontal_g1">
 

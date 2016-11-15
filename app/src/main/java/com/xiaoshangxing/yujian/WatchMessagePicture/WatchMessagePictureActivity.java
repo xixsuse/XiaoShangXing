@@ -32,6 +32,7 @@ import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.CustomAlertDialog;
+import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.BaseZoomableImageView;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.ImageGestureListener;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.MultiTouchZoomableImageView;
@@ -436,14 +437,14 @@ public class WatchMessagePictureActivity extends UI {
         srcFilename += ("." + extension);
 
         String picPath = StorageUtil.getSystemImagePath();
-        String dstPath = picPath + srcFilename;
+        String dstPath =/* picPath + srcFilename*/FileUtils.newImageFile().getAbsolutePath();
         if (AttachmentStore.copy(path, dstPath) != -1) {
             try {
                 ContentValues values = new ContentValues(2);
                 values.put(MediaStore.Images.Media.MIME_TYPE, C.MimeType.MIME_JPEG);
                 values.put(MediaStore.Images.Media.DATA, dstPath);
                 getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-                Toast.makeText(WatchMessagePictureActivity.this, "图片已保存到手机", Toast.LENGTH_LONG).show();
+                Toast.makeText(WatchMessagePictureActivity.this, "图片已保存到手机" + FileUtils.getXsxSaveIamge() + "文件夹下", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 // may be java.lang.UnsupportedOperationException
                 Toast.makeText(WatchMessagePictureActivity.this, "图片保存失败", Toast.LENGTH_LONG).show();

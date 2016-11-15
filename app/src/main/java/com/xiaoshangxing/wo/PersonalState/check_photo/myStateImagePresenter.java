@@ -2,7 +2,10 @@ package com.xiaoshangxing.wo.PersonalState.check_photo;
 
 import android.content.Context;
 
+import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.image.SaveImageTask;
+
+import java.util.UUID;
 
 /**
  * Created by FengChaoQun
@@ -29,7 +32,8 @@ public class myStateImagePresenter implements myStateImagePagerContract.Presente
 
     @Override
     public void saveImage(String url) {
-        SaveImageTask s = new SaveImageTask(context);
+        String savePath = FileUtils.getXsxSaveIamge() + UUID.randomUUID().toString() + ".jpg";
+        SaveImageTask s = new SaveImageTask(context, savePath, "保存成功:" + savePath, "保存失败");
         s.execute(url);
     }
 

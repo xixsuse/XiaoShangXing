@@ -45,6 +45,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -149,7 +150,8 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void saveToPhone() {
-        SaveImageTask s = new SaveImageTask(getContext());
+        String savePath = FileUtils.getXsxSaveIamge() + UUID.randomUUID().toString() + ".jpg";
+        SaveImageTask s = new SaveImageTask(getContext(), savePath, "保存成功:" + savePath, "保存失败");
         s.execute(NimUserInfoCache.getInstance().getHeadImage(TempUser.getId()));
     }
 

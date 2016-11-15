@@ -12,16 +12,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.Network.Formmat;
-import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.BaseUrl;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.RealNameInfo;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.shiming.result.VertifyingActivity;
 import com.xiaoshangxing.setting.shiming.shenhe.PreviewActivity;
+import com.xiaoshangxing.setting.shiming.shenhe.XueShengZhenActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BroadCast.FinishActivityRecever;
 import com.xiaoshangxing.utils.IBaseView;
@@ -107,8 +108,36 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
         title.setText("实名认证");
         more.setVisibility(View.GONE);
         titleBottomLine.setVisibility(View.GONE);
+
+        if (getIntent().getBooleanExtra(IntentStatic.TYPE, false)) {
+            initFailInfo();
+        }
     }
 
+    private void initFailInfo() {
+        RealNameInfo realNameInfo = XueShengZhenActivity.realNameInfo;
+        if (realNameInfo == null) {
+            return;
+        }
+        nameStr = RealNameInfo.getOnlyString(realNameInfo.getName());
+        String sex = RealNameInfo.getOnlyString(realNameInfo.getSex());
+        if (sex.equals("1")) {
+            sexStr = "男";
+        } else if (sex.equals("2")) {
+            sexStr = "女";
+        }
+        xuehaoStr = RealNameInfo.getOnlyString(realNameInfo.getStudentNum());
+        schoolStr = RealNameInfo.getOnlyString(realNameInfo.getSchoolName());
+        colleg = RealNameInfo.getOnlyString(realNameInfo.getCollege());
+        professional = RealNameInfo.getOnlyString(realNameInfo.getProfession());
+        ruxuenianfenStr = RealNameInfo.getOnlyString(realNameInfo.getAdmissionYear());
+        degree = RealNameInfo.getOnlyString(realNameInfo.getDegree());
+        nameWrongImg.setVisibility(RealNameInfo.isPass(realNameInfo.getName()) ? View.GONE : View.VISIBLE);
+        sexWrongImg.setVisibility(RealNameInfo.isPass(realNameInfo.getSex()) ? View.GONE : View.VISIBLE);
+        xuehaoWrongImg.setVisibility(RealNameInfo.isPass(realNameInfo.getStudentNum()) ? View.GONE : View.VISIBLE);
+        schholWrongImg.setVisibility(RealNameInfo.isPass(realNameInfo.getSchoolName()) ? View.GONE : View.VISIBLE);
+        yearWrongImg.setVisibility(RealNameInfo.isPass(realNameInfo.getAdmissionYear()) ? View.GONE : View.VISIBLE);
+    }
 
     public void Name(View view) {
         startActivity(new Intent(this, NameActivity.class));
@@ -190,6 +219,7 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
             @Override
             public void run() {
                 Formmat formmat = new Formmat(VertifyActivity.this, VertifyActivity.this, BaseUrl.BASE_URL + BaseUrl.REAL_NAME);
+                formmat.setSuccessToast("提交成功");
                 formmat.setSimpleCallBack(new SimpleCallBack() {
                     @Override
                     public void onSuccess() {

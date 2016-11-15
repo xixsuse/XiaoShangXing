@@ -30,8 +30,9 @@
 
         </ImageView>
 
-        <!--发布动态-->
+        <!--消息-->
         <ImageView
+            android:paddingRight="@dimen/width_48"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:id="@+id/publish"

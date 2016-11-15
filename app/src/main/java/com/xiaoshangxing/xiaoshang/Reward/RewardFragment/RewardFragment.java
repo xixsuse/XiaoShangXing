@@ -133,6 +133,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     private void initView() {
         title.setText(R.string.shoolreward);
         leftText.setText(R.string.xiaoshang);
+        more.setImageResource(R.mipmap.add);
         anounceContent.setText(R.string.reward_rules);
         noContent.setText("还没有人发布悬赏");
         headview = new View(getContext());
@@ -172,6 +173,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             headview.setVisibility(View.GONE);
             account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
             isOthers = true;
+            anounce.setVisibility(View.GONE);
         }
 
 //        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

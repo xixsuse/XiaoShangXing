@@ -22,11 +22,13 @@ public class SelectedPersonAdapter extends RecyclerView.Adapter<SelectedPersonAd
     private List<String> selectPerson = new ArrayList<String>();
 
     private SelectPersonActivity activity;
+    private boolean isGroup;
 
-    public SelectedPersonAdapter(Context context, List<String> list, SelectPersonActivity activity) {
+    public SelectedPersonAdapter(Context context, List<String> list, SelectPersonActivity activity, boolean isGroup) {
         this.context = context;
         this.selectPerson = list;
         this.activity=activity;
+        this.isGroup = isGroup;
     }
 
     @Override
@@ -41,7 +43,9 @@ public class SelectedPersonAdapter extends RecyclerView.Adapter<SelectedPersonAd
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        UserInfoCache.getInstance().getHeadIntoImage(selectPerson.get(position), holder.head);
+        if (!isGroup) {
+            UserInfoCache.getInstance().getHeadIntoImage(selectPerson.get(position), holder.head);
+        }
     }
 
     @Override

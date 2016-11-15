@@ -301,6 +301,7 @@ public class UserInfoCache {
             };
         }
         NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(observer, is);
+        Log.d("注册用户资料变更监听", "" + is);
     }
 
    public interface ReloadCallback {

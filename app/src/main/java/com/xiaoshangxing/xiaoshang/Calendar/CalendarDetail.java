@@ -38,7 +38,7 @@ public class CalendarDetail extends BaseActivity {
             showToast("校历信息异常");
             return;
         }
-
+        overridePendingTransition(0, 0);
         text.setText("" + calendarData.getText());
     }
 

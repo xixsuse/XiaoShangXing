@@ -69,6 +69,12 @@ public class CommentListFrafment extends Fragment {
                 }
             }
         });
+        emptyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.hideInputBox();
+            }
+        });
 
         return view;
     }

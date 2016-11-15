@@ -305,7 +305,7 @@
 
         </LinearLayout>
 
-        <!--表情图片  选择园区-->
+        <!--表情图片-->
         <LinearLayout
             android:id="@+id/emot_picture"
             android:layout_width="match_parent"
@@ -327,8 +327,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/y432"
                     android:paddingBottom="@dimen/y30"
-                    android:paddingEnd="@dimen/width_48"
-                    android:paddingStart="@dimen/width_48"
+                    android:paddingEnd="@dimen/x20"
+                    android:paddingStart="@dimen/x30"
                     android:paddingTop="@dimen/y30">
 
                 </android.support.v4.view.ViewPager>
@@ -345,11 +345,12 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:layout_marginStart="@dimen/x58"
-                            android:src="@mipmap/emot_grey_total" />
+                            android:layout_marginLeft="@dimen/width_48"
+                            android:gravity="center"
+                            android:src="@mipmap/emot_unselect" />
 
                     </LinearLayout>
 
@@ -373,13 +374,14 @@
                         android:id="@+id/delete_emot"
                         android:layout_width="@dimen/x152"
                         android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="@dimen/width_48">
+                        android:layout_alignParentEnd="true">
 
                         <ImageView
-                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/width_48"
+                            android:layout_width="wrap_content"
                             android:src="@mipmap/delete_emot" />
                     </RelativeLayout>
 

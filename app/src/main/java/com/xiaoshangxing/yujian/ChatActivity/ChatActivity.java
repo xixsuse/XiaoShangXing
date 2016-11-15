@@ -318,7 +318,6 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
         });
     }
 
-
     private void parseIntent() {
         more.setImageResource(R.mipmap.chat_more);
         more.setPadding(0, 0, 0, 0);
@@ -384,7 +383,6 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
         inputPanel.onActivityResult(requestCode, resultCode, data);
         messageListPanel.onActivityResult(requestCode, resultCode, data);
     }
-
 
     //  注册监听
     private void registerObservers(boolean register) {

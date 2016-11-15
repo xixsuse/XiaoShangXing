@@ -131,6 +131,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     private void initView() {
         title.setText(R.string.shoolfellowhelp);
         leftText.setText(R.string.xiaoshang);
+        more.setImageResource(R.mipmap.add);
         anounceContent.setText(R.string.help_rules);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
@@ -152,6 +153,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
             headview.setVisibility(View.GONE);
             account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
             isOthers = true;
+            anounce.setVisibility(View.GONE);
         }
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override

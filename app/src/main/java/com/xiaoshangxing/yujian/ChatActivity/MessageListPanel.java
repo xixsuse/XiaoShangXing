@@ -40,6 +40,7 @@ import com.xiaoshangxing.utils.CustomAlertDialog;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.image.ImageFactory;
 import com.xiaoshangxing.utils.layout.AutoRefreshListView;
 import com.xiaoshangxing.utils.layout.MessageListView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
@@ -766,6 +767,8 @@ public class MessageListPanel implements TAdapterDelegate {
             longClickItemForwardToPerson(selectedItem, alertDialog);
             // 6 forward to team        转发到群组
             longClickItemForwardToTeam(selectedItem, alertDialog);
+            //保存到手机
+            longClickItemSave(selectedItem, alertDialog, msgType);
 //            }
         }
 
@@ -821,6 +824,20 @@ public class MessageListPanel implements TAdapterDelegate {
                 @Override
                 public void onClick() {
                     onCopyMessageItem(item);
+                }
+            });
+        }
+
+        // 长按菜单项--保存图片到手机
+        private void longClickItemSave(final IMMessage item, CustomAlertDialog alertDialog, MsgTypeEnum msgType) {
+            if (msgType != MsgTypeEnum.image) {
+                return;
+            }
+            alertDialog.addItem("保存到手机", new CustomAlertDialog.onSeparateItemClickListener() {
+
+                @Override
+                public void onClick() {
+                    ImageFactory.savePicture(item, container.activity);
                 }
             });
         }
@@ -916,14 +933,8 @@ public class MessageListPanel implements TAdapterDelegate {
                 @Override
                 public void onClick() {
                     forwardMessage = item;
-//                    ContactSelectActivity.Option option = new ContactSelectActivity.Option();
-//                    option.title = "选择转发的人";
-//                    option.type = ContactSelectActivity.ContactSelectType.BUDDY;
-//                    option.multi = false;
-//                    option.maxSelectNum = 1;
-//                    NimUIKit.startContactSelect(container.activity, option, REQUEST_CODE_FORWARD_PERSON);
                     Intent intent = new Intent(container.activity, SelectPersonActivity.class);
-                    intent.putExtra(SelectPersonActivity.REQUSET_CODE, REQUEST_CODE_FORWARD_PERSON);
+//                    intent.putExtra(SelectPersonActivity.REQUSET_CODE, REQUEST_CODE_FORWARD_PERSON);
                     intent.putExtra(SelectPersonActivity.LIMIT, 1);
                     container.activity.startActivityForResult(intent, REQUEST_CODE_FORWARD_PERSON);
                 }
@@ -937,14 +948,8 @@ public class MessageListPanel implements TAdapterDelegate {
                 @Override
                 public void onClick() {
                     forwardMessage = item;
-//                    ContactSelectActivity.Option option = new ContactSelectActivity.Option();
-//                    option.title = "选择转发的群";
-//                    option.type = ContactSelectActivity.ContactSelectType.TEAM;
-//                    option.multi = false;
-//                    option.maxSelectNum = 1;
-//                    NimUIKit.startContactSelect(container.activity, option, REQUEST_CODE_FORWARD_TEAM);
                     Intent intent = new Intent(container.activity, SelectPersonActivity.class);
-                    intent.putExtra(SelectPersonActivity.REQUSET_CODE, REQUEST_CODE_FORWARD_TEAM);
+//                    intent.putExtra(SelectPersonActivity.REQUSET_CODE, REQUEST_CODE_FORWARD_TEAM);
                     intent.putExtra(SelectPersonActivity.LIMIT, 1);
                     intent.putExtra(IntentStatic.TYPE, SelectPersonActivity.GROUP);
                     container.activity.startActivityForResult(intent, REQUEST_CODE_FORWARD_TEAM);
@@ -1058,6 +1063,9 @@ public class MessageListPanel implements TAdapterDelegate {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_CODE_FORWARD_TEAM:
+                if (data == null) {
+                    return;
+                }
                 ArrayList<String> selected = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
                 if (selected != null && !selected.isEmpty()) {
                     for (int i = 0; i < selected.size(); i++) {
@@ -1066,6 +1074,9 @@ public class MessageListPanel implements TAdapterDelegate {
                 }
                 break;
             case REQUEST_CODE_FORWARD_PERSON:
+                if (data == null) {
+                    return;
+                }
                 ArrayList<String> selected1 = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
                 if (selected1 != null && !selected1.isEmpty()) {
                     doForwardMessage(selected1.get(0), SessionTypeEnum.P2P);

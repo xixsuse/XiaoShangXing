@@ -43,6 +43,6 @@ public class TempUser {
     public static void initTempUser(Context context) {
         TempUser.phone = TempUser.getPhone(context);
         TempUser.id = TempUser.getID(context);
-        TempUser.isRealName = TempUser.isIsRealName(context);
+        TempUser.isRealName = /*true*/ TempUser.isIsRealName(context);
     }
 }

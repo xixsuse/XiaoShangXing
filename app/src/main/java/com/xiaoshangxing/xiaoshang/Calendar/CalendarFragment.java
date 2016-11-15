@@ -113,6 +113,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     private Handler handler = new Handler();
     private Runnable runnable;
     private View headView;
+    private TextView headTextView;
 
     @Nullable
     @Override
@@ -135,7 +136,8 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     private void initView() {
         title.setText("校历资讯");
         leftText.setText(R.string.xiaoshang);
-        more.setImageResource(R.mipmap.add);
+        more.setImageResource(R.mipmap.nav_xiaoli);
+        more.setPadding(0, 0, ScreenUtils.getAdapterPx(R.dimen.width_48, getContext()), 0);
 
         allDatas = new ArrayList<>();
         previous = new ArrayList<>();
@@ -143,6 +145,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         today = CalendarDay.today();
 
         headView = View.inflate(getContext(), R.layout.util_textview, null);
+        headTextView = (TextView) headView.findViewById(R.id.notice);
         listview.addHeaderView(headView);
 
         mBottomSheetBehavior = BottomSheetBehavior.from(mview.findViewById(R.id.calendar_lay));
@@ -242,12 +245,12 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
                 .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
 
         if (calendarDatas.size() < 1) {
-            headView.setVisibility(View.VISIBLE);
-            headView.setPadding(0, 48, 0, 0);
+            headTextView.setVisibility(View.VISIBLE);
+            headTextView.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y48, getContext()), 0, 0);
 //            showToast("当天没有活动");
         } else {
-            headView.setVisibility(View.GONE);
-            headView.setPadding(0, 0, 0, 0);
+            headTextView.setVisibility(View.GONE);
+            headTextView.setPadding(0, 0, 0, 0);
         }
 
         adpter = new Calendar_adpter(getContext(), 1, calendarDatas);

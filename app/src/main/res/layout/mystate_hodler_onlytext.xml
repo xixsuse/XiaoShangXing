@@ -6,8 +6,8 @@
     android:background="@color/w2"
     android:ellipsize="end"
     android:maxLines="2"
-    android:padding="@dimen/x24"
+    android:padding="@dimen/x14"
     android:textColor="@color/b0"
-    android:textSize="12sp">
+    android:textSize="14sp">
 
 </com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText>

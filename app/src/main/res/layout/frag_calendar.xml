@@ -15,6 +15,8 @@
 
     <!--listview-->
     <include
+        android:layout_marginEnd="@dimen/width_48"
+        android:layout_marginStart="@dimen/width_48"
         android:id="@+id/reflesh_layout"
         layout="@layout/util_refresh_listview"
         android:layout_width="match_parent"

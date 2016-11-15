@@ -11,9 +11,22 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.content.ContentValues;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.widget.Toast;
+
+import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.yujian.IM.kit.file.AttachmentStore;
+import com.xiaoshangxing.yujian.IM.kit.storage.StorageUtil;
+import com.xiaoshangxing.yujian.WatchMessagePicture.C;
+import com.xiaoshangxing.yujian.WatchMessagePicture.WatchMessagePictureActivity;
 
 /**
  * Image compress factory class
@@ -224,4 +237,34 @@ public class ImageFactory {
         }
     }
 
+    // 保存图片
+    public static void savePicture(IMMessage message, Context context) {
+        ImageAttachment attachment = (ImageAttachment) message.getAttachment();
+        String path = attachment.getPath();
+        if (TextUtils.isEmpty(path)) {
+            return;
+        }
+
+        String srcFilename = attachment.getFileName();
+        //默认jpg
+        String extension = TextUtils.isEmpty(attachment.getExtension()) ? "jpg" : attachment.getExtension();
+        srcFilename += ("." + extension);
+
+        String picPath = StorageUtil.getSystemImagePath();
+        String dstPath =/* picPath + srcFilename*/FileUtils.newImageFile().getAbsolutePath();
+        if (AttachmentStore.copy(path, dstPath) != -1) {
+            try {
+                ContentValues values = new ContentValues(2);
+                values.put(MediaStore.Images.Media.MIME_TYPE, C.MimeType.MIME_JPEG);
+                values.put(MediaStore.Images.Media.DATA, dstPath);
+                context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                Toast.makeText(context, "图片已保存到手机" + FileUtils.getXsxSaveIamge() + "文件夹下", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                // may be java.lang.UnsupportedOperationException
+                Toast.makeText(context, "图片保存失败", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(context, "图片保存失败", Toast.LENGTH_LONG).show();
+        }
+    }
 }

@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/just_one"
-    android:background="@color/b0"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/y24"
-    android:maxHeight="@dimen/y600"
+    android:paddingTop="@dimen/y24"
     android:scaleType="fitCenter">
-    <!--&lt;!&ndash;一张图片&ndash;&gt;-->
-    <!--<ImageView-->
-    <!--android:id="@+id/just_one"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="start"-->
-    <!--android:maxHeight="@dimen/y600"-->
-    <!--android:maxWidth="@dimen/x516"-->
-    <!--android:scaleType="fitCenter" />-->
-</ImageView>
+
+    <ImageView
+        android:id="@+id/just_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/b0"
+        android:maxHeight="@dimen/y518"
+        android:scaleType="fitCenter" />
+</LinearLayout>

@@ -74,7 +74,6 @@ public class Calendar_adpter extends ArrayAdapter<CalendarData> {
                 break;
         }
 
-
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

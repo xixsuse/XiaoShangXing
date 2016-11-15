@@ -175,7 +175,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                inputBoxLayout.showOrHideLayout(false);
             }
 
             @Override
@@ -282,7 +282,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                moveToPosition(2);
+                moveToPosition(currentItem);
             }
         }, 300);
         appBar.setExpanded(false);
@@ -573,9 +573,8 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     @Override
     public void hideInputBox() {
         inputBoxLayout.showOrHideLayout(false);
-        moveToPosition(2);
+        moveToPosition(currentItem);
     }
-
 
     @Override
     public void comment(final int id) {

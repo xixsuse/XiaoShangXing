@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:cacheColorHint="@color/transparent"
         android:divider="@color/transparent"
-        android:dividerHeight="@dimen/height_48"
+        android:dividerHeight="@dimen/y24"
         android:fadingEdge="none"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"

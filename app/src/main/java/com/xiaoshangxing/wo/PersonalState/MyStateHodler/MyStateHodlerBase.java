@@ -89,11 +89,17 @@ public abstract class MyStateHodlerBase {
             location.setVisibility(View.VISIBLE);
         }
         if (position == 0) {
-            left_lay.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y16, context), 0, 0);
-            content.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y16, context), 0, 0);
+            left_lay.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y110, context), 0, 0);
+            content.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y110, context), 0, 0);
         } else {
-            left_lay.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, context), 0, 0);
-            content.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, context), 0, 0);
+            if (adpter.isNeedShowDate(data, position)) {
+                left_lay.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y76, context), 0, 0);//左侧布局考虑到textview的间隔 比右侧少点
+                content.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y86, context), 0, 0);
+            } else {
+                left_lay.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y14, context), 0, 0);
+                content.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y14, context), 0, 0);
+            }
+
         }
     }
 

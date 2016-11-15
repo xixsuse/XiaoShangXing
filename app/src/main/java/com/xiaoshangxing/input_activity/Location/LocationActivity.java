@@ -65,6 +65,15 @@ public class LocationActivity extends BaseActivity {
 
     private void initView() {
 
+        if (getIntent().hasExtra(IntentStatic.DATA)) {
+            String location = getIntent().getStringExtra(IntentStatic.DATA);
+            if (location != null) {
+                selected = location;
+                complete.setAlpha(1);
+                complete.setEnabled(true);
+            }
+        }
+
         BaiduMapUtilByRacer.locateByBaiduMap(this, 1000,
                 new BaiduMapUtilByRacer.LocateListener() {
                     @Override
@@ -80,6 +89,9 @@ public class LocationActivity extends BaseActivity {
                                     AddressBean bean = new AddressBean(poiList.get(i).name, poiList.get(i).address);
                                     dataList.add(bean);
                                     adpter = new Location_adpter(LocationActivity.this, 1, dataList);
+                                    if (selected != null && selected != "null") {
+                                        adpter.setSelectedLocation(selected);
+                                    }
                                     listview.setAdapter(adpter);
                                     Log.d("qqq", poiList.get(i).name + "\n    " + poiList.get(i).address);
                                 }

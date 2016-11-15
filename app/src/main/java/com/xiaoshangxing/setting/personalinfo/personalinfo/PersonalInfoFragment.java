@@ -158,8 +158,10 @@ public class PersonalInfoFragment extends BaseFragment {
                     case 2:
                         realName.setText("审核中");
                         break;
+                    case 3:
+                        realName.setText("审核失败");
+                        break;
                 }
-//                realName.setText((int) nimUserInfo.getExtensionMap().get("isActive") == 0 ? "未认证" : "已认证");
             }
         }
     }

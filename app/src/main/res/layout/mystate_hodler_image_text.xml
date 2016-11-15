@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image_and_text"
+    android:paddingTop="@dimen/y6"
     android:layout_width="match_parent"
     android:layout_height="@dimen/y256">
 
@@ -74,9 +75,9 @@
         android:layout_toEndOf="@+id/image_group"
         android:ellipsize="end"
         android:maxLines="3"
-        android:paddingStart="@dimen/x30"
+        android:paddingStart="@dimen/x14"
         android:textColor="@color/b0"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
 
     <!--图片数目-->
     <TextView
@@ -85,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/image_group"
-        android:paddingStart="@dimen/x30"
+        android:paddingStart="@dimen/x14"
         android:text="共4张"
         android:textColor="@color/g0"
         android:textSize="12sp" />

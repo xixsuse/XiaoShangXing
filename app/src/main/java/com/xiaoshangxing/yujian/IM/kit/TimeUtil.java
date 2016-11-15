@@ -138,40 +138,40 @@ public class TimeUtil {
         String Month = "";
         switch (Integer.valueOf(month)) {
             case 1:
-                Month = "一月";
+                Month = "1月";
                 break;
             case 2:
-                Month = "二月";
+                Month = "2月";
                 break;
             case 3:
-                Month = "三";
+                Month = "3月";
                 break;
             case 4:
-                Month = "四月";
+                Month = "4月";
                 break;
             case 5:
-                Month = "五月";
+                Month = "5月";
                 break;
             case 6:
-                Month = "六月";
+                Month = "6月";
                 break;
             case 7:
-                Month = "七月";
+                Month = "7月";
                 break;
             case 8:
-                Month = "八月";
+                Month = "8月";
                 break;
             case 9:
-                Month = "九月";
+                Month = "9月";
                 break;
             case 10:
-                Month = "十月";
+                Month = "10月";
                 break;
             case 11:
-                Month = "十一月";
+                Month = "11月";
                 break;
             case 12:
-                Month = "十二月";
+                Month = "12月";
                 break;
         }
         return Month;

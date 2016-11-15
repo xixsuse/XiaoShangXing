@@ -39,8 +39,6 @@ public class FileUtils {
     public static int MB = 1024 * KB;
     public static int GB = 1024 * MB;
 
-
-
     public static boolean copyFileTo(File srcFile, File destFile) throws IOException {
 
         if (srcFile.isDirectory() || destFile.isDirectory())
@@ -172,7 +170,6 @@ public class FileUtils {
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "TB";
     }
 
-
     public static String getXSX_CameraPhotoPath() {
         File file = new File(XSX_CameraPhotoPath);
         if (!file.exists()){
@@ -204,7 +201,6 @@ public class FileUtils {
         }
         return GLIDE_CACHE;
     }
-
 
     public static String getTempImage() {
         File file = new File(getXsxSaveIamge(),"temp.jpg");

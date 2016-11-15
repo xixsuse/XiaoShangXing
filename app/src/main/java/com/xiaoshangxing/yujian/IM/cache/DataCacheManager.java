@@ -80,8 +80,7 @@ public class DataCacheManager {
         **describe:校上行服务器上的数据
         */
 //        UserInfoCache.getInstance().build();
-        //注册用户资料变更监听
-        UserInfoCache.getInstance().registerDataChangeListner(true);
+
     }
 
     /**

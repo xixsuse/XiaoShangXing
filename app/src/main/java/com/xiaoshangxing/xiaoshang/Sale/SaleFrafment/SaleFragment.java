@@ -147,6 +147,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     private void initView() {
         title.setText("闲置出售");
         leftText.setText(R.string.xiaoshang);
+        more.setImageResource(R.mipmap.add);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
@@ -185,6 +186,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
             headview.setVisibility(View.GONE);
             account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
             isOthers = true;
+            anounce.setVisibility(View.GONE);
         }
         initFresh();
         refreshPager();

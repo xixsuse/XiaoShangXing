@@ -121,6 +121,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
         anounceContent.setText(R.string.launch_plan);
         title.setText("计划发起");
         leftText.setText(R.string.xiaoshang);
+        more.setImageResource(R.mipmap.add);
         noContent.setText("还没人发布计划");
         listview.setDividerHeight(0);
         headview = new View(getContext());
@@ -159,6 +160,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
             headview.setVisibility(View.GONE);
             isOthers = true;
             account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+            anounce.setVisibility(View.GONE);
         }
         initFresh();
         refreshPager();

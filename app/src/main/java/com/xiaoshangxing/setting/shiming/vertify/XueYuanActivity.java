@@ -108,6 +108,9 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
             }
         });
         getSchool();
+        if (VertifyActivity.colleg != null) {
+            editText.setText(VertifyActivity.colleg);
+        }
     }
 
     private void initListview() {

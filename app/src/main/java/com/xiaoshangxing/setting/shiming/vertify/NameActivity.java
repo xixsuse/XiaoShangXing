@@ -72,8 +72,9 @@ public class NameActivity extends BaseActivity {
 
             }
         });
-
-
+        if (VertifyActivity.nameStr != null) {
+            edittext.setText(VertifyActivity.nameStr);
+        }
     }
 
     @OnClick({R.id.back, R.id.right_text})

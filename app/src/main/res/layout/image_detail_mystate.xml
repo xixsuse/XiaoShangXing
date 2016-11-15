@@ -15,7 +15,6 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_144"
-        android:paddingEnd="@dimen/width_48"
         android:paddingStart="@dimen/width_48">
 
         <!--返回-->

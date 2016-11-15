@@ -24,6 +24,7 @@ public class Location_adpter extends ArrayAdapter<AddressBean> {
     private int resource;
     List<AddressBean> beans;
     private int selected=-1;
+    private String selectedLocation;
 
 
     public Location_adpter(Context context, int resource, List<AddressBean> objects) {
@@ -58,6 +59,15 @@ public class Location_adpter extends ArrayAdapter<AddressBean> {
     public void setSelected(int selected) {
         this.selected = selected;
         notifyDataSetChanged();
+    }
+
+    public void setSelectedLocation(String selectedLocation) {
+        this.selectedLocation = selectedLocation;
+        for (int i = 0; i < beans.size(); i++) {
+            if (beans.get(i).getName().equals(selectedLocation)) {
+                selected = i;
+            }
+        }
     }
 
     static class ViewHolder {

@@ -119,6 +119,9 @@ public class XueXiaoActivity extends BaseActivity {
                 mListView.setAdapter(mAdapter);
                 if (schools.size() > 0) {
                     schoolText.setText(schools.get(0));
+                    if (VertifyActivity.schoolStr != null) {
+                        schoolText.setText(VertifyActivity.schoolStr);
+                    }
                 }
                 next.setAlpha(1f);
                 next.setEnabled(true);
@@ -133,6 +136,10 @@ public class XueXiaoActivity extends BaseActivity {
         });
 
         nearCollege.start();
+
+        if (VertifyActivity.schoolStr != null) {
+            schoolText.setText(VertifyActivity.schoolStr);
+        }
     }
 
 

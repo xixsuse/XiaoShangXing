@@ -65,7 +65,6 @@ public class XingBieActivity extends BaseActivity {
                 finish.setAlpha(1);
             }
         });
-
     }
 
     @OnClick({R.id.back, R.id.right_text})

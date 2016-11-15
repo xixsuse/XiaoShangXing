@@ -10,25 +10,43 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.msg.MessageBuilder;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LoadingDialog;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.image.SaveImageTask;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.HackyViewPager;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImageDetailFragment;
+import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -173,6 +191,8 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
                 switch (position) {
                     case 0:
                         mPresenter.sendToFriend();
+                        Intent selectPerson = new Intent(myStateImagePagerActivity.this, SelectPersonActivity.class);
+                        startActivityForResult(selectPerson, SelectPersonActivity.SELECT_PERSON_CODE);
                         break;
                     case 1:
                         mPresenter.saveImage(urls.get(pagerPosition));
@@ -223,7 +243,7 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
     @Override
     public void showMakesureDialog() {
         final DialogUtils.Dialog_Center dialog_center = new DialogUtils.Dialog_Center(this);
-        if (true) {
+        if (urls.size() > 1) {
             dialog_center.Message("与这张照片同时发布的一组照片都会被删除。");
             dialog_center.Button("全部删除", "取消");
         } else {
@@ -233,7 +253,22 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
         dialog_center.MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
             @Override
             public void onButton1() {
-                mPresenter.deleteImage();
+                OperateUtils.deleteOnePublished(published_id, myStateImagePagerActivity.this, myStateImagePagerActivity.this, new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        finishPager();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
                 dialog_center.close();
             }
 
@@ -246,6 +281,69 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
         dialog.show();
         LocationUtil.setWidth(this, dialog,
                 getResources().getDimensionPixelSize(R.dimen.x780));
+    }
+
+    public void finishPager() {
+        Intent intent = new Intent(this, PersonalStateActivity.class);
+        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, String.valueOf(TempUser.id));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
+    private void sendImageToFriend(final List<String> ids) {
+        if (ids == null || ids.size() == 0) {
+            Log.d("sendToFriend", "size:0");
+            return;
+        }
+
+        SaveImageTask s = new SaveImageTask(this, FileUtils.getTempImage(), null, null);
+        s.setSimpleCallBack(new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
+                final ArrayList<String> arrayList = new ArrayList<>();
+                List<String> list = new ArrayList<>();
+                list.add(FileUtils.TEMP_IMAGE);
+                for (final String id : ids) {
+                    SendImageHelper.sendImageAfterSelfImagePicker(myStateImagePagerActivity.this, false, list, new SendImageHelper.Callback() {
+                        @Override
+                        public void sendImage(File file, boolean isOrig) {
+                            IMMessage message = MessageBuilder.createImageMessage(id, SessionTypeEnum.P2P, file, file.getName());
+                            NIMClient.getService(MsgService.class).sendMessage(message, false).setCallback(new RequestCallback<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    arrayList.add("1");
+                                    if (arrayList.size() == ids.size()) {
+                                        showToast("转发成功");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailed(int i) {
+                                    showToast("转发失败:" + i);
+                                }
+
+                                @Override
+                                public void onException(Throwable throwable) {
+                                    showToast("转发异常");
+                                    throwable.printStackTrace();
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+
+            }
+        });
+        s.execute(urls.get(pagerPosition));
     }
 
     @Override
@@ -291,7 +389,21 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
 
     @Override
     public void showToast(String toast) {
+        Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
+            if (data != null) {
+                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
+                    List<String> list = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
+                    sendImageToFriend(list);
+                } else {
+                    Toast.makeText(myStateImagePagerActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
     private class ImagePagerAdapter extends FragmentStatePagerAdapter {

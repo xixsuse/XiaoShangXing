@@ -79,14 +79,6 @@ public class VertifySucessActivity extends BaseActivity implements IBaseView {
             return;
         }
         getInfo();
-//        name.setText(nimUserInfo.getName());
-//        if (nimUserInfo.getGenderEnum().equals(GenderEnum.MALE)) {
-//            sex.setText("男");
-//        } else if (nimUserInfo.getGenderEnum().equals(GenderEnum.FEMALE)) {
-//            sex.setText("女");
-//        } else {
-//            sex.setText("未知");
-//        }
     }
 
     private void refresh() {

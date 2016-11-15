@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -164,9 +163,8 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     @Override
     public void hideInputBox() {
         inputBoxLayout.showOrHideLayout(false);
-        moveToPosition(2);
+        moveToPosition(currentItem);
     }
-
 
     @Override
     public void comment(final int id) {
@@ -210,6 +208,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
             @Override
             public void onPageSelected(int position) {
                 moveToPosition(position + 1);
+                currentItem = position + 1;
             }
 
             @Override
@@ -415,10 +414,6 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
 
     @Override
     public void gotoInput() {
-//        Intent comment_input = new Intent(this, InputActivity.class);
-//        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-//        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
-//        startActivity(comment_input);
         inputBoxLayout.showOrHideLayout(true);
         inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
             @Override
@@ -429,7 +424,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                moveToPosition(2);
+                moveToPosition(currentItem);
             }
         }, 300);
         appBar.setExpanded(false);

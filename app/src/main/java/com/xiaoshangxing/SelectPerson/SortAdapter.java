@@ -29,13 +29,16 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
     private int limit;
     private SelectPersonActivity activity;
     private ArrayList<String> locked;
+    private boolean isGroup;
 
-    public SortAdapter(Context mContext, List<SortModel> list, int limit, SelectPersonActivity activity, ArrayList<String> locked) {
+    public SortAdapter(Context mContext, List<SortModel> list, int limit,
+                       SelectPersonActivity activity, ArrayList<String> locked, boolean isGroup) {
         this.mContext = mContext;
         this.list = list;
         this.limit=limit;
         this.activity=activity;
         this.locked = locked;
+        this.isGroup = isGroup;
     }
 
     /**
@@ -101,7 +104,9 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
         }
 
         viewHolder.name.setText(this.list.get(position).getName());
-        UserInfoCache.getInstance().getHeadIntoImage(this.list.get(position).getAccount(), viewHolder.head);
+        if (!isGroup) {
+            UserInfoCache.getInstance().getHeadIntoImage(this.list.get(position).getAccount(), viewHolder.head);
+        }
 
         if (locked != null && locked.contains(list.get(position).getAccount())) {
             viewHolder.checkBox.setEnabled(false);

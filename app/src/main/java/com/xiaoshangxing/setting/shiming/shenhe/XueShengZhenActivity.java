@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,21 +12,37 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.xiaoshangxing.Network.InfoNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.RealNameInfo;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.shiming.vertify.VertifyActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BroadCast.FinishActivityRecever;
+import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.image.SaveImageTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 
 /**
  * Created by tianyang on 2016/9/19.
  */
-public class XueShengZhenActivity extends BaseActivity {
+public class XueShengZhenActivity extends BaseActivity implements IBaseView {
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -55,6 +72,8 @@ public class XueShengZhenActivity extends BaseActivity {
 
     private FinishActivityRecever finishActivityRecever;
     private static boolean flagLeft = false, flagRight = false;
+    private boolean isFailed;
+    public static RealNameInfo realNameInfo;
 
     @Bind(R.id.wrongLeft)
     ImageView wrongLeft;
@@ -71,13 +90,83 @@ public class XueShengZhenActivity extends BaseActivity {
         title.setText("实名认证");
         more.setVisibility(View.GONE);
         titleBottomLine.setVisibility(View.GONE);
+        if (getIntent().getBooleanExtra(IntentStatic.TYPE, false)) {
+            isFailed = true;
+            getInfo();
+        }
+    }
+
+    private void getInfo() {
+        ProgressSubscriberOnNext<ResponseBody> next = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case NS.CODE_200:
+                            Gson gson = new Gson();
+                            realNameInfo = gson.fromJson(jsonObject.getString(NS.MSG), RealNameInfo.class);
+                            refresh();
+                            break;
+                        default:
+                            showToast(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(next, this);
+        InfoNetwork.getInstance().queryRealInfo(subsciber, TempUser.getId(), this);
+    }
+
+    private void refresh() {
+        if (realNameInfo == null) {
+            return;
+        }
+        if (realNameInfo.getSidImages() != null) {
+            String[] images = realNameInfo.getSidImages().split(NS.SPLIT3);
+            if (images.length == 3) {
+                SimpleCallBack simpleCallBack = new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        loadImages();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                };
+                SaveImageTask saveLeft = new SaveImageTask(this, PreviewActivity.getLeftImgPath("XueShengZhen"), null, null);
+                saveLeft.setSimpleCallBack(simpleCallBack);
+                saveLeft.execute(images[0]);
+                SaveImageTask saveRight = new SaveImageTask(this, PreviewActivity.getRightImgPath("XueShengZhen"), null, null);
+                saveRight.setSimpleCallBack(simpleCallBack);
+                saveRight.execute(images[1]);
+                if (!images[2].equals("1")) {
+                    wrongLeft.setVisibility(View.VISIBLE);
+                    wrongRight.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        int x, y, width, height;
+        loadImages();
+    }
 
+    private void loadImages() {
+        int x, y, width, height;
         String pathLeft = PreviewActivity.getLeftImgPath("XueShengZhen");
         File fileLeft = new File(pathLeft);
         if (fileLeft.exists()) {
@@ -89,8 +178,6 @@ public class XueShengZhenActivity extends BaseActivity {
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageLeft.setImageBitmap(bitmap);
             flagLeft = true;
-//            fileLeft.delete();
-//            VertifyUtil.saveFile(bitmap, VertifyUtil.imgLeftName);
         }
 
         String pathRight = PreviewActivity.getRightImgPath("XueShengZhen");
@@ -104,15 +191,10 @@ public class XueShengZhenActivity extends BaseActivity {
             Bitmap bitmap = Bitmap.createBitmap(bm, x, y, width, height);
             imageRight.setImageBitmap(bitmap);
             flagRight = true;
-//            fileRight.delete();
-//            VertifyUtil.saveFile(bitmap, VertifyUtil.imgRightName);
         }
-
-//        setButtonStyleGreen();
 
         if (flagLeft && flagRight) setButtonStyleGreen();
         else resetButtonStyle();
-
     }
 
     @Override
@@ -124,7 +206,9 @@ public class XueShengZhenActivity extends BaseActivity {
     }
 
     public void Next(View view) {
-        startActivity(new Intent(this, VertifyActivity.class));
+        Intent intent = new Intent(this, VertifyActivity.class);
+        intent.putExtra(IntentStatic.TYPE, true);
+        startActivity(intent);
         //成功后跳转VertifySucessActivity
 //        startActivity(new Intent(this, VertifySucessActivity.class));
     }
@@ -164,5 +248,10 @@ public class XueShengZhenActivity extends BaseActivity {
     @OnClick(R.id.back)
     public void onClick() {
         finish();
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 }

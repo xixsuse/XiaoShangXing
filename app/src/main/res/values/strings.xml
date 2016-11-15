@@ -102,7 +102,7 @@
     <string name="submitted">已提交</string>
     <string name="report_evidence">请举证（留言可选填）</string>
     <string name="report_evidence_content">请详细填写，以确保投诉能够更准确快捷受理</string>
-    <string name="report_evidence_picture">图片证据</string>
+    <string name="report_evidence_picture">图片举证</string>
     <string name="submitted_content1">你的投诉已提交审核，我们会尽快处理。</string>
     <string name="submitted_content2">感谢你的支持！</string>
     <string name="album">相册</string>

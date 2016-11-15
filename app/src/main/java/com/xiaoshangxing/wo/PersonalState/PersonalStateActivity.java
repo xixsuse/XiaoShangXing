@@ -21,6 +21,7 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 
@@ -84,10 +85,9 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
     }
 
     private void initView() {
-
-        back.setPadding(0, 0, 0, 0);
+        back.setPadding(ScreenUtils.getAdapterPx(R.dimen.x18, this), 0, 0, 0);
         more.setImageResource(R.mipmap.bell);
-        more.setPadding(0, 0, 0, 0);
+        more.setPadding(0, 0, ScreenUtils.getAdapterPx(R.dimen.x18, this), 0);
         titleBottomLine.setVisibility(View.GONE);
 
         listView.setDividerHeight(0);

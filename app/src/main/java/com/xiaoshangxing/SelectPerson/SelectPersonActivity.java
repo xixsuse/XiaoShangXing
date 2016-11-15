@@ -55,6 +55,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     private List<String> selectPerson=new ArrayList<String>();
     private int noLimit = 1000;
     private int limit;
+    private boolean isGroup;
 
 
     private TextView cancel, title;
@@ -69,6 +70,9 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void initView(){
+
+        isGroup = getIntent().getIntExtra(IntentStatic.TYPE, MY_FRIEND) == GROUP;
+
         sortListView =(ListView)findViewById(R.id.listview);
         characterParser = CharacterParser.getInstance();
 
@@ -97,7 +101,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         recyclerView=(RecyclerView)findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        selectedPersonAdapter=new SelectedPersonAdapter(this,selectPerson,this);
+        selectedPersonAdapter = new SelectedPersonAdapter(this, selectPerson, this, isGroup);
         recyclerView.setAdapter(selectedPersonAdapter);
         //设置右侧触摸监听
         sideBar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
@@ -121,7 +125,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
 
         // 根据a-z进行排序源数据
         Collections.sort(SourceDateList, pinyinComparator);
-        adapter = new SortAdapter(this, SourceDateList,limit,this,locked_account);
+        adapter = new SortAdapter(this, SourceDateList, limit, this, locked_account, isGroup);
         sortListView.setAdapter(adapter);
 
     }
@@ -141,6 +145,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
         }else if (getIntent().getIntExtra(IntentStatic.TYPE, MY_FRIEND) == GROUP){
             List<Team> teams= TeamDataCache.getInstance().getAllTeams();
             SourceDateList=filledGroup(teams);
+            isGroup = true;
         }
     }
 

@@ -6,9 +6,8 @@
 
     <!--左侧布局-->
     <RelativeLayout
+        android:layout_width="@dimen/x220"
         android:id="@+id/left_lay"
-        android:paddingTop="@dimen/y96"
-        android:layout_width="@dimen/x208"
         android:layout_height="wrap_content">
         <!--日期-->
         <LinearLayout
@@ -22,18 +21,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="16"
+                android:textSize="25sp"
                 android:textColor="@color/b0"
-                android:textSize="23sp" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:paddingBottom="@dimen/y15"
+                android:paddingBottom="@dimen/y10"
                 android:text="七月"
                 android:textColor="@color/b0"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <!--地点-->
@@ -42,18 +42,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/date"
+            android:textColor="@color/g0"
             android:layout_marginTop="@dimen/y18"
-            android:textSize="12sp" />
+            android:textSize="13sp" />
 
     </RelativeLayout>
 
     <!--右侧布局-->
 
     <FrameLayout
-        android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/y96">
+        android:id="@+id/content"
+        android:layout_height="wrap_content">
 
     </FrameLayout>
 </LinearLayout>

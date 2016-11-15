@@ -299,8 +299,12 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         final View view = v;
         int[] xy = new int[2];
         v.getLocationInWindow(xy);
-        View menu = View.inflate(getContext(), R.layout.popup_yujian, null);
-
+        View menu;
+        if (isTagSet(recent, RECENT_TAG_STICKY)) {
+            menu = View.inflate(getContext(), R.layout.popup_yujian2, null);
+        } else {
+            menu = View.inflate(getContext(), R.layout.popup_yujian, null);
+        }
         final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
@@ -318,8 +322,12 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
                 -mShowMorePopupWindowHeight - v.getHeight());
 
         final TextView zhiding = (TextView) menu.findViewById(R.id.zhiding);
-        zhiding.setText(isTagSet(recent, RECENT_TAG_STICKY) ? "取消置顶" : "置顶");
+//        zhiding.setText(isTagSet(recent, RECENT_TAG_STICKY) ? "取消置顶" : "置顶");
         TextView delete = (TextView) menu.findViewById(R.id.delete);
+//        LinearLayout linearLayout = (LinearLayout) menu.findViewById(R.id.parent_lay);
+//        if (isTagSet(recent, RECENT_TAG_STICKY)) {
+//            linearLayout.setBackgroundResource(R.mipmap.popmenu_yujian2);
+//        }
 
         zhiding.setOnClickListener(new View.OnClickListener() {
             @Override

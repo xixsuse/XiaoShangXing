@@ -50,7 +50,6 @@ public class XueHaoActivity extends BaseActivity {
         finish.setAlpha(0.5f);
         finish.setEnabled(false);
 
-
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -73,7 +72,9 @@ public class XueHaoActivity extends BaseActivity {
 
             }
         });
-
+        if (VertifyActivity.xuehaoStr != null) {
+            editText.setText(VertifyActivity.xuehaoStr);
+        }
     }
 
     @OnClick({R.id.back, R.id.right_text})

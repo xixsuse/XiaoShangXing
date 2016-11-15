@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:paddingStart="@dimen/width_48"
-    android:paddingEnd="@dimen/width_48"
+    android:paddingStart="@dimen/x30"
+    android:paddingEnd="@dimen/x30"
     android:background="@color/w0"
     android:layout_width="match_parent"
     android:layout_height="match_parent">

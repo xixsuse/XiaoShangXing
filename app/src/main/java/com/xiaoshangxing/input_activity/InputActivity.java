@@ -398,7 +398,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         rewardPrice.addTextChangedListener(textWatcher);
         price.addTextChangedListener(textWatcher);
         timeLimit.addTextChangedListener(textWatcher);
-
+        selectedLocation.addTextChangedListener(textWatcher);
     }
 
     private void initPictureView() {
@@ -761,6 +761,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 break;
             case R.id.location:
                 Intent location_intent = new Intent(InputActivity.this, LocationActivity.class);
+                if (selected_location != null) {
+                    location_intent.putExtra(IntentStatic.DATA, selected_location);
+                }
                 startActivityForResult(location_intent, LocationActivity.LOCATION);
                 break;
             case R.id.picture:

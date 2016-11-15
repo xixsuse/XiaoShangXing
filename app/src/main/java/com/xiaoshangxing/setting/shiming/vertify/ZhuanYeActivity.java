@@ -103,6 +103,9 @@ public class ZhuanYeActivity extends BaseActivity implements IBaseView {
             }
         });
         getCollege();
+        if (VertifyActivity.professional != null) {
+            editText.setText(VertifyActivity.professional);
+        }
     }
 
     private void initListview() {

@@ -407,6 +407,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     private void showFavorSuccess() {
         bt1.setChecked(true);
         bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_select);
+        bt1.setText("取消");
 
         DialogUtils.Dialog_Linxin dialog_no_button =
                 new DialogUtils.Dialog_Linxin(this, "已添加到我留心的人");
