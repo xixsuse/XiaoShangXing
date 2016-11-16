@@ -136,8 +136,8 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     private void initView() {
         title.setText("校历资讯");
         leftText.setText(R.string.xiaoshang);
+        more.setPadding(0, 0, ScreenUtils.getAdapterPx(R.dimen.x48, getContext()), 0);
         more.setImageResource(R.mipmap.nav_xiaoli);
-        more.setPadding(0, 0, ScreenUtils.getAdapterPx(R.dimen.width_48, getContext()), 0);
 
         allDatas = new ArrayList<>();
         previous = new ArrayList<>();
