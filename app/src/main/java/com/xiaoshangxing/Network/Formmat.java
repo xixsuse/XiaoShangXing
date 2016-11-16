@@ -8,11 +8,16 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.xiaoshangxing.Network.netUtil.MultipartUtility;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +36,7 @@ public class Formmat {
     private Handler handler;
     private SimpleCallBack simpleCallBack;
     private String successToast;
+    private String Failmsg;
 
     public Formmat(final IBaseView iBaseView, final Activity context, String path) {
         this.iBaseView = iBaseView;
@@ -60,9 +66,14 @@ public class Formmat {
                         iBaseView.hideLoadingDialog();
                         break;
                     case 4:
-                        iBaseView.showToast("上传出现异常:4");
+                        if (Failmsg != null) {
+                            iBaseView.showToast(Failmsg);
+                        }
                         iBaseView.hideLoadingDialog();
                         break;
+                    case 5:
+                        iBaseView.showToast("数据解析异常");
+                        iBaseView.hideLoadingDialog();
                     default:
                         iBaseView.hideLoadingDialog();
                         iBaseView.showToast("" + msg.what);
@@ -139,21 +150,31 @@ public class Formmat {
             String result_String = result.toString();
             Log.d("result", "--" + result_String);
 
-//            JSONObject jsonObject = new JSONObject(result_String);
-//            switch (jsonObject.getInt(NS.CODE)) {
-//                case 200:
-//                    endLoading(2);
-//                    break;
-//                default:
-//                    endLoading(jsonObject.getInt(NS.CODE));
-//                    break;
-//
-//            }
-            if (result_String.contains("200")) {
-                endLoading(2);
-            } else {
-                endLoading(4);
+            JSONObject jsonObject = null;
+            try {
+                JSONArray jsonArray = new JSONArray(result_String);
+                jsonObject = jsonArray.getJSONObject(0);
+                switch (jsonObject.getInt(NS.CODE)) {
+                    case 200:
+                        endLoading(2);
+                        break;
+                    default:
+                        Failmsg = jsonObject.getString(NS.MSG);
+                        endLoading(4);
+                        break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                e.printStackTrace();
+                endLoading(3);
             }
+
+//            if (result_String.contains("200")) {
+//                endLoading(2);
+//            } else {
+//
+//                endLoading(4);
+//            }
         } catch (IOException e) {
             e.printStackTrace();
             endLoading(3);
