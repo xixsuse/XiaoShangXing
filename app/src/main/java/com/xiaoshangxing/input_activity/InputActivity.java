@@ -182,6 +182,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
     private List<String> iamgeurls = new ArrayList<String>();
     private PictureAdapter adapter;
     private ShowSelectPictureAdapter showSelectPictureAdapter;
+    private String[] locations;
 
     private GridView gridView;
 
@@ -488,13 +489,13 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     private void initLocation() {
-        final String[] location = getResources().getStringArray(R.array.JN_Dormitory);
-        selectLocation.setViewAdapter(new ArrayWheelAdapter<String>(this, location));
+        locations = getResources().getStringArray(R.array.JN_Dormitory);
+        selectLocation.setViewAdapter(new ArrayWheelAdapter<String>(this, locations));
         selectLocation.setVisibleItems(6);
         selectLocation.addChangingListener(new OnWheelChangedListener() {
             @Override
             public void onChanged(WheelView wheel, int oldValue, int newValue) {
-                selectedLocation.setText(location[newValue]);
+                selectedLocation.setText(locations[newValue]);
             }
         });
         selectedLocation.setOnClickListener(new View.OnClickListener() {
@@ -798,6 +799,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 setSelect_image_urls(adapter.getSelect_image_urls());
                 break;
             case R.id.select_location_imag:
+                selectedLocation.setText(locations[0]);
                 pictureLay.setVisibility(View.GONE);
                 emotLay.setVisibility(View.GONE);
                 selectLocation.setVisibility(View.VISIBLE);

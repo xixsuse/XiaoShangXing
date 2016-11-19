@@ -15,7 +15,6 @@ import com.xiaoshangxing.setting.personalinfo.QianMing.QianMingFragment;
 import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
-import com.xiaoshangxing.setting.shiming.result.VertifyFailedActivity;
 import com.xiaoshangxing.setting.shiming.result.VertifySucessActivity;
 import com.xiaoshangxing.setting.shiming.result.VertifyingActivity;
 import com.xiaoshangxing.setting.shiming.shenhe.XueShengZhenActivity;

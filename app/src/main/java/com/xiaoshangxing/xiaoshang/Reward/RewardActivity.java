@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import com.xiaoshangxing.xiaoshang.Reward.PersonalReward.PersonalRewardFragment;
 import com.xiaoshangxing.xiaoshang.Reward.RewardCollect.RewardCollectFragment;
 import com.xiaoshangxing.xiaoshang.Reward.RewardFragment.RewardFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,6 +49,7 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
     private boolean isCollect;//记录是否是collect界面在显示
 
     private int transmitedId = -1;
+    private List<String> publishIdsForTransmit = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +157,11 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
         }
     }
 
+    /**
+     * description:转发一条动态给多个好友
+     *
+     * @param id 动态组
+     */
     public void showTransmitDialog(final List<String> id) {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
@@ -212,6 +220,66 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
         LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
     }
 
+    /**
+     * description:转发多天动态给一个好友
+     *
+     * @param userId 好友id
+     * @return
+     */
+
+    public void showTransmitDialog2(final String userId) {
+
+        if (publishIdsForTransmit.isEmpty()) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
+        View dialogView = View.inflate(this, R.layout.transmit_dialog_2, null);
+        dialog.setContentView(dialogView);
+
+        TextView cancle = (TextView) dialogView.findViewById(R.id.cancel);
+        TextView send = (TextView) dialogView.findViewById(R.id.send);
+        CirecleImage head = (CirecleImage) dialogView.findViewById(R.id.head_image);
+        TextView name = (TextView) dialogView.findViewById(R.id.name);
+        TextView count = (TextView) dialogView.findViewById(R.id.count);
+        final EditText input = (EditText) dialogView.findViewById(R.id.input);
+
+        UserInfoCache.getInstance().getHeadIntoImage(userId, head);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        count.setText("[逐条转发]共" + publishIdsForTransmit.size() + "条信息");
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OperateUtils.TranmitMoreToOne(publishIdsForTransmit, NS.CATEGORY_REWARD, userId, RewardActivity.this, input.getText().toString(),
+                        new SimpleCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                showTransmitSuccess();
+                                publishIdsForTransmit.clear();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                publishIdsForTransmit.clear();
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+
+                            }
+                        });
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+    }
     @Override
     public void showTransmitSuccess() {
         DialogUtils.Dialog_No_Button dialog_no_button =
@@ -239,12 +307,26 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
         startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
+    public void gotoSelectOnePerson() {
+        Intent intent = new Intent(this, SelectPersonActivity.class);
+        intent.putExtra(SelectPersonActivity.LIMIT, 1);
+        startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE_2);
+    }
+
     public int getTransmitedId() {
         return transmitedId;
     }
 
     public void setTransmitedId(int transmitedId) {
         this.transmitedId = transmitedId;
+    }
+
+    public List<String> getPublishIdsForTransmit() {
+        return publishIdsForTransmit;
+    }
+
+    public void setPublishIdsForTransmit(List<String> publishIdsForTransmit) {
+        this.publishIdsForTransmit = publishIdsForTransmit;
     }
 
     @Override
@@ -255,6 +337,14 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size()>0){
                     showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON));
                 }else {
+                    showToast("未选择联系人");
+                }
+            }
+        } else if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE_2) {
+            if (data != null) {
+                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() == 1) {
+                    showTransmitDialog2(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).get(0));
+                } else {
                     showToast("未选择联系人");
                 }
             }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class PersonalSale_Adpter extends ArrayAdapter<Published> {
     private SaleActivity activity;
     protected Handler handler;
     private boolean showselect;
+    private List<String> selectIds = new ArrayList<>();
 
     public PersonalSale_Adpter(Context context, int resource, List<Published> objects,
                                PersonalSaleFragment fragment, SaleActivity activity) {
@@ -99,6 +101,24 @@ public class PersonalSale_Adpter extends ArrayAdapter<Published> {
             }
         });
 
+//        viewHolder.pictures.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                showMenu(view, position);
+//                view.setBackgroundColor(context.getResources().getColor(R.color.g1));
+//                return false;
+//            }
+//        });
+
+
+        final View finalConvertView = convertView;
+        viewHolder.pictures.setOnLongClickListener(new NoScrollGridView.myOnLongClickListener() {
+            @Override
+            public void onLongClick() {
+                finalConvertView.performLongClick();
+            }
+        });
+
 
         viewHolder.iscomplete.setChecked(published.isAlive());
         viewHolder.iscomplete.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +153,27 @@ public class PersonalSale_Adpter extends ArrayAdapter<Published> {
             viewHolder.iscomplete.setVisibility(View.VISIBLE);
             viewHolder.checkbox.setVisibility(View.GONE);
         }
+
+        final String publishId = String.valueOf(published.getId());
+
+        if (selectIds.contains(publishId)) {
+            viewHolder.checkbox.setChecked(true);
+        } else {
+            viewHolder.checkbox.setChecked(false);
+        }
+
+        viewHolder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (!selectIds.contains(publishId)) {
+                        selectIds.add(publishId);
+                    }
+                } else {
+                    selectIds.remove(publishId);
+                }
+            }
+        });
 
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -237,6 +278,14 @@ public class PersonalSale_Adpter extends ArrayAdapter<Published> {
     public void showSelectCircle(boolean is) {
         showselect = is;
         notifyDataSetChanged();
+    }
+
+    public List<String> getSelectIds() {
+        return selectIds;
+    }
+
+    public void setSelectIds(List<String> selectIds) {
+        this.selectIds = selectIds;
     }
 
 

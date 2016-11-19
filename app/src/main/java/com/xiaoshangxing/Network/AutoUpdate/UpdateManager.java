@@ -139,7 +139,7 @@ public class UpdateManager {
 
 //        final Dialog dialog = new Dialog(mContext, R.style.ActionSheetDialog);
 //        LinearLayout linearLayout = (LinearLayout) View
-//                .inflate(mContext, R.layout.dialog_update, null);
+//                .inflateChild(mContext, R.layout.dialog_update, null);
 //
 //        TextView message = (TextView) linearLayout.findViewById(R.id.dialog_message);
 //        message.setText(updateMsg);

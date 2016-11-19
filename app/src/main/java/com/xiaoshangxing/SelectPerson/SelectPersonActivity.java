@@ -37,6 +37,7 @@ public class SelectPersonActivity extends BaseActivity implements View.OnClickLi
     public static final String REQUSET_CODE="REQUSET_CODE";
     public static final String LIMIT="limit";
     public static final int SELECT_PERSON_CODE=9000;
+    public static final int SELECT_PERSON_CODE_2 = 9001;
     public static final int MY_FRIEND = 1;
     public static final int GROUP = 2;
     private int group_id;

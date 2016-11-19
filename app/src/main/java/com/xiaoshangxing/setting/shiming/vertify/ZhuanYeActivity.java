@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -65,6 +64,7 @@ public class ZhuanYeActivity extends BaseActivity implements IBaseView {
     private List<String> strings = new ArrayList<>();
     private ArrayAdapter<String> mAdapter;
     private HashMap<String, String> hashMap = new HashMap<>();
+    private CheckTextviewAdpter adpter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,7 @@ public class ZhuanYeActivity extends BaseActivity implements IBaseView {
                     finish.setEnabled(true);
                     finish.setAlpha(1);
                 }
+                refreshChecked(editText.getText().toString());
             }
         });
         getCollege();
@@ -109,14 +110,30 @@ public class ZhuanYeActivity extends BaseActivity implements IBaseView {
     }
 
     private void initListview() {
-        mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, strings);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, strings);
+//        mListView.setAdapter(mAdapter);
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                editText.setText(mAdapter.getItem(position));
+//            }
+//        });
+        adpter = new CheckTextviewAdpter(this, R.layout.item_nodisturb, strings);
+        mListView.setAdapter(adpter);
+        adpter.setCallback(new CheckTextviewAdpter.Callback() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                editText.setText(mAdapter.getItem(position));
+            public void callback(String string) {
+                editText.setText(string);
             }
         });
+    }
+
+    private void refreshChecked(String string) {
+        if (strings.contains(string)) {
+            adpter.setCheckedPosition(strings.indexOf(string));
+        } else {
+            adpter.setCheckedPosition(-1);
+        }
     }
 
     private void getCollege() {

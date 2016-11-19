@@ -103,8 +103,8 @@
 
             <!--图片内容-->
             <com.xiaoshangxing.wo.WoFrafment.NoScrollGridView
+                android:layout_width="wrap_content"
                 android:id="@+id/pictures"
-                android:layout_width="@dimen/x852"
                 android:layout_height="@dimen/y272"
                 android:columnWidth="@dimen/x272"
                 android:gravity="start"

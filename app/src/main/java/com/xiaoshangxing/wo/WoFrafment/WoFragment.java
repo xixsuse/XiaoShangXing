@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -36,6 +35,7 @@ import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +57,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private ListView listView;
     private PtrFrameLayout ptrFrameLayout;
     private List<String> list = new ArrayList<String>();
-    //    private Wo_listview_adpter adpter;
-    private WoAdapter adpter;
 
     private RelativeLayout title;
 
@@ -260,9 +258,15 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initListview() {
-        publisheds = realm.where(Published.class)
-                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
-                .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
+        try {
+            publisheds = realm.where(Published.class)
+                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
+                    .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
 
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);

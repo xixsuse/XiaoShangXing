@@ -11,13 +11,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Notice;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,8 +55,10 @@ public class MessageNoticeActivity extends BaseActivity implements MessageNotice
     private boolean isRefreshing;
     private boolean isLoading;
     private Message_adpter message_adpter;
+    private NoticeAdpter adpter;
     private ArrayList<String> list = new ArrayList<String>();
     private MessageNoticeContract.Presenter mPresenter;
+    private List<Notice> notices = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +100,8 @@ public class MessageNoticeActivity extends BaseActivity implements MessageNotice
                 }
             }
         });
+        listview.setPadding(ScreenUtils.getAdapterPx(R.dimen.x24, this), 0, ScreenUtils.getAdapterPx(R.dimen.x24, this), 0);
+        listview.setDividerHeight(ScreenUtils.getAdapterPx(R.dimen.y56, this));
         refreshPager();
     }
 
@@ -122,7 +129,13 @@ public class MessageNoticeActivity extends BaseActivity implements MessageNotice
             list.add("" + i);
         }
         message_adpter = new Message_adpter(this, 1, list);
-        listview.setAdapter(message_adpter);
+//        listview.setAdapter(message_adpter);
+
+        for (int i = 0; i <= 10; i++) {
+            notices.add(new Notice());
+        }
+        adpter = new NoticeAdpter(this, 1, notices);
+        listview.setAdapter(adpter);
     }
 
     @Override

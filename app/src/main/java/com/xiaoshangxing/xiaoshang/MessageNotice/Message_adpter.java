@@ -90,9 +90,9 @@ public class Message_adpter extends ArrayAdapter<String> {
         EmotinText responsedText;
         @Bind(R.id.self_response_lay)
         LinearLayout selfResponseLay;
-        @Bind(R.id.piblished_person)
+        @Bind(R.id.published_person)
         TextView piblishedPerson;
-        @Bind(R.id.piblished_text)
+        @Bind(R.id.published_text)
         EmotinText piblishedText;
 
         ViewHolder(View view) {

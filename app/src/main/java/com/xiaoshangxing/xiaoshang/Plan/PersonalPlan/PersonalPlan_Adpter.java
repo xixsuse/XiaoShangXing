@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -27,6 +28,7 @@ import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -43,6 +45,7 @@ public class PersonalPlan_Adpter extends ArrayAdapter<Published> {
     private PlanActivity activity;
     protected Handler handler;
     private boolean showselect;
+    private List<String> selectIds = new ArrayList<>();
 
     public PersonalPlan_Adpter(Context context, int resource, List<Published> objects,
                                PersonalPlanFragment fragment, PlanActivity activity) {
@@ -126,6 +129,27 @@ public class PersonalPlan_Adpter extends ArrayAdapter<Published> {
             viewHolder.iscomplete.setVisibility(View.VISIBLE);
             viewHolder.checkbox.setVisibility(View.GONE);
         }
+
+        final String publishId = String.valueOf(published.getId());
+
+        if (selectIds.contains(publishId)) {
+            viewHolder.checkbox.setChecked(true);
+        } else {
+            viewHolder.checkbox.setChecked(false);
+        }
+
+        viewHolder.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (!selectIds.contains(publishId)) {
+                        selectIds.add(publishId);
+                    }
+                } else {
+                    selectIds.remove(publishId);
+                }
+            }
+        });
 
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -230,6 +254,14 @@ public class PersonalPlan_Adpter extends ArrayAdapter<Published> {
     public void showSelectCircle(boolean is) {
         showselect = is;
         notifyDataSetChanged();
+    }
+
+    public List<String> getSelectIds() {
+        return selectIds;
+    }
+
+    public void setSelectIds(List<String> selectIds) {
+        this.selectIds = selectIds;
     }
 
 

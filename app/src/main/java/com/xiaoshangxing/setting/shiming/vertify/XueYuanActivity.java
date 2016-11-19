@@ -7,10 +7,8 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -67,6 +65,7 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
     private List<String> strings = new ArrayList<>();
     private ArrayAdapter<String> mAdapter;
     private HashMap<String, String> hashMap = new HashMap<>();
+    private CheckTextviewAdpter adpter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +104,7 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
                     next.setEnabled(true);
                     next.setAlpha(1);
                 }
+                refreshChecked(editText.getText().toString());
             }
         });
         getSchool();
@@ -114,14 +114,22 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
     }
 
     private void initListview() {
-        mAdapter = new ArrayAdapter<String>(this, R.layout.item_nodisturb, strings);
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adpter = new CheckTextviewAdpter(this, R.layout.item_nodisturb, strings);
+        mListView.setAdapter(adpter);
+        adpter.setCallback(new CheckTextviewAdpter.Callback() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                editText.setText(mAdapter.getItem(position));
+            public void callback(String string) {
+                editText.setText(string);
             }
         });
+    }
+
+    private void refreshChecked(String string) {
+        if (strings.contains(string)) {
+            adpter.setCheckedPosition(strings.indexOf(string));
+        } else {
+            adpter.setCheckedPosition(-1);
+        }
     }
 
     private void getSchool() {
@@ -171,7 +179,6 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
                 } else {
                     VertifyActivity.collegeId = null;
                 }
-                Log.d("collegeId", "" + VertifyActivity.collegeId);
                 startActivity(new Intent(this, ZhuanYeActivity.class));
                 break;
         }

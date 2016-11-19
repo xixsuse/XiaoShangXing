@@ -39,6 +39,7 @@ import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.MessageListView;
 import com.xiaoshangxing.utils.layout.MsgBkImageView;
+import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoObservable;
@@ -202,7 +203,8 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
 //            }
 //            getStar();
 //        }
-        if (!FriendDataCache.getInstance().isMyFriend(sessionId)) {
+
+        if (!FriendDataCache.getInstance().isMyFriend(sessionId) && !NimUIKit.getAccount().equals(sessionId)) {
             title.setText("临时会话");
         } else {
             title.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
@@ -329,7 +331,7 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
         rootView = findViewById(R.id.messageActivityLayout);
 //      初始化消息面板
         if (messageListPanel == null) {
-//            View rootView = View.inflate(this, R.layout.nim_message_fragment, null);
+//            View rootView = View.inflateChild(this, R.layout.nim_message_fragment, null);
             messageListPanel = new MessageListPanel(container, rootView, anchor, false, false);
         } else {
             messageListPanel.reload(container, anchor);

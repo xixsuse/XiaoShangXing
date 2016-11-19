@@ -19,6 +19,7 @@ import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.xiaoshang.Calendar.CalendarActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
+import com.xiaoshangxing.xiaoshang.MessageNotice.MessageNoticeActivity;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;

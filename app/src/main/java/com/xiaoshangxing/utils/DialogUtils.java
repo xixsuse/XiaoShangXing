@@ -94,7 +94,7 @@ public class DialogUtils {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     TextView view = (TextView) super.getView(position, convertView, parent);
-//                    LinearLayout view = (LinearLayout) getLayoutInflater().inflate(R.layout.textview_144,null);
+//                    LinearLayout view = (LinearLayout) getLayoutInflater().inflateChild(R.layout.textview_144,null);
                     setBackground(position, view);
                     return view;
                 }

@@ -4,15 +4,21 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.layout.Name;
 
 import java.util.List;
 import java.util.Random;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by FengChaoQun
@@ -28,57 +34,76 @@ public class newsAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view;
-        final viewHolder holder;
+        ViewHolder viewHolder = null;
         if (convertView == null) {
-            holder = new viewHolder();
-            view =  View.inflate(context, R.layout.item_news_listview, null);
-            holder.head = (CirecleImage) view.findViewById(R.id.head_image);
-            holder.name=(TextView)view.findViewById(R.id.name);
-            holder.praise=(ImageView)view.findViewById(R.id.praise);
-            holder.comment_text = (EmotinText) view.findViewById(R.id.comment_text);
-            holder.time=(TextView)view.findViewById(R.id.time);
-            holder.image=(ImageView)view.findViewById(R.id.image);
-            holder.text = (EmotinText) view.findViewById(R.id.text);
-            view.setTag(holder);
-        }else {
-            view=convertView;
-            holder=(viewHolder) view.getTag();
-            cleanView(holder);
+            convertView = View.inflate(context, R.layout.item_news_listview, null);
+            viewHolder = new ViewHolder(convertView);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-//        test
-        Random random = new Random();
-        int num=random.nextInt(10);
-        if (num>=5){
-                holder.praise.setVisibility(View.VISIBLE);
-        }else {
-            holder.comment_text.setVisibility(View.VISIBLE);
+        Random random = new Random(NS.currentTime());
+        int a = random.nextInt(100);
+        switch (a % 3) {
+            case 0:
+                viewHolder.praise.setVisibility(View.VISIBLE);
+                viewHolder.commentText.setVisibility(View.GONE);
+                break;
+            case 1:
+                viewHolder.praise.setVisibility(View.GONE);
+                viewHolder.commentText.setVisibility(View.VISIBLE);
+                viewHolder.commentText.setText("哈哈哈哈哈哈哈");
+                break;
+            case 2:
+                viewHolder.praise.setVisibility(View.GONE);
+                viewHolder.commentText.setVisibility(View.VISIBLE);
+                viewHolder.commentText.setText("同时提到了你");
+                break;
         }
 
-        int num2=random.nextInt(10);
-        if (num2>=5){
-            holder.image.setVisibility(View.VISIBLE);
-        }else {
-            holder.text.setVisibility(View.VISIBLE);
+        switch (a % 2) {
+            case 0:
+                viewHolder.image.setVisibility(View.VISIBLE);
+                viewHolder.text.setVisibility(View.GONE);
+                break;
+            case 1:
+                viewHolder.image.setVisibility(View.GONE);
+                viewHolder.text.setVisibility(View.VISIBLE);
+                break;
         }
-        return view;
+
+        return convertView;
     }
 
-    private void cleanView(viewHolder holder){
-        holder.praise.setVisibility(View.GONE);
-        holder.comment_text.setVisibility(View.GONE);
-        holder.image.setVisibility(View.GONE);
-        holder.text.setVisibility(View.GONE);
-    }
+//    private void cleanView(viewHolder holder) {
+//        holder.praise.setVisibility(View.GONE);
+//        holder.comment_text.setVisibility(View.GONE);
+//        holder.image.setVisibility(View.GONE);
+//        holder.text.setVisibility(View.GONE);
+//    }
 
-    private static class viewHolder {
-        private CirecleImage head;
-        private TextView name;
-        private ImageView praise;
-        private EmotinText comment_text;
-        private TextView time;
-        private ImageView image;
-        private EmotinText text;
+
+    static class ViewHolder {
+        @Bind(R.id.head_image)
+        CirecleImage headImage;
+        @Bind(R.id.name)
+        Name name;
+        @Bind(R.id.praise)
+        ImageView praise;
+        @Bind(R.id.comment_text)
+        EmotinText commentText;
+        @Bind(R.id.time)
+        TextView time;
+        @Bind(R.id.image)
+        ImageView image;
+        @Bind(R.id.text)
+        EmotinText text;
+        @Bind(R.id.right_layout)
+        FrameLayout rightLayout;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }

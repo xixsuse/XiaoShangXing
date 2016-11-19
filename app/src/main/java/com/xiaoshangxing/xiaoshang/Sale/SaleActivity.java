@@ -28,10 +28,12 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 import com.xiaoshangxing.xiaoshang.Sale.PersonalSale.PersonalSaleFragment;
 import com.xiaoshangxing.xiaoshang.Sale.SaleCollect.SaleCollectFragment;
 import com.xiaoshangxing.xiaoshang.Sale.SaleFrafment.SaleFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,6 +50,7 @@ public class SaleActivity extends BaseActivity implements IBaseView {
     private boolean isHideMenu;//记录是否需要点击返回键隐藏菜单
 
     private int transmitedId = -1;
+    private List<String> publishIdsForTransmit = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,6 +136,12 @@ public class SaleActivity extends BaseActivity implements IBaseView {
         startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
+    public void gotoSelectOnePerson() {
+        Intent intent = new Intent(this, SelectPersonActivity.class);
+        intent.putExtra(SelectPersonActivity.LIMIT, 1);
+        startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE_2);
+    }
+
     public int getTransmitedId() {
         return transmitedId;
     }
@@ -203,6 +212,68 @@ public class SaleActivity extends BaseActivity implements IBaseView {
         LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
     }
 
+    /**
+     * description:转发多天动态给一个好友
+     *
+     * @param userId 好友id
+     * @return
+     */
+
+    public void showTransmitDialog2(final String userId) {
+
+        if (publishIdsForTransmit.isEmpty()) {
+            return;
+        }
+
+        final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
+        View dialogView = View.inflate(this, R.layout.transmit_dialog_2, null);
+        dialog.setContentView(dialogView);
+
+        TextView cancle = (TextView) dialogView.findViewById(R.id.cancel);
+        TextView send = (TextView) dialogView.findViewById(R.id.send);
+        CirecleImage head = (CirecleImage) dialogView.findViewById(R.id.head_image);
+        TextView name = (TextView) dialogView.findViewById(R.id.name);
+        TextView count = (TextView) dialogView.findViewById(R.id.count);
+        final EditText input = (EditText) dialogView.findViewById(R.id.input);
+
+        UserInfoCache.getInstance().getHeadIntoImage(userId, head);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        count.setText("[逐条转发]共" + publishIdsForTransmit.size() + "条信息");
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OperateUtils.TranmitMoreToOne(publishIdsForTransmit, NS.CATEGORY_SALE, userId, SaleActivity.this, input.getText().toString(),
+                        new SimpleCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                showTransmitSuccess();
+                                publishIdsForTransmit.clear();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                publishIdsForTransmit.clear();
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+
+                            }
+                        });
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+    }
+
+
     public void showTransmitSuccess() {
         DialogUtils.Dialog_No_Button dialog_no_button =
                 new DialogUtils.Dialog_No_Button(SaleActivity.this, "已分享");
@@ -234,6 +305,14 @@ public class SaleActivity extends BaseActivity implements IBaseView {
 
     }
 
+    public List<String> getPublishIdsForTransmit() {
+        return publishIdsForTransmit;
+    }
+
+    public void setPublishIdsForTransmit(List<String> publishIdsForTransmit) {
+        this.publishIdsForTransmit = publishIdsForTransmit;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -241,6 +320,14 @@ public class SaleActivity extends BaseActivity implements IBaseView {
             if (data != null) {
                 if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
                     showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON));
+                } else {
+                    showToast("未选择联系人");
+                }
+            }
+        } else if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE_2) {
+            if (data != null) {
+                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() == 1) {
+                    showTransmitDialog2(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).get(0));
                 } else {
                     showToast("未选择联系人");
                 }

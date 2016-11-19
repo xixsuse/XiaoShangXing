@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.OrderedRealmCollection;
@@ -41,6 +44,7 @@ public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
     private boolean showselect;
     private HelpActivity activity;
     Realm realm;
+    private List<String> selectIds = new ArrayList<>();
 
     public PersonalHelpAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<Published> data,
                                PersonalHelpFragment fragment, Realm realm, HelpActivity activity) {
@@ -74,7 +78,6 @@ public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
 
         final Published published = publisheds.get(position);
 
-        viewholder.checkBox.setChecked(false);
         if (showselect) {
             viewholder.iscomplete.setVisibility(View.INVISIBLE);
             viewholder.checkBox.setVisibility(View.VISIBLE);
@@ -82,6 +85,28 @@ public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
             viewholder.iscomplete.setVisibility(View.VISIBLE);
             viewholder.checkBox.setVisibility(View.GONE);
         }
+
+        final String publishId = String.valueOf(published.getId());
+
+        if (selectIds.contains(publishId)) {
+            viewholder.checkBox.setChecked(true);
+        } else {
+            viewholder.checkBox.setChecked(false);
+        }
+
+        viewholder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (!selectIds.contains(publishId)) {
+                        selectIds.add(publishId);
+                    }
+                } else {
+                    selectIds.remove(publishId);
+                }
+                Log.d("selected", selectIds.toString());
+            }
+        });
 
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -201,10 +226,6 @@ public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
             public void onClick(View v) {
                 activity.setTransmitedId(publisheds.get(position).getId());
                 activity.gotoSelectPerson();
-//                Intent intent = new Intent(context, SelectPersonActivity.class);
-//                intent.putExtra(SelectPersonActivity.LIMIT, 1);
-
-//                activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
                 popupWindow.dismiss();
             }
         });
@@ -231,6 +252,14 @@ public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
     public void showSelectCircle(boolean is) {
         showselect = is;
         notifyDataSetChanged();
+    }
+
+    public List<String> getSelectIds() {
+        return selectIds;
+    }
+
+    public void setSelectIds(List<String> selectIds) {
+        this.selectIds = selectIds;
     }
 
 }

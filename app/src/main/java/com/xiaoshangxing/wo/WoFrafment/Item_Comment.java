@@ -124,4 +124,33 @@ public class Item_Comment {
         textView.setMovementMethod(LinkMovementMethod.getInstance());
         return this.textView;
     }
+
+    /**
+     * description:获取如【某某：巴拉巴拉】格式的textview  用在校上新消息里
+     *
+     * @param id       评论人id
+     * @param name     评论人name
+     * @param text     评论的内容
+     * @param textView 要填充内容的textView
+     */
+
+    public static void getComment(final String id, String name, String text, final Context context, TextView textView) {
+        SpannableString spannableString = new SpannableString(name);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+                Intent intent = new Intent(context, PersonalStateActivity.class);
+                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, id);
+                context.startActivity(intent);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                ds.setColor(context.getResources().getColor(R.color.blue1));
+                ds.setUnderlineText(false);
+            }
+        }, 0, spannableString.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        textView.append(spannableString);
+        textView.append(":" + text);
+    }
 }

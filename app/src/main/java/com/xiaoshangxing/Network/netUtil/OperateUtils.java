@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -167,109 +168,94 @@ public class OperateUtils {
         PublishNetwork.getInstance().deletePublished(subsciber, jsonObject, context);
     }
 
-
     /**
-     * description:转发一条动态给好友  目前仅限一次一人
-     *
-     * @param publishedId 动态id
-     * @param categry     动态类型
-     * @param personId    转发对象id
-     * @param text1       转发时说的话  可为空
+     *description:删除多条动态
+     *@param publishedIds 动态id组
      */
 
-//    public static void Tranmit(final int publishedId, String categry, final String personId,
-//                               final IBaseView iBaseView, final String text1, final SimpleCallBack callback) {
-//        IMMessage imMessage = null;
-//        TransmitMessage_NoImage noImage = null;
-//        TransmitMessage_WithImage transmitMessage_withImage = null;
-//        int type;
-//        switch (categry) {
-//            case NS.CATEGORY_REWARD:
-//                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Reward);
-//                noImage.setState_id(publishedId);
-//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
-//                type = CustomAttachmentType.Reward;
-//                break;
-//            case NS.CATEGORY_HELP:
-//                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Help);
-//                noImage.setState_id(publishedId);
-//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
-//                type = CustomAttachmentType.Help;
-//                break;
-//            case NS.CATEGORY_PLAN:
-//                noImage = new TransmitMessage_NoImage(CustomAttachmentType.Plan);
-//                noImage.setState_id(publishedId);
-//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
-//                type = CustomAttachmentType.Plan;
-//                break;
-//            case NS.CATEGORY_SALE:
-//                transmitMessage_withImage = new TransmitMessage_WithImage(CustomAttachmentType.Sale);
-//                transmitMessage_withImage.setState_id(publishedId);
-//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, transmitMessage_withImage);
-//                type = CustomAttachmentType.Sale;
-//                break;
-//            case NS.APPLY_PLAN:
-//                ApplyPlanMessage applyPlanMessage = new ApplyPlanMessage();
-//                applyPlanMessage.setState_id(publishedId);
-//                imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, applyPlanMessage);
-//                type = CustomAttachmentType.ApplyPlan;
-//                break;
-//            default:
-//                return;
-//        }
-//
-//        if (!TextUtils.isEmpty(text1)) {
-//            IMMessage text = MessageBuilder.createTextMessage(personId, SessionTypeEnum.P2P,
-//                    text1);
-//            Map<String, Object> map = new HashMap<>();
-//            map.put(NS.TYPE, type);
-//            text.setRemoteExtension(map);
-//            sendTransmitMessage(imMessage, text, callback, iBaseView);
-//        } else {
-//            sendTransmitMessage(imMessage, null, callback, iBaseView);
-//        }
-//    }
+    public static void deletePublisheds(final List<String> publishedIds, final Context context, final IBaseView iBaseView,
+                                        final SimpleCallBack callback) {
+
+        if (publishedIds.size() == 0) {
+            return;
+        }
+
+        final List<String> arrayList = /*new ArrayList<>();*/
+                Collections.synchronizedList(new ArrayList<String>());
+
+        iBaseView.showLoadingDialog("删除中");
+        for (final String id : publishedIds) {
+            Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                    if (callback != null) {
+                        callback.onError(e);
+                        iBaseView.hideLoadingDialog();
+                    }
+                }
+
+                @Override
+                public void onNext(ResponseBody responseBody) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(responseBody.string());
+                        switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+                            case 8001:
+                                Realm realm = Realm.getDefaultInstance();
+                                realm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        realm.where(Published.class).equalTo(NS.ID, Integer.valueOf(id)).findFirst().deleteFromRealm();
+                                    }
+                                });
+                                realm.close();
+                                arrayList.add(id);
+                                if (arrayList.size() == publishedIds.size() && callback != null) {
+                                    callback.onSuccess();
+                                    iBaseView.hideLoadingDialog();
+                                }
+                                break;
+                            default:
+                                iBaseView.showToast(jsonObject.getString(NS.MSG));
+                                if (callback != null) {
+                                    callback.onError(null);
+                                    iBaseView.hideLoadingDialog();
+                                }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        if (callback != null) {
+                            callback.onError(null);
+                            iBaseView.hideLoadingDialog();
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                        if (callback != null) {
+                            callback.onError(null);
+                            iBaseView.hideLoadingDialog();
+                        }
+                    }
+                }
+            };
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty(NS.USER_ID, TempUser.id);
+            jsonObject.addProperty(NS.MOMENTID, id);
+            jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+            PublishNetwork.getInstance().deletePublished(subscriber, jsonObject, context);
+        }
+
+
+    }
+
 
     /**
-     * description:发送消息
-     *
-     * @param imMessage 第一条消息
-     * @param text      第二条消息
-     * @param callBack  回调
-     */
-
-//    public static void sendTransmitMessage(IMMessage imMessage, final IMMessage text,
-//                                           final SimpleCallBack callBack, final IBaseView iBaseView) {
-//
-//        NIMClient.getService(MsgService.class).sendMessage(imMessage, false).setCallback(new RequestCallback<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                if (text != null) {
-//                    NIMClient.getService(MsgService.class).sendMessage(text, false);
-//                }
-//                if (callBack != null) {
-//                    callBack.onSuccess();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailed(int i) {
-//                iBaseView.showToast("操作失败:" + i);
-//            }
-//
-//            @Override
-//            public void onException(Throwable throwable) {
-//                iBaseView.showToast("操作失败:异常");
-//                throwable.printStackTrace();
-//                if (callBack != null) {
-//                    callBack.onError(throwable);
-//                }
-//            }
-//        });
-//    }
-
-    /**
-     * description:转发一条动态给好友  目前仅限一次一人
+     * description:转发一条动态给一个或多个好友
      *
      * @param publishedId 动态id
      * @param categry     动态类型
@@ -348,10 +334,10 @@ public class OperateUtils {
     }
 
     /**
-     * description:发送消息
+     * description:发送一条动态给多个好友
      *
-     * @param imMessages 第一条消息
-     * @param texts      第二条消息
+     * @param imMessages 第一条消息组
+     * @param texts      第二条消息组
      * @param callBack   回调
      */
     public static void sendTransmitMessage(final List<IMMessage> imMessages, final List<IMMessage> texts,
@@ -395,6 +381,128 @@ public class OperateUtils {
             });
         }
     }
+
+    /**
+     * description:转发多条动态给一个好友
+     *
+     * @param publishedIds 动态id组
+     * @param categry      动态类型
+     * @param personId     转发对象id组
+     * @param text1        转发时说的话  可为空
+     */
+    public static void TranmitMoreToOne(final List<String> publishedIds, String categry, final String personId,
+                                        final IBaseView iBaseView, final String text1, final SimpleCallBack callback) {
+        List<IMMessage> imMessages = new ArrayList<>();
+        int type;
+        switch (categry) {
+            case NS.CATEGORY_REWARD:
+                for (String publishedId : publishedIds) {
+                    TransmitMessage_NoImage noImage = new TransmitMessage_NoImage(CustomAttachmentType.Reward);
+                    noImage.setState_id(Integer.parseInt(publishedId));
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.Reward;
+                break;
+            case NS.CATEGORY_HELP:
+                for (String publishedId : publishedIds) {
+                    TransmitMessage_NoImage noImage = new TransmitMessage_NoImage(CustomAttachmentType.Help);
+                    noImage.setState_id(Integer.parseInt(publishedId));
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.Help;
+                break;
+            case NS.CATEGORY_PLAN:
+                for (String publishedId : publishedIds) {
+                    TransmitMessage_NoImage noImage = new TransmitMessage_NoImage(CustomAttachmentType.Plan);
+                    noImage.setState_id(Integer.parseInt(publishedId));
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, noImage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.Plan;
+                break;
+            case NS.CATEGORY_SALE:
+                for (String publishedId : publishedIds) {
+                    TransmitMessage_WithImage transmitMessage_withImage = new TransmitMessage_WithImage(CustomAttachmentType.Sale);
+                    transmitMessage_withImage.setState_id(Integer.parseInt(publishedId));
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, transmitMessage_withImage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.Sale;
+                break;
+            case NS.APPLY_PLAN:
+                for (String publishedId : publishedIds) {
+                    ApplyPlanMessage applyPlanMessage = new ApplyPlanMessage();
+                    applyPlanMessage.setState_id(Integer.parseInt(publishedId));
+                    IMMessage imMessage = MessageBuilder.createCustomMessage(personId, SessionTypeEnum.P2P, applyPlanMessage);
+                    imMessages.add(imMessage);
+                }
+                type = CustomAttachmentType.ApplyPlan;
+                break;
+            default:
+                return;
+        }
+
+        if (!TextUtils.isEmpty(text1)) {
+            Map<String, Object> map = new HashMap<>();
+            map.put(NS.TYPE, type);
+            IMMessage imMessage = MessageBuilder.createTextMessage(personId, SessionTypeEnum.P2P, text1);
+            imMessage.setRemoteExtension(map);
+            sendTransmitMessagesToOne(imMessages, imMessage, callback, iBaseView);
+        } else {
+            sendTransmitMessagesToOne(imMessages, null, callback, iBaseView);
+        }
+    }
+
+    /**
+     * description:发送多条校上动态给一个好友
+     *
+     * @param imMessages 第一条消息组
+     * @param text       第二条消息
+     * @param callBack   回调
+     */
+    public static void sendTransmitMessagesToOne(final List<IMMessage> imMessages, final IMMessage text,
+                                                 final SimpleCallBack callBack, final IBaseView iBaseView) {
+
+        final List<String> count = new ArrayList<>();
+
+        for (IMMessage imMessage : imMessages) {
+            NIMClient.getService(MsgService.class).sendMessage(imMessage, false).setCallback(new RequestCallback<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    count.add("1");
+                    if (count.size() == imMessages.size()) {
+                        if (callBack != null) {
+                            callBack.onSuccess();
+                        }
+                        if (text != null) {
+                            NIMClient.getService(MsgService.class).sendMessage(text, false);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailed(int i) {
+                    iBaseView.showToast("操作失败:" + i);
+                    if (callBack != null) {
+                        callBack.onError(null);
+                    }
+                }
+
+                @Override
+                public void onException(Throwable throwable) {
+                    iBaseView.showToast("操作失败:异常");
+                    throwable.printStackTrace();
+                    if (callBack != null) {
+                        callBack.onError(throwable);
+                    }
+                }
+            });
+        }
+
+    }
+
 
     /**
      * description: 分享动态到校友圈

@@ -437,7 +437,6 @@ public abstract class WoBaseHolder {
         }, 300);
     }
 
-
     private void sendComment(String text, int commenId) {
         OperateUtils.Comment(published.getId(), commenId, text, context, true, new SimpleCallBack() {
             @Override

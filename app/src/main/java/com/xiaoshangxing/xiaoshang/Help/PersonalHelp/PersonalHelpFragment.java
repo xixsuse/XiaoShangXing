@@ -3,6 +3,7 @@ package com.xiaoshangxing.xiaoshang.Help.PersonalHelp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -90,7 +93,8 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
-    private PersonalHelpAdapter personalHelpAdapter;
+    private PersonalHelpAdapter adapter;
+    private HelpActivity activity;
 
     private void initView() {
         title.setText("我的互帮");
@@ -101,6 +105,7 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
         dotsTextView.start();
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addFooterView(footview);
+        activity = (HelpActivity) getActivity();
         initFresh();
         refreshData();
         showNoData();
@@ -113,8 +118,8 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
                 .findAll().sort(NS.ID, Sort.DESCENDING);
         showNoContentText(publisheds.size() < 1);
-        personalHelpAdapter = new PersonalHelpAdapter(getContext(), publisheds, this, realm, (HelpActivity) getActivity());
-        listview.setAdapter(personalHelpAdapter);
+        adapter = new PersonalHelpAdapter(getContext(), publisheds, this, realm, activity);
+        listview.setAdapter(adapter);
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {
@@ -182,7 +187,7 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
             back.setVisibility(View.GONE);
         } else {
             hideMenu.setVisibility(View.GONE);
-            personalHelpAdapter.showSelectCircle(false);
+            adapter.showSelectCircle(false);
             activity.setHideMenu(false);
             cancel.setVisibility(View.GONE);
             back.setVisibility(View.VISIBLE);
@@ -190,7 +195,7 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
     }
 
     private void gotoSelectPerson() {
-        personalHelpAdapter.showSelectCircle(false);
+        adapter.showSelectCircle(false);
         showHideMenu(false);
         HelpActivity activity = (HelpActivity) getActivity();
         Intent intent = new Intent(getContext(), SelectPersonActivity.class);
@@ -199,7 +204,7 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
     }
 
     public void showDeleteSureDialog(final int publishId) {
-        personalHelpAdapter.showSelectCircle(false);
+        adapter.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
@@ -235,6 +240,48 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
         LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
+    public void showDeleteSureDialog2(final List<String> ids) {
+        adapter.showSelectCircle(false);
+        showHideMenu(false);
+
+        DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
+        dialogMenu2.addMenuItem("删除");
+        dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
+            @Override
+            public void onItemSelected(int position, String item) {
+                Log.d("selecte2", ids.toString());
+                OperateUtils.deletePublisheds(ids, getContext(), PersonalHelpFragment.this, new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("删除成功");
+                        refreshData();
+                        adapter.getSelectIds().clear();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showToast("删除异常");
+                        refreshData();
+                        adapter.getSelectIds().clear();
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
+            }
+
+
+            @Override
+            public void onCancel() {
+            }
+        });
+        dialogMenu2.initView();
+        dialogMenu2.show();
+        LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
+    }
+
     public void showNoContentText(boolean is) {
         if (is) {
             noContent.setVisibility(View.VISIBLE);
@@ -256,10 +303,20 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
                 }
                 break;
             case R.id.hide_trasmit:
-                gotoSelectPerson();
+                if (adapter.getSelectIds().isEmpty()) {
+                    return;
+                }
+                adapter.showSelectCircle(false);
+                showHideMenu(false);
+                activity.setPublishIdsForTransmit(adapter.getSelectIds());
+                activity.gotoSelectOnePerson();
                 break;
             case R.id.hide_delete:
-//                showDeleteSureDialog();
+                if (adapter.getSelectIds().size() == 0) {
+                    showToast("请选择要删除的内容");
+                    return;
+                }
+                showDeleteSureDialog2(adapter.getSelectIds());
                 break;
             case R.id.cancel:
                 showHideMenu(false);

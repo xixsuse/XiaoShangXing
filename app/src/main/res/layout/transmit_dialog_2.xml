@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/x900"
+    android:layout_height="match_parent"
+    android:background="@drawable/circular_8_w1"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/x58"
+    android:paddingStart="@dimen/x58"
+    android:paddingTop="@dimen/y66">
+
+    <TextView
+        style="@style/black_16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="发送给:"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y36"
+        android:orientation="horizontal">
+
+        <com.xiaoshangxing.utils.layout.CirecleImage
+            android:id="@+id/head_image"
+            android:layout_width="@dimen/x78"
+            android:layout_height="@dimen/x78"
+            android:src="@mipmap/cirecleimage_default" />
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/black_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/x26"
+            android:text="@string/app_name" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginBottom="@dimen/y30"
+        android:layout_marginTop="@dimen/y30"
+        android:background="@color/g1">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[逐条转发]共3条消息"
+        android:textColor="@color/g0"
+        android:textSize="12sp" />
+
+    <!--输入框-->
+    <EditText
+        android:id="@+id/input"
+        style="@style/input_box"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y100"
+        android:layout_marginTop="@dimen/y44"
+        android:background="@drawable/w0_stroke"
+        android:gravity="center_vertical"
+        android:hint="给朋友留言"
+        android:paddingStart="@dimen/x36"
+        android:textColor="@color/b0"
+        android:textColorHint="@color/gray_login"
+        android:textSize="13sp" />
+
+    <!--按钮-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y144"
+        android:layout_marginTop="@dimen/y40"
+        android:orientation="vertical">
+
+        <include layout="@layout/line_horizontal_g1">
+
+        </include>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/cancel"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/cancle"
+                android:textColor="@color/b0"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:background="@color/g1">
+
+            </View>
+
+            <TextView
+                android:id="@+id/send"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/send"
+                android:textColor="@color/green1"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

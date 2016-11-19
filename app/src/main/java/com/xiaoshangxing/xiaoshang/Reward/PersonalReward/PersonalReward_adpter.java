@@ -2,10 +2,12 @@ package com.xiaoshangxing.xiaoshang.Reward.PersonalReward;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -24,6 +26,7 @@ import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +39,7 @@ public class PersonalReward_adpter extends ArrayAdapter<Published> {
     private PersonalRewardFragment fragment;
     private boolean showselect;
     private RewardActivity activity;
+    private List<String> selectIds = new ArrayList<>();
 
     public PersonalReward_adpter(Context context, int resource, List<Published> objects,
                                  PersonalRewardFragment fragment, RewardActivity activity) {
@@ -96,7 +100,6 @@ public class PersonalReward_adpter extends ArrayAdapter<Published> {
             }
         });
 
-        viewholder.checkBox.setChecked(false);
         if (showselect) {
             viewholder.iscomplete.setVisibility(View.INVISIBLE);
             viewholder.checkBox.setVisibility(View.VISIBLE);
@@ -104,6 +107,28 @@ public class PersonalReward_adpter extends ArrayAdapter<Published> {
             viewholder.iscomplete.setVisibility(View.VISIBLE);
             viewholder.checkBox.setVisibility(View.GONE);
         }
+
+        final String publishId = String.valueOf(published.getId());
+
+        if (selectIds.contains(publishId)) {
+            viewholder.checkBox.setChecked(true);
+        } else {
+            viewholder.checkBox.setChecked(false);
+        }
+
+        viewholder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    if (!selectIds.contains(publishId)) {
+                        selectIds.add(publishId);
+                    }
+                } else {
+                    selectIds.remove(publishId);
+                }
+                Log.d("selected8", selectIds.toString());
+            }
+        });
 
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -129,9 +154,7 @@ public class PersonalReward_adpter extends ArrayAdapter<Published> {
         });
 
 
-        viewholder.checkBox.setChecked(false);
-
-        String userId = String.valueOf(published.getUserId());
+        final String userId = String.valueOf(published.getUserId());
         UserInfoCache.getInstance().getHeadIntoImage(userId, viewholder.headImage);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewholder.name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewholder.college);
@@ -139,6 +162,7 @@ public class PersonalReward_adpter extends ArrayAdapter<Published> {
         viewholder.text.setText(published.getText());
         viewholder.price.setText(NS.RMB + published.getPrice());
         viewholder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
+
         return convertView;
     }
 
@@ -229,5 +253,13 @@ public class PersonalReward_adpter extends ArrayAdapter<Published> {
     public void showSelectCircle(boolean is) {
         showselect = is;
         notifyDataSetChanged();
+    }
+
+    public List<String> getSelectIds() {
+        return selectIds;
+    }
+
+    public void setSelectIds(List<String> selectIds) {
+        this.selectIds = selectIds;
     }
 }

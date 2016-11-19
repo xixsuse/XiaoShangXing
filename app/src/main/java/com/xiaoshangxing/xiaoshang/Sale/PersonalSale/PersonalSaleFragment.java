@@ -87,6 +87,7 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     private DotsTextView dotsTextView;
     private TextView loadingText;
     private PersonalSale_Adpter adpter;
+    private SaleActivity activity;
 
     private List<Published> publisheds = new ArrayList<>();
 
@@ -99,6 +100,7 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
         dotsTextView.start();
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addFooterView(footview);
+        activity = (SaleActivity) getActivity();
         initFresh();
         refreshData();
         showNoData();
@@ -145,8 +147,20 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
                 showHideMenu(false);
                 break;
             case R.id.hide_trasmit:
+                if (adpter.getSelectIds().isEmpty()) {
+                    return;
+                }
+                adpter.showSelectCircle(false);
+                showHideMenu(false);
+                activity.setPublishIdsForTransmit(adpter.getSelectIds());
+                activity.gotoSelectOnePerson();
                 break;
             case R.id.hide_delete:
+                if (adpter.getSelectIds().size() == 0) {
+                    showToast("请选择要删除的内容");
+                    return;
+                }
+                showDeleteSureDialog2(adpter.getSelectIds());
                 break;
         }
     }
@@ -199,6 +213,47 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
             @Override
             public void onCancel() {
 
+            }
+        });
+        dialogMenu2.initView();
+        dialogMenu2.show();
+        LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
+    }
+
+    public void showDeleteSureDialog2(final List<String> ids) {
+        adpter.showSelectCircle(false);
+        showHideMenu(false);
+
+        DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
+        dialogMenu2.addMenuItem("删除");
+        dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
+            @Override
+            public void onItemSelected(int position, String item) {
+                OperateUtils.deletePublisheds(ids, getContext(), PersonalSaleFragment.this, new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        showToast("删除成功");
+                        refreshData();
+                        adpter.getSelectIds().clear();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showToast("删除异常");
+                        refreshData();
+                        adpter.getSelectIds().clear();
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
+            }
+
+
+            @Override
+            public void onCancel() {
             }
         });
         dialogMenu2.initView();

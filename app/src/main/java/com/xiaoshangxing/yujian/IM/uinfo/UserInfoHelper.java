@@ -18,7 +18,8 @@ public class UserInfoHelper {
         if (sessionType == SessionTypeEnum.P2P) {
             if (NimUIKit.getAccount().equals(id)) {
 //                return "我的电脑";
-                return "自己";
+//                return "自己";
+                return NimUserInfoCache.getInstance().getUserDisplayName(id);
             } else {
                 return NimUserInfoCache.getInstance().getUserDisplayName(id);
             }

@@ -24,6 +24,7 @@ import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
