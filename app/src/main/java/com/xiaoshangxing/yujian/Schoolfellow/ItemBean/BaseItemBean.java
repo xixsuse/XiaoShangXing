@@ -18,7 +18,7 @@ public abstract class BaseItemBean {
 
     private int type;
 
-    private int id;
+    private String id;
 
     /**
      * 当前的级别
@@ -40,7 +40,7 @@ public abstract class BaseItemBean {
      */
     private BaseItemBean parent;
 
-    public BaseItemBean(int id, BaseItemBean parent, int type) {
+    public BaseItemBean(String id, BaseItemBean parent, int type) {
         this.id = id;
         this.parent = parent;
         this.type = type;
@@ -76,11 +76,11 @@ public abstract class BaseItemBean {
     }
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

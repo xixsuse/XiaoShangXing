@@ -202,7 +202,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
         final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
             @Override
             public void before() {
-                LoadUtils.clearDatabase(NS.CATEGORY_HELP, false, true);
             }
 
             @Override
@@ -233,7 +232,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
             LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_HELP), new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
-                    LoadUtils.getPublished(realm, NS.CATEGORY_HELP, LoadUtils.TIME_LOAD_HELP, getContext(), true,
+                    LoadUtils.getPublished(realm, NS.CATEGORY_HELP, LoadUtils.TIME_LOAD_HELP, getContext(), false,
                             aroundLoading);
                 }
             });

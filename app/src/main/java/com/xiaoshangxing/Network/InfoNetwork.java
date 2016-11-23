@@ -3,6 +3,7 @@ package com.xiaoshangxing.Network;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
+import com.xiaoshangxing.Network.api.IMApi.GetSchoolmate;
 import com.xiaoshangxing.Network.api.InfoApi.BindEmailApi;
 import com.xiaoshangxing.Network.api.InfoApi.CheckPassword;
 import com.xiaoshangxing.Network.api.InfoApi.GetCollege;
@@ -41,6 +42,7 @@ public class InfoNetwork {
     private GetSchool getSchool;
     private GetCollege getCollege;
     private GetProfession getProfession;
+    private GetSchoolmate getSchoolmate;
 
 
     private InfoNetwork() {
@@ -142,6 +144,14 @@ public class InfoNetwork {
             getProfession = Network.getRetrofitWithHeader(context).create(GetProfession.class);
         }
         Observable<ResponseBody> observable = getProfession.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void GetSchoolmate(Subscriber<ResponseBody> subscriber, JsonObject param, Context context) {
+        if (getSchoolmate == null) {
+            getSchoolmate = Network.getRetrofitWithHeader(context).create(GetSchoolmate.class);
+        }
+        Observable<ResponseBody> observable = getSchoolmate.start(param);
         toSubscribe(observable, subscriber);
     }
 

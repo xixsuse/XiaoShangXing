@@ -10,10 +10,11 @@ public class GradeItem extends BaseItemBean {
     public static final String GRADE_2013 = "2013级";
     public static final String GRADE_2014 = "2014级";
     public static final String GRADE_2015 = "2015级";
+    public static final String GRADE_2016 = "2016级";
 
     private String grade;
 
-    public GradeItem(int id, BaseItemBean parent, String grade) {
+    public GradeItem(String id, BaseItemBean parent, String grade) {
         super(id, parent, BaseItemBean.GRADE);
         this.grade = grade;
     }
@@ -31,5 +32,9 @@ public class GradeItem extends BaseItemBean {
     @Override
     public String getExText() {
         return null;
+    }
+
+    public String getGrade() {
+        return grade.substring(0, 4);
     }
 }

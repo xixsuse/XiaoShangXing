@@ -150,7 +150,6 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_HELP, true, true);
                                     }
 
                                     @Override

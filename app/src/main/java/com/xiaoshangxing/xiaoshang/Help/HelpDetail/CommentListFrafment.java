@@ -125,23 +125,7 @@ public class CommentListFrafment extends Fragment {
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-//                    if (isCollect) {
-//                        Intent comment_input = new Intent(getContext(), InputActivity.class);
-//                        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-//                        comment_input.putExtra(InputActivity.COMMENT_OBJECT, holder.name.getText());
-//                        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
-//                        comment_input.putExtra(InputActivity.COMMENTID, i.getId());
-//                        startActivity(comment_input);
-//                    } else {
-//                        Intent comment_input = new Intent(getContext(), InputActivity.class);
-//                        comment_input.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-//                        comment_input.putExtra(InputActivity.COMMENT_OBJECT, holder.name.getText());
-//                        comment_input.putExtra(InputActivity.MOMENTID, published.getId());
-//                        comment_input.putExtra(InputActivity.COMMENTID, i.getId());
-//                        startActivity(comment_input);
-//                    }
                     activity.comment(i.getId());
-
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {

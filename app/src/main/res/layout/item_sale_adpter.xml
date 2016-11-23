@@ -1,164 +1,342 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/y580"
+    android:layout_height="wrap_content"
     android:background="@color/w0"
     android:descendantFocusability="afterDescendants">
 
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/y578"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--&lt;!&ndash;左侧布局&ndash;&gt;-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="@dimen/x190"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+
+    <!--&lt;!&ndash;头像&ndash;&gt;-->
+    <!--<com.xiaoshangxing.utils.layout.CirecleImage-->
+    <!--android:id="@+id/head_image"-->
+    <!--android:layout_width="@dimen/x120"-->
+    <!--android:layout_height="@dimen/x120"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="@dimen/y30"-->
+    <!--android:src="@mipmap/cirecleimage_default" />-->
+
+    <!--&lt;!&ndash;姓名&ndash;&gt;-->
+    <!--<com.xiaoshangxing.utils.layout.Name-->
+    <!--android:id="@+id/name"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="@dimen/y26"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/blue1"-->
+    <!--android:textSize="12sp" />-->
+
+    <!--&lt;!&ndash;学院&ndash;&gt;-->
+    <!--<TextView-->
+    <!--android:id="@+id/college"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="@dimen/y20"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/b0"-->
+    <!--android:textSize="11sp" />-->
+
+    <!--&lt;!&ndash;时间&ndash;&gt;-->
+    <!--<TextView-->
+    <!--android:id="@+id/time"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="@dimen/y26"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/g0"-->
+    <!--android:textSize="9sp" />-->
+
+    <!--&lt;!&ndash;园区&ndash;&gt;-->
+    <!--<TextView-->
+    <!--android:id="@+id/dorm"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="@dimen/y42"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/b0"-->
+    <!--android:textSize="11sp" />-->
+
+    <!--&lt;!&ndash;价格&ndash;&gt;-->
+    <!--<TextView-->
+    <!--android:id="@+id/price"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_horizontal"-->
+    <!--android:layout_marginTop="@dimen/y30"-->
+    <!--android:singleLine="true"-->
+    <!--android:textColor="@color/red1"-->
+    <!--android:textSize="12sp" />-->
+
+
+    <!--<ImageView-->
+    <!--android:id="@+id/down_arrow"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="center_vertical|center_horizontal"-->
+    <!--android:paddingBottom="@dimen/y72"-->
+    <!--android:paddingTop="@dimen/y40"-->
+    <!--android:src="@mipmap/down_arrow_gray" />-->
+
+
+    <!--</LinearLayout>-->
+
+    <!--&lt;!&ndash;右侧布局&ndash;&gt;-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical">-->
+
+    <!--&lt;!&ndash;文字内容&ndash;&gt;-->
+    <!--<com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText-->
+    <!--android:layout_height="@dimen/y176"-->
+    <!--android:id="@+id/text"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_marginTop="@dimen/y30"-->
+    <!--android:layout_marginEnd="@dimen/x21"-->
+    <!--android:ellipsize="end"-->
+    <!--android:maxLines="3"-->
+    <!--android:text="@string/longtext"-->
+    <!--android:textColor="@color/b0"-->
+    <!--android:textSize="13sp" />-->
+
+    <!--&lt;!&ndash;图片内容&ndash;&gt;-->
+    <!--<com.xiaoshangxing.wo.WoFrafment.NoScrollGridView-->
+    <!--android:id="@+id/pictures"-->
+    <!--android:layout_width="@dimen/x852"-->
+    <!--android:layout_height="@dimen/y268"-->
+    <!--android:columnWidth="@dimen/x272"-->
+    <!--android:gravity="start"-->
+    <!--android:horizontalSpacing="@dimen/x18"-->
+    <!--android:numColumns="3"-->
+    <!--android:stretchMode="columnWidth">-->
+
+    <!--</com.xiaoshangxing.wo.WoFrafment.NoScrollGridView>-->
+
+    <!--&lt;!&ndash;输入框&ndash;&gt;-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/y86"-->
+    <!--android:layout_marginTop="@dimen/y20"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText-->
+    <!--android:id="@+id/input"-->
+    <!--android:layout_width="@dimen/x720"-->
+    <!--android:layout_height="@dimen/y90"-->
+    <!--android:background="@drawable/et_circular_4_white"-->
+    <!--android:focusable="true"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:hint="输入内容点击私聊即可发送"-->
+    <!--android:paddingLeft="@dimen/x18"-->
+    <!--android:textCursorDrawable="@drawable/cursor_blue4"-->
+    <!--android:textSize="13sp" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/chat"-->
+    <!--style="?android:attr/borderlessButtonStyle"-->
+    <!--android:layout_width="@dimen/x130"-->
+    <!--android:layout_height="@dimen/y80"-->
+    <!--android:layout_marginLeft="@dimen/x16"-->
+    <!--android:layout_marginRight="@dimen/x30"-->
+    <!--android:background="@drawable/circular_4_g2"-->
+    <!--android:text="私聊"-->
+    <!--android:textColor="@android:color/white"-->
+    <!--android:textSize="13sp" />-->
+
+    <!--</LinearLayout>-->
+
+
+    <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y580"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
 
-        <!--左侧布局-->
+        <!--头像 文字内容-->
         <LinearLayout
-            android:layout_width="@dimen/x183"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <!--头像-->
-            <com.xiaoshangxing.utils.layout.CirecleImage
-                android:id="@+id/head_image"
-                android:layout_width="@dimen/x120"
-                android:layout_height="@dimen/x120"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y30"
-                android:src="@mipmap/cirecleimage_default" />
-
-            <!--姓名-->
-            <com.xiaoshangxing.utils.layout.Name
-                android:id="@+id/name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y26"
-                android:singleLine="true"
-                android:textColor="@color/blue1"
-                android:textSize="12sp" />
-
-            <!--学院-->
-            <TextView
-                android:id="@+id/college"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y20"
-                android:singleLine="true"
-                android:textColor="@color/b0"
-                android:textSize="11sp" />
-
-            <!--时间-->
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y26"
-                android:singleLine="true"
-                android:textColor="@color/g0"
-                android:textSize="9sp" />
-
-            <!--园区-->
-            <TextView
-                android:id="@+id/dorm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y42"
-                android:singleLine="true"
-                android:textColor="@color/b0"
-                android:textSize="11sp" />
-
-            <!--价格-->
-            <TextView
-                android:id="@+id/price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/y30"
-                android:singleLine="true"
-                android:textColor="@color/red1"
-                android:textSize="12sp" />
+            android:layout_height="@dimen/y176"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/y30">
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:id="@+id/down_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|center_horizontal"
-                    android:src="@mipmap/down_arrow_gray" />
-
+                android:layout_width="@dimen/x190"
+                android:layout_height="@dimen/x120">
+                <!--头像-->
+                <com.xiaoshangxing.utils.layout.CirecleImage
+                    android:id="@+id/head_image"
+                    android:layout_width="@dimen/x120"
+                    android:layout_height="@dimen/x120"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/cirecleimage_default" />
             </FrameLayout>
-
-        </LinearLayout>
-
-        <!--右侧布局-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
 
             <!--文字内容-->
             <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+                android:layout_height="wrap_content"
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/y168"
                 android:layout_marginEnd="@dimen/x21"
                 android:ellipsize="end"
-                android:gravity="center_vertical"
                 android:maxLines="3"
                 android:text="@string/longtext"
                 android:textColor="@color/b0"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
 
-            <!--图片内容-->
+        </LinearLayout>
+
+        <!--中层布局-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y283"
+            android:orientation="horizontal">
+            <!--左侧布局-->
+            <LinearLayout
+                android:layout_width="@dimen/x190"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <!--姓名-->
+                <com.xiaoshangxing.utils.layout.Name
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:textColor="@color/b0"
+                    android:textSize="12sp" />
+
+                <!--学院-->
+                <TextView
+                    android:id="@+id/college"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/y12"
+                    android:singleLine="true"
+                    android:textColor="@color/b0"
+                    android:textSize="11sp" />
+
+                <!--时间-->
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/y12"
+                    android:singleLine="true"
+                    android:textColor="@color/g0"
+                    android:textSize="9sp" />
+
+                <!--园区-->
+                <TextView
+                    android:id="@+id/dorm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/y20"
+                    android:singleLine="true"
+                    android:textColor="@color/b0"
+                    android:textSize="11sp" />
+
+                <!--价格-->
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/y20"
+                    android:singleLine="true"
+                    android:textColor="@color/red1"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <!--右侧图片-->
             <com.xiaoshangxing.wo.WoFrafment.NoScrollGridView
+                android:layout_width="match_parent"
                 android:id="@+id/pictures"
-                android:layout_width="@dimen/x852"
-                android:layout_height="@dimen/y272"
+                android:layout_height="@dimen/y268"
+                android:layout_marginEnd="@dimen/width_48"
+                android:paddingTop="@dimen/y6"
                 android:columnWidth="@dimen/x272"
                 android:gravity="start"
                 android:horizontalSpacing="@dimen/x18"
                 android:numColumns="3"
                 android:stretchMode="columnWidth">
-
             </com.xiaoshangxing.wo.WoFrafment.NoScrollGridView>
+
+        </LinearLayout>
+
+        <!--下层-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y112"
+            android:layout_marginTop="@dimen/x20">
+
+            <FrameLayout
+                android:id="@+id/down_arrow_lay"
+                android:layout_width="@dimen/x190"
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/y20">
+
+                <ImageView
+                    android:id="@+id/down_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/down_arrow_gray" />
+            </FrameLayout>
+
 
             <!--输入框-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/y90"
-                android:layout_marginTop="@dimen/y21"
+                android:layout_height="@dimen/y86"
                 android:orientation="horizontal">
 
                 <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
                     android:id="@+id/input"
                     android:layout_width="@dimen/x720"
-                    android:layout_height="@dimen/y90"
+                    android:layout_height="@dimen/y86"
                     android:background="@drawable/et_circular_4_white"
                     android:focusable="true"
                     android:gravity="center_vertical"
                     android:hint="输入内容点击私聊即可发送"
-                    android:paddingLeft="@dimen/x18"
+                    android:paddingLeft="@dimen/x30"
                     android:textCursorDrawable="@drawable/cursor_blue4"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
 
                 <Button
                     android:id="@+id/chat"
-                    android:layout_width="@dimen/x130"
-                    android:layout_height="@dimen/y80"
-                    android:layout_marginLeft="@dimen/x15"
-                    android:layout_marginRight="@dimen/x27"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="@dimen/x128"
+                    android:layout_height="@dimen/y76"
+                    android:layout_marginLeft="@dimen/x16"
+                    android:layout_marginRight="@dimen/x30"
                     android:background="@drawable/circular_4_g2"
                     android:text="私聊"
                     android:textColor="@android:color/white"
                     android:textSize="13sp" />
 
             </LinearLayout>
-
 
         </LinearLayout>
 

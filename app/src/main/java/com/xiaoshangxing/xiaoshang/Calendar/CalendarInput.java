@@ -22,6 +22,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter;
 import com.xiaoshangxing.Network.Formmat;
+import com.xiaoshangxing.Network.ShowMsgHandler;
 import com.xiaoshangxing.Network.netUtil.BaseUrl;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
@@ -32,6 +33,7 @@ import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -82,12 +84,14 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
     private CalendarDay current_day;
     private Runnable runnable;
     private Handler handler = new Handler();
+    private ShowMsgHandler showMsgHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_input);
         ButterKnife.bind(this);
+        showMsgHandler = new ShowMsgHandler(this);
         initView();
     }
 
@@ -154,7 +158,14 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Formmat formmat = new Formmat(CalendarInput.this, CalendarInput.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
+                Formmat formmat = null;
+                try {
+                    formmat = new Formmat(CalendarInput.this, CalendarInput.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showMsgHandler.showToast("初始化上传组件失败,请检查网络状态");
+                    return;
+                }
 
                 formmat.setSimpleCallBack(new SimpleCallBack() {
                     @Override

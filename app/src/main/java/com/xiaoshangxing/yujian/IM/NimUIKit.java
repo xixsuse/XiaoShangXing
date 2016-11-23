@@ -6,13 +6,10 @@ import android.util.Log;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.StatusCode;
-import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
-import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.NotifycationUtil;
@@ -21,6 +18,7 @@ import com.xiaoshangxing.yujian.IM.Contact.ContactEventListener;
 import com.xiaoshangxing.yujian.IM.Contact.ContactProvider;
 import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachParser;
 import com.xiaoshangxing.yujian.IM.cache.DataCacheManager;
+import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.ImageLoaderKit;
 import com.xiaoshangxing.yujian.IM.kit.LogUtil;
 import com.xiaoshangxing.yujian.IM.kit.LoginSyncDataStatusObserver;
@@ -90,28 +88,33 @@ public final class NimUIKit {
         String path = StorageUtil.getDirectoryByDirType(StorageType.TYPE_LOG);
         LogUtil.init(path, Log.DEBUG);
 
-        //自定义通知
+        //推送
         Observer<CustomNotification> commandObserver = new Observer<CustomNotification>() {
             @Override
             public void onEvent(CustomNotification message) {
+                NotifycationUtil.parsePushMsg(message.getContent());
                 String content = message.getContent();
-                try {
-                    JSONObject json = new JSONObject(content);
-                    int id = json.getInt(NS.ID);
-                    if (id != 1) {
-                        NotifycationUtil.show();
-                    }
-
-                } catch (Exception e) {
-
-                }
+                Log.d("推送", "-----" + content);
+//                try {
+//                    JSONObject json = new JSONObject(content);
+//                    int id = json.getInt(NS.ID);
+//                    if (id != 1) {
+//                        NotifycationUtil.show(content);
+//                    }
+//
+//                } catch (Exception e) {
+//
+//                }
 
             }
         };
 
+
         NIMClient.getService(MsgServiceObserve.class).observeCustomNotification(commandObserver, true);
-        //注册用户资料变更监听
+        //注册用户资料变更监听 主要是更新实名认证状态
         UserInfoCache.getInstance().registerDataChangeListner(true);
+        //注册新加好友通知
+        FriendDataCache.getInstance().registerNewFriendListner(true);
     }
 
 

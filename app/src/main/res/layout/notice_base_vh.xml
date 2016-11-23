@@ -99,6 +99,7 @@
 
         <!--动态的内容-->
         <LinearLayout
+            android:id="@+id/publish_content"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y150"
             android:layout_below="@+id/content"

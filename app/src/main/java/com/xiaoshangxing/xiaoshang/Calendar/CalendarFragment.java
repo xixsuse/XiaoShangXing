@@ -400,11 +400,18 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
 
     private void getData(final CalendarDay calendarDay) {
 
+        //如果是过去的日期 则不用刷新
+        if (compareDayByYearMonth(calendarDay, today) == -1) {
+            return;
+        }
+
         String year = String.valueOf(calendarDay.getYear());
         String month = String.valueOf(calendarDay.getMonth());
 
-        if (realm.where(CalendarData.class).equalTo(NS.YEAR, year).equalTo(NS.MONTH, month).findAll().size() > 0)
+        //如果数据库中有这个月的数据 则不用刷新
+        if (realm.where(CalendarData.class).equalTo(NS.YEAR, year).equalTo(NS.MONTH, month).findAll().size() > 0) {
             return;
+        }
 
         LoadUtils.getCalendar(year, month, getContext(), realm, new LoadUtils.AroundLoading() {
             @Override

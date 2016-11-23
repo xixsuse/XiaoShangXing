@@ -49,10 +49,6 @@ public class SaleGridAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = View.inflate(ctx, R.layout.imageview272, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.iv_image);
-//		Glide.with(ctx).
-//				load(imageUrls.get(position))
-//				.animate(R.anim.fade_in)
-//				.into(imageView);
         MyGlide.with(ctx, imageUrls.get(position), imageView);
         return view;
     }

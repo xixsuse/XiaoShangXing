@@ -107,7 +107,7 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
                 refreshChecked(editText.getText().toString());
             }
         });
-        getSchool();
+        getCollege();
         if (VertifyActivity.colleg != null) {
             editText.setText(VertifyActivity.colleg);
         }
@@ -132,7 +132,7 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
         }
     }
 
-    private void getSchool() {
+    private void getCollege() {
         ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
             public void onNext(ResponseBody e) throws JSONException {

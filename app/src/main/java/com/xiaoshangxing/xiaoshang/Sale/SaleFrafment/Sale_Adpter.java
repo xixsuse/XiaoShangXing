@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -106,6 +107,13 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
             }
         });
 
+        viewHolder.downArrowLay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalViewHolder.downArrow.performClick();
+            }
+        });
+
         viewHolder.input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -194,6 +202,8 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
     static class ViewHolder {
         @Bind(R.id.head_image)
         CirecleImage headImage;
+        @Bind(R.id.text)
+        EmotinText text;
         @Bind(R.id.name)
         Name name;
         @Bind(R.id.college)
@@ -204,12 +214,12 @@ public class Sale_Adpter extends ArrayAdapter<Published> {
         TextView dorm;
         @Bind(R.id.price)
         TextView price;
-        @Bind(R.id.down_arrow)
-        ImageView downArrow;
-        @Bind(R.id.text)
-        EmotinText text;
         @Bind(R.id.pictures)
         NoScrollGridView pictures;
+        @Bind(R.id.down_arrow)
+        ImageView downArrow;
+        @Bind(R.id.down_arrow_lay)
+        FrameLayout downArrowLay;
         @Bind(R.id.input)
         EmoticonsEditText input;
         @Bind(R.id.chat)

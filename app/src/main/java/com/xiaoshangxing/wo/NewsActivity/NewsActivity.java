@@ -3,16 +3,20 @@ package com.xiaoshangxing.wo.NewsActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.PushMsg;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 
 import java.util.ArrayList;
@@ -21,6 +25,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.Sort;
+
+import static com.xiaoshangxing.utils.NotifycationUtil.NT_SCHOOLMATE_CHANGE;
+import static com.xiaoshangxing.utils.NotifycationUtil.NT_SCHOOLMATE_NOTICE_YOU;
 
 /**
  * Created by FengChaoQun
@@ -43,7 +52,8 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
     ListView listview;
     private NewsContract.Presenter mPresenter;
     private newsAdapter adapter;
-    private List<String> list = new ArrayList<String>();
+    private List<PushMsg> pushMsgs = new ArrayList<>();
+    private NotifycationUtil.OnNotifyChange onNotifyChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +61,25 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
         setContentView(R.layout.activity_news);
         ButterKnife.bind(this);
         setmPresenter(new NewsPresenter(this, this));
-        mPresenter.loadData();
         initView();
+        setData();
+        initData();
+        onNotifyChange = new NotifycationUtil.OnNotifyChange() {
+            @Override
+            public void onChange(PushMsg pushMsg) {
+                if (pushMsg.getPushType().equals(NotifycationUtil.NT_SCHOOLMATE_NOTICE_YOU)
+                        || pushMsg.getPushType().equals(NotifycationUtil.NT_SCHOOLMATE_CHANGE)) {
+                    initData();
+                }
+            }
+        };
+        NotifycationUtil.registerObserver(onNotifyChange);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NotifycationUtil.unRegisterObserver(onNotifyChange);
     }
 
     private void initView() {
@@ -69,17 +96,49 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
 
     @Override
     public void initData() {
-        for (int i = 0; i <= 15; i++) {
-            list.add("" + i);
+        pushMsgs = realm.where(PushMsg.class)
+                .equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_CHANGE)
+                .or().equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_NOTICE_YOU)
+                .findAllSorted(NS.PUSH_TIME, Sort.DESCENDING);
+        if (pushMsgs.isEmpty()) {
+            return;
         }
-        adapter = new newsAdapter(this, 11, list);
+        adapter = new newsAdapter(this, 11, pushMsgs);
         listview.setAdapter(adapter);
     }
 
+    //进入此界面既视为查看了所有的信息  将所有记录置为已读
+    private void setData() {
+        final List<PushMsg> pushMsgs = realm.where(PushMsg.class).not().equalTo("isRead", "1")
+                .equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_CHANGE)
+                .or().equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_NOTICE_YOU)
+                .findAllSorted(NS.PUSH_TIME, Sort.DESCENDING);
+        if (!pushMsgs.isEmpty()) {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    for (PushMsg i : pushMsgs) {
+                        i.setIsRead("1");
+                    }
+                }
+            });
+        }
+    }
+
+
     @Override
     public void cleanData() {
-        adapter.clear();
-        adapter.notifyDataSetChanged();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.where(PushMsg.class).equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_CHANGE)
+                        .or().equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_NOTICE_YOU)
+                        .findAllSorted(NS.PUSH_TIME, Sort.DESCENDING)
+                        .deleteAllFromRealm();
+                Log.d("清空校友圈推送信息", "ok");
+                initData();
+            }
+        });
     }
 
     @Override
@@ -104,9 +163,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
 
     @Override
     public void clickOnClean() {
-        if (adapter.isEmpty()) {
-            showToast("没有数据让你清空啦...");
-        } else {
+        if (!adapter.isEmpty()) {
             showCleanDialog();
         }
     }

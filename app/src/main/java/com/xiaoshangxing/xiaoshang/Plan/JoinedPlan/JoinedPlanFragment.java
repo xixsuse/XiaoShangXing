@@ -125,7 +125,7 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
                         LoadUtils.getJoinedPlan(String.valueOf(TempUser.id), realm, getContext(), new LoadUtils.AroundLoading() {
                             @Override
                             public void before() {
-                                LoadUtils.clearJoinPlan(TempUser.id);
+//                                LoadUtils.clearJoinPlan();
                             }
 
                             @Override

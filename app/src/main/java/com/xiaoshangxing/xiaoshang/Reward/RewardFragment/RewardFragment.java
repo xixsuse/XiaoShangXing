@@ -187,7 +187,6 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
             @Override
             public void before() {
-                LoadUtils.clearDatabase(NS.CATEGORY_REWARD, false, true);
             }
 
             @Override
@@ -218,7 +217,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_REWARD), new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
-                    LoadUtils.getPublished(realm, NS.CATEGORY_REWARD, LoadUtils.TIME_LOAD_REWARD, getContext(), true,
+                    LoadUtils.getPublished(realm, NS.CATEGORY_REWARD, LoadUtils.TIME_LOAD_REWARD, getContext(), false,
                             aroundLoading);
                 }
             });

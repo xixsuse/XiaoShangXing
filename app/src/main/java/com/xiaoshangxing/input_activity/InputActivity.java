@@ -38,6 +38,7 @@ import com.xiaoshangxing.Network.Formmat;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.PublishNetwork;
+import com.xiaoshangxing.Network.ShowMsgHandler;
 import com.xiaoshangxing.Network.netUtil.BaseUrl;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.OperateUtils;
@@ -229,6 +230,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
     private int commentId;     //评论的评论id
 
     private Handler handler = new Handler();
+    private ShowMsgHandler showMsgHandler;
     private Runnable runnable;
 
     private boolean isOrig;
@@ -248,6 +250,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         initShowSelect();
         addContentObserver();
         setEnableRightSlide(false);
+        showMsgHandler = new ShowMsgHandler(this);
     }
 
     @Override
@@ -839,7 +842,15 @@ public class InputActivity extends BaseActivity implements IBaseView {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Formmat formmat = new Formmat(iBaseView, InputActivity.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
+                Formmat formmat = null;
+                try {
+                    formmat = new Formmat(iBaseView, InputActivity.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
+                } catch (IOException e) {
+                    e.printStackTrace();
+//                    showToast("初始化上传组件失败,请检查网络状态");
+                    showMsgHandler.showToast("初始化上传组件失败,请检查网络状态");
+                    return;
+                }
                 formmat.setSimpleCallBack(new SimpleCallBack() {
                     @Override
                     public void onSuccess() {

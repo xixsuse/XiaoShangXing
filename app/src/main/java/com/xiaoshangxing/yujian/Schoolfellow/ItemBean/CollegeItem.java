@@ -6,9 +6,13 @@ package com.xiaoshangxing.yujian.Schoolfellow.ItemBean;
  */
 
 public class CollegeItem extends BaseItemBean {
+    private String collegeName;
+    private String signature;
 
-    public CollegeItem(int id) {
+    public CollegeItem(String id, String collegeName, String signature) {
         super(id, null, BaseItemBean.COLLEGE);
+        this.collegeName = collegeName;
+        this.signature = signature;
     }
 
     @Override
@@ -18,11 +22,27 @@ public class CollegeItem extends BaseItemBean {
 
     @Override
     public String getShowName() {
-        return "至善学院";
+        return collegeName;
     }
 
     @Override
     public String getExText() {
-        return "宁静致远，止于至善";
+        return signature;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CollegeItem that = (CollegeItem) o;
+
+        return collegeName.equals(that.collegeName);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return collegeName.hashCode();
     }
 }

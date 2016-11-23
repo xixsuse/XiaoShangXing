@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.xiaoshang.Calendar.CalendarActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 import com.xiaoshangxing.xiaoshang.MessageNotice.MessageNoticeActivity;
@@ -139,9 +138,9 @@ public class XiaoShangFragment extends BaseFragment {
         leftImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showToast(NS.ON_DEVELOPING);
-//                Intent notice_intent = new Intent(getContext(), MessageNoticeActivity.class);
-//                startActivity(notice_intent);
+//                showToast(NS.ON_DEVELOPING);
+                Intent notice_intent = new Intent(getContext(), MessageNoticeActivity.class);
+                startActivity(notice_intent);
             }
         });
     }

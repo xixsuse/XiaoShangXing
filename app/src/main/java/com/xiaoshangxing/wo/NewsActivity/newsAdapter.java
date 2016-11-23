@@ -1,6 +1,8 @@
 package com.xiaoshangxing.wo.NewsActivity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -10,9 +12,16 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.PushMsg;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.NotifycationUtil;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -24,12 +33,14 @@ import butterknife.ButterKnife;
  * Created by FengChaoQun
  * on 2016/7/11
  */
-public class newsAdapter extends ArrayAdapter<String> {
+public class newsAdapter extends ArrayAdapter<PushMsg> {
     private Context context;
+    private List<PushMsg> pushMsgs;
 
-    public newsAdapter(Context context, int resource, List<String> objects) {
-        super(context, resource, objects);
+    public newsAdapter(Context context, int resource, List<PushMsg> pushMsgs) {
+        super(context, resource, pushMsgs);
         this.context = context;
+        this.pushMsgs = pushMsgs;
     }
 
     @Override
@@ -43,46 +54,50 @@ public class newsAdapter extends ArrayAdapter<String> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Random random = new Random(NS.currentTime());
-        int a = random.nextInt(100);
-        switch (a % 3) {
-            case 0:
-                viewHolder.praise.setVisibility(View.VISIBLE);
-                viewHolder.commentText.setVisibility(View.GONE);
-                break;
-            case 1:
-                viewHolder.praise.setVisibility(View.GONE);
-                viewHolder.commentText.setVisibility(View.VISIBLE);
-                viewHolder.commentText.setText("哈哈哈哈哈哈哈");
-                break;
-            case 2:
-                viewHolder.praise.setVisibility(View.GONE);
-                viewHolder.commentText.setVisibility(View.VISIBLE);
-                viewHolder.commentText.setText("同时提到了你");
-                break;
+        final PushMsg pushMsg = pushMsgs.get(position);
+        UserInfoCache.getInstance().getHeadIntoImage(pushMsg.getUserId(), viewHolder.headImage);
+        viewHolder.name.setText(pushMsg.getUserName());
+        viewHolder.time.setText(TimeUtil.getTimeShowString(pushMsg.getPushTime(), false));
+
+        if (pushMsg.getPushType().equals(NotifycationUtil.NT_SCHOOLMATE_NOTICE_YOU)) {
+            viewHolder.praise.setVisibility(View.GONE);
+            viewHolder.commentText.setVisibility(View.VISIBLE);
+            viewHolder.commentText.setText("同时提到了你");
+        } else if (pushMsg.getOperationType().equals(NotifycationUtil.OPERATION_PRAISE)) {
+            viewHolder.praise.setVisibility(View.VISIBLE);
+            viewHolder.commentText.setVisibility(View.GONE);
+        } else if (pushMsg.getOperationType().equals(NotifycationUtil.OPERATION_COMMENT)) {
+            viewHolder.praise.setVisibility(View.GONE);
+            viewHolder.commentText.setVisibility(View.VISIBLE);
+            viewHolder.commentText.setText(pushMsg.getText());
         }
 
-        switch (a % 2) {
-            case 0:
-                viewHolder.image.setVisibility(View.VISIBLE);
-                viewHolder.text.setVisibility(View.GONE);
-                break;
-            case 1:
-                viewHolder.image.setVisibility(View.GONE);
-                viewHolder.text.setVisibility(View.VISIBLE);
-                break;
+        if (TextUtils.isEmpty(pushMsg.getImages())) {
+            viewHolder.image.setVisibility(View.GONE);
+            viewHolder.text.setVisibility(View.VISIBLE);
+            viewHolder.text.setText(pushMsg.getMomentText());
+        } else {
+            viewHolder.image.setVisibility(View.VISIBLE);
+            viewHolder.text.setVisibility(View.GONE);
+            String path = pushMsg.getImages().split(NS.SPLIT)[0];
+            MyGlide.with_defaul_image(context, path, viewHolder.image);
         }
+
+
+        viewHolder.headImage.setIntent_type(CirecleImage.PERSON_INFO, pushMsg.getUserId());
+        viewHolder.name.setIntent_type(Name.PERSON_INFO, pushMsg.getUserId());
+        viewHolder.rightLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DetailsActivity.class);
+                intent.putExtra(IntentStatic.DATA, Integer.valueOf(pushMsg.getMomentId()));
+                context.startActivity(intent);
+            }
+        });
+
 
         return convertView;
     }
-
-//    private void cleanView(viewHolder holder) {
-//        holder.praise.setVisibility(View.GONE);
-//        holder.comment_text.setVisibility(View.GONE);
-//        holder.image.setVisibility(View.GONE);
-//        holder.text.setVisibility(View.GONE);
-//    }
-
 
     static class ViewHolder {
         @Bind(R.id.head_image)

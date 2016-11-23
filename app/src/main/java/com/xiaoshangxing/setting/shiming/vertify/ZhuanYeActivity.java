@@ -103,7 +103,7 @@ public class ZhuanYeActivity extends BaseActivity implements IBaseView {
                 refreshChecked(editText.getText().toString());
             }
         });
-        getCollege();
+        getProfession();
         if (VertifyActivity.professional != null) {
             editText.setText(VertifyActivity.professional);
         }
@@ -136,7 +136,7 @@ public class ZhuanYeActivity extends BaseActivity implements IBaseView {
         }
     }
 
-    private void getCollege() {
+    private void getProfession() {
         ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
             public void onNext(ResponseBody e) throws JSONException {

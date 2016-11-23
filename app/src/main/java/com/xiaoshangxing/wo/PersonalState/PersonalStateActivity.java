@@ -198,7 +198,6 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
         final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
             @Override
             public void before() {
-                LoadUtils.clearDatabase(NS.CATEGORY_STATE, true, true);
             }
 
             @Override

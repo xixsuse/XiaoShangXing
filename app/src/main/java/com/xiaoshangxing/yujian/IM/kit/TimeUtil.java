@@ -201,7 +201,7 @@ public class TimeUtil {
         } else if (isSameWeekDates(currentTime, today)) {
             dataString = getWeekOfDate(currentTime);
         } else {
-            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
             dataString = dateformatter.format(currentTime) + " ";
         }
 
@@ -218,6 +218,7 @@ public class TimeUtil {
             return dataString + "" + timeStringBy24;
         }
     }
+
 
     /**
      * 根据不同时间段，显示不同时间

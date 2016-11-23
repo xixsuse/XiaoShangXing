@@ -54,5 +54,6 @@ public class BaseUrl {
     public static final String GET_SCHOOL = "student/querySchoolInfo";
     public static final String GET_COLLEGE = "student/queryCollegeInfo";
     public static final String GET_PROFESSION = "student/queryProfessionInfo";
+    public static final String GET_SCHOOLMATE = "student/getSchoolmates";
 
 }

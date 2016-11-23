@@ -1,16 +1,24 @@
 package com.xiaoshangxing.yujian.IM.cache;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.FriendServiceObserve;
+import com.netease.nimlib.sdk.friend.model.AddFriendNotify;
 import com.netease.nimlib.sdk.friend.model.BlackListChangedNotify;
 import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.friend.model.FriendChangedNotify;
 import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.SystemMessageObserver;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.msg.constant.SystemMessageType;
+import com.netease.nimlib.sdk.msg.model.SystemMessage;
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 
 import java.util.ArrayList;
@@ -32,6 +40,8 @@ public class FriendDataCache {
     public static FriendDataCache getInstance() {
         return InstanceHolder.instance;
     }
+
+    private Observer<SystemMessage> observer;
 
     /**
      * 属性
@@ -79,6 +89,39 @@ public class FriendDataCache {
     private void clearFriendCache() {
         friendAccountSet.clear();
         friendMap.clear();
+    }
+
+    public void registerNewFriendListner(boolean is) {
+        if (observer == null) {
+            observer = new Observer<SystemMessage>() {
+                @Override
+                public void onEvent(final SystemMessage systemMessage) {
+                    if (systemMessage.getType() == SystemMessageType.AddFriend) {
+                        AddFriendNotify attachData = (AddFriendNotify) systemMessage.getAttachObject();
+                        if (attachData != null && attachData.getEvent() == AddFriendNotify.Event.RECV_ADD_FRIEND_DIRECT) {
+                            NimUserInfoCache.getInstance().getUserInfoFromRemote(systemMessage.getFromAccount(), new RequestCallback<NimUserInfo>() {
+                                @Override
+                                public void onSuccess(NimUserInfo nimUserInfo) {
+                                    NotifycationUtil.showFriendNotifycation(nimUserInfo.getName());
+                                }
+
+                                @Override
+                                public void onFailed(int i) {
+                                    NotifycationUtil.showFriendNotifycation(systemMessage.getFromAccount());
+                                }
+
+                                @Override
+                                public void onException(Throwable throwable) {
+                                    NotifycationUtil.showFriendNotifycation(systemMessage.getFromAccount());
+                                }
+                            });
+                        }
+                    }
+                }
+            };
+        }
+        NIMClient.getService(SystemMessageObserver.class).observeReceiveSystemMsg(observer, is);
+        Log.d("注册新加好友监听", "" + is);
     }
 
     /**

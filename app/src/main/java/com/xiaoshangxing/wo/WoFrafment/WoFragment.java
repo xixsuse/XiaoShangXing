@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.xiaoshangxing.Network.netUtil.LoadUtils;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.PushMsg;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.InputActivity;
@@ -29,6 +31,7 @@ import com.xiaoshangxing.setting.SettingActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
@@ -43,6 +46,9 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
+
+import static com.xiaoshangxing.utils.NotifycationUtil.NT_SCHOOLMATE_CHANGE;
+import static com.xiaoshangxing.utils.NotifycationUtil.NT_SCHOOLMATE_NOTICE_YOU;
 
 /**
  * Created by FengChaoQun
@@ -97,6 +103,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private WoAdapter1 woAdapter1;
     private NimUserInfo nimUserInfo;
 
+    private List<PushMsg> pushMsgs = new ArrayList<>();
+    private NotifycationUtil.OnNotifyChange onNotifyChange;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -117,6 +126,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        NotifycationUtil.unRegisterObserver(onNotifyChange);
     }
 
     public static WoFragment newInstance() {
@@ -212,6 +222,18 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 //                Toast.makeText(getContext(), "正在更新内容", Toast.LENGTH_SHORT).show();
             }
         });
+
+        onNotifyChange = new NotifycationUtil.OnNotifyChange() {
+            @Override
+            public void onChange(PushMsg pushMsg) {
+                if (pushMsg.getPushType().equals(NotifycationUtil.NT_SCHOOLMATE_NOTICE_YOU)
+                        || pushMsg.getPushType().equals(NotifycationUtil.NT_SCHOOLMATE_CHANGE)) {
+                    Log.d("pushMes", "change");
+                    setNews();
+                }
+            }
+        };
+        NotifycationUtil.registerObserver(onNotifyChange);
     }
 
     @Override
@@ -247,7 +269,18 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void setNews() {
-
+        pushMsgs = realm.where(PushMsg.class).not().equalTo("isRead", "1")
+                .equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_CHANGE)
+                .or().equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_NOTICE_YOU)
+                .findAllSorted(NS.PUSH_TIME, Sort.DESCENDING);
+        if (pushMsgs.isEmpty()) {
+            news_lay.setVisibility(View.GONE);
+        } else {
+            news_lay.setVisibility(View.VISIBLE);
+            news.setText(pushMsgs.size() + "条新消息");
+            String userId = pushMsgs.get(0).getUserId();
+            UserInfoCache.getInstance().getHeadIntoImage(userId, newsHead);
+        }
     }
 
     private void initHead() {
@@ -327,7 +360,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                                         @Override
                                         public void before() {
                                             divider_line.setVisibility(View.INVISIBLE);
-                                            LoadUtils.clearDatabase(NS.CATEGORY_STATE, false, true);
                                         }
 
                                         @Override
@@ -388,9 +420,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void gotoNews() {
-        showToast(NS.ON_DEVELOPING);
-//        Intent new_intent = new Intent(getContext(), NewsActivity.class);
-//        startActivity(new_intent);
+        Intent new_intent = new Intent(getContext(), NewsActivity.class);
+        startActivity(new_intent);
     }
 
     @Override
@@ -529,4 +560,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             }
         }
     }
+
+
 }

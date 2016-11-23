@@ -6,9 +6,11 @@ package com.xiaoshangxing.yujian.Schoolfellow.ItemBean;
  */
 
 public class ProfessionItem extends BaseItemBean {
+    private String professionName;
 
-    public ProfessionItem(int id, BaseItemBean parent) {
+    public ProfessionItem(String id, String professionName, BaseItemBean parent) {
         super(id, parent, BaseItemBean.PROFESSION);
+        this.professionName = professionName;
     }
 
     @Override
@@ -18,11 +20,27 @@ public class ProfessionItem extends BaseItemBean {
 
     @Override
     public String getShowName() {
-        return "计算机科学与技术";
+        return professionName;
     }
 
     @Override
     public String getExText() {
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProfessionItem that = (ProfessionItem) o;
+
+        return professionName != null ? professionName.equals(that.professionName) : that.professionName == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return professionName != null ? professionName.hashCode() : 0;
     }
 }

@@ -1,6 +1,7 @@
 package com.xiaoshangxing.Network.netUtil;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -101,8 +102,8 @@ public class LoadUtils {
      * @param aroundLoading 回调
      */
 
-    public static void getPublished(final Realm realm, String type, final String loadtime,
-                                    final Context context, boolean isSelf, final AroundLoading aroundLoading) {
+    public static void getPublished(final Realm realm, final String type, final String loadtime,
+                                    final Context context, final boolean isSelf, final AroundLoading aroundLoading) {
 
         if (aroundLoading != null) {
             aroundLoading.before();
@@ -133,7 +134,7 @@ public class LoadUtils {
             @Override
             public void onNext(ResponseBody responseBody) {
                 try {
-                    LoadUtils.parseData(responseBody, realm, context, aroundLoading);
+                    LoadUtils.parseData(responseBody, realm, context, PUBLISHED, type, isSelf ? TempUser.getId() : null, aroundLoading);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -142,21 +143,72 @@ public class LoadUtils {
             }
         };
         if (isSelf) {
-            PublishNetwork.getInstance().getPublished(subscriber1, jsonObject, XSXApplication.getInstance());
+            PublishNetwork.getInstance().getPersonalPublished(subscriber1, jsonObject, XSXApplication.getInstance());
         } else {
             PublishNetwork.getInstance().getAllPublished(subscriber1, jsonObject, XSXApplication.getInstance());
         }
     }
 
     /**
-     * description:刷新收藏
+     * description:获取指定人的指定动态
+     *
+     * @param realm         数据库
+     * @param type          需要刷新的动态类型
+     * @param peopleId      对象id
+     * @param aroundLoading 回调
+     */
+
+    public static void getPersonalPublished(final Realm realm, final String type, final int peopleId,
+                                            final Context context, final AroundLoading aroundLoading) {
+        if (aroundLoading != null) {
+            aroundLoading.before();
+        }
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, peopleId);
+        jsonObject.addProperty(NS.CATEGORY, type);
+        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+
+        Subscriber<ResponseBody> subscriber1 = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+                if (aroundLoading != null) {
+                    aroundLoading.complete();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (aroundLoading != null) {
+                    aroundLoading.error();
+                }
+                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    LoadUtils.parseData(responseBody, realm, context, PUBLISHED, type, String.valueOf(peopleId), aroundLoading);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        PublishNetwork.getInstance().getPersonalPublished(subscriber1, jsonObject, XSXApplication.getInstance());
+    }
+
+
+    /**
+     * description:获取收藏
      *
      * @param realm         数据库
      * @param type          需要刷新的收藏类型
      * @param loadtime      对应的刷新时间的类型
      * @param aroundLoading 回调
      */
-    public static void getCollected(final Realm realm, String type, final String loadtime,
+    public static void getCollected(final Realm realm, final String type, final String loadtime,
                                     final Context context, final AroundLoading aroundLoading) {
         if (aroundLoading != null) {
             aroundLoading.before();
@@ -187,7 +239,7 @@ public class LoadUtils {
             @Override
             public void onNext(ResponseBody responseBody) {
                 try {
-                    LoadUtils.parseData(responseBody, realm, context, aroundLoading);
+                    LoadUtils.parseData(responseBody, realm, context, COLLECT, type, TempUser.getId(), aroundLoading);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -199,58 +251,7 @@ public class LoadUtils {
     }
 
     /**
-     * description:获取指定人的指定动态
-     *
-     * @param realm         数据库
-     * @param type          需要刷新的动态类型
-     * @param peopleId      对象id
-     * @param aroundLoading 回调
-     */
-
-    public static void getPersonalPublished(final Realm realm, String type, int peopleId,
-                                            final Context context, final AroundLoading aroundLoading) {
-        if (aroundLoading != null) {
-            aroundLoading.before();
-        }
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty(NS.USER_ID, peopleId);
-        jsonObject.addProperty(NS.CATEGORY, type);
-        jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
-
-        Subscriber<ResponseBody> subscriber1 = new Subscriber<ResponseBody>() {
-            @Override
-            public void onCompleted() {
-                if (aroundLoading != null) {
-                    aroundLoading.complete();
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                if (aroundLoading != null) {
-                    aroundLoading.error();
-                }
-                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNext(ResponseBody responseBody) {
-                try {
-                    LoadUtils.parseData(responseBody, realm, context, aroundLoading);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-        PublishNetwork.getInstance().getPublished(subscriber1, jsonObject, XSXApplication.getInstance());
-    }
-
-    /**
      * description:获取加入的计划
-     *
      * @param userid        用户id
      * @param realm         数据库
      * @param aroundLoading 回调
@@ -288,6 +289,9 @@ public class LoadUtils {
                     JSONObject jsonObject = new JSONObject(responseBody.string());
                     switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
                         case 200:
+
+                            clearData(JOINED_PLAN, null, null, false);
+
                             final JSONArray jsonArray = jsonObject.getJSONObject(NS.MSG).getJSONArray("moments");
                             realm.executeTransaction(new Realm.Transaction() {
                                 @Override
@@ -314,18 +318,21 @@ public class LoadUtils {
     }
 
     /**
-     * description:  将返回数据存入数据库
+     * description:  将返回的动态数据存入数据库
      *
      * @param responseBody  返回体
      * @param realm         数据库
      * @param aroundLoading 回调
-     * @return
      */
 
-    public static void parseData(ResponseBody responseBody, Realm realm, Context context, AroundLoading aroundLoading) throws IOException, JSONException {
+    public static void parseData(ResponseBody responseBody, Realm realm, Context context, String dataType, String type,
+                                 String personId, AroundLoading aroundLoading) throws IOException, JSONException {
         JSONObject jsonObject = new JSONObject(responseBody.string());
         switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
             case 200:
+
+                clearData(dataType, type, personId, false);
+
                 final JSONArray jsonArray = jsonObject.getJSONObject(NS.MSG).getJSONArray("moments");
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
@@ -344,106 +351,15 @@ public class LoadUtils {
     }
 
     /**
-     * description:  清除数据库中指定动态
-     *
-     * @param category   指定清除数据的类型
-     * @param onlyself   是否只清除用户自己的动态
-     * @param remainsome 是否只保留若干动态
-     * @return
-     */
-
-    public static void clearDatabase(String category, boolean onlyself, boolean remainsome) {
-        Realm realm = Realm.getDefaultInstance();
-        final RealmResults<Published> realmResults;
-        final List<Published> deleteItems;
-        if (onlyself) {
-            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, Integer.valueOf(category))
-                    .equalTo(NS.ID, TempUser.id).findAllSorted(NS.CREATETIME, Sort.DESCENDING);
-        } else {
-            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, Integer.valueOf(category))
-                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
-        }
-
-        if (remainsome) {
-            if (realmResults.size() > 20) {
-                deleteItems = realmResults.subList(20, realmResults.size());
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        for (Published i : deleteItems) {
-                            i.deleteFromRealm();
-                        }
-                        Log.d("clear data ", "success");
-                    }
-                });
-            }
-        } else {
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realmResults.deleteAllFromRealm();
-                    Log.d("clear data ", "success");
-                }
-            });
-        }
-
-    }
-
-    /**
-     * description:清除收藏
-     *
-     * @param category 清除的类型
-     * @return
-     */
-
-    public static void clearCollect(final String category) {
-        Realm realm = Realm.getDefaultInstance();
-        final RealmResults<Published> realmResults;
-
-        if (category.equals(NS.COLLECT_REWARD)) {
-            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, 6)
-                    .equalTo(NS.COLLECT_STATU, "1")
-                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
-        } else if (category.equals(NS.COLLECT_SALE)) {
-            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, 5)
-                    .equalTo(NS.COLLECT_STATU, "1")
-                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
-        } else {
-            return;
-        }
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realmResults.deleteAllFromRealm();
-                Log.d("clear collect data " + category, "success");
-            }
-        });
-    }
-
-    public static void clearJoinPlan(int id) {
-        Realm realm = Realm.getDefaultInstance();
-        final RealmResults<JoinedPlan> joinedPlen = realm.where(JoinedPlan.class).findAll();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                joinedPlen.deleteAllFromRealm();
-                Log.d("clear joined_plan ", "success");
-            }
-        });
-    }
-
-
-    /**
      * description:获取校历
      *
      * @param year          年份
      * @param month         月份
      * @param realm         数据库
      * @param aroundLoading 回调
-     * @return
      */
 
-    public static void getCalendar(String year, String month, final Context context, final Realm realm,
+    public static void getCalendar(final String year, final String month, final Context context, final Realm realm,
                                    final AroundLoading aroundLoading) {
 
         if (aroundLoading != null) {
@@ -475,7 +391,7 @@ public class LoadUtils {
             @Override
             public void onNext(ResponseBody responseBody) {
                 try {
-                    LoadUtils.parseCalendarData(responseBody, realm, context, aroundLoading);
+                    LoadUtils.parseCalendarData(responseBody, realm, context, year, month, aroundLoading);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -492,13 +408,16 @@ public class LoadUtils {
      * @param responseBody  返回体
      * @param realm         数据库
      * @param aroundLoading 回调
-     * @return
      */
 
-    public static void parseCalendarData(ResponseBody responseBody, Realm realm, Context context, AroundLoading aroundLoading) throws IOException, JSONException {
+    private static void parseCalendarData(ResponseBody responseBody, Realm realm, Context context,
+                                          String year, String month, AroundLoading aroundLoading) throws IOException, JSONException {
         JSONObject jsonObject = new JSONObject(responseBody.string());
         switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
             case 200:
+
+                ClearCalendar(year, month);
+
                 final JSONArray jsonArray = jsonObject.getJSONObject(NS.MSG).getJSONArray("moments");
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
@@ -521,7 +440,6 @@ public class LoadUtils {
      *
      * @param realm         数据库
      * @param aroundLoading 回调
-     * @return
      */
 
     public static void getCalendarInputer(final Context context, final Realm realm, final AroundLoading aroundLoading) {
@@ -556,6 +474,7 @@ public class LoadUtils {
                     JSONObject jsonObject = new JSONObject(responseBody.string());
                     switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
                         case 200:
+                            ClearInputer();
                             final JSONArray jsonArray = jsonObject.getJSONObject(NS.MSG).getJSONArray("leaders");
                             realm.executeTransaction(new Realm.Transaction() {
                                 @Override
@@ -566,7 +485,6 @@ public class LoadUtils {
                             if (aroundLoading != null) {
                                 aroundLoading.onSuccess();
                             }
-                            Toast.makeText(context, NS.REFRESH_SUCCESS, Toast.LENGTH_SHORT).show();
                             break;
                         default:
                             Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
@@ -580,6 +498,163 @@ public class LoadUtils {
             }
         };
         PublishNetwork.getInstance().getCalendarInputer(subscriber1, jsonObject, XSXApplication.getInstance());
+    }
+
+
+    private static final String COLLECT = "COLLECT"; //收藏
+    private static final String PUBLISHED = "PUBLISHED"; //普通动态
+    private static final String JOINED_PLAN = "JOINED_PLAN"; //加入的计划
+
+    /**
+     * description:清除本地数据库中指定数据
+     *
+     * @param dataType   数据库类型
+     * @param category   数据类型
+     * @param personId   指定人id
+     * @param remainsome 是否需要保存前十条
+     */
+
+    private static void clearData(String dataType, final String category, String personId, boolean remainsome) {
+        switch (dataType) {
+            case COLLECT:
+                clearCollect(category);
+                break;
+            case PUBLISHED:
+                clearDatabase(category, personId, remainsome);
+                break;
+            case JOINED_PLAN:
+                clearJoinPlan();
+                break;
+        }
+    }
+
+    /**
+     * description:  清除数据库中指定发布的动态
+     *
+     * @param category   指定清除数据的类型
+     * @param personId   清除指定人的id
+     * @param remainsome 是否保留若干动态  保留前十条动态
+     */
+
+    private static void clearDatabase(final String category, String personId, boolean remainsome) {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<Published> realmResults;
+        final List<Published> deleteItems;
+        if (!TextUtils.isEmpty(personId)) {
+            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, Integer.valueOf(category))
+                    .equalTo(NS.ID, Integer.valueOf(personId)).findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else {
+            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, Integer.valueOf(category))
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        }
+
+        if (remainsome) {
+            if (realmResults.size() > 10) {
+                deleteItems = realmResults.subList(10, realmResults.size());
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        for (Published i : deleteItems) {
+                            i.deleteFromRealm();
+                        }
+                        Log.d("clear published data " + category, "success");
+                    }
+                });
+            }
+        } else {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realmResults.deleteAllFromRealm();
+                    Log.d("clear published data " + category, "success");
+                }
+            });
+        }
+
+    }
+
+    /**
+     * description:清除收藏
+     *
+     * @param category 清除的类型
+     */
+
+    private static void clearCollect(final String category) {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<Published> realmResults;
+
+        if (category.equals(NS.COLLECT_REWARD)) {
+            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, 6)
+                    .equalTo(NS.COLLECT_STATU, "1")
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else if (category.equals(NS.COLLECT_SALE)) {
+            realmResults = realm.where(Published.class).equalTo(NS.CATEGORY, 5)
+                    .equalTo(NS.COLLECT_STATU, "1")
+                    .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
+        } else {
+            return;
+        }
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realmResults.deleteAllFromRealm();
+                Log.d("clear collect data " + category, "success");
+            }
+        });
+    }
+
+    /**
+     * description:清除加入的计划
+     */
+
+    private static void clearJoinPlan() {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<JoinedPlan> joinedPlen = realm.where(JoinedPlan.class).findAll();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                joinedPlen.deleteAllFromRealm();
+                Log.d("clear joined_plan ", "success");
+            }
+        });
+    }
+
+
+    /**
+     * description:清除校历发布者
+     */
+
+    private static void ClearInputer() {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<User> users = realm.where(User.class).equalTo("isVip", "1").findAll();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                users.deleteAllFromRealm();
+                Log.d("clear inpuer ", "success");
+            }
+        });
+    }
+
+    /**
+     * description:清除指定年月的校历数据
+     *
+     * @param year  年
+     * @param month 月
+     */
+
+    private static void ClearCalendar(final String year, final String month) {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<CalendarData> calendarDatas = realm.where(CalendarData.class)
+                .equalTo(NS.YEAR, year)
+                .equalTo(NS.MONTH, month).findAll();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                calendarDatas.deleteAllFromRealm();
+                Log.d("clear calendar " + year + "--" + month, "success");
+            }
+        });
     }
 
     /**

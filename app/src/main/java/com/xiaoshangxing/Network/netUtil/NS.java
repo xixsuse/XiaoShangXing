@@ -86,6 +86,12 @@ public class NS {
 
     public static final String TYPE = "type";
 
+    //推送有关
+    public static final String PUSH_TYPE = "pushType";
+    public static final String OPERATION_TYPE = "operationType";
+    public static final String PUSH_TIME = "pushTime";
+
+
 
 
     public static long currentTime(){

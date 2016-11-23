@@ -171,7 +171,6 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
         final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
             @Override
             public void before() {
-                LoadUtils.clearDatabase(NS.CATEGORY_SALE, false, true);
             }
 
             @Override
@@ -201,7 +200,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
             LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_PLAN), new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
-                    LoadUtils.getPublished(realm, NS.CATEGORY_PLAN, LoadUtils.TIME_LOAD_PLAN, getContext(), true,
+                    LoadUtils.getPublished(realm, NS.CATEGORY_PLAN, LoadUtils.TIME_LOAD_PLAN, getContext(), false,
                             aroundLoading);
                 }
             });

@@ -58,7 +58,7 @@ public class PublishNetwork {
         return SingletonHolder.INSTANCE;
     }
 
-    public void getPublished(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+    public void getPersonalPublished(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
         if (getPublishedApi == null) {
             getPublishedApi = Network.getRetrofitWithHeader(context).create(GetPublishedApi.class);
         }

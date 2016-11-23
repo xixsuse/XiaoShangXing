@@ -1,6 +1,7 @@
 package com.xiaoshangxing.yujian.Schoolfellow.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -105,7 +106,7 @@ public class ShoolfellowAdapter extends BaseAdapter {
                 MyGlide.with_app_log(context, baseItemBean.getImage(), viewHolder.headImage);
                 viewHolder.name.setText(baseItemBean.getShowName());
                 viewHolder.name.setPadding(ScreenUtils.getAdapterPx(R.dimen.x24, context), 0, 0, 0);
-                viewHolder.ex.setText(baseItemBean.getExText());
+                viewHolder.ex.setText(TextUtils.isEmpty(baseItemBean.getExText()) ? "" : baseItemBean.getExText());
                 viewHolder.ex.setPadding(ScreenUtils.getAdapterPx(R.dimen.x24, context), 0, 0, 0);
                 viewHolder.headImage.setVisibility(View.VISIBLE);
                 viewHolder.ex.setVisibility(View.VISIBLE);
@@ -138,6 +139,7 @@ public class ShoolfellowAdapter extends BaseAdapter {
                 MyGlide.with_app_log(context, baseItemBean.getImage(), viewHolder.headImage);
                 viewHolder.ex.setVisibility(View.VISIBLE);
                 viewHolder.ex.setPadding(ScreenUtils.getAdapterPx(R.dimen.x12, context), 0, 0, 0);
+                viewHolder.ex.setText(TextUtils.isEmpty(baseItemBean.getExText()) ? "" : baseItemBean.getExText());
                 break;
 
         }

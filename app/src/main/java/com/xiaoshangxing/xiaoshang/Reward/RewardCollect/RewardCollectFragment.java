@@ -137,7 +137,6 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-                                        LoadUtils.clearCollect(NS.COLLECT_REWARD);
                                         refreshPager();
                                     }
 

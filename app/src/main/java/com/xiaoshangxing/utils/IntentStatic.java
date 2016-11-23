@@ -66,8 +66,8 @@ public class IntentStatic {
             if (Build.VERSION.SDK_INT >= 23) {
                 int checkCallPhonePermission = ContextCompat.checkSelfPermission(fragment.getContext(), Manifest.permission.CAMERA);
                 if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(fragment.getContext(), "你没有授权调用相机，请在手机设置界面进行授权", Toast.LENGTH_SHORT).show();
                     ActivityCompat.requestPermissions(fragment.getActivity(), new String[]{Manifest.permission.CAMERA}, 100);
-                    Toast.makeText(fragment.getContext(), "你没有授权调用相机，请前往设置界面进行设置", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }

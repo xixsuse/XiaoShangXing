@@ -1,16 +1,21 @@
 package com.xiaoshangxing.yujian.ChatActivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -379,7 +384,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     private Uri came_photo_path;
     public static final int TAKE_PHOTO = 30000;
 
-    private final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private void openCamera() {
         came_photo_path = FileUtils.newPhotoPath();
         IntentStatic.openCamera(container.activity, came_photo_path, TAKE_PHOTO);
@@ -669,19 +673,24 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    touched = true;
-                    initAudioRecord();
-                    onStartAudioRecord();
-                } else if (event.getAction() == MotionEvent.ACTION_CANCEL
-                        || event.getAction() == MotionEvent.ACTION_UP) {
-                    touched = false;
-                    onEndAudioRecord(isCancelled(v, event));
-                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                    touched = false;
-                    cancelAudioRecord(isCancelled(v, event));
+                int checkCallPhonePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO);
+                if (Build.VERSION.SDK_INT >= 23 && checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 100);
+                    Toast.makeText(getActivity(), "你没有授权录音，请前往设置界面进行设置", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        touched = true;
+                        initAudioRecord();
+                        onStartAudioRecord();
+                    } else if (event.getAction() == MotionEvent.ACTION_CANCEL
+                            || event.getAction() == MotionEvent.ACTION_UP) {
+                        touched = false;
+                        onEndAudioRecord(isCancelled(v, event));
+                    } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                        touched = false;
+                        cancelAudioRecord(isCancelled(v, event));
+                    }
                 }
-
                 return false;
             }
         });
@@ -718,8 +727,8 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
 
         started = audioMessageHelper.startRecord();
         cancelled = false;
-        if (started == false) {
-            Toast.makeText(container.activity, "初始化录音组件失败", Toast.LENGTH_SHORT).show();
+        if (!started) {
+            Toast.makeText(container.activity, "初始化录音组件失败,请确定已授权录音", Toast.LENGTH_SHORT).show();
             return;
         }
 

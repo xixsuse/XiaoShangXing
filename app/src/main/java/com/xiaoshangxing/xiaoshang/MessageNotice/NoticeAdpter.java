@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.xiaoshangxing.data.Notice;
+import com.xiaoshangxing.data.PushMsg;
 import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeViewHodler.NoticeBaseViewHolder;
 import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeViewHodler.NoticeCommentVH;
 
@@ -19,15 +19,15 @@ import java.util.Map;
  * on 2016/11/16
  */
 
-public class NoticeAdpter extends ArrayAdapter<Notice> {
+public class NoticeAdpter extends ArrayAdapter<PushMsg> {
     private Context context;
-    List<Notice> notices;
+    List<PushMsg> pushMsgs;
     private final Map<Class<?>, Integer> viewTypes;
 
-    public NoticeAdpter(Context context, int res, List<Notice> notices) {
-        super(context, res, notices);
+    public NoticeAdpter(Context context, int res, List<PushMsg> pushMsgs) {
+        super(context, res, pushMsgs);
         this.context = context;
-        this.notices = notices;
+        this.pushMsgs = pushMsgs;
         this.viewTypes = new HashMap<Class<?>, Integer>(getViewTypeCount());
     }
 
@@ -40,7 +40,7 @@ public class NoticeAdpter extends ArrayAdapter<Notice> {
         }
         noticeBaseViewHolder = (NoticeBaseViewHolder) convertView.getTag();
         noticeBaseViewHolder.setPosition(position);
-        noticeBaseViewHolder.refresh(notices.get(position));
+        noticeBaseViewHolder.refresh(pushMsgs.get(position));
         return convertView;
 
     }

@@ -33,7 +33,7 @@
                 android:id="@+id/detail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/y48"
+                android:layout_marginTop="@dimen/y42"
                 android:background="@color/w0"
                 android:orientation="vertical"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -148,7 +148,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/y126"
-                android:layout_marginTop="@dimen/y48"
+                android:layout_marginTop="@dimen/y24"
                 android:background="@color/w0">
 
                 <!--转发-->
@@ -214,6 +214,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.view.ViewPager
+            android:background="@color/w0"
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -6,23 +6,29 @@ package com.xiaoshangxing.yujian.Schoolfellow.ItemBean;
  */
 
 public class MateItem extends BaseItemBean {
+    private String userName;
+    private String signature;
+    private String userImage;
 
-    public MateItem(int id, BaseItemBean parent) {
+    public MateItem(String id, BaseItemBean parent, String userName, String userImage, String signature) {
         super(id, parent, BaseItemBean.PERSON);
+        this.userName = userName;
+        this.userImage = userImage;
+        this.signature = signature;
     }
 
     @Override
     public String getImage() {
-        return null;
+        return userImage;
     }
 
     @Override
     public String getShowName() {
-        return "冯超群";
+        return userName;
     }
 
     @Override
     public String getExText() {
-        return "天气真好";
+        return signature;
     }
 }

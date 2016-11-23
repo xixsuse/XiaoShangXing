@@ -1,17 +1,27 @@
 package com.xiaoshangxing.xiaoshang.MessageNotice.NoticeViewHodler;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Notice;
+import com.xiaoshangxing.data.PushMsg;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeAdpter;
+import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
+import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
+import com.xiaoshangxing.xiaoshang.Sale.SaleDetail.SaleDetailsActivity;
+import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 /**
  * Created by FengChaoQun
@@ -23,13 +33,16 @@ public abstract class NoticeBaseViewHolder {
     protected int position;
     protected Context context;
     protected View view;
-    protected Notice notice;
+    protected PushMsg pushMsg;
 
     protected CirecleImage headImage;
     protected Name name;
+    protected TextView college;
     protected TextView time;
     protected View responseLay;
+    protected CirecleImage typeImage;
     protected FrameLayout content;
+    protected View publishedConetent;
     protected EmotinText publishedText;
 
 
@@ -45,17 +58,20 @@ public abstract class NoticeBaseViewHolder {
     private void inflateBase() {
         headImage = (CirecleImage) view.findViewById(R.id.head_image);
         name = (Name) view.findViewById(R.id.name);
+        college = (TextView) view.findViewById(R.id.college);
         time = (TextView) view.findViewById(R.id.time);
         responseLay = view.findViewById(R.id.response);
         content = (FrameLayout) view.findViewById(R.id.content);
         publishedText = (EmotinText) view.findViewById(R.id.published_text);
+        typeImage = (CirecleImage) view.findViewById(R.id.type_image);
+        publishedConetent = view.findViewById(R.id.publish_content);
     }
 
     //初始化子类
     public abstract void inflateChild();
 
-    public void refresh(Notice notice) {
-        setNotice(notice);
+    public void refresh(PushMsg pushMsg) {
+        setNotice(pushMsg);
         refreshBase();
         refreshChild();
     }
@@ -70,11 +86,56 @@ public abstract class NoticeBaseViewHolder {
     protected abstract void refreshChild();
 
     private void initView() {
-
+        UserInfoCache.getInstance().getHeadIntoImage(pushMsg.getUserId(), headImage);
+        UserInfoCache.getInstance().getExIntoTextview(pushMsg.getUserId(), NS.COLLEGE, college);
+        name.setText(pushMsg.getUserName());
+        time.setText(TimeUtil.getTimeShowString(pushMsg.getPushTime(), false));
+        publishedText.setText(pushMsg.getMomentText());
+        switch (pushMsg.getCategory()) {
+            case NS.CATEGORY_HELP:
+                typeImage.setImageResource(R.mipmap.shool_help_log);
+                break;
+            case NS.CATEGORY_PLAN:
+                typeImage.setImageResource(R.mipmap.launch_plan_log);
+                break;
+            case NS.CATEGORY_REWARD:
+                typeImage.setImageResource(R.mipmap.school_reward_log);
+                break;
+            case NS.CATEGORY_SALE:
+                typeImage.setImageResource(R.mipmap.xianzhi_log);
+                break;
+        }
     }
 
     private void initOnclick() {
+        headImage.setIntent_type(CirecleImage.PERSON_INFO, pushMsg.getUserId());
+        name.setIntent_type(Name.PERSON_INFO, pushMsg.getUserId());
 
+        final Intent intent = new Intent();
+        switch (pushMsg.getCategory()) {
+            case NS.CATEGORY_HELP:
+                intent.setClass(context, HelpDetailActivity.class);
+                break;
+            case NS.CATEGORY_PLAN:
+                intent.setClass(context, PlanDetailActivity.class);
+                break;
+            case NS.CATEGORY_REWARD:
+                intent.setClass(context, RewardDetailActivity.class);
+                break;
+            case NS.CATEGORY_SALE:
+                intent.setClass(context, SaleDetailsActivity.class);
+                break;
+            default:
+                return;
+        }
+        intent.putExtra(IntentStatic.DATA, Integer.valueOf(pushMsg.getMomentId()));
+        Log.d("momentId", pushMsg.getMomentId());
+        publishedConetent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(intent);
+            }
+        });
     }
 
     public NoticeAdpter getAdpter() {
@@ -109,11 +170,11 @@ public abstract class NoticeBaseViewHolder {
         this.view = view;
     }
 
-    public Notice getNotice() {
-        return notice;
+    public PushMsg getNotice() {
+        return pushMsg;
     }
 
-    public void setNotice(Notice notice) {
-        this.notice = notice;
+    public void setNotice(PushMsg pushMsg) {
+        this.pushMsg = pushMsg;
     }
 }

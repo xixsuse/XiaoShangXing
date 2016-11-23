@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,8 +12,18 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import com.xiaoshangxing.Network.InfoNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.Schoolmate;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.BaseItemBean;
 import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.CollegeItem;
 import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.GradeItem;
@@ -20,19 +31,26 @@ import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.MateItem;
 import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.ProfessionItem;
 import com.xiaoshangxing.yujian.Schoolfellow.List.ShoolfellowAdapter;
 import com.xiaoshangxing.yujian.Serch.SerchPerson.SerchPersonActivity;
+import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 import com.xiaoshangxing.yujian.xiaoyou.tree.Node;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
 
 /**
  * Created by 15828 on 2016/8/15.
  */
-public class XiaoYouActivity extends BaseActivity {
+public class XiaoYouActivity extends BaseActivity implements IBaseView {
 
     @Bind(R.id.left_image)
     ImageView leftImage;
@@ -66,6 +84,10 @@ public class XiaoYouActivity extends BaseActivity {
 
     private List<BaseItemBean> itemBeanList = new ArrayList<>();
     private View headview;
+
+    private HashSet<CollegeItem> collegeItems = new HashSet<>();
+    private HashSet<ProfessionItem> professionItems = new HashSet<>();
+    private List<Schoolmate> schoolmates = new ArrayList<>();
 
 
     @Override
@@ -120,8 +142,8 @@ public class XiaoYouActivity extends BaseActivity {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        initListview();
-
+//        initListview();
+        getCollege();
     }
 
     private void initDatas() {
@@ -209,9 +231,7 @@ public class XiaoYouActivity extends BaseActivity {
 
     private void initListview() {
 
-        for (int i = 0; i <= 9; i++) {
-            itemBeanList.add(new CollegeItem(i));
-        }
+        itemBeanList.addAll(collegeItems);
         adapter = new ShoolfellowAdapter(this, itemBeanList, idTree);
         idTree.setAdapter(adapter);
         adapter.setOnItemClick(new ShoolfellowAdapter.onItemClick() {
@@ -224,32 +244,139 @@ public class XiaoYouActivity extends BaseActivity {
                 adapter.removeChildrens(position);
                 switch (itemBean.getType()) {
                     case BaseItemBean.COLLEGE:
-                        itemBean.getChildren().clear();
-                        for (int i = 0; i <= 5; i++) {
-                            itemBean.getChildren().add(new ProfessionItem(i, itemBean));
-                        }
+                        getProfession(position, itemBean);
                         break;
                     case BaseItemBean.PROFESSION:
                         itemBean.getChildren().clear();
-                        itemBean.getChildren().add(new GradeItem(1, itemBean, GradeItem.GRADE_2012));
-                        itemBean.getChildren().add(new GradeItem(1, itemBean, GradeItem.GRADE_2013));
-                        itemBean.getChildren().add(new GradeItem(1, itemBean, GradeItem.GRADE_2014));
-                        itemBean.getChildren().add(new GradeItem(1, itemBean, GradeItem.GRADE_2015));
+                        itemBean.getChildren().add(new GradeItem(itemBean.getId(), itemBean, GradeItem.GRADE_2013));
+                        itemBean.getChildren().add(new GradeItem(itemBean.getId(), itemBean, GradeItem.GRADE_2014));
+                        itemBean.getChildren().add(new GradeItem(itemBean.getId(), itemBean, GradeItem.GRADE_2015));
+                        itemBean.getChildren().add(new GradeItem(itemBean.getId(), itemBean, GradeItem.GRADE_2016));
+                        adapter.addData(position, itemBean);
                         break;
                     case BaseItemBean.GRADE:
-                        itemBean.getChildren().clear();
-                        for (int i = 0; i <= 5; i++) {
-                            itemBean.getChildren().add(new MateItem(i, itemBean));
-                        }
+                        getStudent(position, itemBean);
                         break;
-                    default:
-                        showToast("信息不完整");
-                        return;
+                    case BaseItemBean.PERSON:
+                        Intent intent = new Intent(XiaoYouActivity.this, PersonInfoActivity.class);
+                        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, itemBean.getId());
+                        startActivity(intent);
+                        break;
                 }
-                adapter.addData(position, itemBean);
+
             }
         });
 
+    }
+
+    private void getCollege() {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case NS.CODE_200:
+                            String[] temp = jsonObject.getString(NS.MSG).split(NS.SPLIT);
+                            for (String i : temp) {
+                                String[] temp2 = i.split(NS.SPLIT2);
+                                collegeItems.add(new CollegeItem(temp2[0], temp2[1], null));
+                            }
+                            initListview();
+                            break;
+                        case 403:
+                            showToast("无数据");
+                            break;
+                        default:
+                            showToast(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(onNext, this);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("schoolName", "江南大学");
+        InfoNetwork.getInstance().getCollge(subsciber, jsonObject, this);
+    }
+
+    private void getProfession(final int position, final BaseItemBean collegeItem) {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case NS.CODE_200:
+                            collegeItem.getChildren().clear();
+                            String[] temp = jsonObject.getString(NS.MSG).split(NS.SPLIT);
+                            for (String i : temp) {
+                                String[] temp2 = i.split(NS.SPLIT2);
+                                collegeItem.getChildren().add(new ProfessionItem(temp2[0], temp2[1], collegeItem));
+                            }
+                            adapter.addData(position, collegeItem);
+                            break;
+                        case 403:
+                            showToast("无数据");
+                            break;
+                        default:
+                            showToast(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(onNext, this);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("collegeId", collegeItem.getId());
+        InfoNetwork.getInstance().getProfession(subsciber, jsonObject, this);
+    }
+
+    private void getStudent(final int position, final BaseItemBean grade) {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case NS.CODE_200:
+                            grade.getChildren().clear();
+                            Gson gson = new Gson();
+                            schoolmates = gson.fromJson(jsonObject.getJSONArray(NS.MSG).toString(), new TypeToken<List<Schoolmate>>() {
+                            }.getType());
+                            if (!schoolmates.isEmpty()) {
+                                for (Schoolmate i : schoolmates) {
+                                    grade.getChildren().add(new MateItem(i.getId(), grade, i.getUsername(), i.getUserImage(), i.getSignature()));
+                                }
+                            }
+                            adapter.addData(position, grade);
+                            break;
+                        case 403:
+                            showToast("无数据");
+                            break;
+                        default:
+                            showToast(jsonObject.getString(NS.MSG));
+                            break;
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(onNext, this);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("professionName", grade.getParent().getShowName());
+        jsonObject.addProperty("collegeName", grade.getParent().getParent().getShowName());
+        jsonObject.addProperty("schoolName", "江南大学");
+        jsonObject.addProperty("admissionYear", ((GradeItem) grade).getGrade());
+        InfoNetwork.getInstance().GetSchoolmate(subsciber, jsonObject, this);
     }
 
     public void Back(View view) {
@@ -263,5 +390,10 @@ public class XiaoYouActivity extends BaseActivity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 }

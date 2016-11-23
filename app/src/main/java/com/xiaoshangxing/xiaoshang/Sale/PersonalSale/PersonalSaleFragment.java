@@ -111,11 +111,10 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_SALE, LoadUtils.TIME_LOAD_SELFSALE, getContext(), false,
+                        LoadUtils.getPublished(realm, NS.CATEGORY_SALE, LoadUtils.TIME_LOAD_SELFSALE, getContext(), true,
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_SALE, false, true);
                                     }
 
                                     @Override

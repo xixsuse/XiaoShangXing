@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.Network.Formmat;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.ShowMsgHandler;
 import com.xiaoshangxing.Network.netUtil.BaseUrl;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
@@ -97,6 +98,7 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
     public static String nameStr, sexStr, xuehaoStr, schoolStr, colleg,
             professional, ruxuenianfenStr, degree;
     public static String collegeId;
+    private ShowMsgHandler showMsgHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +110,7 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
         title.setText("实名认证");
         more.setVisibility(View.GONE);
         titleBottomLine.setVisibility(View.GONE);
-
+        showMsgHandler = new ShowMsgHandler(this);
         if (getIntent().getBooleanExtra(IntentStatic.TYPE, false)) {
             initFailInfo();
         }
@@ -218,7 +220,14 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Formmat formmat = new Formmat(VertifyActivity.this, VertifyActivity.this, BaseUrl.BASE_URL + BaseUrl.REAL_NAME);
+                Formmat formmat = null;
+                try {
+                    formmat = new Formmat(VertifyActivity.this, VertifyActivity.this, BaseUrl.BASE_URL + BaseUrl.REAL_NAME);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showMsgHandler.showToast("初始化上传组件失败,请检查网络状态");
+                    return;
+                }
                 formmat.setSuccessToast("提交成功");
                 formmat.setSimpleCallBack(new SimpleCallBack() {
                     @Override

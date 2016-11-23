@@ -112,11 +112,10 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_PLAN, LoadUtils.TIME_LOAD_SELFPLAN, getContext(), false,
+                        LoadUtils.getPublished(realm, NS.CATEGORY_PLAN, LoadUtils.TIME_LOAD_SELFPLAN, getContext(), true,
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_PLAN, false, true);
                                     }
 
                                     @Override

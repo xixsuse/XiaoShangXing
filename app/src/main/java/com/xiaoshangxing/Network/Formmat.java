@@ -38,7 +38,7 @@ public class Formmat {
     private String successToast;
     private String Failmsg;
 
-    public Formmat(final IBaseView iBaseView, final Activity context, String path) {
+    public Formmat(final IBaseView iBaseView, final Activity context, String path) throws IOException {
         this.iBaseView = iBaseView;
         this.context = context;
         this.path = path;
@@ -82,17 +82,17 @@ public class Formmat {
                 super.handleMessage(msg);
             }
         };
-        try {
+//        try {
             multipartUtility = new MultipartUtility(path, "UTF-8");
             multipartUtility.addHeaderField("User-Phone",
                     (String) SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING));
             multipartUtility.addHeaderField("User-Digest",
                     (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            iBaseView.showToast("初始化上传组件失败");
-        }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            iBaseView.showToast("初始化上传组件失败");
+//        }
     }
 
     public Formmat addFormField(String name, String value) {

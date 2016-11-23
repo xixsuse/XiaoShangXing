@@ -134,7 +134,6 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-                                        LoadUtils.clearCollect(NS.COLLECT_SALE);
                                         refreshPager();
                                     }
 

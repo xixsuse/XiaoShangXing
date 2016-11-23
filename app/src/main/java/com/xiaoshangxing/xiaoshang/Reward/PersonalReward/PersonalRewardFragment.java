@@ -76,7 +76,6 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Log.d("personal", "" + isVisible());
     }
 
     @Override
@@ -137,7 +136,6 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-                                        LoadUtils.clearDatabase(NS.CATEGORY_STATE, true, true);
                                     }
 
                                     @Override

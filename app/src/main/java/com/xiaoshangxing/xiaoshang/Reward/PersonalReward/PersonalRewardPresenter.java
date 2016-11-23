@@ -38,7 +38,7 @@ public class PersonalRewardPresenter implements PersonalRewardContract.Presenter
 
     @Override
     public void refreshData(PtrFrameLayout frame) {
-//        LoadUtils.getPublished(frame, mView, realm, NS.CATEGORY_REWARD, new LoadUtils.AroundLoading() {
+//        LoadUtils.getPersonalPublished(frame, mView, realm, NS.CATEGORY_REWARD, new LoadUtils.AroundLoading() {
 //            @Override
 //            public void before() {
 //
