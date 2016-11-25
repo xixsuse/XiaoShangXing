@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.PublishNetwork;
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -32,7 +34,7 @@ public class PublishCache {
      * @param callback 回调
      */
 
-    public static void getPublished(String id, publishedCallback callback) {
+    public static void getPublished(String id, SimpleCallBack callback) {
         Published published;
         Realm realm = Realm.getDefaultInstance();
         published = realm.where(Published.class).equalTo(NS.ID, Integer.valueOf(id)).findFirst();
@@ -40,7 +42,8 @@ public class PublishCache {
             reload(id, callback);
         } else {
             Published published1 = DataCopy.copyPublished(published);
-            callback.callback(published1);
+            callback.onSuccess();
+            callback.onBackData(published1);
         }
         realm.close();
     }
@@ -62,7 +65,7 @@ public class PublishCache {
     /*
     **describe:刷新数据
     */
-    public static void reload(final String id, final publishedCallback callback) {
+    public static void reload(final String id, final SimpleCallBack callback) {
         Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
             @Override
             public void onCompleted() {
@@ -72,6 +75,7 @@ public class PublishCache {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+                callback.onError(e);
             }
 
             @Override
@@ -93,16 +97,20 @@ public class PublishCache {
                             Gson gson = new Gson();
                             Published i = gson.fromJson(published.toString(), Published.class);
                             if (callback != null) {
-                                callback.callback(i);
+                                callback.onSuccess();
+                                callback.onBackData(i);
                             }
                             break;
                         default:
                             Log.d("加载动态信息", "失败");
+                            callback.onError(null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    callback.onError(e);
                 } catch (IOException e) {
                     e.printStackTrace();
+                    callback.onError(e);
                 }
             }
         };
@@ -111,16 +119,26 @@ public class PublishCache {
         PublishNetwork.getInstance().refreshPublished(subscriber, jsonObject, XSXApplication.getInstance());
     }
 
-    /**
-     * ************************************ 单例 **********************************************
-     */
+    public static void reloadWithLoading(final String id, final IBaseView iBaseView, final SimpleCallBack callback) {
+        iBaseView.showLoadingDialog("加载数据中...");
+        reload(id, new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
+                callback.onSuccess();
+                iBaseView.hideLoadingDialog();
+            }
 
-    static class InstanceHolder {
-        final static PublishCache instance = new PublishCache();
+            @Override
+            public void onError(Throwable e) {
+                callback.onError(e);
+                iBaseView.hideLoadingDialog();
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                callback.onBackData(o);
+                iBaseView.hideLoadingDialog();
+            }
+        });
     }
-
-    public interface publishedCallback {
-        void callback(Published published);
-    }
-
 }

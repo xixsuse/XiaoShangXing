@@ -62,8 +62,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private RelativeLayout headView;
     private ListView listView;
     private PtrFrameLayout ptrFrameLayout;
-    private List<String> list = new ArrayList<String>();
-
     private RelativeLayout title;
 
     //  记录listview点击位置
@@ -96,11 +94,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private InputBoxLayout inputBoxLayout;
 
     private RealmResults<Published> publisheds;
-    private List<Published> pager_publisheds = new ArrayList<>();
-    private Wo_listview_adpter wo_listview_adpter;
+    private Wo_adpter_realm adpter_realm;
     private int current_anchor = 10;
     private int selection;//记录listview的位置
-    private WoAdapter1 woAdapter1;
     private NimUserInfo nimUserInfo;
 
     private List<PushMsg> pushMsgs = new ArrayList<>();
@@ -270,8 +266,10 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     @Override
     public void setNews() {
         pushMsgs = realm.where(PushMsg.class).not().equalTo("isRead", "1")
+                .beginGroup()
                 .equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_CHANGE)
                 .or().equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_NOTICE_YOU)
+                .endGroup()
                 .findAllSorted(NS.PUSH_TIME, Sort.DESCENDING);
         if (pushMsgs.isEmpty()) {
             news_lay.setVisibility(View.GONE);
@@ -280,6 +278,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             news.setText(pushMsgs.size() + "条新消息");
             String userId = pushMsgs.get(0).getUserId();
             UserInfoCache.getInstance().getHeadIntoImage(userId, newsHead);
+            Log.d("unreadMsg", pushMsgs.toString());
         }
     }
 
@@ -291,14 +290,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initListview() {
-        try {
-            publisheds = realm.where(Published.class)
+        publisheds = realm.where(Published.class)
                     .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
                     .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
 
 
         if (publisheds.size() > 0) {
@@ -308,11 +302,9 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             noContent.setText("还没有人发布动态");
         }
 
-        wo_listview_adpter = new Wo_listview_adpter(getContext(),
-                1, publisheds, this, (BaseActivity) getActivity(), realm, listView);
-
-        listView.setAdapter(wo_listview_adpter);
-        wo_listview_adpter.notifyDataSetChanged();
+        adpter_realm = new Wo_adpter_realm(getContext(),
+                publisheds, this, (BaseActivity) getActivity(), realm, listView);
+        listView.setAdapter(adpter_realm);
 
 //        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
 //            @Override
@@ -532,8 +524,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     public void deleteOne(int position) {
-        wo_listview_adpter.notifyDataSetChanged();
-        if (position != wo_listview_adpter.getCount()) {
+        adpter_realm.notifyDataSetChanged();
+        if (position != adpter_realm.getCount()) {
             listView.setSelection(position);
         }
     }

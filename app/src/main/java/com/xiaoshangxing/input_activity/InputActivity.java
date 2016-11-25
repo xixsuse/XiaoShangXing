@@ -847,7 +847,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
                     formmat = new Formmat(iBaseView, InputActivity.this, BaseUrl.BASE_URL + BaseUrl.PUBLISH);
                 } catch (IOException e) {
                     e.printStackTrace();
-//                    showToast("初始化上传组件失败,请检查网络状态");
                     showMsgHandler.showToast("初始化上传组件失败,请检查网络状态");
                     return;
                 }
@@ -935,7 +934,14 @@ public class InputActivity extends BaseActivity implements IBaseView {
                     switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
                         case 8001:
                             showToast("转发成功");
-                            finish();
+                            KeyBoardUtils.closeKeybord(emotionEdittext, InputActivity.this);
+                            runnable = new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            };
+                            handler.postDelayed(runnable, 250);
                             break;
                         default:
                             showToast(jsonObject.getString(NS.MSG));
@@ -1019,8 +1025,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 hideLoadingDialog();
             }
         });
-
-
     }
 
     private void publishSale() {

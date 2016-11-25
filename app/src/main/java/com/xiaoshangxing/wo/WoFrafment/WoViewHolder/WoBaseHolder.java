@@ -34,7 +34,7 @@ import com.xiaoshangxing.wo.Roll.RollActivity;
 import com.xiaoshangxing.wo.WoFrafment.Item_Comment;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
-import com.xiaoshangxing.wo.WoFrafment.Wo_listview_adpter;
+import com.xiaoshangxing.wo.WoFrafment.Wo_adpter_realm;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import io.realm.Realm;
@@ -67,7 +67,7 @@ public abstract class WoBaseHolder {
 
     protected int position;
 
-    protected Wo_listview_adpter adpter;
+    protected Wo_adpter_realm adpter;
 
     protected CirecleImage headImage;
     protected Name name;
@@ -140,11 +140,11 @@ public abstract class WoBaseHolder {
         this.position = position;
     }
 
-    public Wo_listview_adpter getAdpter() {
+    public Wo_adpter_realm getAdpter() {
         return adpter;
     }
 
-    public void setAdpter(Wo_listview_adpter adpter) {
+    public void setAdpter(Wo_adpter_realm adpter) {
         this.adpter = adpter;
     }
 

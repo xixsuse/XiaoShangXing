@@ -23,6 +23,7 @@ import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
@@ -105,20 +106,32 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
     }
 
     private void initView() {
+        title.setText("闲置详情");
         if (!getIntent().hasExtra(IntentStatic.DATA)) {
             showToast("动态id错误");
             finish();
             return;
         }
         published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
-        published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
-        if (published == null) {
-            showToast("没有该动态的消息");
-            finish();
-            return;
-        }
+        PublishCache.reloadWithLoading(String.valueOf(published_id), this, new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
 
-        initInputBox();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showToast("没有查询到该动态的消息");
+                finish();
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                published = (Published) o;
+                initInputBox();
+                refreshPager();
+            }
+        });
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -126,11 +139,6 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
                 return false;
             }
         });
-
-        title.setText("闲置详情");
-
-        refreshPager();
-
     }
 
     private void refreshPager() {

@@ -86,26 +86,6 @@
                     android:layout_marginEnd="@dimen/width_48"
                     android:src="@mipmap/down_arrow_gray" />
             </LinearLayout>
-            <!--下拉箭头-->
-            <!--<ImageView-->
-            <!--android:id="@+id/down_arrow"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_marginEnd="@dimen/width_48"-->
-            <!--android:layout_marginTop="@dimen/y38"-->
-            <!--android:src="@mipmap/down_arrow_gray" />-->
-            <!--价格-->
-            <!--<TextView-->
-            <!--android:id="@+id/price"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="@dimen/x24"-->
-            <!--android:layout_marginTop="@dimen/y36"-->
-            <!--android:layout_toStartOf="@+id/down_arrow"-->
-            <!--android:text="￥100"-->
-            <!--android:textColor="@color/red1"-->
-            <!--android:textSize="13sp" />-->
         </RelativeLayout>
 
         <!--文字内容-->

@@ -27,12 +27,12 @@ import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -88,8 +88,8 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
     private boolean isRefreshing;
     private boolean isLoading;
     private PlanActivity activity;
-    private List<Published> publisheds = new ArrayList<>();
-    private PersonalPlan_Adpter adpter;
+    private RealmResults<Published> publisheds;
+    private PersonalPlan_Adpter_realm adpter_realm;
 
     private void initView() {
         title.setText("我的计划");
@@ -147,7 +147,7 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
             back.setVisibility(View.GONE);
         } else {
             hideMenu.setVisibility(View.GONE);
-            adpter.showSelectCircle(false);
+            adpter_realm.showSelectCircle(false);
             activity.setHideMenu(false);
             cancel.setVisibility(View.GONE);
             back.setVisibility(View.VISIBLE);
@@ -156,7 +156,7 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
 
     @Override
     public void showDeleteSureDialog(final int id) {
-        adpter.showSelectCircle(false);
+        adpter_realm.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
@@ -193,7 +193,7 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
     }
 
     public void showDeleteSureDialog2(final List<String> ids) {
-        adpter.showSelectCircle(false);
+        adpter_realm.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
@@ -206,14 +206,14 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
                     public void onSuccess() {
                         showToast("删除成功");
                         refreshData();
-                        adpter.getSelectIds().clear();
+                        adpter_realm.getSelectIds().clear();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         showToast("删除异常");
                         refreshData();
-                        adpter.getSelectIds().clear();
+                        adpter_realm.getSelectIds().clear();
                     }
 
                     @Override
@@ -251,8 +251,8 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_PLAN))
                 .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
         showNoContentText(publisheds.size() < 1);
-        adpter = new PersonalPlan_Adpter(getContext(), 1, publisheds, this, (PlanActivity) getActivity());
-        listview.setAdapter(adpter);
+        adpter_realm = new PersonalPlan_Adpter_realm(getContext(), publisheds, this, (PlanActivity) getActivity());
+        listview.setAdapter(adpter_realm);
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {
@@ -288,20 +288,20 @@ public class PersonalPlanFragment extends BaseFragment implements PersonalPlanCo
                 showHideMenu(false);
                 break;
             case R.id.hide_trasmit:
-                if (adpter.getSelectIds().isEmpty()) {
+                if (adpter_realm.getSelectIds().isEmpty()) {
                     return;
                 }
-                adpter.showSelectCircle(false);
+                adpter_realm.showSelectCircle(false);
                 showHideMenu(false);
-                activity.setPublishIdsForTransmit(adpter.getSelectIds());
+                activity.setPublishIdsForTransmit(adpter_realm.getSelectIds());
                 activity.gotoSelectOnePerson();
                 break;
             case R.id.hide_delete:
-                if (adpter.getSelectIds().size() == 0) {
+                if (adpter_realm.getSelectIds().size() == 0) {
                     showToast("请选择要删除的内容");
                     return;
                 }
-                showDeleteSureDialog2(adpter.getSelectIds());
+                showDeleteSureDialog2(adpter_realm.getSelectIds());
                 break;
         }
     }

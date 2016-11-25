@@ -99,7 +99,7 @@ public class Wo_listview_adpter extends ArrayAdapter<Published> {
             holder.setActivity(activity);
             holder.setWoFragment(woFragment);
             holder.setRealm(realm);
-            holder.setAdpter(this);
+//            holder.setAdpter(this);
         } catch (Exception e) {
             e.printStackTrace();
         }

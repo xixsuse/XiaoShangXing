@@ -152,9 +152,9 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
 
     @Override
     public void gotoNews() {
-        showToast(NS.ON_DEVELOPING);
-//        Intent news_intent = new Intent(PersonalStateActivity.this, NewsActivity.class);
-//        startActivity(news_intent);
+//        showToast(NS.ON_DEVELOPING);
+        Intent news_intent = new Intent(PersonalStateActivity.this, NewsActivity.class);
+        startActivity(news_intent);
     }
 
     @Override

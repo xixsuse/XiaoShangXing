@@ -38,7 +38,7 @@ public class NotifycationUtil {
      * 通知栏显示的类别
      */
     public static final int NOTIFY_XIAOSHANG = 1;//校上通知
-    public static final int NOTIFY_LOVE = 2;//留心通知
+    public static final int NOTIFY_STARTED = 2;//留心通知
     public static final int NOTIFY_FRIEND = 3;//成为好友通知
     public static final int NOTIFY_WO = 4;//[我]新消息通知
 
@@ -152,8 +152,8 @@ public class NotifycationUtil {
     public static void showStaredNotifycation() {
         Intent intent = new Intent(XSXApplication.getInstance(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra(IntentStatic.TYPE, NOTIFY_LOVE);
-        PendingIntent pendingIntent = PendingIntent.getActivity(XSXApplication.getInstance(), NOTIFY_LOVE, intent, 0);
+        intent.putExtra(IntentStatic.TYPE, NOTIFY_STARTED);
+        PendingIntent pendingIntent = PendingIntent.getActivity(XSXApplication.getInstance(), NOTIFY_STARTED, intent, 0);
 
         RealmResults<PushMsg> pushMsgs = realm.where(PushMsg.class)
                 .equalTo(NS.PUSH_TYPE, NT_IM_STARED)
@@ -177,7 +177,7 @@ public class NotifycationUtil {
                 .setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
                 .setDefaults(Notification.DEFAULT_VIBRATE)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合：
                 .setSmallIcon(R.mipmap.cirecleimage_default);
-        mNotificationManager.notify(NOTIFY_LOVE, mBuilder.build());
+        mNotificationManager.notify(NOTIFY_STARTED, mBuilder.build());
     }
 
     public static void showFriendNotifycation(String userName) {
@@ -291,7 +291,7 @@ public class NotifycationUtil {
             case "306":
                 showXiaoshangNotifycation();
                 break;
-            case "402":
+            case "401":
                 showStaredNotifycation();
                 break;
 

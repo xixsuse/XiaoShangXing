@@ -59,8 +59,8 @@ public class OperateUtils {
      * @param callback        回调
      */
 
-    public static void operate(final int publishedId, final Context context,
-                               final boolean needRefreshData, String operate, boolean isCancle, final SimpleCallBack callback) {
+    public static void operate(final int publishedId, final Context context, final boolean needRefreshData,
+                               String operate, boolean isCancle, final SimpleCallBack callback) {
 
         Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
             @Override
@@ -84,11 +84,21 @@ public class OperateUtils {
                     if (jsonObject.getString(NS.CODE).equals("30000004")) {
 
                         if (needRefreshData) {
-                            PublishCache.reload(String.valueOf(publishedId), new PublishCache.publishedCallback() {
+                            PublishCache.reload(String.valueOf(publishedId), new SimpleCallBack() {
                                 @Override
-                                public void callback(Published published) {
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onBackData(Object o) {
                                     if (callback != null) {
-                                        callback.onBackData(published);
+                                        callback.onBackData(o);
                                     }
                                 }
                             });
@@ -561,10 +571,20 @@ public class OperateUtils {
                             Toast.makeText(context, "评论成功", Toast.LENGTH_SHORT).show();
 
                             if (needRefreshData) {
-                                PublishCache.reload(String.valueOf(publishId), new PublishCache.publishedCallback() {
+                                PublishCache.reload(String.valueOf(publishId), new SimpleCallBack() {
                                     @Override
-                                    public void callback(Published published) {
-                                        callBack.onBackData(published);
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onBackData(Object o) {
+                                        callBack.onBackData(o);
                                     }
                                 });
                             }
@@ -619,10 +639,20 @@ public class OperateUtils {
                         case 50000014:
                             callBack.onSuccess();
                             if (needRefreshData) {
-                                PublishCache.reload(String.valueOf(publishId), new PublishCache.publishedCallback() {
+                                PublishCache.reload(String.valueOf(publishId), new SimpleCallBack() {
                                     @Override
-                                    public void callback(Published published) {
-                                        callBack.onBackData(published);
+                                    public void onSuccess() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onBackData(Object o) {
+                                        callBack.onBackData(o);
                                     }
                                 });
                             }

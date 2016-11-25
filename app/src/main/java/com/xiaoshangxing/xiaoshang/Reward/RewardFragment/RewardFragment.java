@@ -40,6 +40,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -81,8 +82,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     TextView noContent;
 
     private View mview;
-    private Reward_adpter adpter;
-    private List<String> list = new ArrayList<String>();
+    private Reward_adpter_realm adpter1;
     private View headview, footview;
     private RewardContract.Presenter mPresenter;
     private DotsTextView dotsTextView;
@@ -127,6 +127,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     private boolean isRefreshing;
     private boolean isLoading;
     private List<Published> publisheds = new ArrayList<>();
+    private RealmResults<Published> realmResults;
     private String account;
     private boolean isOthers;
 
@@ -175,11 +176,6 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             isOthers = true;
             anounce.setVisibility(View.GONE);
         }
-
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//        params.topMargin = ScreenUtils.getAdapterPx(R.dimen.y1920, getContext());
-//        rules.setLayoutParams(params);
-
     }
 
 
@@ -222,7 +218,6 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
                 }
             });
         }
-
     }
 
     @OnClick({R.id.back, R.id.more, R.id.collasp, R.id.mengban})
@@ -351,18 +346,18 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     @Override
     public void refreshPager() {
         if (isOthers) {
-            publisheds = realm.where(Published.class)
+            realmResults = realm.where(Published.class)
                     .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
                     .equalTo(NS.USER_ID, Integer.valueOf(account))
                     .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         } else {
-            publisheds = realm.where(Published.class)
+            realmResults = realm.where(Published.class)
                     .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
                     .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         }
-        adpter = new Reward_adpter(getContext(), 1, publisheds, this, (RewardActivity) getActivity());
-        listview.setAdapter(adpter);
-        if (publisheds.size() > 0) {
+        adpter1 = new Reward_adpter_realm(getContext(), realmResults, this, (RewardActivity) getActivity());
+        listview.setAdapter(adpter1);
+        if (realmResults.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {
             noContent.setVisibility(View.VISIBLE);

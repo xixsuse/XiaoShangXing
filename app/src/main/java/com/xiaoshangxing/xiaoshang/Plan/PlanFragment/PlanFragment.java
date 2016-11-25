@@ -28,12 +28,10 @@ import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -79,8 +77,8 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     private boolean isRefreshing;
     private boolean isLoading;
     public static final String TAG = BaseFragment.TAG + "-PlanFragment";
-    private List<Published> publisheds = new ArrayList<>();
-    private Plan_Adpter adpter;
+    private RealmResults<Published> publisheds;
+    private Plan_Adpter_realm adpter_realm;
     private boolean isOthers;
     private String account;
 
@@ -347,8 +345,8 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
                     .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         }
 
-        adpter = new Plan_Adpter(getContext(), 1, getActivity(), publisheds);
-        listview.setAdapter(adpter);
+        adpter_realm = new Plan_Adpter_realm(getContext(), getActivity(), publisheds);
+        listview.setAdapter(adpter_realm);
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {

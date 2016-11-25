@@ -2,7 +2,6 @@ package com.xiaoshangxing.xiaoshang.Reward.PersonalReward;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,14 +87,14 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
         return new PersonalRewardFragment();
     }
 
-    private PersonalReward_adpter adpter;
+    private PersonalReward_adpter_realm personalReward_adpter_realm;
     private View view;
     private RewardActivity activity;
     private PersonalRewardContract.Presenter mPresenter;
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
-    RealmResults<Published> publisheds;
+    private RealmResults<Published> publisheds;
 
     private void initView() {
         title.setText(R.string.myreward);
@@ -117,8 +116,8 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
                 .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
         showNoContentText(publisheds.size() < 1);
-        adpter = new PersonalReward_adpter(getContext(), 1, publisheds, this, (RewardActivity) getActivity());
-        listview.setAdapter(adpter);
+        personalReward_adpter_realm = new PersonalReward_adpter_realm(getContext(), publisheds, this, (RewardActivity) getActivity());
+        listview.setAdapter(personalReward_adpter_realm);
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {
@@ -179,7 +178,7 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
             back.setVisibility(View.GONE);
         } else {
             hideMenu.setVisibility(View.GONE);
-            adpter.showSelectCircle(false);
+            personalReward_adpter_realm.showSelectCircle(false);
             activity.setHideMenu(false);
             cancel.setVisibility(View.GONE);
             back.setVisibility(View.VISIBLE);
@@ -188,7 +187,7 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
 
     @Override
     public void showDeleteSureDialog(final int publishedId) {
-        adpter.showSelectCircle(false);
+        personalReward_adpter_realm.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
@@ -226,7 +225,7 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
     }
 
     public void showDeleteSureDialog2(final List<String> ids) {
-        adpter.showSelectCircle(false);
+        personalReward_adpter_realm.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
@@ -239,14 +238,14 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
                     public void onSuccess() {
                         showToast("删除成功");
                         refreshData();
-                        adpter.getSelectIds().clear();
+                        personalReward_adpter_realm.getSelectIds().clear();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         showToast("删除异常");
                         refreshData();
-                        adpter.getSelectIds().clear();
+                        personalReward_adpter_realm.getSelectIds().clear();
                     }
 
                     @Override
@@ -292,20 +291,20 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
                 }
                 break;
             case R.id.hide_trasmit:
-                if (adpter.getSelectIds().isEmpty()) {
+                if (personalReward_adpter_realm.getSelectIds().isEmpty()) {
                     return;
                 }
-                adpter.showSelectCircle(false);
+                personalReward_adpter_realm.showSelectCircle(false);
                 showHideMenu(false);
-                activity.setPublishIdsForTransmit(adpter.getSelectIds());
+                activity.setPublishIdsForTransmit(personalReward_adpter_realm.getSelectIds());
                 activity.gotoSelectOnePerson();
                 break;
             case R.id.hide_delete:
-                if (adpter.getSelectIds().size() == 0) {
+                if (personalReward_adpter_realm.getSelectIds().size() == 0) {
                     showToast("请选择要删除的内容");
                     return;
                 }
-                showDeleteSureDialog2(adpter.getSelectIds());
+                showDeleteSureDialog2(personalReward_adpter_realm.getSelectIds());
                 break;
             case R.id.cancel:
                 showHideMenu(false);

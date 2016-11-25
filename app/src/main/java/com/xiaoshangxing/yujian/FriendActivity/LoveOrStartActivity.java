@@ -2,6 +2,7 @@ package com.xiaoshangxing.yujian.FriendActivity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,11 +17,13 @@ import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.PushMsg;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.yujian.Serch.NormalSerch.NormalSerch;
 
 import org.json.JSONException;
@@ -33,7 +36,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.Sort;
 import okhttp3.ResponseBody;
+
+import static com.xiaoshangxing.utils.NotifycationUtil.NT_IM_STARED;
 
 /**
  * Created by FengChaoQun
@@ -69,6 +76,7 @@ public class LoveOrStartActivity extends BaseActivity implements IBaseView {
     public static final int STAR = 1;
 
     private List<User> users = new ArrayList<>();
+    private NotifycationUtil.OnNotifyChange onNotifyChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +84,22 @@ public class LoveOrStartActivity extends BaseActivity implements IBaseView {
         setContentView(R.layout.activity_love_or_start);
         ButterKnife.bind(this);
         initView();
+        onNotifyChange = new NotifycationUtil.OnNotifyChange() {
+            @Override
+            public void onChange(PushMsg pushMsg) {
+                if (pushMsg.getPushType().equals(NotifycationUtil.NT_IM_STARED)) {
+                    getData();
+                    doWhenEnter();
+                }
+            }
+        };
+        NotifycationUtil.registerObserver(onNotifyChange);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        NotifycationUtil.unRegisterObserver(onNotifyChange);
     }
 
     private void initView() {
@@ -95,6 +119,7 @@ public class LoveOrStartActivity extends BaseActivity implements IBaseView {
             title.setText("星星");
         }
         getData();
+        doWhenEnter();
     }
 
     private void refreshListview() {
@@ -139,6 +164,23 @@ public class LoveOrStartActivity extends BaseActivity implements IBaseView {
             IMNetwork.getInstance().MyStar(progressSubsciber, String.valueOf(TempUser.id), this);
         }
 
+    }
+
+    /**
+     * 用户进入这个页面 则删除所有本地的留心推送记录 并清除通知栏的留心通知
+     */
+    private void doWhenEnter() {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.where(PushMsg.class)
+                        .equalTo(NS.PUSH_TYPE, NT_IM_STARED)
+                        .findAllSorted(NS.PUSH_TIME, Sort.DESCENDING)
+                        .deleteAllFromRealm();
+                Log.d("清除留心推送", "ok");
+            }
+        });
+        NotifycationUtil.clearNotify(NotifycationUtil.NOTIFY_STARTED);
     }
 
     @OnClick({R.id.back, R.id.serch_layout})

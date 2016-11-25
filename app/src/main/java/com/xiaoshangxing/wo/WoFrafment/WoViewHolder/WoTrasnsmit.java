@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
@@ -12,8 +13,8 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 
 /**
  * Created by FengChaoQun
@@ -38,9 +39,20 @@ public class WoTrasnsmit extends WoBaseHolder {
         if (TextUtils.isEmpty(orignalId)) {
             return;
         }
-        PublishCache.getPublished(orignalId, new PublishCache.publishedCallback() {
+        PublishCache.getPublished(orignalId, new SimpleCallBack() {
             @Override
-            public void callback(final Published published) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                final Published published = (Published) o;
                 String userId = String.valueOf(published.getUserId());
                 UserInfoCache.getInstance().getHeadIntoImage(userId, head);
                 text.setText(published.getText());
@@ -61,6 +73,5 @@ public class WoTrasnsmit extends WoBaseHolder {
                 });
             }
         });
-
     }
 }

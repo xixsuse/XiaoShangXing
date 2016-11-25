@@ -147,10 +147,20 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     @Override
     protected void onResume() {
         super.onResume();
-        PublishCache.reload(String.valueOf(published_id), new PublishCache.publishedCallback() {
+        PublishCache.reload(String.valueOf(published_id), new SimpleCallBack() {
             @Override
-            public void callback(Published published1) {
-                published = published1;
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                published = (Published) o;
                 refresh();
             }
         });
@@ -163,14 +173,25 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
             return;
         }
         published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
-        published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
-        if (published == null) {
-            showToast("没有该动态的消息");
-            finish();
-            return;
-        }
 
+        PublishCache.reloadWithLoading(String.valueOf(published_id), this, new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showToast("没有查询到该动态的消息");
+                finish();
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                published = (Published) o;
+                refresh();
+            }
+        });
         viewpager.setPageTransformer(true, new DepthPageTransformer());
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -204,8 +225,6 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
             Log.d("修改viewpager滑动速度", "失败");
         }
         title.setText("悬赏详情");
-        headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(published.getUserId()));
-        refresh();
     }
 
     private void refresh() {
@@ -226,6 +245,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         UserInfoCache.getInstance().getHeadIntoImage(userId, headImage);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
+        headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(published.getUserId()));
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
         price.setText(NS.RMB + published.getPrice());

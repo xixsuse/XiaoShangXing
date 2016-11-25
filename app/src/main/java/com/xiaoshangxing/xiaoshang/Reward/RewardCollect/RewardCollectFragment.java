@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,13 +28,11 @@ import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -76,7 +73,6 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Log.d("collect", "" + isVisible());
     }
 
     @Override
@@ -89,8 +85,8 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
         return new RewardCollectFragment();
     }
 
-    private RewardCollect_Adpter adpter;
-    private List<Published> publisheds = new ArrayList<Published>();
+    private RewardCollect_Adpter_realm adpter_realm;
+    private RealmResults<Published> publisheds;
     private View view;
     private RewardActivity activity;
     private RewardCollectContract.Presenter mPresenter;
@@ -118,8 +114,8 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
                 .equalTo(NS.COLLECT_STATU, "1")
                 .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         showNoContentText(publisheds.size() < 1);
-        adpter = new RewardCollect_Adpter(getContext(), 1, publisheds, this, activity);
-        listview.setAdapter(adpter);
+        adpter_realm = new RewardCollect_Adpter_realm(getContext(), publisheds, this, activity);
+        listview.setAdapter(adpter_realm);
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {
@@ -137,7 +133,6 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-                                        refreshPager();
                                     }
 
                                     @Override
@@ -233,13 +228,13 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
             activity.setCollect(true);
         } else {
             hideMenu.setVisibility(View.GONE);
-            adpter.showSelectCircle(false);
+            adpter_realm.showSelectCircle(false);
             activity.setCollect(false);
         }
     }
 
     public void showDeleteSureDialog(final int publishedId) {
-        adpter.showSelectCircle(false);
+        adpter_realm.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());

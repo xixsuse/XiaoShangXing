@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
@@ -51,9 +52,20 @@ public class MsgViewHolderTransmitNoImage extends MsgViewHolderBase {
         transmitMessage_noImage = (TransmitMessage_NoImage) message.getAttachment();
         state_id = transmitMessage_noImage.getState_id();
         layoutDirection();
-        PublishCache.getPublished(String.valueOf(state_id), new PublishCache.publishedCallback() {
+        PublishCache.getPublished(String.valueOf(state_id), new SimpleCallBack() {
             @Override
-            public void callback(Published published) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                Published published = (Published) o;
                 String userId = String.valueOf(published.getUserId());
                 UserInfoCache.getInstance().getHeadIntoImage(userId,head);
                 UserInfoCache.getInstance().getExIntoTextview(userId,NS.USER_NAME,name);

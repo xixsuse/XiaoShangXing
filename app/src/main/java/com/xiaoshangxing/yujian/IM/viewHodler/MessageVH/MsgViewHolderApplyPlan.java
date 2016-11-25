@@ -69,9 +69,20 @@ public class MsgViewHolderApplyPlan extends MsgViewHolderBase {
         applyPlanMessage = (ApplyPlanMessage) message.getAttachment();
         state_id = applyPlanMessage.getState_id();
         layoutDirection();
-        PublishCache.getPublished(String.valueOf(state_id), new PublishCache.publishedCallback() {
+        PublishCache.getPublished(String.valueOf(state_id), new SimpleCallBack() {
             @Override
-            public void callback(Published published) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                Published published = (Published) o;
                 String userId = String.valueOf(published.getUserId());
                 UserInfoCache.getInstance().getHeadIntoImage(userId, head);
                 UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);

@@ -51,6 +51,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -97,9 +98,8 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     private boolean isRefreshing;
     private boolean isLoading;
 
-    private Sale_Adpter adpter;
-
-    private List<Published> publisheds = new ArrayList<>();
+    private Sale_Adpter_realm adpter_realm;
+    private RealmResults<Published> publisheds;
     private InputMethodManager imm;
     private Uri came_photo_path;
     private List<String> select_image_urls = new ArrayList<String>();//选择的图片
@@ -401,8 +401,8 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
                     .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_SALE))
                     .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         }
-        adpter = new Sale_Adpter(getContext(), 1, publisheds, this, (SaleActivity) getActivity());
-        listview.setAdapter(adpter);
+        adpter_realm = new Sale_Adpter_realm(getContext(), publisheds, this, (SaleActivity) getActivity());
+        listview.setAdapter(adpter_realm);
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {

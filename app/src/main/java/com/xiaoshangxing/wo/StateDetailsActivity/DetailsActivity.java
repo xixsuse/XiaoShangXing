@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -126,7 +125,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     }
 
     private void initView() {
-
+        title.setText("详情");
+        more.setVisibility(View.GONE);
         if (!getIntent().hasExtra(IntentStatic.DATA)) {
             showToast("动态id出错");
             finish();
@@ -134,23 +134,22 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
         }
         published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
 
-        published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
-        if (published == null) {
-            showToast("获取动态信息出错");
-            finish();
-            return;
-        }
-
-        title.setText("详情");
-        more.setVisibility(View.GONE);
-        refreshPager(published);
-    }
-
-    private void refresh() {
-        PublishCache.reload(String.valueOf(published_id), new PublishCache.publishedCallback() {
+        PublishCache.reloadWithLoading(String.valueOf(published_id), this, new SimpleCallBack() {
             @Override
-            public void callback(Published published1) {
-                refreshPager(published1);
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                showToast("没有查询到该动态的消息");
+                finish();
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                published = (Published) o;
+                refreshPager(published);
             }
         });
     }
@@ -367,7 +366,6 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                                     @Override
                                     public void onBackData(Object o) {
                                         refreshPager((Published) o);
-                                        Log.d("refreshpager", "ok");
                                     }
                                 });
                     }

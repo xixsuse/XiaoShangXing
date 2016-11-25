@@ -21,6 +21,7 @@ import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
@@ -113,22 +114,31 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
     }
 
     private void initView() {
+        title.setText("计划详情");
         if (!getIntent().hasExtra(IntentStatic.DATA)) {
             showToast("动态id错误");
             finish();
             return;
         }
         published_id = getIntent().getIntExtra(IntentStatic.DATA, -1);
-        published = realm.where(Published.class).equalTo(NS.ID, published_id).findFirst();
-        if (published == null) {
-            showToast("没有该动态的消息");
-            finish();
-            return;
-        }
+        PublishCache.reloadWithLoading(String.valueOf(published_id), this, new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
 
-        title.setText("计划详情");
+            }
 
-        refreshPager();
+            @Override
+            public void onError(Throwable e) {
+                showToast("没有查询到该动态的消息");
+                finish();
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                published = (Published) o;
+                refreshPager();
+            }
+        });
     }
 
     private void refreshPager() {

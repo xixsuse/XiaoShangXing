@@ -164,7 +164,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
                     xiaoshangLay.performClick();
                     startActivity(new Intent(this, MessageNoticeActivity.class));
                     break;
-                case NotifycationUtil.NOTIFY_LOVE:
+                case NotifycationUtil.NOTIFY_STARTED:
                     yujianLay.performClick();
                     Intent loveIntent = new Intent(this, FriendActivity.class);
                     loveIntent.putExtra(IntentStatic.TYPE, FriendActivity.gotoStar);

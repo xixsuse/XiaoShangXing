@@ -23,12 +23,10 @@ import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -58,7 +56,6 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     @Bind(R.id.no_content)
     TextView noContent;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,8 +82,8 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     private TextView loadingText;
     private boolean isRefreshing;
     private boolean isLoading;
-    private List<JoinedPlan> joinedPlen = new ArrayList<>();
-    private JoinedPlan_Adpter adpter;
+    private RealmResults<JoinedPlan> joinedPlen;
+    private JoinedPlan_Adpter_realm adpter_realm;
 
     private void initView() {
         title.setText("我加入的计划");
@@ -177,8 +174,8 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
         joinedPlen = realm.where(JoinedPlan.class)
                 .equalTo(NS.USER_ID, TempUser.id)
                 .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
-        adpter = new JoinedPlan_Adpter(getContext(), 1, getActivity(), joinedPlen);
-        listview.setAdapter(adpter);
+        adpter_realm = new JoinedPlan_Adpter_realm(getContext(), getActivity(), joinedPlen);
+        listview.setAdapter(adpter_realm);
         if (joinedPlen.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {

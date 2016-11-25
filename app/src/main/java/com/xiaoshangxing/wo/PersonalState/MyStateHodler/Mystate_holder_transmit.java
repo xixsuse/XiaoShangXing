@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
@@ -44,9 +45,20 @@ public class Mystate_holder_transmit extends MyStateHodlerBase {
         if (TextUtils.isEmpty(published.getOriginalId())) {
             return;
         }
-        PublishCache.getPublished(published.getOriginalId(), new PublishCache.publishedCallback() {
+        PublishCache.getPublished(published.getOriginalId(), new SimpleCallBack() {
             @Override
-            public void callback(final Published published) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                final Published published = (Published) o;
                 String userId = String.valueOf(published.getUserId());
                 UserInfoCache.getInstance().getHeadIntoImage(userId, head);
                 text.setText(TextUtils.isEmpty(published.getText()) ? "" : published.getText());
@@ -77,5 +89,4 @@ public class Mystate_holder_transmit extends MyStateHodlerBase {
             }
         });
     }
-
 }

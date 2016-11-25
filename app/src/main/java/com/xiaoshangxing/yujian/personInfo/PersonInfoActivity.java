@@ -362,6 +362,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
                                 public void onSuccess() {
                                     bt1.setChecked(false);
                                     bt1.getImgView().setImageResource(R.mipmap.icon_liuxin);
+                                    bt1.setText("留心");
                                 }
 
                                 @Override
@@ -385,7 +386,6 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     }
 
     private void favor() {
-
         OperateUtils.Favor(account, this, this, new SimpleCallBack() {
             @Override
             public void onSuccess() {

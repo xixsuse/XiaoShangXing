@@ -28,6 +28,7 @@ import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.Sort;
 
+import static com.xiaoshangxing.utils.NotifycationUtil.NOTIFY_WO;
 import static com.xiaoshangxing.utils.NotifycationUtil.NT_SCHOOLMATE_CHANGE;
 import static com.xiaoshangxing.utils.NotifycationUtil.NT_SCHOOLMATE_NOTICE_YOU;
 
@@ -62,7 +63,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
         ButterKnife.bind(this);
         setmPresenter(new NewsPresenter(this, this));
         initView();
-        setData();
+        doWhenEnter();
         initData();
         onNotifyChange = new NotifycationUtil.OnNotifyChange() {
             @Override
@@ -70,6 +71,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
                 if (pushMsg.getPushType().equals(NotifycationUtil.NT_SCHOOLMATE_NOTICE_YOU)
                         || pushMsg.getPushType().equals(NotifycationUtil.NT_SCHOOLMATE_CHANGE)) {
                     initData();
+                    doWhenEnter();
                 }
             }
         };
@@ -107,11 +109,15 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
         listview.setAdapter(adapter);
     }
 
-    //进入此界面既视为查看了所有的信息  将所有记录置为已读
-    private void setData() {
+    /**
+     * 用户进入这个页面 则将本地的有关推送记录置为已读 并清除通知栏的有关通知
+     */
+    private void doWhenEnter() {
         final List<PushMsg> pushMsgs = realm.where(PushMsg.class).not().equalTo("isRead", "1")
+                .beginGroup()
                 .equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_CHANGE)
                 .or().equalTo(NS.PUSH_TYPE, NT_SCHOOLMATE_NOTICE_YOU)
+                .endGroup()
                 .findAllSorted(NS.PUSH_TIME, Sort.DESCENDING);
         if (!pushMsgs.isEmpty()) {
             realm.executeTransaction(new Realm.Transaction() {
@@ -123,6 +129,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
                 }
             });
         }
+        NotifycationUtil.clearNotify(NOTIFY_WO);
     }
 
 

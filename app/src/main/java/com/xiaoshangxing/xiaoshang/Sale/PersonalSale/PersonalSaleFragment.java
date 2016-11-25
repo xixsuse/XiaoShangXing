@@ -27,12 +27,12 @@ import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -67,7 +67,6 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.double_title_refresh_listview_hidebutton, null);
         ButterKnife.bind(this, view);
-//        setmPresenter(new MyHelpPresenter(this, getContext(), realm));
         initView();
         return view;
     }
@@ -86,10 +85,9 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     private View footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
-    private PersonalSale_Adpter adpter;
+    private PersonalSale_Adpter_realm adpter_realm;
     private SaleActivity activity;
-
-    private List<Published> publisheds = new ArrayList<>();
+    private RealmResults<Published> publisheds;
 
     private void initView() {
         title.setText("我的闲置");
@@ -146,20 +144,20 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
                 showHideMenu(false);
                 break;
             case R.id.hide_trasmit:
-                if (adpter.getSelectIds().isEmpty()) {
+                if (adpter_realm.getSelectIds().isEmpty()) {
                     return;
                 }
-                adpter.showSelectCircle(false);
+                adpter_realm.showSelectCircle(false);
                 showHideMenu(false);
-                activity.setPublishIdsForTransmit(adpter.getSelectIds());
+                activity.setPublishIdsForTransmit(adpter_realm.getSelectIds());
                 activity.gotoSelectOnePerson();
                 break;
             case R.id.hide_delete:
-                if (adpter.getSelectIds().size() == 0) {
+                if (adpter_realm.getSelectIds().size() == 0) {
                     showToast("请选择要删除的内容");
                     return;
                 }
-                showDeleteSureDialog2(adpter.getSelectIds());
+                showDeleteSureDialog2(adpter_realm.getSelectIds());
                 break;
         }
     }
@@ -174,7 +172,7 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
             back.setVisibility(View.GONE);
         } else {
             hideMenu.setVisibility(View.GONE);
-            adpter.showSelectCircle(false);
+            adpter_realm.showSelectCircle(false);
             activity.setHideMenu(false);
             cancel.setVisibility(View.GONE);
             back.setVisibility(View.VISIBLE);
@@ -183,7 +181,7 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
 
     @Override
     public void showDeleteSureDialog(final int publishedId) {
-        adpter.showSelectCircle(false);
+        adpter_realm.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
@@ -220,7 +218,7 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     }
 
     public void showDeleteSureDialog2(final List<String> ids) {
-        adpter.showSelectCircle(false);
+        adpter_realm.showSelectCircle(false);
         showHideMenu(false);
 
         DialogUtils.DialogMenu2 dialogMenu2 = new DialogUtils.DialogMenu2(getContext());
@@ -233,14 +231,14 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
                     public void onSuccess() {
                         showToast("删除成功");
                         refreshData();
-                        adpter.getSelectIds().clear();
+                        adpter_realm.getSelectIds().clear();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         showToast("删除异常");
                         refreshData();
-                        adpter.getSelectIds().clear();
+                        adpter_realm.getSelectIds().clear();
                     }
 
                     @Override
@@ -278,8 +276,8 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
                 .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_SALE))
                 .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
         showNoContentText(publisheds.size() < 1);
-        adpter = new PersonalSale_Adpter(getContext(), 1, publisheds, this, (SaleActivity) getActivity());
-        listview.setAdapter(adpter);
+        adpter_realm = new PersonalSale_Adpter_realm(getContext(), publisheds, this, (SaleActivity) getActivity());
+        listview.setAdapter(adpter_realm);
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {

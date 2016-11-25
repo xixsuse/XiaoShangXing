@@ -3,7 +3,6 @@ package com.xiaoshangxing.xiaoshang.Help.HelpFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,10 +74,15 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
 
 
     private View mview;
-    private Help_Adpter adpter;
+    private Help_Adpter_realm adpter_realm;
     private View headview, footview;
     private DotsTextView dotsTextView;
     private TextView loadingText;
+    private boolean isRefreshing;
+    private boolean isLoading;
+    RealmResults<Published> publisheds;
+    private String account;
+    private boolean isOthers;
 
     private HelpContract.Presenter mPresenter;
 
@@ -122,11 +126,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
         return new HelpFragment();
     }
 
-    private boolean isRefreshing;
-    private boolean isLoading;
-    RealmResults<Published> publisheds;
-    private String account;
-    private boolean isOthers;
 
     private void initView() {
         title.setText(R.string.shoolfellowhelp);
@@ -188,8 +187,8 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
                     .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
                     .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         }
-        adpter = new Help_Adpter(getContext(), 1, publisheds, this, (HelpActivity) getActivity());
-        listview.setAdapter(adpter);
+        adpter_realm = new Help_Adpter_realm(getContext(), publisheds, this, (HelpActivity) getActivity());
+        listview.setAdapter(adpter_realm);
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {
@@ -310,7 +309,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
 
     @Override
     public void refreshPager() {
-        adpter.notifyDataSetChanged();
+        adpter_realm.notifyDataSetChanged();
     }
 
     @Override
@@ -385,7 +384,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("1012" + requestCode, "--" + resultCode);
         if (requestCode == IntentStatic.PUBLISH && resultCode == IntentStatic.PUBLISH_SUCCESS) {
             if (ptrFrameLayout != null) {
                 ptrFrameLayout.autoRefresh();

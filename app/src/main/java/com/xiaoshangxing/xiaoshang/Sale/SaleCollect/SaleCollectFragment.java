@@ -30,13 +30,10 @@ import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -70,8 +67,8 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
     private DotsTextView dotsTextView;
     private TextView loadingText;
     private SaleActivity activity;
-    private SaleCollect_Adpter adpter;
-    private List<Published> publisheds = new ArrayList<>();
+    private SaleCollect_Adpter_realm adpter_realm;
+    private RealmResults<Published> publisheds;
 
     @Nullable
     @Override
@@ -115,8 +112,8 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
                 .equalTo(NS.COLLECT_STATU, "1")
                 .findAllSorted(NS.CREATETIME, Sort.DESCENDING);
         showNoContentText(publisheds.size() < 1);
-        adpter = new SaleCollect_Adpter(getContext(), 1, publisheds, this, activity);
-        listview.setAdapter(adpter);
+        adpter_realm = new SaleCollect_Adpter_realm(getContext(), publisheds, this, activity);
+        listview.setAdapter(adpter_realm);
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {
@@ -134,7 +131,6 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {
-                                        refreshPager();
                                     }
 
                                     @Override
@@ -215,14 +211,14 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
                     @Override
                     public void onSuccess() {
                         noticeDialog("已取消收藏");
-                        realm.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                Published published = realm.where(Published.class).equalTo(NS.ID, id).findFirst();
-                                published.setCollectStatus("0");
-                            }
-                        });
-                        refreshPager();
+//                        realm.executeTransaction(new Realm.Transaction() {
+//                            @Override
+//                            public void execute(Realm realm) {
+//                                Published published = realm.where(Published.class).equalTo(NS.ID, id).findFirst();
+//                                published.setCollectStatus("0");
+//                            }
+//                        });
+//                        refreshPager();
                     }
 
                     @Override

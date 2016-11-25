@@ -295,7 +295,7 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
-                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, IntentStatic.MINE) == IntentStatic.MINE) {
+                if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, -1) == IntentStatic.MINE) {
                     getActivity().finish();
                 } else {
                     getFragmentManager().popBackStack();

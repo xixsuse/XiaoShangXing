@@ -1,13 +1,12 @@
 package com.xiaoshangxing.wo.WoFrafment;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.data.Published;
@@ -17,35 +16,38 @@ import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoJustOneImage;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoMoreImage;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoNoImages;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoTrasnsmit;
+import com.xiaoshangxing.yujian.IM.kit.ListViewUtil;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmBaseAdapter;
+import io.realm.RealmResults;
 
 /**
  * Created by FengChaoQun
- * on 2016/9/10
+ * on 2016/4/20
  */
-public class WoAdapter1 extends RealmBaseAdapter<Published> {
+public class Wo_adpter_realm extends RealmBaseAdapter<Published> {
     private Context context;
     List<Published> publisheds;
     WoFragment woFragment;
     private BaseActivity activity;
+    private ListView listView;
     Realm realm;
     private final Map<Class<?>, Integer> viewTypes;
 
-    public WoAdapter1(@NonNull Context context, @Nullable OrderedRealmCollection<Published> data,
-                      WoFragment woFragment, BaseActivity activity, Realm realm) {
-        super(context, data);
-        this.publisheds = data;
+    public Wo_adpter_realm(Context context, RealmResults<Published> objects, WoFragment woFragment,
+                           BaseActivity activity, Realm realm, ListView listView) {
+        super(context, objects);
+        this.context = context;
+        this.publisheds = objects;
         this.woFragment = woFragment;
         this.activity = activity;
         this.realm = realm;
-        this.context = context;
+        this.listView = listView;
         this.viewTypes = new HashMap<Class<?>, Integer>(getViewTypeCount());
     }
 
@@ -56,9 +58,11 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
             convertView = viewAtPosition(position);
         }
         woBaseHolder = (WoBaseHolder) convertView.getTag();
+        woBaseHolder.setPosition(position);
         woBaseHolder.refresh(publisheds.get(position));
         return convertView;
     }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -86,6 +90,7 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
         return 4;
     }
 
+
     public View viewAtPosition(int position) {
         WoBaseHolder holder = null;
         View view = null;
@@ -95,6 +100,7 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
             holder.setActivity(activity);
             holder.setWoFragment(woFragment);
             holder.setRealm(realm);
+            holder.setAdpter(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,6 +121,35 @@ public class WoAdapter1 extends RealmBaseAdapter<Published> {
                 return WoMoreImage.class;
             } else {
                 return WoJustOneImage.class;
+            }
+        }
+    }
+
+    public void addData(List<Published> publisheds) {
+        this.publisheds.addAll(publisheds);
+        notifyDataSetChanged();
+    }
+
+    public void setData(List<Published> publisheds) {
+        this.publisheds = publisheds;
+        notifyDataSetChanged();
+        Log.d("setData", "--" + publisheds.size());
+    }
+
+    public void removeOne(int position) {
+        publisheds.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void refreshItem(Published published) {
+        for (int i = 0; i < publisheds.size(); i++) {
+            if (publisheds.get(i).getId() == published.getId()) {
+                Object tag = ListViewUtil.getViewHolderByIndex(listView, i);
+                if (tag instanceof WoBaseHolder) {
+                    WoBaseHolder viewHolder = (WoBaseHolder) tag;
+                    viewHolder.refresh(published);
+                    break;
+                }
             }
         }
     }
