@@ -19,13 +19,13 @@ import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 import static com.xiaoshangxing.utils.NotifycationUtil.NOTIFY_XIAOSHANG;
@@ -63,10 +63,9 @@ public class MessageNoticeActivity extends BaseActivity implements MessageNotice
 
     private boolean isRefreshing;
     private boolean isLoading;
-    private NoticeAdpter adpter;
-    private ArrayList<String> list = new ArrayList<String>();
+    private NoticeAdpter_realm adpter_realm;
     private MessageNoticeContract.Presenter mPresenter;
-    private List<PushMsg> pushMsgs = new ArrayList<>();
+    private RealmResults<PushMsg> pushMsgs;
     private NotifycationUtil.OnNotifyChange onNotifyChange;
 
     @Override
@@ -171,8 +170,8 @@ public class MessageNoticeActivity extends BaseActivity implements MessageNotice
         if (pushMsgs.isEmpty()) {
             return;
         }
-        adpter = new NoticeAdpter(this, 1, pushMsgs);
-        listview.setAdapter(adpter);
+        adpter_realm = new NoticeAdpter_realm(this, pushMsgs);
+        listview.setAdapter(adpter_realm);
     }
 
     @Override

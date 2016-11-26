@@ -1,5 +1,6 @@
 package com.xiaoshangxing.yujian.FriendActivity;
 
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -108,7 +109,13 @@ public class love_satr_adpter extends ArrayAdapter<User> {
                     switch (jsonObject.getInt(NS.CODE)) {
                         case 200:
                             Toast.makeText(context, "你们成为了好友啦", Toast.LENGTH_SHORT).show();
-                            context.getData();
+                            Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    context.getData();
+                                }
+                            }, 250);
                             break;
                         default:
                             Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();

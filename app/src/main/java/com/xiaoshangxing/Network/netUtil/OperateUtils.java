@@ -51,6 +51,7 @@ public class OperateUtils {
 
     /**
      * description:动态操作处理方法  类型：赞  加入 举报 收藏
+     * 无加载框
      *
      * @param publishedId     动态id
      * @param needRefreshData 是否刷新本地数据库
@@ -126,6 +127,130 @@ public class OperateUtils {
             PublishNetwork.getInstance().cancleOperate(subscriber, j, context);
         } else {
             PublishNetwork.getInstance().operate(subscriber, j, context);
+        }
+
+    }
+
+    /**
+     * description:动态操作处理方法  类型：赞  加入 举报 收藏
+     * 带加载框
+     *
+     * @param publishedId     动态id
+     * @param needRefreshData 是否刷新本地数据库
+     * @param operate         操作类型
+     * @param isCancle        是否是取消操作
+     * @param callback        回调
+     */
+    public static void operateWithLoad(final int publishedId, final Context context, final boolean needRefreshData,
+                                       String operate, boolean isCancle, IBaseView iBaseView, final SimpleCallBack callback) {
+
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(e.string());
+                    if (jsonObject.getString(NS.CODE).equals("30000004")) {
+
+                        if (needRefreshData) {
+                            PublishCache.reload(String.valueOf(publishedId), new SimpleCallBack() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onBackData(Object o) {
+                                    if (callback != null) {
+                                        callback.onBackData(o);
+                                    }
+                                }
+                            });
+                        }
+
+                        if (callback != null) {
+                            callback.onSuccess();
+                        }
+                    } else {
+                        Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        };
+
+        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, iBaseView);
+
+//        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+//            @Override
+//            public void onCompleted() {
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                if (callback != null) {
+//                    callback.onError(e);
+//                }
+//                e.printStackTrace();
+//                Toast.makeText(context, "操作失败", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onNext(ResponseBody responseBody) {
+//                try {
+//                    JSONObject jsonObject = new JSONObject(responseBody.string());
+//
+//                    if (jsonObject.getString(NS.CODE).equals("30000004")) {
+//
+//                        if (needRefreshData) {
+//                            PublishCache.reload(String.valueOf(publishedId), new SimpleCallBack() {
+//                                @Override
+//                                public void onSuccess() {
+//
+//                                }
+//
+//                                @Override
+//                                public void onError(Throwable e) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onBackData(Object o) {
+//                                    if (callback != null) {
+//                                        callback.onBackData(o);
+//                                    }
+//                                }
+//                            });
+//                        }
+//
+//                        if (callback != null) {
+//                            callback.onSuccess();
+//                        }
+//                    } else {
+//                        Toast.makeText(context, jsonObject.getString(NS.MSG), Toast.LENGTH_SHORT).show();
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+        JsonObject j = new JsonObject();
+        j.addProperty(NS.USER_ID, TempUser.id);
+        j.addProperty(NS.MOMENTID, publishedId);
+        j.addProperty(NS.CATEGORY, operate);
+        j.addProperty(NS.TIMESTAMP, NS.currentTime());
+        if (isCancle) {
+            PublishNetwork.getInstance().cancleOperate(progressSubsciber, j, context);
+        } else {
+            PublishNetwork.getInstance().operate(progressSubsciber, j, context);
         }
 
     }
@@ -259,8 +384,6 @@ public class OperateUtils {
             jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
             PublishNetwork.getInstance().deletePublished(subscriber, jsonObject, context);
         }
-
-
     }
 
 
@@ -541,7 +664,7 @@ public class OperateUtils {
      */
 
     public static void Comment(final int publishId, int commentId, String text, final Context context,
-                               final boolean needRefreshData, final SimpleCallBack callBack) {
+                               final boolean needRefreshData, IBaseView iBaseView, final SimpleCallBack callBack) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(NS.USER_ID, TempUser.id);
         jsonObject.addProperty(NS.MOMENTID, publishId);
@@ -551,21 +674,11 @@ public class OperateUtils {
             jsonObject.addProperty(NS.COMMENTID, commentId);
         }
 
-        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                callBack.onError(e);
-            }
-
-            @Override
-            public void onNext(ResponseBody responseBody) {
+            public void onNext(ResponseBody e) throws JSONException {
                 try {
-                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
+                    JSONObject jsonObject1 = new JSONObject(e.string());
                     switch (jsonObject1.getInt(NS.CODE)) {
                         case NS.CODE_200:
                             Toast.makeText(context, "评论成功", Toast.LENGTH_SHORT).show();
@@ -594,15 +707,69 @@ public class OperateUtils {
                             Toast.makeText(context, jsonObject1.getString(NS.MSG), Toast.LENGTH_SHORT).show();
                             break;
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
             }
         };
 
-        PublishNetwork.getInstance().comment(subscriber, jsonObject, context);
+        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, iBaseView);
+        PublishNetwork.getInstance().comment(progressSubsciber, jsonObject, context);
+
+//        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+//            @Override
+//            public void onCompleted() {
+//
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                callBack.onError(e);
+//            }
+//
+//            @Override
+//            public void onNext(ResponseBody responseBody) {
+//                try {
+//                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
+//                    switch (jsonObject1.getInt(NS.CODE)) {
+//                        case NS.CODE_200:
+//                            Toast.makeText(context, "评论成功", Toast.LENGTH_SHORT).show();
+//
+//                            if (needRefreshData) {
+//                                PublishCache.reload(String.valueOf(publishId), new SimpleCallBack() {
+//                                    @Override
+//                                    public void onSuccess() {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(Throwable e) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onBackData(Object o) {
+//                                        callBack.onBackData(o);
+//                                    }
+//                                });
+//                            }
+//                            callBack.onSuccess();
+//                            break;
+//                        default:
+//                            Toast.makeText(context, jsonObject1.getString(NS.MSG), Toast.LENGTH_SHORT).show();
+//                            break;
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//
+//        PublishNetwork.getInstance().comment(subscriber, jsonObject, context);
     }
 
     /**
@@ -615,26 +782,17 @@ public class OperateUtils {
      */
 
     public static void ChangeStatu(final int publishId, int statu, final Context context, final boolean needRefreshData,
-                                   final SimpleCallBack callBack) {
+                                   IBaseView iBaseView, final SimpleCallBack callBack) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(NS.USER_ID, TempUser.id);
         jsonObject.addProperty(NS.MOMENTID, publishId);
         jsonObject.addProperty(NS.STATU, statu);
 
-        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
             @Override
-            public void onCompleted() {
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                callBack.onError(e);
-            }
-
-            @Override
-            public void onNext(ResponseBody responseBody) {
+            public void onNext(ResponseBody e) throws JSONException {
                 try {
-                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
+                    JSONObject jsonObject1 = new JSONObject(e.string());
                     switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
                         case 50000014:
                             callBack.onSuccess();
@@ -661,15 +819,66 @@ public class OperateUtils {
                             Toast.makeText(context, jsonObject1.getString(NS.MSG), Toast.LENGTH_SHORT).show();
                             break;
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
                 }
             }
         };
 
-        PublishNetwork.getInstance().changePublishStatu(subscriber, jsonObject, context);
+        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, iBaseView);
+        PublishNetwork.getInstance().changePublishStatu(progressSubsciber, jsonObject, context);
+
+//        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+//            @Override
+//            public void onCompleted() {
+//            }
+//
+//            @Override
+//            public void onError(Throwable e) {
+//                callBack.onError(e);
+//            }
+//
+//            @Override
+//            public void onNext(ResponseBody responseBody) {
+//                try {
+//                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
+//                    switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
+//                        case 50000014:
+//                            callBack.onSuccess();
+//                            if (needRefreshData) {
+//                                PublishCache.reload(String.valueOf(publishId), new SimpleCallBack() {
+//                                    @Override
+//                                    public void onSuccess() {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(Throwable e) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onBackData(Object o) {
+//                                        callBack.onBackData(o);
+//                                    }
+//                                });
+//                            }
+//                            break;
+//                        default:
+//                            Toast.makeText(context, jsonObject1.getString(NS.MSG), Toast.LENGTH_SHORT).show();
+//                            break;
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+
+//        PublishNetwork.getInstance().changePublishStatu(subscriber, jsonObject, context);
     }
 
     /**

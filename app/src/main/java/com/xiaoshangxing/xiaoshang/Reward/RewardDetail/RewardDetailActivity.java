@@ -256,8 +256,8 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.operate(published_id, RewardDetailActivity.this, true, NS.COLLECT, published.isCollected(),
-                        new SimpleCallBack() {
+                OperateUtils.operateWithLoad(published_id, RewardDetailActivity.this, true, NS.COLLECT, published.isCollected(),
+                        RewardDetailActivity.this, new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
 
@@ -309,7 +309,8 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     }
 
     private void sendComment(String text, int commenId) {
-        OperateUtils.Comment(published.getId(), commenId, text, this, true, new SimpleCallBack() {
+        OperateUtils.Comment(published.getId(), commenId, text, this, true, RewardDetailActivity.this,
+                new SimpleCallBack() {
             @Override
             public void onSuccess() {
                 inputBoxLayout.setCallBack(null);
@@ -545,7 +546,8 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
     }
 
     private void praise() {
-        OperateUtils.operate(published_id, this, true, NS.PRAISE, Published_Help.isPraised(published), new SimpleCallBack() {
+        OperateUtils.operateWithLoad(published_id, this, true, NS.PRAISE, Published_Help.isPraised(published),
+                RewardDetailActivity.this, new SimpleCallBack() {
             @Override
             public void onSuccess() {
 

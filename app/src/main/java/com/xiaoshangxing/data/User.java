@@ -40,6 +40,7 @@ public class User extends RealmObject {
     private String isCollege;
     private String isGrade;
     private String role;
+    private String label;
     private long serverTime;
 
     public int getId() {
@@ -184,6 +185,14 @@ public class User extends RealmObject {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public boolean isRealName() {

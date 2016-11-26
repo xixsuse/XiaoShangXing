@@ -3,6 +3,7 @@ package com.xiaoshangxing.wo.WoFrafment.WoViewHolder;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
@@ -14,7 +15,9 @@ import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
+import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
+import com.xiaoshangxing.xiaoshang.Sale.SaleDetail.SaleDetailsActivity;
 
 /**
  * Created by FengChaoQun
@@ -68,6 +71,16 @@ public class WoTrasnsmit extends WoBaseHolder {
                             Intent intent = new Intent(context, RewardDetailActivity.class);
                             intent.putExtra(IntentStatic.DATA, published.getId());
                             context.startActivity(intent);
+                        } else if (categry == Integer.valueOf(NS.CATEGORY_PLAN)) {
+                            Intent intent = new Intent(context, PlanDetailActivity.class);
+                            intent.putExtra(IntentStatic.DATA, published.getId());
+                            context.startActivity(intent);
+                        } else if (categry == Integer.valueOf(NS.CATEGORY_SALE)) {
+                            Intent intent = new Intent(context, SaleDetailsActivity.class);
+                            intent.putExtra(IntentStatic.DATA, published.getId());
+                            context.startActivity(intent);
+                        } else {
+                            Toast.makeText(context, "类型异常" + categry, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -351,8 +351,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
                 LayoutHelp.PermissionClick(DetailsActivity.this, new LayoutHelp.PermisionMethod() {
                     @Override
                     public void doSomething() {
-                        OperateUtils.operate(published_id, DetailsActivity.this, true, NS.PRAISE, Published_Help.isPraised(published),
-                                new SimpleCallBack() {
+                        OperateUtils.operateWithLoad(published_id, DetailsActivity.this, true, NS.PRAISE, Published_Help.isPraised(published),
+                                DetailsActivity.this, new SimpleCallBack() {
                                     @Override
                                     public void onSuccess() {
 
@@ -403,7 +403,8 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     }
 
     private void sendComment(String text, int commenId) {
-        OperateUtils.Comment(published.getId(), commenId, text, this, true, new SimpleCallBack() {
+        OperateUtils.Comment(published.getId(), commenId, text, this, true, DetailsActivity.this,
+                new SimpleCallBack() {
             @Override
             public void onSuccess() {
                 inputBoxLayout.setCallBack(null);

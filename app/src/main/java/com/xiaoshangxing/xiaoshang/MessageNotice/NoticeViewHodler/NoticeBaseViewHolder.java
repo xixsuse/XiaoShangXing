@@ -18,6 +18,7 @@ import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeAdpter;
+import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeAdpter_realm;
 import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleDetail.SaleDetailsActivity;
@@ -29,7 +30,7 @@ import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
  */
 
 public abstract class NoticeBaseViewHolder {
-    protected NoticeAdpter adpter;
+    protected NoticeAdpter_realm adpter;
     protected int position;
     protected Context context;
     protected View view;
@@ -138,11 +139,11 @@ public abstract class NoticeBaseViewHolder {
         });
     }
 
-    public NoticeAdpter getAdpter() {
+    public NoticeAdpter_realm getAdpter() {
         return adpter;
     }
 
-    public void setAdpter(NoticeAdpter adpter) {
+    public void setAdpter(NoticeAdpter_realm adpter) {
         this.adpter = adpter;
     }
 

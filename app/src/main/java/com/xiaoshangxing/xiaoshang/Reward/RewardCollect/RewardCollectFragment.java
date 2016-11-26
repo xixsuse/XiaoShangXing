@@ -172,7 +172,8 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                OperateUtils.operate(id, getContext(), true, NS.COLLECT, true, new SimpleCallBack() {
+                OperateUtils.operateWithLoad(id, getContext(), true, NS.COLLECT, true, RewardCollectFragment.this,
+                        new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
                         noticeDialog("已取消收藏");

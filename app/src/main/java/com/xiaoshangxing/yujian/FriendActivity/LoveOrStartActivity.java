@@ -145,6 +145,7 @@ public class LoveOrStartActivity extends BaseActivity implements IBaseView {
                             Gson gson = new Gson();
                             users = gson.fromJson(jsonObject.getJSONArray(NS.MSG).toString(), new TypeToken<List<User>>() {
                             }.getType());
+                            Log.d("users", users.toString());
                             refreshListview();
                             break;
                         default:

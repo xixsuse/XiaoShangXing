@@ -409,7 +409,8 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         dialogMenu2.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-                OperateUtils.operate(id, getContext(), true, NS.COLLECT, isCancle, new SimpleCallBack() {
+                OperateUtils.operateWithLoad(id, getContext(), true, NS.COLLECT, isCancle, RewardFragment.this,
+                        new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
                         noticeDialog(isCancle ? "已取消收藏" : "已收藏");

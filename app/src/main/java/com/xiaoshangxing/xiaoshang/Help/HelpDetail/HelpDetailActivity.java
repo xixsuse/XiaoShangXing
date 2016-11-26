@@ -324,7 +324,8 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     }
 
     private void praise() {
-        OperateUtils.operate(published_id, this, true, NS.PRAISE, Published_Help.isPraised(published), new SimpleCallBack() {
+        OperateUtils.operateWithLoad(published_id, this, true, NS.PRAISE, Published_Help.isPraised(published),
+                HelpDetailActivity.this, new SimpleCallBack() {
             @Override
             public void onSuccess() {
             }
@@ -452,7 +453,8 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     }
 
     private void sendComment(String text, int commenId) {
-        OperateUtils.Comment(published.getId(), commenId, text, this, true, new SimpleCallBack() {
+        OperateUtils.Comment(published.getId(), commenId, text, this, true, HelpDetailActivity.this,
+                new SimpleCallBack() {
             @Override
             public void onSuccess() {
                 inputBoxLayout.setCallBack(null);

@@ -377,16 +377,17 @@ public abstract class WoBaseHolder {
                 LayoutHelp.PermissionClick(activity, new LayoutHelp.PermisionMethod() {
                     @Override
                     public void doSomething() {
-                        OperateUtils.operate(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
-                                new SimpleCallBack() {
+                        OperateUtils.operateWithLoad(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
+                                woFragment, new SimpleCallBack() {
                                     @Override
                                     public void onSuccess() {
-                                        woFragment.showToast("操作成功");
+//                                        woFragment.showToast("操作成功");
                                     }
 
                                     @Override
                                     public void onError(Throwable e) {
 //                            praise.setChecked(!praise.isChecked());
+                                        woFragment.showToast("操作失败:异常");
                                     }
 
                                     @Override
@@ -438,7 +439,7 @@ public abstract class WoBaseHolder {
     }
 
     private void sendComment(String text, int commenId) {
-        OperateUtils.Comment(published.getId(), commenId, text, context, true, new SimpleCallBack() {
+        OperateUtils.Comment(published.getId(), commenId, text, context, true, woFragment, new SimpleCallBack() {
             @Override
             public void onSuccess() {
                 woFragment.setEditCallback(null);

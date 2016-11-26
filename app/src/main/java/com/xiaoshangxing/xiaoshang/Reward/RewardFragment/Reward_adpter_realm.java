@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -93,90 +92,90 @@ public class Reward_adpter_realm extends RealmBaseAdapter<Published> {
             }
         });
 
-        viewholder.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (fragment.isRefreshing()) {
-                    return;
-                }
-
-                View menu = View.inflate(context, R.layout.shoolfellow_popupmenu, null);
-                final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-                popupWindow.setFocusable(true);
-                popupWindow.setBackgroundDrawable(context.getResources().
-                        getDrawable(R.drawable.circular_12_b3));
-                popupWindow.setAnimationStyle(R.style.popwindow_anim);
-
-                menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                int mShowMorePopupWindowWidth = menu.getMeasuredWidth();
-                int mShowMorePopupWindowHeight = menu.getMeasuredHeight();
-                int heightMoreBtnView = v.getHeight();
-
-                popupWindow.setOutsideTouchable(true);
-                popupWindow.setTouchable(true);
-
-                popupWindow.showAsDropDown(v, -mShowMorePopupWindowWidth - context.getResources().getDimensionPixelSize(R.dimen.x6),
-                        -(mShowMorePopupWindowHeight + heightMoreBtnView) / 2);
-
-                View transmit = menu.findViewById(R.id.transmit);
-                View comment = menu.findViewById(R.id.comment);
-                View praise = menu.findViewById(R.id.praise);
-                final TextView praiseOrCancle = (TextView) menu.findViewById(R.id.praiseOrCancel);
-                praiseOrCancle.setText(Published_Help.isPraised(published) ? "取消" : "赞");
-
-                transmit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        activity.setTransmitedId(published.getId());
-                        activity.gotoSelectPerson();
-                        popupWindow.dismiss();
-                        popupWindow.dismiss();
-                    }
-                });
-
-                comment.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context, InputActivity.class);
-                        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
-                        intent.putExtra(InputActivity.MOMENTID, published.getId());
-                        context.startActivity(intent);
-                        popupWindow.dismiss();
-                    }
-                });
-
-                praise.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        OperateUtils.operate(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
-                                new SimpleCallBack() {
-                                    @Override
-                                    public void onSuccess() {
-                                        if (praiseOrCancle.getText().equals("赞")) {
-                                            praiseOrCancle.setText("取消");
-                                            Toast.makeText(context, "赞", Toast.LENGTH_SHORT).show();
-                                        } else {
-                                            praiseOrCancle.setText("赞");
-                                            Toast.makeText(context, "取消", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-                                    }
-
-                                    @Override
-                                    public void onBackData(Object o) {
-
-                                    }
-                                });
-                        popupWindow.dismiss();
-                    }
-                });
-            }
-        });
+//        viewholder.button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (fragment.isRefreshing()) {
+//                    return;
+//                }
+//
+//                View menu = View.inflate(context, R.layout.shoolfellow_popupmenu, null);
+//                final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
+//                        ViewGroup.LayoutParams.WRAP_CONTENT);
+//                popupWindow.setFocusable(true);
+//                popupWindow.setBackgroundDrawable(context.getResources().
+//                        getDrawable(R.drawable.circular_12_b3));
+//                popupWindow.setAnimationStyle(R.style.popwindow_anim);
+//
+//                menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+//                int mShowMorePopupWindowWidth = menu.getMeasuredWidth();
+//                int mShowMorePopupWindowHeight = menu.getMeasuredHeight();
+//                int heightMoreBtnView = v.getHeight();
+//
+//                popupWindow.setOutsideTouchable(true);
+//                popupWindow.setTouchable(true);
+//
+//                popupWindow.showAsDropDown(v, -mShowMorePopupWindowWidth - context.getResources().getDimensionPixelSize(R.dimen.x6),
+//                        -(mShowMorePopupWindowHeight + heightMoreBtnView) / 2);
+//
+//                View transmit = menu.findViewById(R.id.transmit);
+//                View comment = menu.findViewById(R.id.comment);
+//                View praise = menu.findViewById(R.id.praise);
+//                final TextView praiseOrCancle = (TextView) menu.findViewById(R.id.praiseOrCancel);
+//                praiseOrCancle.setText(Published_Help.isPraised(published) ? "取消" : "赞");
+//
+//                transmit.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        activity.setTransmitedId(published.getId());
+//                        activity.gotoSelectPerson();
+//                        popupWindow.dismiss();
+//                        popupWindow.dismiss();
+//                    }
+//                });
+//
+//                comment.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent(context, InputActivity.class);
+//                        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
+//                        intent.putExtra(InputActivity.MOMENTID, published.getId());
+//                        context.startActivity(intent);
+//                        popupWindow.dismiss();
+//                    }
+//                });
+//
+//                praise.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        OperateUtils.operateWithLoad(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
+//                                fragment, new SimpleCallBack() {
+//                                    @Override
+//                                    public void onSuccess() {
+//                                        if (praiseOrCancle.getText().equals("赞")) {
+//                                            praiseOrCancle.setText("取消");
+//                                            Toast.makeText(context, "赞", Toast.LENGTH_SHORT).show();
+//                                        } else {
+//                                            praiseOrCancle.setText("赞");
+//                                            Toast.makeText(context, "取消", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(Throwable e) {
+//                                    }
+//
+//                                    @Override
+//                                    public void onBackData(Object o) {
+//
+//                                    }
+//                                });
+//                        popupWindow.dismiss();
+//                    }
+//                });
+//            }
+//        });
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 
 import com.xiaoshangxing.data.PushMsg;
 import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeViewHodler.NoticeBaseViewHolder;
@@ -14,18 +13,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.realm.RealmBaseAdapter;
+import io.realm.RealmResults;
+
 /**
  * Created by FengChaoQun
  * on 2016/11/16
  */
 
-public class NoticeAdpter extends ArrayAdapter<PushMsg> {
+public class NoticeAdpter_realm extends RealmBaseAdapter<PushMsg> {
     private Context context;
     List<PushMsg> pushMsgs;
     private final Map<Class<?>, Integer> viewTypes;
 
-    public NoticeAdpter(Context context, int res, List<PushMsg> pushMsgs) {
-        super(context, res, pushMsgs);
+    public NoticeAdpter_realm(Context context, RealmResults<PushMsg> pushMsgs) {
+        super(context, pushMsgs);
         this.context = context;
         this.pushMsgs = pushMsgs;
         this.viewTypes = new HashMap<Class<?>, Integer>(getViewTypeCount());
@@ -79,7 +81,7 @@ public class NoticeAdpter extends ArrayAdapter<PushMsg> {
         try {
             Class<?> viewHolder = viewHolderAtPosition(position);
             holder = (NoticeBaseViewHolder) viewHolder.newInstance();
-//            holder.setAdpter(this);
+            holder.setAdpter(this);
             holder.setContext(context);
         } catch (Exception e) {
             e.printStackTrace();

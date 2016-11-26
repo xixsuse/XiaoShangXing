@@ -81,6 +81,9 @@ public class XSXApplication extends Application {
 //        初始化IM
         NIMClient.init(this, getLoginInfo(), getOptions());
 
+//        初始化crash
+        XSXCrashHelper.getInstance().init(this);
+
         if (inMainProcess()) {
 
             // 初始化UIKit模块

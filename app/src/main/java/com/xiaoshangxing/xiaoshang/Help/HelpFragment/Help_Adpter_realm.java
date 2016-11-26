@@ -138,8 +138,8 @@ public class Help_Adpter_realm extends RealmBaseAdapter<Published> {
                         praise.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                OperateUtils.operate(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
-                                        new SimpleCallBack() {
+                                OperateUtils.operateWithLoad(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
+                                        fragment, new SimpleCallBack() {
                                             @Override
                                             public void onSuccess() {
                                                 if (praiseOrCancle.getText().equals("赞")) {

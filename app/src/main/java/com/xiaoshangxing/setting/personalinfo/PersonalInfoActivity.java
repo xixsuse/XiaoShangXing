@@ -12,6 +12,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.personalinfo.MyCode.MyCodeFragment;
 import com.xiaoshangxing.setting.personalinfo.QianMing.QianMingFragment;
+import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
 import com.xiaoshangxing.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.ShowHeadimgFragment;
@@ -69,9 +70,8 @@ public class PersonalInfoActivity extends BaseActivity {
 
 
     public void TagView(View view) {
-        showToast(NS.ON_DEVELOPING);
-//        Intent intent = new Intent(this, TagViewActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(this, TagViewActivity.class);
+        startActivity(intent);
     }
 
     public void QianName(View view) {

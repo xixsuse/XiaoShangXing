@@ -142,7 +142,7 @@ public class PersonalSale_Adpter_realm extends RealmBaseAdapter<Published> {
                         viewHolder.iscomplete.setChecked((published1.isAlive()));
                     }
                 };
-                OperateUtils.ChangeStatu(published.getId(), published.getStatus(), context, true, simpleCallBack);
+                OperateUtils.ChangeStatu(published.getId(), published.getStatus(), context, true, fragment, simpleCallBack);
             }
         });
 

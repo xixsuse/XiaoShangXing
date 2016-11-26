@@ -19,13 +19,13 @@ import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 import static com.xiaoshangxing.utils.NotifycationUtil.NOTIFY_WO;
@@ -52,8 +52,8 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
     @Bind(R.id.listview)
     ListView listview;
     private NewsContract.Presenter mPresenter;
-    private newsAdapter adapter;
-    private List<PushMsg> pushMsgs = new ArrayList<>();
+    private newsAdapter_realm adapter_realm;
+    private RealmResults<PushMsg> pushMsgs;
     private NotifycationUtil.OnNotifyChange onNotifyChange;
 
     @Override
@@ -88,12 +88,6 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
         title.setText("消息");
         rightText.setText("清空");
         titleBottomLine.setVisibility(View.GONE);
-//        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                gotoDetail();
-//            }
-//        });
     }
 
     @Override
@@ -105,8 +99,8 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
         if (pushMsgs.isEmpty()) {
             return;
         }
-        adapter = new newsAdapter(this, 11, pushMsgs);
-        listview.setAdapter(adapter);
+        adapter_realm = new newsAdapter_realm(this, pushMsgs);
+        listview.setAdapter(adapter_realm);
     }
 
     /**
@@ -170,7 +164,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
 
     @Override
     public void clickOnClean() {
-        if (!adapter.isEmpty()) {
+        if (!adapter_realm.isEmpty()) {
             showCleanDialog();
         }
     }

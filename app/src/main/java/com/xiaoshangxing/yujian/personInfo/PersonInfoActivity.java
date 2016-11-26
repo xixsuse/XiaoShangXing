@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,9 +18,12 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
+import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
 import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.Network.IMNetwork;
@@ -30,6 +34,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.HeadImageActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
@@ -43,6 +48,7 @@ import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
+import com.xiaoshangxing.yujian.pearsonalTag.PeraonalTagActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,6 +131,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     public static final String FINISH = "FINISH";
     private List<User> loves = new ArrayList<>();
     private boolean isLoved;
+    private Observer<List<NimUserInfo>> observer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,9 +148,6 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         intentFilter.addAction(FINISH);
         registerReceiver(myBroadcastReceiver, intentFilter);
 
-        tagContents = "标签1  标签2  标签3  标签4  标签5";
-        tagContent.setText(tagContents);
-
         account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
         if (account == null) {
             showToast("账号有误");
@@ -157,6 +161,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     @Override
     protected void onDestroy() {
         unregisterReceiver(myBroadcastReceiver);
+        oberverUserInfo(false);
         super.onDestroy();
     }
 
@@ -186,6 +191,8 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
             refreshPager();
         }
 
+        oberverUserInfo(true);
+
         headImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,6 +217,15 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
             sex.setImageResource(R.mipmap.sex_male);
         } else {
             sex.setVisibility(View.GONE);
+        }
+
+        tagContent.setText("");
+        tagContents = (String) user.getExtensionMap().get(NS.LABEL);
+        if (!TextUtils.isEmpty(tagContents)) {
+            String[] strings = tagContents.split(NS.SPLIT);
+            for (String i : strings) {
+                tagContent.append(i + " ");
+            }
         }
 
         if (TempUser.isMine(account)) {
@@ -239,6 +255,24 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
             bt1.setText("留心");
             getStar();
         }
+
+    }
+
+    private void oberverUserInfo(boolean is) {
+        if (observer == null) {
+            observer = new Observer<List<NimUserInfo>>() {
+                @Override
+                public void onEvent(List<NimUserInfo> nimUserInfos) {
+                    for (NimUserInfo userInfo : nimUserInfos) {
+                        if (userInfo.getAccount().equals(String.valueOf(TempUser.id))) {
+                            user = userInfo;
+                            refreshPager();
+                        }
+                    }
+                }
+            };
+        }
+        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(observer, is);
     }
 
 
@@ -328,13 +362,15 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
 
     //标签
     public void Tag() {
-        showToast(NS.ON_DEVELOPING);
-        //别人的
-//        Intent intent = new Intent(this, PeraonalTagActivity.class);
-//        startActivity(intent);
-        //自己的
-//        Intent intent = new Intent(this, TagViewActivity.class);
-//        startActivity(intent);
+        if (TempUser.isMine(account)) {
+            Intent intent = new Intent(this, TagViewActivity.class);
+            intent.putExtra(IntentStatic.DATA, tagContents);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, PeraonalTagActivity.class);
+            intent.putExtra(IntentStatic.DATA, tagContents);
+            startActivity(intent);
+        }
     }
 
     @Override

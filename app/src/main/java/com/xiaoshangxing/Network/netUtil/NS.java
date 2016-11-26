@@ -36,6 +36,7 @@ public class NS {
     public static final String CLIENTTIME = "clientTime";
     public static final String NOTICE = "notice";
     public static final String FOBIDDEN = "forbidden";
+    public static final String LABEL = "label";
 
     public static final String CATEGORY_STATE = "1";
     public static final String CATEGORY_HELP = "2";

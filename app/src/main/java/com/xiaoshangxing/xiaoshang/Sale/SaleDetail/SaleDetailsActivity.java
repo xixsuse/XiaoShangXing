@@ -157,8 +157,8 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         collect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OperateUtils.operate(published_id, SaleDetailsActivity.this, true, NS.COLLECT, published.isCollected(),
-                        new SimpleCallBack() {
+                OperateUtils.operateWithLoad(published_id, SaleDetailsActivity.this, true, NS.COLLECT, published.isCollected(),
+                        SaleDetailsActivity.this, new SimpleCallBack() {
                             @Override
                             public void onSuccess() {
 

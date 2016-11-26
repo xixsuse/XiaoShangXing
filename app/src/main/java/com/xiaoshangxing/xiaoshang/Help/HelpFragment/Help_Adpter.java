@@ -22,8 +22,8 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
-import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
+import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
@@ -117,8 +117,6 @@ public class Help_Adpter extends ArrayAdapter<Published> {
                         transmit.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-//                        Intent intent=new Intent(context, SelectPersonActivity.class);
-//                        activity.startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
                                 activity.setTransmitedId(publisheds.get(position).getId());
                                 activity.gotoSelectPerson();
                                 popupWindow.dismiss();
@@ -139,8 +137,8 @@ public class Help_Adpter extends ArrayAdapter<Published> {
                         praise.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                OperateUtils.operate(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
-                                        new SimpleCallBack() {
+                                OperateUtils.operateWithLoad(published.getId(), context, true, NS.PRAISE, Published_Help.isPraised(published),
+                                        fragment, new SimpleCallBack() {
                                             @Override
                                             public void onSuccess() {
                                                 if (praiseOrCancle.getText().equals("赞")) {

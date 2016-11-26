@@ -962,7 +962,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
     }
 
     private void publishComment() {
-        OperateUtils.Comment(momentId, commentId, emotionEdittext.getText().toString(), this, true,
+        OperateUtils.Comment(momentId, commentId, emotionEdittext.getText().toString(), this, true, InputActivity.this,
                 new SimpleCallBack() {
             @Override
             public void onSuccess() {

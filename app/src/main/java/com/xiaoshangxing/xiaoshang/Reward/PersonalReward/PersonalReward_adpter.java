@@ -96,7 +96,7 @@ public class PersonalReward_adpter extends ArrayAdapter<Published> {
                         viewholder.iscomplete.setChecked((published1.isAlive()));
                     }
                 };
-                OperateUtils.ChangeStatu(published.getId(), published.getStatus(), context, true, simpleCallBack);
+                OperateUtils.ChangeStatu(published.getId(), published.getStatus(), context, true, fragment, simpleCallBack);
             }
         });
 
