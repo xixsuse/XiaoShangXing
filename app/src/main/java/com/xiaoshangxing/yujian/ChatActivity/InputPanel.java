@@ -52,6 +52,7 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.CustomNotificationConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
 import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
@@ -65,6 +66,7 @@ import com.xiaoshangxing.input_activity.check_photo.inputSelectPhotoPagerActivit
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
@@ -463,7 +465,7 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
 
             JSONObject json = new JSONObject();
             try {
-                json.put("id", "1");
+                json.put(NS.PUSH_TYPE, NotifycationUtil.NT_IM_TYPING);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

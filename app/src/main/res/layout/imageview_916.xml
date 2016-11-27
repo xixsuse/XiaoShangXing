@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/iv_image"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/x916"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY" />
+        android:scaleType="fitCenter" />
 
 </RelativeLayout>

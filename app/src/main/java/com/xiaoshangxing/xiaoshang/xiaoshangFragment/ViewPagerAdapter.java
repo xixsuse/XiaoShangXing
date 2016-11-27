@@ -56,8 +56,9 @@ public class ViewPagerAdapter extends PagerAdapter implements ViewAdapter {
         View view = LayoutInflater.from(container.getContext())
                 .inflate(R.layout.xiaoshang_image, container, false);
         ImageView showImage = (ImageView) view.findViewById(R.id.show_image);
+        ImageView clickRange = (ImageView) view.findViewById(R.id.click_range);
         showImage.setImageResource(images.get(position));
-        showImage.setOnClickListener(new View.OnClickListener() {
+        clickRange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 xiaoShangFragment.gotoOther(position + 1);

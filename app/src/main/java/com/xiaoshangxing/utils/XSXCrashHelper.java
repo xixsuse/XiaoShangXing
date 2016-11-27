@@ -27,7 +27,7 @@ public class XSXCrashHelper implements Thread.UncaughtExceptionHandler {
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
 
-    private static final String PATH = FileUtils.XSX_PATH + "Crash" + File.separator;
+    public static final String PATH = FileUtils.XSX_PATH + "Log" + File.separator;
     private static final String FILE_NAME = "crash";
 
     //log文件的后缀名
@@ -130,13 +130,13 @@ public class XSXCrashHelper implements Thread.UncaughtExceptionHandler {
         //应用的版本名称和版本号
         PackageManager pm = mContext.getPackageManager();
         PackageInfo pi = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);
-        pw.print("App Version:");
+        pw.print("AppVersion:");
         pw.print(pi.versionName);
         pw.print('_');
         pw.println(pi.versionCode);
 
         //android版本号
-        pw.print("OS Version:");
+        pw.print("OSVersion:");
         pw.print(Build.VERSION.RELEASE);
         pw.print("_");
         pw.println(Build.VERSION.SDK_INT);
@@ -150,7 +150,7 @@ public class XSXCrashHelper implements Thread.UncaughtExceptionHandler {
         pw.println(Build.MODEL);
 
         //cpu架构
-        pw.print("CPU ABI:");
+        pw.print("CPU_ABI:");
         pw.println(Build.CPU_ABI);
     }
 

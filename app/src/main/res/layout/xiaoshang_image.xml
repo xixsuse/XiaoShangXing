@@ -14,4 +14,13 @@
         android:paddingStart="@dimen/width_48"
         android:src="@mipmap/xiaoshang_01" />
 
+    <ImageView
+        android:id="@+id/click_range"
+        android:layout_width="@dimen/x600"
+        android:layout_height="@dimen/y900"
+        android:layout_gravity="center"
+        android:background="@drawable/circular_300_transparent">
+
+    </ImageView>
+
 </FrameLayout>

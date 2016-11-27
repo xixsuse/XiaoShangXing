@@ -193,34 +193,34 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
                 isbacked = false;
                 break;
             case R.id.back:
-                if (!editText.getText().toString().equals("")) {
-                    final Tag tag = new Tag();
-                    tag.setId(0);
-                    tag.setChecked(true);
-                    tag.setTitle(editText.getText().toString());
-                    final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
-                    final Dialog alertDialog = dialogUtils.Message("保存本次编辑？")
-                            .Button("不保存", "保存").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
-                                @Override
-                                public void onButton1() {
-                                    dialogUtils.close();
-                                    finish();
-                                }
-
-                                @Override
-                                public void onButton2() {
-                                    mTags.add(tag);
-                                    mTagListView.addTag(tag);
-                                    dialogUtils.close();
-                                    finish();
-                                }
-                            }).create();
-                    alertDialog.show();
-                    LocationUtil.setWidth(this, alertDialog,
-                            getResources().getDimensionPixelSize(R.dimen.x780));
-                } else {
+//                if (!editText.getText().toString().equals("")) {
+//                    final Tag tag = new Tag();
+//                    tag.setId(0);
+//                    tag.setChecked(true);
+//                    tag.setTitle(editText.getText().toString());
+//                    final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+//                    final Dialog alertDialog = dialogUtils.Message("保存本次编辑？")
+//                            .Button("不保存", "保存").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+//                                @Override
+//                                public void onButton1() {
+//                                    dialogUtils.close();
+//                                    finish();
+//                                }
+//
+//                                @Override
+//                                public void onButton2() {
+//                                    mTags.add(tag);
+//                                    mTagListView.addTag(tag);
+//                                    dialogUtils.close();
+//                                    finish();
+//                                }
+//                            }).create();
+//                    alertDialog.show();
+//                    LocationUtil.setWidth(this, alertDialog,
+//                            getResources().getDimensionPixelSize(R.dimen.x780));
+//                } else {
                     finish();
-                }
+//                }
                 break;
             default:
                 break;

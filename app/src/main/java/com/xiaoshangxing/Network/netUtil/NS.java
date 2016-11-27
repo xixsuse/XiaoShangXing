@@ -68,8 +68,6 @@ public class NS {
 
     public static final String YEAR = "year";
     public static final String MONTH = "month";
-
-
     public static final String MONTH_C = "月";
 
 

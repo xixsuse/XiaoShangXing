@@ -26,14 +26,17 @@ import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.Network.AutoUpdate.UpdateManager;
+import com.xiaoshangxing.Network.UploadLogUtil;
 import com.xiaoshangxing.Network.netUtil.AppNetUtil;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DeviceLog;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.normalUtils.NetUtils;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
 import com.xiaoshangxing.wo.WoFrafment.WoFragment;
@@ -49,6 +52,8 @@ import com.xiaoshangxing.yujian.IM.kit.reminder.ReminderItem;
 import com.xiaoshangxing.yujian.IM.kit.reminder.ReminderManager;
 import com.xiaoshangxing.yujian.IM.kit.reminder.SystemMessageUnreadManager;
 import com.xiaoshangxing.yujian.YujianFragment.YuJianFragment;
+
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -138,9 +143,28 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
 
     private void doSomethingWhenEnter() {
         TempUser.initTempUser(this);
+        //第一次进入APP  收集设备信息
+        if ((boolean) SPUtils.get(this, SPUtils.IS_FIRS_COME, true)) {
+            DeviceLog deviceLog = new DeviceLog(this);
+            deviceLog.saveDevieceLog();
+        }
         SPUtils.put(this, SPUtils.IS_FIRS_COME, false);//当这个页面打开时，表明不是第一次进入APP了
         SPUtils.put(this, SPUtils.IS_QUIT, false);//当这个页面打开时，清除退出记录
         SPUtils.put(this,SPUtils.IS_NEED_GUIDE,false);//当这个页面打开时，表示已看过引导页
+        //上传日志文件
+        if (NetUtils.isConnected(this)) {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        UploadLogUtil.doUpload();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            thread.start();
+        }
     }
 
     private void onParseIntent(){
@@ -414,7 +438,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
                     public void onEvent(StatusCode statusCode) {
                         if (statusCode.wontAutoLogin()) {
                             if (statusCode == StatusCode.KICKOUT || statusCode == StatusCode.KICK_BY_OTHER_CLIENT) {
-//                                AppNetUtil.KitOut(MainActivity.this);
                                 AppNetUtil.KitOut(XSXApplication.currentActivity);
                             }
                         }

@@ -202,7 +202,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/dynamic" />
-
             <com.xiaoshangxing.utils.layout.RoundedImageView
                 android:id="@+id/dynamic_image1"
                 android:layout_width="@dimen/x144"
@@ -211,7 +210,6 @@
                 android:layout_marginStart="@dimen/x72"
                 android:layout_toRightOf="@id/dynamic_text"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/greyblock"
                 app:corner_radius="6dp" />
 
             <com.xiaoshangxing.utils.layout.RoundedImageView
@@ -222,7 +220,6 @@
                 android:layout_marginStart="@dimen/x9"
                 android:layout_toRightOf="@id/dynamic_image1"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/greyblock"
                 app:corner_radius="6dp" />
 
             <com.xiaoshangxing.utils.layout.RoundedImageView
@@ -233,7 +230,6 @@
                 android:layout_marginStart="@dimen/x9"
                 android:layout_toRightOf="@id/dynamic_image2"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/greyblock"
                 app:corner_radius="6dp" />
 
             <com.xiaoshangxing.utils.layout.RoundedImageView
@@ -244,9 +240,7 @@
                 android:layout_marginStart="@dimen/x9"
                 android:layout_toRightOf="@id/dynamic_image3"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/greyblock"
                 app:corner_radius="6dp" />
-
 
             <ImageView
                 android:layout_width="wrap_content"

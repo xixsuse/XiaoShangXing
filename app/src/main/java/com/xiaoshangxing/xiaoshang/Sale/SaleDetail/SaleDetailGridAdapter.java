@@ -47,7 +47,7 @@ public class SaleDetailGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = View.inflate(ctx, R.layout.imageview_wrap, null);
+        View view = View.inflate(ctx, R.layout.imageview_916, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.iv_image);
         MyGlide.with(ctx, imageUrls.get(position), imageView);
         return view;

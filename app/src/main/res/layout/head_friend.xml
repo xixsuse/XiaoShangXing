@@ -11,8 +11,8 @@
 
     <!--三个模块-->
     <LinearLayout
-        android:paddingTop="@dimen/y35"
-        android:paddingBottom="@dimen/y10"
+        android:paddingBottom="@dimen/y32"
+        android:paddingTop="@dimen/y15"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,8 +34,8 @@
             <TextView
                 android:text="群聊"
                 android:layout_gravity="center_horizontal"
-                android:textSize="13sp"
-                android:textColor="@color/g0"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -43,8 +43,8 @@
                 android:id="@+id/group_count"
                 android:text="2"
                 android:layout_gravity="center_horizontal"
-                android:textSize="13sp"
-                android:textColor="@color/g0"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -75,8 +75,8 @@
             <TextView
                 android:text="留心"
                 android:layout_gravity="center_horizontal"
-                android:textSize="13sp"
-                android:textColor="@color/g0"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -84,8 +84,8 @@
                 android:id="@+id/love_count"
                 android:text="2"
                 android:layout_gravity="center_horizontal"
-                android:textSize="13sp"
-                android:textColor="@color/g0"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -116,8 +116,8 @@
             <TextView
                 android:text="星星"
                 android:layout_gravity="center_horizontal"
-                android:textSize="13sp"
-                android:textColor="@color/g0"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -125,8 +125,8 @@
                 android:id="@+id/star_count"
                 android:text="2"
                 android:layout_gravity="center_horizontal"
-                android:textSize="13sp"
-                android:textColor="@color/g0"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

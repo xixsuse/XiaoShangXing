@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.netease.nimlib.sdk.NIMClient;
@@ -21,6 +22,7 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -34,7 +36,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
 
     protected IMMessage message;
 
-
+    protected RelativeLayout rootView;
     protected View alertButton;
     protected TextView timeTextView;
     protected ProgressBar progressBar;
@@ -153,6 +155,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
         nameIconView = findViewById(R.id.message_item_name_icon);
         nameContainer = findViewById(R.id.message_item_name_layout);
         readReceiptTextView = findView(R.id.textViewAlreadyRead);
+        rootView = findView(R.id.root_view);
 
         View.inflate(view.getContext(), getContentResId(), contentContainer);
         inflateContentView();
@@ -185,8 +188,20 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     private void setTimeTextView() {
         if (getAdapter().needShowTime(message)) {
             timeTextView.setVisibility(View.VISIBLE);
+            if (position != 0) {
+                rootView.setPadding(ScreenUtils.getAdapterPx(R.dimen.x30, context),
+                        ScreenUtils.getAdapterPx(R.dimen.y54, context), ScreenUtils.getAdapterPx(R.dimen.x30, context),
+                        ScreenUtils.getAdapterPx(R.dimen.y30, context));
+            } else {
+                rootView.setPadding(ScreenUtils.getAdapterPx(R.dimen.x30, context),
+                        ScreenUtils.getAdapterPx(R.dimen.y30, context), ScreenUtils.getAdapterPx(R.dimen.x30, context),
+                        ScreenUtils.getAdapterPx(R.dimen.y30, context));
+            }
         } else {
             timeTextView.setVisibility(View.GONE);
+            rootView.setPadding(ScreenUtils.getAdapterPx(R.dimen.x30, context),
+                    ScreenUtils.getAdapterPx(R.dimen.y30, context), ScreenUtils.getAdapterPx(R.dimen.x30, context),
+                    ScreenUtils.getAdapterPx(R.dimen.y30, context));
             return;
         }
 

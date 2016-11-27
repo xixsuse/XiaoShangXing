@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="6dp">
+    android:paddingBottom="@dimen/y30"
+    android:paddingEnd="@dimen/x30"
+    android:paddingStart="@dimen/x30"
+    android:paddingTop="@dimen/y30">
 
     <TextView
         android:alpha="0.3"
@@ -12,29 +16,31 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:background="@drawable/circular_4_g0"
-        android:padding="@dimen/x12"
+        android:layout_marginBottom="@dimen/y36"
+        android:paddingBottom="@dimen/x12"
+        android:paddingEnd="@dimen/x20"
+        android:paddingStart="@dimen/x20"
         android:textColor="@color/w0"
         android:textSize="12sp"
-        android:layout_marginBottom="@dimen/y24"
+        android:paddingTop="@dimen/x12"
         android:visibility="gone" />
-
 
 
     <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/message_item_portrait_left"
-        android:layout_width="@dimen/x112"
-        android:layout_height="@dimen/x112"
+        android:layout_width="@dimen/x114"
+        android:layout_height="@dimen/x114"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/message_item_time"
-        android:layout_marginRight="@dimen/x24"
+        android:layout_marginRight="@dimen/x14"
         android:visibility="gone" />
 
     <com.xiaoshangxing.utils.layout.CirecleImage
         android:id="@+id/message_item_portrait_right"
-        android:layout_width="@dimen/x112"
-        android:layout_height="@dimen/x112"
+        android:layout_width="@dimen/x114"
+        android:layout_height="@dimen/x114"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="@dimen/x24"
+        android:layout_marginLeft="@dimen/x14"
         android:layout_below="@id/message_item_time"
         android:src="@color/b0"
         android:visibility="visible" />

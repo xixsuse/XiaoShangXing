@@ -64,6 +64,7 @@ public class NotifycationUtil {
     public static final String NT_IM_NOTICE = "400";                    //遇见公告
     public static final String NT_IM_STARED = "401";                    //被留心
     public static final String NT_IM_LOVED = "402";                     //被暗恋
+    public static final String NT_IM_TYPING = "410";                    //正在输入
 
     /**
      * 动态的操作类型

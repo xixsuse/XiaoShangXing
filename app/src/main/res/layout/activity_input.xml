@@ -97,22 +97,24 @@
         <RelativeLayout
             android:visibility="gone"
             android:id="@+id/xianzhi_lay"
-            android:paddingStart="@dimen/x36"
+            android:paddingStart="@dimen/x46"
             android:paddingEnd="@dimen/width_48"
             android:paddingBottom="@dimen/y22"
+            android:layout_marginBottom="@dimen/x10"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y120">
 
             <ImageView
-                android:src="@mipmap/xianzhi_input"
+                android:layout_width="wrap_content"
                 android:id="@+id/select_location_imag"
                 android:layout_centerVertical="true"
-                android:layout_width="@dimen/x84"
-                android:layout_height="@dimen/y84" />
+                android:layout_height="wrap_content"
+                android:src="@mipmap/dormitory" />
             <TextView
+                android:layout_marginStart="@dimen/x10"
                 android:id="@+id/selected_location"
-                android:textSize="16sp"
-                android:textColor="@color/g0"
+                android:textColor="@color/gray_login"
+                android:textSize="14sp"
                 android:text="未选"
                 android:layout_toEndOf="@+id/select_location_imag"
                 android:layout_centerVertical="true"
@@ -123,12 +125,15 @@
                 android:id="@+id/price"
                 android:inputType="number"
                 android:paddingStart="@dimen/x42"
+                android:hint="价格"
+                android:paddingBottom="@dimen/y10"
                 android:layout_toEndOf="@+id/selected_location"
                 android:layout_centerVertical="true"
                 android:background="@drawable/et_circular_half_42_g0"
                 android:textColor="@color/red1"
-                android:textSize="16sp"
+                android:paddingTop="@dimen/y10"
                 style="@style/input_box"
+                android:textSize="13sp"
                 android:maxLength="5"
                 android:layout_marginStart="@dimen/x124"
                 android:layout_width="@dimen/x256"
@@ -136,9 +141,10 @@
 
             <TextView
                 android:text="元"
-                style="@style/black_16sp"
+                android:layout_marginStart="@dimen/x16"
+                android:textColor="@color/b0"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/x18"
+                android:textSize="13sp"
                 android:layout_toEndOf="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.Location.NearCollege;
 import com.xiaoshangxing.setting.shiming.chooseschool.SerchSchoolActivity;
@@ -144,12 +145,17 @@ public class XueXiaoActivity extends BaseActivity {
 
 
     public void Next() {
+        if (isRegister) {
+            startActivity(new Intent(this, MainActivity.class));
+        } else {
             startActivity(new Intent(this, XueYuanActivity.class));
             VertifyActivity.schoolStr = schoolText.getText().toString();
+        }
     }
 
     public void SearchView(View view) {
-//        showToast("暂未开通");
+        Intent intent = new Intent(this, SerchSchoolActivity.class);
+        intent.putExtra(IntentStatic.TYPE, isRegister);
         startActivity(new Intent(this, SerchSchoolActivity.class));
     }
 

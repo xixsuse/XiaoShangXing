@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.api.IMApi.CancleFavorApi;
 import com.xiaoshangxing.Network.api.IMApi.FavorApi;
+import com.xiaoshangxing.Network.api.IMApi.GetImages;
 import com.xiaoshangxing.Network.api.IMApi.MyFavorApi;
 import com.xiaoshangxing.Network.api.IMApi.MyStarApi;
 import com.xiaoshangxing.Network.api.IMApi.SerchPersonApi;
@@ -27,6 +28,7 @@ public class IMNetwork {
     private MyStarApi myStarApi;
     private FavorApi favorApi;
     private CancleFavorApi cancleFavorApi;
+    private GetImages getImages;
 
     private IMNetwork() {
 
@@ -80,6 +82,14 @@ public class IMNetwork {
             cancleFavorApi = Network.getRetrofitWithHeader(context).create(CancleFavorApi.class);
         }
         Observable<ResponseBody> observable = cancleFavorApi.start(param);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void GetImages(Subscriber<ResponseBody> subscriber, JsonObject param, Context context) {
+        if (getImages == null) {
+            getImages = Network.getRetrofitWithHeader(context).create(GetImages.class);
+        }
+        Observable<ResponseBody> observable = getImages.start(param);
         toSubscribe(observable, subscriber);
     }
 

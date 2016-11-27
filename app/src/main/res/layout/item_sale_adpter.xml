@@ -331,7 +331,7 @@
                     android:layout_height="@dimen/y76"
                     android:layout_marginLeft="@dimen/x16"
                     android:layout_marginRight="@dimen/x30"
-                    android:background="@drawable/circular_4_g2"
+                    android:background="@drawable/circular_4_g0"
                     android:text="私聊"
                     android:textColor="@android:color/white"
                     android:textSize="13sp" />

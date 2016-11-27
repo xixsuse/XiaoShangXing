@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,6 +36,7 @@ import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.layout.MessageListView;
 import com.xiaoshangxing.utils.layout.MsgBkImageView;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
@@ -472,14 +472,11 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
         String content = message.getContent();
         try {
             JSONObject json = new JSONObject(content);
-            int id = json.getInt(NS.ID);
-            if (id == 1) {
+            String id = json.getString(NS.PUSH_TYPE);
+            if (id.equals(NotifycationUtil.NT_IM_TYPING)) {
                 // 正在输入
-//                Toast.makeText(ChatActivity.this, "对方正在输入...", Toast.LENGTH_LONG).show();
                 title.setText("对方正在输入...");
                 handler.postDelayed(runnable, 3000);
-            } else {
-                Toast.makeText(ChatActivity.this, "command: " + content, Toast.LENGTH_SHORT).show();
             }
 
         } catch (Exception e) {

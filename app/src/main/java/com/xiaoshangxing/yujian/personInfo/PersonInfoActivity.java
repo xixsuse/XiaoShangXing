@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -42,6 +43,7 @@ import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.ImageButtonText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.RoundedImageView;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
@@ -55,6 +57,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.Bind;
@@ -226,7 +229,15 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
             for (String i : strings) {
                 tagContent.append(i + " ");
             }
+        } else {
+            tagLay.setVisibility(View.GONE);
         }
+
+        if (TextUtils.isEmpty(String.valueOf(user.getExtensionMap().get(NS.HOMETOWN)))) {
+            hometownLay.setVisibility(View.GONE);
+        }
+
+        getImages();
 
         if (TempUser.isMine(account)) {
             more.setVisibility(View.GONE);
@@ -275,6 +286,65 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(observer, is);
     }
 
+    private void getImages() {
+
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case NS.CODE_200:
+                            if (!TextUtils.isEmpty(jsonObject.getString(NS.MSG))) {
+                                String[] strings = jsonObject.getString(NS.MSG).split(NS.SPLIT);
+                                initPictures(Arrays.asList(strings));
+                            }
+                            break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, account);
+        jsonObject.addProperty(NS.CATEGORY, NS.CATEGORY_STATE);
+
+        IMNetwork.getInstance().GetImages(subscriber, jsonObject, this);
+
+    }
+
+    private void initPictures(List<String> arrayList) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            switch (i) {
+                case 0:
+                    MyGlide.withBitmap(this, arrayList.get(i), dynamicImage1);
+                    break;
+                case 1:
+                    MyGlide.withBitmap(this, arrayList.get(i), dynamicImage2);
+                    break;
+                case 2:
+                    MyGlide.withBitmap(this, arrayList.get(i), dynamicImage3);
+                    break;
+                case 3:
+                    MyGlide.withBitmap(this, arrayList.get(i), dynamicImage4);
+                    break;
+            }
+        }
+    }
 
     private void getStar() {
         Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {

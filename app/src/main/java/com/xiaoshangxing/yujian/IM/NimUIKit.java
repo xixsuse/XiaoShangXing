@@ -92,19 +92,17 @@ public final class NimUIKit {
         Observer<CustomNotification> commandObserver = new Observer<CustomNotification>() {
             @Override
             public void onEvent(CustomNotification message) {
-                NotifycationUtil.parsePushMsg(message.getContent());
                 String content = message.getContent();
                 Log.d("推送", "-----" + content);
-//                try {
-//                    JSONObject json = new JSONObject(content);
-//                    int id = json.getInt(NS.ID);
-//                    if (id != 1) {
-//                        NotifycationUtil.show(content);
-//                    }
-//
-//                } catch (Exception e) {
-//
-//                }
+                try {
+                    JSONObject json = new JSONObject(content);
+                    String id = json.getString(NS.PUSH_TYPE);
+                    if (!id.equals(NotifycationUtil.NT_IM_TYPING)) {
+                        NotifycationUtil.parsePushMsg(message.getContent());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         };

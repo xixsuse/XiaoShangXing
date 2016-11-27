@@ -2,11 +2,14 @@ package com.xiaoshangxing.utils.image;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.xiaoshangxing.R;
 
 /**
@@ -58,6 +61,20 @@ public class MyGlide {
                 .error(R.mipmap.cirecleimage_default)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(view);
+    }
+
+    public static void withBitmap(Context context, String url, final ImageView view) {
+        Glide.with(context)
+                .load(url)
+                .asBitmap()
+                .placeholder(R.mipmap.greyblock)
+                .error(R.mipmap.nim_image_download_failed)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        view.setImageBitmap(resource);
+                    }
+                });
     }
 
 }

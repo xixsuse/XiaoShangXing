@@ -189,7 +189,7 @@ public class MsgViewHolderAudio extends MsgViewHolderBase {
         long seconds = TimeUtil.getSecondsByMilliseconds(milliseconds);
 
         if (seconds >= 0) {
-            durationLabel.setText(seconds + "\"");
+            durationLabel.setText(seconds + /*"\""*/"s");
         } else {
             durationLabel.setText("");
         }

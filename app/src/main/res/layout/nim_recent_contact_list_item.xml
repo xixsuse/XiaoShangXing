@@ -10,48 +10,29 @@
         android:layout_height="1px"
         android:layout_width="match_parent"
         android:background="@color/g1"
-        android:layout_marginLeft="70dip" />
+        android:layout_marginLeft="@dimen/x176" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="@dimen/y192"
+        android:layout_height="@dimen/y192"
          >
 
         <FrameLayout
             android:id="@+id/portrait_panel"
-            android:layout_width="@dimen/x204"
-            android:layout_height="@dimen/x108"
+            android:layout_width="@dimen/x176"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true" >
 
-            <!--<com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView-->
-            <!--android:id="@+id/img_head"-->
-            <!--android:layout_width="@dimen/x108"-->
-            <!--android:layout_height="@dimen/x108"-->
-            <!--android:src="@mipmap/greyblock"-->
-            <!--android:layout_gravity="center"-->
-            <!--/>-->
             <com.xiaoshangxing.utils.layout.CirecleImage
                 android:id="@+id/img_head"
-                android:layout_width="@dimen/x108"
-                android:layout_height="@dimen/x108"
-                android:layout_gravity="center"
+                android:layout_width="@dimen/x102"
+                android:layout_height="@dimen/x102"
+                android:layout_marginStart="@dimen/width_48"
+                android:layout_marginTop="@dimen/y44"
                 />
-            <!--<TextView-->
-                <!--android:id="@+id/unread_number_tip"-->
-                <!--android:layout_width="20dp"-->
-                <!--android:layout_height="20dp"-->
-                <!--android:layout_gravity="top|right"-->
-                <!--android:layout_marginTop="@dimen/y8"-->
-                <!--android:layout_marginEnd="@dimen/x18"-->
-                <!--android:background="@drawable/nim_g_unread_badge"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:singleLine="true"-->
-                <!--android:textColor="@android:color/white"-->
-                <!--android:textSize="12sp"-->
-                <!--android:visibility="gone" />-->
 
             <RelativeLayout
+                android:layout_marginTop="@dimen/y44"
                 android:id="@+id/unread_less_lay"
                 android:layout_marginStart="@dimen/x126"
                 android:layout_width="@dimen/x42"
@@ -93,14 +74,14 @@
             android:id="@+id/tv_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="16dip"
+            android:layout_marginTop="@dimen/y40"
             android:layout_toRightOf="@id/portrait_panel"
             android:ellipsize="end"
             android:text="55"
             android:includeFontPadding="false"
             android:singleLine="true"
-            style="@style/black_16sp" />
+            android:textColor="@color/b0"
+            android:textSize="@dimen/x51" />
 
         <ImageView
             android:id="@+id/img_msg_status"
@@ -118,25 +99,24 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_nickname"
             android:layout_marginRight="@dimen/x250"
-            android:layout_marginTop="@dimen/y18"
             android:layout_toRightOf="@+id/img_msg_status"
             android:ellipsize="end"
             android:lines="1"
             android:scrollHorizontally="true"
-            android:textColor="@color/g0"
+            android:textColor="@color/b4"
             android:autoLink="none"
-            android:textSize="13sp" />
+            android:textSize="@dimen/x36" />
 
         <TextView
             android:id="@+id/tv_date_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginEnd="@dimen/x50"
-            android:layout_marginTop="@dimen/y48"
+            android:layout_marginEnd="@dimen/x48"
+            android:layout_marginTop="@dimen/y44"
             android:textSize="10sp"
             android:text="555"
-            android:textColor="@color/g2" />
+            android:textColor="@color/gray_login" />
     </RelativeLayout>
 
     <View
@@ -144,6 +124,6 @@
         android:layout_height="1px"
         android:layout_width="match_parent"
         android:background="@color/g1"
-        android:layout_marginLeft="70dip" />
+        android:layout_marginLeft="@dimen/x176" />
 
 </LinearLayout>

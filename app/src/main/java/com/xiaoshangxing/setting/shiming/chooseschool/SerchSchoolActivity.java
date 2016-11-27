@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.Network.InfoNetwork;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
@@ -27,6 +28,7 @@ import com.xiaoshangxing.setting.shiming.vertify.VertifyActivity;
 import com.xiaoshangxing.setting.shiming.vertify.XueYuanActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.IntentStatic;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -174,8 +176,12 @@ public class SerchSchoolActivity extends BaseActivity implements IBaseView {
                 finish();
                 break;
             case R.id.right_text:
-                startActivity(new Intent(this, XueYuanActivity.class));
-                VertifyActivity.schoolStr = editText.getText().toString();
+                if (getIntent().getBooleanExtra(IntentStatic.TYPE, false)) {
+                    startActivity(new Intent(this, MainActivity.class));
+                } else {
+                    startActivity(new Intent(this, XueYuanActivity.class));
+                    VertifyActivity.schoolStr = editText.getText().toString();
+                }
                 break;
         }
     }

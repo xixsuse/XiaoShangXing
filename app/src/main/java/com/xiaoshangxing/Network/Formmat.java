@@ -165,16 +165,8 @@ public class Formmat {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                e.printStackTrace();
                 endLoading(3);
             }
-
-//            if (result_String.contains("200")) {
-//                endLoading(2);
-//            } else {
-//
-//                endLoading(4);
-//            }
         } catch (IOException e) {
             e.printStackTrace();
             endLoading(3);

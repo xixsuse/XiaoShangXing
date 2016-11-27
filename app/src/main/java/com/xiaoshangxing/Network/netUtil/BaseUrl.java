@@ -56,4 +56,7 @@ public class BaseUrl {
     public static final String GET_PROFESSION = "student/queryProfessionInfo";
     public static final String GET_SCHOOLMATE = "student/getSchoolmates";
 
+    public static final String GET_IMAGES = "moment/getMomentImages";
+    public static final String UPLOAD_LOG = "operation/uploadLogfiles";
+
 }

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.api.AppApi.SuggestionApi;
 import com.xiaoshangxing.Network.api.AppApi.UpdateApi;
+import com.xiaoshangxing.Network.api.AppApi.UploadLog;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -20,6 +21,7 @@ import rx.schedulers.Schedulers;
 public class AppNetwork {
     private UpdateApi updateApi;
     private SuggestionApi suggestionApi;
+    private UploadLog uploadLog;
 
     private AppNetwork() {
 
@@ -48,6 +50,14 @@ public class AppNetwork {
             suggestionApi = Network.getRetrofitWithHeader(context).create(SuggestionApi.class);
         }
         Observable<ResponseBody> observable = suggestionApi.start(jsonObject);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void UploadLog(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
+        if (uploadLog == null) {
+            uploadLog = Network.getRetrofitWithHeader(context).create(UploadLog.class);
+        }
+        Observable<ResponseBody> observable = uploadLog.start(jsonObject);
         toSubscribe(observable, subscriber);
     }
 
