@@ -246,7 +246,7 @@
     <string name="setinfo">资料设置</string>
     <string name="StarMarkfriends">设为星标好友</string>
     <string name="crush">暗恋他</string>
-    <string name="setinfo_text">此功能三个月只可对你的所有好友使用1次，若对方也在暗恋着你，系统将会对双方发出详细通知；若对方未暗恋你，对方只会收到“有人暗恋你”的信息提示。</string>
+    <string name="setinfo_text">此功能一个月只可对你的所有好友使用1次，若对方也在暗恋着你，系统将会对双方发出详细通知；若对方未暗恋你，对方只会收到“有人暗恋你”的信息提示。</string>
     <string name="addtoblacklist">加入黑名单</string>
     <string name="persondata">个人资料</string>
     <string name="sayhello">打个招呼</string>

@@ -53,11 +53,13 @@
     </RelativeLayout>
 
     <TextView
+        android:layout_height="@dimen/y102"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y48"
-        android:layout_marginStart="@dimen/x48"
-        style="@style/g0_14sp"
+        android:gravity="bottom"
+        android:paddingBottom="@dimen/y20"
+        android:paddingStart="@dimen/width_48"
+        android:textColor="@color/g0"
+        android:textSize="13sp"
         android:text="@string/groupChatName"/>
 
     <LinearLayout
@@ -78,6 +80,7 @@
             android:textCursorDrawable="@drawable/cursor_blue4" />
 
         <ImageView
+            android:visibility="gone"
             android:id="@+id/groupChatName_clear"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

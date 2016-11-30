@@ -58,5 +58,7 @@ public class BaseUrl {
 
     public static final String GET_IMAGES = "moment/getMomentImages";
     public static final String UPLOAD_LOG = "operation/uploadLogfiles";
+    public static final String CRUSH = "friend/crush";
+    public static final String GET_CRUSH = "friend/getCrush";
 
 }

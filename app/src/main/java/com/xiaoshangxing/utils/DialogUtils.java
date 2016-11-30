@@ -6,8 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -480,6 +484,167 @@ public class DialogUtils {
 
             if (!TextUtils.isEmpty(getMessage())) {
                 message.setText(getMessage());
+            }
+
+            if (button_count == 1) {
+                twoButton.setVisibility(View.GONE);
+                btn.setText(getButton1());
+                btn.setVisibility(View.VISIBLE);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mbuttonOnClick.onButton1();
+                    }
+                });
+            } else {
+                btn1.setText(getButton1());
+                btn2.setText(getButton2());
+                btn1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mbuttonOnClick.onButton1();
+                    }
+                });
+                btn2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mbuttonOnClick.onButton2();
+
+                    }
+                });
+            }
+
+            dialog.setContentView(linearLayout);
+            //        alertDialog.setCancelable(false);
+            return dialog;
+        }
+
+
+        public interface buttonOnClick {
+            void onButton1();
+
+            void onButton2();
+        }
+
+        public void close() {
+            dialog.dismiss();
+        }
+    }
+
+    /**
+     * 屏幕中心弹出对话框（带按钮）带有颜色的名字  用于暗恋提示
+     */
+    public static class Dialog_Center_Crush {
+        private Context activity;
+        private String title;
+        private String message;
+        private String name;
+        private int color;
+        private String button1 = "确定";
+        private String button2;
+        int button_count = 1;
+        private Dialog dialog;
+
+        private buttonOnClick mbuttonOnClick;
+
+
+        public Dialog_Center_Crush(Context activity) {
+            this.activity = activity;
+        }
+
+        public Context getActivity() {
+            return activity;
+        }
+
+        public void setActivity(Activity activity) {
+            this.activity = activity;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public Dialog_Center_Crush Title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public String getMessage() {
+            return this.message;
+        }
+
+        public Dialog_Center_Crush Message(String message, String name, int color) {
+            this.message = message;
+            this.name = name;
+            this.color = color;
+            return this;
+        }
+
+        public String getButton1() {
+            return button1;
+        }
+
+
+        public String getButton2() {
+            return button2;
+        }
+
+        public Dialog_Center_Crush Button(String button1) {
+            this.button1 = button1;
+            this.button_count = 1;
+            return this;
+        }
+
+        public Dialog_Center_Crush Button(String button1, String button2) {
+            this.button1 = button1;
+            this.button2 = button2;
+            this.button_count = 2;
+            return this;
+        }
+
+        public int getButton_count() {
+            return button_count;
+        }
+
+
+        public buttonOnClick getMbuttonOnClick() {
+            return mbuttonOnClick;
+        }
+
+        public Dialog_Center_Crush MbuttonOnClick(buttonOnClick mbuttonOnClick) {
+            this.mbuttonOnClick = mbuttonOnClick;
+            return this;
+        }
+
+        public Dialog create() {
+            dialog = new Dialog(activity, R.style.ActionSheetDialog);
+            LinearLayout linearLayout = (LinearLayout) View
+                    .inflate(activity, R.layout.dialog_util, null);
+
+            TextView title = (TextView) linearLayout.findViewById(R.id.dialog_title);
+            TextView message = (TextView) linearLayout.findViewById(R.id.dialog_message);
+//            message.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+            Button btn = (Button) linearLayout.findViewById(R.id.dialog_button);
+            LinearLayout twoButton = (LinearLayout) linearLayout.findViewById(R.id.dialog_twoButton);
+            Button btn1 = (Button) linearLayout.findViewById(R.id.dialog_button1);
+            Button btn2 = (Button) linearLayout.findViewById(R.id.dialog_button2);
+
+            if (!TextUtils.isEmpty(getTitle())) {
+                title.setText(getTitle());
+                title.setVisibility(View.VISIBLE);
+                message.setTextSize(13);
+            } else {
+                message.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y48, activity), 0, ScreenUtils.getAdapterPx(R.dimen.y48, activity));
+            }
+
+            if (!TextUtils.isEmpty(getMessage())) {
+                if (!TextUtils.isEmpty(name)) {
+                    SpannableString spannableString = new SpannableString(name);
+                    spannableString.setSpan(new ForegroundColorSpan(activity.getResources().getColor(color)),
+                            0, name.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+                    message.append(spannableString);
+                }
+                message.append(getMessage());
             }
 
             if (button_count == 1) {

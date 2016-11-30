@@ -61,7 +61,7 @@ import com.xiaoshangxing.yujian.IM.viewHodler.TAdapterDelegate;
 import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
 import com.xiaoshangxing.yujian.IM.viewHodler.TeamRecentViewHolder;
 import com.xiaoshangxing.yujian.Serch.GlobalSearchActivity;
-import com.xiaoshangxing.yujian.xiaoyou.XiaoYouActivity;
+import com.xiaoshangxing.yujian.Schoolfellow.XiaoYouActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;

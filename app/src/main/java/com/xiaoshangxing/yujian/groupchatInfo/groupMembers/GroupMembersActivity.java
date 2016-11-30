@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +21,7 @@ import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.MyGlide;
+import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
@@ -75,12 +75,14 @@ public class GroupMembersActivity extends BaseActivity {
                 if (convertView == null) {
                     convertView = getLayoutInflater().inflate(R.layout.item_setting_blacklist, parent, false);
                     holder = new ViewHolder();
-                    holder.img = (ImageView) convertView.findViewById(R.id.blacklist_img);
+                    holder.img = (CirecleImage) convertView.findViewById(R.id.blacklist_img);
                     holder.name = (TextView) convertView.findViewById(R.id.blacklist_text);
                     convertView.setTag(holder);
                 } else {
                     holder = (ViewHolder) convertView.getTag();
                 }
+
+                holder.img.setIntent_type(CirecleImage.PERSON_INFO, teamMembers.get(position).getAccount());
 
                 MyGlide.with_defaul_image(GroupMembersActivity.this,
                         NimUserInfoCache.getInstance().getHeadImage(teamMembers.get(position).getAccount()), holder.img);
@@ -94,7 +96,7 @@ public class GroupMembersActivity extends BaseActivity {
 
     }
     class ViewHolder {
-        public ImageView img;
+        public CirecleImage img;
         public TextView name;
     }
 

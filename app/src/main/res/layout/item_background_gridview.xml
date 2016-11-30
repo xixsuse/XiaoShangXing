@@ -12,12 +12,12 @@
         app:corner_radius="6dp" />
 
     <TextView
+        android:background="@drawable/style_circulr_w0"
         android:id="@+id/background_grida_text"
         android:layout_width="@dimen/x336"
         android:layout_height="@dimen/y60"
         android:layout_alignParentBottom="true"
         android:alpha="0.5"
-        android:background="@color/w0"
         android:gravity="center"
         android:text="@string/download"
         android:textColor="@color/b0"

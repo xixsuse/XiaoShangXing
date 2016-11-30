@@ -406,17 +406,25 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         dialog.setContentView(view);
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         Button button = (Button) view.findViewById(R.id.cancel);
-        View xsx = view.findViewById(R.id.xsx);
+        View share_school_circle = view.findViewById(R.id.share_school_circle);
+        View share_friend = view.findViewById(R.id.share_friend);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-        xsx.setOnClickListener(new View.OnClickListener() {
+        share_school_circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OperateUtils.Share(RewardDetailActivity.this, InputActivity.SHOOL_REWARD, published_id);
+                dialog.dismiss();
+            }
+        });
+        share_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoSelectPeson();
                 dialog.dismiss();
             }
         });

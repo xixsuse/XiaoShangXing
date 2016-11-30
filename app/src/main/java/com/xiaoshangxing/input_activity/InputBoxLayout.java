@@ -294,8 +294,8 @@ public class InputBoxLayout implements View.OnClickListener {
         emotion_lay.setVisibility(type);
     }
 
-    public void setSend(String text) {
-        send.setText(text);
+    public TextView getSendTextView() {
+        return send;
     }
 
     public void setRemainEdittext(boolean remainEdittext) {

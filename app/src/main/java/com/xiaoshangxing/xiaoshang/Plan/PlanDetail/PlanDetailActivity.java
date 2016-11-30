@@ -180,11 +180,11 @@ public class PlanDetailActivity extends BaseActivity implements IBaseView {
 
     public void showShareDialog() {
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
-        View view = View.inflate(this, R.layout.util_help_share_dialog, null);
+        View view = View.inflate(this, R.layout.util_help_share_dialog02, null);
         dialog.setContentView(view);
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         Button button = (Button) view.findViewById(R.id.cancel);
-        View xsx = view.findViewById(R.id.xsx);
+        View xsx = view.findViewById(R.id.share_school_circle);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

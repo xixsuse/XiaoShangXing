@@ -16,7 +16,7 @@
 
 
     <!--标准绿-->
-    <color name="green1">#45C01A</color>
+    <color name="green1">#6fba2c</color>
     <!--描边绿-->
     <color name="green2">#06bc04</color>
 
@@ -61,7 +61,6 @@
     <!--闪屏灰-->
     <color name="flash_gray">#c6c6c6</color>
 
-
     <!--黑-->
     <color name="b0">#000000</color>
     <!--近黑文字-->
@@ -76,6 +75,8 @@
     <color name="b5">#4c4c4c</color>
     <!--长按弹出按钮底色-->
     <color name="b6">#2d2d2d</color>
+    <!--选择背景页面背景色-->
+    <color name="choose_background">#303030</color>
 
     <color name="albumback">#E1E0DE</color>
     <color name="plugin_camera_black">#000000</color>

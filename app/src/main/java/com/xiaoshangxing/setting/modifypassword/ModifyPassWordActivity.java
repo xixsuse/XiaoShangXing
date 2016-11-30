@@ -10,15 +10,14 @@ import android.widget.EditText;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,7 +79,8 @@ public class ModifyPassWordActivity extends BaseActivity implements IBaseView {
 //                }
 //            }
 //        });
-        editText2.addTextChangedListener(new TextWatcher() {
+
+        TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -93,45 +93,70 @@ public class ModifyPassWordActivity extends BaseActivity implements IBaseView {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 0) {
-                    flag2 = true;
-                    if (flag1 && flag3) {
-                        confirm.setAlpha(1);
-                        confirm.setClickable(true);
-                    }
+                if (editText2.getText().length() >= 6 && editText3.getText().length() >= 6) {
+                    confirm.setAlpha(1);
+                    confirm.setClickable(true);
                 } else {
-                    flag2 = false;
                     confirm.setAlpha((float) 0.5);
                     confirm.setClickable(false);
                 }
             }
-        });
-        editText3.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        };
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 0) {
-                    flag3 = true;
-                    if (flag1 && flag2) {
-                        confirm.setAlpha(1);
-                        confirm.setClickable(true);
-                    }
-                } else {
-                    flag3 = false;
-                    confirm.setAlpha((float) 0.5);
-                    confirm.setClickable(false);
-                }
-            }
-        });
+        editText2.addTextChangedListener(textWatcher);
+        editText3.addTextChangedListener(textWatcher);
+//        editText2.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (s.toString().length() > 0) {
+//                    flag2 = true;
+//                    if (flag1 && flag3) {
+//                        confirm.setAlpha(1);
+//                        confirm.setClickable(true);
+//                    }
+//                } else {
+//                    flag2 = false;
+//                    confirm.setAlpha((float) 0.5);
+//                    confirm.setClickable(false);
+//                }
+//            }
+//        });
+//        editText3.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (s.toString().length() > 0) {
+//                    flag3 = true;
+//                    if (flag1 && flag2) {
+//                        confirm.setAlpha(1);
+//                        confirm.setClickable(true);
+//                    }
+//                } else {
+//                    flag3 = false;
+//                    confirm.setAlpha((float) 0.5);
+//                    confirm.setClickable(false);
+//                }
+//            }
+//        });
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override

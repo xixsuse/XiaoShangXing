@@ -28,7 +28,7 @@
         android:headerDividersEnabled="false"
         android:listSelector="@color/transparent"
         android:overScrollMode="never"
-        android:paddingStart="@dimen/width_48"
+        android:paddingStart="@dimen/x30"
         android:transcriptMode="normal">
 
     </ListView>

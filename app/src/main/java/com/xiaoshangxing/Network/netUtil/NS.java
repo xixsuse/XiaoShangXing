@@ -21,6 +21,7 @@ public class NS {
 
     public static final String ID = "id";
     public static final String USER_ID = "userId";
+    public static final String OPPOSITE_UERID = "oppositeUserId";
 
 
     //    个人信息

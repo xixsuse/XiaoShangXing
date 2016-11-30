@@ -1,9 +1,11 @@
 package com.xiaoshangxing.yujian.personInfo;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -13,31 +15,45 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.friend.FriendService;
 import com.netease.nimlib.sdk.friend.constant.FriendFieldEnum;
 import com.netease.nimlib.sdk.friend.model.Friend;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.xiaoshangxing.Network.IMNetwork;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.report.ReportActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.SwitchView;
+import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import rx.Subscriber;
 
 /**
  * Created by 15828 on 2016/7/25.
@@ -150,14 +166,16 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
         crush.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                showToast(NS.ON_DEVELOPING);
-                crush.setState(true);
+//                showToast(NS.ON_DEVELOPING);
+//                crush.setState(true);
+                crush(true);
             }
 
             @Override
             public void toggleToOff() {
-                showToast(NS.ON_DEVELOPING);
-                crush.setState(false);
+//                showToast(NS.ON_DEVELOPING);
+//                crush.setState(false);
+                crush(false);
             }
         });
         bukanwo.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
@@ -298,17 +316,139 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
                 });
     }
 
+    private void crush(boolean is) {
+        if (is) {
+            ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+                @Override
+                public void onNext(ResponseBody e) throws JSONException {
+                    try {
+                        JSONObject jsonObject = new JSONObject(e.string());
+                        switch (jsonObject.getInt(NS.CODE)) {
+                            case NS.CODE_200:
+                            case 201:
+                                crush.setState(true);
+                                break;
+                            case 408:
+                                showDialog("这个月的暗恋权限次数已用完");
+                                break;
+                            default:
+                                crush.setState(false);
+                                showDialog(jsonObject.getString(NS.MSG));
+                                break;
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            };
+            ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(onNext, this);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty(NS.USER_ID, TempUser.getId());
+            jsonObject.addProperty(NS.OPPOSITE_UERID, account);
+            jsonObject.addProperty(NS.CATEGORY, "1");
+            jsonObject.addProperty(NS.TIMESTAMP, NS.currentTime());
+            IMNetwork.getInstance().Crush(subsciber, jsonObject, this);
+        } else {
+            ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+                @Override
+                public void onNext(ResponseBody e) throws JSONException {
+                    try {
+                        JSONObject jsonObject = new JSONObject(e.string());
+                        switch (jsonObject.getInt(NS.CODE)) {
+                            case NS.CODE_200:
+                            case 201:
+                                crush.setState(false);
+                                break;
+                            default:
+                                crush.setState(true);
+                                showToast(jsonObject.getString(NS.MSG));
+                                break;
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            };
+            ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(onNext, this);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty(NS.USER_ID, TempUser.id);
+            jsonObject.addProperty(NS.OPPOSITE_UERID, account);
+            jsonObject.addProperty(NS.CATEGORY, "1");
+
+            IMNetwork.getInstance().CancelFavor(subsciber, jsonObject, this);
+        }
+
+    }
+
+    private void showDialog(String msg) {
+        final DialogUtils.Dialog_Center dialog_center = new DialogUtils.Dialog_Center(XSXApplication.currentActivity);
+        Dialog dialog = dialog_center.Message(msg).
+                Button("我知道了")
+                .MbuttonOnClick(new DialogUtils.Dialog_Center.buttonOnClick() {
+                    @Override
+                    public void onButton1() {
+                        dialog_center.close();
+                    }
+
+                    @Override
+                    public void onButton2() {
+                        dialog_center.close();
+                    }
+                }).create();
+        dialog.show();
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.width = (ScreenUtils.getAdapterPx(R.dimen.x780, XSXApplication.currentActivity)); //设置宽度
+        dialog.getWindow().setAttributes(lp);
+    }
+
     private void setUpData() {
         if (friend != null && friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)) {
             starMarkfriends.setState((boolean) friend.getExtension().get(NS.MARK));
         } else {
             starMarkfriends.setState(false);
         }
-        crush.setState(false);
+        getCrushState();
         bukanwo.setState(false);
         bukanta.setState(false);
         addToBlackList.setState(FriendDataCache.getInstance().isInblack(account));
 
+    }
+
+    private void getCrushState() {
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case NS.CODE_200:
+                            String cruedId = jsonObject.getString(NS.MSG).split(NS.SPLIT)[0];
+                            crush.setState(cruedId.equals(account));
+                            break;
+                        default:
+                            Log.w("getCrush", jsonObject.getString(NS.MSG));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.getId());
+        jsonObject.addProperty(NS.CATEGORY, "1");
+        IMNetwork.getInstance().GetCrush(subscriber, jsonObject, this);
     }
 
     public void Report(View view) {
@@ -332,23 +472,6 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
         mActionSheet2.setMenuBottomListener(new ActionSheet.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {
-//                NIMClient.getService(FriendService.class).deleteFriend(phone).setCallback(new RequestCallback<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailed(int i) {
-//                        showToast("删除失败:" + i);
-//                    }
-//
-//                    @Override
-//                    public void onException(Throwable throwable) {
-//                        showToast("删除失败:异常");
-//                    }
-//                });
-
                 OperateUtils.CancelFavor(account, SetInfoActivity.this, SetInfoActivity.this, new SimpleCallBack() {
                     @Override
                     public void onSuccess() {
@@ -382,6 +505,14 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
     @OnClick(R.id.back)
     public void onClick() {
         finish();
+    }
+
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(IntentStatic.DATA, crush.getState2());
+        setResult(RESULT_OK, intent);
+        super.finish();
     }
 
     @Override

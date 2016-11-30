@@ -154,6 +154,8 @@ public class SerchSchoolActivity extends BaseActivity implements IBaseView {
                             List<String> arrayList = Arrays.asList(strings);
                             initListview(arrayList);
                             break;
+                        case 403:
+                            break;
                         default:
                             showToast(jsonObject.getString(NS.MSG));
                             break;

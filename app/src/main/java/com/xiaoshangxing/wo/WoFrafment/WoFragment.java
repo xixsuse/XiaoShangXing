@@ -3,6 +3,8 @@ package com.xiaoshangxing.wo.WoFrafment;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -79,7 +81,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     private Handler handler;
 
-    private TextView name1, name2;
+    private TextView name;
     private CirecleImage headImage;
     private TextView news;
     private View news_lay;
@@ -145,8 +147,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         //headview footview
         headView = (RelativeLayout) getActivity().getLayoutInflater().inflate(R.layout.util_wo_header, null);
         footerview = getActivity().getLayoutInflater().inflate(R.layout.footer, null);
-        name1 = (TextView) headView.findViewById(R.id.name1);
-        name2 = (TextView) headView.findViewById(R.id.name2);
+        name = (TextView) headView.findViewById(R.id.name);
         headImage = (CirecleImage) headView.findViewById(R.id.head_image);
         headImage.setIntent_type(CirecleImage.PERSON_STATE, String.valueOf(TempUser.id));
         news = (TextView) headView.findViewById(R.id.news);
@@ -254,8 +255,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void setName(String name) {
-        name1.setText(name);
-        name2.setText(name);
+        this.name.setText(name);
     }
 
     @Override
@@ -284,8 +284,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     private void initHead() {
         UserInfoCache.getInstance().getHeadIntoImage(TempUser.getId(), headImage);
-        UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.USER_NAME, name1);
-        UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.USER_NAME, name2);
+        UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.USER_NAME, name);
         setNews();
     }
 

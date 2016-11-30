@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/width_48"
+        android:layout_marginStart="@dimen/width_48"
+        android:background="@drawable/et_circular_4_white_withnostroke"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/y112">
+        <!--分享至-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/y86"
+            android:paddingEnd="@dimen/x104"
+            android:paddingStart="@dimen/x104"
+            android:paddingTop="@dimen/y44">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/g1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingEnd="@dimen/x66"
+                android:paddingStart="@dimen/x66"
+                android:text="分享至"
+                android:textColor="@color/b0"
+                android:textSize="11sp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="1px"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@color/g1" />
+        </LinearLayout>
+
+        <!--分享选项-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingEnd="@dimen/x30"
+            android:paddingStart="@dimen/x30">
+
+            <!--发送给好友-->
+            <LinearLayout
+                android:id="@+id/share_friend"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <com.xiaoshangxing.utils.layout.CirecleImage
+                    android:layout_width="@dimen/x138"
+                    android:layout_height="@dimen/x138"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_share_haoyou" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/y20"
+                    android:text="发送给好友"
+                    android:textColor="@color/g0"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!--校上行-->
+            <LinearLayout
+                android:id="@+id/share_school_circle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.xiaoshangxing.utils.layout.CirecleImage
+                    android:layout_width="@dimen/x138"
+                    android:layout_height="@dimen/x138"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_share_xiaoyouquan" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/y20"
+                    android:text="校友圈"
+                    android:textColor="@color/g0"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!--微信-->
+            <LinearLayout
+                android:id="@+id/share_wechat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <com.xiaoshangxing.utils.layout.CirecleImage
+                    android:layout_width="@dimen/x138"
+                    android:layout_height="@dimen/x138"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_share_xiaoyouquan" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/y20"
+                    android:text="校友圈"
+                    android:textColor="@color/g0"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!--qq-->
+            <LinearLayout
+                android:id="@+id/share_qq"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <com.xiaoshangxing.utils.layout.CirecleImage
+                    android:layout_width="@dimen/x138"
+                    android:layout_height="@dimen/x138"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_share_xiaoyouquan" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/y20"
+                    android:text="校友圈"
+                    android:textColor="@color/g0"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!--新浪-->
+            <LinearLayout
+                android:id="@+id/share_xinglang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="invisible">
+
+                <com.xiaoshangxing.utils.layout.CirecleImage
+                    android:layout_width="@dimen/x138"
+                    android:layout_height="@dimen/x138"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_share_xiaoyouquan" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="@dimen/y20"
+                    android:text="校友圈"
+                    android:textColor="@color/g0"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--取消-->
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y126"
+        android:layout_marginBottom="@dimen/y24"
+        android:layout_marginEnd="@dimen/width_48"
+        android:layout_marginStart="@dimen/width_48"
+        android:layout_marginTop="@dimen/y18"
+        android:background="@drawable/circular_4_f3f3f5_withnostroke"
+        android:gravity="center"
+        android:text="@string/cancle"
+        android:textColor="@color/b4"
+        android:textSize="17sp" />
+
+</LinearLayout>

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/w3"
+    android:background="@color/choose_background"
     android:orientation="vertical">
 
     <include layout="@layout/util_normal_title">
@@ -10,12 +10,14 @@
     </include>
 
     <LinearLayout
+        android:background="@color/transparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y48"
         android:layout_marginStart="@dimen/x24"
         android:layout_marginEnd="@dimen/x24">
         <GridView
+            android:background="@color/transparent"
             android:id="@+id/background_gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

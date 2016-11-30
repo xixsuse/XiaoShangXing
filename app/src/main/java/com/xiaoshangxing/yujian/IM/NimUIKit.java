@@ -88,7 +88,7 @@ public final class NimUIKit {
         String path = StorageUtil.getDirectoryByDirType(StorageType.TYPE_LOG);
         LogUtil.init(path, Log.DEBUG);
 
-        //推送
+        //自定义推送
         Observer<CustomNotification> commandObserver = new Observer<CustomNotification>() {
             @Override
             public void onEvent(CustomNotification message) {
@@ -97,6 +97,7 @@ public final class NimUIKit {
                 try {
                     JSONObject json = new JSONObject(content);
                     String id = json.getString(NS.PUSH_TYPE);
+                    //忽略掉正在输入的自定义推送
                     if (!id.equals(NotifycationUtil.NT_IM_TYPING)) {
                         NotifycationUtil.parsePushMsg(message.getContent());
                     }

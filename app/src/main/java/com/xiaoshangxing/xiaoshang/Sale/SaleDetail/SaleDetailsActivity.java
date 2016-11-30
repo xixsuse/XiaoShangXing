@@ -12,17 +12,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.Network.netUtil.OperateUtils;
 import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
@@ -43,6 +46,7 @@ import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -205,22 +209,35 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         dialog.setContentView(view);
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         Button button = (Button) view.findViewById(R.id.cancel);
-        View xsx = view.findViewById(R.id.xsx);
+        View share_school_circle = view.findViewById(R.id.share_school_circle);
+        View share_friend = view.findViewById(R.id.share_friend);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-        xsx.setOnClickListener(new View.OnClickListener() {
+        share_school_circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OperateUtils.Share(SaleDetailsActivity.this, InputActivity.XIANZHI, published_id);
                 dialog.dismiss();
             }
         });
+        share_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoSelectPeson();
+                dialog.dismiss();
+            }
+        });
         dialog.show();
         LocationUtil.bottom_FillWidth(this, dialog);
+    }
+
+    public void gotoSelectPeson() {
+        Intent intent_selectperson = new Intent(SaleDetailsActivity.this, SelectPersonActivity.class);
+        startActivityForResult(intent_selectperson, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
     public void noticeDialog(String message) {
@@ -243,7 +260,8 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         inputBoxLayout.setRemainEdittext(true);
         inputBoxLayout.setRootVisible(View.VISIBLE);
         inputBoxLayout.setEmotion_layVisible(View.GONE);
-        inputBoxLayout.setSend("私聊");
+        inputBoxLayout.getSendTextView().setText("私聊");
+        inputBoxLayout.getSendTextView().setBackgroundResource(R.drawable.circular_4_g0);
         inputBoxLayout.setCallBack(new InputBoxLayout.CallBack() {
             @Override
             public void callback(String text) {
@@ -280,6 +298,88 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
                 break;
             case R.id.dorm:
                 break;
+        }
+    }
+
+    private void showTransmitDialog(final List<String> id) {
+        final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
+        View dialogView = View.inflate(this, R.layout.school_help_transmit_dialog, null);
+        dialog.setContentView(dialogView);
+
+        TextView cancle = (TextView) dialogView.findViewById(R.id.cancel);
+        TextView send = (TextView) dialogView.findViewById(R.id.send);
+        CirecleImage head = (CirecleImage) dialogView.findViewById(R.id.head_image);
+        TextView name = (TextView) dialogView.findViewById(R.id.name);
+        TextView college = (TextView) dialogView.findViewById(R.id.college);
+        TextView text = (TextView) dialogView.findViewById(R.id.text);
+        final EditText input = (EditText) dialogView.findViewById(R.id.input);
+
+        String userId = String.valueOf(published.getUserId());
+        UserInfoCache.getInstance().getHeadIntoImage(userId, headImage);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
+        text.setText(published.getText());
+
+        cancle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OperateUtils.Tranmit(published_id, NS.CATEGORY_SALE, id, SaleDetailsActivity.this, input.getText().toString(),
+                        new SimpleCallBack() {
+                            @Override
+                            public void onSuccess() {
+                                showTransmitSuccess();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+
+                            }
+                        });
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+    }
+
+    public void showTransmitSuccess() {
+        DialogUtils.Dialog_No_Button dialog_no_button =
+                new DialogUtils.Dialog_No_Button(SaleDetailsActivity.this, "已分享");
+        final Dialog notice_dialog = dialog_no_button.create();
+        notice_dialog.show();
+        LocationUtil.setWidth(SaleDetailsActivity.this, notice_dialog,
+                getResources().getDimensionPixelSize(R.dimen.x420));
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                notice_dialog.dismiss();
+            }
+        }, 500);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
+            if (data != null) {
+                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
+                    List<String> list = data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON);
+                    showTransmitDialog(list);
+                } else {
+                    Toast.makeText(SaleDetailsActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 

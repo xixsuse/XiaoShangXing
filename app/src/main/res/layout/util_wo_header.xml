@@ -12,32 +12,22 @@
         android:id="@+id/up_layout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y288">
-    <!--名字-->
-        <FrameLayout
+        <!--名字-->
+        <TextView
             android:layout_toLeftOf="@+id/head_image"
             android:layout_marginRight="@dimen/width_48"
             android:layout_centerVertical="true"
+            android:id="@+id/name"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/b0"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:text="@string/app_name"
+            android:textColor="@color/w0"
+            android:textSize="17sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/name1"
-                android:paddingTop="1px"
-                android:paddingStart="1px"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:textColor="@color/b0"
-                android:text="@string/app_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <TextView
-                android:id="@+id/name2"
-                android:textSize="17sp"
-                android:textColor="@color/w0"
-                android:textStyle="bold"
-                android:text="@string/app_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
+            android:textStyle="bold" />
 
     <!--头像-->
     <com.xiaoshangxing.utils.layout.CirecleImage

@@ -24,6 +24,7 @@ import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.NotifycationUtil;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.Serch.NormalSerch.NormalSerch;
 
 import org.json.JSONException;
@@ -104,8 +105,11 @@ public class LoveOrStartActivity extends BaseActivity implements IBaseView {
 
     private void initView() {
 
+        back.setPadding(ScreenUtils.getAdapterPx(R.dimen.x30, this), 0, 0, 0);
         more.setVisibility(View.GONE);
         titleBottomLine.setVisibility(View.GONE);
+        serchLayout.setPadding(ScreenUtils.getAdapterPx(R.dimen.x30, this), 0,
+                ScreenUtils.getAdapterPx(R.dimen.x30, this), 0);
 
         if (!getIntent().hasExtra(IntentStatic.TYPE)) {
             showToast("跳转意图不明");

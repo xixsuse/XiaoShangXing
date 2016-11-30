@@ -226,6 +226,7 @@
 
                 <!--发送按钮-->
                 <Button
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="@dimen/x150"
                     android:id="@+id/send"
                     android:layout_height="match_parent"

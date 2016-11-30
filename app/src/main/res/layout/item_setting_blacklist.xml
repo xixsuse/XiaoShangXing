@@ -6,17 +6,17 @@
     android:orientation="horizontal">
 
     <com.xiaoshangxing.utils.layout.CirecleImage
+        android:layout_marginStart="@dimen/x15"
         android:id="@+id/blacklist_img"
         android:layout_width="@dimen/x132"
         android:layout_height="@dimen/x132"
-        android:layout_marginStart="@dimen/x48"
         android:layout_gravity="center_vertical"/>
     <TextView
         android:id="@+id/blacklist_text"
         style="@style/black_16sp"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/x52"
+        android:layout_marginStart="@dimen/x26"
         android:gravity="center_vertical" />
 
 </LinearLayout>

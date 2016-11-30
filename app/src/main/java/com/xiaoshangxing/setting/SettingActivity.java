@@ -104,7 +104,7 @@ public class SettingActivity extends BaseActivity implements IBaseView {
             showToast("账号异常");
             return;
         }
-        MyGlide.with(this, nimUserInfo.getAvatar(), imgCover);
+        MyGlide.with_app_log(this, nimUserInfo.getAvatar(), imgCover);
         if (nimUserInfo.getExtension() != null && nimUserInfo.getExtension().contains("activeStatus")) {
             bindEmail = (int) nimUserInfo.getExtensionMap().get("activeStatus") == 1;
             Log.d("activeStatus", "" + bindEmail);

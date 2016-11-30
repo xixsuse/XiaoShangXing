@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.google.gson.JsonObject;
 import com.xiaoshangxing.Network.api.IMApi.CancleFavorApi;
+import com.xiaoshangxing.Network.api.IMApi.Crush;
 import com.xiaoshangxing.Network.api.IMApi.FavorApi;
+import com.xiaoshangxing.Network.api.IMApi.GetCrush;
 import com.xiaoshangxing.Network.api.IMApi.GetImages;
 import com.xiaoshangxing.Network.api.IMApi.MyFavorApi;
 import com.xiaoshangxing.Network.api.IMApi.MyStarApi;
@@ -29,6 +31,8 @@ public class IMNetwork {
     private FavorApi favorApi;
     private CancleFavorApi cancleFavorApi;
     private GetImages getImages;
+    private Crush crush;
+    private GetCrush getCrush;
 
     private IMNetwork() {
 
@@ -90,6 +94,22 @@ public class IMNetwork {
             getImages = Network.getRetrofitWithHeader(context).create(GetImages.class);
         }
         Observable<ResponseBody> observable = getImages.start(param);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void Crush(Subscriber<ResponseBody> subscriber, JsonObject param, Context context) {
+        if (crush == null) {
+            crush = Network.getRetrofitWithHeader(context).create(Crush.class);
+        }
+        Observable<ResponseBody> observable = crush.start(param);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void GetCrush(Subscriber<ResponseBody> subscriber, JsonObject param, Context context) {
+        if (getCrush == null) {
+            getCrush = Network.getRetrofitWithHeader(context).create(GetCrush.class);
+        }
+        Observable<ResponseBody> observable = getCrush.start(param);
         toSubscribe(observable, subscriber);
     }
 

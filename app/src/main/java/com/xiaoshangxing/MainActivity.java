@@ -182,7 +182,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
                     break;
             }
         } else if (intent.hasExtra(IntentStatic.TYPE)) {
-            Log.d("notifycation", "" + intent.getIntExtra(IntentStatic.TYPE, -1));
             switch (intent.getIntExtra(IntentStatic.TYPE, -1)) {
                 case NotifycationUtil.NOTIFY_XIAOSHANG:
                     xiaoshangLay.performClick();

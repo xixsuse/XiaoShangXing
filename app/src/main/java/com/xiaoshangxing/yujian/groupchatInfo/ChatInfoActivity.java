@@ -4,6 +4,7 @@ package com.xiaoshangxing.yujian.groupchatInfo;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -178,6 +179,7 @@ public class ChatInfoActivity extends BaseActivity {
                 if (result.getType() == TeamMemberType.Owner) {
                     isMyteam = true;
                 }
+                setGroupNoticeContent();
             }
         });
     }
@@ -364,13 +366,20 @@ public class ChatInfoActivity extends BaseActivity {
 
     private void setGroupNoticeContent() {
         groupNoticeContent = team.getAnnouncement();
-        if (groupNoticeContent != null) {
-            GroupNoticeContent.setText(groupNoticeContent);
+        if (!TextUtils.isEmpty(groupNoticeContent)) {
             GroupNoticeView1.setVisibility(View.GONE);
             GroupNoticeView2.setVisibility(View.VISIBLE);
+            GroupNoticeContent.setText(groupNoticeContent);
         } else {
             GroupNoticeView1.setVisibility(View.VISIBLE);
             GroupNoticeView2.setVisibility(View.GONE);
+            if (isMyteam) {
+                IsGroupNoticeSetted.setText("未填写");
+                Log.d("notice", "isMyTeam");
+            } else {
+                IsGroupNoticeSetted.setText("");
+                Log.d("notice", "notMyTeam");
+            }
         }
     }
 
@@ -423,7 +432,7 @@ public class ChatInfoActivity extends BaseActivity {
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        TopChat mytopChat = realm.where(TopChat.class).equalTo("phone", account).findFirst();
+                        TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
                         if (mytopChat != null) {
                             mytopChat.deleteFromRealm();
                         }
@@ -452,11 +461,9 @@ public class ChatInfoActivity extends BaseActivity {
         });
     }
 
-
     private void setGroupChatName() {
         GroupChatName.setText(TeamDataCache.getInstance().getTeamName(account));
     }
-
 
     public void AllGroupMember(View view) {
         Intent intent = new Intent(this, GroupMembersActivity.class);

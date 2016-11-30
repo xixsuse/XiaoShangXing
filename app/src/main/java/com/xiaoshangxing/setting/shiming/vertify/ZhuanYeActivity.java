@@ -129,6 +129,9 @@ public class ZhuanYeActivity extends BaseActivity implements IBaseView {
     }
 
     private void refreshChecked(String string) {
+        if (adpter == null) {
+            return;
+        }
         if (strings.contains(string)) {
             adpter.setCheckedPosition(strings.indexOf(string));
         } else {

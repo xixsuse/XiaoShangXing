@@ -1,5 +1,6 @@
 package com.xiaoshangxing.setting.currency.chooseBackgroundFragment;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.LocalDataUtils;
 import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,8 @@ public class ChooseBackgroundFragment extends BaseFragment {
         gridView = (GridView) mView.findViewById(R.id.background_gridview);
         title.setText("选择背景图");
         more.setVisibility(View.GONE);
+        titleLay.setBackgroundColor(getResources().getColor(R.color.choose_background));
+        titleBottomLine.setBackgroundColor(getResources().getColor(R.color.choose_background));
 
         activity = (ChatBackgroundActivity) getActivity();
         account = activity.getAccount();
@@ -125,7 +129,12 @@ public class ChooseBackgroundFragment extends BaseFragment {
             }
 
             if (position == 0) {
-                holder.image.setBackgroundColor(getResources().getColor(R.color.w3));
+                Bitmap bitmap = Bitmap.createBitmap(ScreenUtils.getAdapterPx(R.dimen.x336, getContext()),
+                        ScreenUtils.getAdapterPx(R.dimen.x336, getContext()),
+                        Bitmap.Config.ARGB_8888);
+                bitmap.eraseColor(getResources().getColor(R.color.w3));//填充颜色
+//                holder.image.setBackgroundColor(getResources().getColor(R.color.w3));
+                holder.image.setImageBitmap(bitmap);
                 holder.textView.setText("默认");
                 holder.image.setOnClickListener(new View.OnClickListener() {
                     @Override

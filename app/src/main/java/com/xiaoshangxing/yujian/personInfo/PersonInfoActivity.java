@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -133,7 +134,8 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     private MyBroadcastReceiver myBroadcastReceiver;
     public static final String FINISH = "FINISH";
     private List<User> loves = new ArrayList<>();
-    private boolean isLoved;
+    private boolean isStar;
+    private boolean isLove;
     private Observer<List<NimUserInfo>> observer;
 
     @Override
@@ -238,13 +240,14 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         }
 
         getImages();
+        getCrushState();
 
         if (TempUser.isMine(account)) {
             more.setVisibility(View.GONE);
             bt1.setChecked(true);
             bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_select);
             bt1.setText("留心");
-            isLoved = true;
+            isStar = true;
             return;
         }
 
@@ -252,9 +255,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
             bt1.setChecked(true);
             bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_select);
             bt1.setText("取消");
-//            markStar.setVisibility(View.INVISIBLE);
-//            markLove.setVisibility(View.INVISIBLE);
-            isLoved = true;
+            isStar = true;
             Friend friend = FriendDataCache.getInstance().getFriendByAccount(account);
             if (friend != null && friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK)
                     && (boolean) friend.getExtension().get(NS.MARK)) {
@@ -369,7 +370,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
                             }.getType());
                             for (User user : loves) {
                                 if (user.getId() == Integer.valueOf(account)) {
-                                    isLoved = true;
+                                    isStar = true;
                                     bt1.setChecked(true);
                                     bt1.getImgView().setImageResource(R.mipmap.icon_liuxin_select);
                                 }
@@ -387,15 +388,53 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         IMNetwork.getInstance().MyFavor(subscriber, String.valueOf(TempUser.id), this);
     }
 
+    private void getCrushState() {
+        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ResponseBody responseBody) {
+                try {
+                    JSONObject jsonObject = new JSONObject(responseBody.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case NS.CODE_200:
+                            String cruedId = jsonObject.getString(NS.MSG).split(NS.SPLIT)[0];
+                            isLove = cruedId.equals(account);
+                            markLove.setVisibility(isLove ? View.VISIBLE : View.INVISIBLE);
+                            break;
+                        default:
+                            Log.w("getCrush", jsonObject.getString(NS.MSG));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.getId());
+        jsonObject.addProperty(NS.CATEGORY, "1");
+        IMNetwork.getInstance().GetCrush(subscriber, jsonObject, this);
+    }
+
     public void Next() {
         Intent intent = new Intent(this, SetInfoActivity.class);
         intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
-        startActivity(intent);
+        startActivityForResult(intent, IntentStatic.CODE);
     }
 
     public void More() {
 
-        if (isLoved) {
+        if (isStar) {
             Intent intent = new Intent(this, MoreInfoActivity.class);
             intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
             startActivity(intent);
@@ -570,6 +609,28 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     @Override
     public void setmPresenter(@Nullable Object presenter) {
 
+    }
+
+    public boolean isLove() {
+        return isLove;
+    }
+
+    public void setLove(boolean love) {
+        isLove = love;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case IntentStatic.CODE:
+                if (data == null) {
+                    return;
+                }
+                isLove = data.getBooleanExtra(IntentStatic.DATA, false);
+                markLove.setVisibility(isLove ? View.VISIBLE : View.INVISIBLE);
+                break;
+        }
     }
 
     public class MyBroadcastReceiver extends BroadcastReceiver {

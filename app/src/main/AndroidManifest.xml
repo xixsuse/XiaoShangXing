@@ -209,7 +209,7 @@
         <activity android:name=".setting.personalinfo.TagView.TagViewActivity" />
         <activity android:name=".yujian.pearsonalTag.PeraonalTagActivity" />
         <activity android:name=".yujian.personChatInfo.PersonChatInfoActivity" />
-        <activity android:name=".yujian.xiaoyou.XiaoYouActivity" />
+        <activity android:name=".yujian.Schoolfellow.XiaoYouActivity" />
         <activity android:name=".input_activity.Location.LocationActivity">
         </activity>
         <activity android:name=".utils.layout.TextBoard" />

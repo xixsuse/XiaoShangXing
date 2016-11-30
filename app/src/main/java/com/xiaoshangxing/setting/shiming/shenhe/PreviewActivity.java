@@ -54,14 +54,11 @@ public class PreviewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertify_preview);
         ButterKnife.bind(this);
-//        requestBasicPermission();
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         initText();
 
         mPreview = new CameraPreview(this);
         preview.addView(mPreview);
-
-
     }
 
 

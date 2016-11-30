@@ -31,6 +31,7 @@ import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.layout.CustomSwipeListView;
 import com.xiaoshangxing.utils.layout.SwipeItemView;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.TeamCreateHelper;
@@ -107,7 +108,7 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     private void initView() {
         title.setText("群聊");
         more.setImageResource(R.mipmap.group_list_more);
-        more.setPadding(0, 0, 0, 0);
+        more.setPadding(0, 0, ScreenUtils.getAdapterPx(R.dimen.width_48, this), 0);
         teams.clear();
         teams = TeamDataCache.getInstance().getAllTeams();
 

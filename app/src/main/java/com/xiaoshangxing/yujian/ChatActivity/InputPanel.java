@@ -678,7 +678,8 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
                 int checkCallPhonePermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO);
                 if (Build.VERSION.SDK_INT >= 23 && checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.RECORD_AUDIO}, 100);
-                    Toast.makeText(getActivity(), "你没有授权录音，请前往设置界面进行设置", Toast.LENGTH_SHORT).show();
+                    IntentStatic.getAppDetailSettingIntent(container.activity, "你没有授权录音，\n" +
+                            "请在手机设置界面进行授权");
                 } else {
                     if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         touched = true;

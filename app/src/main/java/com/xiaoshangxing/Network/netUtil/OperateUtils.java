@@ -500,7 +500,16 @@ public class OperateUtils {
 
                 @Override
                 public void onFailed(int i) {
-                    iBaseView.showToast("操作失败:" + i);
+                    switch (i) {
+                        case 416:
+                            iBaseView.showToast("你1分钟内发送的消息过多，请冷静一下。。。" + i);
+                            break;
+                        default:
+                            iBaseView.showToast("操作失败:" + i);
+                    }
+                    if (callBack != null) {
+                        callBack.onError(null);
+                    }
                 }
 
                 @Override
@@ -617,7 +626,13 @@ public class OperateUtils {
 
                 @Override
                 public void onFailed(int i) {
-                    iBaseView.showToast("操作失败:" + i);
+                    switch (i) {
+                        case 416:
+                            iBaseView.showToast("你1分钟内发送的消息过多，请冷静1分钟。。。" + i);
+                            break;
+                        default:
+                            iBaseView.showToast("操作失败:" + i);
+                    }
                     if (callBack != null) {
                         callBack.onError(null);
                     }
@@ -717,59 +732,6 @@ public class OperateUtils {
 
         ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, iBaseView);
         PublishNetwork.getInstance().comment(progressSubsciber, jsonObject, context);
-
-//        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
-//            @Override
-//            public void onCompleted() {
-//
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                callBack.onError(e);
-//            }
-//
-//            @Override
-//            public void onNext(ResponseBody responseBody) {
-//                try {
-//                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
-//                    switch (jsonObject1.getInt(NS.CODE)) {
-//                        case NS.CODE_200:
-//                            Toast.makeText(context, "评论成功", Toast.LENGTH_SHORT).show();
-//
-//                            if (needRefreshData) {
-//                                PublishCache.reload(String.valueOf(publishId), new SimpleCallBack() {
-//                                    @Override
-//                                    public void onSuccess() {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onError(Throwable e) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onBackData(Object o) {
-//                                        callBack.onBackData(o);
-//                                    }
-//                                });
-//                            }
-//                            callBack.onSuccess();
-//                            break;
-//                        default:
-//                            Toast.makeText(context, jsonObject1.getString(NS.MSG), Toast.LENGTH_SHORT).show();
-//                            break;
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-//
-//        PublishNetwork.getInstance().comment(subscriber, jsonObject, context);
     }
 
     /**
@@ -829,56 +791,6 @@ public class OperateUtils {
 
         ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, iBaseView);
         PublishNetwork.getInstance().changePublishStatu(progressSubsciber, jsonObject, context);
-
-//        Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
-//            @Override
-//            public void onCompleted() {
-//            }
-//
-//            @Override
-//            public void onError(Throwable e) {
-//                callBack.onError(e);
-//            }
-//
-//            @Override
-//            public void onNext(ResponseBody responseBody) {
-//                try {
-//                    JSONObject jsonObject1 = new JSONObject(responseBody.string());
-//                    switch (Integer.valueOf(jsonObject1.getString(NS.CODE))) {
-//                        case 50000014:
-//                            callBack.onSuccess();
-//                            if (needRefreshData) {
-//                                PublishCache.reload(String.valueOf(publishId), new SimpleCallBack() {
-//                                    @Override
-//                                    public void onSuccess() {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onError(Throwable e) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onBackData(Object o) {
-//                                        callBack.onBackData(o);
-//                                    }
-//                                });
-//                            }
-//                            break;
-//                        default:
-//                            Toast.makeText(context, jsonObject1.getString(NS.MSG), Toast.LENGTH_SHORT).show();
-//                            break;
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-
-//        PublishNetwork.getInstance().changePublishStatu(subscriber, jsonObject, context);
     }
 
     /**
@@ -961,7 +873,8 @@ public class OperateUtils {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(NS.USER_ID, TempUser.id);
-        jsonObject.addProperty("oppositeUserId", account);
+        jsonObject.addProperty(NS.OPPOSITE_UERID, account);
+        jsonObject.addProperty(NS.CATEGORY, "0");
 
         IMNetwork.getInstance().CancelFavor(subscriber, jsonObject, context);
     }

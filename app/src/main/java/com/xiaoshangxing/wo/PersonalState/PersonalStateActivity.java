@@ -66,8 +66,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
     private View headView2, footview;
     private StateContract.Presenter mPresenter;
     private String account;
-    private TextView name1;
-    private TextView name2;
+    private TextView name;
     private CirecleImage head;
     private boolean is_refresh = false;           //记录是否正在刷新
     private boolean is_loadMore = false;          //记录是否正在加载更多
@@ -93,8 +92,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
 
         listView.setDividerHeight(0);
         headView = (RelativeLayout) getLayoutInflater().inflate(R.layout.util_mystate_header, null);
-        name1 = (TextView) headView.findViewById(R.id.name1);
-        name2 = (TextView) headView.findViewById(R.id.name2);
+        name = (TextView) headView.findViewById(R.id.name);
         head = (CirecleImage) headView.findViewById(R.id.head_image);
         listView.addHeaderView(headView);
         headView2 = View.inflate(this, R.layout.publish_lay, null);
@@ -173,8 +171,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
         head.setIntent_type(CirecleImage.PERSON_INFO, account);
 
         UserInfoCache.getInstance().getHeadIntoImage(account, head);
-        UserInfoCache.getInstance().getExIntoTextview(account, NS.USER_NAME, name1);
-        UserInfoCache.getInstance().getExIntoTextview(account, NS.USER_NAME, name2);
+        UserInfoCache.getInstance().getExIntoTextview(account, NS.USER_NAME, name);
 
         if (TempUser.isMine(account)) {
             title.setText("我的动态");

@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:background="@color/w1"
         android:divider="@drawable/toolbar_divider"
-        android:paddingStart="@dimen/x48">
+        android:paddingStart="@dimen/x30">
 
     </ListView>
 

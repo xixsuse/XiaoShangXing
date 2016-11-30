@@ -257,7 +257,8 @@ public class AppNetUtil {
      */
 
     public static void ReLogin(Context context) {
-        ClearData(context);
+//        ClearData(context);
+        LogOut(context);
         Intent intent = new Intent(context, FlashActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         context.startActivity(intent);

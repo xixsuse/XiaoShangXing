@@ -182,7 +182,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/x18"
                     android:layout_toStartOf="@+id/GroupNoticeImg"
-                    android:text="未命名" />
+                    android:text="未填写" />
 
                 <ImageView
                     android:id="@+id/GroupNoticeImg"

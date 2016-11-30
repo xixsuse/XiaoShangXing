@@ -486,7 +486,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
 
     private void openCamera() {
         came_photo_path = FileUtils.newPhotoPath();
-        IntentStatic.openCamera(this, came_photo_path, InputActivity.TAKE_PHOTO);
+        IntentStatic.openCamera(getActivity(), came_photo_path, InputActivity.TAKE_PHOTO);
     }
 
     public void moveListview(int px) {

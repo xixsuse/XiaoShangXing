@@ -156,7 +156,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void photo() {
-        IntentStatic.openCamera(this, Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), ACTIVITY_CAMERA_REQUESTCODE);
+        IntentStatic.openCamera(getActivity(), Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), ACTIVITY_CAMERA_REQUESTCODE);
     }
 
     private void album() {

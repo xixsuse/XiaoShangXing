@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.xiaoshangxing.R;
+
 /**
  * For details, please see <b>http://blog.csdn.net/bfbx5173/article/details/45191147<b>
  * @author QQ 517309507
@@ -197,7 +199,8 @@ public class SwitchView extends View {
 		final boolean isOn = (state == STATE_SWITCH_ON || state == STATE_SWITCH_ON2);
 		// draw background
 		paint.setStyle(Style.FILL);
-		paint.setColor(isOn ? 0xff4bd763 : 0xffe3e3e3);
+//		paint.setColor(isOn ? 0xff4bd763 : 0xffe3e3e3);
+		paint.setColor(isOn ? getResources().getColor(R.color.green1) : 0xffe3e3e3);
 		canvas.drawPath(sPath, paint);
 
 		sAnim = sAnim - 0.1f > 0 ? sAnim - 0.1f : 0;

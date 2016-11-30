@@ -1,17 +1,20 @@
 package com.xiaoshangxing.utils;
 
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.google.gson.Gson;
 import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PushMsg;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +67,7 @@ public class NotifycationUtil {
     public static final String NT_IM_NOTICE = "400";                    //遇见公告
     public static final String NT_IM_STARED = "401";                    //被留心
     public static final String NT_IM_LOVED = "402";                     //被暗恋
+    public static final String NT_IM_LOVED_EACH = "403";                //互相暗恋
     public static final String NT_IM_TYPING = "410";                    //正在输入
 
     /**
@@ -247,6 +251,60 @@ public class NotifycationUtil {
         mNotificationManager.notify(NOTIFY_WO, mBuilder.build());
     }
 
+    public static void showHidenLoved() {
+
+        List<PushMsg> pushMsgs = realm.where(PushMsg.class).not().equalTo("isRead", "1")
+                .beginGroup()
+                .equalTo(NS.PUSH_TYPE, NT_IM_LOVED)
+                .or().equalTo(NS.PUSH_TYPE, NT_IM_LOVED_EACH)
+                .endGroup()
+                .findAllSorted(NS.PUSH_TIME, Sort.DESCENDING);
+
+        if (pushMsgs.isEmpty()) {
+            return;
+        }
+
+        final PushMsg pushMsg = pushMsgs.get(0);
+
+        String msg;
+        String name = "";
+        if (pushMsg.getPushType().equals(NT_IM_LOVED)) {
+            msg = pushMsg.getText();
+        } else if (pushMsg.getPushType().equals(NT_IM_LOVED_EACH)) {
+            msg = pushMsg.getText();
+            name = pushMsg.getUserName();
+        } else {
+            return;
+        }
+
+        final DialogUtils.Dialog_Center_Crush dialog_center = new DialogUtils.Dialog_Center_Crush(XSXApplication.currentActivity);
+        Dialog dialog = dialog_center.Message(msg, name, R.color.blue1).
+                Button("我知道了")
+                .MbuttonOnClick(new DialogUtils.Dialog_Center_Crush.buttonOnClick() {
+                    @Override
+                    public void onButton1() {
+                        dialog_center.close();
+                    }
+
+                    @Override
+                    public void onButton2() {
+                        dialog_center.close();
+                    }
+                }).create();
+        dialog.show();
+        WindowManager.LayoutParams lp = dialog.getWindow().getAttributes();
+        lp.width = (ScreenUtils.getAdapterPx(R.dimen.x780, XSXApplication.currentActivity)); //设置宽度
+        dialog.getWindow().setAttributes(lp);
+        dialog.setCancelable(false);
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                pushMsg.setIsRead("1");
+            }
+        });
+    }
+
     /**
      * 清除当前创建的通知栏
      */
@@ -280,22 +338,25 @@ public class NotifycationUtil {
         }
 
         switch (pushMsg.getPushType()) {
-            case "201":
-            case "202":
+            case NT_SCHOOLMATE_CHANGE:
+            case NT_SCHOOLMATE_NOTICE_YOU:
                 showWoNotifycation();
                 break;
-            case "301":
-            case "302":
-            case "303":
-            case "304":
-            case "305":
-            case "306":
+            case NT_SCHOOL_CALENDAAR:
+            case NT_SCHOOL_REWARD:
+            case NT_SCHOOL_HELP:
+            case NT_SCHOOL_PLAN:
+            case NT_SCHOOL_SALE:
+            case NT_SCHOOL_NOTICE_YOU:
                 showXiaoshangNotifycation();
                 break;
-            case "401":
+            case NT_IM_STARED:
                 showStaredNotifycation();
                 break;
-
+            case NT_IM_LOVED:
+            case NT_IM_LOVED_EACH:
+                showHidenLoved();
+                break;
         }
     }
 

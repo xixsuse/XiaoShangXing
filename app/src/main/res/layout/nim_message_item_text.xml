@@ -15,7 +15,10 @@
         android:maxWidth="222dip"
         android:minWidth="@dimen/x112"
         android:minHeight="@dimen/x112"
-        android:padding="8dp"
+        android:paddingBottom="@dimen/y18"
+        android:paddingEnd="@dimen/x36"
+        android:paddingStart="@dimen/x36"
+        android:paddingTop="@dimen/y18"
         android:textColor="@color/b0"
         android:textSize="15sp" />
 </LinearLayout>

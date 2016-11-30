@@ -46,6 +46,7 @@ import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
+import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.lang.reflect.Field;
@@ -391,22 +392,52 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
 
     @Override
     public void showShareDialog() {
+//        final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
+//        View view = View.inflate(this, R.layout.util_help_share_dialog, null);
+//        dialog.setContentView(view);
+//        dialog.getWindow().setGravity(Gravity.BOTTOM);
+//        Button button = (Button) view.findViewById(R.id.cancel);
+//        View xsx = view.findViewById(R.id.share_school_circle);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        xsx.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                OperateUtils.Share(HelpDetailActivity.this, InputActivity.SHOOLFELLOW_HELP, published_id);
+//                dialog.dismiss();
+//            }
+//        });
+//        dialog.show();
+//        LocationUtil.bottom_FillWidth(this, dialog);
+
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View view = View.inflate(this, R.layout.util_help_share_dialog, null);
         dialog.setContentView(view);
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         Button button = (Button) view.findViewById(R.id.cancel);
-        View xsx = view.findViewById(R.id.xsx);
+        View share_school_circle = view.findViewById(R.id.share_school_circle);
+        View share_friend = view.findViewById(R.id.share_friend);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-        xsx.setOnClickListener(new View.OnClickListener() {
+        share_school_circle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 OperateUtils.Share(HelpDetailActivity.this, InputActivity.SHOOLFELLOW_HELP, published_id);
+                dialog.dismiss();
+            }
+        });
+        share_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoSelectPeson();
                 dialog.dismiss();
             }
         });
