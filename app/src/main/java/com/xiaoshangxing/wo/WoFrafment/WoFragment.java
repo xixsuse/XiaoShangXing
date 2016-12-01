@@ -132,7 +132,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initView(){
-
         activity = (MainActivity) getActivity();
         inputBoxLayout=activity.getInputBoxLayout();
         listView=(ListView)mView.findViewById(R.id.listview);

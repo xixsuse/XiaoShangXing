@@ -392,16 +392,26 @@
 
             </ImageView>
 
+            <!--<ImageButton-->
+            <!--android:id="@+id/send"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:background="@color/transparent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:alpha="0.3"-->
+            <!--android:paddingEnd="@dimen/x32"-->
+            <!--android:paddingStart="@dimen/x32"-->
+            <!--android:src="@mipmap/plane_green" />-->
             <ImageButton
                 android:id="@+id/send"
                 android:layout_width="wrap_content"
                 android:background="@color/transparent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:alpha="0.3"
-                android:paddingEnd="@dimen/x32"
-                android:paddingStart="@dimen/x32"
-                android:src="@mipmap/plane_green" />
+                android:alpha="0.5"
+                android:paddingEnd="@dimen/x44"
+                android:paddingStart="@dimen/x44"
+                android:src="@mipmap/icon_plane" />
 
         </LinearLayout>
     </LinearLayout>

@@ -365,7 +365,8 @@ public abstract class WoBaseHolder {
                                 sendComment(text, -1);
                             }
                         });
-                        showEdittext(v);
+//                        showEdittext(v);
+                        showEdittext(view);
                     }
                 });
             }

@@ -137,8 +137,17 @@ public class PersonalInfoFragment extends BaseFragment {
             sex.setText("未知");
         }
 
-        UserInfoCache.getInstance().getExIntoTextview(id, NS.HOMETOWN, personinfoHometown);
+        UserInfoCache.getInstance().getExIntoTextview(id, NS.HOMETOWN, personinfoHometown, "未填写");
         UserInfoCache.getInstance().getHeadIntoImage(id, settingPersoninfoHeadView);
+
+        if (nimUserInfo.getExtensionMap() == null) {
+            personinfoHometown.setText("未填写");
+        } else {
+            String homeString = String.valueOf(nimUserInfo.getExtensionMap().get(NS.HOMETOWN));
+            if (TextUtils.isEmpty(homeString) || homeString.equals("null")) {
+                personinfoHometown.setText("未填写");
+            }
+        }
 
         if (!TextUtils.isEmpty(nimUserInfo.getSignature()) && !nimUserInfo.getSignature().equals("null")) {
             signature.setVisibility(View.GONE);

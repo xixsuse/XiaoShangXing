@@ -10,8 +10,10 @@
 
     <RelativeLayout
         android:id="@+id/up_layout"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/y72"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y288">
+        android:layout_marginTop="@dimen/y48">
         <!--名字-->
         <TextView
             android:layout_toLeftOf="@+id/head_image"
@@ -41,7 +43,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/y78"
         android:layout_marginBottom="@dimen/y34"
         android:id="@+id/news_lay"
         android:orientation="horizontal"

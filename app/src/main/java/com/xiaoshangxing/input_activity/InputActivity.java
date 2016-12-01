@@ -719,6 +719,9 @@ public class InputActivity extends BaseActivity implements IBaseView {
     private void reset() {
         emotion.setSelected(false);
         picture.setSelected(false);
+        pictureLay.setVisibility(View.GONE);
+        emotLay.setVisibility(View.GONE);
+        current = -1;
         initKeyboard();
     }
 

@@ -245,7 +245,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
             show.setVisibility(View.VISIBLE);
             NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(message.getFromAccount());
             if (userInfo != null) {
-                MyGlide.with_app_log(context, userInfo.getAvatar(), show);
+                MyGlide.with_default_head(context, userInfo.getAvatar(), show);
             }
         }
 

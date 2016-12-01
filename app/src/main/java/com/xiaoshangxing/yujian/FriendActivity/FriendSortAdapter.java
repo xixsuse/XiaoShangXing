@@ -115,7 +115,7 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
         });
         NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(list.get(position).getAccount());
         if (userInfo != null) {
-            MyGlide.with_app_log(mContext, userInfo.getAvatar(), viewHolder.head);
+            MyGlide.with_default_head(mContext, userInfo.getAvatar(), viewHolder.head);
         }
         return view;
 

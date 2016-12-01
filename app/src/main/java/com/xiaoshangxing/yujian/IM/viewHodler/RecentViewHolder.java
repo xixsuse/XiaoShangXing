@@ -88,7 +88,7 @@ public abstract class RecentViewHolder extends TViewHolder implements OnClickLis
 //            imgHead.loadBuddyAvatar(recent.getContactId());
             NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(recent.getContactId());
             if (userInfo != null) {
-                MyGlide.with_app_log(context, userInfo.getAvatar(), imgHead);
+                MyGlide.with_default_head(context, userInfo.getAvatar(), imgHead);
             }
         } else if (recent.getSessionType() == SessionTypeEnum.Team) {
 //            Team team = TeamDataCache.getInstance().getTeamById(recent.getContactId());

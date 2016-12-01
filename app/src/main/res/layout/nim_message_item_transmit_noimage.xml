@@ -75,7 +75,7 @@
         android:id="@+id/from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y24"
+        android:layout_marginTop="@dimen/y18"
         android:paddingStart="@dimen/x44"
         android:textColor="@color/g0"
         android:textSize="12sp" />

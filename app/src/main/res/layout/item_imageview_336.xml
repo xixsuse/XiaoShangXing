@@ -13,17 +13,17 @@
 
         <FrameLayout
             android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/x3"
+            android:layout_margin="@dimen/x12"
             android:id="@+id/checkbox_lay"
             android:layout_width="@dimen/x112"
             android:layout_height="@dimen/x112">
 
                 <CheckBox
                     android:id="@+id/checkbox"
-                    android:layout_width="@dimen/x72"
-                    android:layout_height="@dimen/y72"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:background="@drawable/selector_picture_input"
+                    android:background="@drawable/selector_circle_with_mark"
                     android:button="@null"
                     android:focusable="false" />
         </FrameLayout>

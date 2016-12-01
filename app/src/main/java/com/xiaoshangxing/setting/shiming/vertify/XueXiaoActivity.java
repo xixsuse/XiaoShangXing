@@ -156,7 +156,7 @@ public class XueXiaoActivity extends BaseActivity {
     public void SearchView(View view) {
         Intent intent = new Intent(this, SerchSchoolActivity.class);
         intent.putExtra(IntentStatic.TYPE, isRegister);
-        startActivity(new Intent(this, SerchSchoolActivity.class));
+        startActivity(intent);
     }
 
     @OnClick({R.id.back, R.id.right_text})

@@ -3,16 +3,18 @@
     android:orientation="vertical"
     android:id="@+id/headView"
     android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/x18"
     android:paddingStart="@dimen/width_48"
-    android:paddingEnd="@dimen/width_48"
     android:layout_width="match_parent"
     >
 
     <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/y72"
         android:id="@+id/up_layout"
         android:layout_above="@+id/news"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y280">
+        android:layout_marginTop="@dimen/y48">
     <!--名字-->
         <TextView
             android:layout_toLeftOf="@+id/head_image"

@@ -63,6 +63,15 @@ public class MyGlide {
                 .into(view);
     }
 
+    public static void with_default_head(Context context, String url, ImageView view) {
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.mipmap.default_head)
+                .error(R.mipmap.default_head)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(view);
+    }
+
     public static void withBitmap(Context context, String url, final ImageView view) {
         Glide.with(context)
                 .load(url)

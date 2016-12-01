@@ -7,10 +7,10 @@
 
     <CheckBox
         android:id="@+id/deleteMember_Checkbox"
-        android:layout_width="@dimen/x84"
-        android:layout_height="@dimen/y84"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/selector_selectperson"
+        android:background="@drawable/selector_circle_with_mark"
         android:clickable="false"
         android:button="@null"
         android:focusable="false" />

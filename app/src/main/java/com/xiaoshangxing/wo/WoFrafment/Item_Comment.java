@@ -85,9 +85,10 @@ public class Item_Comment {
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(context, PersonalStateActivity.class);
-                context.startActivity(intent);
                 intent.putExtra(IntentStatic.EXTRA_ACCOUNT, user_id);
-                Log.d("name", reply_person);
+                context.startActivity(intent);
+                Log.d("comment_name", reply_person);
+                Log.d("comment_user_id", user_id);
             }
 
             @Override

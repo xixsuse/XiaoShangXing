@@ -25,7 +25,7 @@ public class MoonUtil {
 	public static final int WRAP_DRAWABLE = -1;
 	public static void identifyFaceExpression(Context context,
 			View textView, String value,int align ) {
-		identifyFaceExpression(context, textView, value, align, DEF_SCALE);
+		identifyFaceExpression(context, textView, value, align, /*DEF_SCALE*/SMALL_SCALE);
 	}
 	
 	public static void identifyFaceExpressionAndATags(Context context,

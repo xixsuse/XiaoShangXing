@@ -214,7 +214,20 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         UserInfoCache.getInstance().getHeadIntoImage(account, headImage);
         UserInfoCache.getInstance().getExIntoTextview(account, NS.COLLEGE, college);
         UserInfoCache.getInstance().getExIntoTextview(account, NS.USER_NAME, name);
-        UserInfoCache.getInstance().getExIntoTextview(account, NS.HOMETOWN, hometown);
+        UserInfoCache.getInstance().getExIntoTextview(account, NS.HOMETOWN, hometown, "未填写");
+
+        if (TextUtils.isEmpty(user.getAvatar())) {
+            headImage.setVisibility(View.GONE);
+        }
+
+        if (user.getExtensionMap() == null) {
+            hometownLay.setVisibility(View.GONE);
+        } else {
+            String homeString = String.valueOf(user.getExtensionMap().get(NS.HOMETOWN));
+            if (TextUtils.isEmpty(homeString) || homeString.equals("null")) {
+                hometownLay.setVisibility(View.GONE);
+            }
+        }
 
         if (user.getGenderEnum() == GenderEnum.FEMALE) {
             sex.setImageResource(R.mipmap.sex_female);

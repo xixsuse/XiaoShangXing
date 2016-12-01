@@ -31,7 +31,8 @@
         <ImageView
             android:id="@+id/sex"
             android:src="@mipmap/sex_male"
-            android:layout_marginTop="@dimen/y36"
+            android:layout_marginStart="@dimen/x12"
+            android:layout_marginTop="@dimen/y40"
             android:layout_toRightOf="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

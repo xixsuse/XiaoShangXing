@@ -103,7 +103,7 @@ public class ShoolfellowAdapter extends BaseAdapter {
                 params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ScreenUtils.getAdapterPx(R.dimen.y150, context));
                 viewHolder.topLay.setLayoutParams(params);
-                MyGlide.with_app_log(context, baseItemBean.getImage(), viewHolder.headImage);
+                MyGlide.with_default_head(context, baseItemBean.getImage(), viewHolder.headImage);
                 viewHolder.name.setText(baseItemBean.getShowName());
                 viewHolder.name.setPadding(ScreenUtils.getAdapterPx(R.dimen.x24, context), 0, 0, 0);
                 viewHolder.ex.setText(TextUtils.isEmpty(baseItemBean.getExText()) ? "" : baseItemBean.getExText());
@@ -136,12 +136,11 @@ public class ShoolfellowAdapter extends BaseAdapter {
                 viewHolder.name.setText(baseItemBean.getShowName());
                 viewHolder.name.setPadding(ScreenUtils.getAdapterPx(R.dimen.x12, context), 0, 0, 0);
                 viewHolder.headImage.setVisibility(View.VISIBLE);
-                MyGlide.with_app_log(context, baseItemBean.getImage(), viewHolder.headImage);
+                MyGlide.with_default_head(context, baseItemBean.getImage(), viewHolder.headImage);
                 viewHolder.ex.setVisibility(View.VISIBLE);
                 viewHolder.ex.setPadding(ScreenUtils.getAdapterPx(R.dimen.x12, context), 0, 0, 0);
                 viewHolder.ex.setText(TextUtils.isEmpty(baseItemBean.getExText()) ? "" : baseItemBean.getExText());
                 break;
-
         }
 
         viewHolder.topLay.setBackgroundColor(baseItemBean.isExpand() ? context.getResources().getColor(R.color.w3)

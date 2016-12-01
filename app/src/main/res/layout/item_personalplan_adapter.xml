@@ -118,7 +118,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="@dimen/y12"
                 android:layout_marginEnd="@dimen/x48"
-                android:background="@drawable/selector_myhelp_more"
+                android:background="@drawable/selector_circle_with_mark"
                 android:button="@null"
                 android:focusable="false"
                 android:visibility="invisible" />

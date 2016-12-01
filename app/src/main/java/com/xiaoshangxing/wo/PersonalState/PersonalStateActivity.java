@@ -3,6 +3,7 @@ package com.xiaoshangxing.wo.PersonalState;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -150,7 +151,6 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
 
     @Override
     public void gotoNews() {
-//        showToast(NS.ON_DEVELOPING);
         Intent news_intent = new Intent(PersonalStateActivity.this, NewsActivity.class);
         startActivity(news_intent);
     }
@@ -163,7 +163,7 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
             return;
         }
         account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
-        if (account == null) {
+        if (TextUtils.isEmpty(account)) {
             showToast("账号有误");
             finish();
             return;

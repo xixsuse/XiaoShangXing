@@ -113,7 +113,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer{
             viewHolder.checkBox.setClickable(false);
             viewHolder.checkBox.setBackgroundResource(R.mipmap.select_person_gray_gou);
         } else {
-            viewHolder.checkBox.setBackgroundResource(R.drawable.selector_selectperson);
+            viewHolder.checkBox.setBackgroundResource(R.drawable.selector_circle_with_mark);
             if (activity.getSelectPerson().contains(/*viewHolder.name.getText().toString()*/list.get(position).getAccount())) {
                 viewHolder.checkBox.setChecked(true);
 

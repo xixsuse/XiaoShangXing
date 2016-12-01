@@ -65,9 +65,9 @@ public class love_satr_adpter extends ArrayAdapter<User> {
         UserInfoCache.getInstance().getHeadIntoImage(userId, viewHolder.headImage);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, viewHolder.name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
-        if (user.getSex().equals(1)) {
+        if (user.getSex().equals(2)) {
             viewHolder.sex.setImageResource(R.mipmap.sex_female);
-        } else if (user.getSex().equals(2)) {
+        } else if (user.getSex().equals(1)) {
             viewHolder.sex.setImageResource(R.mipmap.sex_male);
         } else {
             viewHolder.sex.setVisibility(View.GONE);

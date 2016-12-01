@@ -135,6 +135,7 @@ public class LocationActivity extends BaseActivity {
                 }
                 complete.setAlpha(1);
                 complete.setEnabled(true);
+                finish();
             }
         });
     }

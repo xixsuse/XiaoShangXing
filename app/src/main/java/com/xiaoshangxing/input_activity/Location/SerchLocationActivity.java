@@ -91,6 +91,7 @@ public class SerchLocationActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 adpter.setSelected(position);
                 selected = dataList.get(position).getName();
+                finish();
             }
         });
     }

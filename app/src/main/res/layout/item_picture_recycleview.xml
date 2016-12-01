@@ -24,11 +24,12 @@
             android:layout_height="@dimen/x152">
 
             <CheckBox
+                android:layout_width="@dimen/x60"
                 android:id="@+id/checkbox"
-                android:layout_width="@dimen/x72"
-                android:layout_height="@dimen/y72"
+                android:layout_height="@dimen/x60"
+                android:background="@drawable/selector_circle_with_mark"
                 android:layout_gravity="right"
-                android:background="@drawable/selector_picture_input"
+                android:padding="@dimen/x12"
                 android:button="@null"
                 android:focusable="false" />
         </FrameLayout>

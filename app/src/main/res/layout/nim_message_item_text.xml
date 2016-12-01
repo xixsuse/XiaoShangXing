@@ -11,14 +11,14 @@
         android:autoLink="phone|email|map|web"
         android:gravity="center_vertical|left"
         android:includeFontPadding="false"
-        android:lineSpacingExtra="3dip"
+        android:lineSpacingExtra="1dp"
         android:maxWidth="222dip"
         android:minWidth="@dimen/x112"
         android:minHeight="@dimen/x112"
-        android:paddingBottom="@dimen/y18"
+        android:paddingBottom="@dimen/y30"
         android:paddingEnd="@dimen/x36"
         android:paddingStart="@dimen/x36"
-        android:paddingTop="@dimen/y18"
+        android:paddingTop="@dimen/y30"
         android:textColor="@color/b0"
         android:textSize="15sp" />
 </LinearLayout>
