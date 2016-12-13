@@ -60,5 +60,7 @@ public class BaseUrl {
     public static final String UPLOAD_LOG = "operation/uploadLogfiles";
     public static final String CRUSH = "friend/crush";
     public static final String GET_CRUSH = "friend/getCrush";
+    public static final String SCHOOLCIRCLE_PERMOSSION = "moment/blockProcess";
+    public static final String REPORT = "complaint/addComplaint";
 
 }

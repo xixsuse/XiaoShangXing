@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +24,27 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.xiaoshangxing.Network.Formmat;
+import com.xiaoshangxing.Network.ShowMsgHandler;
+import com.xiaoshangxing.Network.netUtil.BaseUrl;
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.album.AlbumActivity;
 import com.xiaoshangxing.report.ReportActivity;
 import com.xiaoshangxing.report.reportCommitFragment.ReportCommitFragment;
 import com.xiaoshangxing.report.reportNoticeFragment.ReportNoticeFragment;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.image.MyGlide;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,7 +53,7 @@ import butterknife.OnClick;
 /**
  * Created by tianyang on 2016/7/2.
  */
-public class ReportEvidenceFragment extends BaseFragment {
+public class ReportEvidenceFragment extends BaseFragment implements IBaseView {
     public static final String TAG = BaseFragment.TAG + "-ReportEvidenceFragment";
     @Bind(R.id.left_image)
     ImageView leftImage;
@@ -78,6 +90,7 @@ public class ReportEvidenceFragment extends BaseFragment {
     private ReportActivity reportActivity;
     private List<String> select_image_urls = new ArrayList<>();
     private Handler handler;
+    private ShowMsgHandler showMsgHandler;
 
     @Nullable
     @Override
@@ -93,7 +106,7 @@ public class ReportEvidenceFragment extends BaseFragment {
         reportNotice = (TextView) mView.findViewById(R.id.report_evidence_notice);
         reportText = (EditText) mView.findViewById(R.id.report_evidence_edittext);
         reportText.setText(reportActivity.getReportText());
-
+        showMsgHandler = new ShowMsgHandler(getContext());
 //        Res.init(getActivity());
         bimap = BitmapFactory.decodeResource(
                 getResources(),
@@ -138,13 +151,7 @@ public class ReportEvidenceFragment extends BaseFragment {
                 InputMethodManager imm2 = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm2.showSoftInput(mView, InputMethodManager.SHOW_FORCED);
                 imm2.hideSoftInputFromWindow(mView.getWindowToken(), 0);
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-                                R.anim.slide_in_left, R.anim.slide_out_left)
-                        .addToBackStack(null)
-                        .replace(R.id.main_fragment, new ReportCommitFragment(), ReportCommitFragment.TAG)
-                        .commit();
+                upload();
                 break;
             case R.id.report_evidence_notice:
                 getActivity().getSupportFragmentManager()
@@ -157,6 +164,68 @@ public class ReportEvidenceFragment extends BaseFragment {
                 break;
 
         }
+    }
+
+    private void upload() {
+        Log.d("reportId", reportActivity.getAccount());
+        Log.d("reportType", reportActivity.getReportType());
+        Log.d("reportText", reportText.getText().toString());
+        Log.d("reportImages", select_image_urls.toString());
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Formmat formmat = null;
+                try {
+                    formmat = new Formmat(ReportEvidenceFragment.this, getActivity(), BaseUrl.BASE_URL + BaseUrl.REPORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showMsgHandler.showToast("初始化上传组件失败,请检查网络状态");
+                    return;
+                }
+                formmat.setSuccessToast("提交成功");
+                formmat.setSimpleCallBack(new SimpleCallBack() {
+                    @Override
+                    public void onSuccess() {
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
+                                        R.anim.slide_in_left, R.anim.slide_out_left)
+                                .addToBackStack(null)
+                                .replace(R.id.main_fragment, new ReportCommitFragment(), ReportCommitFragment.TAG)
+                                .commit();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onBackData(Object o) {
+
+                    }
+                });
+                final Map<String, String> map = new HashMap<>();
+                map.put(NS.USER_ID, TempUser.getId());
+                map.put("reportedUser", reportActivity.getAccount());
+                map.put(NS.TYPE, reportActivity.getReportType());
+                map.put("reason", reportText.getText().toString());
+                try {
+                    formmat.addFormField(map)
+                            .addFilePart(select_image_urls, getContext())
+                            .doUpload();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showToast("图片出错");
+                }
+            }
+        });
+        thread.start();
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 
     @SuppressLint("HandlerLeak")
@@ -222,7 +291,7 @@ public class ReportEvidenceFragment extends BaseFragment {
             if (select_image_urls.size() > position) {
                 MyGlide.with(getContext(), select_image_urls.get(position), holder.image);
             } else {
-                holder.image.setImageResource(R.mipmap.icon_addpic_unfocused);
+                Glide.with(getContext()).load(R.mipmap.icon_addpic_unfocused).into(holder.image);
             }
             return convertView;
         }

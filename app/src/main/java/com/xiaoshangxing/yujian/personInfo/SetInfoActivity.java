@@ -46,7 +46,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -137,7 +139,8 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
         }
 
         friend = FriendDataCache.getInstance().getFriendByAccount(account);
-        if (friend == null) {
+        userInfo = NimUserInfoCache.getInstance().getUserInfo(TempUser.getId());
+        if (friend == null || userInfo == null) {
             showToast("账号信息有误");
             finish();
             return;
@@ -166,42 +169,36 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
         crush.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-//                showToast(NS.ON_DEVELOPING);
-//                crush.setState(true);
                 crush(true);
             }
 
             @Override
             public void toggleToOff() {
-//                showToast(NS.ON_DEVELOPING);
-//                crush.setState(false);
                 crush(false);
             }
         });
+
         bukanwo.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                showToast(NS.ON_DEVELOPING);
-                bukanwo.setState(true);
+                permission(true, NS.BLOCK_CODE, bukanwo);
             }
 
             @Override
             public void toggleToOff() {
-                showToast(NS.ON_DEVELOPING);
-                bukanwo.setState(false);
+                permission(false, NS.REMOVE_BLOCK_CODE, bukanwo);
             }
         });
+
         bukanta.setOnStateChangedListener(new SwitchView.OnStateChangedListener() {
             @Override
             public void toggleToOn() {
-                showToast(NS.ON_DEVELOPING);
-                bukanta.setState(true);
+                permission(true, NS.MY_BLOCK_CODE, bukanta);
             }
 
             @Override
             public void toggleToOff() {
-                showToast(NS.ON_DEVELOPING);
-                bukanta.setState(false);
+                permission(false, NS.REMOVE_MY_BLOCK_CODE, bukanta);
             }
         });
 
@@ -380,6 +377,27 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
 
     }
 
+    private void permission(final boolean is, String type, final SwitchView switchView) {
+        List<String> accounts = new ArrayList<>();
+        accounts.add(account);
+        OperateUtils.SchoolCirclrPermisson(accounts, type, this, new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
+                switchView.setState(is);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                switchView.setState(!is);
+            }
+
+            @Override
+            public void onBackData(Object o) {
+
+            }
+        });
+    }
+
     private void showDialog(String msg) {
         final DialogUtils.Dialog_Center dialog_center = new DialogUtils.Dialog_Center(XSXApplication.currentActivity);
         Dialog dialog = dialog_center.Message(msg).
@@ -408,10 +426,27 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
             starMarkfriends.setState(false);
         }
         getCrushState();
-        bukanwo.setState(false);
-        bukanta.setState(false);
         addToBlackList.setState(FriendDataCache.getInstance().isInblack(account));
 
+        //        校友圈权限
+        String block = null;
+        String myBlock = null;
+        if (userInfo.getExtensionMap() != null) {
+            block = (String) userInfo.getExtensionMap().get(NS.BLOCK);
+            myBlock = (String) userInfo.getExtensionMap().get(NS.MY_BLOCK);
+        }
+        Log.d("block", "" + block);
+        Log.d("myblock", "" + myBlock);
+        if (block != null && block.contains(account)) {
+            bukanwo.setState(true);
+        } else {
+            bukanwo.setState(false);
+        }
+        if (myBlock != null && myBlock.contains(account)) {
+            bukanta.setState(true);
+        } else {
+            bukanta.setState(false);
+        }
     }
 
     private void getCrushState() {
@@ -453,6 +488,7 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
 
     public void Report(View view) {
         Intent intent = new Intent(this, ReportActivity.class);
+        intent.putExtra(IntentStatic.DATA, account);
         startActivity(intent);
     }
 

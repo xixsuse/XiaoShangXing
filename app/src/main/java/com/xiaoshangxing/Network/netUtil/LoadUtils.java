@@ -66,6 +66,43 @@ public class LoadUtils {
                 SPUtils.DEFAULT_LONG) > 5 * TimeUtil.MINUTE);
     }
 
+    public static boolean needRefresh(String loadtime, Realm realm) {
+        return (NS.currentTime() - (long) SPUtils.get(XSXApplication.getInstance(), loadtime,
+                SPUtils.DEFAULT_LONG) > 5 * TimeUtil.MINUTE || quryRealm(loadtime, realm));
+    }
+
+    private static boolean quryRealm(String loadtime, Realm realm) {
+        boolean isNeedRefresh = false;
+        switch (loadtime) {
+            case TIME_LOAD_STATE:
+                isNeedRefresh = realm.where(Published.class)
+                        .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
+                        .findAll().sort(NS.CREATETIME, Sort.DESCENDING).isEmpty();
+                break;
+            case TIME_LOAD_REWARD:
+                isNeedRefresh = realm.where(Published.class)
+                        .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_REWARD))
+                        .findAll().sort(NS.CREATETIME, Sort.DESCENDING).isEmpty();
+                break;
+            case TIME_LOAD_HELP:
+                isNeedRefresh = realm.where(Published.class)
+                        .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_HELP))
+                        .findAll().sort(NS.CREATETIME, Sort.DESCENDING).isEmpty();
+                break;
+            case TIME_LOAD_PLAN:
+                isNeedRefresh = realm.where(Published.class)
+                        .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_PLAN))
+                        .findAll().sort(NS.CREATETIME, Sort.DESCENDING).isEmpty();
+                break;
+            case TIME_LOAD_SALE:
+                isNeedRefresh = realm.where(Published.class)
+                        .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_SALE))
+                        .findAll().sort(NS.CREATETIME, Sort.DESCENDING).isEmpty();
+                break;
+        }
+        return isNeedRefresh;
+    }
+
     /**
      * description:记录刷新时间
      *

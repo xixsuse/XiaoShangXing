@@ -2,20 +2,18 @@ package com.xiaoshangxing.report;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.input_activity.album.AlbumActivity;
 import com.xiaoshangxing.input_activity.album.Bimp;
-import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.report.reportEvidenceFragment.ReportEvidenceFragment;
 import com.xiaoshangxing.report.reportReasonFragment.ReportReasonFragment;
+import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.IntentStatic;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.annotations.Ignore;
 
 /**
  * Created by tianyang on 2016/7/1.
@@ -23,11 +21,21 @@ import io.realm.annotations.Ignore;
 public class ReportActivity extends BaseActivity {
     public static final String TAG = BaseActivity.TAG + "-LoginRegisterActivity";
     private String reportText;
+    private String reportType;
     private ReportEvidenceFragment reportEvidenceFragment;
+    private String account;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_only_fraglayout);
+
+        account = getIntent().getStringExtra(IntentStatic.DATA);
+        if (TextUtils.isEmpty(account)) {
+            showToast("举报对象id不明");
+            finish();
+            return;
+        }
+
         ReportReasonFragment reportReasonFragment = new ReportReasonFragment();
         reportEvidenceFragment = new ReportEvidenceFragment();
 
@@ -43,6 +51,22 @@ public class ReportActivity extends BaseActivity {
 
     public String getReportText() {
         return reportText;
+    }
+
+    public String getReportType() {
+        return reportType;
+    }
+
+    public void setReportType(String reportType) {
+        this.reportType = reportType;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 
     @Override

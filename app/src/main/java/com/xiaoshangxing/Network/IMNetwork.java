@@ -10,6 +10,7 @@ import com.xiaoshangxing.Network.api.IMApi.GetCrush;
 import com.xiaoshangxing.Network.api.IMApi.GetImages;
 import com.xiaoshangxing.Network.api.IMApi.MyFavorApi;
 import com.xiaoshangxing.Network.api.IMApi.MyStarApi;
+import com.xiaoshangxing.Network.api.IMApi.SchoolCirclePermisson;
 import com.xiaoshangxing.Network.api.IMApi.SerchPersonApi;
 
 import okhttp3.ResponseBody;
@@ -33,6 +34,7 @@ public class IMNetwork {
     private GetImages getImages;
     private Crush crush;
     private GetCrush getCrush;
+    private SchoolCirclePermisson schoolCirclePermisson;
 
     private IMNetwork() {
 
@@ -110,6 +112,14 @@ public class IMNetwork {
             getCrush = Network.getRetrofitWithHeader(context).create(GetCrush.class);
         }
         Observable<ResponseBody> observable = getCrush.start(param);
+        toSubscribe(observable, subscriber);
+    }
+
+    public void SchoolCirclePermisson(Subscriber<ResponseBody> subscriber, JsonObject param, Context context) {
+        if (schoolCirclePermisson == null) {
+            schoolCirclePermisson = Network.getRetrofitWithHeader(context).create(SchoolCirclePermisson.class);
+        }
+        Observable<ResponseBody> observable = schoolCirclePermisson.start(param);
         toSubscribe(observable, subscriber);
     }
 

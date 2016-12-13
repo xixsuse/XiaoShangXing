@@ -119,6 +119,25 @@ public class PublishCache {
         PublishNetwork.getInstance().refreshPublished(subscriber, jsonObject, XSXApplication.getInstance());
     }
 
+    public static void reload(final String id) {
+        reload(id, new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onBackData(Object o) {
+                Log.d("refresh publish", id + "ok");
+            }
+        });
+    }
+
     public static void reloadWithLoading(final String id, final IBaseView iBaseView, final SimpleCallBack callback) {
         iBaseView.showLoadingDialog("加载数据中...");
         reload(id, new SimpleCallBack() {

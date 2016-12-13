@@ -409,8 +409,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:alpha="0.5"
-                android:paddingEnd="@dimen/x44"
-                android:paddingStart="@dimen/x44"
+                android:paddingEnd="@dimen/x32"
+                android:paddingStart="@dimen/x32"
                 android:src="@mipmap/icon_plane" />
 
         </LinearLayout>

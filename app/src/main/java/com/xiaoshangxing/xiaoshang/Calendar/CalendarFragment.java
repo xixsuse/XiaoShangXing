@@ -13,7 +13,6 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -81,7 +80,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     @Bind(R.id.tv_date_week)
     TextView tvDateWeek;
     @Bind(R.id.ib_arrow_up)
-    ImageButton ibArrowUp;
+    ImageView ibArrowUp;
     @Bind(R.id.bottom_layout)
     RelativeLayout bottomLayout;
     @Bind(R.id.current_month)
@@ -313,7 +312,7 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
         return String.valueOf(date.getMonth() + 2);
     }
 
-    @OnClick({R.id.back, R.id.more, R.id.up_layout, R.id.bottom_layout})
+    @OnClick({R.id.back, R.id.more, R.id.up_layout, R.id.bottom_layout/*, R.id.ib_arrow_up*/})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -329,6 +328,9 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
             case R.id.bottom_layout:
                 showOrHideCalendar();
                 break;
+            /*case R.id.ib_arrow_up:
+                bottomLayout.performClick();
+                break;*/
         }
     }
 

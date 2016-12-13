@@ -9,8 +9,6 @@
 
     </include>
 
-
-
     <ListView
         android:paddingStart="@dimen/width_48"
         android:fadingEdge="none"

@@ -22,6 +22,7 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachmentType;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
@@ -905,5 +906,46 @@ public class OperateUtils {
                 throwable.printStackTrace();
             }
         });
+    }
+
+    public static void SchoolCirclrPermisson(List<String> accounts, String type, final IBaseView baseView, final SimpleCallBack simpleCallBack) {
+        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
+            @Override
+            public void onNext(ResponseBody e) throws JSONException {
+                try {
+                    JSONObject jsonObject = new JSONObject(e.string());
+                    switch (jsonObject.getInt(NS.CODE)) {
+                        case NS.CODE_200:
+                            if (simpleCallBack != null) {
+                                simpleCallBack.onSuccess();
+                            }
+                            break;
+                        default:
+                            baseView.showToast(jsonObject.getString(NS.MSG));
+                            if (simpleCallBack != null) {
+                                simpleCallBack.onError(null);
+                            }
+                            break;
+
+                    }
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                    if (simpleCallBack != null) {
+                        simpleCallBack.onError(null);
+                    }
+                }
+            }
+        };
+        ProgressSubsciber<ResponseBody> subsciber = new ProgressSubsciber<>(onNext, baseView);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.USER_ID, TempUser.getId());
+        String ids = "";
+        for (String i : accounts) {
+            ids += i + NS.SPLIT;
+        }
+        jsonObject.addProperty("blockIds", ids);
+        jsonObject.addProperty(NS.TYPE, type);
+
+        IMNetwork.getInstance().SchoolCirclePermisson(subsciber, jsonObject, XSXApplication.getInstance());
     }
 }

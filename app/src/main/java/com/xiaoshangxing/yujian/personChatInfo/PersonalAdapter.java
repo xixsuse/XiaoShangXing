@@ -16,7 +16,6 @@ import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.yujian.groupchatInfo.Member;
-import com.xiaoshangxing.yujian.groupchatInfo.deleteMember.DeleteMemberActivity;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
 import java.util.ArrayList;
@@ -81,7 +80,7 @@ public class PersonalAdapter extends BaseAdapter {
                 }
             });
         } else if (data.size() != 0) {
-            MyGlide.with_defaul_image(context,data.get(position).getHeadPath(),holder.img);
+            MyGlide.with_default_head(context, data.get(position).getHeadPath(), holder.img);
             holder.name.setText(data.get(position).getName());
             holder.img.setOnClickListener(new View.OnClickListener() {
                 @Override

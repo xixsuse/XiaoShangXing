@@ -71,6 +71,15 @@ public class NS {
     public static final String MONTH = "month";
     public static final String MONTH_C = "月";
 
+    //    校友圈权限
+    public static final String MY_BLOCK = "myBlock";//不看谁
+    public static final String BLOCK = "block";//不给看谁
+    public static final String MY_BLOCK_CODE = "0";//不看谁
+    public static final String BLOCK_CODE = "1";//不让看我
+    public static final String REMOVE_MY_BLOCK_CODE = "3";//去除不看谁
+    public static final String REMOVE_BLOCK_CODE = "4";//去除不让看我
+
+
 
 
 

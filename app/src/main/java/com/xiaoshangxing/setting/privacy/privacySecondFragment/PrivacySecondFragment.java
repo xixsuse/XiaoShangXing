@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.Network.netUtil.OperateUtils;
+import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.privacy.PermissionAdapter;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,7 +37,7 @@ import butterknife.OnClick;
 /**
  * Created by 15828 on 2016/7/14.
  */
-public class PrivacySecondFragment extends BaseFragment implements View.OnClickListener {
+public class PrivacySecondFragment extends BaseFragment implements View.OnClickListener, IBaseView {
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -46,7 +56,9 @@ public class PrivacySecondFragment extends BaseFragment implements View.OnClickL
     GridView gridView;
     private View mView;
     private PermissionAdapter adapter;
-    private ArrayList<String> accounts = new ArrayList<>();
+    private List<String> accounts = new ArrayList<>();
+    private NimUserInfo userInfo;
+    private List<String> origAccounts = new ArrayList<>();
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,9 +70,96 @@ public class PrivacySecondFragment extends BaseFragment implements View.OnClickL
         rightText.setText("完成");
         rightText.setTextColor(getResources().getColor(R.color.green1));
 
+        userInfo = NimUserInfoCache.getInstance().getUserInfo(TempUser.getId());
+        if (userInfo == null) {
+            showToast("个人信息异常");
+        } else {
+            init();
+        }
+        return mView;
+    }
+
+    private void init() {
+        if (userInfo.getExtensionMap() != null &&
+                !TextUtils.isEmpty((String) userInfo.getExtensionMap().get(NS.MY_BLOCK))) {
+            String ids = (String) userInfo.getExtensionMap().get(NS.MY_BLOCK);
+            origAccounts = Arrays.asList(ids.split(NS.SPLIT));
+            accounts.addAll(origAccounts);
+        }
         adapter = new PermissionAdapter(accounts, this);
         gridView.setAdapter(adapter);
-        return mView;
+    }
+
+    private void upload() {
+        accounts = adapter.getAccounts();
+        if (!accounts.isEmpty() && !origAccounts.isEmpty()) {
+            ArrayList<String> add = new ArrayList<>();
+            ArrayList<String> remove = new ArrayList<>();
+
+            for (String i : origAccounts) {
+                if (!accounts.contains(i)) {
+                    remove.add(i);
+                }
+            }
+
+            for (String i : accounts) {
+                if (!origAccounts.contains(i)) {
+                    add.add(i);
+                }
+            }
+
+            upload(add, remove);
+
+        } else {
+            upload(accounts, origAccounts);
+        }
+    }
+
+    private void upload(final List<String> add, final List<String> remove) {
+        final SimpleCallBack simpleCallBack = new SimpleCallBack() {
+            @Override
+            public void onSuccess() {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                showToast("异常");
+            }
+
+            @Override
+            public void onBackData(Object o) {
+
+            }
+        };
+        if (add.isEmpty() && remove.isEmpty()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+            return;
+        }
+        if (!add.isEmpty() && !remove.isEmpty()) {
+            OperateUtils.SchoolCirclrPermisson(add, NS.MY_BLOCK_CODE, this, new SimpleCallBack() {
+                @Override
+                public void onSuccess() {
+                    OperateUtils.SchoolCirclrPermisson(remove, NS.REMOVE_MY_BLOCK_CODE, PrivacySecondFragment.this, simpleCallBack);
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                    showToast("异常");
+                }
+
+                @Override
+                public void onBackData(Object o) {
+
+                }
+            });
+        } else if (add.isEmpty()) {
+            OperateUtils.SchoolCirclrPermisson(remove, NS.REMOVE_MY_BLOCK_CODE, this, simpleCallBack);
+        } else if (remove.isEmpty()) {
+            OperateUtils.SchoolCirclrPermisson(add, NS.MY_BLOCK_CODE, this, simpleCallBack);
+        }
     }
 
     @Override
@@ -76,7 +175,7 @@ public class PrivacySecondFragment extends BaseFragment implements View.OnClickL
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
             case R.id.right_text:
-                getActivity().getSupportFragmentManager().popBackStack();
+                upload();
                 break;
         }
     }
@@ -93,5 +192,10 @@ public class PrivacySecondFragment extends BaseFragment implements View.OnClickL
                 }
             }
         }
+    }
+
+    @Override
+    public void setmPresenter(@Nullable Object presenter) {
+
     }
 }

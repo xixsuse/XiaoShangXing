@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.WindowManager;
 
@@ -13,6 +14,7 @@ import com.google.gson.Gson;
 import com.xiaoshangxing.MainActivity;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.PushMsg;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
@@ -332,6 +334,11 @@ public class NotifycationUtil {
                 realm.createObjectFromJson(PushMsg.class, msg).setIsRead("0");
             }
         });
+
+        //如果是和动态有关的推送 相应的 更新这条动态
+        if (!TextUtils.isEmpty(pushMsg.getMomentId())) {
+            PublishCache.reload(pushMsg.getMomentId());
+        }
 
         for (OnNotifyChange i : onNotifyChanges) {
             i.onChange(pushMsg);

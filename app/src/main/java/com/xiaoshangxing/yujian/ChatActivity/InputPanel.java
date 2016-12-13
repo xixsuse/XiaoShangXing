@@ -158,6 +158,8 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         if (audioMessageHelper != null) {
             onEndAudioRecord(true);
         }
+        //在页面切换时隐藏键盘
+        hideInputMethod();
     }
 
     public void onDestroy() {

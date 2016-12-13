@@ -180,6 +180,7 @@ public class ChatInfoActivity extends BaseActivity {
                     isMyteam = true;
                 }
                 setGroupNoticeContent();
+                TransferMainRightView.setVisibility(isMyteam ? View.VISIBLE : View.GONE);
             }
         });
     }
@@ -382,6 +383,7 @@ public class ChatInfoActivity extends BaseActivity {
             }
         }
     }
+
 
     private void ZhiDing() {
         TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();

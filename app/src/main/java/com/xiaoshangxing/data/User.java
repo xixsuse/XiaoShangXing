@@ -41,6 +41,8 @@ public class User extends RealmObject {
     private String isGrade;
     private String role;
     private String label;
+    private String block;
+    private String myBlock;
     private long serverTime;
 
     public int getId() {
@@ -197,6 +199,22 @@ public class User extends RealmObject {
 
     public boolean isRealName() {
         return getIsActive() != null && getIsActive() == 1;
+    }
+
+    public String getBlock() {
+        return block;
+    }
+
+    public void setBlock(String block) {
+        this.block = block;
+    }
+
+    public String getMyBlock() {
+        return myBlock;
+    }
+
+    public void setMyBlock(String myBlock) {
+        this.myBlock = myBlock;
     }
 
     @Override

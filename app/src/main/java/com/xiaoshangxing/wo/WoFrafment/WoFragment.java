@@ -3,8 +3,6 @@ package com.xiaoshangxing.wo.WoFrafment;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -292,7 +290,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                     .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
                     .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
 
-
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
         } else {
@@ -341,7 +338,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     }
 
     private void initFresh(){
-        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_STATE),
+        LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_STATE, realm),
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {

@@ -900,6 +900,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
         map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
         NS.getPermissionString(NS.NOTICE, notices, map);
         NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        Log.d("publishedString", emotionEdittext.getText().toString());
         publish(map);
     }
 
@@ -1203,10 +1204,6 @@ public class InputActivity extends BaseActivity implements IBaseView {
             return super.onKeyDown(keyCode, event);
         }
 
-    }
-
-    @OnClick(R.id.select_location_imag)
-    public void onClick() {
     }
 
 }

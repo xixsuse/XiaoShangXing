@@ -9,8 +9,7 @@
         android:background="@color/w0"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/width_48"
-        android:layout_width="match_parent"
-        android:paddingStart="@dimen/width_48">
+        android:layout_width="match_parent">
 
         <!--头像-->
         <com.xiaoshangxing.utils.layout.CirecleImage

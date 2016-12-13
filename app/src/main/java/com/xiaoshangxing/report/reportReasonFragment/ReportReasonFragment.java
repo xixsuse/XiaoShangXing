@@ -48,6 +48,7 @@ public class ReportReasonFragment extends BaseFragment implements AdapterView.On
     private ArrayAdapter mAdapter;
     private ListView listView;
     private String[] mReasons;
+    private ReportActivity activity;
 
     @Nullable
     @Override
@@ -64,6 +65,8 @@ public class ReportReasonFragment extends BaseFragment implements AdapterView.On
 
         setCloseActivity();
 
+        activity = (ReportActivity) getActivity();
+
         mReasons = getResources().getStringArray(R.array.report_reasons);
         mAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_report, mReasons);
         listView = (ListView) mView.findViewById(R.id.list_reportReason);
@@ -74,6 +77,7 @@ public class ReportReasonFragment extends BaseFragment implements AdapterView.On
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        activity.setReportType(mReasons[position]);
         next.setAlpha(1.0f);
         next.setEnabled(true);
     }
@@ -94,7 +98,6 @@ public class ReportReasonFragment extends BaseFragment implements AdapterView.On
                 int position = listView.getCheckedItemPosition();
                 if (position == -1) break;
                 else {
-                    ReportActivity activity = (ReportActivity) getActivity();
                     ReportEvidenceFragment reportEvidenceFragment = activity.getReportEvidenceFragment();
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
