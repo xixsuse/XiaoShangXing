@@ -9,8 +9,8 @@ import android.view.animation.AnimationUtils;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.shiming.shenhe.XueShengZhenActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.pull_refresh.PtrHandler;
 import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
@@ -18,6 +18,7 @@ import com.xiaoshangxing.utils.pull_refresh.StoreHouseHeader;
 /**
  * Created by FengChaoQun
  * on 2016/9/20
+ * 和显示界面有关的一些设置
  */
 public class LayoutHelp {
 
@@ -27,7 +28,6 @@ public class LayoutHelp {
      * @param frame           下拉刷新组件
      * @param ptrHandler      下拉刷新时加载方法
      * @param needAutoRefresh 是否需要自动刷新
-     * @return
      */
 
     public static void initPTR(PtrFrameLayout frame, boolean needAutoRefresh, PtrHandler ptrHandler) {
@@ -47,6 +47,12 @@ public class LayoutHelp {
         }
     }
 
+    /**
+     * description:拦截未实名认证的点击事件
+     *
+     * @param permisionMethod 回调
+     */
+
     public static void PermissionClick(final Activity activity, PermisionMethod permisionMethod) {
         if (!TempUser.isRealName) {
             final DialogUtils.Dialog_Center dialogUtils = new DialogUtils.Dialog_Center(activity);
@@ -65,8 +71,7 @@ public class LayoutHelp {
                         }
                     }).create();
             alertDialog.show();
-            LocationUtil.setWidth(activity, alertDialog,
-                    activity.getResources().getDimensionPixelSize(R.dimen.x780));
+            DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
         } else {
             permisionMethod.doSomething();
         }

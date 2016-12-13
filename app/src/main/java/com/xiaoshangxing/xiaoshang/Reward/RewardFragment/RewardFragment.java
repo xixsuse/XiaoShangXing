@@ -25,9 +25,9 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
@@ -68,8 +68,6 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     View mengban;
     @Bind(R.id.anounce)
     ImageView anounce;
-    @Bind(R.id.anounce_content)
-    TextView anounceContent;
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -80,6 +78,8 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     View titleBottomLine;
     @Bind(R.id.no_content)
     TextView noContent;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
 
     private View mview;
     private Reward_adpter_realm adpter1;
@@ -135,7 +135,8 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         title.setText(R.string.shoolreward);
         leftText.setText(R.string.xiaoshang);
         more.setImageResource(R.mipmap.add);
-        anounceContent.setText(R.string.reward_rules);
+//        anounceContent.setText(R.string.reward_rules);
+        ruleImage.setImageResource(R.mipmap.gonggao_xs);
         noContent.setText("还没有人发布悬赏");
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
@@ -411,20 +412,20 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             public void onItemSelected(int position, String item) {
                 OperateUtils.operateWithLoad(id, getContext(), true, NS.COLLECT, isCancle, RewardFragment.this,
                         new SimpleCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        noticeDialog(isCancle ? "已取消收藏" : "已收藏");
-                    }
+                            @Override
+                            public void onSuccess() {
+                                noticeDialog(isCancle ? "已取消收藏" : "已收藏");
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+                            @Override
+                            public void onError(Throwable e) {
+                            }
 
-                    @Override
-                    public void onBackData(Object o) {
+                            @Override
+                            public void onBackData(Object o) {
 
-                    }
-                });
+                            }
+                        });
             }
 
             @Override
@@ -434,7 +435,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         });
         dialogMenu2.initView();
         dialogMenu2.show();
-        LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
+        DialogLocationAndSize.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
     @Override
@@ -442,8 +443,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(getActivity(), message);
         final Dialog alertDialog = dialog_no_button.create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x420);
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -466,7 +466,4 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         }
     }
 
-    @OnClick(R.id.anounce_content)
-    public void onClick() {
-    }
 }

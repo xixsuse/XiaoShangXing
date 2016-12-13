@@ -18,9 +18,9 @@ import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.Logi
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputVertifyCodeFragment.RgInputVertifyCodeFragment;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.TextBoard;
 
 /**
@@ -113,8 +113,7 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     @Override
@@ -135,8 +134,7 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     @Override

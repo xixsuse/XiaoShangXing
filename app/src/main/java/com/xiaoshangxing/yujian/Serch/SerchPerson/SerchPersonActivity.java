@@ -22,9 +22,9 @@ import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.LocationUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -124,8 +124,7 @@ public class SerchPersonActivity extends BaseActivity implements IBaseView {
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(this, alertDialog,
-                getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     private void serch() {

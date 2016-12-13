@@ -22,9 +22,9 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.setting.shiming.vertify.XueXiaoActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 
 /**
  * Created by FengChaoQun
@@ -149,19 +149,11 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordCont
         DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(getActivity(), "已完成注册");
         final Dialog alertDialog = dialog_no_button.create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x420);
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 alertDialog.dismiss();
-//                SelectSchoolFragment frag = ((LoginRegisterActivity) mActivity).getSelectSchoolFragment();
-//                getFragmentManager().beginTransaction()
-//                        .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
-//                                R.anim.slide_in_left, R.anim.slide_out_left)
-//                        .replace(R.id.loginregisterContent, frag)
-//                        .addToBackStack(SelectSchoolFragment.TAG)
-//                        .commit();
                 login();
             }
         }, 1000);

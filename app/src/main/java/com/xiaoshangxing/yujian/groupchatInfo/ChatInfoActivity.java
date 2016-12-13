@@ -34,9 +34,9 @@ import com.xiaoshangxing.data.TopChat;
 import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.SwitchView;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
@@ -506,8 +506,7 @@ public class ChatInfoActivity extends BaseActivity {
 
                     }).create();
             alertDialog.show();
-            LocationUtil.setWidth(this, alertDialog,
-                    getResources().getDimensionPixelSize(R.dimen.x780));
+            DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
         }
 
     }

@@ -62,11 +62,11 @@ import com.xiaoshangxing.setting.utils.city_choosing.ArrayWheelAdapter;
 import com.xiaoshangxing.setting.utils.city_choosing.OnWheelChangedListener;
 import com.xiaoshangxing.setting.utils.city_choosing.WheelView;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.Flog;
@@ -1067,8 +1067,7 @@ public class InputActivity extends BaseActivity implements IBaseView {
             });
             Dialog dialog = center.create();
             dialog.show();
-            LocationUtil.setWidth(this, dialog,
-                    getResources().getDimensionPixelSize(R.dimen.x780));
+            DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
         }
 
     }

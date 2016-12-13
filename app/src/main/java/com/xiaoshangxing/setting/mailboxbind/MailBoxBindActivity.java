@@ -20,9 +20,9 @@ import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import org.json.JSONException;
@@ -153,8 +153,7 @@ public class MailBoxBindActivity extends BaseActivity implements IBaseView {
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(this, alertDialog,
-                getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     @OnClick({R.id.back, R.id.right_text})

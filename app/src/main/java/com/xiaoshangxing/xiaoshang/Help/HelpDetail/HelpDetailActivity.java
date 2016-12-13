@@ -39,14 +39,13 @@ import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
-import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.lang.reflect.Field;
@@ -392,28 +391,6 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
 
     @Override
     public void showShareDialog() {
-//        final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
-//        View view = View.inflate(this, R.layout.util_help_share_dialog, null);
-//        dialog.setContentView(view);
-//        dialog.getWindow().setGravity(Gravity.BOTTOM);
-//        Button button = (Button) view.findViewById(R.id.cancel);
-//        View xsx = view.findViewById(R.id.share_school_circle);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-//        xsx.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                OperateUtils.Share(HelpDetailActivity.this, InputActivity.SHOOLFELLOW_HELP, published_id);
-//                dialog.dismiss();
-//            }
-//        });
-//        dialog.show();
-//        LocationUtil.bottom_FillWidth(this, dialog);
-
         final Dialog dialog = new Dialog(this, R.style.ActionSheetDialog);
         View view = View.inflate(this, R.layout.util_help_share_dialog, null);
         dialog.setContentView(view);
@@ -442,7 +419,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
             }
         });
         dialog.show();
-        LocationUtil.bottom_FillWidth(this, dialog);
+        DialogLocationAndSize.bottom_FillWidth(this, dialog);
     }
 
     @Override
@@ -519,7 +496,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
         final EditText input = (EditText) dialogView.findViewById(R.id.input);
 
         String userId = String.valueOf(published.getUserId());
-        UserInfoCache.getInstance().getHeadIntoImage(userId, headImage);
+        UserInfoCache.getInstance().getHeadIntoImage(userId, head);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         text.setText(published.getText());
@@ -554,7 +531,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x900);
     }
 
     @Override
@@ -573,8 +550,7 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
                 new DialogUtils.Dialog_No_Button(HelpDetailActivity.this, "已分享");
         final Dialog notice_dialog = dialog_no_button.create();
         notice_dialog.show();
-        LocationUtil.setWidth(HelpDetailActivity.this, notice_dialog,
-                getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(notice_dialog, R.dimen.x420);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

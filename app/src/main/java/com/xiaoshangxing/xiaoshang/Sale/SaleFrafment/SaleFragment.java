@@ -32,10 +32,10 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.album.AlbumActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
@@ -80,8 +80,8 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     PtrFrameLayout ptrFrameLayout;
     @Bind(R.id.mengban)
     View mengban;
-    @Bind(R.id.anounce_content)
-    TextView anounceContent;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
     @Bind(R.id.collasp)
     LinearLayout collasp;
     @Bind(R.id.rules)
@@ -148,6 +148,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         title.setText("闲置出售");
         leftText.setText(R.string.xiaoshang);
         more.setImageResource(R.mipmap.add);
+        ruleImage.setImageResource(R.mipmap.gonggao_xz);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);
@@ -352,7 +353,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         });
         dialogMenu2.initView();
         dialogMenu2.show();
-        LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
+        DialogLocationAndSize.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
     @Override
@@ -360,8 +361,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(getActivity(), message);
         final Dialog alertDialog = dialog_no_button.create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x420);
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -481,7 +481,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         });
         dialogMenu2.initView();
         dialogMenu2.show();
-        LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
+        DialogLocationAndSize.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
     private void openCamera() {

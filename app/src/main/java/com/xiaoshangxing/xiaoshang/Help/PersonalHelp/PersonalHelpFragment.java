@@ -24,7 +24,7 @@ import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.BaseFragment;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
@@ -236,7 +236,7 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
         });
         dialogMenu2.initView();
         dialogMenu2.show();
-        LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
+        DialogLocationAndSize.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
     public void showDeleteSureDialog2(final List<String> ids) {
@@ -278,7 +278,7 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
         });
         dialogMenu2.initView();
         dialogMenu2.show();
-        LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
+        DialogLocationAndSize.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
     public void showNoContentText(boolean is) {

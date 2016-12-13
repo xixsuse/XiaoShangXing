@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -78,8 +78,7 @@ public class ApplyForSchool extends BaseActivity {
         DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(this, "已申请");
         final Dialog notice_dialog = dialog_no_button.create();
         notice_dialog.show();
-        LocationUtil.setWidth(this, notice_dialog,
-                getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(notice_dialog, R.dimen.x420);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

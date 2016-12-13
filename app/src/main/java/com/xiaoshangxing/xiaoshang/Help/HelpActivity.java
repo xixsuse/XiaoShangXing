@@ -21,9 +21,9 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.Help.HelpFragment.HelpFragment;
 import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
@@ -192,7 +192,7 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x900);
     }
 
     /**
@@ -253,7 +253,7 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x900);
     }
 
     @Override
@@ -262,8 +262,7 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
                 new DialogUtils.Dialog_No_Button(HelpActivity.this, "已分享");
         final Dialog notice_dialog = dialog_no_button.create();
         notice_dialog.show();
-        LocationUtil.setWidth(HelpActivity.this, notice_dialog,
-                getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(notice_dialog, R.dimen.x420);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

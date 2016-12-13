@@ -39,11 +39,11 @@ import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
 import com.xiaoshangxing.setting.personalinfo.showheadimg.HeadImageActivity;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.ImageButtonText;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.RoundedImageView;
@@ -467,8 +467,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
 
                     }).create();
             alertDialog.show();
-            LocationUtil.setWidth(this, alertDialog,
-                    getResources().getDimensionPixelSize(R.dimen.x780));
+            DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
         }
 
     }
@@ -538,8 +537,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
                         }
                     }).create();
             alertDialog.show();
-            LocationUtil.setWidth(this, alertDialog,
-                    getResources().getDimensionPixelSize(R.dimen.x780));
+            DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
         }
     }
 
@@ -571,8 +569,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
                 new DialogUtils.Dialog_Linxin(this, "已添加到我留心的人");
         final Dialog notice_dialog = dialog_no_button.create();
         notice_dialog.show();
-        LocationUtil.setWidth(this, notice_dialog,
-                getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(notice_dialog, R.dimen.x420);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {

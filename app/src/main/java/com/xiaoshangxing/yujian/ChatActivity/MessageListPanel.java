@@ -37,9 +37,9 @@ import com.xiaoshangxing.data.BackGround;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.ClipboardUtil;
 import com.xiaoshangxing.utils.CustomAlertDialog;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.image.ImageFactory;
 import com.xiaoshangxing.utils.layout.AutoRefreshListView;
 import com.xiaoshangxing.utils.layout.MessageListView;
@@ -810,8 +810,7 @@ public class MessageListPanel implements TAdapterDelegate {
             });
             Dialog dialog = dialog_center.create();
             dialog.show();
-            LocationUtil.setWidth(container.activity, dialog,
-                    container.activity.getResources().getDimensionPixelSize(R.dimen.x780));
+            DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
         }
 
         // 长按菜单项--复制

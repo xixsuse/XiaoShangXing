@@ -50,8 +50,8 @@ public class CalendarInputer extends BaseActivity {
     PtrFrameLayout refleshLayout;
     @Bind(R.id.mengban)
     View mengban;
-    @Bind(R.id.anounce_content)
-    TextView anounceContent;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
     @Bind(R.id.collasp)
     LinearLayout collasp;
     @Bind(R.id.rules)
@@ -81,7 +81,8 @@ public class CalendarInputer extends BaseActivity {
                 clickOnRule(true);
             }
         });
-        anounceContent.setText(getString(R.string.calender));
+//        anounceContent.setText(getString(R.string.calender));
+        ruleImage.setImageResource(R.mipmap.gonggao_zx);
         title.setText("添加入口");
         more.setVisibility(View.GONE);
 

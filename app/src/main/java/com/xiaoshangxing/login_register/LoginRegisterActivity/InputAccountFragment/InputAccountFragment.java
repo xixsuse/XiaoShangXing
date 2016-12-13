@@ -18,8 +18,8 @@ import com.xiaoshangxing.login_register.LoginRegisterActivity.NoEmailFragment.No
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.SendEmailFragment.SendEmailFragment;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 
 /**
  * Created by FengChaoQun
@@ -136,8 +136,7 @@ public class InputAccountFragment extends BaseFragment implements InputAccountCo
                     }
                 }).create();
         dialog.show();
-        LocationUtil.setWidth(getActivity(), dialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
     }
 
     @Override

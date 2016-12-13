@@ -30,11 +30,11 @@ import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.LoadingDialog;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.image.SaveImageTask;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
@@ -183,7 +183,7 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
         menu.addMenuItem("删除");
         menu.initView();
         menu.show();
-        LocationUtil.bottom_FillWidth(this, menu);
+        DialogLocationAndSize.bottom_FillWidth(this, menu);
 
         menu.setMenuListener(new DialogUtils.DialogMenu2.MenuListener() {
             @Override
@@ -279,8 +279,7 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
         });
         Dialog dialog = dialog_center.create();
         dialog.show();
-        LocationUtil.setWidth(this, dialog,
-                getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
     }
 
     public void finishPager() {

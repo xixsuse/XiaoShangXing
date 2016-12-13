@@ -13,8 +13,8 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 
 /**
  * Created by FengChaoQun
@@ -76,8 +76,7 @@ public class SchoolNoOpenFragment extends BaseFragment implements View.OnClickLi
         DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(getActivity(), "已提交申请");
         final Dialog alertDialog = dialog_no_button.create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x420);
 
         new Handler().postDelayed(new Runnable() {
             public void run() {

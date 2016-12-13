@@ -60,8 +60,8 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     PtrFrameLayout ptrFrameLayout;
     @Bind(R.id.mengban)
     View mengban;
-    @Bind(R.id.anounce_content)
-    TextView anounceContent;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
     @Bind(R.id.collasp)
     LinearLayout collasp;
     @Bind(R.id.rules)
@@ -116,7 +116,8 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     }
 
     private void initView() {
-        anounceContent.setText(R.string.launch_plan);
+//        anounceContent.setText(R.string.launch_plan);
+        ruleImage.setImageResource(R.mipmap.gonggao_jh);
         title.setText("计划发起");
         leftText.setText(R.string.xiaoshang);
         more.setImageResource(R.mipmap.add);

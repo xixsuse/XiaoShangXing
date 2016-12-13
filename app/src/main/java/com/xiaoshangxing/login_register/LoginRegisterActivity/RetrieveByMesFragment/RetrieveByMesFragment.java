@@ -16,8 +16,8 @@ import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActiv
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputVertifyCodeFragment.RgInputVertifyCodeFragment;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 
 /**
  * Created by FengChaoQun
@@ -92,8 +92,7 @@ public class RetrieveByMesFragment extends BaseFragment implements RetrieveByMes
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     @Override
@@ -137,8 +136,7 @@ public class RetrieveByMesFragment extends BaseFragment implements RetrieveByMes
                     }
                 }).create();
         dialog.show();
-        LocationUtil.setWidth(getActivity(), dialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
     }
 
     @Override

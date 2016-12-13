@@ -13,8 +13,8 @@ import com.xiaoshangxing.login_register.LoginRegisterActivity.AppealFragment.App
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 
 /**
  * Created by FengChaoQun
@@ -95,8 +95,7 @@ public class NoEmailFragment extends BaseFragment implements NoEmailContract.Vie
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     @Override

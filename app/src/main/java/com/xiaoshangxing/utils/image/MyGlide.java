@@ -72,6 +72,15 @@ public class MyGlide {
                 .into(view);
     }
 
+    public static void with_default_college(Context context, String url, ImageView view) {
+        Glide.with(context)
+                .load(url)
+                .placeholder(R.mipmap.icon_xueyuan_img)
+                .error(R.mipmap.icon_xueyuan_img)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(view);
+    }
+
     public static void withBitmap(Context context, String url, final ImageView view) {
         Glide.with(context)
                 .load(url)

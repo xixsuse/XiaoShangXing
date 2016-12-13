@@ -30,9 +30,9 @@ import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.setting.utils.TagView.Tag;
 import com.xiaoshangxing.setting.utils.TagView.TagListView;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
 import org.json.JSONObject;
@@ -350,8 +350,7 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
                         }
                     }).create();
             alertDialog.show();
-            LocationUtil.setWidth(this, alertDialog,
-                    getResources().getDimensionPixelSize(R.dimen.x780));
+            DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
 
         }
         return super.onKeyDown(keyCode, event);

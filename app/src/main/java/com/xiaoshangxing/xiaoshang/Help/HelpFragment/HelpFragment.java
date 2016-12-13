@@ -61,8 +61,8 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     PtrFrameLayout ptrFrameLayout;
     @Bind(R.id.mengban)
     View mengban;
-    @Bind(R.id.anounce_content)
-    TextView anounceContent;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
     @Bind(R.id.collasp)
     LinearLayout collasp;
     @Bind(R.id.rules)
@@ -131,7 +131,8 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
         title.setText(R.string.shoolfellowhelp);
         leftText.setText(R.string.xiaoshang);
         more.setImageResource(R.mipmap.add);
-        anounceContent.setText(R.string.help_rules);
+//        anounceContent.setText(R.string.help_rules);
+        ruleImage.setImageResource(R.mipmap.gonggao_hb);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
         dotsTextView = (DotsTextView) footview.findViewById(R.id.dot);

@@ -17,8 +17,8 @@ import com.xiaoshangxing.login_register.LoginRegisterActivity.AlterPasswordFragm
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.SetPasswordFragment.SetPasswordFragment;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 
 /**
  * Created by FengChaoQun
@@ -176,8 +176,7 @@ public class RgInputVertifyCodeFragment extends BaseFragment implements RgInputV
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     @Override
@@ -197,8 +196,7 @@ public class RgInputVertifyCodeFragment extends BaseFragment implements RgInputV
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     @Override
@@ -216,7 +214,7 @@ public class RgInputVertifyCodeFragment extends BaseFragment implements RgInputV
         DialogUtils.DialogMenu mActionSheet = new DialogUtils.DialogMenu(getActivity());
         mActionSheet.addMenuItem("重新获取验证码");
         mActionSheet.show();
-        LocationUtil.bottom_FillWidth(getActivity(), mActionSheet);
+        DialogLocationAndSize.bottom_FillWidth(getActivity(), mActionSheet);
         mActionSheet.setMenuListener(new DialogUtils.DialogMenu.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {

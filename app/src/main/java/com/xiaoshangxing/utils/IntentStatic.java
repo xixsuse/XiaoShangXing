@@ -24,7 +24,7 @@ public class IntentStatic {
     public static final String TYPE="TYPE";
     public static final int  CODE=1000;
     public static final String DATA="DATA";
-    public static final String EXTRA_ACCOUNT = "phone";
+    public static final String EXTRA_ACCOUNT = "extra_account";
     public static final String EXTRA_TYPE = "type";
     public static final String EXTRA_ANCHOR = "anchor";
 
@@ -40,6 +40,19 @@ public class IntentStatic {
     public static final int PUBLISH_SUCCESS = 3001;
 
     public static final String IS_ORIG = "IS_ORIG";
+
+    //    网易
+//图片选自器
+    public static final String EXTRA_PHOTO_LISTS = "photo_list";
+    public static final String EXTRA_SELECTED_IMAGE_LIST = "selected_image_list";
+    public static final String EXTRA_MUTI_SELECT_MODE = "muti_select_mode";
+    public static final String EXTRA_MUTI_SELECT_SIZE_LIMIT = "muti_select_size_limit";
+    public static final String EXTRA_SUPPORT_ORIGINAL = "support_original";
+    public static final String EXTRA_IS_ORIGINAL = "is_original";
+    public static final String EXTRA_PREVIEW_CURRENT_POS = "current_pos";
+    public static final String EXTRA_PREVIEW_IMAGE_BTN_TEXT = "preview_image_btn_text";
+    public static final String EXTRA_SCALED_IMAGE_LIST = "scaled_image_list";
+    public static final String EXTRA_ORIG_IMAGE_LIST = "orig_image_list";
 
     /**
      * description:打开相机
@@ -121,8 +134,7 @@ public class IntentStatic {
         });
         dialog.show();
         isShowDialog = true;
-        LocationUtil.setWidth(activity, dialog,
-                activity.getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
 
     }
 

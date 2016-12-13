@@ -23,9 +23,9 @@ import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.MoreTextView;
@@ -337,8 +337,7 @@ public abstract class WoBaseHolder {
                 });
                 Dialog dialog = center.create();
                 dialog.show();
-                LocationUtil.setWidth(activity, dialog,
-                        context.getResources().getDimensionPixelSize(R.dimen.x780));
+                DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
             }
         });
 

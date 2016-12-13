@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.HackyViewPager;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImageDetailFragment;
 
@@ -131,8 +131,7 @@ public class ReviewPictureActivity extends FragmentActivity {
         });
         Dialog dialog = center.create();
         dialog.show();
-        LocationUtil.setWidth(this, dialog,
-                getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
     }
 
     private void refresh() {

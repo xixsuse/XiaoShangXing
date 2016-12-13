@@ -20,8 +20,8 @@ import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.LayoutHelp;
 import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
@@ -205,15 +205,14 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
         });
         dialogMenu2.initView();
         dialogMenu2.show();
-        LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
+        DialogLocationAndSize.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
     public void noticeDialog(String message) {
         DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(getActivity(), message);
         final Dialog alertDialog = dialog_no_button.create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x420);
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -268,7 +267,7 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
         });
         dialogMenu2.initView();
         dialogMenu2.show();
-        LocationUtil.bottom_FillWidth(getActivity(), dialogMenu2);
+        DialogLocationAndSize.bottom_FillWidth(getActivity(), dialogMenu2);
     }
 
     public void showNoContentText(boolean is) {

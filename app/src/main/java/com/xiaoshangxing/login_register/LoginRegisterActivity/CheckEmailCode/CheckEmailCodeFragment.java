@@ -17,8 +17,8 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.AlterPasswordFragment.AlterPasswordFragment;
 import com.xiaoshangxing.login_register.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -138,8 +138,7 @@ public class CheckEmailCodeFragment extends BaseFragment implements CheckEmailCo
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     @Override

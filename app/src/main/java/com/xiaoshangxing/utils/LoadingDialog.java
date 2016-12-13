@@ -46,7 +46,7 @@ public class LoadingDialog extends Dialog {
         lp.dimAmount = 0.3f; // 去背景遮盖
         lp.alpha = 1.0f;
         getWindow().setAttributes(lp);
-//实现转动
+        //实现转动
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(layout, "fcq", 0f, 360f);
         objectAnimator.setInterpolator(new LinearInterpolator());
         objectAnimator.setDuration(1000);
@@ -55,19 +55,11 @@ public class LoadingDialog extends Dialog {
         objectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-//                        linearLayout.setRotationX((Float) animation.getAnimatedValue());
-//                        linearLayout.setRotationY((Float) animation.getAnimatedValue());
-//                        layout.setRotation((Float) animation.getAnimatedValue());
                 progressBar.setRotation((Float) animation.getAnimatedValue());
-//                        layout.setPivotX(50+(Float) animation.getAnimatedValue());
-//                        layout.setPivotY(50+(Float) animation.getAnimatedValue());
             }
         });
 
-
-//		this.setCancelable(false);
         this.setCanceledOnTouchOutside(false);
-
     }
 
     @Override

@@ -41,7 +41,7 @@
 
     <!--公告规则-->
     <include
-        layout="@layout/util_anounce"
+        layout="@layout/util_anounce_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title_lay">

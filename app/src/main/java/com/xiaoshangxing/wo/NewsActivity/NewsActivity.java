@@ -15,7 +15,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PushMsg;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.LocationUtil;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 
@@ -159,7 +159,7 @@ public class NewsActivity extends BaseActivity implements NewsContract.View {
         });
         dialogMenu2.initView();
         dialogMenu2.show();
-        LocationUtil.bottom_FillWidth(this, dialogMenu2);
+        DialogLocationAndSize.bottom_FillWidth(this, dialogMenu2);
     }
 
     @Override

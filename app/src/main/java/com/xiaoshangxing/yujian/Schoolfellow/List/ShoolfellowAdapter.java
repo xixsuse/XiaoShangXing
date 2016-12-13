@@ -103,7 +103,7 @@ public class ShoolfellowAdapter extends BaseAdapter {
                 params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ScreenUtils.getAdapterPx(R.dimen.y150, context));
                 viewHolder.topLay.setLayoutParams(params);
-                MyGlide.with_default_head(context, baseItemBean.getImage(), viewHolder.headImage);
+                MyGlide.with_default_college(context, baseItemBean.getImage(), viewHolder.headImage);
                 viewHolder.name.setText(baseItemBean.getShowName());
                 viewHolder.name.setPadding(ScreenUtils.getAdapterPx(R.dimen.x24, context), 0, 0, 0);
                 viewHolder.ex.setText(TextUtils.isEmpty(baseItemBean.getExText()) ? "" : baseItemBean.getExText());

@@ -12,8 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.Network.Formmat;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.Network.ShowMsgHandler;
 import com.xiaoshangxing.Network.netUtil.BaseUrl;
 import com.xiaoshangxing.Network.netUtil.NS;
@@ -29,10 +27,6 @@ import com.xiaoshangxing.utils.BroadCast.FinishActivityRecever;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,10 +35,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 /**
  * Created by tianyang on 2016/10/5.
@@ -116,6 +106,34 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (nameStr != null) {
+            name.setText(nameStr);
+        }
+        if (xuehaoStr != null) {
+            xuehao.setText(xuehaoStr);
+        }
+        if (sexStr != null) {
+            sex.setText(sexStr);
+        }
+        if (ruxuenianfenStr != null) {
+            ruxuenianfen.setText(ruxuenianfenStr);
+        }
+        if (schoolStr != null) {
+            school.setText(schoolStr);
+        }
+        if (isfilled()) setButtonStyleGreen();
+        else resetButtonStyle();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        finishActivityRecever.unregister();
+    }
+
     private void initFailInfo() {
         RealNameInfo realNameInfo = XueShengZhenActivity.realNameInfo;
         if (realNameInfo == null) {
@@ -166,41 +184,7 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
     }
 
     private void realName() {
-        ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
-            @Override
-            public void onNext(ResponseBody e) throws JSONException {
-                try {
-                    JSONObject jsonObject = new JSONObject(e.string());
-                    if (jsonObject.getString(NS.CODE).equals("200")) {
-                        startActivity(new Intent(VertifyActivity.this, VertifyingActivity.class));
-                    } else {
-                        showToast(jsonObject.getString(NS.MSG));
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        };
-
-        ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(onNext, this);
-        progressSubsciber.setLoadingText("上传中...");
-
-        final File left = new File(PreviewActivity.getLeftImgPath("XueShengZhen"));
-        final File right = new File(PreviewActivity.getRightImgPath("XueShengZhen"));
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), left/*SendImageHelper.getLittleImage(coverPath, getContext())*/);
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("sidImages", left.getName(), requestFile);
-        RequestBody requestFile1 =
-                RequestBody.create(MediaType.parse("multipart/form-data"), right/*SendImageHelper.getLittleImage(coverPath, getContext())*/);
-        MultipartBody.Part body1 =
-                MultipartBody.Part.createFormData("sidImages", left.getName(), requestFile1);
-
         String sex = sexStr.equals("男") ? "1" : "2";
-
-//        InfoNetwork.getInstance().realName(progressSubsciber, TempUser.getID(this), nameStr, sex, xuehaoStr, schoolStr,
-//                colleg, professional, ruxuenianfenStr, degree, body, body1, this);
-
         final Map<String, String> map = new HashMap<>();
         map.put(NS.USER_ID, TempUser.getId());
         map.put("name", nameStr);
@@ -247,7 +231,6 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
                 });
                 try {
                     formmat.addFormField(map)
-//                            .addFilePart("sidImages", left)
                             .addFilePart(arrayList, VertifyActivity.this)
                             .doUpload();
                 } catch (IOException e) {
@@ -260,34 +243,6 @@ public class VertifyActivity extends BaseActivity implements IBaseView {
 
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (nameStr != null) {
-            name.setText(nameStr);
-        }
-        if (xuehaoStr != null) {
-            xuehao.setText(xuehaoStr);
-        }
-        if (sexStr != null) {
-            sex.setText(sexStr);
-        }
-        if (ruxuenianfenStr != null) {
-            ruxuenianfen.setText(ruxuenianfenStr);
-        }
-        if (schoolStr != null) {
-            school.setText(schoolStr);
-        }
-        if (isfilled()) setButtonStyleGreen();
-        else resetButtonStyle();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        finishActivityRecever.unregister();
-    }
 
     public void setButtonStyleGreen() {
         VertifyButton.setAlpha(1);

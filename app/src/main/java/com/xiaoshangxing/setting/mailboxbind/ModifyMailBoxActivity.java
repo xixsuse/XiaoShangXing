@@ -20,9 +20,9 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 
@@ -163,6 +163,6 @@ public class ModifyMailBoxActivity extends BaseActivity implements IBaseView {
                     }
                 }).create();
         alertDialog.show();
-        LocationUtil.setWidth(this, alertDialog, getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 }

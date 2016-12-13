@@ -17,9 +17,9 @@ import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
@@ -118,8 +118,7 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
                                 }
                             }).create();
                     alertDialog.show();
-                    LocationUtil.setWidth(this, alertDialog,
-                            getResources().getDimensionPixelSize(R.dimen.x780));
+                    DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
                 } else {
                     finish();
                 }
@@ -139,8 +138,7 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
                             }
                         }).create();
                 alertDialog.show();
-                LocationUtil.setWidth(this, alertDialog,
-                        getResources().getDimensionPixelSize(R.dimen.x780));
+                DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
                 break;
         }
     }

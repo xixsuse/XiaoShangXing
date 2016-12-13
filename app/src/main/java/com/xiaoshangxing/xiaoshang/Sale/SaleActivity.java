@@ -22,13 +22,12 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 import com.xiaoshangxing.xiaoshang.Sale.PersonalSale.PersonalSaleFragment;
 import com.xiaoshangxing.xiaoshang.Sale.SaleCollect.SaleCollectFragment;
 import com.xiaoshangxing.xiaoshang.Sale.SaleFrafment.SaleFragment;
@@ -209,7 +208,7 @@ public class SaleActivity extends BaseActivity implements IBaseView {
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x900);
     }
 
     /**
@@ -270,7 +269,7 @@ public class SaleActivity extends BaseActivity implements IBaseView {
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x900);
     }
 
 
@@ -279,8 +278,7 @@ public class SaleActivity extends BaseActivity implements IBaseView {
                 new DialogUtils.Dialog_No_Button(SaleActivity.this, "已分享");
         final Dialog notice_dialog = dialog_no_button.create();
         notice_dialog.show();
-        LocationUtil.setWidth(SaleActivity.this, notice_dialog,
-                getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(notice_dialog, R.dimen.x420);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

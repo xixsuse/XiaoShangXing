@@ -16,9 +16,9 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.DataSetting;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.FileUtils;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.SwitchView;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
@@ -134,8 +134,7 @@ public class CurrencyFragment extends BaseFragment implements View.OnClickListen
                         });
                 Dialog dialog = dialog_center.create();
                 dialog.show();
-                LocationUtil.setWidth(getActivity(), dialog,
-                        getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+                DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
                 break;
             case R.id.clean_chat_data:
                 final DialogUtils.Dialog_Center dialog_center1 = new DialogUtils.Dialog_Center(getContext());
@@ -155,8 +154,7 @@ public class CurrencyFragment extends BaseFragment implements View.OnClickListen
                         });
                 Dialog dialog1 = dialog_center1.create();
                 dialog1.show();
-                LocationUtil.setWidth(getActivity(), dialog1,
-                        getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+                DialogLocationAndSize.setWidth(dialog1, R.dimen.x780);
                 break;
             case R.id.back:
                 getActivity().finish();

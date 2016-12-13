@@ -24,9 +24,9 @@ import com.xiaoshangxing.login_register.LoginRegisterActivity.RetrieveByMesFragm
 import com.xiaoshangxing.login_register.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
 import com.xiaoshangxing.login_register.StartActivity.StartActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.LoadingDialog;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.image.MyGlide;
 import com.xiaoshangxing.utils.layout.CirecleImage;
@@ -170,8 +170,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
                 }).create();
         alertDialog.setCancelable(false);
         alertDialog.show();
-        LocationUtil.setWidth(getActivity(), alertDialog,
-                getActivity().getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
     }
 
     public void setmPresenter(@Nullable LoginFragmentContract.Presenter mPresenter) {
@@ -228,7 +227,7 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
         DialogUtils.DialogMenu mActionSheet = new DialogUtils.DialogMenu(getActivity());
         mActionSheet.addMenuItem("短信验证找回").addMenuItem("邮箱验证找回");
         mActionSheet.show();
-        LocationUtil.bottom_FillWidth(getActivity(), mActionSheet);
+        DialogLocationAndSize.bottom_FillWidth(getActivity(), mActionSheet);
         mActionSheet.setMenuListener(new DialogUtils.DialogMenu.MenuListener() {
             @Override
             public void onItemSelected(int position, String item) {

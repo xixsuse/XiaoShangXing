@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -21,9 +20,9 @@ import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.xiaoshang.Help.HelpFragment.HelpFragment;
 import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
@@ -217,7 +216,7 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x900);
     }
 
     /**
@@ -278,7 +277,7 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x900);
     }
     @Override
     public void showTransmitSuccess() {
@@ -286,8 +285,7 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
                 new DialogUtils.Dialog_No_Button(RewardActivity.this, "已分享");
         final Dialog notice_dialog = dialog_no_button.create();
         notice_dialog.show();
-        LocationUtil.setWidth(RewardActivity.this, notice_dialog,
-                getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(notice_dialog, R.dimen.x420);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

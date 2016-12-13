@@ -39,10 +39,10 @@ import com.xiaoshangxing.input_activity.InputActivity;
 import com.xiaoshangxing.input_activity.InputBoxLayout;
 import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IBaseView;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.utils.layout.Name;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
@@ -429,15 +429,14 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
             }
         });
         dialog.show();
-        LocationUtil.bottom_FillWidth(this, dialog);
+        DialogLocationAndSize.bottom_FillWidth(this, dialog);
     }
 
     public void noticeDialog(String message) {
         DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(this, message);
         final Dialog alertDialog = dialog_no_button.create();
         alertDialog.show();
-        LocationUtil.setWidth(this, alertDialog,
-                getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x420);
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -500,7 +499,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
             }
         });
         dialog.show();
-        LocationUtil.setWidth(this, dialog, getResources().getDimensionPixelSize(R.dimen.x900));
+        DialogLocationAndSize.setWidth(dialog, R.dimen.x900);
     }
 
     @Override
@@ -509,8 +508,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
                 new DialogUtils.Dialog_No_Button(RewardDetailActivity.this, "已分享");
         final Dialog notice_dialog = dialog_no_button.create();
         notice_dialog.show();
-        LocationUtil.setWidth(RewardDetailActivity.this, notice_dialog,
-                getResources().getDimensionPixelSize(R.dimen.x420));
+        DialogLocationAndSize.setWidth(notice_dialog, R.dimen.x420);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

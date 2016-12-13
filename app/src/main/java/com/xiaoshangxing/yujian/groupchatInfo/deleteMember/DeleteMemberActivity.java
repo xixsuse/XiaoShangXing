@@ -23,9 +23,9 @@ import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.utils.DialogLocationAndSize;
 import com.xiaoshangxing.utils.DialogUtils;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LocationUtil;
 import com.xiaoshangxing.utils.layout.CirecleImage;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
@@ -220,8 +220,7 @@ public class DeleteMemberActivity extends BaseActivity {
                         dialogUtils.close();
                     }
                 }).create();
-        LocationUtil.setWidth(this, alertDialog,
-                getResources().getDimensionPixelSize(R.dimen.x780));
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
         alertDialog.show();
 
     }
