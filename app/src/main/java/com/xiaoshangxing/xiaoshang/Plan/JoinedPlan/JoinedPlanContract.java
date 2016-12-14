@@ -1,8 +1,8 @@
 package com.xiaoshangxing.xiaoshang.Plan.JoinedPlan;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 import io.realm.Realm;
 

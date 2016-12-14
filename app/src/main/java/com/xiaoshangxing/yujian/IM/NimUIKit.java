@@ -10,7 +10,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
@@ -132,17 +132,21 @@ public final class NimUIKit {
         return account;
     }
 
+    /**
+     * 设置当前登录用户的帐号
+     *
+     * @param account 帐号
+     */
+    public static void setAccount(String account) {
+        NimUIKit.account = account;
+    }
+
     public static UserInfoProvider getUserInfoProvider() {
         return userInfoProvider;
     }
 
     public static ContactProvider getContactProvider() {
         return contactProvider;
-    }
-
-
-    public static ImageLoaderKit getImageLoaderKit() {
-        return imageLoaderKit;
     }
 
 
@@ -164,14 +168,8 @@ public final class NimUIKit {
 //    public static void registerTipMsgViewHolder(Class<? extends MsgViewHolderBase> viewHolder) {
 //        MsgViewHolderFactory.registerTipMsgViewHolder(viewHolder);
 //    }
-
-    /**
-     * 设置当前登录用户的帐号
-     *
-     * @param account 帐号
-     */
-    public static void setAccount(String account) {
-        NimUIKit.account = account;
+    public static ImageLoaderKit getImageLoaderKit() {
+        return imageLoaderKit;
     }
 
 //    /**
@@ -220,20 +218,20 @@ public final class NimUIKit {
     }
 
     /**
-     * 设置转发消息过滤的监听器
-     *
-     * @param msgForwardFilter
-     */
-    public static void setMsgForwardFilter(MsgForwardFilter msgForwardFilter) {
-        NimUIKit.msgForwardFilter = msgForwardFilter;
-    }
-
-    /**
      * 获取转发消息过滤的监听器
      *
      * @return
      */
     public static MsgForwardFilter getMsgForwardFilter() {
         return msgForwardFilter;
+    }
+
+    /**
+     * 设置转发消息过滤的监听器
+     *
+     * @param msgForwardFilter
+     */
+    public static void setMsgForwardFilter(MsgForwardFilter msgForwardFilter) {
+        NimUIKit.msgForwardFilter = msgForwardFilter;
     }
 }

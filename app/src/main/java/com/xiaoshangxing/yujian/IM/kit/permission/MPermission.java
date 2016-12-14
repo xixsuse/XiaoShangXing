@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 
-
 import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionDenied;
 import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionGranted;
 import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionNeverAskAgain;
@@ -24,6 +23,14 @@ public class MPermission {
     private String[] permissions;
     private int requestCode;
     private Object object; // activity or fragment
+
+    /**
+     * ********************* init *********************
+     */
+
+    private MPermission(Object object) {
+        this.object = object;
+    }
 
     /**
      * ********************* util *********************
@@ -77,39 +84,12 @@ public class MPermission {
         return MPermissionUtil.findDeniedPermissionWithoutNeverAskAgain(getActivity(activity), permissions);
     }
 
-    /**
-     * ********************* init *********************
-     */
-
-    private MPermission(Object object) {
-        this.object = object;
-    }
-
     public static MPermission with(Activity activity) {
         return new MPermission(activity);
     }
 
     public static MPermission with(Fragment fragment) {
         return new MPermission(fragment);
-    }
-
-    public MPermission permissions(String... permissions) {
-        this.permissions = permissions;
-        return this;
-    }
-
-    public MPermission addRequestCode(int requestCode) {
-        this.requestCode = requestCode;
-        return this;
-    }
-
-    /**
-     * ********************* request *********************
-     */
-
-    @TargetApi(value = Build.VERSION_CODES.M)
-    public void request() {
-        requestPermissions(object, requestCode, permissions);
     }
 
     public static void needPermission(Activity activity, int requestCode, String[] permissions) {
@@ -217,5 +197,24 @@ public class MPermission {
                 e.printStackTrace();
             }
         }
+    }
+
+    public MPermission permissions(String... permissions) {
+        this.permissions = permissions;
+        return this;
+    }
+
+    public MPermission addRequestCode(int requestCode) {
+        this.requestCode = requestCode;
+        return this;
+    }
+
+    /**
+     * ********************* request *********************
+     */
+
+    @TargetApi(value = Build.VERSION_CODES.M)
+    public void request() {
+        requestPermissions(object, requestCode, permissions);
     }
 }

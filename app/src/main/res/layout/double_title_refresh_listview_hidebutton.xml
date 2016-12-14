@@ -43,11 +43,11 @@
 
             <!--取消-->
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -135,14 +135,14 @@
     <!--没有内容-->
     <TextView
         android:id="@+id/no_content"
-        android:visibility="invisible"
-        android:paddingTop="@dimen/y502"
-        android:textSize="13sp"
-        android:textColor="@color/g1"
-        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/title_lay"
-        android:text="@string/no_published_help" />
+        android:gravity="center_horizontal"
+        android:paddingTop="@dimen/y502"
+        android:text="@string/no_published_help"
+        android:textColor="@color/g1"
+        android:textSize="13sp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

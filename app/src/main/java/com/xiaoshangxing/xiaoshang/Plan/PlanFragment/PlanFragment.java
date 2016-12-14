@@ -15,17 +15,17 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 
 import butterknife.Bind;
@@ -40,6 +40,7 @@ import io.realm.Sort;
  */
 public class PlanFragment extends BaseFragment implements PlanContract.View {
 
+    public static final String TAG = BaseFragment.TAG + "-PlanFragment";
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -76,11 +77,14 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     private TextView loadingText;
     private boolean isRefreshing;
     private boolean isLoading;
-    public static final String TAG = BaseFragment.TAG + "-PlanFragment";
     private RealmResults<Published> publisheds;
     private Plan_Adpter_realm adpter_realm;
     private boolean isOthers;
     private String account;
+
+    public static PlanFragment newInstance() {
+        return new PlanFragment();
+    }
 
     @Nullable
     @Override
@@ -109,10 +113,6 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    public static PlanFragment newInstance() {
-        return new PlanFragment();
     }
 
     private void initView() {

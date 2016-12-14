@@ -14,6 +14,19 @@ public class CustomAttachParser implements MsgAttachmentParser {
     private static final String KEY_TYPE = "type";
     private static final String KEY_DATA = "data";
 
+    public static String packData(int type, JSONObject data) {
+        JSONObject object = new JSONObject();
+        try {
+            object.put(KEY_TYPE, type);
+            if (data != null) {
+                object.put(KEY_DATA, data);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object.toString();
+    }
+
     @Override
     public MsgAttachment parse(String json) {
         CustomAttachment attachment = null;
@@ -53,18 +66,5 @@ public class CustomAttachParser implements MsgAttachmentParser {
         }
 
         return attachment;
-    }
-
-    public static String packData(int type, JSONObject data) {
-        JSONObject object = new JSONObject();
-        try {
-            object.put(KEY_TYPE, type);
-            if (data != null) {
-                object.put(KEY_DATA, data);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return object.toString();
     }
 }

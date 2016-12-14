@@ -11,21 +11,21 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 
 import java.util.List;
@@ -60,6 +60,18 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
     TextView noContent;
     @Bind(R.id.cancel)
     LinearLayout cancel;
+    private PersonalReward_adpter_realm personalReward_adpter_realm;
+    private View view;
+    private RewardActivity activity;
+    private PersonalRewardContract.Presenter mPresenter;
+    private View footview;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
+    private RealmResults<Published> publisheds;
+
+    public static PersonalRewardFragment newInstance() {
+        return new PersonalRewardFragment();
+    }
 
     @Nullable
     @Override
@@ -82,19 +94,6 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    public static PersonalRewardFragment newInstance() {
-        return new PersonalRewardFragment();
-    }
-
-    private PersonalReward_adpter_realm personalReward_adpter_realm;
-    private View view;
-    private RewardActivity activity;
-    private PersonalRewardContract.Presenter mPresenter;
-    private View footview;
-    private DotsTextView dotsTextView;
-    private TextView loadingText;
-    private RealmResults<Published> publisheds;
 
     private void initView() {
         title.setText(R.string.myreward);
@@ -131,7 +130,7 @@ public class PersonalRewardFragment extends BaseFragment implements PersonalRewa
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                        LoadUtils.getPublished(realm, NS.CATEGORY_REWARD, LoadUtils.TIME_LOAD_SELFREWARD, getContext(),true,
+                        LoadUtils.getPublished(realm, NS.CATEGORY_REWARD, LoadUtils.TIME_LOAD_SELFREWARD, getContext(), true,
                                 new LoadUtils.AroundLoading() {
                                     @Override
                                     public void before() {

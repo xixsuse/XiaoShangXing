@@ -3,19 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    
+
     <LinearLayout
-        android:background="@color/w0"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/w0"
+        android:orientation="vertical">
         <!--上方布局-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y156"
             android:layout_marginStart="@dimen/x30">
             <!--头像-->
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/head_image"
                 android:layout_width="@dimen/x108"
                 android:layout_height="@dimen/x108"
@@ -36,12 +36,12 @@
             <!--学院-->
             <TextView
                 android:id="@id/college"
-                android:paddingTop="3px"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/x18"
                 android:layout_marginTop="@dimen/y36"
                 android:layout_toRightOf="@+id/name"
+                android:paddingTop="3px"
                 android:text="物联网"
                 android:textColor="@color/g0"
                 android:textSize="13sp" />
@@ -61,7 +61,7 @@
         </RelativeLayout>
 
         <!--文字内容-->
-        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y364"
@@ -90,16 +90,16 @@
                 android:src="@mipmap/menu" />
         </RelativeLayout>
     </LinearLayout>
-   
+
     <!--已完成标志-->
     <ImageView
-        android:visibility="gone"
         android:id="@+id/finish"
-        android:layout_marginTop="@dimen/y24"
-        android:layout_marginEnd="@dimen/x60"
-        android:src="@mipmap/school_help_end"
-        android:layout_alignParentEnd="true"
         android:layout_width="@dimen/x188"
-        android:layout_height="@dimen/y150" />
+        android:layout_height="@dimen/y150"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x60"
+        android:layout_marginTop="@dimen/y24"
+        android:src="@mipmap/school_help_end"
+        android:visibility="gone" />
 
 </RelativeLayout>

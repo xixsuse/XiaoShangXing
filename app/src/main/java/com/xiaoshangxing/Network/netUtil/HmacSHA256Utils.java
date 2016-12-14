@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.netUtil;
+package com.xiaoshangxing.network.netUtil;
 
 import org.apache.commons.codec.binary.Hex;
 
@@ -13,12 +13,13 @@ import javax.crypto.spec.SecretKeySpec;
 public class HmacSHA256Utils {
 
     /**
-     *description:
-     *@param key=token  content=phone
-     *@return
+     * description:
+     *
+     * @param key=token content=phone
+     * @return
      */
 
-	public static String digest(String key, String content) {
+    public static String digest(String key, String content) {
         try {
             Mac mac = Mac.getInstance("HmacSHA256");
             byte[] secretByte = key.getBytes(NS.Encoding.UTF8);
@@ -37,13 +38,13 @@ public class HmacSHA256Utils {
 
     public static String digest(String key, Map<String, ?> map) {
         StringBuilder s = new StringBuilder();
-        for(Object values : map.values()) {
-            if(values instanceof String[]) {
-                for(String value : (String[])values) {
+        for (Object values : map.values()) {
+            if (values instanceof String[]) {
+                for (String value : (String[]) values) {
                     s.append(value);
                 }
-            } else if(values instanceof List) {
-                for(String value : (List<String>)values) {
+            } else if (values instanceof List) {
+                for (String value : (List<String>) values) {
                     s.append(value);
                 }
             } else {

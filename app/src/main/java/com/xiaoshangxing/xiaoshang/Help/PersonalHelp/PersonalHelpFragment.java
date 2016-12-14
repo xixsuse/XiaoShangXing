@@ -13,22 +13,22 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 
 import java.util.List;
@@ -66,7 +66,17 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
     RelativeLayout hideMenu;
     @Bind(R.id.no_content)
     TextView noContent;
+    private View view;
+    private PersonalhelpContract.Presenter mPresenter;
+    private View footview;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
+    private PersonalHelpAdapter adapter;
+    private HelpActivity activity;
 
+    public static PersonalHelpFragment newInstance() {
+        return new PersonalHelpFragment();
+    }
 
     @Nullable
     @Override
@@ -83,18 +93,6 @@ public class PersonalHelpFragment extends BaseFragment implements PersonalhelpCo
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    public static PersonalHelpFragment newInstance() {
-        return new PersonalHelpFragment();
-    }
-
-    private View view;
-    private PersonalhelpContract.Presenter mPresenter;
-    private View footview;
-    private DotsTextView dotsTextView;
-    private TextView loadingText;
-    private PersonalHelpAdapter adapter;
-    private HelpActivity activity;
 
     private void initView() {
         title.setText("我的互帮");

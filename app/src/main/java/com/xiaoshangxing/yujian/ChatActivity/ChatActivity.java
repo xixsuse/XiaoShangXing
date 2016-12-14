@@ -26,21 +26,19 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
-import com.xiaoshangxing.Network.IMNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.IMNetwork;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.data.bean.User;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.NotifycationUtil;
-import com.xiaoshangxing.utils.layout.MessageListView;
-import com.xiaoshangxing.utils.layout.MsgBkImageView;
-import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.MessageListView;
+import com.xiaoshangxing.utils.customView.MsgBkImageView;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.uinfo.UserInfoHelper;
@@ -65,6 +63,13 @@ import rx.Subscriber;
  * on 2016/9/2
  */
 public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView {
+    // 聊天对象
+    protected String sessionId;
+    //    聊天类型
+    protected SessionTypeEnum sessionType;
+    //聊天信息展示面板
+    protected MessageListPanel messageListPanel;
+    protected InputPanel inputPanel;    //输入面板
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -107,22 +112,68 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
     RelativeLayout love;
     @Bind(R.id.stranger_layout)
     LinearLayout strangerLayout;
+    //  好友信息变化时 刷新标题
+    FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
+        @Override
+        public void onAddedOrUpdatedFriends(List<String> accounts) {
+            requestBuddyInfo();
+        }
 
+        @Override
+        public void onDeletedFriends(List<String> accounts) {
+            requestBuddyInfo();
+        }
+
+        @Override
+        public void onAddUserToBlackList(List<String> account) {
+            requestBuddyInfo();
+        }
+
+        @Override
+        public void onRemoveUserFromBlackList(List<String> account) {
+            requestBuddyInfo();
+        }
+    };
+    /**
+     * 消息接收观察者
+     */
+    Observer<List<IMMessage>> incomingMessageObserver = new Observer<List<IMMessage>>() {
+        @Override
+        public void onEvent(List<IMMessage> messages) {
+            if (messages == null || messages.isEmpty()) {
+                return;
+            }
+
+            messageListPanel.onIncomingMessage(messages);
+            sendMsgReceipt(); // 发送已读回执
+        }
+    };
     //  标志是否是resume状态
     private boolean isResume = false;
-
-    // 聊天对象
-    protected String sessionId;
-    //    聊天类型
-    protected SessionTypeEnum sessionType;
-    //聊天信息展示面板
-    protected MessageListPanel messageListPanel;
-    protected InputPanel inputPanel;    //输入面板
-
     private View rootView;
-
     private Handler handler = new Handler();
     private Runnable runnable;
+    /**
+     * 命令消息接收观察者
+     */
+    Observer<CustomNotification> commandObserver = new Observer<CustomNotification>() {
+        @Override
+        public void onEvent(CustomNotification message) {
+            if (!sessionId.equals(message.getSessionId()) || message.getSessionType() != SessionTypeEnum.P2P) {
+                return;
+            }
+            showCommandMessage(message);
+        }
+    };
+    private List<User> loves = new ArrayList<>();
+    //  用户信息变化时 刷新标题
+    private UserInfoObservable.UserInfoObserver uinfoObserver;
+    private Observer<List<MessageReceipt>> messageReceiptObserver = new Observer<List<MessageReceipt>>() {
+        @Override
+        public void onEvent(List<MessageReceipt> messageReceipts) {
+            receiveReceipt();
+        }
+    };
 
     public static void start(Context context, String contactId, IMMessage anchor, SessionTypeEnum sessionType) {
         Intent intent = new Intent();
@@ -212,8 +263,6 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
             title.setText(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
         }
     }
-
-    private List<User> loves = new ArrayList<>();
 
     private void getStar() {
         Subscriber<ResponseBody> subscriber = new Subscriber<ResponseBody>() {
@@ -406,31 +455,6 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
         service.observeMessageReceipt(messageReceiptObserver, register);
     }
 
-    //  好友信息变化时 刷新标题
-    FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
-        @Override
-        public void onAddedOrUpdatedFriends(List<String> accounts) {
-            requestBuddyInfo();
-        }
-
-        @Override
-        public void onDeletedFriends(List<String> accounts) {
-            requestBuddyInfo();
-        }
-
-        @Override
-        public void onAddUserToBlackList(List<String> account) {
-            requestBuddyInfo();
-        }
-
-        @Override
-        public void onRemoveUserFromBlackList(List<String> account) {
-            requestBuddyInfo();
-        }
-    };
-    //  用户信息变化时 刷新标题
-    private UserInfoObservable.UserInfoObserver uinfoObserver;
-
     private void registerUserInfoObserver() {
         if (uinfoObserver == null) {
             uinfoObserver = new UserInfoObservable.UserInfoObserver() {
@@ -452,19 +476,6 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
         }
     }
 
-    /**
-     * 命令消息接收观察者
-     */
-    Observer<CustomNotification> commandObserver = new Observer<CustomNotification>() {
-        @Override
-        public void onEvent(CustomNotification message) {
-            if (!sessionId.equals(message.getSessionId()) || message.getSessionType() != SessionTypeEnum.P2P) {
-                return;
-            }
-            showCommandMessage(message);
-        }
-    };
-
     //  显示“对方正在输入”
     protected void showCommandMessage(CustomNotification message) {
         if (!isResume) {
@@ -485,28 +496,6 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
 
         }
     }
-
-    /**
-     * 消息接收观察者
-     */
-    Observer<List<IMMessage>> incomingMessageObserver = new Observer<List<IMMessage>>() {
-        @Override
-        public void onEvent(List<IMMessage> messages) {
-            if (messages == null || messages.isEmpty()) {
-                return;
-            }
-
-            messageListPanel.onIncomingMessage(messages);
-            sendMsgReceipt(); // 发送已读回执
-        }
-    };
-
-    private Observer<List<MessageReceipt>> messageReceiptObserver = new Observer<List<MessageReceipt>>() {
-        @Override
-        public void onEvent(List<MessageReceipt> messageReceipts) {
-            receiveReceipt();
-        }
-    };
 
     /**
      * 发送已读回执

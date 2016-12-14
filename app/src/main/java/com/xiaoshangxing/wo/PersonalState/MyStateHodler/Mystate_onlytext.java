@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 

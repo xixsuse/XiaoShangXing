@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.netUtil;
+package com.xiaoshangxing.network.netUtil;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -6,12 +6,13 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.PublishNetwork;
-import com.xiaoshangxing.data.CalendarData;
-import com.xiaoshangxing.data.JoinedPlan;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.network.PublishNetwork;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.data.bean.CalendarData;
+import com.xiaoshangxing.data.bean.JoinedPlan;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.data.bean.User;
+import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -53,6 +54,9 @@ public class LoadUtils {
     public static final String TIME_COLLECT_REWARD = "TIME_COLLECT_REWARD";             //校内悬赏收藏
     public static final String TIME_COLLECT_SALE = "TIME_COLLECT_SALE";                 //闲置出售收藏
     public static final String TIME_JOINED_PLAN = "TIME_JOINED_PLAN";                   //加入的计划
+    private static final String COLLECT = "COLLECT"; //收藏
+    private static final String PUBLISHED = "PUBLISHED"; //普通动态
+    private static final String JOINED_PLAN = "JOINED_PLAN"; //加入的计划
 
     /**
      * description:判断是否需要刷新
@@ -165,7 +169,7 @@ public class LoadUtils {
                 if (aroundLoading != null) {
                     aroundLoading.error();
                 }
-                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, AppContracts.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -219,7 +223,7 @@ public class LoadUtils {
                 if (aroundLoading != null) {
                     aroundLoading.error();
                 }
-                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, AppContracts.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -235,7 +239,6 @@ public class LoadUtils {
         };
         PublishNetwork.getInstance().getPersonalPublished(subscriber1, jsonObject, XSXApplication.getInstance());
     }
-
 
     /**
      * description:获取收藏
@@ -270,7 +273,7 @@ public class LoadUtils {
                 if (aroundLoading != null) {
                     aroundLoading.error();
                 }
-                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, AppContracts.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -289,6 +292,7 @@ public class LoadUtils {
 
     /**
      * description:获取加入的计划
+     *
      * @param userid        用户id
      * @param realm         数据库
      * @param aroundLoading 回调
@@ -317,7 +321,7 @@ public class LoadUtils {
                 if (aroundLoading != null) {
                     aroundLoading.error();
                 }
-                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, AppContracts.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -422,7 +426,7 @@ public class LoadUtils {
                 if (aroundLoading != null) {
                     aroundLoading.error();
                 }
-                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, AppContracts.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -502,7 +506,7 @@ public class LoadUtils {
                 if (aroundLoading != null) {
                     aroundLoading.error();
                 }
-                Toast.makeText(context, NS.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, AppContracts.REFRESH_FAIL, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -536,11 +540,6 @@ public class LoadUtils {
         };
         PublishNetwork.getInstance().getCalendarInputer(subscriber1, jsonObject, XSXApplication.getInstance());
     }
-
-
-    private static final String COLLECT = "COLLECT"; //收藏
-    private static final String PUBLISHED = "PUBLISHED"; //普通动态
-    private static final String JOINED_PLAN = "JOINED_PLAN"; //加入的计划
 
     /**
      * description:清除本地数据库中指定数据

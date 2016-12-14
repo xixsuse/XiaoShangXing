@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="false"
-        android:drawable="@mipmap/picture_select_big_original_unselect">
+    <item android:drawable="@mipmap/picture_select_big_original_unselect" android:state_checked="false">
 
     </item>
 
-    <item android:drawable="@mipmap/picture_select_big_original"
-        >
+    <item android:drawable="@mipmap/picture_select_big_original">
 
     </item>
 </selector>

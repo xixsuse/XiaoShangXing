@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/w0"
         android:orientation="horizontal"
-        android:paddingEnd="@dimen/width_48"
-        android:layout_width="match_parent">
+        android:paddingEnd="@dimen/width_48">
 
         <!--头像-->
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x152"
             android:layout_height="@dimen/x152"
@@ -21,16 +21,16 @@
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/y30"
             android:layout_marginStart="@dimen/x24"
             android:layout_marginTop="@dimen/y30"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
+            android:orientation="vertical">
 
             <!--姓名-->
-            <com.xiaoshangxing.utils.layout.Name
+            <com.xiaoshangxing.utils.customView.Name
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -39,8 +39,8 @@
                 android:textSize="14sp" />
 
             <FrameLayout
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/y30">
 
                 <ImageView
@@ -50,7 +50,7 @@
                     android:src="@mipmap/blue_heart"
                     android:visibility="gone" />
 
-                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+                <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                     android:id="@+id/comment_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:src="@mipmap/xueshengzheng"
                 android:visibility="gone" />
 
-            <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+            <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

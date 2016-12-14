@@ -52,7 +52,7 @@
 
                 </LinearLayout>
 
-                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+                <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                     android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -60,12 +60,11 @@
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:paddingEnd="@dimen/x22"
-                    android:paddingStart="@dimen/x27"
-                     />
+                    android:paddingStart="@dimen/x27" />
 
             </LinearLayout>
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/head_image"
                 android:layout_width="@dimen/x82"
                 android:layout_height="@dimen/x82"

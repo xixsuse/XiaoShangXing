@@ -17,11 +17,11 @@ import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
@@ -95,11 +95,6 @@ public class GroupMembersActivity extends BaseActivity {
 
 
     }
-    class ViewHolder {
-        public CirecleImage img;
-        public TextView name;
-    }
-
 
     @OnClick({R.id.groupMembers_back, R.id.groupMembers_add})
     public void onClick(View view) {
@@ -172,5 +167,10 @@ public class GroupMembersActivity extends BaseActivity {
                 inviteMembers(arrayList);
             }
         }
+    }
+
+    class ViewHolder {
+        public CirecleImage img;
+        public TextView name;
     }
 }

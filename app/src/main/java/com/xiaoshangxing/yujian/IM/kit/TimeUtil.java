@@ -84,7 +84,7 @@ public class TimeUtil {
         return getDateTimeString(milliseconds, "HHmmss");
     }
 
-    public static String getPlanDate(long milliseconds){
+    public static String getPlanDate(long milliseconds) {
         return getDateTimeString(milliseconds, "yyyy.MM.dd");
     }
 

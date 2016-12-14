@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image_and_text"
-    android:paddingTop="@dimen/y6"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/y256">
+    android:layout_height="@dimen/y256"
+    android:paddingTop="@dimen/y6">
 
     <!--图-->
     <LinearLayout
@@ -68,7 +68,7 @@
     </LinearLayout>
 
     <!--文字-->
-    <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+    <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
         android:id="@+id/image_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

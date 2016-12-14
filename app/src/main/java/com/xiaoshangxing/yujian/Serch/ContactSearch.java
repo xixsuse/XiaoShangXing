@@ -6,24 +6,6 @@ import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
 public class ContactSearch {
-    public static final class HitInfo {
-        public enum Type {
-            Account, Name,
-        }
-
-        public final Type type;
-
-        public final String text;
-
-        public final int[] range;
-
-        public HitInfo(Type type, String text, int[] range) {
-            this.type = type;
-            this.text = text;
-            this.range = range;
-        }
-    }
-
     /**
      * 判断是否击中
      */
@@ -103,5 +85,21 @@ public class ContactSearch {
         }
 
         return null;
+    }
+
+    public static final class HitInfo {
+        public final Type type;
+        public final String text;
+        public final int[] range;
+
+        public HitInfo(Type type, String text, int[] range) {
+            this.type = type;
+            this.text = text;
+            this.range = range;
+        }
+
+        public enum Type {
+            Account, Name,
+        }
     }
 }

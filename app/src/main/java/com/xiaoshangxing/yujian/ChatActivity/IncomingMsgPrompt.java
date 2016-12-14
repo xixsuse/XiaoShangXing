@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.MoonUtil;
-import com.xiaoshangxing.utils.layout.MessageListView;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotFilter.MoonUtil;
+import com.xiaoshangxing.utils.customView.MessageListView;
 import com.xiaoshangxing.yujian.IM.cache.TeamNotificationHelper;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.HeadImageView;
 import com.xiaoshangxing.yujian.IM.kit.ListViewUtil;
@@ -30,6 +30,13 @@ public class IncomingMsgPrompt {
     private View view;
     private MessageListView messageListView;
     private Handler uiHandler;
+    private Runnable showNewMessageTipLayoutRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            newMessageTipLayout.setVisibility(View.GONE);
+        }
+    };
 
     public IncomingMsgPrompt(Context context, View view, MessageListView messageListView, Handler uiHandler) {
         this.context = context;
@@ -77,14 +84,6 @@ public class IncomingMsgPrompt {
         newMessageTipTextView = (TextView) newMessageTipLayout.findViewById(R.id.new_message_tip_text_view);
         newMessageTipHeadImageView = (HeadImageView) newMessageTipLayout.findViewById(R.id.new_message_tip_head_image_view);
     }
-
-    private Runnable showNewMessageTipLayoutRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            newMessageTipLayout.setVisibility(View.GONE);
-        }
-    };
 
     private void removeHandlerCallback() {
         if (showNewMessageTipLayoutRunnable != null) {

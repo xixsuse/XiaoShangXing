@@ -3,61 +3,61 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/nim_list_item_selector"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <View
         android:id="@+id/top_line"
-        android:layout_height="1px"
         android:layout_width="match_parent"
-        android:background="@color/g1"
-        android:layout_marginLeft="@dimen/x176" />
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/x176"
+        android:background="@color/g1" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y192"
-         >
+        android:layout_height="@dimen/y192">
 
         <FrameLayout
             android:id="@+id/portrait_panel"
             android:layout_width="@dimen/x176"
             android:layout_height="match_parent"
-            android:layout_centerVertical="true" >
+            android:layout_centerVertical="true">
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/img_head"
                 android:layout_width="@dimen/x102"
                 android:layout_height="@dimen/x102"
                 android:layout_marginStart="@dimen/width_48"
-                android:layout_marginTop="@dimen/y44"
-                />
+                android:layout_marginTop="@dimen/y44" />
 
             <RelativeLayout
-                android:layout_marginTop="@dimen/y44"
                 android:id="@+id/unread_less_lay"
-                android:layout_marginStart="@dimen/x126"
                 android:layout_width="@dimen/x42"
-                android:layout_height="@dimen/x42">
-                <com.xiaoshangxing.utils.layout.CirecleImage
-                    android:background="@color/red2"
+                android:layout_height="@dimen/x42"
+                android:layout_marginStart="@dimen/x126"
+                android:layout_marginTop="@dimen/y44">
+
+                <com.xiaoshangxing.utils.customView.CirecleImage
                     android:layout_width="@dimen/x42"
-                    android:layout_height="@dimen/x42" />
+                    android:layout_height="@dimen/x42"
+                    android:background="@color/red2" />
+
                 <TextView
                     android:id="@+id/unread_number_tip"
-                    android:textSize="7sp"
-                    android:text="74"
-                    android:gravity="center"
-                    android:textColor="@color/w0"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="74"
+                    android:textColor="@color/w0"
+                    android:textSize="7sp" />
 
             </RelativeLayout>
 
             <ImageView
                 android:id="@+id/unread_more"
-                android:src="@mipmap/news99"
-                android:layout_marginStart="@dimen/x110"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/x110"
+                android:src="@mipmap/news99" />
 
             <ImageView
                 android:id="@+id/new_message_indicator"
@@ -77,9 +77,9 @@
             android:layout_marginTop="@dimen/y40"
             android:layout_toRightOf="@id/portrait_panel"
             android:ellipsize="end"
-            android:text="55"
             android:includeFontPadding="false"
             android:singleLine="true"
+            android:text="55"
             android:textColor="@color/b0"
             android:textSize="@dimen/x51" />
 
@@ -93,18 +93,18 @@
             android:layout_toRightOf="@id/portrait_panel"
             android:visibility="visible" />
 
-        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
             android:id="@+id/tv_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_nickname"
             android:layout_marginRight="@dimen/x250"
             android:layout_toRightOf="@+id/img_msg_status"
+            android:autoLink="none"
             android:ellipsize="end"
             android:lines="1"
             android:scrollHorizontally="true"
             android:textColor="@color/b4"
-            android:autoLink="none"
             android:textSize="@dimen/x36" />
 
         <TextView
@@ -114,16 +114,16 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="@dimen/x48"
             android:layout_marginTop="@dimen/y44"
-            android:textSize="10sp"
             android:text="555"
-            android:textColor="@color/gray_login" />
+            android:textColor="@color/gray_login"
+            android:textSize="10sp" />
     </RelativeLayout>
 
     <View
         android:id="@+id/bottom_line"
-        android:layout_height="1px"
         android:layout_width="match_parent"
-        android:background="@color/g1"
-        android:layout_marginLeft="@dimen/x176" />
+        android:layout_height="1px"
+        android:layout_marginLeft="@dimen/x176"
+        android:background="@color/g1" />
 
 </LinearLayout>

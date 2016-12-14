@@ -39,7 +39,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/headimg" />
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/setting_personinfo_headView"
                 android:layout_width="@dimen/x168"
                 android:layout_height="@dimen/x168"
@@ -72,8 +72,8 @@
                 android:text="@string/name" />
 
             <TextView
-                style="@style/g0_14sp"
                 android:id="@+id/name"
+                style="@style/g0_14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -140,8 +140,8 @@
                 android:text="@string/gender" />
 
             <TextView
-                style="@style/g0_14sp"
                 android:id="@+id/sex"
+                style="@style/g0_14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -219,8 +219,8 @@
                 android:text="@string/autograph" />
 
             <TextView
-                style="@style/g0_14sp"
                 android:id="@+id/signature"
+                style="@style/g0_14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -256,8 +256,8 @@
             android:text="@string/certification" />
 
         <TextView
-            style="@style/g0_14sp"
             android:id="@+id/real_name"
+            style="@style/g0_14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

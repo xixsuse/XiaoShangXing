@@ -3,12 +3,12 @@ package com.xiaoshangxing.wo.StateDetailsActivity;
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.Network.PublishNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.network.PublishNetwork;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.bean.Published;
 
 import org.json.JSONException;
 import org.json.JSONObject;

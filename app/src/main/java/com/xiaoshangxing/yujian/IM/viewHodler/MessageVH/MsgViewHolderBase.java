@@ -20,8 +20,8 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
@@ -30,12 +30,12 @@ import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
 
 /**
  * 会话窗口消息列表项的ViewHolder基类，负责每个消息项的外层框架，包括头像，昵称，发送/接收进度条，重发按钮等。<br>
- *     具体的消息展示项可继承该基类，然后完成具体消息内容展示即可。
+ * 具体的消息展示项可继承该基类，然后完成具体消息内容展示即可。
  */
 public abstract class MsgViewHolderBase extends TViewHolder {
 
+    public ImageView nameIconView;
     protected IMMessage message;
-
     protected RelativeLayout rootView;
     protected View alertButton;
     protected TextView timeTextView;
@@ -44,15 +44,11 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     protected FrameLayout contentContainer;
     protected LinearLayout nameContainer;
     protected TextView readReceiptTextView;
-
-    private CirecleImage avatarLeft;
-    private CirecleImage avatarRight;
-
-    public ImageView nameIconView;
-
     // contentContainerView的默认长按事件。如果子类需要不同的处理，可覆盖onItemLongClick方法
     // 但如果某些子控件会拦截触摸消息，导致contentContainer收不到长按事件，子控件也可在inflate时重新设置
     protected View.OnLongClickListener longClickListener;
+    private CirecleImage avatarLeft;
+    private CirecleImage avatarRight;
 
     /// -- 以下接口可由子类覆盖或实现
     // 返回具体消息类型内容展示区域的layout res id
@@ -74,7 +70,8 @@ public abstract class MsgViewHolderBase extends TViewHolder {
     }
 
     // 当是接收到的消息时，内容区域背景的drawable id
-    protected int leftBackground() {return R.drawable.message_receive;
+    protected int leftBackground() {
+        return R.drawable.message_receive;
     }
 
     // 当是发送出去的消息时，内容区域背景的drawable id
@@ -113,7 +110,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
 
     // 设置FrameLayout子控件的gravity参数
     protected final void setGravity(View view, int gravity) {
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)view.getLayoutParams();
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
         params.gravity = gravity;
     }
 
@@ -129,7 +126,7 @@ public abstract class MsgViewHolderBase extends TViewHolder {
 
     // 根据layout id查找对应的控件
     protected <T extends View> T findViewById(int id) {
-        return (T)view.findViewById(id);
+        return (T) view.findViewById(id);
     }
 
     // 判断消息方向，是否是接收到的消息
@@ -216,18 +213,18 @@ public abstract class MsgViewHolderBase extends TViewHolder {
 
         MsgStatusEnum status = message.getStatus();
         switch (status) {
-        case fail:
-            progressBar.setVisibility(View.GONE);
-            alertButton.setVisibility(View.VISIBLE);
-            break;
-        case sending:
-            progressBar.setVisibility(View.VISIBLE);
-            alertButton.setVisibility(View.GONE);
-            break;
-        default:
-            progressBar.setVisibility(View.GONE);
-            alertButton.setVisibility(View.GONE);
-            break;
+            case fail:
+                progressBar.setVisibility(View.GONE);
+                alertButton.setVisibility(View.VISIBLE);
+                break;
+            case sending:
+                progressBar.setVisibility(View.VISIBLE);
+                alertButton.setVisibility(View.GONE);
+                break;
+            default:
+                progressBar.setVisibility(View.GONE);
+                alertButton.setVisibility(View.GONE);
+                break;
         }
     }
 

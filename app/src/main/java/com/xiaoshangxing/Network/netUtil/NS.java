@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.netUtil;
+package com.xiaoshangxing.network.netUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -14,9 +14,9 @@ public class NS {
     public static final String SPLIT3 = "\\^";
 
 
-    public static final String CODE="code";
-    public static final String MSG="msg";
-    public static final String TOKEN="token";
+    public static final String CODE = "code";
+    public static final String MSG = "msg";
+    public static final String TOKEN = "token";
     public static final String TIMESTAMP = "timeStamp";
 
     public static final String ID = "id";
@@ -26,7 +26,6 @@ public class NS {
 
     //    个人信息
     public static final String USER_NAME = "username";
-    public static final String USER_IMAGE = "userImage";
 
     //    动态
     public static final String CATEGORY = "category";
@@ -80,18 +79,9 @@ public class NS {
     public static final String REMOVE_BLOCK_CODE = "4";//去除不让看我
 
 
-
-
-
     //    好友
     public static final String MARK = "MARK";//留心
-    public static final String RMB="¥";
-
-    //    toast
-    public static final String REFRESH_SUCCESS = "加载成功";
-    public static final String REFRESH_FAIL = "加载失败";
-    public static final String ON_DEVELOPING = "正在调试";
-
+    public static final String RMB = "¥";
 
     public static final String TYPE = "type";
 
@@ -99,23 +89,12 @@ public class NS {
     public static final String PUSH_TYPE = "pushType";
     public static final String OPERATION_TYPE = "operationType";
     public static final String PUSH_TIME = "pushTime";
-
-
-
-
-    public static long currentTime(){
-        return System.currentTimeMillis();
-    }
-
-
     public static final int CODE_200 = 200;
-
     public static final String REQUEST_SUCCESS = "200";
+    public static final String CONTENT = "content";
 
-    public static final String CONTENT="content";
-
-    interface Encoding {
-        String UTF8 = "UTF-8";
+    public static long currentTime() {
+        return System.currentTimeMillis();
     }
 
     public static void getPermissionString(String key, List<String> list, Map<String, String> map) {
@@ -130,6 +109,10 @@ public class NS {
             }
             map.put(key, result);
         }
+    }
+
+    interface Encoding {
+        String UTF8 = "UTF-8";
     }
 
 }

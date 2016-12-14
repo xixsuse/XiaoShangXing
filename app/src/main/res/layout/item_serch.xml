@@ -8,31 +8,32 @@
     <!--搜索-->
     <RelativeLayout
         android:id="@+id/serch_layout"
-        android:background="@drawable/et_circular_4_white"
-        android:layout_centerVertical="true"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/width_48"
+        android:layout_height="@dimen/y90"
+        android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/width_48"
-        android:layout_height="@dimen/y90">
+        android:layout_marginStart="@dimen/width_48"
+        android:background="@drawable/et_circular_4_white">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
 
             <ImageView
-                android:src="@mipmap/serch"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/serch" />
+
             <TextView
-                android:layout_marginStart="@dimen/x18"
-                android:layout_gravity="center_vertical"
-                android:text="@string/serch"
-                android:textColor="@color/gray_login"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x18"
+                android:text="@string/serch"
+                android:textColor="@color/gray_login" />
         </LinearLayout>
 
     </RelativeLayout>

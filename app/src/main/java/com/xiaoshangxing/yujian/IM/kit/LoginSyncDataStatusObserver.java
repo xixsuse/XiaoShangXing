@@ -35,6 +35,25 @@ public class LoginSyncDataStatusObserver {
      * 监听
      */
     private List<Observer<Void>> observers = new ArrayList<>();
+    Observer<LoginSyncStatus> loginSyncStatusObserver = new Observer<LoginSyncStatus>() {
+        @Override
+        public void onEvent(LoginSyncStatus status) {
+            syncStatus = status;
+            if (status == LoginSyncStatus.BEGIN_SYNC) {
+                LogUtil.i(TAG, "login sync data begin");
+            } else if (status == LoginSyncStatus.SYNC_COMPLETED) {
+                LogUtil.i(TAG, "login sync data completed");
+                onLoginSyncDataCompleted(false);
+            }
+        }
+    };
+
+    /**
+     * 单例
+     */
+    public static LoginSyncDataStatusObserver getInstance() {
+        return InstanceHolder.instance;
+    }
 
     /**
      * 注销时清除状态&监听
@@ -53,19 +72,6 @@ public class LoginSyncDataStatusObserver {
         NIMClient.getService(AuthServiceObserver.class).observeLoginSyncDataStatus(loginSyncStatusObserver, register);
     }
 
-    Observer<LoginSyncStatus> loginSyncStatusObserver = new Observer<LoginSyncStatus>() {
-        @Override
-        public void onEvent(LoginSyncStatus status) {
-            syncStatus = status;
-            if (status == LoginSyncStatus.BEGIN_SYNC) {
-                LogUtil.i(TAG, "login sync data begin");
-            } else if (status == LoginSyncStatus.SYNC_COMPLETED) {
-                LogUtil.i(TAG, "login sync data completed");
-                onLoginSyncDataCompleted(false);
-            }
-        }
-    };
-
     /**
      * 监听登录后同步数据完成事件，缓存构建完成后自动取消监听
      * 调用时机：登录成功后
@@ -79,14 +85,14 @@ public class LoginSyncDataStatusObserver {
             * NO_BEGIN 如果登录后未开始同步数据，那么可能是自动登录的情况:
             * PUSH进程已经登录同步数据完成了，此时UI进程启动后并不知道，这里直接视为同步完成
             */
-            Log.d("yyyyy","ok5");
+            Log.d("yyyyy", "ok5");
             return true;
         }
 
         // 正在同步
         if (!observers.contains(observer)) {
             observers.add(observer);
-            Log.d("yyyyy","ok4");
+            Log.d("yyyyy", "ok4");
         }
 
         // 超时定时器
@@ -117,7 +123,7 @@ public class LoginSyncDataStatusObserver {
      */
     private void onLoginSyncDataCompleted(boolean timeout) {
         LogUtil.i(TAG, "onLoginSyncDataCompleted, timeout=" + timeout);
-        Log.d("yyyyy","ok3");
+        Log.d("yyyyy", "ok3");
         // 移除超时任务（有可能完成包到来的时候，超时任务都还没创建）
         if (timeoutRunnable != null) {
             uiHandler.removeCallbacks(timeoutRunnable);
@@ -126,19 +132,11 @@ public class LoginSyncDataStatusObserver {
         // 通知上层
         for (Observer<Void> o : observers) {
             o.onEvent(null);
-            Log.d("yyyyy","ok1");
+            Log.d("yyyyy", "ok1");
         }
-        Log.d("yyyyy","ok2");
+        Log.d("yyyyy", "ok2");
         // 重置状态
         reset();
-    }
-
-
-    /**
-     * 单例
-     */
-    public static LoginSyncDataStatusObserver getInstance() {
-        return InstanceHolder.instance;
     }
 
     static class InstanceHolder {

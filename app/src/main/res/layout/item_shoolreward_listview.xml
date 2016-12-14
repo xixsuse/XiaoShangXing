@@ -6,11 +6,11 @@
 
     <LinearLayout
         android:id="@+id/parent_lay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/x24"
         android:layout_marginStart="@dimen/x24"
         android:background="@drawable/et_circular_8_w0"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <!--上方布局-->
@@ -19,14 +19,14 @@
             android:layout_height="@dimen/y156"
             android:layout_marginStart="@dimen/x30">
             <!--头像-->
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/head_image"
                 android:layout_width="@dimen/x108"
                 android:layout_height="@dimen/x108"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/cirecleimage_default" />
             <!--姓名-->
-            <com.xiaoshangxing.utils.layout.Name
+            <com.xiaoshangxing.utils.customView.Name
                 android:id="@id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,45 +89,45 @@
         </RelativeLayout>
 
         <!--文字内容-->
-                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
-                    android:id="@+id/text"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/y364"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="7"
-                    android:paddingEnd="@dimen/width_48"
-                    android:paddingStart="@dimen/width_48"
-                    android:text="@string/longtext"
-                    android:textColor="@color/b0"
-                    android:textSize="14sp" />
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y364"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="7"
+            android:paddingEnd="@dimen/width_48"
+            android:paddingStart="@dimen/width_48"
+            android:text="@string/longtext"
+            android:textColor="@color/b0"
+            android:textSize="14sp" />
 
-                <!--评论按钮-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/y84">
+        <!--评论按钮-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y84">
 
-                    <ImageView
-                        android:id="@+id/button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginBottom="@dimen/y18"
-                        android:paddingEnd="@dimen/x30"
-                        android:src="@mipmap/menu" />
-                </RelativeLayout>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="@dimen/y18"
+                android:paddingEnd="@dimen/x30"
+                android:src="@mipmap/menu" />
+        </RelativeLayout>
+    </LinearLayout>
 
 
     <ImageView
-        android:visibility="gone"
         android:id="@+id/finish"
-        android:layout_marginTop="@dimen/y24"
-        android:layout_marginEnd="@dimen/x60"
-        android:layout_alignParentEnd="true"
-        android:src="@mipmap/school_reward_end"
         android:layout_width="@dimen/x184"
-        android:layout_height="@dimen/y150" />
+        android:layout_height="@dimen/y150"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/x60"
+        android:layout_marginTop="@dimen/y24"
+        android:src="@mipmap/school_reward_end"
+        android:visibility="gone" />
 
 </RelativeLayout>

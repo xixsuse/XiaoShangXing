@@ -6,12 +6,11 @@ package com.xiaoshangxing.yujian.IM.kit.reminder;
 public class SystemMessageUnreadManager {
 
     private static SystemMessageUnreadManager instance = new SystemMessageUnreadManager();
+    private int sysMsgUnreadCount = 0;
 
     public static SystemMessageUnreadManager getInstance() {
         return instance;
     }
-
-    private int sysMsgUnreadCount = 0;
 
     public int getSysMsgUnreadCount() {
         return sysMsgUnreadCount;

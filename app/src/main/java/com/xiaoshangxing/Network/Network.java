@@ -1,9 +1,9 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.network;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.xiaoshangxing.Network.netUtil.BaseUrl;
+import com.xiaoshangxing.network.netUtil.BaseUrl;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import java.io.IOException;
@@ -26,9 +26,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 所有网络操作同意管理类
  */
 public class Network {
+    private static final int DEFAULT_TIME = 8;            //默认超时为8s
     public static Retrofit retrofit;
     public static Retrofit retrofit_with_header;
-    private static final int DEFAULT_TIME=8;            //默认超时为8s
     private static OkHttpClient okHttpClient;
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
     private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
@@ -64,8 +64,8 @@ public class Network {
                             Request request = chain.request()
                                     .newBuilder()
                                     .addHeader("Content-Type", "application/json")
-                                    .addHeader("User-Phone", (String) SPUtils.get(context,SPUtils.PHONENUMNBER,SPUtils.DEFAULT_STRING))
-                                    .addHeader("User-Digest",  (String) SPUtils.get(context,SPUtils.DIGEST,SPUtils.DEFAULT_STRING))
+                                    .addHeader("User-Phone", (String) SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING))
+                                    .addHeader("User-Digest", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING))
                                     .build();
                             Log.d("digest2", (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
                             return chain.proceed(request);

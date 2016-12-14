@@ -22,17 +22,16 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.xiaoshangxing.Network.IMNetwork;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.IMNetwork;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.data.bean.User;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.LoadingDialog;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.dialog.LoadingDialog;
 import com.xiaoshangxing.yujian.FriendActivity.LoveOrStartActivity;
 import com.xiaoshangxing.yujian.IM.kit.string.StringUtil;
 import com.xiaoshangxing.yujian.Serch.ToolBarOptions;
@@ -46,7 +45,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
-import rx.Subscription;
 
 /**
  * Created by FengChaoQun
@@ -54,15 +52,21 @@ import rx.Subscription;
  */
 
 public class NormalSerch extends AppCompatActivity implements IBaseView {
-    private ListView lvContacts;
-
-    private SearchView searchView;
-
-    private Handler handler = new Handler();
     protected LoadingDialog loadingDialog;
+    private ListView lvContacts;
+    private SearchView searchView;
+    private Handler handler = new Handler();
     private int current_type;
     private Normal_Serch_adpter adpter;
     private List<User> users = new ArrayList<>();
+    private Toolbar toolbar;
+
+    public static void start(Context context, int type) {
+        Intent intent = new Intent();
+        intent.setClass(context, NormalSerch.class);
+        intent.putExtra(IntentStatic.TYPE, type);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,13 +120,6 @@ public class NormalSerch extends AppCompatActivity implements IBaseView {
     protected void onDestroy() {
         showKeyboard(false);
         super.onDestroy();
-    }
-
-    public static void start(Context context, int type) {
-        Intent intent = new Intent();
-        intent.setClass(context, NormalSerch.class);
-        intent.putExtra(IntentStatic.TYPE, type);
-        context.startActivity(intent);
     }
 
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -218,7 +215,6 @@ public class NormalSerch extends AppCompatActivity implements IBaseView {
         }
     }
 
-
     protected void showKeyboard(boolean isShow) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (isShow) {
@@ -233,8 +229,6 @@ public class NormalSerch extends AppCompatActivity implements IBaseView {
             }
         }
     }
-
-    private Toolbar toolbar;
 
     public void setToolBar(int toolBarId, ToolBarOptions options) {
         toolbar = (Toolbar) findViewById(toolBarId);

@@ -1,7 +1,7 @@
 package com.xiaoshangxing.xiaoshang.Reward.RewardCollect;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 
 /**
  * Created by FengChaoQun
@@ -23,14 +23,17 @@ public class RewardCollectContract {
         **describe:没有内容时
         */
         void showNoContentText(boolean is);
+
         /*
         **describe:弹出取消收藏对话框
         */
         void showCollectDialog(final int id);
+
         /*
         **describe:提示弹窗
         */
         void noticeDialog(String message);
+
         /*
         **describe:没有数据了
         */
@@ -47,12 +50,14 @@ public class RewardCollectContract {
         **describe:转发 删除
         */
         void transmit();
+
         void delete();
 
         /*
         **describe:取消收藏
         */
         void unCollect();
+
         /*
         **describe:加载更多
         */

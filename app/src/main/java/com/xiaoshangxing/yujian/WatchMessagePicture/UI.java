@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +20,8 @@ import java.util.List;
 
 public abstract class UI extends AppCompatActivity {
 
-    private boolean destroyed = false;
-
     private static Handler handler;
-
+    private boolean destroyed = false;
     private Toolbar toolbar;
 
     @Override

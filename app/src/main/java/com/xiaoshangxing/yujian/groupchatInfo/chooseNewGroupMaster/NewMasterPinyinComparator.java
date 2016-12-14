@@ -8,9 +8,7 @@ package com.xiaoshangxing.yujian.groupchatInfo.chooseNewGroupMaster;
 import java.util.Comparator;
 
 /**
- *
  * @author xiaanming
- *
  */
 public class NewMasterPinyinComparator implements Comparator<SortBean> {
 

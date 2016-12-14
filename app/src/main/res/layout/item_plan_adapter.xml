@@ -20,7 +20,7 @@
             android:layout_height="@dimen/y108">
 
             <!--姓名-->
-            <com.xiaoshangxing.utils.layout.Name
+            <com.xiaoshangxing.utils.customView.Name
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,12 +57,12 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/y94"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/y60"
             android:layout_marginEnd="@dimen/x54"
             android:layout_marginStart="@dimen/x54"
+            android:layout_marginTop="@dimen/y60"
             android:orientation="vertical">
 
             <!--计划名称-->
@@ -74,7 +74,7 @@
                 android:text="5555" />
 
             <!--文字内容-->
-            <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+            <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
     </RelativeLayout>
 
     <!--头像-->
-    <com.xiaoshangxing.utils.layout.CirecleImage
+    <com.xiaoshangxing.utils.customView.CirecleImage
         android:id="@+id/head_image"
         android:layout_width="@dimen/x126"
         android:layout_height="@dimen/x126"

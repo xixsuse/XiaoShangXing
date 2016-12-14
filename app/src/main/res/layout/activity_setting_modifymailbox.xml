@@ -10,6 +10,7 @@
     </include>
 
     <TextView
+        android:id="@+id/text"
         style="@style/black_16sp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
@@ -17,8 +18,7 @@
         android:background="@color/w1"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/x48"
-        android:text="1234567890@qq.com"
-        android:id="@+id/text" />
+        android:text="1234567890@qq.com" />
 
 
     <TextView

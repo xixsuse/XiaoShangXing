@@ -24,18 +24,6 @@ public abstract class AbsContactDataList {
 
     private TextQuery query;
 
-    private static final class NoneGroupStrategy extends ContactGroupStrategy {
-        @Override
-        public String belongs(AbsContactItem item) {
-            return null;
-        }
-
-        @Override
-        public int compare(String lhs, String rhs) {
-            return 0;
-        }
-    }
-
     public AbsContactDataList(ContactGroupStrategy groupStrategy) {
         if (groupStrategy == null) {
             groupStrategy = new NoneGroupStrategy();
@@ -44,11 +32,11 @@ public abstract class AbsContactDataList {
         this.groupStrategy = groupStrategy;
     }
 
+    public abstract int getCount();
+
     //
     // ACCESS
     //
-
-    public abstract int getCount();
 
     public abstract boolean isEmpty();
 
@@ -62,19 +50,19 @@ public abstract class AbsContactDataList {
         return query;
     }
 
-    public final String getQueryText() {
-        return query != null ? query.text : null;
-    }
-
     public final void setQuery(TextQuery query) {
         this.query = query;
     }
 
+    public final String getQueryText() {
+        return query != null ? query.text : null;
+    }
+
+    public abstract void build();
+
     //
     // BUILD
     //
-
-    public abstract void build();
 
     public final void add(AbsContactItem item) {
         if (item == null) {
@@ -104,6 +92,18 @@ public abstract class AbsContactDataList {
                 return groupStrategy.compare(lhs.id, rhs.id);
             }
         });
+    }
+
+    private static final class NoneGroupStrategy extends ContactGroupStrategy {
+        @Override
+        public String belongs(AbsContactItem item) {
+            return null;
+        }
+
+        @Override
+        public int compare(String lhs, String rhs) {
+            return 0;
+        }
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})

@@ -10,12 +10,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.Name;
-import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.Name;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
+import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 
 import java.util.List;
 
@@ -24,9 +24,9 @@ import java.util.List;
  * on 2016/4/20
  */
 public class PersonalHlep_adpter extends ArrayAdapter<String> {
+    List<String> strings;
     private Context context;
     private int resource;
-    List<String> strings;
     private PersonalHelpFragment fragment;
     private boolean showselect;
     private HelpActivity activity;
@@ -38,8 +38,8 @@ public class PersonalHlep_adpter extends ArrayAdapter<String> {
         this.context = context;
         this.strings = objects;
         this.resource = resource;
-        this.fragment=fragment;
-        this.activity=activity;
+        this.fragment = fragment;
+        this.activity = activity;
     }
 
     @Override
@@ -55,17 +55,17 @@ public class PersonalHlep_adpter extends ArrayAdapter<String> {
             viewholder.time = (TextView) convertView.findViewById(R.id.time);
             viewholder.text = (EmotinText) convertView.findViewById(R.id.text);
             viewholder.iscomplete = (CheckBox) convertView.findViewById(R.id.iscomplete);
-            viewholder.checkBox=(CheckBox)convertView.findViewById(R.id.checkbox);
+            viewholder.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox);
             convertView.setTag(viewholder);
 
         } else {
             viewholder = (mystate_viewholder) convertView.getTag();
         }
 
-        if (showselect){
+        if (showselect) {
             viewholder.iscomplete.setVisibility(View.INVISIBLE);
             viewholder.checkBox.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             viewholder.iscomplete.setVisibility(View.VISIBLE);
             viewholder.checkBox.setVisibility(View.GONE);
         }
@@ -73,7 +73,7 @@ public class PersonalHlep_adpter extends ArrayAdapter<String> {
         convertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showMenu(v,-1);
+                showMenu(v, -1);
                 v.setBackgroundColor(context.getResources().getColor(R.color.g1));
                 return true;
             }
@@ -92,28 +92,19 @@ public class PersonalHlep_adpter extends ArrayAdapter<String> {
         return convertView;
     }
 
-
-    private static class mystate_viewholder {
-        private CirecleImage headImage;
-        private TextView college, time;
-        private Name name;
-        private EmotinText text;
-        private CheckBox checkBox,iscomplete;
-    }
-
-    private void showMenu(View v, final int id){
+    private void showMenu(View v, final int id) {
 
         final View view = v;
-        int []xy=new int[2];
+        int[] xy = new int[2];
         v.getLocationInWindow(xy);
         View menu;
-        if (xy[1]<=context.getResources().getDimensionPixelSize(R.dimen.y300)){
-             menu= View.inflate(getContext(),R.layout.popup_myhelp_up,null);
-        }else {
-             menu= View.inflate(getContext(),R.layout.popup_myhelp_bottom,null);
+        if (xy[1] <= context.getResources().getDimensionPixelSize(R.dimen.y300)) {
+            menu = View.inflate(getContext(), R.layout.popup_myhelp_up, null);
+        } else {
+            menu = View.inflate(getContext(), R.layout.popup_myhelp_bottom, null);
         }
 
-        final PopupWindow popupWindow=new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
+        final PopupWindow popupWindow = new PopupWindow(menu, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setBackgroundDrawable(getContext().getResources().
@@ -122,20 +113,20 @@ public class PersonalHlep_adpter extends ArrayAdapter<String> {
 
         menu.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         int mShowMorePopupWindowWidth = menu.getMeasuredWidth();
-        int mShowMorePopupWindowHeight=menu.getMeasuredHeight();
+        int mShowMorePopupWindowHeight = menu.getMeasuredHeight();
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
 
-        if (xy[1]<=context.getResources().getDimensionPixelSize(R.dimen.y300)){
+        if (xy[1] <= context.getResources().getDimensionPixelSize(R.dimen.y300)) {
             popupWindow.showAsDropDown(v,
-                    -mShowMorePopupWindowWidth/2+v.getWidth()/2,
+                    -mShowMorePopupWindowWidth / 2 + v.getWidth() / 2,
                     0);
-        }else {
+        } else {
             popupWindow.showAsDropDown(v,
-                    -mShowMorePopupWindowWidth/2+v.getWidth()/2,
-                    -mShowMorePopupWindowHeight-v.getHeight());
+                    -mShowMorePopupWindowWidth / 2 + v.getWidth() / 2,
+                    -mShowMorePopupWindowHeight - v.getHeight());
         }
-       
+
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
@@ -144,14 +135,14 @@ public class PersonalHlep_adpter extends ArrayAdapter<String> {
             }
         });
 
-        final TextView transmit=(TextView)menu.findViewById(R.id.transmit);
-        TextView delete=(TextView)menu.findViewById(R.id.delete);
-        TextView more=(TextView)menu.findViewById(R.id.more);
+        final TextView transmit = (TextView) menu.findViewById(R.id.transmit);
+        TextView delete = (TextView) menu.findViewById(R.id.delete);
+        TextView more = (TextView) menu.findViewById(R.id.more);
 
         transmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(), SelectPersonActivity.class);
+                Intent intent = new Intent(getContext(), SelectPersonActivity.class);
                 activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
                 popupWindow.dismiss();
             }
@@ -176,9 +167,17 @@ public class PersonalHlep_adpter extends ArrayAdapter<String> {
 
     }
 
-    public void showSelectCircle(boolean is){
-        showselect=is;
+    public void showSelectCircle(boolean is) {
+        showselect = is;
         notifyDataSetChanged();
+    }
+
+    private static class mystate_viewholder {
+        private CirecleImage headImage;
+        private TextView college, time;
+        private Name name;
+        private EmotinText text;
+        private CheckBox checkBox, iscomplete;
     }
 
 }

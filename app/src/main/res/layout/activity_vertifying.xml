@@ -8,6 +8,7 @@
     <include layout="@layout/util_normal_title">
 
     </include>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y247"

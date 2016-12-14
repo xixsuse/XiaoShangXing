@@ -2,10 +2,10 @@ package com.xiaoshangxing.wo.WoFrafment;
 
 import android.content.Context;
 
-import com.xiaoshangxing.input_activity.InputBoxLayout;
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 import io.realm.Realm;
 
@@ -15,7 +15,7 @@ import io.realm.Realm;
  */
 public interface WoContract {
 
-   interface View extends IBaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
         /*
         **describe:前往设置界面
         */
@@ -31,9 +31,9 @@ public interface WoContract {
         */
         void gotoNews();
 
-      /*
-      **describe:显示输入框
-      */
+        /*
+        **describe:显示输入框
+        */
         void showEdittext(Context context);
 
         /*
@@ -87,40 +87,43 @@ public interface WoContract {
         **describe:刷新页面
         */
         void refreshPager();
+
         /*
         **describe:自动下拉刷新
         */
         void autoRefresh();
+
         /*
         **describe:没有数据了
         */
         void showNoData();
+
         /*
         **describe:设置输入框的回调
         */
         void setEditCallback(InputBoxLayout.CallBack callback);
 
-       /*
-       **describe:获取realm
-       */
-       Realm getRealm();
+        /*
+        **describe:获取realm
+        */
+        Realm getRealm();
     }
 
-   interface Presenter extends IBasePresenter {
-      /*
-      **describe:判断是否需要自动刷新
-      */
-      boolean isNeedRefresh();
+    interface Presenter extends IBasePresenter {
+        /*
+        **describe:判断是否需要自动刷新
+        */
+        boolean isNeedRefresh();
 
-      /*
-      **describe:刷新
-      */
-      void RefreshData(PtrFrameLayout frame);
+        /*
+        **describe:刷新
+        */
+        void RefreshData(PtrFrameLayout frame);
 
-      /*
-      **describe:加载更多
-      */
-      void LoadMore();
+        /*
+        **describe:加载更多
+        */
+        void LoadMore();
 
     }
 }

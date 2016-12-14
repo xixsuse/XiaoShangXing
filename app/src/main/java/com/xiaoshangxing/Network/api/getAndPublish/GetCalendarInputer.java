@@ -1,7 +1,7 @@
-package com.xiaoshangxing.Network.api.getAndPublish;
+package com.xiaoshangxing.network.api.getAndPublish;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.netUtil.BaseUrl;
+import com.xiaoshangxing.network.netUtil.BaseUrl;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;

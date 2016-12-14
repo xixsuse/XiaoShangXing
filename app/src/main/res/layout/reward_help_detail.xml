@@ -7,18 +7,18 @@
 
     <!--导航栏-->
     <include
-        layout="@layout/util_normal_title"
-        android:id="@+id/title_lay">
+        android:id="@+id/title_lay"
+        layout="@layout/util_normal_title">
 
     </include>
 
     <!--上移控件-->
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:paddingBottom="@dimen/height_144"
-        android:layout_below="@+id/title_lay">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_lay"
+        android:paddingBottom="@dimen/height_144">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -43,14 +43,14 @@
                     android:layout_height="@dimen/y156"
                     android:layout_marginStart="@dimen/x30">
                     <!--头像-->
-                    <com.xiaoshangxing.utils.layout.CirecleImage
+                    <com.xiaoshangxing.utils.customView.CirecleImage
                         android:id="@+id/head_image"
                         android:layout_width="@dimen/x108"
                         android:layout_height="@dimen/x108"
                         android:layout_centerVertical="true"
                         android:src="@mipmap/cirecleimage_default" />
                     <!--姓名-->
-                    <com.xiaoshangxing.utils.layout.Name
+                    <com.xiaoshangxing.utils.customView.Name
                         android:id="@id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -89,15 +89,15 @@
                     <!--收藏-->
                     <CheckBox
                         android:id="@+id/collect"
-                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/x24"
                         android:background="@drawable/selector_reward_collect"
                         android:button="@null"
-                        android:focusable="false"
-                        android:checked="false" />
+                        android:checked="false"
+                        android:focusable="false" />
                     <!--价格-->
                     <TextView
                         android:id="@+id/price"
@@ -111,7 +111,7 @@
                 </RelativeLayout>
 
                 <!--文字内容-->
-                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+                <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                     android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/y364"
@@ -214,10 +214,10 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.view.ViewPager
-            android:background="@color/w0"
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/w0"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </android.support.design.widget.CoordinatorLayout>

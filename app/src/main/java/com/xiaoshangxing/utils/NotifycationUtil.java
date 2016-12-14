@@ -12,10 +12,11 @@ import android.view.WindowManager;
 
 import com.google.gson.Gson;
 import com.xiaoshangxing.MainActivity;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PublishCache;
-import com.xiaoshangxing.data.PushMsg;
+import com.xiaoshangxing.data.bean.PushMsg;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -78,15 +79,11 @@ public class NotifycationUtil {
     public static final String OPERATION_COMMENT = "1";                  //评论
     public static final String OPERATION_PRAISE = "2";                   //赞
     public static final String OPERATION_TRANSMIT = "3";                 //转发
-
-
-    private static Realm realm = Realm.getDefaultInstance();
-    private static List<OnNotifyChange> onNotifyChanges = new ArrayList<>();
-
     public static NotificationManager mNotificationManager = (NotificationManager)
             XSXApplication.getInstance().getSystemService(NOTIFICATION_SERVICE);
-
     public static NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(XSXApplication.getInstance());
+    private static Realm realm = Realm.getDefaultInstance();
+    private static List<OnNotifyChange> onNotifyChanges = new ArrayList<>();
 
     public static void show(String s) {
         mBuilder.setContentTitle("测试标题")

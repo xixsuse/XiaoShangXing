@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+    <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
         android:id="@+id/comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

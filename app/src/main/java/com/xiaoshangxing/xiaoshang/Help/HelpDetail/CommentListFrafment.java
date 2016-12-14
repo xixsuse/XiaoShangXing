@@ -11,14 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.CommentsBean;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.data.bean.CommentsBean;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.Name;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class CommentListFrafment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.frag_comment_list,null);
+        View view = inflater.inflate(R.layout.frag_comment_list, null);
 
         activity = (GetDataFromActivity) getActivity();
         published = (Published) (activity.getData());
@@ -89,22 +89,20 @@ public class CommentListFrafment extends Fragment {
         isCollect = collect;
     }
 
-    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>
-    {
+    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
         @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
-            View view=LayoutInflater.from(
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(
                     getContext()).inflate(R.layout.item_comment_list_recycleview, parent,
                     false);
             MyViewHolder holder = new MyViewHolder(view);
-            holder.view=view;
-            holder.name=(Name) view.findViewById(R.id.name);
-            holder.college=(TextView)view.findViewById(R.id.college);
-            holder.time=(TextView)view.findViewById(R.id.time);
-            holder.text=(EmotinText) view.findViewById(R.id.text);
-            holder.headImage=(CirecleImage)view.findViewById(R.id.head_image);
+            holder.view = view;
+            holder.name = (Name) view.findViewById(R.id.name);
+            holder.college = (TextView) view.findViewById(R.id.college);
+            holder.time = (TextView) view.findViewById(R.id.time);
+            holder.text = (EmotinText) view.findViewById(R.id.text);
+            holder.headImage = (CirecleImage) view.findViewById(R.id.head_image);
             return holder;
         }
 
@@ -153,23 +151,20 @@ public class CommentListFrafment extends Fragment {
         }
 
         @Override
-        public int getItemCount()
-        {
+        public int getItemCount() {
             return commentsBeen.size();
         }
 
 
-        class MyViewHolder extends RecyclerView.ViewHolder
-        {
+        class MyViewHolder extends RecyclerView.ViewHolder {
 
-            TextView college,time;
+            TextView college, time;
             EmotinText text;
             Name name;
             CirecleImage headImage;
             View view;
 
-            public MyViewHolder(View view)
-            {
+            public MyViewHolder(View view) {
                 super(view);
             }
         }

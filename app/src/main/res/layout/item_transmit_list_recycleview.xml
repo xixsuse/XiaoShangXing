@@ -6,7 +6,7 @@
     android:paddingStart="@dimen/width_48">
 
     <!--头像-->
-    <com.xiaoshangxing.utils.layout.CirecleImage
+    <com.xiaoshangxing.utils.customView.CirecleImage
         android:id="@+id/head_image"
         android:layout_width="@dimen/x120"
         android:layout_height="@dimen/x120"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <!--姓名-->
-            <com.xiaoshangxing.utils.layout.Name
+            <com.xiaoshangxing.utils.customView.Name
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 android:text="转发到校友圈:"
                 android:textColor="@color/g0" />
             <!--文字内容-->
-            <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+            <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

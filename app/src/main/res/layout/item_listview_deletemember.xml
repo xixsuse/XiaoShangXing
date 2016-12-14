@@ -11,11 +11,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:background="@drawable/selector_circle_with_mark"
-        android:clickable="false"
         android:button="@null"
+        android:clickable="false"
         android:focusable="false" />
 
-    <com.xiaoshangxing.utils.layout.CirecleImage
+    <com.xiaoshangxing.utils.customView.CirecleImage
         android:id="@+id/deleteMember_Img"
         android:layout_width="@dimen/x132"
         android:layout_height="@dimen/x132"

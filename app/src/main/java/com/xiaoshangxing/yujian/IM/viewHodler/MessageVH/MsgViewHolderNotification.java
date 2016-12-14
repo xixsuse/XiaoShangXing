@@ -5,7 +5,7 @@ import android.text.style.ImageSpan;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.MoonUtil;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotFilter.MoonUtil;
 import com.xiaoshangxing.yujian.IM.cache.TeamNotificationHelper;
 
 

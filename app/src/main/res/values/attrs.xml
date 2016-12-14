@@ -10,14 +10,13 @@
     </declare-styleable>
 
 
-
     <attr name="expandedText" format="string" />
     <attr name="collapsedText" format="string" />
     <attr name="trimLines" format="integer" />
 
     <declare-styleable name="MoreTextView">
         <attr name="expandedText" />
-        <attr name="collapsedText"/>
+        <attr name="collapsedText" />
         <attr name="trimLines" />
         <attr name="textSize" />
         <attr name="textColor" />
@@ -30,14 +29,14 @@
     </declare-styleable>
 
     <declare-styleable name="CircleImageView">
-        <attr name="civ_border_width" format="dimension"/>
-        <attr name="civ_border_color" format="color"/>
-        <attr name="civ_border_overlay" format="boolean"/>
-        <attr name="civ_fill_color" format="color"/>
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
     </declare-styleable>
 
     <declare-styleable name="ImageViewEx">
-        <attr name="exiv_default_image_res" format="reference"/>
+        <attr name="exiv_default_image_res" format="reference" />
     </declare-styleable>
 
 </resources>

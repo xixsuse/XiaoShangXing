@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/checkTextview"
+    style="@style/black_16sp"
     android:layout_width="match_parent"
     android:layout_height="@dimen/y144"
-    android:minHeight="@dimen/y144"
     android:background="@color/w0"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
     android:checkMark="@drawable/disturb_selector"
-    style="@style/black_16sp"
-    android:paddingStart="@dimen/x48"
-    android:paddingEnd = "@dimen/x48">
-</CheckedTextView>
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/y144"
+    android:orientation="horizontal"
+    android:paddingEnd="@dimen/x48"
+    android:paddingStart="@dimen/x48"></CheckedTextView>

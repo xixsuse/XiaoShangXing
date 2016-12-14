@@ -78,7 +78,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:paddingStart="@dimen/x42"
         android:id="@+id/xueshengka"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
@@ -86,6 +85,7 @@
         android:background="@color/w0"
         android:onClick="xueshengka"
         android:orientation="horizontal"
+        android:paddingStart="@dimen/x42"
         android:visibility="gone">
 
         <ImageView
@@ -115,7 +115,6 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:paddingStart="@dimen/x42"
         android:id="@+id/tongzhishu"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
@@ -123,6 +122,7 @@
         android:background="@color/w0"
         android:onClick="tongzhishu"
         android:orientation="horizontal"
+        android:paddingStart="@dimen/x42"
         android:visibility="gone">
 
 

@@ -5,12 +5,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.xiaoshangxing.utils.layout.RoundedImageView
+    <com.xiaoshangxing.utils.customView.RoundedImageView
         android:id="@+id/item_grida_image"
         android:layout_width="@dimen/x228"
         android:layout_height="@dimen/x228"
         android:scaleType="centerCrop"
-        app:corner_radius="6dp">
-    </com.xiaoshangxing.utils.layout.RoundedImageView>
+        app:corner_radius="6dp"></com.xiaoshangxing.utils.customView.RoundedImageView>
 
 </LinearLayout>

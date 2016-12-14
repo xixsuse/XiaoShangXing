@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/x360"
     android:layout_height="@dimen/y360"
-    android:gravity="center"
     android:background="@drawable/dialog_ciecular_b5"
-    android:orientation="vertical"
-     >
+    android:gravity="center"
+    android:orientation="vertical">
 
     <ProgressBar
-        style="@style/progress_bar_style"
         android:id="@+id/progressBar"
+        style="@style/progress_bar_style"
         android:layout_width="@dimen/x168"
         android:layout_height="@dimen/y168" />
 
@@ -17,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y24"
-        android:visibility="visible" >
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/loading_text"

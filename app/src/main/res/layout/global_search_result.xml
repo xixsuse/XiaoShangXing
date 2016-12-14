@@ -24,9 +24,9 @@
 
     <ListView
         android:id="@+id/searchResultList"
-        android:layout_below="@id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/app_bar_layout"
         android:background="@color/w0"
         android:cacheColorHint="@color/transparent"
         android:dividerHeight="1px"

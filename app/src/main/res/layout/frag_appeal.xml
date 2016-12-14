@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/w3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/w3"
+    android:orientation="vertical">
     <!--标题栏-->
     <LinearLayout
         android:id="@+id/back"
-        android:background="@color/b2"
         android:layout_width="match_parent"
-        android:paddingStart="@dimen/x24"
+        android:layout_height="@dimen/y184"
+        android:background="@color/b2"
         android:paddingEnd="@dimen/x24"
-        android:layout_height="@dimen/y184">
+        android:paddingStart="@dimen/x24">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -21,30 +21,32 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
+
                 <ImageView
-                    android:src="@mipmap/left_arrow_white"
-                    android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/left_arrow_white" />
+
                 <TextView
-                    android:paddingStart="@dimen/x12"
-                    android:layout_gravity="center_vertical"
-                    android:text="@string/back"
-                    android:textSize="15sp"
-                    android:textColor="@color/w0"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="@dimen/x12"
+                    android:text="@string/back"
+                    android:textColor="@color/w0"
+                    android:textSize="15sp" />
             </LinearLayout>
 
             <!--申诉找回密码-->
             <TextView
-                android:textColor="@color/w0"
-                android:textSize="17sp"
-                android:text="@string/retreive_by_appeal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="@string/retreive_by_appeal"
+                android:textColor="@color/w0"
+                android:textSize="17sp" />
 
         </RelativeLayout>
 
@@ -53,24 +55,24 @@
 
     <!--第一块-->
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y42"
         android:background="@color/w0"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/y42"
-        android:paddingStart="@dimen/x42"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        
+        android:paddingStart="@dimen/x42">
+
         <!--真实姓名-->
-        <LinearLayout
-            style="@style/appeal_item_layput">
+        <LinearLayout style="@style/appeal_item_layput">
 
             <TextView
-                android:text="@string/ture_name"
-                style="@style/appeal_item_name" />
+                style="@style/appeal_item_name"
+                android:text="@string/ture_name" />
+
             <EditText
                 android:id="@+id/name"
-                android:hint="@string/please_input_ture_name"
-                style="@style/appeal_item_content" />
+                style="@style/appeal_item_content"
+                android:hint="@string/please_input_ture_name" />
         </LinearLayout>
 
         <include layout="@layout/line_horizontal_g1">
@@ -78,17 +80,17 @@
         </include>
 
         <!--手机号码-->
-        <LinearLayout
-            style="@style/appeal_item_layput">
+        <LinearLayout style="@style/appeal_item_layput">
 
             <TextView
-                android:text="@string/phoneNumber2"
-                style="@style/appeal_item_name" />
+                style="@style/appeal_item_name"
+                android:text="@string/phoneNumber2" />
+
             <EditText
                 android:id="@+id/phone_number"
-                android:inputType="number"
+                style="@style/appeal_item_content"
                 android:hint="@string/comfirm_phoneNumber"
-                style="@style/appeal_item_content" />
+                android:inputType="number" />
         </LinearLayout>
 
         <include layout="@layout/line_horizontal_g1">
@@ -96,37 +98,37 @@
         </include>
 
         <!--身份证号-->
-        <LinearLayout
-            style="@style/appeal_item_layput">
+        <LinearLayout style="@style/appeal_item_layput">
 
             <TextView
-                android:text="@string/ID"
-                style="@style/appeal_item_name" />
+                style="@style/appeal_item_name"
+                android:text="@string/ID" />
+
             <EditText
                 android:id="@+id/id"
-                android:inputType="number"
+                style="@style/appeal_item_content"
                 android:hint="@string/ID_notice"
-                style="@style/appeal_item_content" />
+                android:inputType="number" />
         </LinearLayout>
 
     </LinearLayout>
 
     <!--第二块-->
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y54"
         android:background="@color/w0"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/y54"
-        android:paddingStart="@dimen/x42"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:paddingStart="@dimen/x42">
 
         <!--所在学校-->
-        <LinearLayout
-            style="@style/appeal_item_layput">
+        <LinearLayout style="@style/appeal_item_layput">
 
             <TextView
-                android:text="@string/the_school"
-                style="@style/appeal_item_name" />
+                style="@style/appeal_item_name"
+                android:text="@string/the_school" />
+
             <EditText
                 android:id="@+id/school"
                 style="@style/appeal_item_content" />
@@ -137,16 +139,16 @@
         </include>
 
         <!--学号-->
-        <LinearLayout
-            style="@style/appeal_item_layput">
+        <LinearLayout style="@style/appeal_item_layput">
 
             <TextView
-                android:text="@string/studentID"
-                style="@style/appeal_item_name" />
+                style="@style/appeal_item_name"
+                android:text="@string/studentID" />
+
             <EditText
-                android:inputType="number"
                 android:id="@+id/studentID"
-                style="@style/appeal_item_content" />
+                style="@style/appeal_item_content"
+                android:inputType="number" />
         </LinearLayout>
 
         <include layout="@layout/line_horizontal_g1">
@@ -154,12 +156,12 @@
         </include>
 
         <!--学历-->
-        <LinearLayout
-            style="@style/appeal_item_layput">
+        <LinearLayout style="@style/appeal_item_layput">
 
             <TextView
-                android:text="@string/EC"
-                style="@style/appeal_item_name" />
+                style="@style/appeal_item_name"
+                android:text="@string/EC" />
+
             <EditText
                 android:id="@+id/EC"
                 style="@style/appeal_item_content" />
@@ -170,16 +172,16 @@
         </include>
 
         <!--入学年份-->
-        <LinearLayout
-            style="@style/appeal_item_layput">
+        <LinearLayout style="@style/appeal_item_layput">
 
             <TextView
-                android:text="@string/goSchoolTime"
-                style="@style/appeal_item_name" />
+                style="@style/appeal_item_name"
+                android:text="@string/goSchoolTime" />
+
             <EditText
-                android:inputType="date"
                 android:id="@+id/goSchoolTime"
-                style="@style/appeal_item_content" />
+                style="@style/appeal_item_content"
+                android:inputType="date" />
         </LinearLayout>
 
         <include layout="@layout/line_horizontal_g1">
@@ -187,25 +189,25 @@
         </include>
 
         <!--注册时间-->
-        <LinearLayout
-            style="@style/appeal_item_layput">
+        <LinearLayout style="@style/appeal_item_layput">
 
             <TextView
-                android:text="@string/registerTime"
-                style="@style/appeal_item_name" />
+                style="@style/appeal_item_name"
+                android:text="@string/registerTime" />
+
             <EditText
-                android:inputType="date"
                 android:id="@+id/registerTime"
-                style="@style/appeal_item_content" />
+                style="@style/appeal_item_content"
+                android:inputType="date" />
         </LinearLayout>
 
     </LinearLayout>
 
     <!--按钮-->
     <Button
-        android:layout_marginTop="@dimen/y148"
-        android:text="@string/appealNow"
         android:id="@+id/btn_appeal"
-        style="@style/long_btn" />
+        style="@style/long_btn"
+        android:layout_marginTop="@dimen/y148"
+        android:text="@string/appealNow" />
 
 </LinearLayout>

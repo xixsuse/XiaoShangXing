@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:id="@+id/headView"
-    android:layout_height="wrap_content"
-    android:paddingEnd="@dimen/x18"
-    android:paddingStart="@dimen/width_48"
     android:layout_width="match_parent"
-    >
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/x18"
+    android:paddingStart="@dimen/width_48">
 
     <RelativeLayout
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/y72"
         android:id="@+id/up_layout"
-        android:layout_above="@+id/news"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/news"
+        android:layout_marginBottom="@dimen/y72"
         android:layout_marginTop="@dimen/y48">
-    <!--名字-->
+        <!--名字-->
         <TextView
-            android:layout_toLeftOf="@+id/head_image"
-            android:layout_marginRight="@dimen/width_48"
-            android:layout_centerVertical="true"
             android:id="@+id/name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/width_48"
+            android:layout_toLeftOf="@+id/head_image"
             android:shadowColor="@color/b0"
             android:shadowDx="2"
             android:shadowDy="2"
@@ -29,17 +29,16 @@
             android:text="@string/app_name"
             android:textColor="@color/w0"
             android:textSize="17sp"
-            android:layout_width="wrap_content"
             android:textStyle="bold" />
 
-    <!--头像-->
-    <com.xiaoshangxing.utils.layout.CirecleImage
-        android:id="@+id/head_image"
-        android:src="@mipmap/cirecleimage_default"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_width="@dimen/x228"
-        android:layout_height="@dimen/x228" />
+        <!--头像-->
+        <com.xiaoshangxing.utils.customView.CirecleImage
+            android:id="@+id/head_image"
+            android:layout_width="@dimen/x228"
+            android:layout_height="@dimen/x228"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/cirecleimage_default" />
 
     </RelativeLayout>
 

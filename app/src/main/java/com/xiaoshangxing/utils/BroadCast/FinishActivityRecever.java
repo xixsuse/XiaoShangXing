@@ -20,6 +20,12 @@ public class FinishActivityRecever extends BroadcastReceiver {
         this.activity = activity;
     }
 
+    public static void sendFinishBroadcast(Activity activity) {
+        Intent intent = new Intent();
+        intent.setAction(FINISH);
+        activity.sendBroadcast(intent);
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         activity.finish();
@@ -33,11 +39,5 @@ public class FinishActivityRecever extends BroadcastReceiver {
 
     public void unregister() {
         activity.unregisterReceiver(this);
-    }
-
-    public static void sendFinishBroadcast(Activity activity) {
-        Intent intent = new Intent();
-        intent.setAction(FINISH);
-        activity.sendBroadcast(intent);
     }
 }

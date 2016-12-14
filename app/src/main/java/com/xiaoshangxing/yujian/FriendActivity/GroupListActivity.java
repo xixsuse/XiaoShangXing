@@ -25,12 +25,12 @@ import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CustomSwipeListView;
-import com.xiaoshangxing.utils.layout.SwipeItemView;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.CustomSwipeListView;
+import com.xiaoshangxing.utils.customView.SwipeItemView;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
@@ -70,14 +70,35 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
     @Bind(R.id.count)
     TextView count;
     private Handler handler = new Handler();
+    private BaseAdapter baseAdapter;
+    private List<Team> teams = new ArrayList<>();
+    TeamDataCache.TeamDataChangedObserver teamDataChangedObserver = new TeamDataCache.TeamDataChangedObserver() {
+        @Override
+        public void onUpdateTeams(List<Team> teams) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    initView();
+                }
+            }, 100);
+        }
+
+        @Override
+        public void onRemoveTeam(Team team) {
+            Log.d("team", "remove");
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    initView();
+                }
+            }, 100);
+        }
+    };
 
     @Override
     public void setmPresenter(@Nullable Object presenter) {
 
     }
-
-    private BaseAdapter baseAdapter;
-    private List<Team> teams = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,18 +262,6 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
 
     }
 
-    private static class ViewHolder {
-        public ImageView image;
-        public TextView name;
-        public ViewGroup deleteHolder;
-
-        ViewHolder(View view) {
-            image = (ImageView) view.findViewById(R.id.head_image);
-            name = (TextView) view.findViewById(R.id.name);
-            deleteHolder = (ViewGroup) view.findViewById(R.id.holder);
-        }
-    }
-
     private void registerTeamUpdateObserver(boolean register) {
         if (register) {
             TeamDataCache.getInstance().registerTeamDataChangedObserver(teamDataChangedObserver);
@@ -260,29 +269,6 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
             TeamDataCache.getInstance().unregisterTeamDataChangedObserver(teamDataChangedObserver);
         }
     }
-
-    TeamDataCache.TeamDataChangedObserver teamDataChangedObserver = new TeamDataCache.TeamDataChangedObserver() {
-        @Override
-        public void onUpdateTeams(List<Team> teams) {
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    initView();
-                }
-            }, 100);
-        }
-
-        @Override
-        public void onRemoveTeam(Team team) {
-            Log.d("team", "remove");
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    initView();
-                }
-            }, 100);
-        }
-    };
 
     @OnClick({R.id.back, R.id.more})
     public void onClick(View view) {
@@ -327,6 +313,18 @@ public class GroupListActivity extends BaseActivity implements IBaseView {
                             }
                         });
             }
+        }
+    }
+
+    private static class ViewHolder {
+        public ImageView image;
+        public TextView name;
+        public ViewGroup deleteHolder;
+
+        ViewHolder(View view) {
+            image = (ImageView) view.findViewById(R.id.head_image);
+            name = (TextView) view.findViewById(R.id.name);
+            deleteHolder = (ViewGroup) view.findViewById(R.id.holder);
         }
     }
 }

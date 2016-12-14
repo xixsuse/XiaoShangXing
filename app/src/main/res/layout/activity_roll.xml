@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/w3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/w3"
+    android:orientation="vertical">
 
     <!--导航栏-->
     <RelativeLayout
-        android:paddingStart="@dimen/width_48"
-        android:paddingEnd="@dimen/width_48"
-        android:background="@color/w0"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144">
+        android:layout_height="@dimen/height_144"
+        android:background="@color/w0"
+        android:paddingEnd="@dimen/width_48"
+        android:paddingStart="@dimen/width_48">
 
         <!--返回-->
         <LinearLayout
             android:id="@+id/back"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
-                android:src="@mipmap/left_arrow_black"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/left_arrow_black" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x12"
-                android:textSize="15sp"
-                android:textColor="@color/b0"
                 android:text="@string/back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textColor="@color/b0"
+                android:textSize="15sp" />
 
         </LinearLayout>
         <!--title-->
         <TextView
-            style="@style/black_16sp"
-            android:layout_centerInParent="true"
             android:id="@+id/title"
-            android:text="不给谁看"
+            style="@style/black_16sp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="不给谁看" />
 
 
     </RelativeLayout>
 
     <ListView
         android:id="@+id/listview"
-        android:fadingEdge="none"
-        android:fadeScrollbars="false"
-        android:fastScrollEnabled="false"
-        android:overScrollMode="never"
-        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/w0"
         android:cacheColorHint="@color/transparent"
-        android:listSelector="@color/transparent"
+        android:fadeScrollbars="false"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"
-        android:background="@color/w0"
+        android:listSelector="@color/transparent"
+        android:overScrollMode="never"
         android:paddingStart="@dimen/width_48"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:scrollbars="none">
 
     </ListView>
 

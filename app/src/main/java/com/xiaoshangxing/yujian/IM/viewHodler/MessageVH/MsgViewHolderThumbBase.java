@@ -1,7 +1,6 @@
 package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,6 +26,14 @@ public abstract class MsgViewHolderThumbBase extends MsgViewHolderBase {
     protected MsgThumbImageView thumbnail;
     protected View progressCover;
     protected TextView progressLabel;
+
+    public static int getImageMaxEdge() {
+        return (int) (165.0 / 320.0 * ScreenUtils.screenWidth);
+    }
+
+    public static int getImageMinEdge() {
+        return (int) (76.0 / 320.0 * ScreenUtils.screenWidth);
+    }
 
     @Override
     protected void inflateContentView() {
@@ -107,13 +114,6 @@ public abstract class MsgViewHolderThumbBase extends MsgViewHolderBase {
 
     private int maskBg() {
         return R.drawable.nim_message_item_round_bg;
-    }
-    public static int getImageMaxEdge() {
-        return (int) (165.0 / 320.0 * ScreenUtils.screenWidth);
-    }
-
-    public static int getImageMinEdge() {
-        return (int) (76.0 / 320.0 * ScreenUtils.screenWidth);
     }
 
     protected abstract String thumbFromSourceFile(String path);

@@ -4,15 +4,15 @@
     android:layout_height="wrap_content"
     android:background="@color/w0"
     android:gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/top_lay"
-        android:background="#E0E0E0"
-        android:paddingStart="@dimen/width_48"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="#E0E0E0"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/width_48">
 
         <ImageView
             android:id="@+id/star"
@@ -36,37 +36,37 @@
 
     <View
         android:id="@+id/line"
-        android:visibility="gone"
-        android:background="@color/g0"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
         android:layout_marginEnd="@dimen/width_48"
         android:layout_marginStart="@dimen/x24"
-        android:layout_width="match_parent"
-        android:layout_height="1px">
+        android:background="@color/g0"
+        android:visibility="gone">
 
     </View>
 
     <LinearLayout
-        android:paddingStart="@dimen/x24"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y160">
+        android:layout_height="@dimen/y160"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/x24">
 
         <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:background="@drawable/selector_circle_with_mark"
             android:layout_gravity="center_vertical"
+            android:background="@drawable/selector_circle_with_mark"
             android:button="@null" />
 
-        <com.xiaoshangxing.utils.layout.CirecleImage
-            android:layout_marginStart="@dimen/x18"
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
-            android:src="@mipmap/cirecleimage_default"
-            android:layout_gravity="center_vertical"
             android:layout_width="@dimen/x102"
-            android:layout_height="@dimen/x102" />
+            android:layout_height="@dimen/x102"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/x18"
+            android:src="@mipmap/cirecleimage_default" />
 
         <TextView
             android:id="@+id/name"
@@ -74,12 +74,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/x30"
-            android:text="hhhh"/>
+            android:gravity="center_vertical"
+            android:text="hhhh" />
 
     </LinearLayout>
-
 
 
 </LinearLayout>

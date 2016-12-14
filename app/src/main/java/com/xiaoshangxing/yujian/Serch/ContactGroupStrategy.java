@@ -15,18 +15,6 @@ public class ContactGroupStrategy implements Comparator<String> {
     public static final String GROUP_TEAM = "@";
 
     public static final String GROUP_NULL = "?";
-
-    private static final class Group {
-        private final int order;
-
-        private final String name;
-
-        public Group(int order, String name) {
-            this.order = order;
-            this.name = name;
-        }
-    }
-
     private final Map<String, Group> groups = new HashMap<String, Group>();
 
     public String belongs(AbsContactItem item) {
@@ -88,5 +76,16 @@ public class ContactGroupStrategy implements Comparator<String> {
         }
 
         return lhsO - rhsO;
+    }
+
+    private static final class Group {
+        private final int order;
+
+        private final String name;
+
+        public Group(int order, String name) {
+            this.order = order;
+            this.name = name;
+        }
     }
 }

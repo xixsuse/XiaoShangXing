@@ -10,7 +10,7 @@
         android:layout_marginTop="@dimen/y16"
         android:paddingEnd="@dimen/x36">
         <!--头像-->
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x96"
             android:layout_height="@dimen/x96"
@@ -38,7 +38,7 @@
             android:textSize="12sp" />
 
         <!--评论内容-->
-        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

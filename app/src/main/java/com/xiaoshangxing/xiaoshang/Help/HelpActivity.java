@@ -12,19 +12,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.xiaoshang.Help.HelpFragment.HelpFragment;
 import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
 
@@ -37,13 +37,11 @@ import java.util.List;
  */
 public class HelpActivity extends BaseActivity implements HelpContract.View {
     public static final String TAG = BaseActivity.TAG + "-ShoolfellowHelpActivity";
-
+    public static final int OTHERS = 10002;
+    public static final int MINE = 10003;
     private HelpFragment helpFragment;
     private PersonalHelpFragment personalHelpFragment;
     private HelpContract.Presenter mPresenter;
-    public static final int OTHERS=10002;
-    public static final int MINE=10003;
-
     private boolean isHideMenu;//记录是否需要点击返回键隐藏菜单
 
     private int transmitedId = -1;//记录要转发的动态id
@@ -62,9 +60,9 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
         parseIntent();
     }
 
-    private void parseIntent(){
+    private void parseIntent() {
         Fragment frag;
-        switch (getIntent().getIntExtra(IntentStatic.TYPE,0)){
+        switch (getIntent().getIntExtra(IntentStatic.TYPE, 0)) {
             case IntentStatic.OTHERS:
                 frag = mFragmentManager.findFragmentByTag(HelpFragment.TAG);
                 helpFragment = (frag == null) ? HelpFragment.newInstance() :
@@ -272,9 +270,9 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
         }, 500);
     }
 
-    public void gotoSelectPerson(){
-        Intent intent=new Intent(this, SelectPersonActivity.class);
-        startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
+    public void gotoSelectPerson() {
+        Intent intent = new Intent(this, SelectPersonActivity.class);
+        startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
     public void gotoSelectOnePerson() {
@@ -307,11 +305,11 @@ public class HelpActivity extends BaseActivity implements HelpContract.View {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode== SelectPersonActivity.SELECT_PERSON_CODE ){
-            if (data!=null){
-                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size()>0){
+        if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
+            if (data != null) {
+                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
                     showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON));
-                }else {
+                } else {
                     Toast.makeText(HelpActivity.this, "未选择联系人", Toast.LENGTH_SHORT).show();
                 }
             }

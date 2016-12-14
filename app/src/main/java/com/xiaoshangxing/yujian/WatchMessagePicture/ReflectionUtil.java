@@ -2,7 +2,6 @@ package com.xiaoshangxing.yujian.WatchMessagePicture;
 
 import android.text.TextUtils;
 
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -14,9 +13,10 @@ public class ReflectionUtil {
 
     /**
      * 通过类对象，运行指定方法
-     * @param obj 类对象
+     *
+     * @param obj        类对象
      * @param methodName 方法名
-     * @param params 参数值
+     * @param params     参数值
      * @return 失败返回null
      */
     public static Object invokeMethod(Object obj, String methodName, Object[] params) {

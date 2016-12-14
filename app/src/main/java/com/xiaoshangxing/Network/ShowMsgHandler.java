@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.network;
 
 import android.content.Context;
 import android.os.Handler;

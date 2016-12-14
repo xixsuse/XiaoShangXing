@@ -3,13 +3,17 @@
     <item>
         <shape>
             <solid android:color="@color/red2" />
-            <corners android:radius="6dp"/>
+            <corners android:radius="6dp" />
         </shape>
     </item>
-    <item  android:bottom="@dimen/y2" android:right="@dimen/x2" android:top="@dimen/y2" android:left="@dimen/x2">
+    <item
+        android:bottom="@dimen/y2"
+        android:left="@dimen/x2"
+        android:right="@dimen/x2"
+        android:top="@dimen/y2">
         <shape>
-            <solid android:color="@color/red1"/>
-            <corners android:radius="6dp"/>
+            <solid android:color="@color/red1" />
+            <corners android:radius="6dp" />
         </shape>
     </item>
 </layer-list>

@@ -1,14 +1,12 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.network;
 
 import android.util.Log;
 
-import com.xiaoshangxing.Network.netUtil.BaseUrl;
-import com.xiaoshangxing.Network.netUtil.MultipartUtility;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.utils.FileUtils;
-import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.network.netUtil.BaseUrl;
+import com.xiaoshangxing.network.netUtil.MultipartUtility;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.utils.XSXCrashHelper;
-import com.xiaoshangxing.utils.normalUtils.NetUtils;
+import com.xiaoshangxing.utils.normalUtils.FileUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -3,12 +3,11 @@ package com.xiaoshangxing.yujian.IM.viewHodler.MessageVH;
 import android.graphics.Color;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.MoonUtil;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotFilter.MoonUtil;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 
 

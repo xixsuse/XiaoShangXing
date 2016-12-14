@@ -18,26 +18,26 @@ import android.widget.TextView;
 
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.MainActivity;
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.data.PushMsg;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.input_activity.InputBoxLayout;
-import com.xiaoshangxing.setting.SettingActivity;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.data.bean.PushMsg;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
+import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
+import com.xiaoshangxing.wo.setting.SettingActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.NotifycationUtil;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
 
 import java.util.ArrayList;
@@ -57,22 +57,19 @@ import static com.xiaoshangxing.utils.NotifycationUtil.NT_SCHOOLMATE_NOTICE_YOU;
 public class WoFragment extends BaseFragment implements WoContract.View, View.OnClickListener {
 
     public static final String TAG = BaseFragment.TAG + "-WoFragment";
+    //  记录listview点击位置
+    float x1 = 0;
+    float x2 = 0;
+    float y1 = 0;
+    float y2 = 0;
+    //    记录title点击时间  实现双击
+    long firstClick;
     private WoContract.Presenter mPresenter;
     private View mView, divider_line, footerview;
     private RelativeLayout headView;
     private ListView listView;
     private PtrFrameLayout ptrFrameLayout;
     private RelativeLayout title;
-
-    //  记录listview点击位置
-    float x1 = 0;
-    float x2 = 0;
-    float y1 = 0;
-    float y2 = 0;
-
-    //    记录title点击时间  实现双击
-    long firstClick;
-
     private boolean is_refresh = false;           //记录是否正在刷新
     private boolean is_loadMore = false;          //记录是否正在加载更多
     private boolean is_titleMove = false;          //记录是否正在移动导航栏
@@ -102,6 +99,10 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     private List<PushMsg> pushMsgs = new ArrayList<>();
     private NotifycationUtil.OnNotifyChange onNotifyChange;
 
+    public static WoFragment newInstance() {
+        return new WoFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -125,17 +126,13 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         NotifycationUtil.unRegisterObserver(onNotifyChange);
     }
 
-    public static WoFragment newInstance() {
-        return new WoFragment();
-    }
-
-    private void initView(){
+    private void initView() {
         activity = (MainActivity) getActivity();
-        inputBoxLayout=activity.getInputBoxLayout();
-        listView=(ListView)mView.findViewById(R.id.listview);
-        ptrFrameLayout=(PtrFrameLayout)mView.findViewById(R.id.reflesh_layout);
+        inputBoxLayout = activity.getInputBoxLayout();
+        listView = (ListView) mView.findViewById(R.id.listview);
+        ptrFrameLayout = (PtrFrameLayout) mView.findViewById(R.id.reflesh_layout);
         noContent = (TextView) mView.findViewById(R.id.no_content);
-        divider_line=mView.findViewById(R.id.line);
+        divider_line = mView.findViewById(R.id.line);
         title = (RelativeLayout) mView.findViewById(R.id.title);
         set = (ImageView) mView.findViewById(R.id.set);
         set.setOnClickListener(this);
@@ -148,11 +145,11 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         headImage = (CirecleImage) headView.findViewById(R.id.head_image);
         headImage.setIntent_type(CirecleImage.PERSON_STATE, String.valueOf(TempUser.id));
         news = (TextView) headView.findViewById(R.id.news);
-        news_lay=headView.findViewById(R.id.news_lay);
+        news_lay = headView.findViewById(R.id.news_lay);
         newsHead = (ImageView) headView.findViewById(R.id.news_head);
 
         dotsTextView = (DotsTextView) footerview.findViewById(R.id.dot);
-        LoadingText=(TextView)footerview.findViewById(R.id.text);
+        LoadingText = (TextView) footerview.findViewById(R.id.text);
 
         news_lay.setOnClickListener(this);
 
@@ -204,7 +201,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
                 return false;
             }
         });
-
 
 
 //      初始化刷新布局
@@ -287,8 +283,8 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     private void initListview() {
         publisheds = realm.where(Published.class)
-                    .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
-                    .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
+                .equalTo(NS.CATEGORY, Integer.valueOf(NS.CATEGORY_STATE))
+                .findAll().sort(NS.CREATETIME, Sort.DESCENDING);
 
         if (publisheds.size() > 0) {
             noContent.setVisibility(View.GONE);
@@ -337,34 +333,34 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     }
 
-    private void initFresh(){
+    private void initFresh() {
         LayoutHelp.initPTR(ptrFrameLayout, LoadUtils.needRefresh(LoadUtils.TIME_LOAD_STATE, realm),
                 new PtrDefaultHandler() {
                     @Override
                     public void onRefreshBegin(final PtrFrameLayout frame) {
-                            LoadUtils.getPublished(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_STATE, getContext(), false,
-                                    new LoadUtils.AroundLoading() {
-                                        @Override
-                                        public void before() {
-                                            divider_line.setVisibility(View.INVISIBLE);
-                                        }
+                        LoadUtils.getPublished(realm, NS.CATEGORY_STATE, LoadUtils.TIME_LOAD_STATE, getContext(), false,
+                                new LoadUtils.AroundLoading() {
+                                    @Override
+                                    public void before() {
+                                        divider_line.setVisibility(View.INVISIBLE);
+                                    }
 
-                                        @Override
-                                        public void complete() {
-                                            frame.refreshComplete();
-                                        }
+                                    @Override
+                                    public void complete() {
+                                        frame.refreshComplete();
+                                    }
 
-                                        @Override
-                                        public void onSuccess() {
-                                            initListview();
-                                        }
+                                    @Override
+                                    public void onSuccess() {
+                                        initListview();
+                                    }
 
-                                        @Override
-                                        public void error() {
-                                            frame.refreshComplete();
-                                        }
-                                    });
-                        }
+                                    @Override
+                                    public void error() {
+                                        frame.refreshComplete();
+                                    }
+                                });
+                    }
 
                 });
     }
@@ -400,7 +396,7 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     @Override
     public void gotopublish() {
         Intent publish_intent = new Intent(getContext(), InputActivity.class);
-        publish_intent.putExtra(InputActivity.LIMIT,9);
+        publish_intent.putExtra(InputActivity.LIMIT, 9);
         publish_intent.putExtra(InputActivity.EDIT_STATE, InputActivity.PUBLISH_STATE);
         startActivityForResult(publish_intent, IntentStatic.PUBLISH);
     }

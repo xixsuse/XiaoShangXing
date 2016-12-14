@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,17 +24,17 @@ import com.netease.nimlib.sdk.auth.AuthServiceObserver;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.xiaoshangxing.Network.AutoUpdate.UpdateManager;
-import com.xiaoshangxing.Network.UploadLogUtil;
-import com.xiaoshangxing.Network.netUtil.AppNetUtil;
+import com.xiaoshangxing.network.AutoUpdate.UpdateManager;
+import com.xiaoshangxing.network.UploadLogUtil;
+import com.xiaoshangxing.network.netUtil.AppNetUtil;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.input_activity.InputBoxLayout;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.DeviceLog;
+import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.XSXApplication;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.normalUtils.DeviceLog;
 import com.xiaoshangxing.utils.normalUtils.NetUtils;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
@@ -65,7 +64,8 @@ import butterknife.OnClick;
  */
 public class MainActivity extends BaseActivity implements ReminderManager.UnreadNumChangedCallback {
     public static final String TAG = BaseActivity.TAG + "-MainActivity";
-
+    private static final int BAIDU_READ_PHONE_STATE = 1000;
+    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     @Bind(R.id.image_xiaoshang)
     ImageView imageXiaoshang;
     @Bind(R.id.xiaoshang)
@@ -92,19 +92,29 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
     CirecleImage yujianDot;
     @Bind(R.id.wo_dot)
     CirecleImage woDot;
-
     private int current;
-
     private WoFragment woFragment;
     private XiaoShangFragment xiaoShangFragment;
     private YuJianFragment yuJianFragment;
     private InputBoxLayout inputBoxLayout;
-    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
-
-    private static final int BAIDU_READ_PHONE_STATE =1000;
     private AbortableFuture<LoginInfo> loginRequest;
 
     private float x1, y1, move_x, move_y;
+    private Observer<StatusCode> statusCodeObserver;
+
+    public static void start(Context context) {
+        start(context, null);
+    }
+
+    public static void start(Context context, Intent extras) {
+        Intent intent = new Intent();
+        intent.setClass(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        if (extras != null) {
+            intent.putExtras(extras);
+        }
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +160,7 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         }
         SPUtils.put(this, SPUtils.IS_FIRS_COME, false);//当这个页面打开时，表明不是第一次进入APP了
         SPUtils.put(this, SPUtils.IS_QUIT, false);//当这个页面打开时，清除退出记录
-        SPUtils.put(this,SPUtils.IS_NEED_GUIDE,false);//当这个页面打开时，表示已看过引导页
+        SPUtils.put(this, SPUtils.IS_NEED_GUIDE, false);//当这个页面打开时，表示已看过引导页
         //上传日志文件
         if (NetUtils.isConnected(this)) {
             Thread thread = new Thread(new Runnable() {
@@ -167,16 +177,16 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         }
     }
 
-    private void onParseIntent(){
+    private void onParseIntent() {
         Intent intent = getIntent();
         if (intent.hasExtra(NimIntent.EXTRA_NOTIFY_CONTENT)) {
             IMMessage message = (IMMessage) getIntent().getSerializableExtra(NimIntent.EXTRA_NOTIFY_CONTENT);
             switch (message.getSessionType()) {
                 case P2P:
-                    ChatActivity.start(this,message.getSessionId(),null, SessionTypeEnum.P2P);
+                    ChatActivity.start(this, message.getSessionId(), null, SessionTypeEnum.P2P);
                     break;
                 case Team:
-                    GroupActivity.start(this,message.getSessionId(),null,SessionTypeEnum.Team);
+                    GroupActivity.start(this, message.getSessionId(), null, SessionTypeEnum.Team);
                     break;
                 default:
                     break;
@@ -205,20 +215,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
                     setYUjian(true);
             }
         }
-    }
-
-    public static void start(Context context) {
-        start(context, null);
-    }
-
-    public static void start(Context context, Intent extras) {
-        Intent intent = new Intent();
-        intent.setClass(context, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        if (extras != null) {
-            intent.putExtras(extras);
-        }
-        context.startActivity(intent);
     }
 
     private void requestBasicPermission() {
@@ -302,7 +298,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
         }
 
     }
-
 
     @OnClick({R.id.xiaoshang_lay, R.id.yujian_lay, R.id.wolay, R.id.emotion, R.id.normal_emot, R.id.favorite
             , R.id.send, R.id.delete_emot})
@@ -425,9 +420,6 @@ public class MainActivity extends BaseActivity implements ReminderManager.Unread
     public String toString() {
         return TAG;
     }
-
-
-    private Observer<StatusCode> statusCodeObserver;
 
     private void ObservalOlineState(boolean is) {
         if (is) {

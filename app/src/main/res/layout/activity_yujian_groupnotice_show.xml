@@ -55,7 +55,7 @@
         android:layout_marginTop="@dimen/y60"
         android:orientation="horizontal">
 
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/QunzhuHeadImg"
             android:layout_width="@dimen/x126"
             android:layout_height="@dimen/x126"

@@ -12,18 +12,18 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.xiaoshangxing.Network.IMNetwork;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.IMNetwork;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.PushMsg;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.data.bean.PushMsg;
+import com.xiaoshangxing.data.bean.User;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.NotifycationUtil;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.Serch.NormalSerch.NormalSerch;
 
@@ -50,6 +50,8 @@ import static com.xiaoshangxing.utils.NotifycationUtil.NT_IM_STARED;
 public class LoveOrStartActivity extends BaseActivity implements IBaseView {
 
 
+    public static final int LOVE = 0;
+    public static final int STAR = 1;
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -72,10 +74,6 @@ public class LoveOrStartActivity extends BaseActivity implements IBaseView {
     TextView count;
     private love_satr_adpter adpter;
     private int type;
-
-    public static final int LOVE = 0;
-    public static final int STAR = 1;
-
     private List<User> users = new ArrayList<>();
     private NotifycationUtil.OnNotifyChange onNotifyChange;
 

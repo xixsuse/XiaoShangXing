@@ -11,7 +11,7 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/image"
             android:layout_width="@dimen/x100"
             android:layout_height="@dimen/x100"

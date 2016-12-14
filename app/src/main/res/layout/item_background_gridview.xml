@@ -4,7 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="match_parent">
 
-    <com.xiaoshangxing.utils.layout.RoundedImageView
+    <com.xiaoshangxing.utils.customView.RoundedImageView
         android:id="@+id/background_grida_image"
         android:layout_width="@dimen/x336"
         android:layout_height="@dimen/x336"
@@ -12,12 +12,12 @@
         app:corner_radius="6dp" />
 
     <TextView
-        android:background="@drawable/style_circulr_w0"
         android:id="@+id/background_grida_text"
         android:layout_width="@dimen/x336"
         android:layout_height="@dimen/y60"
         android:layout_alignParentBottom="true"
         android:alpha="0.5"
+        android:background="@drawable/style_circulr_w0"
         android:gravity="center"
         android:text="@string/download"
         android:textColor="@color/b0"

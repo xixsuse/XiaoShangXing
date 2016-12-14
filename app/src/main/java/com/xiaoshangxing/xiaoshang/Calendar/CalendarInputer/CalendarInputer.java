@@ -9,12 +9,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.data.bean.User;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;

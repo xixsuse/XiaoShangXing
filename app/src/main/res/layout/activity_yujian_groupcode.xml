@@ -73,7 +73,7 @@
                     android:layout_marginTop="@dimen/y72"
                     android:orientation="horizontal">
 
-                    <com.xiaoshangxing.utils.layout.CirecleImage
+                    <com.xiaoshangxing.utils.customView.CirecleImage
                         android:id="@+id/groupImg"
                         android:layout_width="@dimen/x184"
                         android:layout_height="@dimen/x184"
@@ -98,18 +98,17 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/x126"
                     android:src="@mipmap/greyblock" />
-                
+
                 <TextView
                     android:id="@+id/groupCode_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/groupCode_CodeImg"
-                    android:layout_marginTop="@dimen/y120"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/y66"
-                    android:textSize="14sp"
+                    android:layout_marginTop="@dimen/y120"
                     android:textColor="@color/g0"
-                    />
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 

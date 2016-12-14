@@ -5,13 +5,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.xiaoshangxing.utils.layout.RoundedImageView
+    <com.xiaoshangxing.utils.customView.RoundedImageView
         android:id="@+id/image"
         android:layout_width="@dimen/x84"
         android:layout_height="@dimen/x84"
         android:scaleType="centerCrop"
         android:src="@mipmap/greyblock"
-        app:corner_radius="4dp">
-    </com.xiaoshangxing.utils.layout.RoundedImageView>
+        app:corner_radius="4dp"></com.xiaoshangxing.utils.customView.RoundedImageView>
 
 </LinearLayout>

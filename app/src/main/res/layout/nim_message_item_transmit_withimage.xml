@@ -8,9 +8,9 @@
         android:id="@+id/up_lay"
         android:layout_width="@dimen/x753"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/x36"
         android:background="@mipmap/transmit_right"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/x36"
         android:paddingEnd="@dimen/x72"
         android:paddingStart="@dimen/x24">
 
@@ -19,13 +19,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/transmit_head"
                 android:layout_width="@dimen/x114"
                 android:layout_height="@dimen/x114"
                 android:src="@mipmap/cirecleimage_default" />
 
-            <com.xiaoshangxing.utils.layout.Name
+            <com.xiaoshangxing.utils.customView.Name
                 android:id="@+id/transmit_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -48,31 +48,30 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/x36"
             android:layout_marginTop="@dimen/y30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/transmit_image"
-                android:src="@mipmap/greyblock"
                 android:layout_width="@dimen/x184"
-                android:layout_height="@dimen/x184" />
+                android:layout_height="@dimen/x184"
+                android:src="@mipmap/greyblock" />
 
-            <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+            <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                 android:id="@+id/transmit_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/x36"
                 android:ellipsize="end"
                 android:maxLines="4"
+                android:paddingStart="@dimen/x36"
                 android:text="@string/longtext"
                 android:textColor="@color/b0"
                 android:textSize="12sp" />
 
         </LinearLayout>
-
 
 
     </LinearLayout>

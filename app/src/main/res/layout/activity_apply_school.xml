@@ -30,30 +30,30 @@
 
         <EditText
             android:id="@+id/input_school"
-            android:textSize="16sp"
-            android:textColor="@color/b0"
-            android:hint="输入学校全称"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/width_48" />
+            android:layout_marginStart="@dimen/width_48"
+            android:hint="输入学校全称"
+            android:textColor="@color/b0"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <Button
-        android:layout_marginTop="@dimen/y84"
-        android:text="@string/appeal_open"
         android:id="@+id/appeal_open"
-        android:enabled="true"
+        style="@style/long_btn"
+        android:layout_marginTop="@dimen/y84"
         android:alpha="0.5"
-        style="@style/long_btn"/>
+        android:enabled="true"
+        android:text="@string/appeal_open" />
 
     <TextView
-        android:text="感谢你对校上行的支持!"
-        android:layout_marginTop="@dimen/y36"
-        android:textSize="14sp"
-        android:clickable="false"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/g2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y36"
+        android:clickable="false"
+        android:text="感谢你对校上行的支持!"
+        android:textColor="@color/g2"
+        android:textSize="14sp" />
 
 </LinearLayout>

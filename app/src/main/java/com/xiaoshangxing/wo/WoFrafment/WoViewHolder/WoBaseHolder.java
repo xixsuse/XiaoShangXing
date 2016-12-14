@@ -13,23 +13,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.CommentsBean;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.InputBoxLayout;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.data.bean.CommentsBean;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.MoreTextView;
-import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.MoreTextView;
+import com.xiaoshangxing.utils.customView.Name;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.wo.Roll.RollActivity;
 import com.xiaoshangxing.wo.WoFrafment.Item_Comment;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
@@ -96,12 +96,12 @@ public abstract class WoBaseHolder {
     public WoBaseHolder() {
     }
 
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     public Context getContext() {
         return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public BaseActivity getActivity() {
@@ -128,10 +128,6 @@ public abstract class WoBaseHolder {
         this.woFragment = woFragment;
     }
 
-    public void setPublished(Published published) {
-        this.published = published;
-    }
-
     public int getPosition() {
         return position;
     }
@@ -150,6 +146,10 @@ public abstract class WoBaseHolder {
 
     public Published getPublished() {
         return published;
+    }
+
+    public void setPublished(Published published) {
+        this.published = published;
     }
 
     public View getView(LayoutInflater inflater) {

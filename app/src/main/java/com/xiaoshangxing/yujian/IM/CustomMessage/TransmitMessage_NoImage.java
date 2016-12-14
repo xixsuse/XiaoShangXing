@@ -1,6 +1,6 @@
 package com.xiaoshangxing.yujian.IM.CustomMessage;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,11 +37,11 @@ public class TransmitMessage_NoImage extends CustomAttachment {
         return jsonObject;
     }
 
-    public void setState_id(int state_id) {
-        this.state_id = state_id;
-    }
-
     public int getState_id() {
         return state_id;
+    }
+
+    public void setState_id(int state_id) {
+        this.state_id = state_id;
     }
 }

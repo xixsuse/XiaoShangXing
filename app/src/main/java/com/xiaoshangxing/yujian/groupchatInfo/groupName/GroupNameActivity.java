@@ -16,8 +16,8 @@ import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
 import butterknife.Bind;

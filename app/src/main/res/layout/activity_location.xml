@@ -8,17 +8,17 @@
     <!--导航栏-->
     <RelativeLayout
         android:id="@+id/title"
-        android:background="@color/w0"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144">
+        android:layout_height="@dimen/height_144"
+        android:background="@color/w0">
 
         <!--取消-->
         <LinearLayout
             android:id="@+id/back"
-            android:paddingStart="@dimen/width_48"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/width_48">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,27 +33,27 @@
         <!--所在位置-->
         <TextView
             android:id="@+id/myState"
-            android:textSize="17sp"
-            android:textColor="@color/b0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="所在位置" />
+            android:text="所在位置"
+            android:textColor="@color/b0"
+            android:textSize="17sp" />
 
         <!--完成-->
         <TextView
-            android:paddingEnd="@dimen/width_48"
-            android:visibility="invisible"
-            android:enabled="false"
             android:id="@+id/complete"
-            android:layout_centerVertical="true"
-            android:textSize="15sp"
-            android:alpha="0.5"
-            android:textColor="@color/green1"
-            android:text="@string/complete"
-            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:alpha="0.5"
+            android:enabled="false"
+            android:paddingEnd="@dimen/width_48"
+            android:text="@string/complete"
+            android:textColor="@color/green1"
+            android:textSize="15sp"
+            android:visibility="invisible" />
 
 
     </RelativeLayout>
@@ -61,51 +61,51 @@
     <!--搜索框-->
     <RelativeLayout
         android:id="@+id/serch_layout"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/y27"
-        android:layout_marginBottom="@dimen/y27"
-        android:layout_marginStart="@dimen/width_48"
-        android:layout_marginEnd="@dimen/width_48"
-        android:background="@drawable/et_circular_4_white"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y90">
+        android:layout_height="@dimen/y90"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/y27"
+        android:layout_marginEnd="@dimen/width_48"
+        android:layout_marginStart="@dimen/width_48"
+        android:layout_marginTop="@dimen/y27"
+        android:background="@drawable/et_circular_4_white">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
 
             <ImageView
-                android:src="@mipmap/serch"
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/serch" />
+
             <TextView
-                android:layout_marginStart="@dimen/x18"
-                android:layout_gravity="center_vertical"
-                android:text="@string/serch"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x18"
+                android:text="@string/serch" />
         </LinearLayout>
 
     </RelativeLayout>
 
     <!--位置列表-->
     <ListView
-        android:background="@color/w0"
         android:id="@+id/listview"
-        android:paddingStart="@dimen/width_48"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/w0"
         android:cacheColorHint="@color/transparent"
         android:dividerHeight="1px"
         android:fadingEdge="none"
         android:footerDividersEnabled="false"
         android:listSelector="@color/transparent"
         android:overScrollMode="never"
+        android:paddingStart="@dimen/width_48"
         android:scrollbars="none"
-        android:transcriptMode="normal">
-    </ListView>
+        android:transcriptMode="normal"></ListView>
 
 </LinearLayout>

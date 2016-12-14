@@ -13,17 +13,17 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
-import com.xiaoshangxing.Network.PublishNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.PublishNetwork;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.data.TransmitInfo;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.data.bean.TransmitInfo;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.Name;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,18 +47,18 @@ public class TransmitListFrafment extends BaseFragment implements IBaseView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.frag_comment_list,null);
+        View view = inflater.inflate(R.layout.frag_comment_list, null);
 
         GetDataFromActivity activity = (GetDataFromActivity) getActivity();
         published = (Published) (activity.getData());
-        if (published==null){
+        if (published == null) {
             return view;
         }
 
-        recyclerView=(RecyclerView) view.findViewById(R.id.recycleView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        emptyText=(TextView)view.findViewById(R.id.empty_text);
+        emptyText = (TextView) view.findViewById(R.id.empty_text);
         return view;
     }
 
@@ -121,28 +121,25 @@ public class TransmitListFrafment extends BaseFragment implements IBaseView {
 
     }
 
-    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>
-    {
+    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
         @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
-            View view=LayoutInflater.from(
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(
                     getContext()).inflate(R.layout.item_transmit_list_recycleview, parent,
                     false);
             MyViewHolder holder = new MyViewHolder(view);
-            holder.name=(Name) view.findViewById(R.id.name);
-            holder.college=(TextView)view.findViewById(R.id.college);
-            holder.time=(TextView)view.findViewById(R.id.time);
-            holder.transmitLoction=(TextView)view.findViewById(R.id.transmit_loaction);
-            holder.text=(EmotinText) view.findViewById(R.id.text);
-            holder.headImage=(CirecleImage)view.findViewById(R.id.head_image);
+            holder.name = (Name) view.findViewById(R.id.name);
+            holder.college = (TextView) view.findViewById(R.id.college);
+            holder.time = (TextView) view.findViewById(R.id.time);
+            holder.transmitLoction = (TextView) view.findViewById(R.id.transmit_loaction);
+            holder.text = (EmotinText) view.findViewById(R.id.text);
+            holder.headImage = (CirecleImage) view.findViewById(R.id.head_image);
             return holder;
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder, int position)
-        {
+        public void onBindViewHolder(MyViewHolder holder, int position) {
             TransmitInfo transmitInfo = transmitInfos.get(position);
             String userId = transmitInfo.getUserId();
             UserInfoCache.getInstance().getHeadIntoImage(userId, holder.headImage);
@@ -153,20 +150,18 @@ public class TransmitListFrafment extends BaseFragment implements IBaseView {
         }
 
         @Override
-        public int getItemCount()
-        {
+        public int getItemCount() {
             return transmitInfos.size();
         }
 
-        class MyViewHolder extends RecyclerView.ViewHolder
-        {
+        class MyViewHolder extends RecyclerView.ViewHolder {
 
             TextView college, time, transmitLoction;
             Name name;
             EmotinText text;
             CirecleImage headImage;
-            public MyViewHolder(View view)
-            {
+
+            public MyViewHolder(View view) {
                 super(view);
             }
         }

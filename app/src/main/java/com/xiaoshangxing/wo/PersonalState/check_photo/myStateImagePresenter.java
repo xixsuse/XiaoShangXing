@@ -2,8 +2,8 @@ package com.xiaoshangxing.wo.PersonalState.check_photo;
 
 import android.content.Context;
 
-import com.xiaoshangxing.utils.FileUtils;
-import com.xiaoshangxing.utils.image.SaveImageTask;
+import com.xiaoshangxing.utils.imageUtils.SaveImageTask;
+import com.xiaoshangxing.utils.normalUtils.FileUtils;
 
 import java.util.UUID;
 

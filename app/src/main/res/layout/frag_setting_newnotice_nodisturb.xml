@@ -10,20 +10,20 @@
     </include>
 
     <ListView
-        android:layout_marginTop="@dimen/y48"
         android:id="@+id/list_nodisturb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y48"
         android:choiceMode="singleChoice"
         android:divider="@color/g1"
-        android:dividerHeight="@dimen/y1">
-    </ListView>
+        android:dividerHeight="@dimen/y1"></ListView>
+
     <TextView
         style="@style/g0_14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y21"
         android:layout_marginStart="@dimen/x48"
+        android:layout_marginTop="@dimen/y21"
         android:text="@string/nodisturb_text" />
 
 

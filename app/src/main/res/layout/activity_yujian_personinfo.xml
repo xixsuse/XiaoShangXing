@@ -20,20 +20,20 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:visibility="invisible"
             android:id="@+id/mark_star"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/x72"
-            android:src="@mipmap/mark_xingbiao" />
+            android:src="@mipmap/mark_xingbiao"
+            android:visibility="invisible" />
 
         <ImageView
-            android:visibility="invisible"
             android:id="@+id/mark_love"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/x30"
-            android:src="@mipmap/mark_anlian" />
+            android:src="@mipmap/mark_anlian"
+            android:visibility="invisible" />
 
     </LinearLayout>
 
@@ -45,7 +45,7 @@
         android:layout_marginBottom="@dimen/y84"
         android:orientation="horizontal">
 
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x180"
             android:layout_height="@dimen/x180"
@@ -101,8 +101,8 @@
         android:orientation="horizontal">
 
         <Button
-            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/chat"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="@dimen/x300"
             android:layout_height="@dimen/y84"
             android:background="@drawable/buttonstyle"
@@ -110,7 +110,7 @@
             android:textColor="@color/b4"
             android:textSize="14sp" />
 
-        <com.xiaoshangxing.utils.ImageButtonText
+        <com.xiaoshangxing.utils.customView.ImageButtonText
             android:id="@+id/bt1"
             android:layout_width="@dimen/x300"
             android:layout_height="@dimen/y84"
@@ -202,7 +202,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/dynamic" />
-            <com.xiaoshangxing.utils.layout.RoundedImageView
+
+            <com.xiaoshangxing.utils.customView.RoundedImageView
                 android:id="@+id/dynamic_image1"
                 android:layout_width="@dimen/x144"
                 android:layout_height="@dimen/x144"
@@ -212,7 +213,7 @@
                 android:scaleType="centerCrop"
                 app:corner_radius="6dp" />
 
-            <com.xiaoshangxing.utils.layout.RoundedImageView
+            <com.xiaoshangxing.utils.customView.RoundedImageView
                 android:id="@+id/dynamic_image2"
                 android:layout_width="@dimen/x144"
                 android:layout_height="@dimen/x144"
@@ -222,7 +223,7 @@
                 android:scaleType="centerCrop"
                 app:corner_radius="6dp" />
 
-            <com.xiaoshangxing.utils.layout.RoundedImageView
+            <com.xiaoshangxing.utils.customView.RoundedImageView
                 android:id="@+id/dynamic_image3"
                 android:layout_width="@dimen/x144"
                 android:layout_height="@dimen/x144"
@@ -232,7 +233,7 @@
                 android:scaleType="centerCrop"
                 app:corner_radius="6dp" />
 
-            <com.xiaoshangxing.utils.layout.RoundedImageView
+            <com.xiaoshangxing.utils.customView.RoundedImageView
                 android:id="@+id/dynamic_image4"
                 android:layout_width="@dimen/x144"
                 android:layout_height="@dimen/x144"

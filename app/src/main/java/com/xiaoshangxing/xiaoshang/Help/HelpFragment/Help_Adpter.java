@@ -10,17 +10,17 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
@@ -33,8 +33,8 @@ import java.util.List;
  * on 2016/4/20
  */
 public class Help_Adpter extends ArrayAdapter<Published> {
-    private Context context;
     List<Published> publisheds;
+    private Context context;
     private HelpFragment fragment;
     private HelpActivity activity;
 
@@ -45,7 +45,7 @@ public class Help_Adpter extends ArrayAdapter<Published> {
         this.context = context;
         this.publisheds = objects;
         this.fragment = fragment;
-        this.activity=activity;
+        this.activity = activity;
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Help_Adpter extends ArrayAdapter<Published> {
             viewholder.time = (TextView) convertView.findViewById(R.id.time);
             viewholder.text = (EmotinText) convertView.findViewById(R.id.text);
             viewholder.button = (ImageView) convertView.findViewById(R.id.button);
-            viewholder.finish=(ImageView)convertView.findViewById(R.id.finish);
+            viewholder.finish = (ImageView) convertView.findViewById(R.id.finish);
             convertView.setTag(viewholder);
 
         } else {
@@ -182,7 +182,7 @@ public class Help_Adpter extends ArrayAdapter<Published> {
 
         if (!published.isAlive()) {
             viewholder.finish.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             viewholder.finish.setVisibility(View.GONE);
         }
         return convertView;
@@ -193,7 +193,7 @@ public class Help_Adpter extends ArrayAdapter<Published> {
         private CirecleImage headImage;
         private TextView name, college, time;
         private EmotinText text;
-        private ImageView button,finish;
+        private ImageView button, finish;
     }
 
 

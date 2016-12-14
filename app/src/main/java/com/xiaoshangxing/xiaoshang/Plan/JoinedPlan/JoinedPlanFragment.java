@@ -12,16 +12,16 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.JoinedPlan;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.data.bean.JoinedPlan;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -55,6 +55,18 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
     View titleBottomLine;
     @Bind(R.id.no_content)
     TextView noContent;
+    private View mview;
+    private View footview;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
+    private boolean isRefreshing;
+    private boolean isLoading;
+    private RealmResults<JoinedPlan> joinedPlen;
+    private JoinedPlan_Adpter_realm adpter_realm;
+
+    public static JoinedPlanFragment newInstance() {
+        return new JoinedPlanFragment();
+    }
 
     @Nullable
     @Override
@@ -71,19 +83,6 @@ public class JoinedPlanFragment extends BaseFragment implements JoinedPlanContra
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    public static JoinedPlanFragment newInstance() {
-        return new JoinedPlanFragment();
-    }
-
-    private View mview;
-    private View footview;
-    private DotsTextView dotsTextView;
-    private TextView loadingText;
-    private boolean isRefreshing;
-    private boolean isLoading;
-    private RealmResults<JoinedPlan> joinedPlen;
-    private JoinedPlan_Adpter_realm adpter_realm;
 
     private void initView() {
         title.setText("我加入的计划");

@@ -18,18 +18,18 @@
 
             <!--导航栏-->
             <include
-                layout="@layout/util_normal_title"
-                android:id="@+id/title_lay">
+                android:id="@+id/title_lay"
+                layout="@layout/util_normal_title">
 
             </include>
 
             <RelativeLayout
-                android:layout_marginTop="@dimen/height_48"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x114">
+                android:layout_height="@dimen/x114"
+                android:layout_marginTop="@dimen/height_48">
 
                 <!--头像-->
-                <com.xiaoshangxing.utils.layout.CirecleImage
+                <com.xiaoshangxing.utils.customView.CirecleImage
                     android:id="@+id/head_image"
                     android:layout_width="@dimen/x114"
                     android:layout_height="@dimen/x114"
@@ -37,17 +37,17 @@
                     android:src="@mipmap/cirecleimage_default" />
 
                 <RelativeLayout
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/head_image"
                     android:layout_width="wrap_content"
-                    android:layout_centerVertical="true">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/head_image">
 
                     <LinearLayout
                         android:id="@+id/name_college"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <!--姓名-->
-                        <com.xiaoshangxing.utils.layout.Name
+                        <com.xiaoshangxing.utils.customView.Name
                             android:id="@+id/name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -89,8 +89,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/x24"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/x24"
                     android:background="@drawable/selector_reward_collect"
                     android:button="@null"
                     android:checked="false"
@@ -99,7 +99,7 @@
             </RelativeLayout>
 
             <!--文字内容-->
-            <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+            <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                 android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,18 +126,18 @@
 
                     <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_gravity="bottom"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
                         android:layout_marginBottom="@dimen/y10"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/dormitory" />
 
                     <TextView
-                        android:layout_marginBottom="@dimen/y5"
                         android:id="@+id/tv_dormitory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
+                        android:layout_marginBottom="@dimen/y5"
                         android:layout_marginStart="@dimen/x18"
                         android:text="桃园"
                         android:textColor="@color/g0"
@@ -160,8 +160,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
-                    android:text="555"
                     android:layout_marginBottom="@dimen/y5"
+                    android:text="555"
                     android:textColor="@color/red1"
                     android:textSize="13sp"
                     android:textStyle="bold" />

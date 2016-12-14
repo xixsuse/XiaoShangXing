@@ -11,19 +11,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.xiaoshang.Help.HelpFragment.HelpFragment;
 import com.xiaoshangxing.xiaoshang.Help.PersonalHelp.PersonalHelpFragment;
 import com.xiaoshangxing.xiaoshang.Reward.PersonalReward.PersonalRewardFragment;
@@ -54,7 +54,7 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_only_fraglayout);
-        setmPresenter(new RewardPresenter(this,this));
+        setmPresenter(new RewardPresenter(this, this));
         BaseFragment frag = (BaseFragment) mFragmentManager.findFragmentById(R.id.main_fragment);
         if (frag != null) {
             return;
@@ -90,24 +90,24 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
                 .show(rewardFragment).commit();
     }
 
-    private void parseIntent(){
+    private void parseIntent() {
         Fragment frag;
-            switch (getIntent().getIntExtra(IntentStatic.TYPE,0)){
-                case IntentStatic.OTHERS:
-                    frag = mFragmentManager.findFragmentByTag(RewardFragment.TAG);
-                    rewardFragment = (frag == null) ? RewardFragment.newInstance() : (RewardFragment) frag;
-                    mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                            rewardFragment, RewardFragment.TAG).commit();
-                    break;
-                case IntentStatic.MINE:
-                    frag = mFragmentManager.findFragmentByTag(PersonalRewardFragment.TAG);
-                    personalRewardFragment = (frag == null) ? PersonalRewardFragment.newInstance() : (PersonalRewardFragment) frag;
-                    mFragmentManager.beginTransaction().add(R.id.main_fragment,
-                            personalRewardFragment, PersonalHelpFragment.TAG).commit();
-                    break;
-                default:
-                    initAllFrafments();
-            }
+        switch (getIntent().getIntExtra(IntentStatic.TYPE, 0)) {
+            case IntentStatic.OTHERS:
+                frag = mFragmentManager.findFragmentByTag(RewardFragment.TAG);
+                rewardFragment = (frag == null) ? RewardFragment.newInstance() : (RewardFragment) frag;
+                mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                        rewardFragment, RewardFragment.TAG).commit();
+                break;
+            case IntentStatic.MINE:
+                frag = mFragmentManager.findFragmentByTag(PersonalRewardFragment.TAG);
+                personalRewardFragment = (frag == null) ? PersonalRewardFragment.newInstance() : (PersonalRewardFragment) frag;
+                mFragmentManager.beginTransaction().add(R.id.main_fragment,
+                        personalRewardFragment, PersonalHelpFragment.TAG).commit();
+                break;
+            default:
+                initAllFrafments();
+        }
     }
 
     public RewardFragment getRewardFragment() {
@@ -144,11 +144,10 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
             if (isHideMenu) {
                 personalRewardFragment.showHideMenu(false);
                 return true;
-            } else if (isCollect){
+            } else if (isCollect) {
                 rewardCollectFragment.showHideMenu(false);
                 return true;
-            }
-            else {
+            } else {
                 return super.onKeyDown(keyCode, event);
             }
         } else {
@@ -279,6 +278,7 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
         dialog.show();
         DialogLocationAndSize.setWidth(dialog, R.dimen.x900);
     }
+
     @Override
     public void showTransmitSuccess() {
         DialogUtils.Dialog_No_Button dialog_no_button =
@@ -297,12 +297,12 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
 
     @Override
     public void setmPresenter(@Nullable RewardContract.Presenter presenter) {
-            this.mPresenter=presenter;
+        this.mPresenter = presenter;
     }
 
-    public void gotoSelectPerson(){
-        Intent intent=new Intent(this, SelectPersonActivity.class);
-        startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
+    public void gotoSelectPerson() {
+        Intent intent = new Intent(this, SelectPersonActivity.class);
+        startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
     }
 
     public void gotoSelectOnePerson() {
@@ -330,11 +330,11 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode== SelectPersonActivity.SELECT_PERSON_CODE ){
-            if (data!=null){
-                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size()>0){
+        if (requestCode == SelectPersonActivity.SELECT_PERSON_CODE) {
+            if (data != null) {
+                if (data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON).size() > 0) {
                     showTransmitDialog(data.getStringArrayListExtra(SelectPersonActivity.SELECT_PERSON));
-                }else {
+                } else {
                     showToast("未选择联系人");
                 }
             }

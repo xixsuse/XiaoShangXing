@@ -50,6 +50,13 @@ public class GlobalSearchActivity extends AppCompatActivity implements OnItemCli
     private SearchView searchView;
 
     private Handler handler = new Handler();
+    private Toolbar toolbar;
+
+    public static final void start(Context context) {
+        Intent intent = new Intent();
+        intent.setClass(context, GlobalSearchActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,12 +115,6 @@ public class GlobalSearchActivity extends AppCompatActivity implements OnItemCli
     protected void onDestroy() {
         showKeyboard(false);
         super.onDestroy();
-    }
-
-    public static final void start(Context context) {
-        Intent intent = new Intent();
-        intent.setClass(context, GlobalSearchActivity.class);
-        context.startActivity(intent);
     }
 
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
@@ -198,8 +199,6 @@ public class GlobalSearchActivity extends AppCompatActivity implements OnItemCli
         }
     }
 
-    private Toolbar toolbar;
-
     public void setToolBar(int toolBarId, ToolBarOptions options) {
         toolbar = (Toolbar) findViewById(toolBarId);
         if (options.titleId != 0) {
@@ -222,34 +221,6 @@ public class GlobalSearchActivity extends AppCompatActivity implements OnItemCli
                     ReflectionUtil.invokeMethod(fm, "noteStateNotSaved", null);
                 }
             });
-        }
-    }
-
-
-    private static class SearchGroupStrategy extends ContactGroupStrategy {
-        public static final String GROUP_FRIEND = "FRIEND";
-        public static final String GROUP_TEAM = "TEAM";
-        public static final String GROUP_MSG = "MSG";
-
-        SearchGroupStrategy() {
-            add(ContactGroupStrategy.GROUP_NULL, 0, "");
-            add(GROUP_TEAM, 1, "群组");
-            add(GROUP_FRIEND, 2, "好友");
-            add(GROUP_MSG, 3, "聊天记录");
-        }
-
-        @Override
-        public String belongs(AbsContactItem item) {
-            switch (item.getItemType()) {
-                case ItemTypes.FRIEND:
-                    return GROUP_FRIEND;
-                case ItemTypes.TEAM:
-                    return GROUP_TEAM;
-                case ItemTypes.MSG:
-                    return GROUP_MSG;
-                default:
-                    return null;
-            }
         }
     }
 
@@ -287,6 +258,33 @@ public class GlobalSearchActivity extends AppCompatActivity implements OnItemCli
 
             default:
                 break;
+        }
+    }
+
+    private static class SearchGroupStrategy extends ContactGroupStrategy {
+        public static final String GROUP_FRIEND = "FRIEND";
+        public static final String GROUP_TEAM = "TEAM";
+        public static final String GROUP_MSG = "MSG";
+
+        SearchGroupStrategy() {
+            add(ContactGroupStrategy.GROUP_NULL, 0, "");
+            add(GROUP_TEAM, 1, "群组");
+            add(GROUP_FRIEND, 2, "好友");
+            add(GROUP_MSG, 3, "聊天记录");
+        }
+
+        @Override
+        public String belongs(AbsContactItem item) {
+            switch (item.getItemType()) {
+                case ItemTypes.FRIEND:
+                    return GROUP_FRIEND;
+                case ItemTypes.TEAM:
+                    return GROUP_TEAM;
+                case ItemTypes.MSG:
+                    return GROUP_MSG;
+                default:
+                    return null;
+            }
         }
     }
 

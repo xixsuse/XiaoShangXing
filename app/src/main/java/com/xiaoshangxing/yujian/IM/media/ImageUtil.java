@@ -28,16 +28,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ImageUtil {
-    public static class ImageSize {
-        public int width = 0;
-        public int height = 0;
-
-        public ImageSize(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-    }
-
     public final static float MAX_IMAGE_RATIO = 5f;
 
     public static Bitmap getDefaultBitmapWhenGetFail() {
@@ -435,5 +425,15 @@ public class ImageUtil {
         return (lowerCaseFilepath.contains("jpg") || lowerCaseFilepath.contains("jpeg")
                 || lowerCaseFilepath.toLowerCase().contains("png") || lowerCaseFilepath.toLowerCase().contains("bmp") || lowerCaseFilepath
                 .toLowerCase().contains("gif"));
+    }
+
+    public static class ImageSize {
+        public int width = 0;
+        public int height = 0;
+
+        public ImageSize(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
     }
 }

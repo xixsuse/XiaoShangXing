@@ -1,22 +1,22 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.network;
 
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.api.IMApi.GetSchoolmate;
-import com.xiaoshangxing.Network.api.InfoApi.BindEmailApi;
-import com.xiaoshangxing.Network.api.InfoApi.CheckPassword;
-import com.xiaoshangxing.Network.api.InfoApi.GetCollege;
-import com.xiaoshangxing.Network.api.InfoApi.GetProfession;
-import com.xiaoshangxing.Network.api.InfoApi.GetSchool;
-import com.xiaoshangxing.Network.api.InfoApi.GetUser;
-import com.xiaoshangxing.Network.api.InfoApi.ModifyInfoApi;
-import com.xiaoshangxing.Network.api.InfoApi.ModifyPassword;
-import com.xiaoshangxing.Network.api.InfoApi.QuryRealInfo;
-import com.xiaoshangxing.Network.api.InfoApi.RealName;
-import com.xiaoshangxing.Network.api.InfoApi.SetUserImage;
-import com.xiaoshangxing.Network.api.InfoApi.UnBindEmailApi;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.api.IMApi.GetSchoolmate;
+import com.xiaoshangxing.network.api.InfoApi.BindEmailApi;
+import com.xiaoshangxing.network.api.InfoApi.CheckPassword;
+import com.xiaoshangxing.network.api.InfoApi.GetCollege;
+import com.xiaoshangxing.network.api.InfoApi.GetProfession;
+import com.xiaoshangxing.network.api.InfoApi.GetSchool;
+import com.xiaoshangxing.network.api.InfoApi.GetUser;
+import com.xiaoshangxing.network.api.InfoApi.ModifyInfoApi;
+import com.xiaoshangxing.network.api.InfoApi.ModifyPassword;
+import com.xiaoshangxing.network.api.InfoApi.QuryRealInfo;
+import com.xiaoshangxing.network.api.InfoApi.RealName;
+import com.xiaoshangxing.network.api.InfoApi.SetUserImage;
+import com.xiaoshangxing.network.api.InfoApi.UnBindEmailApi;
+import com.xiaoshangxing.network.netUtil.NS;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
@@ -49,17 +49,12 @@ public class InfoNetwork {
 
     }
 
-    //在访问InfoNetwork时创建单例
-    private static class SingletonHolder {
-        private static final InfoNetwork INSTANCE = new InfoNetwork();
-    }
-
     //获取单例
     public static InfoNetwork getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    public void GetUser(Subscriber<ResponseBody> subscriber, JsonObject user, Context context){
+    public void GetUser(Subscriber<ResponseBody> subscriber, JsonObject user, Context context) {
         if (getUser == null) {
             getUser = Network.getRetrofitWithHeader(context).create(GetUser.class);
         }
@@ -67,7 +62,7 @@ public class InfoNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void ModifyInfo(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context){
+    public void ModifyInfo(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
         if (modifyInfoApi == null) {
             modifyInfoApi = Network.getRetrofitWithHeader(context).create(ModifyInfoApi.class);
         }
@@ -75,7 +70,7 @@ public class InfoNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void CheckPassword(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context){
+    public void CheckPassword(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
         if (checkPassword == null) {
             checkPassword = Network.getRetrofitWithHeader(context).create(CheckPassword.class);
         }
@@ -83,7 +78,7 @@ public class InfoNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void ModifyPassword(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context){
+    public void ModifyPassword(Subscriber<ResponseBody> subscriber, JsonObject jsonObject, Context context) {
         if (modifyPassword == null) {
             modifyPassword = Network.getRetrofitWithHeader(context).create(ModifyPassword.class);
         }
@@ -107,11 +102,11 @@ public class InfoNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void setUserImage(Subscriber<ResponseBody> subscriber, Integer id, MultipartBody.Part photo,Context context) {
+    public void setUserImage(Subscriber<ResponseBody> subscriber, Integer id, MultipartBody.Part photo, Context context) {
         if (setUserImage == null) {
             setUserImage = Network.getRetrofitWithHeader(context).create(SetUserImage.class);
         }
-        Observable<ResponseBody> observable = setUserImage.setUserImage(id,photo, NS.currentTime());
+        Observable<ResponseBody> observable = setUserImage.setUserImage(id, photo, NS.currentTime());
         toSubscribe(observable, subscriber);
     }
 
@@ -172,5 +167,10 @@ public class InfoNetwork {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
+    }
+
+    //在访问InfoNetwork时创建单例
+    private static class SingletonHolder {
+        private static final InfoNetwork INSTANCE = new InfoNetwork();
     }
 }

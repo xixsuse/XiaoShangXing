@@ -6,8 +6,6 @@ import android.view.View;
 
 import com.xiaoshangxing.yujian.ChatActivity.ModuleProxy;
 
-import io.realm.Realm;
-
 public abstract class TViewHolder {
     /**
      * context
@@ -41,12 +39,12 @@ public abstract class TViewHolder {
         this.context = context;
     }
 
-    protected void setAdapter(TAdapter adapter) {
-        this.adapter = adapter;
-    }
-
     protected TAdapter getAdapter() {
         return this.adapter;
+    }
+
+    protected void setAdapter(TAdapter adapter) {
+        this.adapter = adapter;
     }
 
     protected void setPosition(int position) {

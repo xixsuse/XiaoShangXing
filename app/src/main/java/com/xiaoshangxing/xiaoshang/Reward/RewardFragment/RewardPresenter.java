@@ -2,7 +2,7 @@ package com.xiaoshangxing.xiaoshang.Reward.RewardFragment;
 
 import android.content.Context;
 
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 import io.realm.Realm;
 

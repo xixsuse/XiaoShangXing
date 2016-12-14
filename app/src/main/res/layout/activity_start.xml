@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/w0"
-    tools:context=".login_register.StartActivity.StartActivity">
+    tools:context=".loginAndRegister.StartActivity.StartActivity">
 
     <!--图片-->
     <ImageView
@@ -20,38 +20,36 @@
 
     <!--登录按钮-->
     <Button
-        style="?android:attr/borderlessButtonStyle"
         android:id="@+id/btn_login"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="@dimen/x408"
         android:layout_height="@dimen/x162"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:layout_marginBottom="@dimen/x120"
         android:layout_marginStart="@dimen/x96"
         android:background="@drawable/btn_circular_green1"
         android:text="@string/login"
-        android:textStyle="bold"
         android:textColor="@color/w0"
         android:textSize="20sp"
-        android:visibility="invisible"
-        />
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
     <!--注册按钮-->
     <Button
-        style="?android:attr/borderlessButtonStyle"
         android:id="@+id/btn_register"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="@dimen/x408"
         android:layout_height="@dimen/x162"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginBottom="@dimen/x120"
         android:layout_marginEnd="@dimen/x96"
         android:background="@drawable/btn_circular_white_register"
         android:text="@string/register"
-        android:textStyle="bold"
         android:textColor="@color/b1"
         android:textSize="20sp"
-        android:visibility="invisible"
-        />
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
 </RelativeLayout>

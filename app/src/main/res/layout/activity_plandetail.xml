@@ -7,8 +7,8 @@
 
     <!--导航栏-->
     <include
-        layout="@layout/util_normal_title"
-        android:id="@+id/title_lay">
+        android:id="@+id/title_lay"
+        layout="@layout/util_normal_title">
 
     </include>
 
@@ -37,7 +37,7 @@
                     android:orientation="horizontal">
 
                     <!--头像-->
-                    <com.xiaoshangxing.utils.layout.CirecleImage
+                    <com.xiaoshangxing.utils.customView.CirecleImage
                         android:id="@+id/head_image"
                         android:layout_width="@dimen/x102"
                         android:layout_height="@dimen/x102"
@@ -46,7 +46,7 @@
                         android:src="@mipmap/cirecleimage_default" />
 
                     <!--姓名-->
-                    <com.xiaoshangxing.utils.layout.Name
+                    <com.xiaoshangxing.utils.customView.Name
                         android:id="@+id/name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 </LinearLayout>
 
                 <!--文字内容-->
-                <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+                <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                     android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                         android:layout_marginTop="@dimen/y36"
                         android:orientation="horizontal">
 
-                        <com.xiaoshangxing.utils.layout.CirecleImage
+                        <com.xiaoshangxing.utils.customView.CirecleImage
                             android:id="@+id/orange"
                             android:layout_width="@dimen/x30"
                             android:layout_height="@dimen/x30"
@@ -184,12 +184,12 @@
 
                     <ImageView
                         android:id="@+id/complete"
-                        android:layout_marginTop="@dimen/y38"
-                        android:layout_marginRight="@dimen/x376"
-                        android:layout_alignParentEnd="true"
-                        android:src="@mipmap/plan_complete"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="@dimen/x376"
+                        android:layout_marginTop="@dimen/y38"
+                        android:src="@mipmap/plan_complete" />
 
                 </RelativeLayout>
 
@@ -216,7 +216,7 @@
                         android:layout_marginTop="@dimen/y36"
                         android:orientation="horizontal">
 
-                        <com.xiaoshangxing.utils.layout.CirecleImage
+                        <com.xiaoshangxing.utils.customView.CirecleImage
                             android:id="@+id/r4"
                             android:layout_width="@dimen/x30"
                             android:layout_height="@dimen/x30"
@@ -241,7 +241,7 @@
                         android:layout_marginTop="@dimen/y36"
                         android:orientation="horizontal">
 
-                        <com.xiaoshangxing.utils.layout.CirecleImage
+                        <com.xiaoshangxing.utils.customView.CirecleImage
                             android:id="@+id/blue6"
                             android:layout_width="@dimen/x30"
                             android:layout_height="@dimen/x30"
@@ -289,7 +289,7 @@
                                 android:textSize="12sp" />
 
                             <!--发起人-->
-                            <com.xiaoshangxing.utils.layout.Name
+                            <com.xiaoshangxing.utils.customView.Name
                                 android:id="@+id/launch_people"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -322,8 +322,8 @@
                 android:layout_marginTop="@dimen/y52">
 
                 <Button
-                    style="?android:attr/borderlessButtonStyle"
                     android:id="@+id/invite"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/y116"
                     android:layout_weight="1"
@@ -333,8 +333,8 @@
                     android:textSize="17sp" />
 
                 <Button
-                    style="?android:attr/borderlessButtonStyle"
                     android:id="@+id/apply"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/y116"
                     android:layout_marginStart="@dimen/x44"

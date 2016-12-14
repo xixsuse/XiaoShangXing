@@ -2,6 +2,27 @@ package com.xiaoshangxing.yujian.Serch;
 
 public interface IContact {
 
+    /**
+     * get contact id
+     *
+     * @return
+     */
+    String getContactId();
+
+    /**
+     * get contact type {@link Type}
+     *
+     * @return
+     */
+    int getContactType();
+
+    /**
+     * get contact's display name to show to user
+     *
+     * @return
+     */
+    String getDisplayName();
+
     interface Type {
 
         /**
@@ -24,25 +45,4 @@ public interface IContact {
          */
         int Msg = 0x04;
     }
-
-    /**
-     * get contact id
-     *
-     * @return
-     */
-    String getContactId();
-
-    /**
-     * get contact type {@link Type}
-     *
-     * @return
-     */
-    int getContactType();
-
-    /**
-     * get contact's display name to show to user
-     *
-     * @return
-     */
-    String getDisplayName();
 }

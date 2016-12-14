@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@color/w0"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-<!--导航栏-->
+    android:layout_height="match_parent"
+    android:background="@color/w0"
+    android:orientation="vertical">
+    <!--导航栏-->
     <include layout="@layout/util_normal_title_end_text">
 
     </include>
 
     <ListView
-        android:paddingStart="@dimen/width_48"
-        android:fadingEdge="none"
-        android:overScrollMode="never"
-        android:cacheColorHint="@color/transparent"
-        android:listSelector="@color/transparent"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@color/transparent"
+        android:fadingEdge="none"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:listSelector="@color/transparent"
+        android:overScrollMode="never"
+        android:paddingStart="@dimen/width_48">
 
     </ListView>
 

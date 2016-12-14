@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SortModel;
+import com.xiaoshangxing.publicActivity.SelectPerson.SortModel;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
@@ -49,7 +49,7 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
 
     public int getCount() {
 //        return this.list.size();
-        return list.size()>0?list.size():0;
+        return list.size() > 0 ? list.size() : 0;
     }
 
     public Object getItem(int position) {
@@ -108,8 +108,8 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, PersonInfoActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT,list.get(position).getAccount());
+                Intent intent = new Intent(mContext, PersonInfoActivity.class);
+                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, list.get(position).getAccount());
                 mContext.startActivity(intent);
             }
         });
@@ -120,17 +120,6 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
         return view;
 
     }
-
-
-    final static class ViewHolder {
-        ImageView start;
-        TextView tvLetter;
-        TextView name;
-        CirecleImage head;
-        CheckBox checkBox;
-        View line, top;
-    }
-
 
     /**
      * 根据ListView的当前位置获取分类的首字母的char ascii值
@@ -154,9 +143,17 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
         return -1;
     }
 
-
     @Override
     public Object[] getSections() {
         return null;
+    }
+
+    final static class ViewHolder {
+        ImageView start;
+        TextView tvLetter;
+        TextView name;
+        CirecleImage head;
+        CheckBox checkBox;
+        View line, top;
     }
 }

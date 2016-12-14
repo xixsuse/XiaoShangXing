@@ -13,21 +13,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.xiaoshang.Plan.JoinedPlan.JoinedPlanFragment;
 import com.xiaoshangxing.xiaoshang.Plan.PersonalPlan.PersonalPlanFragment;
 import com.xiaoshangxing.xiaoshang.Plan.PlanFragment.PlanFragment;
@@ -158,9 +158,9 @@ public class PlanActivity extends BaseActivity implements IBaseView {
             return;
         }
         String userId = String.valueOf(published.getUserId());
-        UserInfoCache.getInstance().getHeadIntoImage(userId,head);
-        UserInfoCache.getInstance().getExIntoTextview(userId,NS.USER_NAME,name);
-        UserInfoCache.getInstance().getExIntoTextview(userId,NS.COLLEGE,college);
+        UserInfoCache.getInstance().getHeadIntoImage(userId, head);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+        UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         text.setText(published.getText());
         if (!TextUtils.isEmpty(published.getImage())) {
             MyGlide.with(PlanActivity.this, published.getImage().split(NS.SPLIT)[0], imageView);

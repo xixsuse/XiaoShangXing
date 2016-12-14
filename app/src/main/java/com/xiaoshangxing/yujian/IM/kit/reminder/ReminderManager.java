@@ -10,13 +10,15 @@ import java.util.List;
  * Created by huangjun on 2015/3/18.
  */
 public class ReminderManager {
-    // callback
-    public interface UnreadNumChangedCallback {
-        void onUnreadNumChanged(ReminderItem item);
-    }
-
     // singleton
     private static ReminderManager instance;
+    private SparseArray<ReminderItem> items = new SparseArray<>();
+    // observers
+    private List<UnreadNumChangedCallback> unreadNumChangedCallbacks = new ArrayList<>();
+
+    private ReminderManager() {
+        populate(items);
+    }
 
     public static synchronized ReminderManager getInstance() {
         if (instance == null) {
@@ -24,14 +26,6 @@ public class ReminderManager {
         }
 
         return instance;
-    }
-
-    private SparseArray<ReminderItem> items = new SparseArray<>();
-    // observers
-    private List<UnreadNumChangedCallback> unreadNumChangedCallbacks = new ArrayList<>();
-
-    private ReminderManager() {
-        populate(items);
     }
 
     // interface
@@ -93,5 +87,10 @@ public class ReminderManager {
         for (UnreadNumChangedCallback cb : unreadNumChangedCallbacks) {
             cb.onUnreadNumChanged(item);
         }
+    }
+
+    // callback
+    public interface UnreadNumChangedCallback {
+        void onUnreadNumChanged(ReminderItem item);
     }
 }

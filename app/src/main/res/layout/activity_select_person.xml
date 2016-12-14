@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_144"
         android:paddingStart="@dimen/width_48">
+
         <TextView
             android:id="@+id/cancel"
             android:layout_width="wrap_content"
@@ -22,13 +23,14 @@
             android:textSize="15sp" />
         <!--title-->
         <TextView
-            android:textStyle="bold"
             android:id="@+id/myState"
             style="@style/black_16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/select_person" />
+            android:text="@string/select_person"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/sure"
             android:layout_width="wrap_content"
@@ -44,17 +46,18 @@
 
     <!--已选-->
     <LinearLayout
-        android:paddingStart="@dimen/width_48"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y160">
+        android:layout_height="@dimen/y160"
+        android:paddingStart="@dimen/width_48">
+
         <android.support.v7.widget.RecyclerView
-            android:overScrollMode="never"
+            android:id="@+id/recycleView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:fadeScrollbars="false"
             android:fadingEdge="none"
             android:listSelector="@color/transparent"
-            android:id="@+id/recycleView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:overScrollMode="never">
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
@@ -81,7 +84,7 @@
             android:textSize="30.0dip"
             android:visibility="invisible" />
 
-        <com.xiaoshangxing.SelectPerson.SideBar
+        <com.xiaoshangxing.publicActivity.SelectPerson.SideBar
             android:id="@+id/sidrbar"
             android:layout_width="30.0dip"
             android:layout_height="fill_parent"

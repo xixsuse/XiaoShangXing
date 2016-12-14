@@ -58,35 +58,34 @@
     <!--图片列表-->
     <GridView
         android:id="@+id/grideview"
-        android:layout_below="@+id/title_lay"
-        android:layout_above="@+id/details_entry_layout"
-        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/y48"
-        android:paddingStart="@dimen/x24"
-        android:paddingEnd="@dimen/x24"
-        android:numColumns="3"
+        android:layout_above="@+id/details_entry_layout"
+        android:layout_below="@+id/title_lay"
+        android:cacheColorHint="@color/transparent"
         android:columnWidth="@dimen/x336"
         android:fadingEdge="none"
-        android:scrollbars="none"
-        android:overScrollMode="never"
-        android:cacheColorHint="@color/transparent"
-        android:listSelector="@color/transparent"
+        android:focusable="true"
         android:horizontalSpacing="@dimen/x12"
-        android:verticalSpacing="@dimen/y12"
-        android:transcriptMode="normal"
+        android:listSelector="@color/transparent"
+        android:numColumns="3"
+        android:orientation="horizontal"
+        android:overScrollMode="never"
+        android:paddingEnd="@dimen/x24"
+        android:paddingStart="@dimen/x24"
+        android:paddingTop="@dimen/y48"
+        android:scrollbars="none"
         android:stretchMode="columnWidth"
-        android:orientation="horizontal">
-    </GridView>
+        android:transcriptMode="normal"
+        android:verticalSpacing="@dimen/y12"></GridView>
 
     <!--下方-->
     <RelativeLayout
         android:id="@+id/details_entry_layout"
         android:layout_width="match_parent"
-        android:background="@color/w0"
         android:layout_height="@dimen/y144"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/w0">
 
         <CheckBox
             android:id="@+id/original"
@@ -97,40 +96,44 @@
             android:background="@drawable/selector_picture_original"
             android:button="@null"
             android:focusable="false" />
+
         <TextView
-            android:text="@string/original"
             android:id="@+id/original_text"
-            android:textColor="@color/b0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/original"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:text="@string/original"
+            android:textColor="@color/b0" />
 
         <!--发送-->
         <RelativeLayout
             android:id="@+id/complete"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="@dimen/width_48"
-            android:background="@color/transparent"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/width_48"
+            android:background="@color/transparent">
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/complete"
                     android:textColor="@color/green1"
-                    android:textSize="16sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/count"
-                    android:textColor="@color/green1"
-                    android:textSize="16sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/green1"
+                    android:textSize="16sp" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

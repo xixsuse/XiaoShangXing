@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,28 +26,22 @@ public class ContactDataAdapter extends BaseAdapter {
     // COMPONENTS
     //
 
+    protected final HashMap<String, Integer> indexes = new HashMap<>();
     private final Context context;
-
     private final Map<Integer, Class<? extends AbsContactViewHolder<? extends AbsContactItem>>> viewHolderMap;
-
     private final ContactGroupStrategy groupStrategy;
-
-    private final IContactDataProvider dataProvider;
 
     //
     // DATAS
     //
-
-    private AbsContactDataList datas;
-
-    protected final HashMap<String, Integer> indexes = new HashMap<>();
+    private final IContactDataProvider dataProvider;
+    private final List<Task> tasks = new ArrayList<>();
 
     //
     // OPTIONS
     //
-
+    private AbsContactDataList datas;
     private ContactItemFilter filter;
-
     private ContactItemFilter disableFilter;
 
     public ContactDataAdapter(Context context, ContactGroupStrategy groupStrategy, IContactDataProvider dataProvider) {
@@ -70,13 +63,13 @@ public class ContactDataAdapter extends BaseAdapter {
         this.disableFilter = disableFilter;
     }
 
-    public final LivIndex createLivIndex(ListView lv, LetterIndexView liv, TextView tvHit, ImageView ivBk) {
-        return new LivIndex(lv, liv, tvHit, ivBk, getIndexes());
-    }
-
     //
     // BaseAdapter
     //
+
+    public final LivIndex createLivIndex(ListView lv, LetterIndexView liv, TextView tvHit, ImageView ivBk) {
+        return new LivIndex(lv, liv, tvHit, ivBk, getIndexes());
+    }
 
     @Override
     public int getCount() {
@@ -164,6 +157,10 @@ public class ContactDataAdapter extends BaseAdapter {
         return convertView;
     }
 
+    //
+    // LOAD
+    //
+
     @Override
     public boolean isEnabled(int position) {
         if (disableFilter != null) {
@@ -172,10 +169,6 @@ public class ContactDataAdapter extends BaseAdapter {
 
         return true;
     }
-
-    //
-    // LOAD
-    //
 
     public final void query(String query) {
         startTask(new TextQuery(query), true);
@@ -194,8 +187,6 @@ public class ContactDataAdapter extends BaseAdapter {
     public final void query(TextQuery query) {
         startTask(query, true);
     }
-
-    private final List<Task> tasks = new ArrayList<>();
 
     /**
      * 启动搜索任务
@@ -230,6 +221,46 @@ public class ContactDataAdapter extends BaseAdapter {
 
     private void onTaskFinish(Task task) {
         tasks.remove(task);
+    }
+
+    /**
+     * 数据未准备
+     */
+    protected void onPreReady() {
+    }
+
+    //
+    // Overrides
+    //
+
+    /**
+     * 数据加载完成
+     */
+    protected void onPostLoad(boolean empty, String query, boolean all) {
+    }
+
+    /**
+     * 加载完成后，加入非数据项
+     *
+     * @return
+     */
+    protected List<? extends AbsContactItem> onNonDataItems() {
+        return null;
+    }
+
+    private Map<String, Integer> getIndexes() {
+        return this.indexes;
+    }
+
+    //
+    // INDEX
+    //
+
+    private void updateIndexes(Map<String, Integer> indexes) {
+        // CLEAR
+        this.indexes.clear();
+        // SET
+        this.indexes.putAll(indexes);
     }
 
     /**
@@ -294,45 +325,5 @@ public class ContactDataAdapter extends BaseAdapter {
         protected void onCancelled() {
             onTaskFinish(this);
         }
-    }
-
-    //
-    // Overrides
-    //
-
-    /**
-     * 数据未准备
-     */
-    protected void onPreReady() {
-    }
-
-    /**
-     * 数据加载完成
-     */
-    protected void onPostLoad(boolean empty, String query, boolean all) {
-    }
-
-    /**
-     * 加载完成后，加入非数据项
-     *
-     * @return
-     */
-    protected List<? extends AbsContactItem> onNonDataItems() {
-        return null;
-    }
-
-    //
-    // INDEX
-    //
-
-    private Map<String, Integer> getIndexes() {
-        return this.indexes;
-    }
-
-    private void updateIndexes(Map<String, Integer> indexes) {
-        // CLEAR
-        this.indexes.clear();
-        // SET
-        this.indexes.putAll(indexes);
     }
 }

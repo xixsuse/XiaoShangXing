@@ -4,7 +4,7 @@
     Android:zAdjustment="top">
 
     <alpha
+        Android:duration="2000"
         Android:fromAlpha="1.0"
-        Android:toAlpha="1.0"
-        Android:duration="2000"/>
+        Android:toAlpha="1.0" />
 </set>

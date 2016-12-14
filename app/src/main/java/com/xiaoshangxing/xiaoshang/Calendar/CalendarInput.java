@@ -21,15 +21,15 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter;
-import com.xiaoshangxing.Network.Formmat;
-import com.xiaoshangxing.Network.ShowMsgHandler;
-import com.xiaoshangxing.Network.netUtil.BaseUrl;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.Formmat;
+import com.xiaoshangxing.network.ShowMsgHandler;
+import com.xiaoshangxing.network.netUtil.BaseUrl;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -49,6 +49,7 @@ import butterknife.OnClick;
  */
 
 public class CalendarInput extends BaseActivity implements OnDateSelectedListener, OnMonthChangedListener, IBaseView {
+    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
@@ -79,7 +80,6 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
     LinearLayout calendarLay;
     @Bind(R.id.complete)
     TextView complete;
-    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     private BottomSheetBehavior mBottomSheetBehavior;
     private CalendarDay current_day;
     private Runnable runnable;

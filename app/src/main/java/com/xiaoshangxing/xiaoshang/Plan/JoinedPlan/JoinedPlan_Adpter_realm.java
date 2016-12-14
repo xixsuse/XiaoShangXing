@@ -11,15 +11,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.JoinedPlan;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.data.bean.JoinedPlan;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.Name;
 import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -35,9 +35,9 @@ import io.realm.RealmResults;
  * on 2016/4/20
  */
 public class JoinedPlan_Adpter_realm extends RealmBaseAdapter<JoinedPlan> {
-    private Context context;
-    List<JoinedPlan> joinedPlen;
     protected Handler handler;
+    List<JoinedPlan> joinedPlen;
+    private Context context;
     private Activity activity;
 
     public JoinedPlan_Adpter_realm(Context context, Activity activity, RealmResults<JoinedPlan> objects) {

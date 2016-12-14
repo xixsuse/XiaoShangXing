@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center_vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical">
+
     <TextView
         android:id="@+id/nim_message_item_text_body"
         android:layout_width="wrap_content"
@@ -13,8 +14,8 @@
         android:includeFontPadding="false"
         android:lineSpacingExtra="1dp"
         android:maxWidth="222dip"
-        android:minWidth="@dimen/x112"
         android:minHeight="@dimen/x112"
+        android:minWidth="@dimen/x112"
         android:paddingBottom="@dimen/y30"
         android:paddingEnd="@dimen/x36"
         android:paddingStart="@dimen/x36"

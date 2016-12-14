@@ -21,7 +21,7 @@
         android:layout_marginTop="@dimen/y36"
         android:orientation="horizontal">
 
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x78"
             android:layout_height="@dimen/x78"

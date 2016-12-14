@@ -17,19 +17,22 @@ public class UserInfoObservable {
     public UserInfoObservable(Context context) {
         uiHandler = new Handler(context.getMainLooper());
     }
-//  添加
+
+    //  添加
     synchronized public void registerObserver(UserInfoObserver observer) {
         if (observer != null) {
             observers.add(observer);
         }
     }
-//  移除
+
+    //  移除
     synchronized public void unregisterObserver(UserInfoObserver observer) {
         if (observer != null) {
             observers.remove(observer);
         }
     }
-//  有变化时通知
+
+    //  有变化时通知
     synchronized public void notifyObservers(final List<String> accounts) {
         uiHandler.post(new Runnable() {
             @Override

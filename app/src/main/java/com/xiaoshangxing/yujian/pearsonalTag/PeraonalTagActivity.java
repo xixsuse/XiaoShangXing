@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.TagView.Tag;
-import com.xiaoshangxing.setting.utils.TagView.TagListView;
-import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.wo.setting.utils.TagView.Tag;
+import com.xiaoshangxing.wo.setting.utils.TagView.TagListView;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +18,8 @@ import java.util.List;
  * Created by tianyang on 2016/8/22.
  */
 public class PeraonalTagActivity extends BaseActivity {
-    private TagListView mTagListView;
     private final List<Tag> mTags = new ArrayList<Tag>();
+    private TagListView mTagListView;
     private String[] tags;
 
     @Override

@@ -1,8 +1,8 @@
 package com.xiaoshangxing.wo.PersonalState;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 import io.realm.Realm;
 
@@ -17,10 +17,12 @@ public interface StateContract {
         **describe:判断是自己的动态还是别人的
         */
         void typeOfState();
+
         /*
         **describe:跳转到消息界面
         */
         void gotoNews();
+
         /*
         **describe:刷新页面数据
         */

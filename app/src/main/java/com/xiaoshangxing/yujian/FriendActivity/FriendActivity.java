@@ -13,17 +13,17 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.friend.model.Friend;
-import com.xiaoshangxing.Network.IMNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.IMNetwork;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.CharacterParser;
-import com.xiaoshangxing.SelectPerson.PinyinComparator;
-import com.xiaoshangxing.SelectPerson.SideBar;
-import com.xiaoshangxing.SelectPerson.SortModel;
+import com.xiaoshangxing.publicActivity.SelectPerson.CharacterParser;
+import com.xiaoshangxing.publicActivity.SelectPerson.PinyinComparator;
+import com.xiaoshangxing.publicActivity.SelectPerson.SideBar;
+import com.xiaoshangxing.publicActivity.SelectPerson.SortModel;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.data.bean.User;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
@@ -53,6 +53,7 @@ import rx.Subscriber;
 public class FriendActivity extends BaseActivity {
 
 
+    public static final int gotoStar = 1000;
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -83,12 +84,43 @@ public class FriendActivity extends BaseActivity {
     private TextView group_count;
     private TextView love_count;
     private TextView star_count;
-
     private View headView, serch;
-
     private List<User> loves = new ArrayList<>();
     private List<User> stars = new ArrayList<>();
-    public static final int gotoStar = 1000;
+    FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
+        @Override
+        public void onAddedOrUpdatedFriends(List<String> accounts) {
+            NimUserInfoCache.getInstance().getUserInfoFromRemote(accounts, null);
+            refreshData();
+        }
+
+        @Override
+        public void onDeletedFriends(List<String> accounts) {
+            refreshData();
+        }
+
+        @Override
+        public void onAddUserToBlackList(List<String> accounts) {
+            refreshData();
+        }
+
+        @Override
+        public void onRemoveUserFromBlackList(List<String> accounts) {
+            refreshData();
+        }
+    };
+    private UserInfoObservable.UserInfoObserver userInfoObserver = new UserInfoObservable.UserInfoObserver() {
+        @Override
+        public void onUserInfoChanged(List<String> accounts) {
+            refreshData();
+        }
+    };
+    private Observer<Void> loginSyncCompletedObserver = new Observer<Void>() {
+        @Override
+        public void onEvent(Void aVoid) {
+            refreshData();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -269,7 +301,7 @@ public class FriendActivity extends BaseActivity {
             sortModel.setAccount(date[i]);
             Friend friend = FriendDataCache.getInstance().getFriendByAccount(date[i]);
             if (friend.getExtension() != null && friend.getExtension().containsKey(NS.MARK) && (boolean) friend.getExtension().get(NS.MARK)) {
-                    sortModel.setSortLetters("@");
+                sortModel.setSortLetters("@");
             } else {
                 //汉字转换成拼音
                 String pinyin = characterParser.getSelling(sortModel.getName());
@@ -319,43 +351,6 @@ public class FriendActivity extends BaseActivity {
 
         LoginSyncDataStatusObserver.getInstance().observeSyncDataCompletedEvent(loginSyncCompletedObserver);
     }
-
-    FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
-        @Override
-        public void onAddedOrUpdatedFriends(List<String> accounts) {
-            NimUserInfoCache.getInstance().getUserInfoFromRemote(accounts, null);
-            refreshData();
-        }
-
-        @Override
-        public void onDeletedFriends(List<String> accounts) {
-            refreshData();
-        }
-
-        @Override
-        public void onAddUserToBlackList(List<String> accounts) {
-            refreshData();
-        }
-
-        @Override
-        public void onRemoveUserFromBlackList(List<String> accounts) {
-            refreshData();
-        }
-    };
-
-    private UserInfoObservable.UserInfoObserver userInfoObserver = new UserInfoObservable.UserInfoObserver() {
-        @Override
-        public void onUserInfoChanged(List<String> accounts) {
-            refreshData();
-        }
-    };
-
-    private Observer<Void> loginSyncCompletedObserver = new Observer<Void>() {
-        @Override
-        public void onEvent(Void aVoid) {
-            refreshData();
-        }
-    };
 
     @OnClick(R.id.back)
     public void onClick() {

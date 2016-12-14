@@ -12,7 +12,7 @@
         android:paddingLeft="@dimen/width_48"
         android:paddingRight="@dimen/width_48">
 
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x100"
             android:layout_height="@dimen/x100"

@@ -8,24 +8,23 @@ import java.util.List;
  */
 public class ContactDataTask {
 
-    public interface Host {
-        public void onData(ContactDataTask task, AbsContactDataList datas, boolean all); // 搜索完成，返回数据给调用方
-
-        public boolean isCancelled(ContactDataTask task); // 判断调用放是否已经取消
-    }
-
     private final IContactDataProvider dataProvider; // 数据源提供者
-
     private final ContactItemFilter filter; // 项过滤器
-
     private final TextQuery query; // 要搜索的信息，null为查询所有
-
     private Host host;
 
     public ContactDataTask(TextQuery query, IContactDataProvider dataProvider, ContactItemFilter filter) {
         this.query = query;
         this.dataProvider = dataProvider;
         this.filter = filter;
+    }
+
+    private static void add(AbsContactDataList datas, List<AbsContactItem> items, ContactItemFilter filter) {
+        for (AbsContactItem item : items) {
+            if (filter == null || !filter.filter(item)) {
+                datas.add(item);
+            }
+        }
     }
 
     public final void setHost(Host host) {
@@ -75,11 +74,9 @@ public class ContactDataTask {
         return host != null && host.isCancelled(this);
     }
 
-    private static void add(AbsContactDataList datas, List<AbsContactItem> items, ContactItemFilter filter) {
-        for (AbsContactItem item : items) {
-            if (filter == null || !filter.filter(item)) {
-                datas.add(item);
-            }
-        }
+    public interface Host {
+        public void onData(ContactDataTask task, AbsContactDataList datas, boolean all); // 搜索完成，返回数据给调用方
+
+        public boolean isCancelled(ContactDataTask task); // 判断调用放是否已经取消
     }
 }

@@ -9,6 +9,8 @@ import android.os.Process;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.xiaoshangxing.utils.normalUtils.FileUtils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -24,10 +26,9 @@ import java.util.Date;
  */
 
 public class XSXCrashHelper implements Thread.UncaughtExceptionHandler {
+    public static final String PATH = FileUtils.XSX_PATH + "Log" + File.separator;
     private static final String TAG = "CrashHandler";
     private static final boolean DEBUG = true;
-
-    public static final String PATH = FileUtils.XSX_PATH + "Log" + File.separator;
     private static final String FILE_NAME = "crash";
 
     //log文件的后缀名

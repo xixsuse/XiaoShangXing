@@ -6,10 +6,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
 
 import java.util.List;
 
@@ -21,8 +21,8 @@ import butterknife.ButterKnife;
  * on 2016/7/12
  */
 public class roll_listview_adpter extends ArrayAdapter<String> {
-    private Context context;
     List<String> list;
+    private Context context;
 
     public roll_listview_adpter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);

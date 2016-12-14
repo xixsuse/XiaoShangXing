@@ -10,12 +10,12 @@
         android:layout_height="wrap_content"
         android:divider="@color/g1"
         android:dividerHeight="1px"
-        android:listSelector="@android:color/transparent"/>
-    
+        android:listSelector="@android:color/transparent" />
+
     <View
-        android:background="#f1f1f1"
         android:layout_width="match_parent"
-        android:layout_height="18px">
+        android:layout_height="18px"
+        android:background="#f1f1f1">
 
     </View>
 
@@ -25,5 +25,5 @@
         android:layout_height="@dimen/y144"
         android:background="@drawable/menu_item_middle"
         android:text="取消"
-        android:textSize="17sp"/>
+        android:textSize="17sp" />
 </LinearLayout>

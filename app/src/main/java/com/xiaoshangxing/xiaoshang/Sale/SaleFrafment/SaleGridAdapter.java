@@ -7,7 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.image.MyGlide;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 
 import java.util.ArrayList;
 

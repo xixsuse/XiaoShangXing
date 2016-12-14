@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.netUtil;
+package com.xiaoshangxing.network.netUtil;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -14,18 +14,18 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.auth.AuthService;
 import com.netease.nimlib.sdk.auth.LoginInfo;
-import com.xiaoshangxing.Network.AppNetwork;
-import com.xiaoshangxing.Network.LoginNetwork;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.network.AppNetwork;
+import com.xiaoshangxing.network.LoginNetwork;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
-import com.xiaoshangxing.login_register.StartActivity.FlashActivity;
-import com.xiaoshangxing.setting.DataSetting;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.data.bean.User;
+import com.xiaoshangxing.loginAndRegister.StartActivity.FlashActivity;
+import com.xiaoshangxing.wo.setting.DataSetting;
 import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
@@ -43,21 +43,21 @@ import okhttp3.ResponseBody;
 /**
  * Created by FengChaoQun
  * on 2016/10/8
- *APP在全局中可能需要用到的网络操作，包括：登录IM 退出 重新登录 用户被踢下线 反馈
+ * APP在全局中可能需要用到的网络操作，包括：登录IM 退出 重新登录 用户被踢下线 反馈
  */
 
 public class AppNetUtil {
     private static AppNetUtil appNetUtil;
+
+    private AppNetUtil() {
+
+    }
 
     public static AppNetUtil getInstance() {
         if (appNetUtil == null) {
             appNetUtil = new AppNetUtil();
         }
         return new AppNetUtil();
-    }
-
-    private AppNetUtil() {
-
     }
 
     /**
@@ -207,13 +207,6 @@ public class AppNetUtil {
         LoginNetwork.getInstance().Login(observer, jsonObject1);
     }
 
-    public interface LoginXSXback {
-        void onSuccess();
-
-        void onError(String msg);
-
-    }
-
     /**
      * description:用户被踢下线
      */
@@ -279,5 +272,12 @@ public class AppNetUtil {
                 realm.deleteAll();
             }
         });
+    }
+
+    public interface LoginXSXback {
+        void onSuccess();
+
+        void onError(String msg);
+
     }
 }

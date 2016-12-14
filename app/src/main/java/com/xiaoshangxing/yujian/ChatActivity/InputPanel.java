@@ -52,22 +52,22 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.CustomNotification;
 import com.netease.nimlib.sdk.msg.model.CustomNotificationConfig;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotAndPicture.DividerItemDecoration;
-import com.xiaoshangxing.input_activity.EmotAndPicture.EmotionGrideViewAdapter;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText;
-import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.input_activity.album.AlbumActivity;
-import com.xiaoshangxing.input_activity.album.AlbumHelper;
-import com.xiaoshangxing.input_activity.album.ImageBucket;
-import com.xiaoshangxing.input_activity.album.ImageItem;
-import com.xiaoshangxing.input_activity.check_photo.inputSelectPhotoPagerActivity;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.DividerItemDecoration;
+import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.EmotionGrideViewAdapter;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmoticonsEditText;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
+import com.xiaoshangxing.publicActivity.album.AlbumActivity;
+import com.xiaoshangxing.publicActivity.album.AlbumHelper;
+import com.xiaoshangxing.publicActivity.album.ImageBucket;
+import com.xiaoshangxing.publicActivity.album.ImageItem;
+import com.xiaoshangxing.publicActivity.check_photo.inputSelectPhotoPagerActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.utils.normalUtils.FileUtils;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 
@@ -86,18 +86,17 @@ import static android.os.Looper.getMainLooper;
  */
 public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
 
+    public static final int TAKE_PHOTO = 30000;
     private static final String TAG = "MsgSendLayout";
     //      延迟展示布局时间
     private static final int SHOW_LAYOUT_DELAY = 200;
-
+    public final int PICK_IMAGE = 1;
     protected Container container;
     protected View view;
     protected Handler uiHandler;
-
     protected View audioAnimLayout; // 录音动画布局
-
-    public final int PICK_IMAGE = 1;
-
+    // 语音
+    protected AudioRecorder audioMessageHelper;
     private View TextInputLay;//文字输入布局
     private EmoticonsEditText emoticonsEditText;//文字输入框
     private Button send;//发送按钮
@@ -117,14 +116,11 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     private View picture_count_lay;//完成选择图片
     private TextView select_picture_complete;
     private TextView picture_count;//选择的图片数目
-
     private GridView gridView;
     private EmotionGrideViewAdapter emotionGrideViewAdapter;
     private ChatPictureAdapter adapter;
     private List<String> iamgeurls = new ArrayList<String>();
     private List<String> Select_image_urls = new ArrayList<String>();
-    // 语音
-    protected AudioRecorder audioMessageHelper;
     private Chronometer time;
     private TextView timerTip;
     private LinearLayout timerTipContainer;
@@ -132,18 +128,28 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
     private boolean cancelled = false;
     private boolean touched = false; // 是否按着
     private boolean isKeyboardShowed = true; // 是否显示键盘
-
-
     // state
     private boolean actionPanelBottomLayoutHasSetup = false;
     private boolean isTextAudioSwitchShow = true;
     private boolean isOrig;
     private ContentObserver contentObserver;
     private AlbumHelper albumHelper;
-
-
     // data
     private long typingTime = 0;
+    private Uri came_photo_path;
+    private Runnable showEmojiRunnable = new Runnable() {
+        @Override
+        public void run() {
+            emotion_lay.setVisibility(View.VISIBLE);
+        }
+    };
+    private Runnable showTextRunnable = new Runnable() {
+        @Override
+        public void run() {
+            showInputMethod(emoticonsEditText);
+        }
+    };
+    private Runnable hideAllInputLayoutRunnable;
 
     public InputPanel(Container container, View view, boolean isTextAudioSwitchShow) {
         this.container = container;
@@ -151,6 +157,19 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         this.uiHandler = new Handler();
         this.isTextAudioSwitchShow = isTextAudioSwitchShow;
         init();
+    }
+
+    // 上滑取消录音判断
+    private static boolean isCancelled(View view, MotionEvent event) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+
+        if (event.getRawX() < location[0] || event.getRawX() > location[0] + view.getWidth()
+                || event.getRawY() < location[1] - 40) {
+            return true;
+        }
+
+        return false;
     }
 
     public void onPause() {
@@ -301,19 +320,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         }
     }
 
-    class ScreenshotContentObserver extends ContentObserver {
-
-        public ScreenshotContentObserver(Handler handler) {
-            super(handler);
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            super.onChange(selfChange, uri);
-            refreshPictureView();
-        }
-    }
-
     private void refreshPictureView() {
         iamgeurls.clear();
         ImageBucket imageBucket = albumHelper.getTotalImage(true);
@@ -385,9 +391,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         }
     }
 
-    private Uri came_photo_path;
-    public static final int TAKE_PHOTO = 30000;
-
     private void openCamera() {
         came_photo_path = FileUtils.newPhotoPath();
         IntentStatic.openCamera(container.activity, came_photo_path, TAKE_PHOTO);
@@ -441,7 +444,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         });
 
     }
-
 
     /**
      * 发送“正在输入”通知
@@ -537,7 +539,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         SwitchToText.setVisibility(View.VISIBLE);
     }
 
-
     // 点击表情，切换到表情布局
     private void toggleEmojiLayout() {
         if (emotion_lay.getVisibility() == View.GONE) {
@@ -556,7 +557,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
             emotion_lay.setSelected(false);
         }
     }
-
 
     // 隐藏键盘布局
     private void hideInputMethod() {
@@ -585,7 +585,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
         emotion_lay.setVisibility(View.VISIBLE);
     }
 
-
     // 显示键盘布局
     private void showInputMethod(EditText editTextMessage) {
         editTextMessage.requestFocus();
@@ -606,21 +605,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
 
         container.proxy.onInputPanelExpand();
     }
-
-
-    private Runnable showEmojiRunnable = new Runnable() {
-        @Override
-        public void run() {
-            emotion_lay.setVisibility(View.VISIBLE);
-        }
-    };
-
-    private Runnable showTextRunnable = new Runnable() {
-        @Override
-        public void run() {
-            showInputMethod(emoticonsEditText);
-        }
-    };
 
     private void restoreText(boolean clearText) {
         if (clearText) {
@@ -645,10 +629,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
             send.setClickable(false);
         }
     }
-
-
-    private Runnable hideAllInputLayoutRunnable;
-
 
     /**
      * 隐藏所有输入布局
@@ -699,19 +679,6 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
                 return false;
             }
         });
-    }
-
-    // 上滑取消录音判断
-    private static boolean isCancelled(View view, MotionEvent event) {
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-
-        if (event.getRawX() < location[0] || event.getRawX() > location[0] + view.getWidth()
-                || event.getRawY() < location[1] - 40) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -1008,6 +975,19 @@ public class InputPanel implements IAudioRecordCallback, View.OnClickListener {
                 }
                 return outPath;
             }
+        }
+    }
+
+    class ScreenshotContentObserver extends ContentObserver {
+
+        public ScreenshotContentObserver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            refreshPictureView();
         }
     }
 }

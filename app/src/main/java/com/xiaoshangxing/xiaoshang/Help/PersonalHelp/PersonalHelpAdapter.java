@@ -12,16 +12,16 @@ import android.widget.CompoundButton;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.Name;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -38,12 +38,12 @@ import io.realm.RealmBaseAdapter;
  * on 2016/9/10
  */
 public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
-    private Context context;
     List<Published> publisheds;
+    Realm realm;
+    private Context context;
     private PersonalHelpFragment fragment;
     private boolean showselect;
     private HelpActivity activity;
-    Realm realm;
     private List<String> selectIds = new ArrayList<>();
 
     public PersonalHelpAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<Published> data,
@@ -165,15 +165,6 @@ public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
         return convertView;
     }
 
-
-    private static class mystate_viewholder {
-        private CirecleImage headImage;
-        private TextView college, time;
-        private Name name;
-        private EmotinText text;
-        private CheckBox checkBox, iscomplete;
-    }
-
     private void showMenu(View v, final int position) {
 
         final View view = v;
@@ -260,6 +251,14 @@ public class PersonalHelpAdapter extends RealmBaseAdapter<Published> {
 
     public void setSelectIds(List<String> selectIds) {
         this.selectIds = selectIds;
+    }
+
+    private static class mystate_viewholder {
+        private CirecleImage headImage;
+        private TextView college, time;
+        private Name name;
+        private EmotinText text;
+        private CheckBox checkBox, iscomplete;
     }
 
 }

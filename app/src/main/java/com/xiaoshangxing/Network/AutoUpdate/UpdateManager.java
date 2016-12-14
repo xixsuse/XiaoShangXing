@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.AutoUpdate;
+package com.xiaoshangxing.network.AutoUpdate;
 
 /**
  * Created by FengChaoQun
@@ -23,11 +23,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.AppNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.AppNetwork;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.FileUtils;
 import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.normalUtils.FileUtils;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import org.json.JSONException;
@@ -46,34 +46,24 @@ import rx.Subscriber;
 
 public class UpdateManager {
 
+    /* 下载包安装路径 */
+    private static final String savePath = FileUtils.XSX_PATH;
+    private static final String saveFileName = savePath + "UpdateRelease.apk";
+    private static final int DOWN_UPDATE = 1;
+    private static final int DOWN_OVER = 2;
     private Context mContext;
-
     //提示语
     private String updateMsg;
-
     //返回的安装包url
     private String apkUrl;
     //版本号
     private String version;
     private Dialog noticeDialog;
-
     private Dialog downloadDialog;
-    /* 下载包安装路径 */
-    private static final String savePath = FileUtils.XSX_PATH;
-
-    private static final String saveFileName = savePath + "UpdateRelease.apk";
-
     /* 进度条与通知ui刷新的handler和msg常量 */
     private ProgressBar mProgress;
-
     //    无更新时是否需要通知用户
     private boolean needNotice;
-
-
-    private static final int DOWN_UPDATE = 1;
-
-    private static final int DOWN_OVER = 2;
-
     private int progress;
 
     private Thread downLoadThread;
@@ -97,6 +87,59 @@ public class UpdateManager {
 
         ;
     };
+    private Runnable mdownApkRunnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                URL url = new URL(apkUrl);
+
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.connect();
+                int length = conn.getContentLength();
+                InputStream is = conn.getInputStream();
+
+                File file = new File(savePath);
+                if (!file.exists()) {
+                    file.mkdir();
+                }
+                String apkFile = saveFileName;
+                File ApkFile = new File(apkFile);
+                FileOutputStream fos = new FileOutputStream(ApkFile);
+
+                int count = 0;
+                byte buf[] = new byte[1024];
+
+                do {
+                    int numread = is.read(buf);
+                    count += numread;
+                    progress = (int) (((float) count / length) * 100);
+                    //更新进度
+                    mHandler.sendEmptyMessage(DOWN_UPDATE);
+                    if (numread <= 0) {
+                        //下载完成通知安装
+                        mHandler.sendEmptyMessage(DOWN_OVER);
+                        break;
+                    }
+                    fos.write(buf, 0, numread);
+                } while (!interceptFlag);//点击取消就停止下载.
+
+                fos.close();
+                is.close();
+                downloadDialog.dismiss();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
+    public UpdateManager(Context context, String version, boolean needNotice) {
+        this.mContext = context;
+        this.version = version;
+        this.needNotice = needNotice;
+    }
 
     public String getApkUrl() {
         return apkUrl;
@@ -104,12 +147,6 @@ public class UpdateManager {
 
     public void setApkUrl(String apkUrl) {
         this.apkUrl = apkUrl;
-    }
-
-    public UpdateManager(Context context, String version, boolean needNotice) {
-        this.mContext = context;
-        this.version = version;
-        this.needNotice = needNotice;
     }
 
     //外部接口让主Activity调用
@@ -184,54 +221,6 @@ public class UpdateManager {
 
         downloadApk();
     }
-
-    private Runnable mdownApkRunnable = new Runnable() {
-        @Override
-        public void run() {
-            try {
-                URL url = new URL(apkUrl);
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.connect();
-                int length = conn.getContentLength();
-                InputStream is = conn.getInputStream();
-
-                File file = new File(savePath);
-                if (!file.exists()) {
-                    file.mkdir();
-                }
-                String apkFile = saveFileName;
-                File ApkFile = new File(apkFile);
-                FileOutputStream fos = new FileOutputStream(ApkFile);
-
-                int count = 0;
-                byte buf[] = new byte[1024];
-
-                do {
-                    int numread = is.read(buf);
-                    count += numread;
-                    progress = (int) (((float) count / length) * 100);
-                    //更新进度
-                    mHandler.sendEmptyMessage(DOWN_UPDATE);
-                    if (numread <= 0) {
-                        //下载完成通知安装
-                        mHandler.sendEmptyMessage(DOWN_OVER);
-                        break;
-                    }
-                    fos.write(buf, 0, numread);
-                } while (!interceptFlag);//点击取消就停止下载.
-
-                fos.close();
-                is.close();
-                downloadDialog.dismiss();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-    };
 
     /**
      * 下载apk

@@ -31,8 +31,9 @@ import com.netease.nimlib.sdk.msg.constant.AttachStatusEnum;
 import com.netease.nimlib.sdk.msg.constant.MsgTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.CustomAlertDialog;
-import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.utils.AppContracts;
+import com.xiaoshangxing.utils.customView.dialog.CustomAlertDialog;
+import com.xiaoshangxing.utils.normalUtils.FileUtils;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.BaseZoomableImageView;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.ImageGestureListener;
 import com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.MultiTouchZoomableImageView;
@@ -54,20 +55,31 @@ public class WatchMessagePictureActivity extends UI {
 
     private static final String INTENT_EXTRA_IMAGE = "INTENT_EXTRA_IMAGE";
     private static final String TAG = WatchMessagePictureActivity.class.getSimpleName();
-
+    protected CustomAlertDialog alertDialog;
     private Handler handler;
     private IMMessage message;
     private List<IMMessage> imageMsgList = new ArrayList<>();
     private int firstDisplayImageIndex = 0;
-
     private boolean newPageSelected = false;
-
     private View loadingLayout;
     private MultiTouchZoomableImageView image;
-    protected CustomAlertDialog alertDialog;
     private ViewPager imageViewPager;
     private PagerAdapter adapter;
     private AbortableFuture downloadFuture;
+    private Observer<IMMessage> statusObserver = new Observer<IMMessage>() {
+        @Override
+        public void onEvent(IMMessage msg) {
+            if (!msg.isTheSame(message) || isDestroyedCompatible()) {
+                return;
+            }
+
+            if (isOriginImageHasDownloaded(msg)) {
+                onDownloadSuccess(msg);
+            } else if (msg.getAttachStatus() == AttachStatusEnum.fail) {
+                onDownloadFailed();
+            }
+        }
+    };
 
     public static void start(Context context, IMMessage message) {
         Intent intent = new Intent();
@@ -327,21 +339,6 @@ public class WatchMessagePictureActivity extends UI {
         NIMClient.getService(MsgServiceObserve.class).observeMsgStatus(statusObserver, register);
     }
 
-    private Observer<IMMessage> statusObserver = new Observer<IMMessage>() {
-        @Override
-        public void onEvent(IMMessage msg) {
-            if (!msg.isTheSame(message) || isDestroyedCompatible()) {
-                return;
-            }
-
-            if (isOriginImageHasDownloaded(msg)) {
-                onDownloadSuccess(msg);
-            } else if (msg.getAttachStatus() == AttachStatusEnum.fail) {
-                onDownloadFailed();
-            }
-        }
-    };
-
     private void onDownloadStart(final IMMessage msg) {
         setThumbnail(msg);
         if (TextUtils.isEmpty(((ImageAttachment) msg.getAttachment()).getPath())) {
@@ -441,7 +438,7 @@ public class WatchMessagePictureActivity extends UI {
         if (AttachmentStore.copy(path, dstPath) != -1) {
             try {
                 ContentValues values = new ContentValues(2);
-                values.put(MediaStore.Images.Media.MIME_TYPE, C.MimeType.MIME_JPEG);
+                values.put(MediaStore.Images.Media.MIME_TYPE, AppContracts.MIME_JPEG);
                 values.put(MediaStore.Images.Media.DATA, dstPath);
                 getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                 Toast.makeText(WatchMessagePictureActivity.this, "图片已保存到手机" + FileUtils.getXsxSaveIamge() + "文件夹下", Toast.LENGTH_LONG).show();

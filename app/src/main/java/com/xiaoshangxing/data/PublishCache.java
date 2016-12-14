@@ -4,11 +4,12 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.PublishNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.network.PublishNetwork;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
 import org.json.JSONException;

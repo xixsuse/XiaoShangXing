@@ -26,11 +26,12 @@ import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
 import com.netease.nimlib.sdk.uinfo.UserInfoProvider;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.login_register.StartActivity.FlashActivity;
-import com.xiaoshangxing.setting.DataSetting;
-import com.xiaoshangxing.utils.normalUtils.MyLog;
+import com.xiaoshangxing.loginAndRegister.StartActivity.FlashActivity;
+import com.xiaoshangxing.wo.setting.DataSetting;
+import com.xiaoshangxing.utils.normalUtils.FileUtils;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.utils.normalUtils.XSXLog;
 import com.xiaoshangxing.yujian.IM.Contact.ContactProvider;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
@@ -55,15 +56,111 @@ import io.realm.RealmConfiguration;
  */
 public class XSXApplication extends Application {
 
-    private Map<String,Activity> mList=new HashMap<String, Activity>();
-    private int activityCount = 0;
-    private static XSXApplication instance;
     public static StatusBarNotificationConfig notificationConfig;
     public static Activity currentActivity;
+    private static XSXApplication instance;
+    private Map<String, Activity> mList = new HashMap<String, Activity>();
+    private int activityCount = 0;
+    //    用户信息提供者
+    private UserInfoProvider infoProvider = new UserInfoProvider() {
+        @Override
+        public UserInfo getUserInfo(String account) {
+            UserInfo user = NimUserInfoCache.getInstance().getUserInfo(account);
+            if (user == null) {
+                NimUserInfoCache.getInstance().getUserInfoFromRemote(account, null);
+            }
+
+            return null;
+        }
+
+        @Override
+        public int getDefaultIconResId() {
+            return R.mipmap.cirecleimage_default;
+        }
+
+        @Override
+        public Bitmap getTeamIcon(String teamId) {
+            Drawable drawable = getResources().getDrawable(R.mipmap.cirecleimage_default);
+            if (drawable instanceof BitmapDrawable) {
+                return ((BitmapDrawable) drawable).getBitmap();
+            }
+
+            return null;
+        }
+
+        @Override
+        public Bitmap getAvatarForMessageNotifier(String account) {
+            /**
+             * 注意：这里最好从缓存里拿，如果读取本地头像可能导致UI进程阻塞，导致通知栏提醒延时弹出。
+             */
+            UserInfo user = getUserInfo(account);
+            return (user != null) ? ImageLoaderKit.getNotificationBitmapFromCache(user) : null;
+        }
+
+        @Override
+        public String getDisplayNameForMessageNotifier(String account, String sessionId, SessionTypeEnum sessionType) {
+            String nick = null;
+            if (sessionType == SessionTypeEnum.P2P) {
+                nick = NimUserInfoCache.getInstance().getAlias(account);
+            } else if (sessionType == SessionTypeEnum.Team) {
+                nick = TeamDataCache.getInstance().getTeamNick(sessionId, account);
+                if (TextUtils.isEmpty(nick)) {
+                    nick = NimUserInfoCache.getInstance().getAlias(account);
+                }
+            }
+            // 返回null，交给sdk处理。如果对方有设置nick，sdk会显示nick
+            if (TextUtils.isEmpty(nick)) {
+                return null;
+            }
+
+            return nick;
+        }
+    };
+    //  好友信息提供者
+    private ContactProvider contactProvider = new ContactProvider() {
+        @Override
+        public List<UserInfoProvider.UserInfo> getUserInfoOfMyFriends() {
+            List<NimUserInfo> nimUsers = NimUserInfoCache.getInstance().getAllUsersOfMyFriend();
+            List<UserInfoProvider.UserInfo> users = new ArrayList<>(nimUsers.size());
+            if (!nimUsers.isEmpty()) {
+                users.addAll(nimUsers);
+            }
+
+            return users;
+        }
+
+        @Override
+        public int getMyFriendsCount() {
+            return FriendDataCache.getInstance().getMyFriendCounts();
+        }
+
+        @Override
+        public String getUserDisplayName(String account) {
+            return NimUserInfoCache.getInstance().getUserDisplayName(account);
+        }
+    };
+
+    /*
+    **describe:添加Activity到Map中
+    */
+    //  通知文案
+    private MessageNotifierCustomization messageNotifierCustomization = new MessageNotifierCustomization() {
+        @Override
+        public String makeNotifyContent(String nick, IMMessage message) {
+//            return null; // 采用SDK默认文案
+            return NotifyContent.makeNotifyContent(nick, message);
+        }
+
+        @Override
+        public String makeTicker(String nick, IMMessage message) {
+            return null; // 采用SDK默认文案
+        }
+    };
 
     public static XSXApplication getInstance() {
         return instance;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -104,7 +201,7 @@ public class XSXApplication extends Application {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 addActivity(activity);
-                MyLog.d(activity,"created");
+                XSXLog.d(activity, "created");
             }
 
             @Override
@@ -114,7 +211,7 @@ public class XSXApplication extends Application {
 
             @Override
             public void onActivityResumed(Activity activity) {
-                MyLog.d(activity,"resumed");
+                XSXLog.d(activity, "resumed");
                 currentActivity = activity;
             }
 
@@ -137,18 +234,14 @@ public class XSXApplication extends Application {
             public void onActivityDestroyed(Activity activity) {
                 removeActivity(activity);
                 activityCount--;
-                MyLog.d(activity, "destroyed");
+                XSXLog.d(activity, "destroyed");
             }
         });
 
     }
 
-    /*
-    **describe:添加Activity到Map中
-    */
-
-    public void addActivity(Activity activity){
-        mList.put(activity.toString(),activity);
+    public void addActivity(Activity activity) {
+        mList.put(activity.toString(), activity);
         activityCount++;
     }
 
@@ -164,7 +257,7 @@ public class XSXApplication extends Application {
     */
     public void exit() {
         try {
-            for(Map.Entry<String, Activity> entry:mList.entrySet()){
+            for (Map.Entry<String, Activity> entry : mList.entrySet()) {
                 entry.getValue().finish();
             }
         } catch (Exception e) {
@@ -175,8 +268,8 @@ public class XSXApplication extends Application {
     /*
     **describe:finish某个activity
     */
-    public void finish_activity(String tag){
-        if (mList.containsKey(tag)){
+    public void finish_activity(String tag) {
+        if (mList.containsKey(tag)) {
             mList.get(tag).finish();
         }
     }
@@ -217,7 +310,6 @@ public class XSXApplication extends Application {
         // 初始化，需要传入用户信息提供者
         NimUIKit.init(this, infoProvider, contactProvider);
     }
-
 
     //    获取用户信息
     private LoginInfo getLoginInfo() {
@@ -284,101 +376,7 @@ public class XSXApplication extends Application {
         return options;
     }
 
-    //    用户信息提供者
-    private UserInfoProvider infoProvider = new UserInfoProvider() {
-        @Override
-        public UserInfo getUserInfo(String account) {
-            UserInfo user = NimUserInfoCache.getInstance().getUserInfo(account);
-            if (user == null) {
-                NimUserInfoCache.getInstance().getUserInfoFromRemote(account, null);
-            }
-
-            return null;
-        }
-
-        @Override
-        public int getDefaultIconResId() {
-            return R.mipmap.cirecleimage_default;
-        }
-
-        @Override
-        public Bitmap getTeamIcon(String teamId) {
-            Drawable drawable = getResources().getDrawable(R.mipmap.cirecleimage_default);
-            if (drawable instanceof BitmapDrawable) {
-                return ((BitmapDrawable) drawable).getBitmap();
-            }
-
-            return null;
-        }
-
-        @Override
-        public Bitmap getAvatarForMessageNotifier(String account) {
-            /**
-             * 注意：这里最好从缓存里拿，如果读取本地头像可能导致UI进程阻塞，导致通知栏提醒延时弹出。
-             */
-            UserInfo user = getUserInfo(account);
-            return (user != null) ? ImageLoaderKit.getNotificationBitmapFromCache(user) : null;
-        }
-
-        @Override
-        public String getDisplayNameForMessageNotifier(String account, String sessionId, SessionTypeEnum sessionType) {
-            String nick = null;
-            if (sessionType == SessionTypeEnum.P2P) {
-                nick = NimUserInfoCache.getInstance().getAlias(account);
-            } else if (sessionType == SessionTypeEnum.Team) {
-                nick = TeamDataCache.getInstance().getTeamNick(sessionId, account);
-                if (TextUtils.isEmpty(nick)) {
-                    nick = NimUserInfoCache.getInstance().getAlias(account);
-                }
-            }
-            // 返回null，交给sdk处理。如果对方有设置nick，sdk会显示nick
-            if (TextUtils.isEmpty(nick)) {
-                return null;
-            }
-
-            return nick;
-        }
-    };
-
-    //  好友信息提供者
-    private ContactProvider contactProvider = new ContactProvider() {
-        @Override
-        public List<UserInfoProvider.UserInfo> getUserInfoOfMyFriends() {
-            List<NimUserInfo> nimUsers = NimUserInfoCache.getInstance().getAllUsersOfMyFriend();
-            List<UserInfoProvider.UserInfo> users = new ArrayList<>(nimUsers.size());
-            if (!nimUsers.isEmpty()) {
-                users.addAll(nimUsers);
-            }
-
-            return users;
-        }
-
-        @Override
-        public int getMyFriendsCount() {
-            return FriendDataCache.getInstance().getMyFriendCounts();
-        }
-
-        @Override
-        public String getUserDisplayName(String account) {
-            return NimUserInfoCache.getInstance().getUserDisplayName(account);
-        }
-    };
-
-    //  通知文案
-    private MessageNotifierCustomization messageNotifierCustomization = new MessageNotifierCustomization() {
-        @Override
-        public String makeNotifyContent(String nick, IMMessage message) {
-//            return null; // 采用SDK默认文案
-            return NotifyContent.makeNotifyContent(nick, message);
-        }
-
-        @Override
-        public String makeTicker(String nick, IMMessage message) {
-            return null; // 采用SDK默认文案
-        }
-    };
-
-//    解决64k
+    //    解决64k
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

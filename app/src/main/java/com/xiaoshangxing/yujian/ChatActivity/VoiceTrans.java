@@ -99,7 +99,7 @@ public class VoiceTrans {
         AudioAttachment attachment = (AudioAttachment) msg.getAttachment();
         String voiceUrl = attachment.getUrl();
         String path = attachment.getPath();
-        Log.d("voice","--"+voiceUrl+"--"+path+"--"+attachment.getDuration());
+        Log.d("voice", "--" + voiceUrl + "--" + path + "--" + attachment.getDuration());
         refreshStartUI();
         callFuture = NIMClient.getService(MsgService.class).transVoiceToText(voiceUrl, path, attachment.getDuration());
         callFuture.setCallback(new RequestCallback<String>() {
@@ -111,7 +111,7 @@ public class VoiceTrans {
 
             @Override
             public void onFailed(int code) {
-                voiceTransText.setText("语音转化失败"+code);
+                voiceTransText.setText("语音转化失败" + code);
                 failIcon.setVisibility(View.VISIBLE);
                 updateUI();
             }

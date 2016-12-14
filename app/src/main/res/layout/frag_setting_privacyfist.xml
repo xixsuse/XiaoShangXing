@@ -37,9 +37,9 @@
         style="@style/g0_14sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/y30"
-        android:layout_marginStart="@dimen/width_48"
         android:layout_marginEnd="@dimen/width_48"
+        android:layout_marginStart="@dimen/width_48"
+        android:layout_marginTop="@dimen/y30"
         android:gravity="center"
         android:text="@string/privacy_text1" />
 

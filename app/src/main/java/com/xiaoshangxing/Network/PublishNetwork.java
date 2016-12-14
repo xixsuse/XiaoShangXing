@@ -1,22 +1,22 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.network;
 
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.api.getAndPublish.CancelOperate;
-import com.xiaoshangxing.Network.api.getAndPublish.ChangePublishStatu;
-import com.xiaoshangxing.Network.api.getAndPublish.Comment;
-import com.xiaoshangxing.Network.api.getAndPublish.DeletePublished;
-import com.xiaoshangxing.Network.api.getAndPublish.GetAllPublished;
-import com.xiaoshangxing.Network.api.getAndPublish.GetCalendar;
-import com.xiaoshangxing.Network.api.getAndPublish.GetCalendarInputer;
-import com.xiaoshangxing.Network.api.getAndPublish.GetCollect;
-import com.xiaoshangxing.Network.api.getAndPublish.GetJoinedPlan;
-import com.xiaoshangxing.Network.api.getAndPublish.GetPublishedApi;
-import com.xiaoshangxing.Network.api.getAndPublish.GetTransmitInfo;
-import com.xiaoshangxing.Network.api.getAndPublish.Operate;
-import com.xiaoshangxing.Network.api.getAndPublish.RefreshPublished;
-import com.xiaoshangxing.Network.api.getAndPublish.TransmitApi;
+import com.xiaoshangxing.network.api.getAndPublish.CancelOperate;
+import com.xiaoshangxing.network.api.getAndPublish.ChangePublishStatu;
+import com.xiaoshangxing.network.api.getAndPublish.Comment;
+import com.xiaoshangxing.network.api.getAndPublish.DeletePublished;
+import com.xiaoshangxing.network.api.getAndPublish.GetAllPublished;
+import com.xiaoshangxing.network.api.getAndPublish.GetCalendar;
+import com.xiaoshangxing.network.api.getAndPublish.GetCalendarInputer;
+import com.xiaoshangxing.network.api.getAndPublish.GetCollect;
+import com.xiaoshangxing.network.api.getAndPublish.GetJoinedPlan;
+import com.xiaoshangxing.network.api.getAndPublish.GetPublishedApi;
+import com.xiaoshangxing.network.api.getAndPublish.GetTransmitInfo;
+import com.xiaoshangxing.network.api.getAndPublish.Operate;
+import com.xiaoshangxing.network.api.getAndPublish.RefreshPublished;
+import com.xiaoshangxing.network.api.getAndPublish.TransmitApi;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -46,11 +46,6 @@ public class PublishNetwork {
 
     private PublishNetwork() {
 
-    }
-
-    //在访问PublishNetwork时创建单例
-    private static class SingletonHolder {
-        private static final PublishNetwork INSTANCE = new PublishNetwork();
     }
 
     //获取单例
@@ -175,6 +170,11 @@ public class PublishNetwork {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
+    }
+
+    //在访问PublishNetwork时创建单例
+    private static class SingletonHolder {
+        private static final PublishNetwork INSTANCE = new PublishNetwork();
     }
 
 }

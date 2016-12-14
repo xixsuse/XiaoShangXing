@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.netUtil;
+package com.xiaoshangxing.network.netUtil;
 
 import android.util.Log;
 
@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MultipartUtility {
-    private final String boundary;
     private static final String LINE_FEED = "\r\n";
+    private final String boundary;
     private HttpURLConnection httpConn;
     private String charset;
     private OutputStream outputStream;

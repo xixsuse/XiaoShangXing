@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root_view"
     android:orientation="vertical">
 
 
     <LinearLayout
-        android:background="@color/w3"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144">
+        android:layout_height="@dimen/height_144"
+        android:background="@color/w3"
+        android:orientation="horizontal">
+
         <EditText
-            style="@style/black_16sp"
             android:id="@+id/edittext"
-            android:padding="@dimen/x8"
-            android:textCursorDrawable="@drawable/cursor_blue4"
-            android:background="@drawable/et_circular_4_white"
-            android:layout_marginStart="@dimen/x24"
-            android:drawableLeft="@mipmap/serch"
-            android:layout_gravity="center_vertical"
+            style="@style/black_16sp"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/x24"
             android:layout_weight="1"
-            android:layout_height="wrap_content" />
+            android:background="@drawable/et_circular_4_white"
+            android:drawableLeft="@mipmap/serch"
+            android:padding="@dimen/x8"
+            android:textCursorDrawable="@drawable/cursor_blue4" />
 
         <TextView
             android:id="@+id/cancel"
-            android:layout_gravity="center_vertical"
-            android:paddingStart="@dimen/x24"
-            android:paddingEnd="@dimen/x24"
-            android:text="@string/cancle"
-            android:textSize="16sp"
-            android:textColor="@color/green1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingEnd="@dimen/x24"
+            android:paddingStart="@dimen/x24"
+            android:text="@string/cancle"
+            android:textColor="@color/green1"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <!--位置列表-->
     <ListView
-        android:visibility="invisible"
-        android:background="@color/w0"
         android:id="@+id/listview"
-        android:paddingStart="@dimen/width_48"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/w0"
         android:cacheColorHint="@color/transparent"
         android:dividerHeight="1px"
         android:fadingEdge="none"
         android:footerDividersEnabled="false"
         android:listSelector="@color/transparent"
         android:overScrollMode="never"
+        android:paddingStart="@dimen/width_48"
         android:scrollbars="none"
-        android:transcriptMode="normal">
-    </ListView>
-    
+        android:transcriptMode="normal"
+        android:visibility="invisible"></ListView>
 
 
 </LinearLayout>

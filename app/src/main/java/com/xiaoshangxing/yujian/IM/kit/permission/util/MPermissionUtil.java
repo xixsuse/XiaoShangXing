@@ -6,7 +6,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.Fragment;
 
-
 import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionDenied;
 import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionGranted;
 import com.xiaoshangxing.yujian.IM.kit.permission.annotation.OnMPermissionNeverAskAgain;
@@ -104,7 +103,7 @@ final public class MPermissionUtil {
     }
 
     public static String toString(List<String> permission) {
-        if(permission == null || permission.isEmpty()) {
+        if (permission == null || permission.isEmpty()) {
             return "";
         }
 
@@ -112,7 +111,7 @@ final public class MPermissionUtil {
     }
 
     public static String toString(String[] permission) {
-        if(permission == null || permission.length <= 0) {
+        if (permission == null || permission.length <= 0) {
             return "";
         }
 

@@ -21,22 +21,22 @@
     <!--message-->
     <TextView
         android:id="@+id/dialog_message"
-        android:layout_marginTop="@dimen/y32"
-        android:textColor="@color/b0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="13sp"
+        android:layout_marginTop="@dimen/y32"
         android:background="@color/transparent"
         android:gravity="center_horizontal"
         android:paddingEnd="@dimen/x24"
         android:paddingStart="@dimen/x24"
         android:paddingTop="5dp"
-        android:text="Message" />
+        android:text="Message"
+        android:textColor="@color/b0"
+        android:textSize="13sp" />
 
     <LinearLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/y36"
         android:layout_marginEnd="@dimen/x44"
         android:layout_marginStart="@dimen/x44"
@@ -45,18 +45,18 @@
         android:orientation="horizontal">
 
         <EditText
-            android:layout_height="wrap_content"
             android:id="@+id/dialog_edittext"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/x18"
-            android:hint="@string/password"
-            android:textColor="@color/b0"
-            android:textColorHint="#aaaaaa"
-            android:textSize="13sp"
             android:layout_weight="1"
             android:background="@color/transparent"
             android:digits="@string/digits_password"
-            android:textCursorDrawable="@drawable/cursor_blue4" />
+            android:hint="@string/password"
+            android:textColor="@color/b0"
+            android:textColorHint="#aaaaaa"
+            android:textCursorDrawable="@drawable/cursor_blue4"
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/dialog_clear"

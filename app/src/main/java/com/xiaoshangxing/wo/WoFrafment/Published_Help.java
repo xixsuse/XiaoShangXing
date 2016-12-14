@@ -4,9 +4,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.LinearLayout;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.bean.Published;
 
 /**
  * Created by FengChaoQun

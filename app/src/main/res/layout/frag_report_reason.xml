@@ -33,7 +33,6 @@
         android:layout_height="wrap_content"
         android:choiceMode="singleChoice"
         android:divider="@color/g1"
-        android:dividerHeight="@dimen/y1">
-    </ListView>
+        android:dividerHeight="@dimen/y1"></ListView>
 
 </LinearLayout>

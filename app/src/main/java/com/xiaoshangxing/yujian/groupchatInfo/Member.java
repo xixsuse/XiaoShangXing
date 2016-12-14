@@ -1,8 +1,5 @@
 package com.xiaoshangxing.yujian.groupchatInfo;
 
-import android.graphics.Bitmap;
-
-
 /**
  * Created by 15828 on 2016/8/12.
  */

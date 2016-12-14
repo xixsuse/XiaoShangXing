@@ -1,8 +1,8 @@
 package com.xiaoshangxing.wo.StateDetailsActivity;
 
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 
 import io.realm.Realm;
 
@@ -17,10 +17,12 @@ public interface DetailsContract {
         **describe:刷新数据
         */
         void refreshData();
+
         /*
         **describe:跳转到权限界面
         */
         void gotoPermisson();
+
         /*
         **describe:弹出确认删除对话框
         */
@@ -37,6 +39,7 @@ public interface DetailsContract {
         **describe:删除
         */
         void delete(Realm realm, Published published);
+
         /*
         **describe:赞
         */

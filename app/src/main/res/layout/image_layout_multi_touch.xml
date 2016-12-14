@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="#ffffff"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview.MultiTouchZoomableImageView
         android:id="@+id/watch_image_view"

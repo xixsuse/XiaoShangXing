@@ -12,10 +12,11 @@ import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
-import com.xiaoshangxing.Network.InfoNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.InfoNetwork;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.data.bean.User;
 import com.xiaoshangxing.utils.XSXApplication;
-import com.xiaoshangxing.utils.image.MyGlide;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -266,7 +267,7 @@ public class UserInfoCache {
         Log.d("注册用户资料变更监听", "" + is);
     }
 
-   public interface ReloadCallback {
+    public interface ReloadCallback {
         void callback(JSONObject jsonObject) throws JSONException;
     }
 

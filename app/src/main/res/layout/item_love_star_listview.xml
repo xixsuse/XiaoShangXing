@@ -9,99 +9,99 @@
         android:layout_height="@dimen/y174">
 
         <!--头像-->
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/greyblock"
             android:layout_width="@dimen/x108"
-            android:layout_height="@dimen/x108" />
+            android:layout_height="@dimen/x108"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/greyblock" />
 
         <TextView
             android:id="@+id/name"
-            android:text="@string/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/x26"
             android:layout_marginTop="@dimen/y30"
-            android:textColor="@color/b0"
             android:layout_toRightOf="@+id/head_image"
-            android:textSize="@dimen/x48"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:text="@string/app_name"
+            android:textColor="@color/b0"
+            android:textSize="@dimen/x48" />
 
         <!--性别-->
         <ImageView
             android:id="@+id/sex"
-            android:src="@mipmap/sex_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/x12"
             android:layout_marginTop="@dimen/y40"
             android:layout_toRightOf="@+id/name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:src="@mipmap/sex_male" />
 
         <!--学院-->
         <TextView
             android:id="@+id/college"
-            android:layout_marginStart="@dimen/x26"
-            android:textSize="@dimen/x39"
-            android:layout_toRightOf="@+id/head_image"
-            android:layout_below="@+id/name"
-            android:textColor="@color/g0"
-            android:text="@string/app_name"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_marginStart="@dimen/x26"
+            android:layout_toRightOf="@+id/head_image"
+            android:text="@string/app_name"
+            android:textColor="@color/g0"
+            android:textSize="@dimen/x39" />
 
         <FrameLayout
             android:id="@+id/more"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/x28"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x28">
 
             <!--留心-->
             <LinearLayout
                 android:id="@+id/love_lay"
-                android:visibility="gone"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <ImageView
-                    android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/icon_dazhaohu"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_dazhaohu" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:text="打个招呼"
                     android:textColor="@color/gray_login"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/x28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="@dimen/x28" />
 
             </LinearLayout>
 
             <!--留心-->
             <LinearLayout
-                android:paddingEnd="@dimen/x16"
                 android:id="@+id/star_lay"
-                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingEnd="@dimen/x16">
 
                 <ImageView
-                    android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/icon_liuxin_g2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@mipmap/icon_liuxin_g2" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:text="留心"
                     android:textColor="@color/gray_login"
-                    android:layout_gravity="center_horizontal"
-                    android:textSize="@dimen/x28"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:textSize="@dimen/x28" />
 
             </LinearLayout>
 

@@ -1,7 +1,6 @@
 package com.xiaoshangxing.yujian.IM.cache;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
@@ -27,6 +26,54 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class TeamDataCache {
     private static TeamDataCache instance;
+    private List<TeamDataChangedObserver> teamObservers = new ArrayList<>();
+    private List<TeamMemberDataChangedObserver> memberObservers = new ArrayList<>();
+    /**
+     * *
+     * ******************************************** 群资料缓存 ********************************************
+     */
+
+    private Map<String, Team> id2TeamMap = new ConcurrentHashMap<>();
+    // 群资料变动观察者通知。新建群和群更新的通知都通过该接口传递
+    private Observer<List<Team>> teamUpdateObserver = new Observer<List<Team>>() {
+        @Override
+        public void onEvent(List<Team> teams) {
+            addOrUpdateTeam(teams);
+            notifyTeamDataUpdate(teams);
+        }
+    };
+    // 移除群的观察者通知。自己退群，群被解散，自己被踢出群时，会收到该通知
+    private Observer<Team> teamRemoveObserver = new Observer<Team>() {
+        @Override
+        public void onEvent(Team team) {
+            // team的flag被更新，isMyTeam为false
+            addOrUpdateTeam(team);
+            notifyTeamDataRemove(team);
+        }
+    };
+    /**
+     * *
+     * ************************************** 群成员缓存(由App主动添加缓存) ****************************************
+     */
+
+    private Map<String, Map<String, TeamMember>> teamMemberCache = new ConcurrentHashMap<>();
+    // 群成员资料变化观察者通知。可通过此接口更新缓存。
+    private Observer<List<TeamMember>> memberUpdateObserver = new Observer<List<TeamMember>>() {
+        @Override
+        public void onEvent(List<TeamMember> members) {
+            addOrUpdateTeamMembers(members);
+            notifyTeamMemberDataUpdate(members);
+        }
+    };
+    // 移除群成员的观察者通知。
+    private Observer<TeamMember> memberRemoveObserver = new Observer<TeamMember>() {
+        @Override
+        public void onEvent(TeamMember member) {
+            // member的validFlag被更新，isInTeam为false
+            addOrUpdateTeamMember(member);
+            notifyTeamMemberRemove(member);
+        }
+    };
 
     public static synchronized TeamDataCache getInstance() {
         if (instance == null) {
@@ -46,70 +93,12 @@ public class TeamDataCache {
         clearTeamMemberCache();
     }
 
-    /**
-     * *
-     * ******************************************** 观察者 ********************************************
-     */
-
-    public interface TeamDataChangedObserver {
-        void onUpdateTeams(List<Team> teams);
-
-        void onRemoveTeam(Team team);
-    }
-
-    public interface TeamMemberDataChangedObserver {
-        void onUpdateTeamMember(List<TeamMember> members);
-
-        void onRemoveTeamMember(TeamMember member);
-    }
-
-    private List<TeamDataChangedObserver> teamObservers = new ArrayList<>();
-    private List<TeamMemberDataChangedObserver> memberObservers = new ArrayList<>();
-
     public void registerObservers(boolean register) {
         NIMClient.getService(TeamServiceObserver.class).observeTeamUpdate(teamUpdateObserver, register);
         NIMClient.getService(TeamServiceObserver.class).observeTeamRemove(teamRemoveObserver, register);
         NIMClient.getService(TeamServiceObserver.class).observeMemberUpdate(memberUpdateObserver, register);
         NIMClient.getService(TeamServiceObserver.class).observeMemberRemove(memberRemoveObserver, register);
     }
-
-    // 群资料变动观察者通知。新建群和群更新的通知都通过该接口传递
-    private Observer<List<Team>> teamUpdateObserver = new Observer<List<Team>>() {
-        @Override
-        public void onEvent(List<Team> teams) {
-            addOrUpdateTeam(teams);
-            notifyTeamDataUpdate(teams);
-        }
-    };
-
-    // 移除群的观察者通知。自己退群，群被解散，自己被踢出群时，会收到该通知
-    private Observer<Team> teamRemoveObserver = new Observer<Team>() {
-        @Override
-        public void onEvent(Team team) {
-            // team的flag被更新，isMyTeam为false
-            addOrUpdateTeam(team);
-            notifyTeamDataRemove(team);
-        }
-    };
-
-    // 群成员资料变化观察者通知。可通过此接口更新缓存。
-    private Observer<List<TeamMember>> memberUpdateObserver = new Observer<List<TeamMember>>() {
-        @Override
-        public void onEvent(List<TeamMember> members) {
-            addOrUpdateTeamMembers(members);
-            notifyTeamMemberDataUpdate(members);
-        }
-    };
-
-    // 移除群成员的观察者通知。
-    private Observer<TeamMember> memberRemoveObserver = new Observer<TeamMember>() {
-        @Override
-        public void onEvent(TeamMember member) {
-            // member的validFlag被更新，isInTeam为false
-            addOrUpdateTeamMember(member);
-            notifyTeamMemberRemove(member);
-        }
-    };
 
     public void registerTeamDataChangedObserver(TeamDataChangedObserver o) {
         if (teamObservers.contains(o)) {
@@ -159,13 +148,6 @@ public class TeamDataCache {
         }
     }
 
-    /**
-     * *
-     * ******************************************** 群资料缓存 ********************************************
-     */
-
-    private Map<String, Team> id2TeamMap = new ConcurrentHashMap<>();
-
     public void clearTeamCache() {
         id2TeamMap.clear();
     }
@@ -196,7 +178,6 @@ public class TeamDataCache {
             }
         });
     }
-
 
     /**
      * 同步从本地获取Team（先从缓存中查询，如果不存在再从SDK DB中查询）
@@ -268,13 +249,6 @@ public class TeamDataCache {
             id2TeamMap.put(t.getId(), t);
         }
     }
-
-    /**
-     * *
-     * ************************************** 群成员缓存(由App主动添加缓存) ****************************************
-     */
-
-    private Map<String, Map<String, TeamMember>> teamMemberCache = new ConcurrentHashMap<>();
 
     public void clearTeamMemberCache() {
         teamMemberCache.clear();
@@ -467,5 +441,22 @@ public class TeamDataCache {
         for (TeamMember m : members) {
             addOrUpdateTeamMember(m);
         }
+    }
+
+    /**
+     * *
+     * ******************************************** 观察者 ********************************************
+     */
+
+    public interface TeamDataChangedObserver {
+        void onUpdateTeams(List<Team> teams);
+
+        void onRemoveTeam(Team team);
+    }
+
+    public interface TeamMemberDataChangedObserver {
+        void onUpdateTeamMember(List<TeamMember> members);
+
+        void onRemoveTeamMember(TeamMember member);
     }
 }

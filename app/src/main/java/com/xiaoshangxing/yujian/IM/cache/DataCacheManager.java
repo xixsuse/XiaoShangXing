@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.netease.nimlib.sdk.Observer;
-import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.kit.LogUtil;
 

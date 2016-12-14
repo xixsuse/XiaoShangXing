@@ -1,6 +1,6 @@
 package com.xiaoshangxing.wo.WoFrafment.WoViewHolder;
 
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.bean.Published;
 
 /**
  * Created by FengChaoQun

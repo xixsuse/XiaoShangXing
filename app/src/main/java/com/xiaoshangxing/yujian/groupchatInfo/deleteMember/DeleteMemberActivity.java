@@ -21,12 +21,12 @@ import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.ActionSheet;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.wo.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
@@ -45,18 +45,58 @@ import butterknife.OnClick;
  * Created by 15828 on 2016/8/13.
  */
 public class DeleteMemberActivity extends BaseActivity {
+    private static int count = 0;
     @Bind(R.id.deleteMember_listView)
     ListView listView;
     @Bind(R.id.deleteMember_Delete)
     TextView delete;
     private String account;
-
     private BaseAdapter baseAdapter;
     //    private static List<DeleteMember> data = new ArrayList<>();
     private ActionSheet mActionSheet;
-    private static int count = 0;
     private List<TeamMember> teamMembers;
+    TeamDataCache.TeamMemberDataChangedObserver teamMemberObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
+
+        @Override
+        public void onUpdateTeamMember(List<TeamMember> m) {
+            for (TeamMember mm : m) {
+                for (TeamMember member : teamMembers) {
+                    if (mm.getAccount().equals(member.getAccount())) {
+                        teamMembers.set(teamMembers.indexOf(member), mm);
+                        break;
+                    }
+                }
+            }
+            baseAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onRemoveTeamMember(TeamMember member) {
+            teamMembers.remove(member);
+            baseAdapter.notifyDataSetChanged();
+        }
+    };
     private List<String> select_account = new ArrayList<>();
+    TeamDataCache.TeamDataChangedObserver teamDataObserver = new TeamDataCache.TeamDataChangedObserver() {
+        @Override
+        public void onUpdateTeams(List<Team> teams) {
+            for (Team team : teams) {
+                if (team.getId().equals(account)) {
+                    requestMembers();
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void onRemoveTeam(Team team) {
+            if (team.getId().equals(account)) {
+                Toast.makeText(DeleteMemberActivity.this, "群已解散", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    };
+    private UserInfoObservable.UserInfoObserver userInfoObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,7 +206,7 @@ public class DeleteMemberActivity extends BaseActivity {
 
                     for (int i = 0; i < teamMembers.size(); i++) {
                         if (teamMembers.get(i).getAccount().equals(NimUIKit.getAccount())) {
-                            Log.d("myaccount",teamMembers.get(i).getAccount());
+                            Log.d("myaccount", teamMembers.get(i).getAccount());
                             teamMembers.remove(i);
                         }
                     }
@@ -177,13 +217,6 @@ public class DeleteMemberActivity extends BaseActivity {
             }
         });
     }
-
-    class ViewHolder {
-        private CheckBox check;
-        public CirecleImage img;
-        public TextView name;
-    }
-
 
     @OnClick({R.id.deleteMember_Cancel, R.id.deleteMember_Delete})
     public void onClick(View view) {
@@ -199,11 +232,10 @@ public class DeleteMemberActivity extends BaseActivity {
 
     }
 
-
     public void delete() {
         final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
         Dialog alertDialog = dialogUtils.Message("确定要删除群成员？")
-                .Button("确定","取消").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                .Button("确定", "取消").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
                     @Override
                     public void onButton1() {
                         removePeople();
@@ -254,7 +286,6 @@ public class DeleteMemberActivity extends BaseActivity {
         }
     }
 
-
     private void registerObservers(boolean register) {
         if (register) {
             TeamDataCache.getInstance().registerTeamMemberDataChangedObserver(teamMemberObserver);
@@ -266,49 +297,6 @@ public class DeleteMemberActivity extends BaseActivity {
 
         registerUserInfoChangedObserver(register);
     }
-
-    TeamDataCache.TeamMemberDataChangedObserver teamMemberObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
-
-        @Override
-        public void onUpdateTeamMember(List<TeamMember> m) {
-            for (TeamMember mm : m) {
-                for (TeamMember member : teamMembers) {
-                    if (mm.getAccount().equals(member.getAccount())) {
-                        teamMembers.set(teamMembers.indexOf(member), mm);
-                        break;
-                    }
-                }
-            }
-            baseAdapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onRemoveTeamMember(TeamMember member) {
-            teamMembers.remove(member);
-            baseAdapter.notifyDataSetChanged();
-        }
-    };
-
-    TeamDataCache.TeamDataChangedObserver teamDataObserver = new TeamDataCache.TeamDataChangedObserver() {
-        @Override
-        public void onUpdateTeams(List<Team> teams) {
-            for (Team team : teams) {
-                if (team.getId().equals(account)) {
-                    requestMembers();
-                    break;
-                }
-            }
-        }
-
-        @Override
-        public void onRemoveTeam(Team team) {
-            if (team.getId().equals(account)) {
-                Toast.makeText(DeleteMemberActivity.this, "群已解散", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
-    };
-    private UserInfoObservable.UserInfoObserver userInfoObserver;
 
     private void registerUserInfoChangedObserver(boolean register) {
         if (register) {
@@ -324,6 +312,12 @@ public class DeleteMemberActivity extends BaseActivity {
         } else {
             UserInfoHelper.unregisterObserver(userInfoObserver);
         }
+    }
+
+    class ViewHolder {
+        public CirecleImage img;
+        public TextView name;
+        private CheckBox check;
     }
 
 

@@ -6,13 +6,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.wo.PersonalState.check_photo.myStateImagePagerActivity;
+import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 
 /**
  * Created by FengChaoQun
@@ -21,7 +21,7 @@ import com.xiaoshangxing.wo.PersonalState.check_photo.myStateImagePagerActivity;
 public class Mystate_image_text extends MyStateHodlerBase {
     private ImageView first, second, third, four;
     private TextView text, count;
-    private View first_group,second_group;
+    private View first_group, second_group;
 
     @Override
     public void inflate() {
@@ -32,15 +32,15 @@ public class Mystate_image_text extends MyStateHodlerBase {
         four = (ImageView) view.findViewById(R.id.forth_image);
         text = (TextView) view.findViewById(R.id.image_text);
         count = (TextView) view.findViewById(R.id.image_count);
-        first_group=view.findViewById(R.id.first_group);
-        second_group=view.findViewById(R.id.sencond_group);
+        first_group = view.findViewById(R.id.first_group);
+        second_group = view.findViewById(R.id.sencond_group);
     }
 
     @Override
     public void refresh(final Published published) {
         setPublished(published);
         refreshBase();
-        text.setText(TextUtils.isEmpty(published.getText())?"":published.getText());
+        text.setText(TextUtils.isEmpty(published.getText()) ? "" : published.getText());
         first.setVisibility(View.GONE);
         second.setVisibility(View.GONE);
         third.setVisibility(View.GONE);
@@ -84,7 +84,7 @@ public class Mystate_image_text extends MyStateHodlerBase {
                 Intent intent = new Intent(context, myStateImagePagerActivity.class);
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, paths);
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, 0);
-                intent.putExtra(IntentStatic.DATA,published.getId());
+                intent.putExtra(IntentStatic.DATA, published.getId());
                 context.startActivity(intent);
             }
         });

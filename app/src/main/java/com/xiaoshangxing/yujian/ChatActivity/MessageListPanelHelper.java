@@ -24,11 +24,6 @@ public class MessageListPanelHelper {
         return instance;
     }
 
-    public interface LocalMessageObserver {
-        void onAddMessage(IMMessage message);
-        void onClearMessages(String account);
-    }
-
     public void registerObserver(LocalMessageObserver o, boolean register) {
         if (register) {
             observers.add(o);
@@ -47,5 +42,11 @@ public class MessageListPanelHelper {
         for (LocalMessageObserver o : observers) {
             o.onClearMessages(account);
         }
+    }
+
+    public interface LocalMessageObserver {
+        void onAddMessage(IMMessage message);
+
+        void onClearMessages(String account);
     }
 }

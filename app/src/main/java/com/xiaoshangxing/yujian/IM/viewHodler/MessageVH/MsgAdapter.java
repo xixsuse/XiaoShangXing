@@ -19,6 +19,12 @@ public class MsgAdapter extends TAdapter<IMMessage> {
     private ViewHolderEventListener eventListener;
     private Map<String, Float> progresses; // 有文件传输，需要显示进度条的消息ID map
     private String messageId;
+    /***********************
+     * 时间显示处理
+     ****************************/
+
+    private Set<String> timedItems; // 需要显示消息时间的消息ID
+    private IMMessage lastShowTimeItem; // 用于消息时间显示,判断和上条消息间的时间间隔
 
     public MsgAdapter(Context context, List<IMMessage> items, TAdapterDelegate delegate) {
         super(context, items, delegate);
@@ -27,14 +33,15 @@ public class MsgAdapter extends TAdapter<IMMessage> {
         progresses = new HashMap<>();
     }
 
+    public ViewHolderEventListener getEventListener() {
+        return eventListener;
+    }
+
     public void setEventListener(ViewHolderEventListener eventListener) {
         this.eventListener = eventListener;
     }
 
-    public ViewHolderEventListener getEventListener() {
-        return eventListener;
-    }
-//      删除一项 刷新数据 刷新时间显示
+    //      删除一项 刷新数据 刷新时间显示
     public void deleteItem(IMMessage message) {
         if (message == null) {
             return;
@@ -54,20 +61,17 @@ public class MsgAdapter extends TAdapter<IMMessage> {
             notifyDataSetChanged();
         }
     }
-//      获取文件加载进度
+
+    //      获取文件加载进度
     public float getProgress(IMMessage message) {
         Float progress = progresses.get(message.getUuid());
         return progress == null ? 0 : progress;
     }
-//      设置文件加载进度
+
+    //      设置文件加载进度
     public void putProgress(IMMessage message, float progress) {
         progresses.put(message.getUuid(), progress);
     }
-
-    /*********************** 时间显示处理 ****************************/
-
-    private Set<String> timedItems; // 需要显示消息时间的消息ID
-    private IMMessage lastShowTimeItem; // 用于消息时间显示,判断和上条消息间的时间间隔
 
     public boolean needShowTime(IMMessage message) {
         return timedItems.contains(message.getUuid());
@@ -171,11 +175,19 @@ public class MsgAdapter extends TAdapter<IMMessage> {
             return true;
         }
         switch (message.getMsgType()) {
-        case notification:
-            return true;
-        default:
-            return false;
+            case notification:
+                return true;
+            default:
+                return false;
         }
+    }
+
+    public String getUuid() {
+        return messageId;
+    }
+
+    public void setUuid(String messageId) {
+        this.messageId = messageId;
     }
 
     public interface ViewHolderEventListener {
@@ -184,13 +196,5 @@ public class MsgAdapter extends TAdapter<IMMessage> {
 
         // 发送失败或者多媒体文件下载失败指示按钮点击响应处理
         void onFailedBtnClick(IMMessage resendMessage);
-    }
-
-    public void setUuid(String messageId) {
-        this.messageId = messageId;
-    }
-
-    public String getUuid() {
-        return messageId;
     }
 }

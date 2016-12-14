@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.api.InfoApi;
+package com.xiaoshangxing.network.api.InfoApi;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;

@@ -24,22 +24,22 @@
 
     <TextView
         android:id="@+id/search_result_tip"
-        android:textColor="#999999"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar_layout"
         android:background="@color/w0"
+        android:ellipsize="end"
         android:paddingLeft="10dip"
         android:paddingRight="10dip"
         android:singleLine="true"
-        android:ellipsize="end"
-        android:layout_below="@id/app_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:textColor="#999999" />
 
-    <com.xiaoshangxing.utils.layout.AutoRefreshListView
+    <com.xiaoshangxing.utils.customView.AutoRefreshListView
         android:id="@+id/search_result_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/w0"
         android:layout_below="@id/search_result_tip"
+        android:background="@color/w0"
         android:cacheColorHint="@color/transparent"
         android:divider="@color/transparent"
         android:dividerHeight="0dp"

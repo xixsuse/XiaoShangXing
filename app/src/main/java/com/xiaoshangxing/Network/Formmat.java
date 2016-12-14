@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.network;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,11 +7,11 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.xiaoshangxing.Network.netUtil.MultipartUtility;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
-import com.xiaoshangxing.utils.FileUtils;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.network.netUtil.MultipartUtility;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.normalUtils.FileUtils;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 import com.xiaoshangxing.yujian.ChatActivity.SendImageHelper;
 
@@ -83,11 +83,11 @@ public class Formmat {
             }
         };
 //        try {
-            multipartUtility = new MultipartUtility(path, "UTF-8");
-            multipartUtility.addHeaderField("User-Phone",
-                    (String) SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING));
-            multipartUtility.addHeaderField("User-Digest",
-                    (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
+        multipartUtility = new MultipartUtility(path, "UTF-8");
+        multipartUtility.addHeaderField("User-Phone",
+                (String) SPUtils.get(context, SPUtils.PHONENUMNBER, SPUtils.DEFAULT_STRING));
+        multipartUtility.addHeaderField("User-Digest",
+                (String) SPUtils.get(context, SPUtils.DIGEST, SPUtils.DEFAULT_STRING));
 
 //        } catch (IOException e) {
 //            e.printStackTrace();

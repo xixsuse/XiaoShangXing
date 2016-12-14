@@ -1,7 +1,7 @@
 package com.xiaoshangxing.wo.PersonalState.check_photo;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 
 /**
  * Created by FengChaoQun
@@ -14,18 +14,22 @@ public interface myStateImagePagerContract {
         **describe:设置时间
         */
         void setTime();
+
         /*
         **describe:点击右上角的菜单按钮弹出的菜单
         */
         void showMoreDialog();
+
         /*
         **describe:前往详细界面
         */
         void gotoDetails();
+
         /*
         **describe:设置文字内容
         */
         void setText();
+
         /*
         **describe:设置点赞和评论数目
         */
@@ -48,10 +52,12 @@ public interface myStateImagePagerContract {
        **describe:发送给好友
        */
         void sendToFriend();
+
         /*
         **describe:保存图片到本地
         */
         void saveImage(String url);
+
         /*
         **describe:删除图片
         */

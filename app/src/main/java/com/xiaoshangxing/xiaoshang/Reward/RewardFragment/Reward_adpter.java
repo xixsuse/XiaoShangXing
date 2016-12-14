@@ -10,18 +10,18 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.input_activity.InputActivity;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.Name;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
@@ -34,8 +34,8 @@ import java.util.List;
  * on 2016/4/20
  */
 public class Reward_adpter extends ArrayAdapter<Published> {
-    private Context context;
     List<Published> publisheds;
+    private Context context;
     private RewardFragment fragment;
     private RewardActivity activity;
 
@@ -45,7 +45,7 @@ public class Reward_adpter extends ArrayAdapter<Published> {
         this.context = context;
         this.publisheds = objects;
         this.fragment = fragment;
-        this.activity=activity;
+        this.activity = activity;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Reward_adpter extends ArrayAdapter<Published> {
             viewholder.price = (TextView) convertView.findViewById(R.id.price);
             viewholder.button = (ImageView) convertView.findViewById(R.id.button);
             viewholder.down_arrow = (ImageView) convertView.findViewById(R.id.down_arrow);
-            viewholder.finish=(ImageView)convertView.findViewById(R.id.finish);
+            viewholder.finish = (ImageView) convertView.findViewById(R.id.finish);
             convertView.setTag(viewholder);
 
         } else {
@@ -137,7 +137,7 @@ public class Reward_adpter extends ArrayAdapter<Published> {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(context, InputActivity.class);
-                        intent.putExtra(InputActivity.EDIT_STATE,InputActivity.COMMENT);
+                        intent.putExtra(InputActivity.EDIT_STATE, InputActivity.COMMENT);
                         intent.putExtra(InputActivity.MOMENTID, published.getId());
                         context.startActivity(intent);
                         popupWindow.dismiss();
@@ -193,7 +193,7 @@ public class Reward_adpter extends ArrayAdapter<Published> {
         if (!published.isAlive()) {
             viewholder.finish.setVisibility(View.VISIBLE);
             viewholder.price.setTextColor(context.getResources().getColor(R.color.g0));
-        }else {
+        } else {
             viewholder.finish.setVisibility(View.GONE);
             viewholder.price.setTextColor(context.getResources().getColor(R.color.red1));
         }
@@ -203,9 +203,9 @@ public class Reward_adpter extends ArrayAdapter<Published> {
 
     private static class mystate_viewholder {
         private CirecleImage headImage;
-        private TextView  college, time, price;
+        private TextView college, time, price;
         private EmotinText text;
         private Name name;
-        private ImageView button, down_arrow,finish;
+        private ImageView button, down_arrow, finish;
     }
 }

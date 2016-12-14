@@ -11,20 +11,20 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 
 import java.util.List;
@@ -61,6 +61,17 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
     RelativeLayout hideMenu;
     @Bind(R.id.no_content)
     TextView noContent;
+    private View view;
+    private View footview;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
+    private PersonalSale_Adpter_realm adpter_realm;
+    private SaleActivity activity;
+    private RealmResults<Published> publisheds;
+
+    public static PersonalSaleFragment newInstance() {
+        return new PersonalSaleFragment();
+    }
 
     @Nullable
     @Override
@@ -76,18 +87,6 @@ public class PersonalSaleFragment extends BaseFragment implements PersonalSaleCo
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    public static PersonalSaleFragment newInstance() {
-        return new PersonalSaleFragment();
-    }
-
-    private View view;
-    private View footview;
-    private DotsTextView dotsTextView;
-    private TextView loadingText;
-    private PersonalSale_Adpter_realm adpter_realm;
-    private SaleActivity activity;
-    private RealmResults<Published> publisheds;
 
     private void initView() {
         title.setText("我的闲置");

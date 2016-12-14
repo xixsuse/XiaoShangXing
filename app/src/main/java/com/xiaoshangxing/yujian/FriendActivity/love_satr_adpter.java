@@ -12,15 +12,15 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.xiaoshangxing.Network.IMNetwork;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.IMNetwork;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.data.bean.User;
+import com.xiaoshangxing.utils.customView.CirecleImage;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 
 import org.json.JSONException;
@@ -38,15 +38,15 @@ import okhttp3.ResponseBody;
  * on 2016/4/20
  */
 public class love_satr_adpter extends ArrayAdapter<User> {
-    private LoveOrStartActivity context;
     List<User> users;
+    private LoveOrStartActivity context;
     private int type;
 
     public love_satr_adpter(LoveOrStartActivity context, int resource, List<User> objects, int type) {
         super(context, resource, objects);
         this.context = context;
         this.users = objects;
-        this.type=type;
+        this.type = type;
     }
 
     @Override
@@ -54,10 +54,10 @@ public class love_satr_adpter extends ArrayAdapter<User> {
         ViewHolder viewHolder;
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.item_love_star_listview, null);
-            viewHolder=new ViewHolder(convertView);
+            viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
-        }else {
-            viewHolder= (ViewHolder) convertView.getTag();
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
         final User user = users.get(position);
@@ -82,7 +82,7 @@ public class love_satr_adpter extends ArrayAdapter<User> {
                     ChatActivity.start(context, String.valueOf(user.getId()), null, SessionTypeEnum.P2P);
                 }
             });
-        }else {
+        } else {
             viewHolder.loveLay.setVisibility(View.GONE);
             viewHolder.starLay.setVisibility(View.VISIBLE);
             viewHolder.more.setOnClickListener(new View.OnClickListener() {

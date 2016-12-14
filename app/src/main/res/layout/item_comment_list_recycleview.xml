@@ -2,16 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/y192"
     android:background="@color/w0"
+    android:minHeight="@dimen/y192"
     android:paddingStart="@dimen/width_48">
 
     <!--头像-->
-    <com.xiaoshangxing.utils.layout.CirecleImage
-        android:layout_marginTop="@dimen/x36"
+    <com.xiaoshangxing.utils.customView.CirecleImage
         android:id="@+id/head_image"
         android:layout_width="@dimen/x120"
         android:layout_height="@dimen/x120"
+        android:layout_marginTop="@dimen/x36"
         android:src="@mipmap/cirecleimage_default" />
 
     <LinearLayout
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <!--姓名-->
-            <com.xiaoshangxing.utils.layout.Name
+            <com.xiaoshangxing.utils.customView.Name
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:textSize="13sp" />
         </LinearLayout>
         <!--文字内容-->
-        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

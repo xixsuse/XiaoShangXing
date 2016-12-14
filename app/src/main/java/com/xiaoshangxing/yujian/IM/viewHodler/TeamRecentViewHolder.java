@@ -8,24 +8,24 @@ import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 
 public class TeamRecentViewHolder extends CommonRecentViewHolder {
 
-	@Override
-	protected String getContent() {
-		String content = descOfMsg();
+    @Override
+    protected String getContent() {
+        String content = descOfMsg();
 
-		String fromId = recent.getFromAccount();
-		if (!TextUtils.isEmpty(fromId)
-				&& !fromId.equals(NimUIKit.getAccount())
-				&& !(recent.getAttachment() instanceof NotificationAttachment)) {
-			String tid = recent.getContactId();
-			String teamNick = getTeamUserDisplayName(tid, fromId);
-			content = teamNick + ": " + content;
-		}
+        String fromId = recent.getFromAccount();
+        if (!TextUtils.isEmpty(fromId)
+                && !fromId.equals(NimUIKit.getAccount())
+                && !(recent.getAttachment() instanceof NotificationAttachment)) {
+            String tid = recent.getContactId();
+            String teamNick = getTeamUserDisplayName(tid, fromId);
+            content = teamNick + ": " + content;
+        }
 
-		return content;
-	}
+        return content;
+    }
 
-	private String getTeamUserDisplayName(String tid, String account) {
-		return TeamDataCache.getInstance().getTeamMemberDisplayName(tid, account);
-	}
+    private String getTeamUserDisplayName(String tid, String account) {
+        return TeamDataCache.getInstance().getTeamMemberDisplayName(tid, account);
+    }
 
 }

@@ -2,122 +2,131 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <FrameLayout
-        android:layout_above="@+id/radio_layout"
         android:id="@+id/main_fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/radio_layout"></FrameLayout>
 
 
     <View
         android:id="@+id/line"
-        android:layout_above="@+id/radio_layout"
-        android:background="@color/g1"
         android:layout_width="match_parent"
-        android:layout_height="1px">
+        android:layout_height="1px"
+        android:layout_above="@+id/radio_layout"
+        android:background="@color/g1">
 
     </View>
 
     <LinearLayout
-        android:paddingBottom="@dimen/y20"
-        android:layout_alignParentBottom="true"
         android:id="@+id/radio_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@color/w1"
         android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:paddingBottom="@dimen/y20">
 
         <RelativeLayout
             android:id="@+id/xiaoshang_lay"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:background="@color/w1"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/w1">
+
             <ImageView
-                android:paddingTop="@dimen/y20"
-                android:layout_centerHorizontal="true"
                 android:id="@+id/image_xiaoshang"
-                android:src="@mipmap/xiaoshang_off"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.xiaoshangxing.utils.layout.CirecleImage
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="@dimen/y20"
+                android:src="@mipmap/xiaoshang_off" />
+
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/xiaoshang_dot"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
                 android:layout_marginStart="@dimen/x188"
                 android:layout_marginTop="@dimen/y12"
-                android:background="@color/red2"
-                android:layout_width="@dimen/x30"
-                android:layout_height="@dimen/x30" />
+                android:background="@color/red2" />
+
             <TextView
                 android:id="@+id/xiaoshang"
-                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/image_xiaoshang"
+                android:layout_centerHorizontal="true"
                 android:text="@string/xiaoshang"
                 android:textColor="@color/g0"
-                android:textSize="13sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="13sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/yujian_lay"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
             <ImageView
-                android:paddingTop="@dimen/y20"
-                android:layout_centerHorizontal="true"
                 android:id="@+id/image_yujian"
-                android:src="@mipmap/yujian_off"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.xiaoshangxing.utils.layout.CirecleImage
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="@dimen/y20"
+                android:src="@mipmap/yujian_off" />
+
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/yujian_dot"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
                 android:layout_marginStart="@dimen/x188"
                 android:layout_marginTop="@dimen/y12"
-                android:background="@color/red2"
-                android:layout_width="@dimen/x30"
-                android:layout_height="@dimen/x30" />
+                android:background="@color/red2" />
+
             <TextView
                 android:id="@+id/yujian"
-                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/image_yujian"
+                android:layout_centerHorizontal="true"
                 android:text="@string/yujian"
                 android:textColor="@color/g0"
-                android:textSize="13sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="13sp" />
         </RelativeLayout>
 
 
         <RelativeLayout
             android:id="@+id/wolay"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
             <ImageView
-                android:paddingTop="@dimen/y20"
-                android:layout_centerHorizontal="true"
                 android:id="@+id/image_wo"
-                android:src="@mipmap/wo_off"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.xiaoshangxing.utils.layout.CirecleImage
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingTop="@dimen/y20"
+                android:src="@mipmap/wo_off" />
+
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/wo_dot"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/x30"
                 android:layout_marginStart="@dimen/x188"
                 android:layout_marginTop="@dimen/y12"
-                android:background="@color/red2"
-                android:layout_width="@dimen/x30"
-                android:layout_height="@dimen/x30" />
+                android:background="@color/red2" />
+
             <TextView
                 android:id="@+id/wo"
-                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/image_wo"
+                android:layout_centerHorizontal="true"
                 android:text="@string/wo"
                 android:textColor="@color/g0"
-                android:textSize="13sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="13sp" />
         </RelativeLayout>
 
     </LinearLayout>

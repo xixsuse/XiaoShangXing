@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="true" android:drawable="@mipmap/nodisturb_check" />
-    <item android:state_checked="false" android:drawable="@color/w0" />
+    <item android:drawable="@mipmap/nodisturb_check" android:state_checked="true" />
+    <item android:drawable="@color/w0" android:state_checked="false" />
 </selector>

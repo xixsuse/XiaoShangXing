@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:background="@color/w0">
+    android:layout_height="wrap_content"
+    android:background="@color/w0"
+    android:orientation="vertical">
 
     <!--分享至-->
     <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/y86"
         android:paddingEnd="@dimen/width_48"
         android:paddingStart="@dimen/width_48"
-        android:layout_width="match_parent"
         android:paddingTop="@dimen/y44">
 
         <ImageView
@@ -24,13 +24,13 @@
 
         <TextView
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:paddingEnd="@dimen/x66"
-            android:textSize="11sp"
             android:paddingStart="@dimen/x66"
             android:text="分享至"
             android:textColor="@color/b0"
-            android:layout_height="wrap_content" />
+            android:textSize="11sp" />
 
         <ImageView
             android:layout_width="0dp"
@@ -42,10 +42,10 @@
 
     <!--分享选项-->
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/x25"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/x25"
         android:paddingStart="@dimen/x25">
 
         <!--发送给好友-->
@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:layout_width="@dimen/x138"
                 android:layout_height="@dimen/x138"
                 android:layout_gravity="center_horizontal"
@@ -81,7 +81,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:layout_width="@dimen/x138"
                 android:layout_height="@dimen/x138"
                 android:layout_gravity="center_horizontal"
@@ -107,7 +107,7 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:layout_width="@dimen/x138"
                 android:layout_height="@dimen/x138"
                 android:layout_gravity="center_horizontal"
@@ -133,7 +133,7 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:layout_width="@dimen/x138"
                 android:layout_height="@dimen/x138"
                 android:layout_gravity="center_horizontal"
@@ -159,7 +159,7 @@
             android:orientation="vertical"
             android:visibility="invisible">
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:layout_width="@dimen/x138"
                 android:layout_height="@dimen/x138"
                 android:layout_gravity="center_horizontal"
@@ -179,14 +179,14 @@
     </LinearLayout>
     <!--取消-->
     <Button
-        android:layout_marginTop="@dimen/y112"
         android:id="@+id/cancel"
-        android:text="@string/cancle"
-        android:gravity="center"
-        android:textSize="17sp"
-        android:background="#f3f3f5"
-        android:textColor="@color/b4"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y126" />
+        android:layout_height="@dimen/y126"
+        android:layout_marginTop="@dimen/y112"
+        android:background="#f3f3f5"
+        android:gravity="center"
+        android:text="@string/cancle"
+        android:textColor="@color/b4"
+        android:textSize="17sp" />
 
 </LinearLayout>

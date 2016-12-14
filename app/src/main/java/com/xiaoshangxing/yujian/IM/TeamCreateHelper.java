@@ -22,7 +22,7 @@ import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.constant.VerifyTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 
 import java.io.Serializable;

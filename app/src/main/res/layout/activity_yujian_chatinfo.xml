@@ -250,7 +250,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/topChat" />
 
-                <com.xiaoshangxing.utils.SwitchView
+                <com.xiaoshangxing.utils.customView.SwitchView
                     android:id="@+id/topChat"
                     android:layout_width="40dp"
                     android:layout_height="25dp"
@@ -279,7 +279,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/noDisturb" />
 
-                <com.xiaoshangxing.utils.SwitchView
+                <com.xiaoshangxing.utils.customView.SwitchView
                     android:id="@+id/noDisturb"
                     android:layout_width="40dp"
                     android:layout_height="25dp"
@@ -308,7 +308,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/saveToFriend_GroupChat" />
 
-                <com.xiaoshangxing.utils.SwitchView
+                <com.xiaoshangxing.utils.customView.SwitchView
                     android:id="@+id/saveToFriend_GroupChat"
                     android:layout_width="40dp"
                     android:layout_height="25dp"

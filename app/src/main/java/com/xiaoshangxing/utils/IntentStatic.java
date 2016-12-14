@@ -14,25 +14,27 @@ import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.setting.utils.headimg_set.CommonUtils;
+import com.xiaoshangxing.wo.setting.utils.headimg_set.CommonUtils;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 
 /**
  * Created by FengChaoQun
  * on 2016/8/20
  */
 public class IntentStatic {
-    public static final String TYPE="TYPE";
-    public static final int  CODE=1000;
-    public static final String DATA="DATA";
+    public static final String TYPE = "TYPE";
+    public static final int CODE = 1000;
+    public static final String DATA = "DATA";
     public static final String EXTRA_ACCOUNT = "extra_account";
     public static final String EXTRA_TYPE = "type";
     public static final String EXTRA_ANCHOR = "anchor";
 
 
-    public static final int OTHERS=10002;
-    public static final int MINE=10003;
+    public static final int OTHERS = 10002;
+    public static final int MINE = 10003;
 
-    public static final int CLOSE=1000;
+    public static final int CLOSE = 1000;
 
     public static final int REGISTER = 2000;
 
@@ -40,19 +42,10 @@ public class IntentStatic {
     public static final int PUBLISH_SUCCESS = 3001;
 
     public static final String IS_ORIG = "IS_ORIG";
-
-    //    网易
-//图片选自器
-    public static final String EXTRA_PHOTO_LISTS = "photo_list";
-    public static final String EXTRA_SELECTED_IMAGE_LIST = "selected_image_list";
-    public static final String EXTRA_MUTI_SELECT_MODE = "muti_select_mode";
-    public static final String EXTRA_MUTI_SELECT_SIZE_LIMIT = "muti_select_size_limit";
-    public static final String EXTRA_SUPPORT_ORIGINAL = "support_original";
-    public static final String EXTRA_IS_ORIGINAL = "is_original";
-    public static final String EXTRA_PREVIEW_CURRENT_POS = "current_pos";
-    public static final String EXTRA_PREVIEW_IMAGE_BTN_TEXT = "preview_image_btn_text";
-    public static final String EXTRA_SCALED_IMAGE_LIST = "scaled_image_list";
-    public static final String EXTRA_ORIG_IMAGE_LIST = "orig_image_list";
+    /**
+     * 记录对话框是否弹出  用以限制弹出很多的对话框
+     */
+    private static boolean isShowDialog;
 
     /**
      * description:打开相机
@@ -84,11 +77,6 @@ public class IntentStatic {
                     Toast.LENGTH_SHORT).show();
         }
     }
-
-    /**
-     * 记录对话框是否弹出  用以限制弹出很多的对话框
-     */
-    private static boolean isShowDialog;
 
     /**
      * description:弹出跳转到设置页面的对话框

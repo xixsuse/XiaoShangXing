@@ -24,15 +24,15 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
 import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter;
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.CalendarData;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
+import com.xiaoshangxing.data.bean.CalendarData;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Calendar.CalendarInputer.CalendarInputer;
 import com.xiaoshangxing.xiaoshang.Calendar.Decorator.CurrentDecorator;
 import com.xiaoshangxing.xiaoshang.Calendar.Decorator.EventDecorator;
@@ -57,6 +57,8 @@ import io.realm.Sort;
 
 public class CalendarFragment extends BaseFragment implements OnDateSelectedListener, OnMonthChangedListener {
     public static final String TAG = BaseFragment.TAG + "-CalendarFragment";
+    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
+    private final OneDayDecorator oneDayDecorator = new OneDayDecorator(getContext());
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -95,24 +97,31 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
     TextView nextMonth;
     @Bind(R.id.calendar_lay)
     LinearLayout calendarLay;
-
     private View mview;
     private BottomSheetBehavior mBottomSheetBehavior;
+    private Calendar_adpter adpter;
+    private List<CalendarDay> allDatas, previous, future;
+    private CalendarDay today, currentSelected;
+    private Handler handler = new Handler();
+    private Runnable runnable;
+    private View headView;
+    private TextView headTextView;
 
     public static CalendarFragment newInstance() {
         return new CalendarFragment();
     }
 
-    private final OneDayDecorator oneDayDecorator = new OneDayDecorator(getContext());
-    private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
-    private Calendar_adpter adpter;
-    private List<CalendarDay> allDatas, previous, future;
-    private CalendarDay today, currentSelected;
-
-    private Handler handler = new Handler();
-    private Runnable runnable;
-    private View headView;
-    private TextView headTextView;
+    public static int compareDayByYearMonth(CalendarDay origin, CalendarDay object) {
+        if (origin.getYear() == object.getYear()) {
+            if (origin.getMonth() == object.getMonth()) {
+                return 0;
+            } else {
+                return origin.getMonth() > object.getMonth() ? 1 : -1;
+            }
+        } else {
+            return origin.getYear() > object.getYear() ? 1 : -1;
+        }
+    }
 
     @Nullable
     @Override
@@ -385,18 +394,6 @@ public class CalendarFragment extends BaseFragment implements OnDateSelectedList
             ArrayList<CalendarDay> todays = new ArrayList<>();
             todays.add(today);
             calendarView.addDecorator(new EventDecorator(Color.parseColor("#45C01A"), todays, getContext()));
-        }
-    }
-
-    public static int compareDayByYearMonth(CalendarDay origin, CalendarDay object) {
-        if (origin.getYear() == object.getYear()) {
-            if (origin.getMonth() == object.getMonth()) {
-                return 0;
-            } else {
-                return origin.getMonth() > object.getMonth() ? 1 : -1;
-            }
-        } else {
-            return origin.getYear() > object.getYear() ? 1 : -1;
         }
     }
 

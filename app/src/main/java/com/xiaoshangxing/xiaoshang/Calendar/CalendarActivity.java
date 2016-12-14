@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
 
 /**
  * Created by FengChaoQun

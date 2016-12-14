@@ -33,14 +33,14 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
-import com.xiaoshangxing.Network.netUtil.AppNetUtil;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.AppNetUtil;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.TopChat;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.data.bean.TopChat;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 import com.xiaoshangxing.yujian.FriendActivity.FriendActivity;
@@ -60,8 +60,8 @@ import com.xiaoshangxing.yujian.IM.viewHodler.RecentViewHolder;
 import com.xiaoshangxing.yujian.IM.viewHodler.TAdapterDelegate;
 import com.xiaoshangxing.yujian.IM.viewHodler.TViewHolder;
 import com.xiaoshangxing.yujian.IM.viewHodler.TeamRecentViewHolder;
-import com.xiaoshangxing.yujian.Serch.GlobalSearchActivity;
 import com.xiaoshangxing.yujian.Schoolfellow.XiaoYouActivity;
+import com.xiaoshangxing.yujian.Serch.GlobalSearchActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,7 +83,22 @@ import io.realm.RealmResults;
 public class YuJianFragment extends BaseFragment implements ReminderManager.UnreadNumChangedCallback, TAdapterDelegate {
 
     public static final String TAG = BaseFragment.TAG + "-YuJianFragment";
+    // 置顶功能可直接使用，也可作为思路，供开发者充分利用RecentContact的tag字段
+    public static final long RECENT_TAG_STICKY = 1; // 联系人置顶tag
+    private static Comparator<RecentContact> comp = new Comparator<RecentContact>() {
 
+        @Override
+        public int compare(RecentContact o1, RecentContact o2) {
+            // 先比较置顶tag
+            long sticky = (o1.getTag() & RECENT_TAG_STICKY) - (o2.getTag() & RECENT_TAG_STICKY);
+            if (sticky != 0) {
+                return sticky > 0 ? -1 : 1;
+            } else {
+                long time = o1.getTime() - o2.getTime();
+                return time == 0 ? 0 : (time > 0 ? -1 : 1);
+            }
+        }
+    };
     @Bind(R.id.schoolfellow)
     ImageView schoolfellow;
     @Bind(R.id.serch_layout)
@@ -102,10 +117,158 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
     TextView date_state;
     @Bind(R.id.current_state)
     TextView currentState;
+    /**
+     * 用户状态变化
+     */
+    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
 
+        @Override
+        public void onEvent(StatusCode code) {
+            if (code.wontAutoLogin()) {
+                kickOut(code);
+            } else {
+                if (code == StatusCode.NET_BROKEN) {
+                    noNetLay.setVisibility(View.VISIBLE);
+                    currentState.setText(R.string.no_net);
+                } else if (code == StatusCode.UNLOGIN) {
+                    noNetLay.setVisibility(View.VISIBLE);
+                    currentState.setText("未登录,点击重新连接");
+                } else if (code == StatusCode.CONNECTING) {
+                    noNetLay.setVisibility(View.VISIBLE);
+                    currentState.setText(R.string.nim_status_connecting);
+                } else if (code == StatusCode.LOGINING) {
+                    noNetLay.setVisibility(View.VISIBLE);
+                    currentState.setText(R.string.nim_status_logining);
+                } else {
+                    noNetLay.setVisibility(View.GONE);
+                }
+            }
+        }
+    };
+    private View mView;
+    private Observer<Void> data_state_observer;
+    private Handler handler = new Handler();
+    // data
+    private List<RecentContact> items;
+    //    若变化的消息在联系人列表里 刷新联系人的信息
+    Observer<IMMessage> statusObserver = new Observer<IMMessage>() {
+        @Override
+        public void onEvent(IMMessage message) {
+            int index = getItemIndex(message.getUuid());
+            if (index >= 0 && index < items.size()) {
+                RecentContact item = items.get(index);
+                item.setMsgStatus(message.getStatus());
+                refreshViewHolderByIndex(index);
+            }
+        }
+    };
+    private RecentContactAdapter adapter;
+    //  监听群组信息变化  个人觉得没有卵用
+    TeamDataCache.TeamDataChangedObserver teamDataChangedObserver = new TeamDataCache.TeamDataChangedObserver() {
 
-    // 置顶功能可直接使用，也可作为思路，供开发者充分利用RecentContact的tag字段
-    public static final long RECENT_TAG_STICKY = 1; // 联系人置顶tag
+        @Override
+        public void onUpdateTeams(List<Team> teams) {
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onRemoveTeam(Team team) {
+
+        }
+    };
+    TeamDataCache.TeamMemberDataChangedObserver teamMemberDataChangedObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
+        @Override
+        public void onUpdateTeamMember(List<TeamMember> members) {
+            adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onRemoveTeamMember(TeamMember member) {
+
+        }
+    };
+    private boolean msgLoaded = false;
+    private RecentContactsCallback callback;
+    //    如果有新联系人变化 替换掉以前的相同联系人
+    Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
+        @Override
+        public void onEvent(List<RecentContact> messages) {
+            int index;
+            for (RecentContact msg : messages) {
+                index = -1;
+                for (int i = 0; i < items.size(); i++) {
+                    if (msg.getContactId().equals(items.get(i).getContactId())
+                            && msg.getSessionType() == (items.get(i).getSessionType())) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (index >= 0) {
+                    items.remove(index);
+                }
+
+                items.add(msg);
+            }
+
+            refreshMessages(true);
+        }
+    };
+    //  若删除了一个联系人 判断是否在列表里 在的话删除该项并刷新
+//  若返回的数据为null 表明全部删除 清空列表
+    Observer<RecentContact> deleteObserver = new Observer<RecentContact>() {
+        @Override
+        public void onEvent(RecentContact recentContact) {
+            if (recentContact != null) {
+                for (RecentContact item : items) {
+                    if (TextUtils.equals(item.getContactId(), recentContact.getContactId())
+                            && item.getSessionType() == recentContact.getSessionType()) {
+                        items.remove(item);
+                        refreshMessages(true);
+                        break;
+                    }
+                }
+            } else {
+                items.clear();
+                refreshMessages(true);
+            }
+        }
+    };
+    FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
+        @Override
+        public void onAddedOrUpdatedFriends(List<String> accounts) {
+            refreshMessages(false);
+        }
+
+        @Override
+        public void onDeletedFriends(List<String> accounts) {
+            refreshMessages(false);
+        }
+
+        @Override
+        public void onAddUserToBlackList(List<String> account) {
+            refreshMessages(false);
+        }
+
+        @Override
+        public void onRemoveUserFromBlackList(List<String> account) {
+            refreshMessages(false);
+        }
+    };
+    private UserInfoObservable.UserInfoObserver userInfoObserver;
+    //      查询到的最近联系人
+    private List<RecentContact> loadedRecents;
+    private Observer<Integer> sysMsgUnreadCountChangedObserver = new Observer<Integer>() {
+        @Override
+        public void onEvent(Integer unreadCount) {
+            SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unreadCount);
+            ReminderManager.getInstance().updateContactUnreadNum(unreadCount);
+        }
+    };
+
+    public static YuJianFragment newInstance() {
+        return new YuJianFragment();
+    }
 
     @Nullable
     @Override
@@ -143,26 +306,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         ButterKnife.unbind(this);
         registerObservers(false);
     }
-
-    public static YuJianFragment newInstance() {
-        return new YuJianFragment();
-    }
-
-    private View mView;
-    private Observer<Void> data_state_observer;
-    private Handler handler = new Handler();
-
-    // data
-    private List<RecentContact> items;
-
-    private RecentContactAdapter adapter;
-
-    private boolean msgLoaded = false;
-
-    private RecentContactsCallback callback;
-
-    private UserInfoObservable.UserInfoObserver userInfoObserver;
-
 
     private void initView() {
         listView.setDividerHeight(0);
@@ -293,7 +436,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         });
     }
 
-
     private void showMenu(View v, final RecentContact recent) {
 
         final View view = v;
@@ -400,9 +542,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         return (recent.getTag() & tag) == tag;
     }
 
-    //      查询到的最近联系人
-    private List<RecentContact> loadedRecents;
-
     //      查询最近联系人
     private void requestMessages(boolean delay) {
         if (msgLoaded) {
@@ -459,7 +598,7 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
                             return;
                         }
 //                                查询数据库  将置顶的会话置顶
-                        if (realm.isClosed()){
+                        if (realm.isClosed()) {
                             return;
                         }
                         RealmResults<TopChat> topChats = realm.where(TopChat.class).findAll();
@@ -538,22 +677,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         Collections.sort(list, comp);
     }
 
-    private static Comparator<RecentContact> comp = new Comparator<RecentContact>() {
-
-        @Override
-        public int compare(RecentContact o1, RecentContact o2) {
-            // 先比较置顶tag
-            long sticky = (o1.getTag() & RECENT_TAG_STICKY) - (o2.getTag() & RECENT_TAG_STICKY);
-            if (sticky != 0) {
-                return sticky > 0 ? -1 : 1;
-            } else {
-                long time = o1.getTime() - o2.getTime();
-                return time == 0 ? 0 : (time > 0 ? -1 : 1);
-            }
-        }
-    };
-
-
     private void registerObservers(boolean register) {
         if (register) {
             requestSystemMessageUnreadCount();
@@ -594,91 +717,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
             TeamDataCache.getInstance().unregisterTeamMemberDataChangedObserver(teamMemberDataChangedObserver);
         }
     }
-
-    //    如果有新联系人变化 替换掉以前的相同联系人
-    Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
-        @Override
-        public void onEvent(List<RecentContact> messages) {
-            int index;
-            for (RecentContact msg : messages) {
-                index = -1;
-                for (int i = 0; i < items.size(); i++) {
-                    if (msg.getContactId().equals(items.get(i).getContactId())
-                            && msg.getSessionType() == (items.get(i).getSessionType())) {
-                        index = i;
-                        break;
-                    }
-                }
-
-                if (index >= 0) {
-                    items.remove(index);
-                }
-
-                items.add(msg);
-            }
-
-            refreshMessages(true);
-        }
-    };
-
-    //    若变化的消息在联系人列表里 刷新联系人的信息
-    Observer<IMMessage> statusObserver = new Observer<IMMessage>() {
-        @Override
-        public void onEvent(IMMessage message) {
-            int index = getItemIndex(message.getUuid());
-            if (index >= 0 && index < items.size()) {
-                RecentContact item = items.get(index);
-                item.setMsgStatus(message.getStatus());
-                refreshViewHolderByIndex(index);
-            }
-        }
-    };
-
-    //  若删除了一个联系人 判断是否在列表里 在的话删除该项并刷新
-//  若返回的数据为null 表明全部删除 清空列表
-    Observer<RecentContact> deleteObserver = new Observer<RecentContact>() {
-        @Override
-        public void onEvent(RecentContact recentContact) {
-            if (recentContact != null) {
-                for (RecentContact item : items) {
-                    if (TextUtils.equals(item.getContactId(), recentContact.getContactId())
-                            && item.getSessionType() == recentContact.getSessionType()) {
-                        items.remove(item);
-                        refreshMessages(true);
-                        break;
-                    }
-                }
-            } else {
-                items.clear();
-                refreshMessages(true);
-            }
-        }
-    };
-    //  监听群组信息变化  个人觉得没有卵用
-    TeamDataCache.TeamDataChangedObserver teamDataChangedObserver = new TeamDataCache.TeamDataChangedObserver() {
-
-        @Override
-        public void onUpdateTeams(List<Team> teams) {
-            adapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onRemoveTeam(Team team) {
-
-        }
-    };
-
-    TeamDataCache.TeamMemberDataChangedObserver teamMemberDataChangedObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
-        @Override
-        public void onUpdateTeamMember(List<TeamMember> members) {
-            adapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onRemoveTeamMember(TeamMember member) {
-
-        }
-    };
 
     //  通过信息uuid获得该信息是否在列表里
     private int getItemIndex(String uuid) {
@@ -730,28 +768,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         }
     }
 
-    FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
-        @Override
-        public void onAddedOrUpdatedFriends(List<String> accounts) {
-            refreshMessages(false);
-        }
-
-        @Override
-        public void onDeletedFriends(List<String> accounts) {
-            refreshMessages(false);
-        }
-
-        @Override
-        public void onAddUserToBlackList(List<String> account) {
-            refreshMessages(false);
-        }
-
-        @Override
-        public void onRemoveUserFromBlackList(List<String> account) {
-            refreshMessages(false);
-        }
-    };
-
     private void initFresh() {
         LayoutHelp.initPTR(ptrFrameLayout, false, new PtrDefaultHandler() {
             @Override
@@ -797,7 +813,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         }
     }
 
-
     //  设置消息通知
     private void enableMsgNotification(boolean enable) {
         if (enable) {
@@ -840,7 +855,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
 //        }
     }
 
-
     /**
      * 注册/注销系统消息未读数变化
      *
@@ -851,14 +865,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
                 register);
     }
 
-    private Observer<Integer> sysMsgUnreadCountChangedObserver = new Observer<Integer>() {
-        @Override
-        public void onEvent(Integer unreadCount) {
-            SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unreadCount);
-            ReminderManager.getInstance().updateContactUnreadNum(unreadCount);
-        }
-    };
-
     /**
      * 查询系统消息未读数
      */
@@ -867,35 +873,6 @@ public class YuJianFragment extends BaseFragment implements ReminderManager.Unre
         SystemMessageUnreadManager.getInstance().setSysMsgUnreadCount(unread);
         ReminderManager.getInstance().updateContactUnreadNum(unread);
     }
-
-    /**
-     * 用户状态变化
-     */
-    Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {
-
-        @Override
-        public void onEvent(StatusCode code) {
-            if (code.wontAutoLogin()) {
-                kickOut(code);
-            } else {
-                if (code == StatusCode.NET_BROKEN) {
-                    noNetLay.setVisibility(View.VISIBLE);
-                    currentState.setText(R.string.no_net);
-                } else if (code == StatusCode.UNLOGIN) {
-                    noNetLay.setVisibility(View.VISIBLE);
-                    currentState.setText("未登录,点击重新连接");
-                } else if (code == StatusCode.CONNECTING) {
-                    noNetLay.setVisibility(View.VISIBLE);
-                    currentState.setText(R.string.nim_status_connecting);
-                } else if (code == StatusCode.LOGINING) {
-                    noNetLay.setVisibility(View.VISIBLE);
-                    currentState.setText(R.string.nim_status_logining);
-                } else {
-                    noNetLay.setVisibility(View.GONE);
-                }
-            }
-        }
-    };
 
     //    被踢掉的情况
     private void kickOut(StatusCode code) {

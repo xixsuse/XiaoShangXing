@@ -8,8 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.wo.PersonalState.MystateAdpter;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -22,26 +22,20 @@ import io.realm.Realm;
  */
 public abstract class MyStateHodlerBase {
     public Published published;
+    public int position;
     /**
      * context
      */
     protected Context context;
-
     protected BaseActivity activity;
-
     protected MystateAdpter adpter;
-
     /**
      * list item view
      */
     protected View view, left_lay;
-
     protected Realm realm;
-
-    public int position;
-
-    private TextView day, month, location;
     protected FrameLayout content;
+    private TextView day, month, location;
 
     public MyStateHodlerBase() {
     }

@@ -1,5 +1,8 @@
 package com.xiaoshangxing.data;
 
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.data.bean.User;
+
 /**
  * Created by FengChaoQun
  * on 2016/9/11

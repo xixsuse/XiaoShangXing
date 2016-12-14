@@ -2,9 +2,9 @@ package com.xiaoshangxing.xiaoshang.Sale.SaleFrafment;
 
 import android.widget.EditText;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 import io.realm.Realm;
 
@@ -82,6 +82,7 @@ public class SaleContract {
         **describe:弹出收起键盘
         */
         void showEdittext(boolean is, EditText editText);
+
         /*
         **describe:弹出发布菜单
         */

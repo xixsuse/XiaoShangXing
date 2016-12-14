@@ -10,14 +10,14 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.PushMsg;
-import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.data.bean.PushMsg;
 import com.xiaoshangxing.utils.NotifycationUtil;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
-package com.xiaoshangxing.Network.ProgressSubscriber;
+package com.xiaoshangxing.network.ProgressSubscriber;
 
-import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.LoadingDialog;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.dialog.LoadingDialog;
 
 import org.json.JSONException;
 

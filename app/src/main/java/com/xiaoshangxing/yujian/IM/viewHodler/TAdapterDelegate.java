@@ -2,9 +2,9 @@ package com.xiaoshangxing.yujian.IM.viewHodler;
 
 public interface TAdapterDelegate {
 
-	public int getViewTypeCount();
+    public int getViewTypeCount();
 
-	public Class<? extends TViewHolder> viewHolderAtPosition(int position);
+    public Class<? extends TViewHolder> viewHolderAtPosition(int position);
 
-	public boolean enabled(int position);
+    public boolean enabled(int position);
 }

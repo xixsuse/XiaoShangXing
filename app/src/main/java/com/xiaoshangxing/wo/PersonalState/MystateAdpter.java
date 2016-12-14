@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.MyStateHodlerBase;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_holder_transmit;
 import com.xiaoshangxing.wo.PersonalState.MyStateHodler.Mystate_image_text;
@@ -31,11 +31,11 @@ import io.realm.RealmBaseAdapter;
  * on 2016/9/10
  */
 public class MystateAdpter extends RealmBaseAdapter<Published> {
-    private Context context;
-    List<Published> publisheds;
-    private Handler mHandler;
-    Realm realm;
     private final Map<Class<?>, Integer> viewTypes;
+    List<Published> publisheds;
+    Realm realm;
+    private Context context;
+    private Handler mHandler;
     private Map<String, Integer> date_position = new HashMap<>();
     private boolean isSelf;
 

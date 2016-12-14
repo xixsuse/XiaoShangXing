@@ -103,36 +103,36 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_marginEnd="@dimen/x12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/x12"
                 android:src="@mipmap/praise_white" />
             <!--赞人数-->
             <TextView
-                android:paddingEnd="@dimen/x46"
                 android:id="@+id/praise_people_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:paddingEnd="@dimen/x46"
                 android:text="2"
                 android:textColor="@color/w0"
                 android:textSize="15sp" />
 
             <ImageView
                 android:id="@+id/comment_image"
-                android:paddingEnd="@dimen/x12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:paddingEnd="@dimen/x12"
                 android:src="@mipmap/comment_white" />
             <!--赞人数-->
             <TextView
-                android:paddingEnd="@dimen/x66"
                 android:id="@+id/comment_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:paddingEnd="@dimen/x66"
                 android:text="2"
                 android:textColor="@color/w0"
                 android:textSize="15sp" />
@@ -156,7 +156,7 @@
 
         </View>
 
-        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

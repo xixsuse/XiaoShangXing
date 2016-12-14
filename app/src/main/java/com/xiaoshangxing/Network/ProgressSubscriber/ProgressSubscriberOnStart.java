@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.ProgressSubscriber;
+package com.xiaoshangxing.network.ProgressSubscriber;
 
 /**
  * Created by FengChaoQun

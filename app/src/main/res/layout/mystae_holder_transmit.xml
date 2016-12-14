@@ -6,11 +6,11 @@
     android:orientation="vertical">
 
     <!--分享的话-->
-    <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+    <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
         android:id="@+id/share_text"
-        android:background="@color/w2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/w2"
         android:ellipsize="end"
         android:maxLines="1"
         android:padding="@dimen/x14"
@@ -38,7 +38,7 @@
                 android:layout_height="@dimen/x126" />
 
             <!--人物图片-->
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/person_image"
                 android:layout_width="@dimen/x126"
                 android:layout_height="@dimen/x126"
@@ -46,7 +46,7 @@
         </FrameLayout>
 
         <!--文字-->
-        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
             android:id="@+id/good_describe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

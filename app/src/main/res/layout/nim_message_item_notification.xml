@@ -7,9 +7,9 @@
         android:layout_height="wrap_content"
         android:alpha="0.3"
         android:background="@drawable/circular_4_g0"
-        android:padding="@dimen/x12"
         android:gravity="center"
+        android:padding="@dimen/x12"
         android:textColor="@color/w0"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
 </merge>

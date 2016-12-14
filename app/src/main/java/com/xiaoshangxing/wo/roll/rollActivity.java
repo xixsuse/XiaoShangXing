@@ -9,11 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 
 import java.util.ArrayList;
@@ -28,20 +28,21 @@ import butterknife.OnClick;
  * on 2016/7/12
  */
 public class RollActivity extends BaseActivity {
-    public static final String TYPE="TYPE";
-    public static final int FORBIDDEN=1000;
-    public static final int NOTICE=2000;
-    private int current_type;
+    public static final String TYPE = "TYPE";
+    public static final int FORBIDDEN = 1000;
+    public static final int NOTICE = 2000;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.listview)
     ListView listview;
+    private int current_type;
     private int publishedId;
     private Published published;
 
-    private List<String> list=new ArrayList<String>();
+    private List<String> list = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +51,7 @@ public class RollActivity extends BaseActivity {
         initView();
     }
 
-    private void initView(){
+    private void initView() {
 
         publishedId = getIntent().getIntExtra(IntentStatic.DATA, -1);
         if (publishedId == -1) {
@@ -75,7 +76,7 @@ public class RollActivity extends BaseActivity {
             }
         }
 
-        roll_listview_adpter adpter=new roll_listview_adpter(this,1,list);
+        roll_listview_adpter adpter = new roll_listview_adpter(this, 1, list);
         listview.setAdapter(adpter);
 
         initType();

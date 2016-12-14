@@ -1,24 +1,10 @@
 package com.xiaoshangxing.xiaoshang.Help.HelpFragment;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.PublishNetwork;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
-
-import org.json.JSONException;
-
-import java.io.IOException;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
-import okhttp3.ResponseBody;
-import rx.Subscriber;
 
 /**
  * Created by FengChaoQun

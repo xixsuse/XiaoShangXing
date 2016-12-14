@@ -18,20 +18,20 @@
 
         <FrameLayout
             android:id="@+id/checkbox_lay"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="6dp"
             android:layout_width="@dimen/x152"
-            android:layout_height="@dimen/x152">
+            android:layout_height="@dimen/x152"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="6dp">
 
             <CheckBox
-                android:layout_width="@dimen/x60"
                 android:id="@+id/checkbox"
+                android:layout_width="@dimen/x60"
                 android:layout_height="@dimen/x60"
-                android:background="@drawable/selector_circle_with_mark"
                 android:layout_gravity="right"
-                android:padding="@dimen/x12"
+                android:background="@drawable/selector_circle_with_mark"
                 android:button="@null"
-                android:focusable="false" />
+                android:focusable="false"
+                android:padding="@dimen/x12" />
         </FrameLayout>
 
 

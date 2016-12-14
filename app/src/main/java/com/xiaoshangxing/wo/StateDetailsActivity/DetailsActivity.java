@@ -16,23 +16,23 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.CommentsBean;
 import com.xiaoshangxing.data.PublishCache;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.input_activity.InputBoxLayout;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.data.bean.CommentsBean;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.wo.PersonalState.check_photo.myStateNoScrollGridAdapter;
 import com.xiaoshangxing.wo.Roll.RollActivity;
@@ -404,22 +404,22 @@ public class DetailsActivity extends BaseActivity implements DetailsContract.Vie
     private void sendComment(String text, int commenId) {
         OperateUtils.Comment(published.getId(), commenId, text, this, true, DetailsActivity.this,
                 new SimpleCallBack() {
-            @Override
-            public void onSuccess() {
-                inputBoxLayout.setCallBack(null);
-            }
+                    @Override
+                    public void onSuccess() {
+                        inputBoxLayout.setCallBack(null);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                inputBoxLayout.setCallBack(null);
-                showToast("评论失败");
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        inputBoxLayout.setCallBack(null);
+                        showToast("评论失败");
+                    }
 
-            @Override
-            public void onBackData(Object o) {
-                refreshPager((Published) o);
-            }
-        });
+                    @Override
+                    public void onBackData(Object o) {
+                        refreshPager((Published) o);
+                    }
+                });
     }
 
 }

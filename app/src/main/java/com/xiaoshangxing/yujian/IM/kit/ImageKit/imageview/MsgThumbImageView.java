@@ -13,6 +13,7 @@ import com.xiaoshangxing.yujian.IM.media.BitmapDecoder;
 
 
 public class MsgThumbImageView extends ImageView {
+    private static final Paint paintMask = createMaskPaint();
     // blend mask drawable
     private Drawable mask;
 
@@ -27,8 +28,6 @@ public class MsgThumbImageView extends ImageView {
     public MsgThumbImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
-    private static final Paint paintMask = createMaskPaint();
 
     private static final Paint createMaskPaint() {
         Paint paint = new Paint();

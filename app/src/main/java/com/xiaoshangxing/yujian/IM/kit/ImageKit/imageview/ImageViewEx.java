@@ -19,16 +19,6 @@ public class ImageViewEx extends ImageView {
 
     private DisplayImageOptions options;
 
-    private final DisplayImageOptions createImageOptions() {
-        return new DisplayImageOptions.Builder()
-                .showImageOnLoading(defaultImageResId)
-                .showImageOnFail(defaultImageResId)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
-    }
-
     public ImageViewEx(Context context) {
         super(context);
     }
@@ -45,6 +35,16 @@ public class ImageViewEx extends ImageView {
         a.recycle();
 
         this.options = createImageOptions();
+    }
+
+    private final DisplayImageOptions createImageOptions() {
+        return new DisplayImageOptions.Builder()
+                .showImageOnLoading(defaultImageResId)
+                .showImageOnFail(defaultImageResId)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
     }
 
     /**

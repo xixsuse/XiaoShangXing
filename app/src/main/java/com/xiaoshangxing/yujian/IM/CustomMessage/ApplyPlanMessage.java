@@ -1,6 +1,6 @@
 package com.xiaoshangxing.yujian.IM.CustomMessage;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 
 import org.json.JSONException;
 import org.json.JSONObject;

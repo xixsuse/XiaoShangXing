@@ -5,32 +5,32 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 
 public class AudioMessagePlayable implements Playable {
 
-	private IMMessage message;
+    private IMMessage message;
 
-	public IMMessage getMessage() {
-		return message;
-	}
+    public AudioMessagePlayable(IMMessage playableMessage) {
+        this.message = playableMessage;
+    }
 
-	public AudioMessagePlayable(IMMessage playableMessage) {
-		this.message = playableMessage;
-	}
+    public IMMessage getMessage() {
+        return message;
+    }
 
-	@Override
-	public long getDuration() {
-		return ((AudioAttachment) message.getAttachment()).getDuration();
-	}
+    @Override
+    public long getDuration() {
+        return ((AudioAttachment) message.getAttachment()).getDuration();
+    }
 
-	@Override
-	public String getPath() {
-		return ((AudioAttachment) message.getAttachment()).getPath();
-	}
+    @Override
+    public String getPath() {
+        return ((AudioAttachment) message.getAttachment()).getPath();
+    }
 
-	@Override
-	public boolean isAudioEqual(Playable audio) {
-		if (AudioMessagePlayable.class.isInstance(audio)) {
-			return message.isTheSame(((AudioMessagePlayable) audio).getMessage());
-		} else {
-			return false;
-		}
-	}
+    @Override
+    public boolean isAudioEqual(Playable audio) {
+        if (AudioMessagePlayable.class.isInstance(audio)) {
+            return message.isTheSame(((AudioMessagePlayable) audio).getMessage());
+        } else {
+            return false;
+        }
+    }
 }

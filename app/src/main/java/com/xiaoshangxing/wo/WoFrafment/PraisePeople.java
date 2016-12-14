@@ -21,13 +21,13 @@ import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
  * on 2016/7/6
  */
 public class PraisePeople {
-    private  Context context;
+    private Context context;
     private TextView textView;
     private SpannableString spannableString;
 
     public PraisePeople(Context mcontext) {
         this.context = mcontext;
-        textView=new TextView(context);
+        textView = new TextView(context);
         textView.setTextSize(13);
 
         spannableString = new SpannableString("image ");
@@ -39,11 +39,11 @@ public class PraisePeople {
     }
 
     public void addName(final String name, final String id) {
-        spannableString= new SpannableString(name+",");
+        spannableString = new SpannableString(name + ",");
         spannableString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Intent intent=new Intent(context,PersonalStateActivity.class);
+                Intent intent = new Intent(context, PersonalStateActivity.class);
                 intent.putExtra(IntentStatic.EXTRA_ACCOUNT, id);
                 context.startActivity(intent);
             }
@@ -53,7 +53,7 @@ public class PraisePeople {
                 ds.setColor(context.getResources().getColor(R.color.blue1));
                 ds.setUnderlineText(false);
             }
-        },0,spannableString.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        }, 0, spannableString.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 
 //        spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), 0, spannableString.length(),
 //                Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
@@ -61,9 +61,9 @@ public class PraisePeople {
         textView.append(spannableString);
     }
 
-    public TextView getTextView(){
+    public TextView getTextView() {
         textView.setMovementMethod(LinkMovementMethod.getInstance());
-        textView.setText(textView.getText().subSequence(0,textView.length()-1));
+        textView.setText(textView.getText().subSequence(0, textView.length() - 1));
         return this.textView;
     }
 

@@ -6,7 +6,7 @@
     android:paddingStart="@dimen/width_48">
 
     <!--头像-->
-    <com.xiaoshangxing.utils.layout.CirecleImage
+    <com.xiaoshangxing.utils.customView.CirecleImage
         android:id="@+id/head_image"
         android:layout_width="@dimen/x132"
         android:layout_height="@dimen/x132"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <!--姓名-->
-            <com.xiaoshangxing.utils.layout.Name
+            <com.xiaoshangxing.utils.customView.Name
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,18 +34,16 @@
                 android:textSize="16sp" />
             <!--学院-->
             <TextView
-                android:layout_marginStart="@dimen/width_48"
                 android:id="@+id/college"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/width_48"
                 android:textColor="@color/g0"
                 android:textSize="13sp" />
         </LinearLayout>
 
 
     </LinearLayout>
-
-
 
 
     <View

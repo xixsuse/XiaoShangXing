@@ -18,17 +18,13 @@ import java.io.File;
 import java.util.List;
 
 public class SendImageHelper {
-    public interface Callback {
-        void sendImage(File file, boolean isOrig);
-    }
-
     public static void sendImageAfterSelfImagePicker(Context context, boolean isOrig, List<String> data, final Callback callback) {
 
-        if(data == null) {
+        if (data == null) {
             Toast.makeText(context, "图片为空", Toast.LENGTH_LONG).show();
             return;
         }
-        for (int i=0;i<data.size();i++){
+        for (int i = 0; i < data.size(); i++) {
             new SendImageTask(context, isOrig, data.get(i), new Callback() {
 
                 @Override
@@ -57,9 +53,13 @@ public class SendImageHelper {
             ImageUtil.makeThumbnail(context, imageFile);
         }
 
-        Log.d("yasuo ok",""+imageFile.getAbsolutePath());
+        Log.d("yasuo ok", "" + imageFile.getAbsolutePath());
 
         return imageFile;
+    }
+
+    public interface Callback {
+        void sendImage(File file, boolean isOrig);
     }
 
     // 从相册选择图片进行发送(Added by NYB)
@@ -75,7 +75,7 @@ public class SendImageHelper {
             this.context = context;
             this.isOrig = isOrig;
             this.callback = callback;
-            this.path=path;
+            this.path = path;
         }
 
         @Override

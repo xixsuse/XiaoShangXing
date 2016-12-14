@@ -4,7 +4,6 @@ package com.xiaoshangxing.yujian.Serch;
 import com.xiaoshangxing.R;
 
 /**
- *
  * Created by hzxuwen on 2016/6/16.
  */
 public class ToolBarOptions {

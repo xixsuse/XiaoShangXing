@@ -11,124 +11,124 @@
 
     <!--三个模块-->
     <LinearLayout
-        android:paddingBottom="@dimen/y32"
-        android:paddingTop="@dimen/y15"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/y32"
+        android:paddingTop="@dimen/y15">
 
         <!--群聊-->
         <LinearLayout
             android:id="@+id/group"
-            android:layout_weight="1"
-            android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/friend_group"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/friend_group" />
 
             <TextView
-                android:text="群聊"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/gray_login"
-                android:textSize="11sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="群聊"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/group_count"
-                android:text="2"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/gray_login"
-                android:textSize="11sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="2"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp" />
 
         </LinearLayout>
 
         <View
-            android:layout_gravity="center_vertical"
-            android:background="@color/g1"
             android:layout_width="1px"
-            android:layout_height="@dimen/y86">
+            android:layout_height="@dimen/y86"
+            android:layout_gravity="center_vertical"
+            android:background="@color/g1">
 
         </View>
 
         <!--留心-->
         <LinearLayout
             android:id="@+id/love"
-            android:layout_weight="1"
-            android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/friend_love"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/friend_love" />
 
             <TextView
-                android:text="留心"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/gray_login"
-                android:textSize="11sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="留心"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/love_count"
-                android:text="2"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/gray_login"
-                android:textSize="11sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="2"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp" />
 
         </LinearLayout>
 
         <View
-            android:layout_gravity="center_vertical"
-            android:background="@color/g1"
             android:layout_width="1px"
-            android:layout_height="@dimen/y86">
+            android:layout_height="@dimen/y86"
+            android:layout_gravity="center_vertical"
+            android:background="@color/g1">
 
         </View>
 
         <!--星星-->
         <LinearLayout
             android:id="@+id/star"
-            android:layout_weight="1"
-            android:orientation="vertical"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <ImageView
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/friend_start"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@mipmap/friend_start" />
 
             <TextView
-                android:text="星星"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/gray_login"
-                android:textSize="11sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="星星"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/star_count"
-                android:text="2"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/gray_login"
-                android:textSize="11sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="2"
+                android:textColor="@color/gray_login"
+                android:textSize="11sp" />
 
         </LinearLayout>
 

@@ -14,20 +14,20 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 
 import butterknife.Bind;
@@ -69,6 +69,11 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
     private SaleActivity activity;
     private SaleCollect_Adpter_realm adpter_realm;
     private RealmResults<Published> publisheds;
+    private View view;
+
+    public static SaleCollectFragment newInstance() {
+        return new SaleCollectFragment();
+    }
 
     @Nullable
     @Override
@@ -85,12 +90,6 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    public static SaleCollectFragment newInstance() {
-        return new SaleCollectFragment();
-    }
-
-    private View view;
 
     private void initView() {
         headview = new View(getContext());
@@ -209,9 +208,9 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
             public void onItemSelected(int position, String item) {
                 OperateUtils.operateWithLoad(id, getContext(), true, NS.COLLECT, true, SaleCollectFragment.this,
                         new SimpleCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        noticeDialog("已取消收藏");
+                            @Override
+                            public void onSuccess() {
+                                noticeDialog("已取消收藏");
 //                        realm.executeTransaction(new Realm.Transaction() {
 //                            @Override
 //                            public void execute(Realm realm) {
@@ -220,17 +219,17 @@ public class SaleCollectFragment extends BaseFragment implements SaleCollectCont
 //                            }
 //                        });
 //                        refreshPager();
-                    }
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+                            @Override
+                            public void onError(Throwable e) {
+                            }
 
-                    @Override
-                    public void onBackData(Object o) {
+                            @Override
+                            public void onBackData(Object o) {
 
-                    }
-                });
+                            }
+                        });
             }
 
             @Override

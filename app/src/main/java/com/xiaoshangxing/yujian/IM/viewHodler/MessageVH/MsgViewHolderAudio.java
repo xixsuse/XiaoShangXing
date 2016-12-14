@@ -24,15 +24,44 @@ import com.xiaoshangxing.yujian.IM.kit.audioplayer.Playable;
  */
 public class MsgViewHolderAudio extends MsgViewHolderBase {
 
-    public static int MAX_AUDIO_TIME_SECOND = 120;
     public static final int CLICK_TO_PLAY_AUDIO_DELAY = 500;
-
+    public static int MAX_AUDIO_TIME_SECOND = 120;
     private TextView durationLabel;
     private View containerView;
     private View unreadIndicator;
     private ImageView animationView;
 
     private MessageAudioControl audioControl;
+    private MessageAudioControl.AudioControlListener onPlayListener = new MessageAudioControl.AudioControlListener() {
+
+        @Override
+        public void updatePlayingProgress(Playable playable, long curPosition) {
+            if (curPosition > playable.getDuration()) {
+                return;
+            }
+            updateTime(curPosition);
+        }
+
+        @Override
+        public void onAudioControllerReady(Playable playable) {
+            play();
+        }
+
+        @Override
+        public void onEndPlay(Playable playable) {
+            updateTime(playable.getDuration());
+
+            stop();
+        }
+    };
+
+    public static int getAudioMaxEdge() {
+        return (int) (0.6 * ScreenUtils.screenMin);
+    }
+
+    public static int getAudioMinEdge() {
+        return (int) (0.1875 * ScreenUtils.screenMin);
+    }
 
     @Override
     protected int getContentResId() {
@@ -145,14 +174,6 @@ public class MsgViewHolderAudio extends MsgViewHolderBase {
         }
     }
 
-    public static int getAudioMaxEdge() {
-        return (int) (0.6 * ScreenUtils.screenMin);
-    }
-
-    public static int getAudioMinEdge() {
-        return (int) (0.1875 * ScreenUtils.screenMin);
-    }
-
     private void setAudioBubbleWidth(long milliseconds) {
         long seconds = TimeUtil.getSecondsByMilliseconds(milliseconds);
 
@@ -202,29 +223,6 @@ public class MsgViewHolderAudio extends MsgViewHolderBase {
             return false;
         }
     }
-
-    private MessageAudioControl.AudioControlListener onPlayListener = new MessageAudioControl.AudioControlListener() {
-
-        @Override
-        public void updatePlayingProgress(Playable playable, long curPosition) {
-            if (curPosition > playable.getDuration()) {
-                return;
-            }
-            updateTime(curPosition);
-        }
-
-        @Override
-        public void onAudioControllerReady(Playable playable) {
-            play();
-        }
-
-        @Override
-        public void onEndPlay(Playable playable) {
-            updateTime(playable.getDuration());
-
-            stop();
-        }
-    };
 
     private void play() {
         if (animationView.getBackground() instanceof AnimationDrawable) {

@@ -14,52 +14,52 @@
         android:paddingStart="@dimen/x24">
 
         <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="@dimen/y78"
             android:layout_marginBottom="@dimen/y28"
-            android:layout_width="match_parent"
             android:layout_marginTop="@dimen/y36"
             android:orientation="horizontal">
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
-                android:layout_width="@dimen/x78"
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/transmit_head"
+                android:layout_width="@dimen/x78"
                 android:layout_height="@dimen/x78"
                 android:src="@mipmap/greyblock" />
 
-            <com.xiaoshangxing.utils.layout.Name
-                android:layout_centerVertical="true"
-                android:paddingStart="@dimen/x24"
+            <com.xiaoshangxing.utils.customView.Name
                 android:id="@+id/transmit_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/transmit_head"
+                android:paddingStart="@dimen/x24"
                 android:text="555555555"
                 android:textColor="@color/b0"
                 android:textSize="14sp" />
 
             <TextView
-                android:layout_centerVertical="true"
                 android:id="@+id/transmit_college"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/transmit_name"
                 android:paddingStart="@dimen/x16"
                 android:textColor="@color/g0"
                 android:textSize="12sp" />
 
             <TextView
-                android:layout_centerVertical="true"
                 android:id="@+id/price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:paddingEnd="@dimen/x12"
                 android:textColor="@color/red1"
                 android:textSize="14sp" />
 
         </RelativeLayout>
 
-        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
             android:id="@+id/transmit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

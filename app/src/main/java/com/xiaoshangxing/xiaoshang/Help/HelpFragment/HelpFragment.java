@@ -15,17 +15,17 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 
 import butterknife.Bind;
@@ -71,8 +71,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     View titleBottomLine;
     @Bind(R.id.no_content)
     TextView noContent;
-
-
+    RealmResults<Published> publisheds;
     private View mview;
     private Help_Adpter_realm adpter_realm;
     private View headview, footview;
@@ -80,11 +79,14 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     private TextView loadingText;
     private boolean isRefreshing;
     private boolean isLoading;
-    RealmResults<Published> publisheds;
     private String account;
     private boolean isOthers;
 
     private HelpContract.Presenter mPresenter;
+
+    public static HelpFragment newInstance() {
+        return new HelpFragment();
+    }
 
     @Nullable
     @Override
@@ -121,11 +123,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    public static HelpFragment newInstance() {
-        return new HelpFragment();
-    }
-
 
     private void initView() {
         title.setText(R.string.shoolfellowhelp);

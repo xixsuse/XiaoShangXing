@@ -8,25 +8,27 @@ import android.text.TextUtils;
 import java.io.File;
 import java.io.IOException;
 
-/** package */
+/**
+ * package
+ */
 class ExternalStorage {
-	/**
-	 * 外部存储根目录
-	 */
+    protected static String NO_MEDIA_FILE_NAME = ".nomedia";
+    private static ExternalStorage instance;
+    /**
+     * 外部存储根目录
+     */
     private String sdkStorageRoot = null;
 
-	private static ExternalStorage instance;
+    private ExternalStorage() {
 
-	private ExternalStorage() {
+    }
 
-	}
-
-	synchronized public static ExternalStorage getInstance() {
-		if (instance == null) {
-			instance = new ExternalStorage();
-		}
-		return instance;
-	}
+    synchronized public static ExternalStorage getInstance() {
+        if (instance == null) {
+            instance = new ExternalStorage();
+        }
+        return instance;
+    }
 
     public void init(Context context, String sdkStorageRoot) {
         if (!TextUtils.isEmpty(sdkStorageRoot)) {
@@ -54,102 +56,100 @@ class ExternalStorage {
         this.sdkStorageRoot = externalPath + "/" + context.getPackageName() + "/";
     }
 
-	private void createSubFolders() {
-		boolean result = true;
-		File root = new File(sdkStorageRoot);
-		if (root.exists() && !root.isDirectory()) {
-			root.delete();
-		}
-		for (StorageType storageType : StorageType.values()) {
-			result &= makeDirectory(sdkStorageRoot + storageType.getStoragePath());
-		}
-		if (result) {
-			createNoMediaFile(sdkStorageRoot);
-		}
-	}
+    private void createSubFolders() {
+        boolean result = true;
+        File root = new File(sdkStorageRoot);
+        if (root.exists() && !root.isDirectory()) {
+            root.delete();
+        }
+        for (StorageType storageType : StorageType.values()) {
+            result &= makeDirectory(sdkStorageRoot + storageType.getStoragePath());
+        }
+        if (result) {
+            createNoMediaFile(sdkStorageRoot);
+        }
+    }
 
-	/**
-	 * 创建目录
-	 *
-	 * @param path
-	 * @return
-	 */
-	private boolean makeDirectory(String path) {
-		File file = new File(path);
-		boolean exist = file.exists();
-		if (!exist) {
-			exist = file.mkdirs();
-		}
-		return exist;
-	}
+    /**
+     * 创建目录
+     *
+     * @param path
+     * @return
+     */
+    private boolean makeDirectory(String path) {
+        File file = new File(path);
+        boolean exist = file.exists();
+        if (!exist) {
+            exist = file.mkdirs();
+        }
+        return exist;
+    }
 
-	protected static String NO_MEDIA_FILE_NAME = ".nomedia";
+    private void createNoMediaFile(String path) {
+        File noMediaFile = new File(path + "/" + NO_MEDIA_FILE_NAME);
+        try {
+            if (!noMediaFile.exists()) {
+                noMediaFile.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	private void createNoMediaFile(String path) {
-		File noMediaFile = new File(path + "/" + NO_MEDIA_FILE_NAME);
-		try {
-			if (!noMediaFile.exists()) {
-				noMediaFile.createNewFile();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    /**
+     * 文件全名转绝对路径（写）
+     *
+     * @param fileName 文件全名（文件名.扩展名）
+     * @return 返回绝对路径信息
+     */
+    public String getWritePath(String fileName, StorageType fileType) {
+        return pathForName(fileName, fileType, false, false);
+    }
 
-	/**
-	 * 文件全名转绝对路径（写）
-	 *
-	 * @param fileName
-	 *            文件全名（文件名.扩展名）
-	 * @return 返回绝对路径信息
-	 */
-	public String getWritePath(String fileName, StorageType fileType) {
-		return pathForName(fileName, fileType, false, false);
-	}
+    private String pathForName(String fileName, StorageType type, boolean dir,
+                               boolean check) {
+        String directory = getDirectoryByDirType(type);
+        StringBuilder path = new StringBuilder(directory);
 
-	private String pathForName(String fileName, StorageType type, boolean dir,
-			boolean check) {
-		String directory = getDirectoryByDirType(type);
-		StringBuilder path = new StringBuilder(directory);
+        if (!dir) {
+            path.append(fileName);
+        }
 
-		if (!dir) {
-			path.append(fileName);
-		}
+        String pathString = path.toString();
+        File file = new File(pathString);
 
-		String pathString = path.toString();
-		File file = new File(pathString);
+        if (check) {
+            if (file.exists()) {
+                if ((dir && file.isDirectory())
+                        || (!dir && !file.isDirectory())) {
+                    return pathString;
+                }
+            }
 
-		if (check) {
-			if (file.exists()) {
-				if ((dir && file.isDirectory())
-						|| (!dir && !file.isDirectory())) {
-					return pathString;
-				}
-			}
+            return "";
+        } else {
+            return pathString;
+        }
+    }
 
-			return "";
-		} else {
-			return pathString;
-		}
-	}
-
-	/**
-	 * 返回指定类型的文件夹路径
-	 *
-	 * @param fileType
-	 * @return
-	 */
-	public String getDirectoryByDirType(StorageType fileType) {
-		return sdkStorageRoot + fileType.getStoragePath();
-	}
-
-	/**
-	 * 根据输入的文件名和类型，找到该文件的全路径。
-	 * @param fileName
+    /**
+     * 返回指定类型的文件夹路径
+     *
      * @param fileType
-	 * @return 如果存在该文件，返回路径，否则返回空
-	 */
-	public String getReadPath(String fileName, StorageType fileType) {
+     * @return
+     */
+    public String getDirectoryByDirType(StorageType fileType) {
+        return sdkStorageRoot + fileType.getStoragePath();
+    }
+
+    /**
+     * 根据输入的文件名和类型，找到该文件的全路径。
+     *
+     * @param fileName
+     * @param fileType
+     * @return 如果存在该文件，返回路径，否则返回空
+     */
+    public String getReadPath(String fileName, StorageType fileType) {
         if (TextUtils.isEmpty(fileName)) {
             return "";
         }
@@ -166,16 +166,18 @@ class ExternalStorage {
         }
     }
 
-	/**
-	 * 获取外置存储卡剩余空间
-	 * @return
-	 */
+    /**
+     * 获取外置存储卡剩余空间
+     *
+     * @return
+     */
     public long getAvailableExternalSize() {
-		return getResidualSpace(sdkStorageRoot);
-	}
-    
+        return getResidualSpace(sdkStorageRoot);
+    }
+
     /**
      * 获取目录剩余空间
+     *
      * @param directoryPath
      * @return
      */

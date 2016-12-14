@@ -11,10 +11,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.yujian.groupchatInfo.Member;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
@@ -25,18 +25,18 @@ import java.util.List;
  * Created by tianyang on 2016/8/22.
  */
 public class PersonalAdapter extends BaseAdapter {
+    List<Member> data;
     private LayoutInflater inflater;
     private Context context;
     private Activity activity;
-    List<Member> data;
     private String account;
 
-    public PersonalAdapter(Context context, List<Member> data, Activity activity,String account) {
+    public PersonalAdapter(Context context, List<Member> data, Activity activity, String account) {
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.data = data;
-        this.activity=activity;
-        this.account=account;
+        this.activity = activity;
+        this.account = account;
     }
 
     @Override
@@ -72,11 +72,11 @@ public class PersonalAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, SelectPersonActivity.class);
-                    intent.putExtra(IntentStatic.TYPE,SelectPersonActivity.MY_FRIEND);
-                    ArrayList<String> locked=new ArrayList<String>();
+                    intent.putExtra(IntentStatic.TYPE, SelectPersonActivity.MY_FRIEND);
+                    ArrayList<String> locked = new ArrayList<String>();
                     locked.add(account);
-                    intent.putExtra(SelectPersonActivity.LOCKED,locked);
-                    activity.startActivityForResult(intent,SelectPersonActivity.SELECT_PERSON_CODE);
+                    intent.putExtra(SelectPersonActivity.LOCKED, locked);
+                    activity.startActivityForResult(intent, SelectPersonActivity.SELECT_PERSON_CODE);
                 }
             });
         } else if (data.size() != 0) {
@@ -86,7 +86,7 @@ public class PersonalAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PersonInfoActivity.class);
-                    intent.putExtra(IntentStatic.EXTRA_ACCOUNT,data.get(position).getAccount());
+                    intent.putExtra(IntentStatic.EXTRA_ACCOUNT, data.get(position).getAccount());
                     context.startActivity(intent);
                 }
             });

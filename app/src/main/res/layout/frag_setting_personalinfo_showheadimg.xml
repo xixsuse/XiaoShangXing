@@ -11,15 +11,15 @@
     </include>
 
     <LinearLayout
-        android:layout_below="@id/title_lay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_lay">
 
         <ImageView
-            android:layout_gravity="center"
             android:id="@+id/setting_showhead_img"
             android:layout_width="@dimen/x1080"
             android:layout_height="@dimen/x1080"
+            android:layout_gravity="center"
             android:scaleType="fitCenter" />
     </LinearLayout>
 

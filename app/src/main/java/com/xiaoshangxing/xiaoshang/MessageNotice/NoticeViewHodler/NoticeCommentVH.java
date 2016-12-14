@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.wo.WoFrafment.Item_Comment;
 

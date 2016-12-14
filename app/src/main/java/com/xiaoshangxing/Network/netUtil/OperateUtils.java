@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.netUtil;
+package com.xiaoshangxing.network.netUtil;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,16 +13,16 @@ import com.netease.nimlib.sdk.msg.MessageBuilder;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.xiaoshangxing.Network.IMNetwork;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.Network.PublishNetwork;
+import com.xiaoshangxing.network.IMNetwork;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.network.PublishNetwork;
 import com.xiaoshangxing.data.PublishCache;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.utils.XSXApplication;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 import com.xiaoshangxing.yujian.IM.CustomMessage.ApplyPlanMessage;
 import com.xiaoshangxing.yujian.IM.CustomMessage.CustomAttachmentType;
 import com.xiaoshangxing.yujian.IM.CustomMessage.TransmitMessage_NoImage;
@@ -305,8 +305,9 @@ public class OperateUtils {
     }
 
     /**
-     *description:删除多条动态
-     *@param publishedIds 动态id组
+     * description:删除多条动态
+     *
+     * @param publishedIds 动态id组
      */
 
     public static void deletePublisheds(final List<String> publishedIds, final Context context, final IBaseView iBaseView,

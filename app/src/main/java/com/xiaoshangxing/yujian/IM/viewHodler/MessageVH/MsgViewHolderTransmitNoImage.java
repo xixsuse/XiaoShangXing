@@ -6,14 +6,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PublishCache;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.xiaoshang.Help.HelpDetail.HelpDetailActivity;
 import com.xiaoshangxing.xiaoshang.Plan.PlanDetail.PlanDetailActivity;
@@ -67,9 +67,9 @@ public class MsgViewHolderTransmitNoImage extends MsgViewHolderBase {
             public void onBackData(Object o) {
                 Published published = (Published) o;
                 String userId = String.valueOf(published.getUserId());
-                UserInfoCache.getInstance().getHeadIntoImage(userId,head);
-                UserInfoCache.getInstance().getExIntoTextview(userId,NS.USER_NAME,name);
-                UserInfoCache.getInstance().getExIntoTextview(userId,NS.COLLEGE,college);
+                UserInfoCache.getInstance().getHeadIntoImage(userId, head);
+                UserInfoCache.getInstance().getExIntoTextview(userId, NS.USER_NAME, name);
+                UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
                 text.setText(published.getText());
                 if (published.getCategory() == Integer.valueOf(NS.CATEGORY_HELP)) {
                     from.setText("分享自校友互帮");

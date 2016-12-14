@@ -1,8 +1,8 @@
 package com.xiaoshangxing.xiaoshang.Reward.RewardFragment;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 import io.realm.Realm;
 
@@ -20,13 +20,14 @@ public class RewardContract {
         void gotoPublish();
 
         void gotoPublished();
+
         void gotoCollect();
 
 
         /*
         **describe:显示收藏与否弹窗
         */
-        void showCollectDialog(int id,boolean isCancle);
+        void showCollectDialog(int id, boolean isCancle);
 
         /*
         **describe:收藏与取消时提示弹窗

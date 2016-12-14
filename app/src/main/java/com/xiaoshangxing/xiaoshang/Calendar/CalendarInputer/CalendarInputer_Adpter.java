@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.data.bean.User;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.xiaoshang.Calendar.CalendarInput;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
@@ -26,8 +26,8 @@ import butterknife.ButterKnife;
  * on 2016/4/20
  */
 public class CalendarInputer_Adpter extends ArrayAdapter<User> {
-    private Context context;
     List<User> publisheds;
+    private Context context;
 
     public CalendarInputer_Adpter(Context context, int resource, List<User> objects) {
         super(context, resource, objects);

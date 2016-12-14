@@ -2,8 +2,8 @@ package com.xiaoshangxing.xiaoshang.Reward;
 
 import android.app.Dialog;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 
 /**
  * Created by FengChaoQun

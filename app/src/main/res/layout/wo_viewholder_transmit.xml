@@ -6,19 +6,19 @@
     <LinearLayout
         android:id="@+id/transmit_content"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/y24"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y24"
         android:background="@color/g1"
         android:orientation="horizontal"
         android:padding="6dp">
         <!--转发对象头像-->
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/transmit_image"
             android:layout_width="@dimen/x84"
             android:layout_height="@dimen/x84"
             android:layout_gravity="center_vertical" />
         <!--转发内容的文字-->
-        <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
             android:id="@+id/transmit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:descendantFocusability="blocksDescendants"
     android:background="@color/w0"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical">
     <!--上方布局-->
     <RelativeLayout
@@ -11,14 +11,14 @@
         android:layout_height="@dimen/y156"
         android:layout_marginStart="@dimen/x30">
         <!--头像-->
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x108"
             android:layout_height="@dimen/x108"
             android:layout_centerVertical="true"
             android:src="@mipmap/cirecleimage_default" />
         <!--姓名-->
-        <com.xiaoshangxing.utils.layout.Name
+        <com.xiaoshangxing.utils.customView.Name
             android:id="@id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
     </RelativeLayout>
 
     <!--文字内容-->
-    <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+    <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
         android:id="@+id/text"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y364"
@@ -75,26 +75,27 @@
         android:layout_height="@dimen/y84">
 
         <CheckBox
-            android:focusable="false"
             android:id="@+id/iscomplete"
-            android:button="@null"
-            android:background="@drawable/selector_myhelp_iscomplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <CheckBox
-            android:focusable="false"
-            android:visibility="invisible"
-            android:id="@+id/checkbox"
+            android:background="@drawable/selector_myhelp_iscomplete"
             android:button="@null"
-            android:background="@drawable/selector_circle_with_mark"
+            android:focusable="false" />
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="@dimen/y12"
             android:layout_marginEnd="@dimen/x48"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:background="@drawable/selector_circle_with_mark"
+            android:button="@null"
+            android:focusable="false"
+            android:visibility="invisible" />
     </RelativeLayout>
 
 

@@ -7,21 +7,20 @@
 
     <!--导航栏-->
     <include
-        layout="@layout/util_normal_title"
-        android:id="@+id/title_lay">
+        android:id="@+id/title_lay"
+        layout="@layout/util_normal_title">
 
     </include>
 
-    <com.xiaoshangxing.utils.layout.CustomSwipeListView
-        android:background="@color/w0"
-        android:layout_marginTop="@dimen/y48"
-        android:clickable="false"
+    <com.xiaoshangxing.utils.customView.CustomSwipeListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/y48"
+        android:background="@color/w0"
+        android:clickable="false"
         android:dividerHeight="1px"
-        android:listSelector="@android:color/transparent">
-    </com.xiaoshangxing.utils.layout.CustomSwipeListView>
+        android:listSelector="@android:color/transparent"></com.xiaoshangxing.utils.customView.CustomSwipeListView>
 
     <TextView
         android:id="@+id/count"

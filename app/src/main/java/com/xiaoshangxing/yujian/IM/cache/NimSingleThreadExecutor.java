@@ -54,11 +54,11 @@ public class NimSingleThreadExecutor {
 
     private class NimRunnable<T> implements Runnable {
 
+        private NimTask<T> task;
+
         public NimRunnable(NimTask<T> task) {
             this.task = task;
         }
-
-        private NimTask<T> task;
 
         @Override
         public void run() {

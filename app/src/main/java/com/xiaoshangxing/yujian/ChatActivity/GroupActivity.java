@@ -24,10 +24,10 @@ import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.BaseActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.MessageListView;
-import com.xiaoshangxing.utils.layout.MsgBkImageView;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.MessageListView;
+import com.xiaoshangxing.utils.customView.MsgBkImageView;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
 import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
@@ -44,6 +44,13 @@ import butterknife.OnClick;
  * on 2016/9/2
  */
 public class GroupActivity extends BaseActivity implements ModuleProxy {
+    // 聊天对象
+    protected String sessionId;
+    //    聊天类型
+    protected SessionTypeEnum sessionType;
+    //聊天信息展示面板
+    protected MessageListPanel messageListPanel;
+    protected InputPanel inputPanel;    //输入面板
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -78,27 +85,95 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
     FrameLayout layoutPlayAudio;
     @Bind(R.id.message_activity_list_view_container)
     FrameLayout messageActivityListViewContainer;
+    /**
+     * 群成员资料变动通知和移除群成员通知
+     */
+    TeamDataCache.TeamMemberDataChangedObserver teamMemberDataChangedObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
 
+        @Override
+        public void onUpdateTeamMember(List<TeamMember> members) {
+            refreshMessageList();
+        }
+
+        @Override
+        public void onRemoveTeamMember(TeamMember member) {
+        }
+    };
+    FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
+        @Override
+        public void onAddedOrUpdatedFriends(List<String> accounts) {
+            refreshMessageList();
+        }
+
+        @Override
+        public void onDeletedFriends(List<String> accounts) {
+            refreshMessageList();
+        }
+
+        @Override
+        public void onAddUserToBlackList(List<String> account) {
+            refreshMessageList();
+        }
+
+        @Override
+        public void onRemoveUserFromBlackList(List<String> account) {
+            refreshMessageList();
+        }
+    };
+    /**
+     * 消息接收观察者
+     */
+    Observer<List<IMMessage>> incomingMessageObserver = new Observer<List<IMMessage>>() {
+        @Override
+        public void onEvent(List<IMMessage> messages) {
+            if (messages == null || messages.isEmpty()) {
+                return;
+            }
+
+            messageListPanel.onIncomingMessage(messages);
+            sendMsgReceipt(); // 发送已读回执
+        }
+    };
     //  标志是否是resume状态
     private boolean isResume = false;
-
-    // 聊天对象
-    protected String sessionId;
-    //    聊天类型
-    protected SessionTypeEnum sessionType;
-    //聊天信息展示面板
-    protected MessageListPanel messageListPanel;
-    protected InputPanel inputPanel;    //输入面板
-
     // model
     private Team team;
-
     private View invalidTeamTipView;
-
     private TextView invalidTeamTipText;
+    /**
+     * 群资料变动通知和移除群的通知（包括自己退群和群被解散）
+     */
+    TeamDataCache.TeamDataChangedObserver teamDataChangedObserver = new TeamDataCache.TeamDataChangedObserver() {
+        @Override
+        public void onUpdateTeams(List<Team> teams) {
+            if (team == null) {
+                return;
+            }
+            for (Team t : teams) {
+                if (t.getId().equals(team.getId())) {
+                    updateTeamInfo(t);
+                    break;
+                }
+            }
+        }
 
-
+        @Override
+        public void onRemoveTeam(Team team) {
+            if (team == null) {
+                return;
+            }
+            if (team.getId().equals(GroupActivity.this.team.getId())) {
+                updateTeamInfo(team);
+            }
+        }
+    };
     private View rootView;
+    private Observer<List<MessageReceipt>> messageReceiptObserver = new Observer<List<MessageReceipt>>() {
+        @Override
+        public void onEvent(List<MessageReceipt> messageReceipts) {
+            receiveReceipt();
+        }
+    };
 
     public static void start(Context context, String contactId, IMMessage anchor, SessionTypeEnum sessionType) {
         Intent intent = new Intent();
@@ -237,7 +312,6 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
         messageListPanel.onActivityResult(requestCode, resultCode, data);
     }
 
-
     //  注册监听
     private void registerObservers(boolean register) {
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
@@ -245,7 +319,6 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
         service.observeMessageReceipt(messageReceiptObserver, register);
         registerTeamUpdateObserver(register);
     }
-
 
     /**
      * 请求群基本信息
@@ -311,93 +384,6 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
     }
 
     /**
-     * 群资料变动通知和移除群的通知（包括自己退群和群被解散）
-     */
-    TeamDataCache.TeamDataChangedObserver teamDataChangedObserver = new TeamDataCache.TeamDataChangedObserver() {
-        @Override
-        public void onUpdateTeams(List<Team> teams) {
-            if (team == null) {
-                return;
-            }
-            for (Team t : teams) {
-                if (t.getId().equals(team.getId())) {
-                    updateTeamInfo(t);
-                    break;
-                }
-            }
-        }
-
-        @Override
-        public void onRemoveTeam(Team team) {
-            if (team == null) {
-                return;
-            }
-            if (team.getId().equals(GroupActivity.this.team.getId())) {
-                updateTeamInfo(team);
-            }
-        }
-    };
-
-    /**
-     * 群成员资料变动通知和移除群成员通知
-     */
-    TeamDataCache.TeamMemberDataChangedObserver teamMemberDataChangedObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
-
-        @Override
-        public void onUpdateTeamMember(List<TeamMember> members) {
-            refreshMessageList();
-        }
-
-        @Override
-        public void onRemoveTeamMember(TeamMember member) {
-        }
-    };
-
-    FriendDataCache.FriendDataChangedObserver friendDataChangedObserver = new FriendDataCache.FriendDataChangedObserver() {
-        @Override
-        public void onAddedOrUpdatedFriends(List<String> accounts) {
-            refreshMessageList();
-        }
-
-        @Override
-        public void onDeletedFriends(List<String> accounts) {
-            refreshMessageList();
-        }
-
-        @Override
-        public void onAddUserToBlackList(List<String> account) {
-            refreshMessageList();
-        }
-
-        @Override
-        public void onRemoveUserFromBlackList(List<String> account) {
-            refreshMessageList();
-        }
-    };
-
-    /**
-     * 消息接收观察者
-     */
-    Observer<List<IMMessage>> incomingMessageObserver = new Observer<List<IMMessage>>() {
-        @Override
-        public void onEvent(List<IMMessage> messages) {
-            if (messages == null || messages.isEmpty()) {
-                return;
-            }
-
-            messageListPanel.onIncomingMessage(messages);
-            sendMsgReceipt(); // 发送已读回执
-        }
-    };
-
-    private Observer<List<MessageReceipt>> messageReceiptObserver = new Observer<List<MessageReceipt>>() {
-        @Override
-        public void onEvent(List<MessageReceipt> messageReceipts) {
-            receiveReceipt();
-        }
-    };
-
-    /**
      * 发送已读回执
      */
     private void sendMsgReceipt() {
@@ -423,7 +409,7 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
                     return;
                 }
                 Intent intent = new Intent(GroupActivity.this, ChatInfoActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT,sessionId);
+                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, sessionId);
                 startActivity(intent);
                 break;
         }

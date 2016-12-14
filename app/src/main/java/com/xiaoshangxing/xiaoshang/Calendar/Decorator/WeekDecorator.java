@@ -19,9 +19,9 @@ import java.util.Calendar;
  */
 public class WeekDecorator implements DayViewDecorator {
 
+    private static final int color = Color.parseColor("#e33933");
     private final Calendar calendar = Calendar.getInstance();
     private final Drawable highlightDrawable;
-    private static final int color = Color.parseColor("#e33933");
     private Context context;
 
     public WeekDecorator(Context context) {

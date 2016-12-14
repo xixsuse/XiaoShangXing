@@ -3,7 +3,6 @@ package com.xiaoshangxing.yujian.IM.kit.ImageKit.imageview;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.netease.nimlib.sdk.nos.model.NosThumbParam;
@@ -32,6 +31,18 @@ public class HeadImageView extends CircleImageView {
 
     private DisplayImageOptions options = createImageOptions();
 
+    public HeadImageView(Context context) {
+        super(context);
+    }
+
+    public HeadImageView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public HeadImageView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+    }
+
     private static final DisplayImageOptions createImageOptions() {
         int defaultIcon = NimUIKit.getUserInfoProvider().getDefaultIconResId();
         return new DisplayImageOptions.Builder()
@@ -43,16 +54,15 @@ public class HeadImageView extends CircleImageView {
                 .build();
     }
 
-    public HeadImageView(Context context) {
-        super(context);
+    /**
+     * 生成头像缩略图NOS URL地址（用作ImageLoader缓存的key）
+     */
+    private static String makeAvatarThumbNosUrl(final String url, final int thumbSize) {
+        return thumbSize > 0 ? NosThumbImageUtil.makeImageThumbUrl(url, NosThumbParam.ThumbType.Crop, thumbSize, thumbSize) : url;
     }
 
-    public HeadImageView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public HeadImageView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+    public static String getAvatarCacheKey(final String url) {
+        return makeAvatarThumbNosUrl(url, DEFAULT_AVATAR_THUMB_SIZE);
     }
 
     /**
@@ -137,16 +147,5 @@ public class HeadImageView extends CircleImageView {
      */
     public void resetImageView() {
         setImageBitmap(null);
-    }
-
-    /**
-     * 生成头像缩略图NOS URL地址（用作ImageLoader缓存的key）
-     */
-    private static String makeAvatarThumbNosUrl(final String url, final int thumbSize) {
-        return thumbSize > 0 ? NosThumbImageUtil.makeImageThumbUrl(url, NosThumbParam.ThumbType.Crop, thumbSize, thumbSize) : url;
-    }
-
-    public static String getAvatarCacheKey(final String url) {
-        return makeAvatarThumbNosUrl(url, DEFAULT_AVATAR_THUMB_SIZE);
     }
 }

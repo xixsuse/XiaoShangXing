@@ -14,17 +14,16 @@
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_144"
-        >
+        android:layout_height="@dimen/height_144">
 
         <!--返回-->
         <LinearLayout
             android:id="@+id/back"
-            android:paddingStart="@dimen/width_48"
-            android:background="@color/w0"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:background="@color/w0"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/width_48">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -65,12 +64,12 @@
 
         <!--more-->
         <ImageView
-            android:paddingEnd="@dimen/width_48"
             android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:paddingEnd="@dimen/width_48"
             android:src="@mipmap/trash_black" />
     </RelativeLayout>
 

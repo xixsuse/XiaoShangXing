@@ -29,15 +29,15 @@ import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.data.TopChat;
-import com.xiaoshangxing.setting.currency.chatBackground.ChatBackgroundActivity;
-import com.xiaoshangxing.setting.utils.ActionSheet;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.data.bean.TopChat;
+import com.xiaoshangxing.wo.setting.currency.chatBackground.ChatBackgroundActivity;
+import com.xiaoshangxing.wo.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.SwitchView;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.SwitchView;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
@@ -129,7 +129,55 @@ public class ChatInfoActivity extends BaseActivity {
 
     private boolean isMyteam;
     private Team team;
+    TeamDataCache.TeamMemberDataChangedObserver teamMemberObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
 
+        @Override
+        public void onUpdateTeamMember(List<TeamMember> m) {
+            for (TeamMember mm : m) {
+                for (TeamMember member : teamMembers) {
+                    if (mm.getAccount().equals(member.getAccount())) {
+                        teamMembers.set(teamMembers.indexOf(member), mm);
+                        break;
+                    }
+                }
+            }
+            adapter.notifyDataSetChanged();
+            refresh();
+        }
+
+        @Override
+        public void onRemoveTeamMember(TeamMember member) {
+            teamMembers.remove(member);
+            adapter.notifyDataSetChanged();
+            refresh();
+        }
+    };
+    TeamDataCache.TeamDataChangedObserver teamDataObserver = new TeamDataCache.TeamDataChangedObserver() {
+        @Override
+        public void onUpdateTeams(List<Team> teams) {
+            for (Team team1 : teams) {
+                if (team1.getId().equals(account)) {
+                    team = TeamDataCache.getInstance().getTeamById(account);
+                    if (team == null) {
+                        showToast("更新群信息失败");
+                    }
+                    Log.d("team_data_change", "announce" + team1.getAnnouncement());
+                    refresh();
+                    break;
+                }
+            }
+            Log.d("team_data_change", "ok");
+        }
+
+        @Override
+        public void onRemoveTeam(Team team) {
+            if (team.getId().equals(account)) {
+                Toast.makeText(ChatInfoActivity.this, "您已不在该群", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    };
+    private UserInfoObservable.UserInfoObserver userInfoObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,7 +303,6 @@ public class ChatInfoActivity extends BaseActivity {
         });
     }
 
-
     /**
      * *************************** 加载&变更数据源 ********************************
      */
@@ -286,57 +333,6 @@ public class ChatInfoActivity extends BaseActivity {
 
         registerUserInfoChangedObserver(register);
     }
-
-    TeamDataCache.TeamMemberDataChangedObserver teamMemberObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
-
-        @Override
-        public void onUpdateTeamMember(List<TeamMember> m) {
-            for (TeamMember mm : m) {
-                for (TeamMember member : teamMembers) {
-                    if (mm.getAccount().equals(member.getAccount())) {
-                        teamMembers.set(teamMembers.indexOf(member), mm);
-                        break;
-                    }
-                }
-            }
-            adapter.notifyDataSetChanged();
-            refresh();
-        }
-
-        @Override
-        public void onRemoveTeamMember(TeamMember member) {
-            teamMembers.remove(member);
-            adapter.notifyDataSetChanged();
-            refresh();
-        }
-    };
-
-    TeamDataCache.TeamDataChangedObserver teamDataObserver = new TeamDataCache.TeamDataChangedObserver() {
-        @Override
-        public void onUpdateTeams(List<Team> teams) {
-            for (Team team1 : teams) {
-                if (team1.getId().equals(account)) {
-                    team = TeamDataCache.getInstance().getTeamById(account);
-                    if (team == null) {
-                        showToast("更新群信息失败");
-                    }
-                    Log.d("team_data_change", "announce" + team1.getAnnouncement());
-                    refresh();
-                    break;
-                }
-            }
-            Log.d("team_data_change", "ok");
-        }
-
-        @Override
-        public void onRemoveTeam(Team team) {
-            if (team.getId().equals(account)) {
-                Toast.makeText(ChatInfoActivity.this, "您已不在该群", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
-    };
-    private UserInfoObservable.UserInfoObserver userInfoObserver;
 
     private void registerUserInfoChangedObserver(boolean register) {
         if (register) {

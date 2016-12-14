@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <!--头像-->
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x108"
             android:layout_height="@dimen/x108"
@@ -35,200 +35,200 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/x24"
-                android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/x24">
 
-                <!--姓名 学院-->
-                <LinearLayout
+            <!--姓名 学院-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!--姓名-->
+                <com.xiaoshangxing.utils.customView.Name
+                    android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <!--姓名-->
-                    <com.xiaoshangxing.utils.layout.Name
-                        android:id="@+id/name"
+                    android:textColor="@color/b4"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <!--学院-->
+                <TextView
+                    android:id="@+id/college"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/x12"
+                    android:textColor="@color/g0"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+            <!--说说文字内容-->
+            <com.xiaoshangxing.utils.customView.MoreTextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y36"
+                android:paddingEnd="@dimen/width_48"
+                android:textColor="@color/b1"
+                android:textSize="13sp"
+                app:trimLines="6" />
+
+            <FrameLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/width_48">
+
+            </FrameLayout>
+
+            <!--地点-->
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y18"
+                android:textSize="12sp" />
+
+            <!--时间 权限列表-->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/y18">
+                <!--时间-->
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp" />
+                <!--权限列表-->
+                <ImageView
+                    android:id="@+id/permission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/time"
+                    android:paddingStart="@dimen/x48"
+                    android:src="@mipmap/permission" />
+
+                <!--删除-->
+                <TextView
+                    android:id="@+id/delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/permission"
+                    android:paddingStart="@dimen/x48"
+                    android:text="@string/delete"
+                    android:textColor="@color/blue1"
+                    android:textSize="12sp" />
+
+                <!--赞按钮-->
+                <LinearLayout
+                    android:id="@+id/praise_lay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/comment_lay"
+                    android:paddingLeft="@dimen/x60"
+                    android:paddingRight="@dimen/x40">
+
+                    <CheckBox
+                        android:id="@+id/praise"
+                        android:layout_width="@dimen/x44"
+                        android:layout_height="@dimen/y38"
+                        android:background="@drawable/wo_praise_selector"
+                        android:button="@null">
+
+                    </CheckBox>
+                </LinearLayout>
+
+                <!--评论按钮-->
+                <LinearLayout
+                    android:id="@+id/comment_lay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingEnd="@dimen/width_48"
+                    android:paddingStart="@dimen/x40">
+
+                    <ImageView
+                        android:id="@+id/comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/b4"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                    <!--学院-->
-                    <TextView
-                        android:id="@+id/college"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/x12"
-                        android:textColor="@color/g0"
-                        android:textSize="11sp" />
+                        android:background="@mipmap/comment">
+
+                    </ImageView>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <!--上方尖角-->
+            <ImageView
+                android:id="@+id/jianjiao"
+                android:layout_width="@dimen/x30"
+                android:layout_height="@dimen/y16"
+                android:layout_marginStart="@dimen/x52"
+                android:layout_marginTop="@dimen/y18"
+                android:src="@mipmap/sharpcorner" />
+
+            <LinearLayout
+                android:id="@+id/comment_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/width_48"
+                android:background="@drawable/circular_6_"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/y12"
+                android:paddingLeft="@dimen/x18"
+                android:paddingRight="@dimen/x18"
+                android:paddingTop="@dimen/y12">
+                <!--赞的人-->
+                <LinearLayout
+                    android:id="@+id/praise_people"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                 </LinearLayout>
 
-                <!--说说文字内容-->
-                <com.xiaoshangxing.utils.layout.MoreTextView
-                    android:paddingEnd="@dimen/width_48"
-                    android:id="@+id/text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/y36"
-                    android:textColor="@color/b1"
-                    android:textSize="13sp"
-                    app:trimLines="6" />
-
-                <FrameLayout
-                    android:paddingEnd="@dimen/width_48"
-                    android:id="@+id/content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </FrameLayout>
-
-                <!--地点-->
-                <TextView
-                    android:id="@+id/location"
+                <!--评论-->
+                <LinearLayout
+                    android:id="@+id/comments_lay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/y18"
-                    android:textSize="12sp" />
-
-                <!--时间 权限列表-->
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/y18">
-                    <!--时间-->
-                    <TextView
-                        android:id="@+id/time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp" />
-                    <!--权限列表-->
-                    <ImageView
-                        android:id="@+id/permission"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/time"
-                        android:paddingStart="@dimen/x48"
-                        android:src="@mipmap/permission" />
-
-                    <!--删除-->
-                    <TextView
-                        android:id="@+id/delete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/permission"
-                        android:paddingStart="@dimen/x48"
-                        android:text="@string/delete"
-                        android:textColor="@color/blue1"
-                        android:textSize="12sp" />
-
-                    <!--赞按钮-->
-                    <LinearLayout
-                        android:id="@+id/praise_lay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/comment_lay"
-                        android:paddingLeft="@dimen/x60"
-                        android:paddingRight="@dimen/x40">
-
-                        <CheckBox
-                            android:id="@+id/praise"
-                            android:layout_width="@dimen/x44"
-                            android:layout_height="@dimen/y38"
-                            android:background="@drawable/wo_praise_selector"
-                            android:button="@null">
-
-                        </CheckBox>
-                    </LinearLayout>
-
-                    <!--评论按钮-->
-                    <LinearLayout
-                        android:id="@+id/comment_lay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:paddingEnd="@dimen/width_48"
-                        android:paddingStart="@dimen/x40">
-
-                        <ImageView
-                            android:id="@+id/comment"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@mipmap/comment">
-
-                        </ImageView>
-                    </LinearLayout>
-
-                </RelativeLayout>
-
-                <!--上方尖角-->
-                <ImageView
-                    android:id="@+id/jianjiao"
-                    android:layout_width="@dimen/x30"
-                    android:layout_height="@dimen/y16"
-                    android:layout_marginStart="@dimen/x52"
-                    android:layout_marginTop="@dimen/y18"
-                    android:src="@mipmap/sharpcorner" />
-
-                <LinearLayout
-                    android:layout_marginEnd="@dimen/width_48"
-                    android:id="@+id/comment_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/circular_6_"
                     android:orientation="vertical"
-                    android:paddingBottom="@dimen/y12"
-                    android:paddingLeft="@dimen/x18"
-                    android:paddingRight="@dimen/x18"
                     android:paddingTop="@dimen/y12">
-                    <!--赞的人-->
+
+                    <include
+                        android:id="@+id/line_between_praise_comment"
+                        layout="@layout/line_horizontal_g1">
+
+                    </include>
+
                     <LinearLayout
-                        android:id="@+id/praise_people"
+                        android:id="@+id/comments"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:paddingTop="@dimen/y12">
 
                     </LinearLayout>
 
-                    <!--评论-->
-                    <LinearLayout
-                        android:id="@+id/comments_lay"
-                        android:paddingTop="@dimen/y12"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <include
-                            android:id="@+id/line_between_praise_comment"
-                            layout="@layout/line_horizontal_g1">
-
-                        </include>
-
-                        <LinearLayout
-                            android:id="@+id/comments"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingTop="@dimen/y12">
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
 
                 </LinearLayout>
 
             </LinearLayout>
 
+        </LinearLayout>
+
         <!--头条-->
         <ImageView
-            android:paddingEnd="@dimen/width_48"
             android:id="@+id/headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:paddingEnd="@dimen/width_48"
             android:src="@mipmap/headline" />
     </RelativeLayout>
 

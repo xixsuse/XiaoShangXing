@@ -39,9 +39,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/y20"
         android:paddingStart="@dimen/x48"
         android:paddingTop="@dimen/y20"
-        android:paddingBottom="@dimen/y20"
         android:text="@string/oldboy"
         android:textColor="@color/g0"
         android:textSize="12sp" />
@@ -56,9 +56,9 @@
         android:showDividers="middle">
 
         <RelativeLayout
-            android:onClick="PrivacyFirst"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144">
+            android:layout_height="@dimen/y144"
+            android:onClick="PrivacyFirst">
 
             <TextView
                 style="@style/black_16sp"
@@ -77,9 +77,9 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:onClick="PrivacySecond"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144">
+            android:layout_height="@dimen/y144"
+            android:onClick="PrivacySecond">
 
             <TextView
                 style="@style/black_16sp"
@@ -101,9 +101,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
-        android:paddingStart="@dimen/x48"
+        android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
-        android:layout_marginTop="@dimen/y48">
+        android:paddingStart="@dimen/x48">
 
         <TextView
             style="@style/black_16sp"
@@ -112,7 +112,7 @@
             android:gravity="center_vertical"
             android:text="@string/privacy3" />
 
-        <com.xiaoshangxing.utils.SwitchView
+        <com.xiaoshangxing.utils.customView.SwitchView
             android:id="@+id/privacy_allow"
             android:layout_width="40dp"
             android:layout_height="25dp"

@@ -7,7 +7,7 @@ import android.widget.BaseAdapter;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
 
 import java.util.ArrayList;
 

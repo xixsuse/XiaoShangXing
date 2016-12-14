@@ -11,15 +11,15 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
-import com.xiaoshangxing.Network.IMNetwork;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubsciber;
-import com.xiaoshangxing.Network.ProgressSubscriber.ProgressSubscriberOnNext;
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.IMNetwork;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
+import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.data.bean.User;
+import com.xiaoshangxing.utils.customView.CirecleImage;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.FriendActivity.LoveOrStartActivity;
 
@@ -38,8 +38,8 @@ import okhttp3.ResponseBody;
  * on 2016/4/20
  */
 public class Normal_Serch_adpter extends ArrayAdapter<User> {
-    private NormalSerch context;
     List<User> users;
+    private NormalSerch context;
     private int type;
 
     public Normal_Serch_adpter(NormalSerch context, int resource, List<User> objects, int type) {

@@ -8,8 +8,7 @@
     <!--转发-->
     <RelativeLayout
         android:layout_width="@dimen/y250"
-        android:layout_height="@dimen/y103"
-        >
+        android:layout_height="@dimen/y103">
 
         <LinearLayout
             android:id="@+id/transmit"
@@ -38,18 +37,17 @@
 
     <!--分割线-->
     <View
-        android:layout_marginTop="@dimen/y20"
-        android:background="@color/b0"
         android:layout_width="1px"
-        android:layout_height="@dimen/y63">
+        android:layout_height="@dimen/y63"
+        android:layout_marginTop="@dimen/y20"
+        android:background="@color/b0">
 
     </View>
 
     <!--评论-->
     <RelativeLayout
         android:layout_width="@dimen/y250"
-        android:layout_height="@dimen/y103"
-        >
+        android:layout_height="@dimen/y103">
 
         <LinearLayout
             android:id="@+id/comment"
@@ -78,18 +76,17 @@
 
     <!--分割线-->
     <View
-        android:layout_marginTop="@dimen/y20"
-        android:background="@color/b0"
         android:layout_width="1px"
-        android:layout_height="@dimen/y63">
+        android:layout_height="@dimen/y63"
+        android:layout_marginTop="@dimen/y20"
+        android:background="@color/b0">
 
     </View>
 
     <!--赞-->
     <RelativeLayout
         android:layout_width="@dimen/y250"
-        android:layout_height="@dimen/y103"
-        >
+        android:layout_height="@dimen/y103">
 
         <LinearLayout
             android:id="@+id/praise"

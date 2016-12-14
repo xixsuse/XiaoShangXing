@@ -11,7 +11,7 @@
         android:padding="@dimen/x26">
 
         <!--头像-->
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x120"
             android:layout_height="@dimen/x120"
@@ -31,7 +31,7 @@
                 android:paddingStart="@dimen/x26"
                 android:paddingTop="@dimen/y10">
                 <!--姓名-->
-                <com.xiaoshangxing.utils.layout.Name
+                <com.xiaoshangxing.utils.customView.Name
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -109,14 +109,14 @@
             android:padding="@dimen/x16">
 
             <!--标志-->
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/type_image"
                 android:layout_width="@dimen/x112"
                 android:layout_height="@dimen/x112"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/shool_help_log" />
 
-            <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+            <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
                 android:id="@+id/published_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

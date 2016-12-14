@@ -13,10 +13,10 @@
         <!--left botton-->
         <LinearLayout
             android:id="@+id/back"
-            android:paddingStart="@dimen/width_48"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/width_48">
 
             <ImageView
                 android:id="@+id/left_image"
@@ -41,11 +41,11 @@
         <TextView
             android:id="@+id/title"
             style="@style/black_16sp"
-            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="标题" />
+            android:text="标题"
+            android:textStyle="bold" />
 
         <!--right button-->
         <ImageView

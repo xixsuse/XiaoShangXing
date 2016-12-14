@@ -10,23 +10,23 @@
     android:paddingTop="@dimen/y30">
 
     <TextView
-        android:alpha="0.3"
         android:id="@+id/message_item_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/circular_4_g0"
         android:layout_marginBottom="@dimen/y36"
+        android:alpha="0.3"
+        android:background="@drawable/circular_4_g0"
         android:paddingBottom="@dimen/x12"
         android:paddingEnd="@dimen/x20"
         android:paddingStart="@dimen/x20"
+        android:paddingTop="@dimen/x12"
         android:textColor="@color/w0"
         android:textSize="12sp"
-        android:paddingTop="@dimen/x12"
         android:visibility="gone" />
 
 
-    <com.xiaoshangxing.utils.layout.CirecleImage
+    <com.xiaoshangxing.utils.customView.CirecleImage
         android:id="@+id/message_item_portrait_left"
         android:layout_width="@dimen/x114"
         android:layout_height="@dimen/x114"
@@ -35,13 +35,13 @@
         android:layout_marginRight="@dimen/x14"
         android:visibility="gone" />
 
-    <com.xiaoshangxing.utils.layout.CirecleImage
+    <com.xiaoshangxing.utils.customView.CirecleImage
         android:id="@+id/message_item_portrait_right"
         android:layout_width="@dimen/x114"
         android:layout_height="@dimen/x114"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="@dimen/x14"
         android:layout_below="@id/message_item_time"
+        android:layout_marginLeft="@dimen/x14"
         android:src="@color/b0"
         android:visibility="visible" />
 

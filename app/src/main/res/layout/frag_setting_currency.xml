@@ -10,11 +10,11 @@
     </include>
 
     <RelativeLayout
-        android:onClick="ChatBackground"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
+        android:onClick="ChatBackground"
         android:orientation="horizontal">
 
         <TextView
@@ -37,9 +37,9 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
-        android:paddingStart="@dimen/x48"
+        android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
-        android:layout_marginTop="@dimen/y48">
+        android:paddingStart="@dimen/x48">
 
         <TextView
             style="@style/black_16sp"
@@ -48,7 +48,7 @@
             android:gravity="center_vertical"
             android:text="@string/receivemode" />
 
-        <com.xiaoshangxing.utils.SwitchView
+        <com.xiaoshangxing.utils.customView.SwitchView
             android:id="@+id/currency_receivemode"
             android:layout_width="40dp"
             android:layout_height="25dp"
@@ -79,10 +79,10 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/clearcache_rightarrow"
+            android:paddingEnd="@dimen/x15"
             android:text="32M"
-            android:textSize="12sp"
             android:textColor="@color/g0"
-            android:paddingEnd="@dimen/x15"/>
+            android:textSize="12sp" />
 
 
         <ImageView

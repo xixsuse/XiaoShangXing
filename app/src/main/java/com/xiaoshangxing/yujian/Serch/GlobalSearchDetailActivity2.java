@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.search.model.MsgIndexRecord;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.layout.AutoRefreshListView;
+import com.xiaoshangxing.utils.customView.AutoRefreshListView;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.ChatActivity.GroupActivity;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
@@ -52,6 +52,8 @@ public class GlobalSearchDetailActivity2 extends AppCompatActivity implements On
     private String query;
 
     private int resultCount;
+    private Toolbar toolbar;
+    private List<AbsContactItem> dataList;
 
     public static final void start(Context context, MsgIndexRecord record) {
         Intent intent = new Intent();
@@ -128,8 +130,6 @@ public class GlobalSearchDetailActivity2 extends AppCompatActivity implements On
 
     }
 
-    private Toolbar toolbar;
-
     public void setToolBar(int toolBarId, ToolBarOptions options) {
         toolbar = (Toolbar) findViewById(toolBarId);
         if (options.titleId != 0) {
@@ -159,23 +159,6 @@ public class GlobalSearchDetailActivity2 extends AppCompatActivity implements On
         return (T) (findViewById(resId));
     }
 
-    private List<AbsContactItem> dataList;
-
-    private class ContactDataProviderSearch extends ContactDataProvider {
-
-        public ContactDataProviderSearch(List<AbsContactItem> data, int... itemTypes) {
-            super(itemTypes);
-            dataList = data;
-        }
-
-        @Override
-        public List<AbsContactItem> provide(TextQuery query) {
-            dataList.addAll(MsgDataProvider.provide(query));
-            return dataList;
-        }
-    }
-
-
     private void parseIntent() {
         sessionType = SessionTypeEnum.typeOfValue(getIntent().getIntExtra(EXTRA_SESSION_TYPE, 0));
         sessionId = getIntent().getStringExtra(EXTRA_SESSION_ID);
@@ -198,6 +181,20 @@ public class GlobalSearchDetailActivity2 extends AppCompatActivity implements On
             }
             default:
                 break;
+        }
+    }
+
+    private class ContactDataProviderSearch extends ContactDataProvider {
+
+        public ContactDataProviderSearch(List<AbsContactItem> data, int... itemTypes) {
+            super(itemTypes);
+            dataList = data;
+        }
+
+        @Override
+        public List<AbsContactItem> provide(TextQuery query) {
+            dataList.addAll(MsgDataProvider.provide(query));
+            return dataList;
         }
     }
 

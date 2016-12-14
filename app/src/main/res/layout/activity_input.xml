@@ -7,43 +7,46 @@
 
     <!--输入框-->
     <LinearLayout
-        android:layout_above="@+id/select_lay"
-        android:orientation="vertical"
-        android:layout_marginBottom="@dimen/y96"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/select_lay"
+        android:layout_marginBottom="@dimen/y96"
+        android:orientation="vertical">
         <!--计划名称-->
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/plan_name_lay"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144">
+            android:layout_height="@dimen/y144"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
             <TextView
                 style="@style/black_16sp"
-                android:layout_marginStart="@dimen/width_48"
-                android:layout_gravity="center_vertical"
-                android:text="@string/plan_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-            <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
-                android:id="@+id/plan_name"
-                android:layout_weight="1"
-                style="@style/input_box"
-                android:maxLength="10"
-                android:textColor="@color/b0"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/width_48"
+                android:text="@string/plan_name" />
+
+            <com.xiaoshangxing.utils.customView.EmotionEdittext.EmoticonsEditText
+                android:id="@+id/plan_name"
+                style="@style/input_box"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:maxLength="10"
+                android:textColor="@color/b0" />
+
             <TextView
                 android:id="@+id/plan_name_count"
-                android:textColor="@color/g0"
-                android:textSize="16sp"
-                android:text="10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="@dimen/width_48"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="10"
+                android:textColor="@color/g0"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -51,16 +54,16 @@
 
         </include>
 
-        <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
-            android:textCursorDrawable="@drawable/cursor_blue4"
-            android:padding="16sp"
-            android:textSize="16sp"
-            android:textColor="@color/b0"
-            android:hint="这一刻的想法..."
+        <com.xiaoshangxing.utils.customView.EmotionEdittext.EmoticonsEditText
             android:id="@+id/emotion_edittext"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/select_lay" />
+            android:layout_above="@+id/select_lay"
+            android:hint="这一刻的想法..."
+            android:padding="16sp"
+            android:textColor="@color/b0"
+            android:textCursorDrawable="@drawable/cursor_blue4"
+            android:textSize="16sp" />
     </LinearLayout>
 
     <!--选择栏-->
@@ -73,242 +76,246 @@
 
         <!--图片展示-->
         <GridView
-            android:layout_above="@+id/select_lay"
             android:id="@+id/show_select"
-            android:focusable="true"
-            android:paddingStart="@dimen/width_48"
-            android:paddingEnd="@dimen/width_48"
-            android:paddingBottom="@dimen/y36"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y120"
-            android:numColumns="9"
+            android:layout_above="@+id/select_lay"
+            android:cacheColorHint="@color/transparent"
             android:columnWidth="@dimen/x84"
             android:fadingEdge="none"
-            android:scrollbars="none"
-            android:overScrollMode="never"
-            android:cacheColorHint="@color/transparent"
+            android:focusable="true"
             android:listSelector="@color/transparent"
-            android:transcriptMode="normal"
+            android:numColumns="9"
+            android:orientation="horizontal"
+            android:overScrollMode="never"
+            android:paddingBottom="@dimen/y36"
+            android:paddingEnd="@dimen/width_48"
+            android:paddingStart="@dimen/width_48"
+            android:scrollbars="none"
             android:stretchMode="columnWidth"
-            android:orientation="horizontal">
-        </GridView>
+            android:transcriptMode="normal"></GridView>
 
         <!--闲置出售-->
         <RelativeLayout
-            android:visibility="gone"
             android:id="@+id/xianzhi_lay"
-            android:paddingStart="@dimen/x46"
-            android:paddingEnd="@dimen/width_48"
-            android:paddingBottom="@dimen/y22"
-            android:layout_marginBottom="@dimen/x10"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y120">
+            android:layout_height="@dimen/y120"
+            android:layout_marginBottom="@dimen/x10"
+            android:paddingBottom="@dimen/y22"
+            android:paddingEnd="@dimen/width_48"
+            android:paddingStart="@dimen/x46"
+            android:visibility="gone">
 
             <ImageView
-                android:layout_width="wrap_content"
                 android:id="@+id/select_location_imag"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/dormitory" />
-            <TextView
-                android:layout_marginStart="@dimen/x10"
-                android:id="@+id/selected_location"
-                android:textColor="@color/gray_login"
-                android:textSize="14sp"
-                android:text="未选"
-                android:layout_toEndOf="@+id/select_location_imag"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/dormitory" />
+
+            <TextView
+                android:id="@+id/selected_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x10"
+                android:layout_toEndOf="@+id/select_location_imag"
+                android:text="未选"
+                android:textColor="@color/gray_login"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/price"
-                android:inputType="number"
-                android:paddingStart="@dimen/x42"
-                android:hint="价格"
-                android:paddingBottom="@dimen/y10"
-                android:layout_toEndOf="@+id/selected_location"
-                android:layout_centerVertical="true"
-                android:background="@drawable/et_circular_half_42_g0"
-                android:textColor="@color/red1"
-                android:paddingTop="@dimen/y10"
                 style="@style/input_box"
-                android:textSize="13sp"
-                android:maxLength="5"
-                android:layout_marginStart="@dimen/x124"
                 android:layout_width="@dimen/x256"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x124"
+                android:layout_toEndOf="@+id/selected_location"
+                android:background="@drawable/et_circular_half_42_g0"
+                android:hint="价格"
+                android:inputType="number"
+                android:maxLength="5"
+                android:paddingBottom="@dimen/y10"
+                android:paddingStart="@dimen/x42"
+                android:paddingTop="@dimen/y10"
+                android:textColor="@color/red1"
+                android:textSize="13sp" />
 
             <TextView
-                android:text="元"
-                android:layout_marginStart="@dimen/x16"
-                android:textColor="@color/b0"
-                android:layout_centerVertical="true"
-                android:textSize="13sp"
-                android:layout_toEndOf="@+id/price"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/x16"
+                android:layout_toEndOf="@+id/price"
+                android:text="元"
+                android:textColor="@color/b0"
+                android:textSize="13sp" />
 
             <!--闲置图片展示-->
             <GridView
                 android:id="@+id/show_xianzhi_select"
-                android:focusable="true"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:layout_width="@dimen/x308"
                 android:layout_height="match_parent"
-                android:numColumns="3"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:cacheColorHint="@color/transparent"
                 android:columnWidth="@dimen/x84"
                 android:fadingEdge="none"
-                android:scrollbars="none"
-                android:overScrollMode="never"
-                android:cacheColorHint="@color/transparent"
+                android:focusable="true"
                 android:listSelector="@color/transparent"
-                android:transcriptMode="normal"
+                android:numColumns="3"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                android:scrollbars="none"
                 android:stretchMode="columnWidth"
-                android:orientation="horizontal">
-            </GridView>
+                android:transcriptMode="normal"></GridView>
 
         </RelativeLayout>
 
         <!--计划发起-->
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/people_time_limit_lay"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/y22"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/people_limit"
-                android:hint="人数"
-                android:maxLength="5"
-                android:textColorHint="@color/g2"
-                android:layout_marginStart="@dimen/width_48"
-                android:paddingStart="@dimen/x42"
-                android:gravity="center_vertical"
-                android:inputType="number"
-                android:textColor="@color/b0"
-                android:textSize="16sp"
-                style="@style/input_box"
-                android:background="@drawable/et_circular_half_42_g0"
-                android:layout_width="@dimen/x224"
-                android:layout_height="@dimen/y84" />
-            <TextView
-                style="@style/black_16sp"
-                android:layout_marginStart="@dimen/x18"
-                android:layout_gravity="center_vertical"
-                android:text="人"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y22"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <EditText
-                android:maxLength="5"
-                android:id="@+id/time_limit"
-                android:hint="时间"
-                android:textColorHint="@color/g2"
-                android:layout_marginStart="@dimen/x88"
-                android:paddingStart="@dimen/x42"
-                android:gravity="center_vertical"
-                android:inputType="number"
-                android:textColor="@color/b0"
-                android:textSize="16sp"
+                android:id="@+id/people_limit"
                 style="@style/input_box"
-                android:background="@drawable/et_circular_half_42_g0"
                 android:layout_width="@dimen/x224"
-                android:layout_height="@dimen/y84" />
+                android:layout_height="@dimen/y84"
+                android:layout_marginStart="@dimen/width_48"
+                android:background="@drawable/et_circular_half_42_g0"
+                android:gravity="center_vertical"
+                android:hint="人数"
+                android:inputType="number"
+                android:maxLength="5"
+                android:paddingStart="@dimen/x42"
+                android:textColor="@color/b0"
+                android:textColorHint="@color/g2"
+                android:textSize="16sp" />
+
             <TextView
                 style="@style/black_16sp"
-                android:layout_marginStart="@dimen/x18"
-                android:layout_gravity="center_vertical"
-                android:text="天"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x18"
+                android:text="人" />
+
+            <EditText
+                android:id="@+id/time_limit"
+                style="@style/input_box"
+                android:layout_width="@dimen/x224"
+                android:layout_height="@dimen/y84"
+                android:layout_marginStart="@dimen/x88"
+                android:background="@drawable/et_circular_half_42_g0"
+                android:gravity="center_vertical"
+                android:hint="时间"
+                android:inputType="number"
+                android:maxLength="5"
+                android:paddingStart="@dimen/x42"
+                android:textColor="@color/b0"
+                android:textColorHint="@color/g2"
+                android:textSize="16sp" />
+
+            <TextView
+                style="@style/black_16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x18"
+                android:text="天" />
         </LinearLayout>
 
         <!--转发-->
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/transmit_lay"
-            android:layout_marginStart="@dimen/width_48"
-            android:layout_marginEnd="@dimen/width_48"
-            android:layout_marginBottom="@dimen/y42"
-            android:orientation="horizontal"
-            android:background="@drawable/et_circular_43_g1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y86">
+            android:layout_height="@dimen/y86"
+            android:layout_marginBottom="@dimen/y42"
+            android:layout_marginEnd="@dimen/width_48"
+            android:layout_marginStart="@dimen/width_48"
+            android:background="@drawable/et_circular_43_g1"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <!--转发内容标志-->
-            <com.xiaoshangxing.utils.layout.CirecleImage
-                android:src="@mipmap/cirecleimage_default"
-                android:layout_marginStart="@dimen/x4"
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/transmit_type_image"
-                android:layout_gravity="center_vertical"
                 android:layout_width="@dimen/x78"
-                android:layout_height="@dimen/x78" />
+                android:layout_height="@dimen/x78"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x4"
+                android:src="@mipmap/cirecleimage_default" />
 
             <TextView
                 android:id="@+id/transmit_type_text"
-                android:textSize="14sp"
-                android:layout_marginStart="@dimen/x8"
-                android:layout_marginEnd="@dimen/x21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:layout_marginEnd="@dimen/x21"
+                android:layout_marginStart="@dimen/x8"
                 android:text="闲置出售"
                 android:textColor="#3a3a3a"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:textSize="14sp" />
 
             <ImageView
-                android:background="#3a3a3a"
-                android:layout_gravity="center_vertical"
                 android:layout_width="@dimen/x2"
-                android:layout_height="@dimen/y28" />
+                android:layout_height="@dimen/y28"
+                android:layout_gravity="center_vertical"
+                android:background="#3a3a3a" />
 
             <TextView
                 android:id="@+id/transmit_content"
-                android:textSize="14sp"
-                android:textColor="#3a3a3a"
-                android:text="@string/longtext"
-                android:layout_marginStart="@dimen/x21"
-                android:paddingEnd="@dimen/x36"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x21"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/x36"
+                android:text="@string/longtext"
+                android:textColor="#3a3a3a"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
         <!--悬赏-->
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/reward_lay"
-            android:orientation="horizontal"
-            android:layout_marginBottom="@dimen/y22"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/y22"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
             <EditText
                 android:id="@+id/reward_price"
-                android:hint="价格"
-                android:textColorHint="@color/g2"
-                android:layout_marginStart="@dimen/width_48"
-                android:paddingStart="@dimen/x42"
-                android:gravity="center_vertical"
-                android:inputType="number"
-                android:textColor="@color/b0"
-                android:textSize="16sp"
-                android:maxLength="5"
                 style="@style/input_box"
-                android:background="@drawable/et_circular_half_42_g0"
                 android:layout_width="@dimen/x224"
-                android:layout_height="@dimen/y84" />
+                android:layout_height="@dimen/y84"
+                android:layout_marginStart="@dimen/width_48"
+                android:background="@drawable/et_circular_half_42_g0"
+                android:gravity="center_vertical"
+                android:hint="价格"
+                android:inputType="number"
+                android:maxLength="5"
+                android:paddingStart="@dimen/x42"
+                android:textColor="@color/b0"
+                android:textColorHint="@color/g2"
+                android:textSize="16sp" />
+
             <TextView
                 style="@style/black_16sp"
-                android:layout_marginStart="@dimen/x18"
-                android:layout_gravity="center_vertical"
-                android:text="元"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/x18"
+                android:text="元" />
 
         </LinearLayout>
 
@@ -405,10 +412,10 @@
             <ImageButton
                 android:id="@+id/send"
                 android:layout_width="wrap_content"
-                android:background="@color/transparent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:alpha="0.5"
+                android:background="@color/transparent"
                 android:paddingEnd="@dimen/x32"
                 android:paddingStart="@dimen/x32"
                 android:src="@mipmap/icon_plane" />
@@ -418,36 +425,36 @@
 
     <!--表情图片  选择园区-->
     <LinearLayout
-        android:background="@color/w0"
         android:id="@+id/emot_picture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/w0"
         android:orientation="vertical">
 
         <!--表情-->
         <LinearLayout
             android:id="@+id/emot_lay"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <android.support.v4.view.ViewPager
-                android:paddingStart="@dimen/x30"
-                android:paddingEnd="@dimen/x20"
-                android:paddingBottom="@dimen/y30"
-                android:paddingTop="@dimen/y30"
                 android:id="@+id/scrollview"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/y432">
+                android:layout_height="@dimen/y432"
+                android:paddingBottom="@dimen/y30"
+                android:paddingEnd="@dimen/x20"
+                android:paddingStart="@dimen/x30"
+                android:paddingTop="@dimen/y30">
 
             </android.support.v4.view.ViewPager>
             <!--表情类型-->
             <RelativeLayout
-                android:background="@color/w1"
                 android:id="@+id/emot_type"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/y108">
+                android:layout_height="@dimen/y108"
+                android:background="@color/w1">
 
                 <LinearLayout
                     android:id="@+id/normal_emot"
@@ -455,43 +462,44 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:layout_marginLeft="@dimen/width_48"
-                        android:src="@mipmap/emot_unselect"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="center"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/width_48"
+                        android:gravity="center"
+                        android:src="@mipmap/emot_unselect" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/favorite"
-                    android:visibility="gone"
-                    android:layout_toEndOf="@+id/normal_emot"
                     android:layout_width="@dimen/x152"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@+id/normal_emot"
+                    android:visibility="gone">
 
                     <ImageView
-                        android:src="@mipmap/heart_grey_total"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:src="@mipmap/heart_grey_total" />
 
                 </LinearLayout>
 
                 <RelativeLayout
                     android:id="@+id/delete_emot"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="@dimen/x152"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true">
+
                     <ImageView
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginRight="@dimen/width_48"
-                        android:src="@mipmap/delete_emot"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/width_48"
+                        android:src="@mipmap/delete_emot" />
                 </RelativeLayout>
 
             </RelativeLayout>
@@ -499,12 +507,12 @@
 
         <!--图片-->
         <LinearLayout
-            android:background="@color/w0"
-            android:visibility="gone"
             android:id="@+id/picture_lay"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/w0"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycleView"
@@ -520,44 +528,45 @@
 
                 <TextView
                     android:id="@+id/album"
-                    android:text="@string/album"
-                    android:paddingStart="@dimen/width_48"
-                    android:layout_centerVertical="true"
                     style="@style/black_16sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:paddingStart="@dimen/width_48"
+                    android:text="@string/album" />
 
                 <TextView
                     android:id="@+id/complete"
-                    android:text="@string/complete"
-                    android:textColor="@color/green1"
-                    android:textSize="16sp"
-                    android:layout_alignParentEnd="true"
-                    android:paddingEnd="@dimen/width_48"
-                    android:layout_centerVertical="true"
                     style="@style/black_16sp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:paddingEnd="@dimen/width_48"
+                    android:text="@string/complete"
+                    android:textColor="@color/green1"
+                    android:textSize="16sp" />
 
                 <FrameLayout
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@+id/complete"
                     android:id="@+id/picture_count_lay"
                     android:layout_width="@dimen/x66"
-                    android:layout_height="@dimen/y66">
+                    android:layout_height="@dimen/y66"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/complete">
 
-                    <com.xiaoshangxing.utils.layout.CirecleImage
-                        android:background="@color/green1"
+                    <com.xiaoshangxing.utils.customView.CirecleImage
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:background="@color/green1" />
+
                     <TextView
                         android:id="@+id/picture_count"
-                        android:textColor="@color/w0"
-                        android:textSize="14sp"
-                        android:text="0"
-                        android:gravity="center"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="0"
+                        android:textColor="@color/w0"
+                        android:textSize="14sp" />
 
                 </FrameLayout>
             </RelativeLayout>
@@ -565,11 +574,11 @@
         </LinearLayout>
 
         <!--选择园区-->
-        <com.xiaoshangxing.setting.utils.city_choosing.WheelView
-            android:visibility="gone"
+        <com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView
             android:id="@+id/select_location"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="gone" />
 
     </LinearLayout>
 

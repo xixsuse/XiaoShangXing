@@ -2,10 +2,6 @@ package com.xiaoshangxing.yujian.groupchatInfo;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +15,9 @@ import com.netease.nimlib.sdk.team.constant.TeamMemberType;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
 import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
@@ -29,7 +25,6 @@ import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
 import com.xiaoshangxing.yujian.groupchatInfo.deleteMember.DeleteMemberActivity;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +32,9 @@ import java.util.List;
  * Created by 15828 on 2016/8/12.
  */
 public class Adapter extends BaseAdapter {
+    List<TeamMember> data;
     private LayoutInflater inflater;
     private Context context;
-    List<TeamMember> data;
     private ChatInfoActivity activity;
     private boolean isMyteam = false;
 
@@ -122,7 +117,7 @@ public class Adapter extends BaseAdapter {
                 public void onClick(View v) {
                     if (isMyteam) {
                         Intent intent = new Intent(context, DeleteMemberActivity.class);
-                        intent.putExtra(IntentStatic.DATA,activity.getAccount());
+                        intent.putExtra(IntentStatic.DATA, activity.getAccount());
                         context.startActivity(intent);
                     } else {
                         Toast.makeText(context, "只有群主可以踢人", Toast.LENGTH_SHORT).show();
@@ -132,7 +127,7 @@ public class Adapter extends BaseAdapter {
             });
             holder.name.setText("");
 
-        } else if (data.size() != 0 ) {
+        } else if (data.size() != 0) {
             final NimUserInfo userInfo = NimUserInfoCache.getInstance().getUserInfo(data.get(position).getAccount());
             Glide.with(context)
                     .load(userInfo.getAvatar())

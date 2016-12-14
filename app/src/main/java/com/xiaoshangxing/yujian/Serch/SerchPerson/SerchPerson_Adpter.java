@@ -10,10 +10,10 @@ import android.widget.Toast;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
+import com.xiaoshangxing.data.bean.User;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.yujian.personInfo.PersonInfoActivity;
 
 import java.util.List;
@@ -26,8 +26,8 @@ import butterknife.ButterKnife;
  * on 2016/4/20
  */
 public class SerchPerson_Adpter extends ArrayAdapter<User> {
-    private Context context;
     List<User> publisheds;
+    private Context context;
 
     public SerchPerson_Adpter(Context context, int resource, List<User> objects) {
         super(context, resource, objects);
@@ -50,18 +50,18 @@ public class SerchPerson_Adpter extends ArrayAdapter<User> {
         MyGlide.with(context, user.getUserImage(), viewHolder.headImage);
         viewHolder.name.setText(user.getUsername());
 
-                convertView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (user.getId() == TempUser.id) {
-                            Toast.makeText(context, "这就是你自己啊...", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Intent state_intent = new Intent(context, PersonInfoActivity.class);
-                            state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, String.valueOf(user.getId()));
-                            context.startActivity(state_intent);
-                        }
-                    }
-                });
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (user.getId() == TempUser.id) {
+                    Toast.makeText(context, "这就是你自己啊...", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent state_intent = new Intent(context, PersonInfoActivity.class);
+                    state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, String.valueOf(user.getId()));
+                    context.startActivity(state_intent);
+                }
+            }
+        });
 
         return convertView;
     }

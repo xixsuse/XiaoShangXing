@@ -26,25 +26,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SelectPersonActivity;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.PublishCache;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
-import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.input_activity.InputBoxLayout;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
+import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.Name;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.wo.WoFrafment.Published_Help;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
 
@@ -326,21 +326,21 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     private void praise() {
         OperateUtils.operateWithLoad(published_id, this, true, NS.PRAISE, Published_Help.isPraised(published),
                 HelpDetailActivity.this, new SimpleCallBack() {
-            @Override
-            public void onSuccess() {
-            }
+                    @Override
+                    public void onSuccess() {
+                    }
 
-            @Override
-            public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
+                    }
 
-            @Override
-            public void onBackData(Object o) {
-                published = (Published) o;
-                refresh();
-            }
-        });
+                    @Override
+                    public void onBackData(Object o) {
+                        published = (Published) o;
+                        refresh();
+                    }
+                });
     }
 
     //    控制滑块滑动到指定位置
@@ -463,23 +463,23 @@ public class HelpDetailActivity extends BaseActivity implements HelpDetailContra
     private void sendComment(String text, int commenId) {
         OperateUtils.Comment(published.getId(), commenId, text, this, true, HelpDetailActivity.this,
                 new SimpleCallBack() {
-            @Override
-            public void onSuccess() {
-                inputBoxLayout.setCallBack(null);
-            }
+                    @Override
+                    public void onSuccess() {
+                        inputBoxLayout.setCallBack(null);
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                inputBoxLayout.setCallBack(null);
-                showToast("评论失败");
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        inputBoxLayout.setCallBack(null);
+                        showToast("评论失败");
+                    }
 
-            @Override
-            public void onBackData(Object o) {
-                published = (Published) o;
-                refresh();
-            }
-        });
+                    @Override
+                    public void onBackData(Object o) {
+                        published = (Published) o;
+                        refresh();
+                    }
+                });
     }
 
     private void showTransmitDialog(final List<String> id) {

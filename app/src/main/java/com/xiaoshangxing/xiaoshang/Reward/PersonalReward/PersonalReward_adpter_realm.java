@@ -11,16 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.Name;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.Name;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 import com.xiaoshangxing.xiaoshang.Reward.RewardDetail.RewardDetailActivity;
 import com.xiaoshangxing.yujian.IM.kit.TimeUtil;
@@ -36,8 +36,8 @@ import io.realm.RealmResults;
  * on 2016/4/20
  */
 public class PersonalReward_adpter_realm extends RealmBaseAdapter<Published> {
-    private Context context;
     List<Published> publisheds;
+    private Context context;
     private PersonalRewardFragment fragment;
     private boolean showselect;
     private RewardActivity activity;
@@ -168,16 +168,6 @@ public class PersonalReward_adpter_realm extends RealmBaseAdapter<Published> {
         return convertView;
     }
 
-
-    private static class mystate_viewholder {
-        private CirecleImage headImage;
-        private TextView college, time, price;
-        private Name name;
-        private EmotinText text;
-        private CheckBox checkBox, iscomplete;
-        private LinearLayout parentLay;
-    }
-
     private void showMenu(View v, final mystate_viewholder viewholder, final int publishId) {
         int[] xy = new int[2];
         v.getLocationInWindow(xy);
@@ -263,5 +253,14 @@ public class PersonalReward_adpter_realm extends RealmBaseAdapter<Published> {
 
     public void setSelectIds(List<String> selectIds) {
         this.selectIds = selectIds;
+    }
+
+    private static class mystate_viewholder {
+        private CirecleImage headImage;
+        private TextView college, time, price;
+        private Name name;
+        private EmotinText text;
+        private CheckBox checkBox, iscomplete;
+        private LinearLayout parentLay;
     }
 }

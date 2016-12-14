@@ -1,7 +1,7 @@
-package com.xiaoshangxing.Network.api.Login_Register_Api;
+package com.xiaoshangxing.network.api.Login_Register_Api;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.netUtil.BaseUrl;
+import com.xiaoshangxing.network.netUtil.BaseUrl;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -14,7 +14,7 @@ import rx.Observable;
  * on 2016/8/6
  */
 public interface CheckCodeApi {
-        @Headers({"Content-Type: application/json","Accept: application/json"})//需要添加头
-        @POST(BaseUrl.CHECK_CODE)
-        Observable<ResponseBody> login(@Body JsonObject checkCode);
+    @Headers({"Content-Type: application/json", "Accept: application/json"})//需要添加头
+    @POST(BaseUrl.CHECK_CODE)
+    Observable<ResponseBody> login(@Body JsonObject checkCode);
 }

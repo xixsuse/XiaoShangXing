@@ -12,8 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.yujian.Schoolfellow.ItemBean.BaseItemBean;
 
@@ -38,14 +38,6 @@ public class ShoolfellowAdapter extends BaseAdapter {
 
     private onItemClick onItemClick;
 
-    public ShoolfellowAdapter.onItemClick getOnItemClick() {
-        return onItemClick;
-    }
-
-    public void setOnItemClick(ShoolfellowAdapter.onItemClick onItemClick) {
-        this.onItemClick = onItemClick;
-    }
-
     public ShoolfellowAdapter(Context context, List<BaseItemBean> allItems, ListView listView) {
         this.context = context;
         this.allItems = ItemHelp.sort(allItems);
@@ -62,6 +54,14 @@ public class ShoolfellowAdapter extends BaseAdapter {
                 }
             }
         });
+    }
+
+    public ShoolfellowAdapter.onItemClick getOnItemClick() {
+        return onItemClick;
+    }
+
+    public void setOnItemClick(ShoolfellowAdapter.onItemClick onItemClick) {
+        this.onItemClick = onItemClick;
     }
 
     @Override

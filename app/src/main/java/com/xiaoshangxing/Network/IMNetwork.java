@@ -1,17 +1,17 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.network;
 
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.api.IMApi.CancleFavorApi;
-import com.xiaoshangxing.Network.api.IMApi.Crush;
-import com.xiaoshangxing.Network.api.IMApi.FavorApi;
-import com.xiaoshangxing.Network.api.IMApi.GetCrush;
-import com.xiaoshangxing.Network.api.IMApi.GetImages;
-import com.xiaoshangxing.Network.api.IMApi.MyFavorApi;
-import com.xiaoshangxing.Network.api.IMApi.MyStarApi;
-import com.xiaoshangxing.Network.api.IMApi.SchoolCirclePermisson;
-import com.xiaoshangxing.Network.api.IMApi.SerchPersonApi;
+import com.xiaoshangxing.network.api.IMApi.CancleFavorApi;
+import com.xiaoshangxing.network.api.IMApi.Crush;
+import com.xiaoshangxing.network.api.IMApi.FavorApi;
+import com.xiaoshangxing.network.api.IMApi.GetCrush;
+import com.xiaoshangxing.network.api.IMApi.GetImages;
+import com.xiaoshangxing.network.api.IMApi.MyFavorApi;
+import com.xiaoshangxing.network.api.IMApi.MyStarApi;
+import com.xiaoshangxing.network.api.IMApi.SchoolCirclePermisson;
+import com.xiaoshangxing.network.api.IMApi.SerchPersonApi;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -40,16 +40,10 @@ public class IMNetwork {
 
     }
 
-    //在访问IMNetwork时创建单例
-    private static class SingletonHolder {
-        private static final IMNetwork INSTANCE = new IMNetwork();
-    }
-
     //获取单例
     public static IMNetwork getInstance() {
         return IMNetwork.SingletonHolder.INSTANCE;
     }
-
 
     public void SerchPerson(Subscriber<ResponseBody> subscriber, JsonObject param, Context context) {
         if (serchPersonApi == null) {
@@ -128,5 +122,10 @@ public class IMNetwork {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
+    }
+
+    //在访问IMNetwork时创建单例
+    private static class SingletonHolder {
+        private static final IMNetwork INSTANCE = new IMNetwork();
     }
 }

@@ -9,11 +9,10 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.SelectPerson.SortModel;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
+import com.xiaoshangxing.publicActivity.SelectPerson.SortModel;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
-import com.xiaoshangxing.yujian.groupchatInfo.Member;
 
 import java.util.List;
 
@@ -71,20 +70,11 @@ public class ChooseNewMasterAdapter extends BaseAdapter implements SectionIndexe
 
         viewHolder.tvTitle.setText(this.list.get(position).getName());
         MyGlide.with_defaul_image(mContext,
-                NimUserInfoCache.getInstance().getHeadImage(mContent.getAccount()),viewHolder.headImg);
+                NimUserInfoCache.getInstance().getHeadImage(mContent.getAccount()), viewHolder.headImg);
 
         return view;
 
     }
-
-
-    final static class ViewHolder {
-        TextView tvLetter;
-        TextView tvTitle;
-        CirecleImage headImg;
-        View divider;
-    }
-
 
     public int getSectionForPosition(int position) {
         return list.get(position).getSortLetters().charAt(0);
@@ -102,7 +92,6 @@ public class ChooseNewMasterAdapter extends BaseAdapter implements SectionIndexe
         return -1;
     }
 
-
     private String getAlpha(String str) {
         String sortStr = str.trim().substring(0, 1).toUpperCase();
         if (sortStr.matches("[A-Z]")) {
@@ -115,5 +104,12 @@ public class ChooseNewMasterAdapter extends BaseAdapter implements SectionIndexe
     @Override
     public Object[] getSections() {
         return null;
+    }
+
+    final static class ViewHolder {
+        TextView tvLetter;
+        TextView tvTitle;
+        CirecleImage headImg;
+        View divider;
     }
 }

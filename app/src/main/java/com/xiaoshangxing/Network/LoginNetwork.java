@@ -1,16 +1,16 @@
-package com.xiaoshangxing.Network;
+package com.xiaoshangxing.network;
 
 import android.content.Context;
 
 import com.google.gson.JsonObject;
-import com.xiaoshangxing.Network.api.Login_Register_Api.CheckCodeApi;
-import com.xiaoshangxing.Network.api.Login_Register_Api.CheckEmialCodeApi;
-import com.xiaoshangxing.Network.api.Login_Register_Api.ChkExistApi;
-import com.xiaoshangxing.Network.api.Login_Register_Api.FindPWByEmailApi;
-import com.xiaoshangxing.Network.api.Login_Register_Api.ForgetApi;
-import com.xiaoshangxing.Network.api.Login_Register_Api.LoginApi;
-import com.xiaoshangxing.Network.api.Login_Register_Api.RegisterApi;
-import com.xiaoshangxing.Network.api.Login_Register_Api.SendCodeApi;
+import com.xiaoshangxing.network.api.Login_Register_Api.CheckCodeApi;
+import com.xiaoshangxing.network.api.Login_Register_Api.CheckEmialCodeApi;
+import com.xiaoshangxing.network.api.Login_Register_Api.ChkExistApi;
+import com.xiaoshangxing.network.api.Login_Register_Api.FindPWByEmailApi;
+import com.xiaoshangxing.network.api.Login_Register_Api.ForgetApi;
+import com.xiaoshangxing.network.api.Login_Register_Api.LoginApi;
+import com.xiaoshangxing.network.api.Login_Register_Api.RegisterApi;
+import com.xiaoshangxing.network.api.Login_Register_Api.SendCodeApi;
 
 import okhttp3.ResponseBody;
 import rx.Observable;
@@ -34,11 +34,6 @@ public class LoginNetwork {
 
     private LoginNetwork() {
 
-    }
-
-    //在访问LoginNetwork时创建单例
-    private static class SingletonHolder {
-        private static final LoginNetwork INSTANCE = new LoginNetwork();
     }
 
     //获取单例
@@ -70,7 +65,7 @@ public class LoginNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void Register(Subscriber<ResponseBody> subscriber, JsonObject register,Context context){
+    public void Register(Subscriber<ResponseBody> subscriber, JsonObject register, Context context) {
         if (registerApi == null) {
             registerApi = Network.getRetrofitWithHeader(context).create(RegisterApi.class);
         }
@@ -78,7 +73,7 @@ public class LoginNetwork {
         toSubscribe(observable, subscriber);
     }
 
-    public void CheckCode(Subscriber<ResponseBody> subscriber, JsonObject checkCode){
+    public void CheckCode(Subscriber<ResponseBody> subscriber, JsonObject checkCode) {
         if (checkCodeApi == null) {
             checkCodeApi = Network.getRetrofit().create(CheckCodeApi.class);
         }
@@ -115,5 +110,10 @@ public class LoginNetwork {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s);
+    }
+
+    //在访问LoginNetwork时创建单例
+    private static class SingletonHolder {
+        private static final LoginNetwork INSTANCE = new LoginNetwork();
     }
 }

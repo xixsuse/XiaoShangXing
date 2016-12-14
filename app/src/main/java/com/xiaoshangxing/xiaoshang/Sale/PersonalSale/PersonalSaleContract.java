@@ -1,8 +1,8 @@
 package com.xiaoshangxing.xiaoshang.Sale.PersonalSale;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 
 /**
  * Created by FengChaoQun
@@ -25,10 +25,12 @@ public class PersonalSaleContract {
         **describe:没有内容时
         */
         void showNoContentText(boolean is);
+
         /*
         **describe:刷新数据
         */
         void refreshData();
+
         /*
        **describe:没有数据了
        */
@@ -45,15 +47,19 @@ public class PersonalSaleContract {
         **describe:转发 删除
         */
         void transmit();
+
         void delete();
+
         /*
         **describe:完成或取消
         */
         void completeOrCancle();
+
         /*
         **describe:加载数据
         */
         void refreshData(PtrFrameLayout frame);
+
         /*
         **describe:加载更多
         */

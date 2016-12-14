@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xiaoshangxing.data.PushMsg;
+import com.xiaoshangxing.data.bean.PushMsg;
 import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeViewHodler.NoticeBaseViewHolder;
 import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeViewHodler.NoticeCommentVH;
 
@@ -22,9 +22,9 @@ import io.realm.RealmResults;
  */
 
 public class NoticeAdpter_realm extends RealmBaseAdapter<PushMsg> {
-    private Context context;
-    List<PushMsg> pushMsgs;
     private final Map<Class<?>, Integer> viewTypes;
+    List<PushMsg> pushMsgs;
+    private Context context;
 
     public NoticeAdpter_realm(Context context, RealmResults<PushMsg> pushMsgs) {
         super(context, pushMsgs);

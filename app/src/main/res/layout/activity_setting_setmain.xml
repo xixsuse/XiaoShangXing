@@ -20,27 +20,26 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/y240"
-            android:onClick="PersonInfo"
             android:background="@color/w1"
+            android:onClick="PersonInfo"
             android:orientation="horizontal">
 
-            <com.xiaoshangxing.utils.layout.CirecleImage
+            <com.xiaoshangxing.utils.customView.CirecleImage
                 android:id="@+id/setting_main_imag"
                 android:layout_width="@dimen/x168"
                 android:layout_height="@dimen/x168"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/x48"
-                android:scaleType="centerCrop"
-                 />
+                android:scaleType="centerCrop" />
 
             <TextView
+                android:id="@+id/name"
                 style="@style/black_17sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/x36"
-                android:layout_toEndOf="@id/setting_main_imag"
-                android:id="@+id/name" />
+                android:layout_toEndOf="@id/setting_main_imag" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -55,11 +54,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/x48"
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w1"
-        android:orientation="vertical"
         android:divider="@drawable/toolbar_divider"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/x48"
         android:showDividers="middle">
 
         <RelativeLayout
@@ -134,11 +133,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y48"
-        android:orientation="vertical"
-        android:onClick="BindMailBox"
         android:background="@color/w1"
-        android:paddingStart="@dimen/x48"
         android:divider="@drawable/toolbar_divider"
+        android:onClick="BindMailBox"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/x48"
         android:showDividers="middle">
 
         <RelativeLayout
@@ -154,13 +153,13 @@
                 android:text="@string/bindmail" />
 
             <TextView
+                android:id="@+id/bindEmailStaet"
                 style="@style/g0_14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/bindmail_rightarrow"
                 android:layout_marginEnd="@dimen/x20"
-                android:id="@+id/bindEmailStaet" />
+                android:layout_toStartOf="@+id/bindmail_rightarrow" />
 
             <ImageView
                 android:id="@+id/bindmail_rightarrow"
@@ -173,10 +172,10 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:onClick="VertifyPassWord"
             android:layout_width="match_parent"
             android:layout_height="@dimen/y144"
             android:background="@color/w1"
+            android:onClick="VertifyPassWord"
             android:orientation="horizontal">
 
             <TextView
@@ -200,11 +199,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/y48"
-        android:paddingStart="@dimen/x48"
         android:background="@color/w1"
+        android:divider="@drawable/toolbar_divider"
         android:onClick="Feedbak"
         android:orientation="vertical"
-        android:divider="@drawable/toolbar_divider"
+        android:paddingStart="@dimen/x48"
         android:showDividers="middle">
 
         <RelativeLayout

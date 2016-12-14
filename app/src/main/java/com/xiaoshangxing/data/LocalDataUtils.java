@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.xiaoshangxing.data.bean.BackGround;
+
 import java.util.List;
 
 import io.realm.Realm;
@@ -11,6 +13,7 @@ import io.realm.Realm;
 /**
  * Created by FengChaoQun
  * on 2016/10/27
+ * 本地数据库操作类
  */
 
 public class LocalDataUtils {

@@ -19,14 +19,14 @@
         android:layout_height="wrap_content"
         android:background="@color/w1"
         android:paddingStart="@dimen/x48">
-        <com.xiaoshangxing.utils.layout.CustomSwipeListView
-            android:clickable="false"
+
+        <com.xiaoshangxing.utils.customView.CustomSwipeListView
             android:id="@+id/blacklist_listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="false"
             android:divider="@drawable/toolbar_divider"
-            android:listSelector="@android:color/transparent">
-        </com.xiaoshangxing.utils.layout.CustomSwipeListView>
+            android:listSelector="@android:color/transparent"></com.xiaoshangxing.utils.customView.CustomSwipeListView>
     </LinearLayout>
 
 </LinearLayout>

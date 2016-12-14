@@ -30,7 +30,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/newnotice_agree" />
 
-            <com.xiaoshangxing.utils.SwitchView
+            <com.xiaoshangxing.utils.customView.SwitchView
                 android:id="@+id/newnotice_accept"
                 android:layout_width="40dp"
                 android:layout_height="25dp"
@@ -52,7 +52,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/renewnotice1" />
 
-            <com.xiaoshangxing.utils.SwitchView
+            <com.xiaoshangxing.utils.customView.SwitchView
                 android:id="@+id/newnotice_inform"
                 android:layout_width="40dp"
                 android:layout_height="25dp"
@@ -101,7 +101,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/sound" />
 
-            <com.xiaoshangxing.utils.SwitchView
+            <com.xiaoshangxing.utils.customView.SwitchView
                 android:id="@+id/newnotice_sound"
                 android:layout_width="40dp"
                 android:layout_height="25dp"
@@ -121,7 +121,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/vibration" />
 
-            <com.xiaoshangxing.utils.SwitchView
+            <com.xiaoshangxing.utils.customView.SwitchView
                 android:id="@+id/newnotice_vibration"
                 android:layout_width="40dp"
                 android:layout_height="25dp"
@@ -173,7 +173,7 @@
             android:gravity="center_vertical"
             android:text="@string/renewnotice" />
 
-        <com.xiaoshangxing.utils.SwitchView
+        <com.xiaoshangxing.utils.customView.SwitchView
             android:id="@+id/newnotice_renew"
             android:layout_width="40dp"
             android:layout_height="25dp"

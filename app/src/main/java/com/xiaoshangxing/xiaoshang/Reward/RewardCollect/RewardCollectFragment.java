@@ -13,19 +13,19 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
 
 import butterknife.Bind;
@@ -58,6 +58,18 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
     RelativeLayout hideMenu;
     @Bind(R.id.no_content)
     TextView noContent;
+    private RewardCollect_Adpter_realm adpter_realm;
+    private RealmResults<Published> publisheds;
+    private View view;
+    private RewardActivity activity;
+    private RewardCollectContract.Presenter mPresenter;
+    private View footview;
+    private DotsTextView dotsTextView;
+    private TextView loadingText;
+
+    public static RewardCollectFragment newInstance() {
+        return new RewardCollectFragment();
+    }
 
     @Nullable
     @Override
@@ -80,19 +92,6 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
-    public static RewardCollectFragment newInstance() {
-        return new RewardCollectFragment();
-    }
-
-    private RewardCollect_Adpter_realm adpter_realm;
-    private RealmResults<Published> publisheds;
-    private View view;
-    private RewardActivity activity;
-    private RewardCollectContract.Presenter mPresenter;
-    private View footview;
-    private DotsTextView dotsTextView;
-    private TextView loadingText;
 
     private void initView() {
         View view = new View(getContext());
@@ -174,28 +173,28 @@ public class RewardCollectFragment extends BaseFragment implements RewardCollect
             public void onItemSelected(int position, String item) {
                 OperateUtils.operateWithLoad(id, getContext(), true, NS.COLLECT, true, RewardCollectFragment.this,
                         new SimpleCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        noticeDialog("已取消收藏");
-                        realm.executeTransaction(new Realm.Transaction() {
                             @Override
-                            public void execute(Realm realm) {
-                                Published published = realm.where(Published.class).equalTo(NS.ID, id).findFirst();
-                                published.setCollectStatus("0");
+                            public void onSuccess() {
+                                noticeDialog("已取消收藏");
+                                realm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        Published published = realm.where(Published.class).equalTo(NS.ID, id).findFirst();
+                                        published.setCollectStatus("0");
+                                    }
+                                });
+                                refreshPager();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                            }
+
+                            @Override
+                            public void onBackData(Object o) {
+
                             }
                         });
-                        refreshPager();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onBackData(Object o) {
-
-                    }
-                });
             }
 
             @Override

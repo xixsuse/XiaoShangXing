@@ -38,6 +38,22 @@ public class MsgHolder extends AbsContactViewHolder<MsgItem> {
 
     protected int descTextViewWidth; // 当前ViewHolder desc TextView 最大的宽度px
 
+    public static final void display(TextView tv, String text, List<RecordHitInfo> hitInfos) {
+        if (hitInfos == null || hitInfos.isEmpty()) {
+            tv.setText(text);
+            return;
+        }
+
+        SpannableStringBuilder sb = new SpannableStringBuilder();
+        SpannableString ss = new SpannableString(text);
+        for (RecordHitInfo r : hitInfos) {
+            ss.setSpan(new ForegroundColorSpan(tv.getResources().getColor(R.color.contact_search_hit)), r.start, r.end + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+
+        sb.append(ss);
+        tv.setText(sb);
+    }
+
     @Override
     public View inflate(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.nim_contacts_item, null);
@@ -161,21 +177,5 @@ public class MsgHolder extends AbsContactViewHolder<MsgItem> {
             r1 = 0;
         }
         return new Object[]{r0, r1};
-    }
-
-    public static final void display(TextView tv, String text, List<RecordHitInfo> hitInfos) {
-        if (hitInfos == null || hitInfos.isEmpty()) {
-            tv.setText(text);
-            return;
-        }
-
-        SpannableStringBuilder sb = new SpannableStringBuilder();
-        SpannableString ss = new SpannableString(text);
-        for (RecordHitInfo r : hitInfos) {
-            ss.setSpan(new ForegroundColorSpan(tv.getResources().getColor(R.color.contact_search_hit)), r.start, r.end + 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        }
-
-        sb.append(ss);
-        tv.setText(sb);
     }
 }

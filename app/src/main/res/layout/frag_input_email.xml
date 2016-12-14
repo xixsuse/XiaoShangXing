@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/util_back_left_arrow">
 
@@ -10,39 +11,38 @@
     <!--使用邮箱验证找回-->
     <TextView
         style="@style/black_23sp"
-        android:text="@string/retrieve_by_emain"
-        android:layout_marginTop="@dimen/y48"
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y48"
+        android:text="@string/retrieve_by_emain" />
 
     <!--账号输入框布局-->
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/x42"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/y126"
+        android:layout_marginStart="@dimen/x42"
         android:layout_marginTop="@dimen/y126"
-        android:layout_height="@dimen/y126">
+        android:orientation="horizontal">
 
         <!--账号-->
         <TextView
-            style="@style/black_15sp"
             android:id="@+id/tv_account"
-            android:gravity="center_vertical"
-            android:text="@string/account"
+            style="@style/black_15sp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/account" />
 
         <!--账号输入框-->
         <EditText
-            style="@style/input_phoneNumber"
             android:id="@+id/et_account"
-            android:layout_toRightOf="@+id/tv_notice_password"
-            android:layout_marginStart="@dimen/x180"
-            android:hint="@string/inputyounumber"
+            style="@style/input_phoneNumber"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/x180"
+            android:layout_toRightOf="@+id/tv_notice_password"
+            android:hint="@string/inputyounumber" />
 
 
     </LinearLayout>
@@ -52,11 +52,10 @@
     </include>
 
     <Button
-        style="@style/long_btn"
-        android:layout_marginTop="@dimen/y84"
-        android:layout_gravity="center_horizontal"
         android:id="@+id/btn_makesure"
-        android:text="@string/makesure"
-        />
+        style="@style/long_btn"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/y84"
+        android:text="@string/makesure" />
 
 </LinearLayout>

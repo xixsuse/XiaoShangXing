@@ -4,14 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.xiaoshangxing.input_activity.EmotionEdittext.EmoticonsEditText
+    <com.xiaoshangxing.utils.customView.EmotionEdittext.EmoticonsEditText
         android:id="@+id/text"
-        android:textSize="15sp"
-        android:textColor="@color/b0"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginEnd="@dimen/x84"
         android:layout_marginStart="@dimen/x84"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textColor="@color/b0"
+        android:textSize="15sp" />
 
 </LinearLayout>

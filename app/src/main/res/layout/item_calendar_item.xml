@@ -5,7 +5,7 @@
     android:background="@drawable/et_circular_4_white"
     android:orientation="horizontal">
 
-    <com.xiaoshangxing.utils.layout.CirecleImage
+    <com.xiaoshangxing.utils.customView.CirecleImage
         android:id="@+id/circle"
         android:layout_width="@dimen/x28"
         android:layout_height="@dimen/x28"
@@ -13,19 +13,19 @@
         android:layout_marginTop="@dimen/y72"
         android:background="@color/green1" />
 
-    <com.xiaoshangxing.input_activity.EmotionEdittext.EmotinText
+    <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
         android:id="@+id/text"
-        android:maxLines="4"
-        android:ellipsize="end"
-        android:textSize="14sp"
-        android:textColor="@color/b0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/y66"
         android:layout_marginEnd="@dimen/x66"
         android:layout_marginStart="@dimen/x28"
         android:layout_marginTop="@dimen/y66"
-        android:text="@string/longtext" />
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:text="@string/longtext"
+        android:textColor="@color/b0"
+        android:textSize="14sp" />
 
 
 </LinearLayout>

@@ -1,7 +1,7 @@
 package com.xiaoshangxing.wo.NewsActivity;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 
 /**
  * Created by FengChaoQun

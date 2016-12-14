@@ -5,8 +5,8 @@
     android:background="@color/w3">
 
     <include
-        layout="@layout/util_normal_title"
-        android:id="@id/title_lay">
+        android:id="@id/title_lay"
+        layout="@layout/util_normal_title">
 
     </include>
 
@@ -47,10 +47,10 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:background="@color/w0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@color/w0"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -67,6 +67,7 @@
                 android:text="@string/complete" />
 
         </RelativeLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,17 +75,17 @@
             android:layout_marginTop="@dimen/y50"
             android:orientation="horizontal">
 
-            <com.xiaoshangxing.setting.utils.city_choosing.WheelView
+            <com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView
                 android:id="@+id/id_province"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"></com.xiaoshangxing.setting.utils.city_choosing.WheelView>
+                android:layout_weight="1"></com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView>
 
-            <com.xiaoshangxing.setting.utils.city_choosing.WheelView
+            <com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView
                 android:id="@+id/id_city"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"></com.xiaoshangxing.setting.utils.city_choosing.WheelView>
+                android:layout_weight="1"></com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView>
         </LinearLayout>
 
     </LinearLayout>

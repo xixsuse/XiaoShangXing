@@ -23,24 +23,24 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.LoadUtils;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.input_activity.InputActivity;
-import com.xiaoshangxing.input_activity.album.AlbumActivity;
-import com.xiaoshangxing.utils.BaseFragment;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.FileUtils;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
+import com.xiaoshangxing.publicActivity.album.AlbumActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.layout.LayoutHelp;
-import com.xiaoshangxing.utils.layout.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
+import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.normalUtils.FileUtils;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
-import com.xiaoshangxing.utils.pull_refresh.PtrDefaultHandler;
-import com.xiaoshangxing.utils.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.xiaoshang.Sale.PersonalSale.PersonalSaleFragment;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleCollect.SaleCollectFragment;
@@ -106,6 +106,10 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     private String account;
     private boolean isOthers;
 
+    public static SaleFragment newInstance() {
+        return new SaleFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -138,10 +142,6 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     @Override
     public void setmPresenter(@Nullable SaleContract.Presenter presenter) {
 
-    }
-
-    public static SaleFragment newInstance() {
-        return new SaleFragment();
     }
 
     private void initView() {
@@ -330,20 +330,20 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
             public void onItemSelected(int position, String item) {
                 OperateUtils.operateWithLoad(id, getContext(), true, NS.COLLECT, isCancle, SaleFragment.this,
                         new SimpleCallBack() {
-                    @Override
-                    public void onSuccess() {
-                        noticeDialog(isCancle ? "已取消收藏" : "已收藏");
-                    }
+                            @Override
+                            public void onSuccess() {
+                                noticeDialog(isCancle ? "已取消收藏" : "已收藏");
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                    }
+                            @Override
+                            public void onError(Throwable e) {
+                            }
 
-                    @Override
-                    public void onBackData(Object o) {
+                            @Override
+                            public void onBackData(Object o) {
 
-                    }
-                });
+                            }
+                        });
             }
 
             @Override

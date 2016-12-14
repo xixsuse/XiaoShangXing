@@ -37,20 +37,123 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class FriendDataCache {
 
-    public static FriendDataCache getInstance() {
-        return InstanceHolder.instance;
-    }
-
     private Observer<SystemMessage> observer;
-
     /**
      * 属性
      */
     private Set<String> friendAccountSet = new CopyOnWriteArraySet<>();
-
     private Map<String, Friend> friendMap = new ConcurrentHashMap<>();
-
     private List<FriendDataChangedObserver> friendObservers = new ArrayList<>();
+    /**
+     * 监听好友关系变化
+     */
+    private Observer<FriendChangedNotify> friendChangedNotifyObserver = new Observer<FriendChangedNotify>() {
+        @Override
+        public void onEvent(FriendChangedNotify friendChangedNotify) {
+
+            List<Friend> addedOrUpdatedFriends = friendChangedNotify.getAddedOrUpdatedFriends();
+            List<String> myFriendAccounts = new ArrayList<>(addedOrUpdatedFriends.size());
+            List<String> friendAccounts = new ArrayList<>(addedOrUpdatedFriends.size());
+            List<String> deletedFriendAccounts = friendChangedNotify.getDeletedFriends();
+
+            // 如果在黑名单中，那么不加到好友列表中
+            String account;
+            for (Friend f : addedOrUpdatedFriends) {
+                account = f.getAccount();
+                friendMap.put(account, f);
+                friendAccounts.add(account);
+
+                if (NIMClient.getService(FriendService.class).isInBlackList(account)) {
+                    continue;
+                }
+
+                myFriendAccounts.add(account);
+            }
+
+            // 更新我的好友关系
+            if (!myFriendAccounts.isEmpty()) {
+                // update cache
+                friendAccountSet.addAll(myFriendAccounts);
+
+                // log
+//                DataCacheManager.Log(myFriendAccounts, "on add friends", UIKitLogTag.FRIEND_CACHE);
+            }
+
+            // 通知好友关系更新
+            if (!friendAccounts.isEmpty()) {
+                for (FriendDataChangedObserver o : friendObservers) {
+                    o.onAddedOrUpdatedFriends(friendAccounts);
+                }
+            }
+
+            // 处理被删除的好友关系
+            if (!deletedFriendAccounts.isEmpty()) {
+                // update cache
+                friendAccountSet.removeAll(deletedFriendAccounts);
+
+                for (String a : deletedFriendAccounts) {
+                    friendMap.remove(a);
+                }
+
+                // log
+//                DataCacheManager.Log(deletedFriendAccounts, "on delete friends", UIKitLogTag.FRIEND_CACHE);
+
+                // notify
+                for (FriendDataChangedObserver o : friendObservers) {
+                    o.onDeletedFriends(deletedFriendAccounts);
+                }
+            }
+        }
+    };
+    /**
+     * 监听黑名单变化(决定是否加入或者移出好友列表)
+     */
+    private Observer<BlackListChangedNotify> blackListChangedNotifyObserver = new Observer<BlackListChangedNotify>() {
+        @Override
+        public void onEvent(BlackListChangedNotify blackListChangedNotify) {
+            List<String> addedAccounts = blackListChangedNotify.getAddedAccounts();
+            List<String> removedAccounts = blackListChangedNotify.getRemovedAccounts();
+
+            if (!addedAccounts.isEmpty()) {
+                // 拉黑，即从好友名单中移除
+                friendAccountSet.removeAll(addedAccounts);
+
+                // log
+//                DataCacheManager.Log(addedAccounts, "on add users to black list", UIKitLogTag.FRIEND_CACHE);
+
+                // notify
+                for (FriendDataChangedObserver o : friendObservers) {
+                    o.onAddUserToBlackList(addedAccounts);
+                }
+
+                // 拉黑，要从最近联系人列表中删除该好友
+                for (String account : addedAccounts) {
+                    NIMClient.getService(MsgService.class).deleteRecentContact2(account, SessionTypeEnum.P2P);
+                }
+            }
+
+            if (!removedAccounts.isEmpty()) {
+                // 移出黑名单，判断是否加入好友名单
+                for (String account : removedAccounts) {
+                    if (NIMClient.getService(FriendService.class).isMyFriend(account)) {
+                        friendAccountSet.add(account);
+                    }
+                }
+
+                // log
+//                DataCacheManager.Log(removedAccounts, "on remove users from black list", UIKitLogTag.FRIEND_CACHE);
+
+                // 通知观察者
+                for (FriendDataChangedObserver o : friendObservers) {
+                    o.onRemoveUserFromBlackList(removedAccounts);
+                }
+            }
+        }
+    };
+
+    public static FriendDataCache getInstance() {
+        return InstanceHolder.instance;
+    }
 
     /**
      * 初始化&清理
@@ -147,6 +250,10 @@ public class FriendDataCache {
         return friendMap.get(account);
     }
 
+    /**
+     * ****************************** 缓存好友关系变更监听&通知 ******************************
+     */
+
     public boolean isMyFriend(String account) {
         return friendAccountSet.contains(account);
     }
@@ -154,10 +261,6 @@ public class FriendDataCache {
     public boolean isInblack(String account) {
         return NIMClient.getService(FriendService.class).isInBlackList(account);
     }
-
-    /**
-     * ****************************** 缓存好友关系变更监听&通知 ******************************
-     */
 
     /**
      * 缓存监听SDK
@@ -193,114 +296,6 @@ public class FriendDataCache {
 
         void onRemoveUserFromBlackList(List<String> account);
     }
-
-    /**
-     * 监听好友关系变化
-     */
-    private Observer<FriendChangedNotify> friendChangedNotifyObserver = new Observer<FriendChangedNotify>() {
-        @Override
-        public void onEvent(FriendChangedNotify friendChangedNotify) {
-
-            List<Friend> addedOrUpdatedFriends = friendChangedNotify.getAddedOrUpdatedFriends();
-            List<String> myFriendAccounts = new ArrayList<>(addedOrUpdatedFriends.size());
-            List<String> friendAccounts = new ArrayList<>(addedOrUpdatedFriends.size());
-            List<String> deletedFriendAccounts = friendChangedNotify.getDeletedFriends();
-
-            // 如果在黑名单中，那么不加到好友列表中
-            String account;
-            for (Friend f : addedOrUpdatedFriends) {
-                account = f.getAccount();
-                friendMap.put(account, f);
-                friendAccounts.add(account);
-
-                if (NIMClient.getService(FriendService.class).isInBlackList(account)) {
-                    continue;
-                }
-
-                myFriendAccounts.add(account);
-            }
-
-            // 更新我的好友关系
-            if (!myFriendAccounts.isEmpty()) {
-                // update cache
-                friendAccountSet.addAll(myFriendAccounts);
-
-                // log
-//                DataCacheManager.Log(myFriendAccounts, "on add friends", UIKitLogTag.FRIEND_CACHE);
-            }
-
-            // 通知好友关系更新
-            if (!friendAccounts.isEmpty()) {
-                for (FriendDataChangedObserver o : friendObservers) {
-                    o.onAddedOrUpdatedFriends(friendAccounts);
-                }
-            }
-
-            // 处理被删除的好友关系
-            if (!deletedFriendAccounts.isEmpty()) {
-                // update cache
-                friendAccountSet.removeAll(deletedFriendAccounts);
-
-                for (String a : deletedFriendAccounts) {
-                    friendMap.remove(a);
-                }
-
-                // log
-//                DataCacheManager.Log(deletedFriendAccounts, "on delete friends", UIKitLogTag.FRIEND_CACHE);
-
-                // notify
-                for (FriendDataChangedObserver o : friendObservers) {
-                    o.onDeletedFriends(deletedFriendAccounts);
-                }
-            }
-        }
-    };
-
-    /**
-     * 监听黑名单变化(决定是否加入或者移出好友列表)
-     */
-    private Observer<BlackListChangedNotify> blackListChangedNotifyObserver = new Observer<BlackListChangedNotify>() {
-        @Override
-        public void onEvent(BlackListChangedNotify blackListChangedNotify) {
-            List<String> addedAccounts = blackListChangedNotify.getAddedAccounts();
-            List<String> removedAccounts = blackListChangedNotify.getRemovedAccounts();
-
-            if (!addedAccounts.isEmpty()) {
-                // 拉黑，即从好友名单中移除
-                friendAccountSet.removeAll(addedAccounts);
-
-                // log
-//                DataCacheManager.Log(addedAccounts, "on add users to black list", UIKitLogTag.FRIEND_CACHE);
-
-                // notify
-                for (FriendDataChangedObserver o : friendObservers) {
-                    o.onAddUserToBlackList(addedAccounts);
-                }
-
-                // 拉黑，要从最近联系人列表中删除该好友
-                for (String account : addedAccounts) {
-                    NIMClient.getService(MsgService.class).deleteRecentContact2(account, SessionTypeEnum.P2P);
-                }
-            }
-
-            if (!removedAccounts.isEmpty()) {
-                // 移出黑名单，判断是否加入好友名单
-                for (String account : removedAccounts) {
-                    if (NIMClient.getService(FriendService.class).isMyFriend(account)) {
-                        friendAccountSet.add(account);
-                    }
-                }
-
-                // log
-//                DataCacheManager.Log(removedAccounts, "on remove users from black list", UIKitLogTag.FRIEND_CACHE);
-
-                // 通知观察者
-                for (FriendDataChangedObserver o : friendObservers) {
-                    o.onRemoveUserFromBlackList(removedAccounts);
-                }
-            }
-        }
-    };
 
     /**
      * ************************************ 单例 **********************************************

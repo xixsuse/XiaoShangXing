@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TAdapter<T> extends BaseAdapter  {
+public class TAdapter<T> extends BaseAdapter {
 
     protected final Context context;
 

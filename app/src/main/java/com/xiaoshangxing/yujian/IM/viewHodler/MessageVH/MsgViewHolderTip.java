@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.MoonUtil;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotFilter.MoonUtil;
 
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class MsgViewHolderTip extends MsgViewHolderBase {
     @Override
     protected void bindContentView() {
         String text = "未知通知提醒";
-        if(TextUtils.isEmpty(message.getContent())) {
+        if (TextUtils.isEmpty(message.getContent())) {
             Map<String, Object> content = message.getRemoteExtension();
             if (content != null && !content.isEmpty()) {
                 text = (String) content.get("content");

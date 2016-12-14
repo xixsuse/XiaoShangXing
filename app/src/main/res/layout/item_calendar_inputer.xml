@@ -10,7 +10,7 @@
         android:layout_height="@dimen/y168"
         android:orientation="horizontal">
 
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
             android:layout_width="@dimen/x132"
             android:layout_height="@dimen/x132"

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.EmotionEdittext.EmotFilter.MoonUtil;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotFilter.MoonUtil;
 
 
 public class MsgVHCustomNotification extends MsgViewHolderBase {

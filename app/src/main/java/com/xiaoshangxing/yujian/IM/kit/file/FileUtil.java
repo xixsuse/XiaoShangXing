@@ -4,9 +4,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
-
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.kit.string.StringUtil;
 
 import java.util.Locale;
@@ -76,15 +73,6 @@ public class FileUtil {
         return type;
     }
 
-    public enum SizeUnit {
-        Byte,
-        KB,
-        MB,
-        GB,
-        TB,
-        Auto,
-    }
-
     public static String formatFileSize(long size) {
         return formatFileSize(size, SizeUnit.Auto);
     }
@@ -126,5 +114,14 @@ public class FileUtil {
             default:
                 return size + "B";
         }
+    }
+
+    public enum SizeUnit {
+        Byte,
+        KB,
+        MB,
+        GB,
+        TB,
+        Auto,
     }
 }

@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.xiaoshangxing.data.PushMsg;
+import com.xiaoshangxing.data.bean.PushMsg;
 import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeViewHodler.NoticeBaseViewHolder;
 import com.xiaoshangxing.xiaoshang.MessageNotice.NoticeViewHodler.NoticeCommentVH;
 
@@ -20,9 +20,9 @@ import java.util.Map;
  */
 
 public class NoticeAdpter extends ArrayAdapter<PushMsg> {
-    private Context context;
-    List<PushMsg> pushMsgs;
     private final Map<Class<?>, Integer> viewTypes;
+    List<PushMsg> pushMsgs;
+    private Context context;
 
     public NoticeAdpter(Context context, int res, List<PushMsg> pushMsgs) {
         super(context, res, pushMsgs);

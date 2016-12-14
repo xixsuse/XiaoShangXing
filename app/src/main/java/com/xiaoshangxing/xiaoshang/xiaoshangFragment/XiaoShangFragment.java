@@ -13,9 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.utils.BaseFragment;
+import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.xiaoshang.Calendar.CalendarActivity;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 import com.xiaoshangxing.xiaoshang.MessageNotice.MessageNoticeActivity;
@@ -58,6 +57,10 @@ public class XiaoShangFragment extends BaseFragment {
     private int image_width, divider, padding_start, total, tuchlength;
     private ViewPagerAdapter viewAdapter;
     private Transformer transformer;
+
+    public static XiaoShangFragment newInstance() {
+        return new XiaoShangFragment();
+    }
 
     @Nullable
     @Override
@@ -169,10 +172,6 @@ public class XiaoShangFragment extends BaseFragment {
 
             }
         });
-    }
-
-    public static XiaoShangFragment newInstance() {
-        return new XiaoShangFragment();
     }
 
     private void instantSetImage(int loaction) {

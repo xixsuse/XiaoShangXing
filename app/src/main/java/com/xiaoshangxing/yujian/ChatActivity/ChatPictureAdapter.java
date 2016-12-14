@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.input_activity.check_photo.inputSelectPhotoPagerActivity;
+import com.xiaoshangxing.publicActivity.check_photo.inputSelectPhotoPagerActivity;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;
 
 import java.util.ArrayList;
@@ -25,14 +25,15 @@ import java.util.List;
 public class ChatPictureAdapter extends RecyclerView.Adapter<ChatPictureAdapter.MyViewHolder> {
     private Context context;
     private List<String> list = new ArrayList<String>();
-    private List<String> select_image_urls =new ArrayList<String>();
-    private int limit=9;
+    private List<String> select_image_urls = new ArrayList<String>();
+    private int limit = 9;
     private InputPanel inputPanel;
+
     public ChatPictureAdapter(Context context, List<String> list, InputPanel inputPanel) {
         this.context = context;
         this.list = list;
-        this.inputPanel=inputPanel;
-        select_image_urls =inputPanel.getSelect_image_urls();
+        this.inputPanel = inputPanel;
+        select_image_urls = inputPanel.getSelect_image_urls();
     }
 
     @Override
@@ -54,9 +55,9 @@ public class ChatPictureAdapter extends RecyclerView.Adapter<ChatPictureAdapter.
                 .animate(R.anim.fade_in)
                 .into(holder.imageView);
 
-        if (select_image_urls.contains(list.get(position))){
+        if (select_image_urls.contains(list.get(position))) {
             holder.checkBox.setChecked(true);
-        }else {
+        } else {
             holder.checkBox.setChecked(false);
         }
 
@@ -70,16 +71,16 @@ public class ChatPictureAdapter extends RecyclerView.Adapter<ChatPictureAdapter.
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.checkBox.isChecked()){
-                    if (select_image_urls.size()>=limit){
-                        Toast.makeText(context, "最多只能选择"+limit+"张图片", Toast.LENGTH_SHORT).show();
+                if (holder.checkBox.isChecked()) {
+                    if (select_image_urls.size() >= limit) {
+                        Toast.makeText(context, "最多只能选择" + limit + "张图片", Toast.LENGTH_SHORT).show();
                         holder.checkBox.setChecked(false);
-                    }else {
+                    } else {
                         select_image_urls.add(list.get(position));
                     }
 
-                }else {
-                    if (select_image_urls.contains(list.get(position))){
+                } else {
+                    if (select_image_urls.contains(list.get(position))) {
                         select_image_urls.remove(list.get(position));
                     }
                 }
@@ -90,14 +91,14 @@ public class ChatPictureAdapter extends RecyclerView.Adapter<ChatPictureAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context,inputSelectPhotoPagerActivity.class);
-                ArrayList<String> urls=(ArrayList<String>) list;
-                ArrayList<String> selected=(ArrayList<String>) select_image_urls;
+                Intent intent = new Intent(context, inputSelectPhotoPagerActivity.class);
+                ArrayList<String> urls = (ArrayList<String>) list;
+                ArrayList<String> selected = (ArrayList<String>) select_image_urls;
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_URLS, urls);
                 intent.putExtra(ImagePagerActivity.EXTRA_IMAGE_INDEX, position);
                 intent.putExtra(inputSelectPhotoPagerActivity.SELECT_PICTURE, selected);
-                intent.putExtra(inputSelectPhotoPagerActivity.LIMIT,limit);
-                inputPanel.getActivity().startActivityForResult(intent,inputSelectPhotoPagerActivity.REQUEST_CODE);
+                intent.putExtra(inputSelectPhotoPagerActivity.LIMIT, limit);
+                inputPanel.getActivity().startActivityForResult(intent, inputSelectPhotoPagerActivity.REQUEST_CODE);
             }
         });
     }
@@ -108,7 +109,7 @@ public class ChatPictureAdapter extends RecyclerView.Adapter<ChatPictureAdapter.
     }
 
 
-    public int getSelectCount(){
+    public int getSelectCount() {
         return select_image_urls.size();
     }
 

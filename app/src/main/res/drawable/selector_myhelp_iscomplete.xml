@@ -4,8 +4,7 @@
 
     </item>
 
-    <item android:drawable="@mipmap/myhelp_complete"
-        >
+    <item android:drawable="@mipmap/myhelp_complete">
 
     </item>
 </selector>

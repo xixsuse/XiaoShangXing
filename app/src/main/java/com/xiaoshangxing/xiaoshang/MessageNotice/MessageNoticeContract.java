@@ -1,14 +1,14 @@
 package com.xiaoshangxing.xiaoshang.MessageNotice;
 
-import com.xiaoshangxing.utils.IBasePresenter;
-import com.xiaoshangxing.utils.IBaseView;
+import com.xiaoshangxing.utils.baseClass.IBasePresenter;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
 
 /**
  * Created by FengChaoQun
  * on 2016/8/8
  */
 public interface MessageNoticeContract {
-    interface View extends IBaseView<Presenter>{
+    interface View extends IBaseView<Presenter> {
         /*
 **describe:设置刷新状态
 */
@@ -50,15 +50,18 @@ public interface MessageNoticeContract {
         void showFooter();
 
     }
-    interface Presenter extends IBasePresenter{
+
+    interface Presenter extends IBasePresenter {
         /*
         **describe:刷新数据
         */
         void refreshData();
+
         /*
         **describe:加载更多
         */
         void loadMore();
+
         /*
         **describe:判断是否需要自动刷新
         */

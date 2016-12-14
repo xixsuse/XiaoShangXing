@@ -28,25 +28,25 @@ import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
 import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
-import com.xiaoshangxing.Network.IMNetwork;
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.Network.netUtil.OperateUtils;
-import com.xiaoshangxing.Network.netUtil.SimpleCallBack;
+import com.xiaoshangxing.network.IMNetwork;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.User;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.setting.personalinfo.TagView.TagViewActivity;
-import com.xiaoshangxing.setting.personalinfo.showheadimg.HeadImageActivity;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.IBaseView;
-import com.xiaoshangxing.utils.ImageButtonText;
+import com.xiaoshangxing.data.bean.User;
+import com.xiaoshangxing.wo.setting.personalinfo.TagView.TagViewActivity;
+import com.xiaoshangxing.wo.setting.personalinfo.showheadimg.HeadImageActivity;
 import com.xiaoshangxing.utils.IntentStatic;
-import com.xiaoshangxing.utils.image.MyGlide;
-import com.xiaoshangxing.utils.layout.CirecleImage;
-import com.xiaoshangxing.utils.layout.RoundedImageView;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.ImageButtonText;
+import com.xiaoshangxing.utils.customView.RoundedImageView;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.wo.PersonalState.PersonalStateActivity;
 import com.xiaoshangxing.yujian.ChatActivity.ChatActivity;
 import com.xiaoshangxing.yujian.IM.cache.FriendDataCache;
@@ -72,6 +72,7 @@ import rx.Subscriber;
  */
 public class PersonInfoActivity extends BaseActivity implements IBaseView, ImageButtonText.OnImageButtonTextClickListener {
 
+    public static final String FINISH = "FINISH";
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -132,7 +133,6 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     private String account;
     private NimUserInfo user;
     private MyBroadcastReceiver myBroadcastReceiver;
-    public static final String FINISH = "FINISH";
     private List<User> loves = new ArrayList<>();
     private boolean isStar;
     private boolean isLove;

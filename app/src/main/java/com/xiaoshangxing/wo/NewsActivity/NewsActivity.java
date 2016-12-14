@@ -10,13 +10,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.PushMsg;
-import com.xiaoshangxing.utils.BaseActivity;
-import com.xiaoshangxing.utils.DialogUtils;
-import com.xiaoshangxing.utils.DialogLocationAndSize;
+import com.xiaoshangxing.data.bean.PushMsg;
 import com.xiaoshangxing.utils.NotifycationUtil;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
+import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.wo.StateDetailsActivity.DetailsActivity;
 
 import java.util.List;

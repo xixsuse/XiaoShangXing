@@ -25,13 +25,22 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class NimUserInfoCache {
 
+    private Map<String, NimUserInfo> account2UserMap = new ConcurrentHashMap<>();
+    private Map<String, List<RequestCallback<NimUserInfo>>> requestUserInfoMap = new ConcurrentHashMap<>(); // 重复请求处理
+    private Observer<List<NimUserInfo>> userInfoUpdateObserver = new Observer<List<NimUserInfo>>() {
+        @Override
+        public void onEvent(List<NimUserInfo> users) {
+            if (users == null || users.isEmpty()) {
+                return;
+            }
+
+            addOrUpdateUsers(users, true);
+        }
+    };
+
     public static NimUserInfoCache getInstance() {
         return InstanceHolder.instance;
     }
-
-    private Map<String, NimUserInfo> account2UserMap = new ConcurrentHashMap<>();
-
-    private Map<String, List<RequestCallback<NimUserInfo>>> requestUserInfoMap = new ConcurrentHashMap<>(); // 重复请求处理
 
     /**
      * 构建缓存与清理
@@ -180,10 +189,12 @@ public class NimUserInfoCache {
 
         return account2UserMap.containsKey(account);
     }
+
     /**
-     *description:获取头像 如果没有 则去服务器拉取
-     *@param
-     *@return
+     * description:获取头像 如果没有 则去服务器拉取
+     *
+     * @param
+     * @return
      */
     public String getHeadImage(String account) {
         if (TextUtils.isEmpty(account)) {
@@ -249,13 +260,13 @@ public class NimUserInfoCache {
         return getUserDisplayName(account);
     }
 
-    private void clearUserCache() {
-        account2UserMap.clear();
-    }
-
     /**
      * ************************************ 用户资料变更监听(监听SDK) *****************************************
      */
+
+    private void clearUserCache() {
+        account2UserMap.clear();
+    }
 
     /**
      * 在Application的onCreate中向SDK注册用户资料变更观察者
@@ -263,17 +274,6 @@ public class NimUserInfoCache {
     public void registerObservers(boolean register) {
         NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(userInfoUpdateObserver, register);
     }
-
-    private Observer<List<NimUserInfo>> userInfoUpdateObserver = new Observer<List<NimUserInfo>>() {
-        @Override
-        public void onEvent(List<NimUserInfo> users) {
-            if (users == null || users.isEmpty()) {
-                return;
-            }
-
-            addOrUpdateUsers(users, true);
-        }
-    };
 
     /**
      * *************************************** User缓存管理与变更通知 ********************************************

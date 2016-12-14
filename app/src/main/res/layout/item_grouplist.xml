@@ -3,27 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/y160"
     android:orientation="horizontal">
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y160">
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        android:layout_height="@dimen/y160"
+        android:orientation="horizontal">
+
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:id="@+id/head_image"
-            android:src="@mipmap/cirecleimage_default"
             android:layout_width="@dimen/x102"
             android:layout_height="@dimen/x102"
+            android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/x48"
-            android:layout_gravity="center_vertical"/>
+            android:src="@mipmap/cirecleimage_default" />
+
         <TextView
             android:id="@+id/name"
             style="@style/black_16sp"
-            android:text="@string/app_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/x36"
-            android:gravity="center_vertical" />
+            android:gravity="center_vertical"
+            android:text="@string/app_name" />
     </LinearLayout>
-
 
 
 </LinearLayout>

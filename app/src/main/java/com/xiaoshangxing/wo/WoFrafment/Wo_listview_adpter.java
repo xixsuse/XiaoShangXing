@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
-import com.xiaoshangxing.data.Published;
-import com.xiaoshangxing.utils.BaseActivity;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoBaseHolder;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoJustOneImage;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoMoreImage;
@@ -30,13 +30,13 @@ import io.realm.Realm;
  * on 2016/4/20
  */
 public class Wo_listview_adpter extends ArrayAdapter<Published> {
-    private Context context;
+    private final Map<Class<?>, Integer> viewTypes;
     List<Published> publisheds;
     WoFragment woFragment;
+    Realm realm;
+    private Context context;
     private BaseActivity activity;
     private ListView listView;
-    Realm realm;
-    private final Map<Class<?>, Integer> viewTypes;
 
     public Wo_listview_adpter(Context context, int resource, List<Published> objects,
                               WoFragment woFragment, BaseActivity activity, Realm realm, ListView listView) {

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.Network.api.IMApi;
+package com.xiaoshangxing.network.api.IMApi;
 
 import okhttp3.ResponseBody;
 import retrofit2.http.GET;

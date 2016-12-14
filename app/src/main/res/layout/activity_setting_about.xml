@@ -14,22 +14,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.xiaoshangxing.utils.layout.CirecleImage
+        <com.xiaoshangxing.utils.customView.CirecleImage
             android:layout_width="@dimen/x144"
             android:layout_height="@dimen/x144"
-            android:layout_marginTop="@dimen/y88"
             android:layout_gravity="center"
-            android:src="@mipmap/cirecleimage_default"/>
+            android:layout_marginTop="@dimen/y88"
+            android:src="@mipmap/cirecleimage_default" />
+
         <TextView
             android:id="@+id/version_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/y24"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/y92"
+            android:layout_marginTop="@dimen/y24"
             android:text="@string/xsx110"
-            android:textSize="13sp"
             android:textColor="@color/g0"
-            android:layout_gravity="center_horizontal"/>
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,9 +44,9 @@
 
         <RelativeLayout
             android:id="@+id/comment"
-            android:onClick="evaluate"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144">
+            android:layout_height="@dimen/y144"
+            android:onClick="evaluate">
 
             <TextView
                 style="@style/black_16sp"
@@ -65,9 +66,9 @@
 
         <RelativeLayout
             android:id="@+id/function"
-            android:onClick="FunctionIntroduction"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144">
+            android:layout_height="@dimen/y144"
+            android:onClick="FunctionIntroduction">
 
             <TextView
                 style="@style/black_16sp"
@@ -87,9 +88,9 @@
 
         <RelativeLayout
             android:id="@+id/feeback"
-            android:onClick="FeedBack"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/y144">
+            android:layout_height="@dimen/y144"
+            android:onClick="FeedBack">
 
             <TextView
                 style="@style/black_16sp"

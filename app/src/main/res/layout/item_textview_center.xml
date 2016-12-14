@@ -4,7 +4,6 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="@dimen/y144"
-    android:textSize="17sp"
-    android:textColor="@color/b0"
     android:gravity="center"
-     />
+    android:textColor="@color/b0"
+    android:textSize="17sp" />

@@ -10,18 +10,21 @@
         android:divider="@drawable/toolbar_divider"
         android:orientation="vertical"
         android:showDividers="middle">
+
         <ListView
             android:id="@+id/dialog_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@drawable/toolbar_divider"
             android:listSelector="@android:color/transparent" />
+
         <ListView
             android:id="@+id/dialog_listtop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@drawable/toolbar_divider"
             android:listSelector="@android:color/transparent" />
+
         <ListView
             android:id="@+id/dialog_listbotton"
             android:layout_width="match_parent"

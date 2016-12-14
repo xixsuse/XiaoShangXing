@@ -65,7 +65,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <com.xiaoshangxing.utils.layout.CirecleImage
+                <com.xiaoshangxing.utils.customView.CirecleImage
                     android:layout_width="@dimen/x138"
                     android:layout_height="@dimen/x138"
                     android:layout_gravity="center_horizontal"
@@ -90,7 +90,7 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.xiaoshangxing.utils.layout.CirecleImage
+                <com.xiaoshangxing.utils.customView.CirecleImage
                     android:layout_width="@dimen/x138"
                     android:layout_height="@dimen/x138"
                     android:layout_gravity="center_horizontal"
@@ -116,7 +116,7 @@
                 android:orientation="vertical"
                 android:visibility="invisible">
 
-                <com.xiaoshangxing.utils.layout.CirecleImage
+                <com.xiaoshangxing.utils.customView.CirecleImage
                     android:layout_width="@dimen/x138"
                     android:layout_height="@dimen/x138"
                     android:layout_gravity="center_horizontal"
@@ -142,7 +142,7 @@
                 android:orientation="vertical"
                 android:visibility="invisible">
 
-                <com.xiaoshangxing.utils.layout.CirecleImage
+                <com.xiaoshangxing.utils.customView.CirecleImage
                     android:layout_width="@dimen/x138"
                     android:layout_height="@dimen/x138"
                     android:layout_gravity="center_horizontal"
@@ -168,7 +168,7 @@
                 android:orientation="vertical"
                 android:visibility="invisible">
 
-                <com.xiaoshangxing.utils.layout.CirecleImage
+                <com.xiaoshangxing.utils.customView.CirecleImage
                     android:layout_width="@dimen/x138"
                     android:layout_height="@dimen/x138"
                     android:layout_gravity="center_horizontal"

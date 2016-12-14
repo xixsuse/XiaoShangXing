@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.xiaoshangxing.Network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.Published;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridAdapter;
 import com.xiaoshangxing.wo.WoFrafment.NoScrollGridView;
 import com.xiaoshangxing.wo.WoFrafment.check_photo.ImagePagerActivity;

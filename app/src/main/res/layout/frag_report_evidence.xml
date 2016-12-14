@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <include
-        layout="@layout/util_normal_title_end_text"
-        android:id="@+id/title_lay">
+        android:id="@+id/title_lay"
+        layout="@layout/util_normal_title_end_text">
 
     </include>
 
