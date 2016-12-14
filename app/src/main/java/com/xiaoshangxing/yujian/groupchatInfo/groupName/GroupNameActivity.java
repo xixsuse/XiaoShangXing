@@ -43,7 +43,7 @@ public class GroupNameActivity extends BaseActivity {
         setContentView(R.layout.activity_yujian_groupname);
         ButterKnife.bind(this);
 
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
         if (account == null) {
             Toast.makeText(GroupNameActivity.this, "群id有误", Toast.LENGTH_SHORT).show();
             finish();

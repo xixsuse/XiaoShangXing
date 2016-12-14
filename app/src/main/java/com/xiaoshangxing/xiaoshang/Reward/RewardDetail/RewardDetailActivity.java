@@ -34,6 +34,7 @@ import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
@@ -248,7 +249,7 @@ public class RewardDetailActivity extends BaseActivity implements RewardDetailCo
         headImage.setIntent_type(CirecleImage.PERSON_INFO, String.valueOf(published.getUserId()));
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
-        price.setText(NS.RMB + published.getPrice());
+        price.setText(AppContracts.RMB + published.getPrice());
         praiseOrCancel.setText(Published_Help.isPraised(published) ? "取消" : "赞");
         setCount();
 

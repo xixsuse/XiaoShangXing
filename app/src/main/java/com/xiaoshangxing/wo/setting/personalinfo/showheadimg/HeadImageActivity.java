@@ -37,7 +37,7 @@ public class HeadImageActivity extends BaseActivity {
         setContentView(R.layout.frag_image_detail);
         ButterKnife.bind(this);
 
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
         if (TextUtils.isEmpty(account)) {
             showToast("账户信息不明");
             return;

@@ -247,7 +247,6 @@ public class MessageListPanel implements TAdapterDelegate {
         }
         if (backGround == null || TextUtils.isEmpty(backGround.getImgae())) {
             Glide.with(container.activity).load(R.color.w3).into(listviewBk);
-//            listviewBk.setBackgroundColor(container.activity.getResources().getColor(R.color.w3));
             return;
         } else {
             File file = new File(backGround.getImgae());

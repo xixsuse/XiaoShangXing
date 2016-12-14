@@ -47,7 +47,7 @@ public class GroupMembersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yujian_groupmembers);
         ButterKnife.bind(this);
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
         init();
     }
 

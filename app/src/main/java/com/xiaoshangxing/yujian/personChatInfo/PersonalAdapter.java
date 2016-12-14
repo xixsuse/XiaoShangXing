@@ -86,7 +86,7 @@ public class PersonalAdapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PersonInfoActivity.class);
-                    intent.putExtra(IntentStatic.EXTRA_ACCOUNT, data.get(position).getAccount());
+                    intent.putExtra(IntentStatic.ACCOUNT, data.get(position).getAccount());
                     context.startActivity(intent);
                 }
             });

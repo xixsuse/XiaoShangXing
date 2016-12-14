@@ -14,30 +14,26 @@ import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.wo.setting.utils.headimg_set.CommonUtils;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.wo.setting.utils.headimg_set.CommonUtils;
 
 /**
  * Created by FengChaoQun
  * on 2016/8/20
+ * 页面跳转的一些常用字段及方法
  */
 public class IntentStatic {
     public static final String TYPE = "TYPE";
-    public static final int CODE = 1000;
     public static final String DATA = "DATA";
-    public static final String EXTRA_ACCOUNT = "extra_account";
-    public static final String EXTRA_TYPE = "type";
-    public static final String EXTRA_ANCHOR = "anchor";
+    public static final String ACCOUNT = "extra_account";
+    public static final String ANCHOR = "anchor";
 
-
+    public static final int SIMPLE_CODE = 1000;
     public static final int OTHERS = 10002;
     public static final int MINE = 10003;
-
     public static final int CLOSE = 1000;
-
     public static final int REGISTER = 2000;
-
     public static final int PUBLISH = 3000;
     public static final int PUBLISH_SUCCESS = 3001;
 
@@ -123,7 +119,5 @@ public class IntentStatic {
         dialog.show();
         isShowDialog = true;
         DialogLocationAndSize.setWidth(dialog, R.dimen.x780);
-
     }
-
 }

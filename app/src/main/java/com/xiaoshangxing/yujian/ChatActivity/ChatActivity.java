@@ -177,13 +177,13 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
 
     public static void start(Context context, String contactId, IMMessage anchor, SessionTypeEnum sessionType) {
         Intent intent = new Intent();
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, contactId);   //id
+        intent.putExtra(IntentStatic.ACCOUNT, contactId);   //id
         if (anchor != null) {
-            intent.putExtra(IntentStatic.EXTRA_ANCHOR, anchor);
+            intent.putExtra(IntentStatic.ANCHOR, anchor);
         }
 
         if (sessionType != null) {
-            intent.putExtra(IntentStatic.EXTRA_TYPE, sessionType);
+            intent.putExtra(IntentStatic.TYPE, sessionType);
         }
         intent.setClass(context, ChatActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -374,9 +374,9 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
     private void parseIntent() {
         more.setImageResource(R.mipmap.chat_more);
         more.setPadding(0, 0, 0, 0);
-        sessionId = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
-        sessionType = (SessionTypeEnum) getIntent().getSerializableExtra(IntentStatic.EXTRA_TYPE);
-        IMMessage anchor = (IMMessage) getIntent().getSerializableExtra(IntentStatic.EXTRA_ANCHOR);
+        sessionId = getIntent().getStringExtra(IntentStatic.ACCOUNT);
+        sessionType = (SessionTypeEnum) getIntent().getSerializableExtra(IntentStatic.TYPE);
+        IMMessage anchor = (IMMessage) getIntent().getSerializableExtra(IntentStatic.ANCHOR);
 
         Container container = new Container(this, sessionId, sessionType, this);
         rootView = findViewById(R.id.messageActivityLayout);
@@ -519,7 +519,7 @@ public class ChatActivity extends BaseActivity implements ModuleProxy, IBaseView
                 break;
             case R.id.more:
                 Intent more_intent = new Intent(ChatActivity.this, PersonChatInfoActivity.class);
-                more_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, sessionId);
+                more_intent.putExtra(IntentStatic.ACCOUNT, sessionId);
                 startActivity(more_intent);
                 break;
         }

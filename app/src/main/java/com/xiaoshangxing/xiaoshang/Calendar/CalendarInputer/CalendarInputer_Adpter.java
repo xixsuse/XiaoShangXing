@@ -58,7 +58,7 @@ public class CalendarInputer_Adpter extends ArrayAdapter<User> {
                     context.startActivity(intent);
                 } else {
                     Intent state_intent = new Intent(context, PersonInfoActivity.class);
-                    state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, String.valueOf(user.getId()));
+                    state_intent.putExtra(IntentStatic.ACCOUNT, String.valueOf(user.getId()));
                     context.startActivity(state_intent);
                 }
             }

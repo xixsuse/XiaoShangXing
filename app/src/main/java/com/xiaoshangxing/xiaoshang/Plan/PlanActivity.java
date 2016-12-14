@@ -71,7 +71,7 @@ public class PlanActivity extends BaseActivity implements IBaseView {
                 planFragment = (frag == null) ? PlanFragment.newInstance() : (PlanFragment) frag;
                 mFragmentManager.beginTransaction().add(R.id.main_fragment,
                         planFragment, PlanFragment.TAG).commit();
-                account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+                account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
                 break;
             case IntentStatic.MINE:
                 frag = mFragmentManager.findFragmentByTag(PersonalPlanFragment.TAG);

@@ -93,7 +93,7 @@ public class RollActivity extends BaseActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent state_intent = new Intent(RollActivity.this, PersonalStateActivity.class);
                         state_intent.putExtra(PersonalStateActivity.TYPE, PersonalStateActivity.OTHRE);
-                        state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, list.get(position));
+                        state_intent.putExtra(IntentStatic.ACCOUNT, list.get(position));
                         startActivity(state_intent);
                     }
                 });

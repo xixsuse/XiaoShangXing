@@ -79,7 +79,7 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
     }
 
     private void parseData() {
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
         if (account == null) {
             Toast.makeText(GroupNoticeEditActivity.this, "群数据异常", Toast.LENGTH_SHORT).show();
             finish();

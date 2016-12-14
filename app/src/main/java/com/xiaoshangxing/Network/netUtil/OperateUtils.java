@@ -207,7 +207,7 @@ public class OperateUtils {
 //                try {
 //                    JSONObject jsonObject = new JSONObject(responseBody.string());
 //
-//                    if (jsonObject.getString(NS.CODE).equals("30000004")) {
+//                    if (jsonObject.getString(NS.SIMPLE_CODE).equals("30000004")) {
 //
 //                        if (needRefreshData) {
 //                            PublishCache.reload(String.valueOf(publishedId), new SimpleCallBack() {

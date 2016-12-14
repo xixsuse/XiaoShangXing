@@ -284,7 +284,7 @@ public class myStateImagePagerActivity extends FragmentActivity implements View.
 
     public void finishPager() {
         Intent intent = new Intent(this, PersonalStateActivity.class);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, String.valueOf(TempUser.id));
+        intent.putExtra(IntentStatic.ACCOUNT, String.valueOf(TempUser.id));
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

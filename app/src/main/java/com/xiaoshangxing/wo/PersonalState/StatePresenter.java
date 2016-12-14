@@ -72,7 +72,7 @@ public class StatePresenter implements StateContract.Presenter {
 
 //    private void parseData(ResponseBody responseBody) throws IOException, JSONException {
 //        JSONObject jsonObject = new JSONObject(responseBody.string());
-//        switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+//        switch (Integer.valueOf(jsonObject.getString(NS.SIMPLE_CODE))) {
 //            case 200:
 //                final JSONArray jsonArray = jsonObject.getJSONObject(NS.MSG).getJSONArray("moments");
 //                realm = mView.getRealm();

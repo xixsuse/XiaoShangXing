@@ -145,7 +145,7 @@ public class SerchLocationActivity extends AppCompatActivity {
         if (!TextUtils.isEmpty(selected)) {
             Intent intent = new Intent();
             intent.putExtra(LocationActivity.SELECTED, selected);
-            setResult(IntentStatic.CODE, intent);
+            setResult(IntentStatic.SIMPLE_CODE, intent);
         }
         KeyBoardUtils.closeKeybord(edittext, this);
         super.finish();

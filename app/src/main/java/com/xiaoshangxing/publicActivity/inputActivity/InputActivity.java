@@ -34,6 +34,9 @@ import android.widget.TextView;
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.team.model.Team;
+import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.network.Formmat;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
@@ -43,34 +46,31 @@ import com.xiaoshangxing.network.netUtil.BaseUrl;
 import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.network.netUtil.OperateUtils;
 import com.xiaoshangxing.network.netUtil.SimpleCallBack;
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.bean.Published;
-import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.DividerItemDecoration;
-import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.EmotionGrideViewAdapter;
-import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.PictureAdapter;
-import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.ShowSelectPictureAdapter;
-import com.xiaoshangxing.utils.customView.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.publicActivity.Location.LocationActivity;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.publicActivity.album.AlbumActivity;
 import com.xiaoshangxing.publicActivity.album.AlbumHelper;
 import com.xiaoshangxing.publicActivity.album.Bimp;
 import com.xiaoshangxing.publicActivity.album.ImageBucket;
 import com.xiaoshangxing.publicActivity.album.ImageItem;
-import com.xiaoshangxing.wo.setting.utils.city_choosing.ArrayWheelAdapter;
-import com.xiaoshangxing.wo.setting.utils.city_choosing.OnWheelChangedListener;
-import com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView;
+import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.DividerItemDecoration;
+import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.EmotionGrideViewAdapter;
+import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.PictureAdapter;
+import com.xiaoshangxing.publicActivity.inputActivity.EmotAndPicture.ShowSelectPictureAdapter;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.baseClass.IBaseView;
 import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.utils.normalUtils.FileUtils;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.wo.setting.utils.city_choosing.ArrayWheelAdapter;
+import com.xiaoshangxing.wo.setting.utils.city_choosing.OnWheelChangedListener;
+import com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView;
 import com.xiaoshangxing.yujian.IM.TeamCreateHelper;
 
 import org.json.JSONException;
@@ -875,8 +875,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
         map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
         map.put(NS.CATEGORY, NS.CATEGORY_STATE);
         map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
-        NS.getPermissionString(NS.NOTICE, notices, map);
-        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        getPermissionString(NS.NOTICE, notices, map);
+        getPermissionString(NS.FOBIDDEN, fobiddens, map);
         Log.d("publishedString", emotionEdittext.getText().toString());
         publish(map);
     }
@@ -889,8 +889,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
         map.put(NS.CATEGORY, NS.CATEGORY_REWARD);
         map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
         map.put(NS.PRICE, rewardPrice.getText().toString());
-        NS.getPermissionString(NS.NOTICE, notices, map);
-        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        getPermissionString(NS.NOTICE, notices, map);
+        getPermissionString(NS.FOBIDDEN, fobiddens, map);
         publish(map);
     }
 
@@ -901,8 +901,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
         map.put(NS.CLIENTTIME, String.valueOf(NS.currentTime()));
         map.put(NS.CATEGORY, NS.CATEGORY_HELP);
         map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
-        NS.getPermissionString(NS.NOTICE, notices, map);
-        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        getPermissionString(NS.NOTICE, notices, map);
+        getPermissionString(NS.FOBIDDEN, fobiddens, map);
         publish(map);
     }
 
@@ -988,8 +988,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
                 map.put(NS.DAY, timeLimit.getText().toString());
                 map.put(NS.PLAN_GROUP, String.valueOf(team.getId()));
                 Log.d("plan_group", "--" + team.getId());
-                NS.getPermissionString(NS.NOTICE, notices, map);
-                NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+                getPermissionString(NS.NOTICE, notices, map);
+                getPermissionString(NS.FOBIDDEN, fobiddens, map);
                 publish(map);
             }
 
@@ -1017,9 +1017,23 @@ public class InputActivity extends BaseActivity implements IBaseView {
         map.put(NS.TIMESTAMP, String.valueOf(NS.currentTime()));
         map.put(NS.PRICE, price.getText().toString());
         map.put(NS.DORM, selectedLocation.getText().toString());
-        NS.getPermissionString(NS.NOTICE, notices, map);
-        NS.getPermissionString(NS.FOBIDDEN, fobiddens, map);
+        getPermissionString(NS.NOTICE, notices, map);
+        getPermissionString(NS.FOBIDDEN, fobiddens, map);
         publish(map);
+    }
+
+    private void getPermissionString(String key, List<String> list, Map<String, String> map) {
+        if (list != null && list.size() > 0) {
+            String result = "";
+            for (int i = 0; i < list.size(); i++) {
+                if (i == 0) {
+                    result += list.get(i);
+                } else {
+                    result += "#" + list.get(i);
+                }
+            }
+            map.put(key, result);
+        }
     }
 
     public void showSureDialog() {

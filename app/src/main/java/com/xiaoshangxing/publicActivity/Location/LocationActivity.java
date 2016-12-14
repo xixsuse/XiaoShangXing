@@ -195,7 +195,7 @@ public class LocationActivity extends BaseActivity {
             case R.id.serch_layout:
                 Intent intent = new Intent(LocationActivity.this, SerchLocationActivity.class);
                 intent.putExtra(SerchLocationActivity.LOCATION_BEAN, mLocationBean.getCity());
-                startActivityForResult(intent, IntentStatic.CODE);
+                startActivityForResult(intent, IntentStatic.SIMPLE_CODE);
                 break;
             case R.id.complete:
                 finish();
@@ -205,7 +205,7 @@ public class LocationActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == IntentStatic.CODE) {
+        if (requestCode == IntentStatic.SIMPLE_CODE) {
             selected = data.getStringExtra(SELECTED);
             if (!selected.equals("null")) {
                 finish();

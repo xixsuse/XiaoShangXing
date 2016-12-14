@@ -140,7 +140,7 @@ public class Adapter extends BaseAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PersonInfoActivity.class);
-                    intent.putExtra(IntentStatic.EXTRA_ACCOUNT, userInfo.getAccount());
+                    intent.putExtra(IntentStatic.ACCOUNT, userInfo.getAccount());
                     context.startActivity(intent);
                 }
             });

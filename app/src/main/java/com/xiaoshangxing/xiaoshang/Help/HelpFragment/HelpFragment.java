@@ -148,7 +148,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
             title.setText("他的互帮");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
-            account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+            account = getActivity().getIntent().getStringExtra(IntentStatic.ACCOUNT);
             isOthers = true;
             anounce.setVisibility(View.GONE);
         }

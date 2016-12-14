@@ -57,7 +57,7 @@ public class CheckEmailCodePresenter implements CheckEmailCodeContract.Presenter
 //            public void onNext(ResponseBody e) throws JSONException {
 //                try {
 //                    JSONObject jsonObject = new JSONObject(e.string());
-//                    switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
+//                    switch (Integer.valueOf(jsonObject.getString(NS.SIMPLE_CODE))) {
 //                        case 200:
 //                            mView.showToast("发送成功");
 //                            startCountTime();

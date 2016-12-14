@@ -3,6 +3,7 @@ package com.xiaoshangxing.wo.setting.currency.chooseBackgroundFragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,12 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.LocalDataUtils;
-import com.xiaoshangxing.wo.setting.currency.chatBackground.ChatBackgroundActivity;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.bean.BackGround;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
+import com.xiaoshangxing.wo.setting.currency.chatBackground.ChatBackgroundActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 /**
  * Created by 15828 on 2016/7/15.
@@ -52,6 +57,7 @@ public class ChooseBackgroundFragment extends BaseFragment {
     private List<String> data = new ArrayList<>();
     private String account;
     private ChatBackgroundActivity activity;
+    private boolean isDefault;
 
     @Nullable
     @Override
@@ -66,11 +72,24 @@ public class ChooseBackgroundFragment extends BaseFragment {
 
         activity = (ChatBackgroundActivity) getActivity();
         account = activity.getAccount();
-
+        getBackground();
 
         Adapter baseAdapter = new Adapter(data);
         gridView.setAdapter(baseAdapter);
         return mView;
+    }
+
+    private void getBackground() {
+        Realm realm = Realm.getDefaultInstance();
+        BackGround backGround = realm.where(BackGround.class).equalTo(NS.ID, TempUser.getId() + account).findFirst();
+        if (backGround == null) {
+            backGround = realm.where(BackGround.class).equalTo(NS.ID, BackGround.DEFAULT).findFirst();
+        }
+        if (backGround == null || TextUtils.isEmpty(backGround.getImgae())) {
+            isDefault = true;
+            return;
+        }
+        realm.close();
     }
 
     @Override
@@ -133,18 +152,30 @@ public class ChooseBackgroundFragment extends BaseFragment {
                         ScreenUtils.getAdapterPx(R.dimen.x336, getContext()),
                         Bitmap.Config.ARGB_8888);
                 bitmap.eraseColor(getResources().getColor(R.color.w3));//填充颜色
-//                holder.image.setBackgroundColor(getResources().getColor(R.color.w3));
                 holder.image.setImageBitmap(bitmap);
                 holder.textView.setText("默认");
-                holder.image.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        LocalDataUtils.saveBackgroud(account, null, false, getContext());
-                        ChatBackgroundActivity.image = null;
-                        holder.textView.setVisibility(View.GONE);
-                        holder.complete.setVisibility(View.VISIBLE);
-                    }
-                });
+
+                if (isDefault) {
+                    holder.textView.setVisibility(View.GONE);
+                    holder.complete.setVisibility(View.VISIBLE);
+                } else {
+                    holder.textView.setVisibility(View.VISIBLE);
+                    holder.complete.setVisibility(View.GONE);
+                    holder.image.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (isDefault) {
+                                return;
+                            }
+                            LocalDataUtils.saveBackgroud(account, null, false, getContext());
+                            isDefault = true;
+                            ChatBackgroundActivity.image = null;
+                            holder.textView.setVisibility(View.GONE);
+                            holder.complete.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+
             }
             return convertView;
         }

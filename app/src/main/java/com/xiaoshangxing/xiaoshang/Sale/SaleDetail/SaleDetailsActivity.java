@@ -29,6 +29,7 @@ import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
@@ -152,7 +153,7 @@ public class SaleDetailsActivity extends BaseActivity implements IBaseView {
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, college);
         time.setText(TimeUtil.getTimeShowString(published.getCreateTime(), false));
         text.setText(published.getText());
-        price.setText(NS.RMB + published.getPrice());
+        price.setText(AppContracts.RMB + published.getPrice());
         tvDormitory.setText(TextUtils.isEmpty(published.getDorm()) ? "未选" : published.getDorm());
         collect.setChecked(published.isCollected());
         complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);

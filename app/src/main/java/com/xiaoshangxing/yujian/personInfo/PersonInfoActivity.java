@@ -153,7 +153,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
         intentFilter.addAction(FINISH);
         registerReceiver(myBroadcastReceiver, intentFilter);
 
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
         if (account == null) {
             showToast("账号有误");
             finish();
@@ -202,7 +202,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PersonInfoActivity.this, HeadImageActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+                intent.putExtra(IntentStatic.ACCOUNT, account);
                 startActivity(intent);
             }
         });
@@ -441,15 +441,15 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
 
     public void Next() {
         Intent intent = new Intent(this, SetInfoActivity.class);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
-        startActivityForResult(intent, IntentStatic.CODE);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
+        startActivityForResult(intent, IntentStatic.SIMPLE_CODE);
     }
 
     public void More() {
 
         if (isStar) {
             Intent intent = new Intent(this, MoreInfoActivity.class);
-            intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+            intent.putExtra(IntentStatic.ACCOUNT, account);
             startActivity(intent);
         } else {
             final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
@@ -612,7 +612,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
 
     private void gotoState() {
         Intent intent = new Intent(this, PersonalStateActivity.class);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 
@@ -633,7 +633,7 @@ public class PersonInfoActivity extends BaseActivity implements IBaseView, Image
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case IntentStatic.CODE:
+            case IntentStatic.SIMPLE_CODE:
                 if (data == null) {
                     return;
                 }

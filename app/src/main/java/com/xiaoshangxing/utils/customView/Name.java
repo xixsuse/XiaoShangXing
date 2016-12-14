@@ -50,7 +50,7 @@ public class Name extends TextView {
                     @Override
                     public void onClick(View v) {
                         Intent state_intent = new Intent(context, PersonInfoActivity.class);
-                        state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+                        state_intent.putExtra(IntentStatic.ACCOUNT, account);
                         context.startActivity(state_intent);
                     }
                 });
@@ -60,7 +60,7 @@ public class Name extends TextView {
                     @Override
                     public void onClick(View v) {
                         Intent state_intent = new Intent(context, PersonalStateActivity.class);
-                        state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+                        state_intent.putExtra(IntentStatic.ACCOUNT, account);
                         context.startActivity(state_intent);
                     }
                 });

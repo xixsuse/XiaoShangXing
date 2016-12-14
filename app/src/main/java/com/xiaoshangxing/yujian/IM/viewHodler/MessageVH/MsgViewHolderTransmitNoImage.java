@@ -12,6 +12,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.PublishCache;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.customView.CirecleImage;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
@@ -84,7 +85,7 @@ public class MsgViewHolderTransmitNoImage extends MsgViewHolderBase {
                     });
                 } else if (published.getCategory() == Integer.valueOf(NS.CATEGORY_REWARD)) {
                     from.setText("分享自校内悬赏");
-                    price.setText(TextUtils.isEmpty(published.getPrice()) ? "" : NS.RMB + published.getPrice());
+                    price.setText(TextUtils.isEmpty(published.getPrice()) ? "" : AppContracts.RMB + published.getPrice());
                     contentContainer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

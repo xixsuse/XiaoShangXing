@@ -20,6 +20,7 @@ import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.customView.CirecleImage;
@@ -78,7 +79,7 @@ public class PersonalSale_Adpter extends ArrayAdapter<Published> {
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
         viewHolder.time.setText(TimeUtil.getSimplePublishedTime(published.getCreateTime()));
         viewHolder.text.setText(published.getText());
-        viewHolder.price.setText(NS.RMB + published.getPrice());
+        viewHolder.price.setText(AppContracts.RMB + published.getPrice());
         viewHolder.dorm.setText(published.getDorm());
         viewHolder.headImage.setIntent_type(CirecleImage.PERSON_INFO, userId);
 

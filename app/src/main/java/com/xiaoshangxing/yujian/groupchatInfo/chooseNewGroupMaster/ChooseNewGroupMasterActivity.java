@@ -56,7 +56,7 @@ public class ChooseNewGroupMasterActivity extends BaseActivity {
         dialog = (TextView) findViewById(R.id.dialog);
         sideBar.setTextView(dialog);
 
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
         if (account == null) {
             showToast("账号有误");
             return;

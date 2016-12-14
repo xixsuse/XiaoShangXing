@@ -234,7 +234,7 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
     private void parseData() {
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
         if (account == null) {
             Toast.makeText(ChatInfoActivity.this, "群资料有误", Toast.LENGTH_SHORT).show();
             finish();
@@ -465,13 +465,13 @@ public class ChatInfoActivity extends BaseActivity {
 
     public void AllGroupMember(View view) {
         Intent intent = new Intent(this, GroupMembersActivity.class);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 
     public void GroupChatName(View view) {
         Intent intent = new Intent(this, GroupNameActivity.class);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 
@@ -484,7 +484,7 @@ public class ChatInfoActivity extends BaseActivity {
         boolean isQunzhu = isMyteam;
         if (isQunzhu) {
             Intent intent = new Intent(this, GroupNoticeEditActivity.class);
-            intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+            intent.putExtra(IntentStatic.ACCOUNT, account);
             startActivity(intent);
         } else {
             final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
@@ -509,7 +509,7 @@ public class ChatInfoActivity extends BaseActivity {
 
     public void SetChatBackGround(View view) {
         Intent intent = new Intent(this, ChatBackgroundActivity.class);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 
@@ -519,7 +519,7 @@ public class ChatInfoActivity extends BaseActivity {
             return;
         }
         Intent intent = new Intent(this, ChooseNewGroupMasterActivity.class);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 

@@ -2,7 +2,6 @@ package com.xiaoshangxing.wo.setting.currency.chatBackground;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,7 +30,6 @@ public class ChatBackgroundActivity extends BaseActivity {
     public static final int ACTIVITY_CAMERA_REQUESTCODE = 1001;
     public static final int ACTIVITY_MODIFY_PHOTO_REQUESTCODE = 2002;
     public static String image;
-    private Bitmap btmap_album, btmap_phone, mBitmap;
     private ImageView mImageView;
     private String account;//记录是否是设置个别背景
 
@@ -44,7 +42,7 @@ public class ChatBackgroundActivity extends BaseActivity {
                 .replace(R.id.main_fragment, new ChatBackgroundFragment())
                 .commit();
 
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
     }
 
 

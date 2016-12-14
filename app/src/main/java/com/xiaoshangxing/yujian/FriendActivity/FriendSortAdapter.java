@@ -109,7 +109,7 @@ public class FriendSortAdapter extends BaseAdapter implements SectionIndexer {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PersonInfoActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, list.get(position).getAccount());
+                intent.putExtra(IntentStatic.ACCOUNT, list.get(position).getAccount());
                 mContext.startActivity(intent);
             }
         });

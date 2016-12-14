@@ -57,7 +57,7 @@ public class SerchPerson_Adpter extends ArrayAdapter<User> {
                     Toast.makeText(context, "这就是你自己啊...", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent state_intent = new Intent(context, PersonInfoActivity.class);
-                    state_intent.putExtra(IntentStatic.EXTRA_ACCOUNT, String.valueOf(user.getId()));
+                    state_intent.putExtra(IntentStatic.ACCOUNT, String.valueOf(user.getId()));
                     context.startActivity(state_intent);
                 }
             }

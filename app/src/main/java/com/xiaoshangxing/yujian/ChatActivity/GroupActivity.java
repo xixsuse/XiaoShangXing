@@ -177,13 +177,13 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
 
     public static void start(Context context, String contactId, IMMessage anchor, SessionTypeEnum sessionType) {
         Intent intent = new Intent();
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, contactId);   //id
+        intent.putExtra(IntentStatic.ACCOUNT, contactId);   //id
         if (anchor != null) {
-            intent.putExtra(IntentStatic.EXTRA_ANCHOR, anchor);
+            intent.putExtra(IntentStatic.ANCHOR, anchor);
         }
 
         if (sessionType != null) {
-            intent.putExtra(IntentStatic.EXTRA_TYPE, sessionType);
+            intent.putExtra(IntentStatic.TYPE, sessionType);
         }
 
         intent.setClass(context, GroupActivity.class);
@@ -254,9 +254,9 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
     }
 
     private void parseIntent() {
-        sessionId = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
-        sessionType = (SessionTypeEnum) getIntent().getSerializableExtra(IntentStatic.EXTRA_TYPE);
-        IMMessage anchor = (IMMessage) getIntent().getSerializableExtra(IntentStatic.EXTRA_ANCHOR);
+        sessionId = getIntent().getStringExtra(IntentStatic.ACCOUNT);
+        sessionType = (SessionTypeEnum) getIntent().getSerializableExtra(IntentStatic.TYPE);
+        IMMessage anchor = (IMMessage) getIntent().getSerializableExtra(IntentStatic.ANCHOR);
 
         Container container = new Container(this, sessionId, sessionType, this);
         rootView = findViewById(R.id.messageActivityLayout);
@@ -409,7 +409,7 @@ public class GroupActivity extends BaseActivity implements ModuleProxy {
                     return;
                 }
                 Intent intent = new Intent(GroupActivity.this, ChatInfoActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, sessionId);
+                intent.putExtra(IntentStatic.ACCOUNT, sessionId);
                 startActivity(intent);
                 break;
         }

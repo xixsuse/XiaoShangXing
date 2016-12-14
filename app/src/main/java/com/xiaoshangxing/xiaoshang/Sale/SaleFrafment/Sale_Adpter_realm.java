@@ -23,6 +23,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.customView.EmotionEdittext.EmoticonsEditText;
 import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
@@ -82,7 +83,7 @@ public class Sale_Adpter_realm extends RealmBaseAdapter<Published> {
         UserInfoCache.getInstance().getExIntoTextview(userId, NS.COLLEGE, viewHolder.college);
         viewHolder.time.setText(TimeUtil.getSimplePublishedTime(published.getCreateTime()));
         viewHolder.text.setText(published.getText());
-        viewHolder.price.setText(NS.RMB + published.getPrice());
+        viewHolder.price.setText(AppContracts.RMB + published.getPrice());
         viewHolder.dorm.setText(published.getDorm());
         viewHolder.complete.setVisibility(published.isAlive() ? View.GONE : View.VISIBLE);
         viewHolder.price.setTextColor(published.isAlive() ? context.getResources().getColor(R.color.red1) :

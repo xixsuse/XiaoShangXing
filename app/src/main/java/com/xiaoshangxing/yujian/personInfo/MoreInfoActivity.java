@@ -58,7 +58,7 @@ public class MoreInfoActivity extends BaseActivity {
         title.setText("更多资料");
         more.setVisibility(View.GONE);
 
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
 
         if (TextUtils.isEmpty(account)) {
             showToast("账号异常");
@@ -87,28 +87,28 @@ public class MoreInfoActivity extends BaseActivity {
     public void JiHua(View view) {
         Intent intent = new Intent(this, PlanActivity.class);
         intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 
     public void HuBang(View view) {
         Intent intent = new Intent(this, HelpActivity.class);
         intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 
     public void XuanShang(View view) {
         Intent intent = new Intent(this, RewardActivity.class);
         intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 
     public void XianZhi(View view) {
         Intent intent = new Intent(this, SaleActivity.class);
         intent.putExtra(IntentStatic.TYPE, IntentStatic.OTHERS);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 

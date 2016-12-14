@@ -66,7 +66,7 @@ public class Item_Comment {
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(context, PersonalStateActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, id);
+                intent.putExtra(IntentStatic.ACCOUNT, id);
                 context.startActivity(intent);
             }
 
@@ -92,7 +92,7 @@ public class Item_Comment {
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(context, PersonalStateActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, user_id);
+                intent.putExtra(IntentStatic.ACCOUNT, user_id);
                 context.startActivity(intent);
                 Log.d("name", reply_person);
             }
@@ -114,7 +114,7 @@ public class Item_Comment {
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(context, PersonalStateActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, user_id);
+                intent.putExtra(IntentStatic.ACCOUNT, user_id);
                 context.startActivity(intent);
                 Log.d("comment_name", reply_person);
                 Log.d("comment_user_id", user_id);
@@ -135,7 +135,7 @@ public class Item_Comment {
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(context, PersonalStateActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, objectId);
+                intent.putExtra(IntentStatic.ACCOUNT, objectId);
                 context.startActivity(intent);
                 Log.d("name", replyed_person);
             }

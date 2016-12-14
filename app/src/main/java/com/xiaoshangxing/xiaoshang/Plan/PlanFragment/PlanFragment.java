@@ -158,7 +158,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
             isOthers = true;
-            account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+            account = getActivity().getIntent().getStringExtra(IntentStatic.ACCOUNT);
             anounce.setVisibility(View.GONE);
         }
         initFresh();

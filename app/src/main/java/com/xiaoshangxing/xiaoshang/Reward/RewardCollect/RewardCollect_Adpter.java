@@ -15,6 +15,7 @@ import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.customView.CirecleImage;
@@ -77,7 +78,7 @@ public class RewardCollect_Adpter extends ArrayAdapter<Published> {
         UserInfoCache.getInstance().getExIntoTextview(id, NS.COLLEGE, viewholder.college);
         viewholder.time.setText(TimeUtil.getSimplePublishedTime(published.getCreateTime()));
         viewholder.text.setText(published.getText());
-        viewholder.price.setText(NS.RMB + published.getPrice());
+        viewholder.price.setText(AppContracts.RMB + published.getPrice());
         viewholder.headImage.setIntent_type(CirecleImage.PERSON_INFO, id);
 
         if (showselect) {

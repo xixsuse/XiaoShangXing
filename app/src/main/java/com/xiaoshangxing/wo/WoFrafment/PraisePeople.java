@@ -44,7 +44,7 @@ public class PraisePeople {
             @Override
             public void onClick(View widget) {
                 Intent intent = new Intent(context, PersonalStateActivity.class);
-                intent.putExtra(IntentStatic.EXTRA_ACCOUNT, id);
+                intent.putExtra(IntentStatic.ACCOUNT, id);
                 context.startActivity(intent);
             }
 

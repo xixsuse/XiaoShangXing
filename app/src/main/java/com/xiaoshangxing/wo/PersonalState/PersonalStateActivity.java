@@ -157,12 +157,12 @@ public class PersonalStateActivity extends BaseActivity implements StateContract
 
     @Override
     public void typeOfState() {
-        if (!getIntent().hasExtra(IntentStatic.EXTRA_ACCOUNT)) {
+        if (!getIntent().hasExtra(IntentStatic.ACCOUNT)) {
             showToast("账号有误");
             finish();
             return;
         }
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
         if (TextUtils.isEmpty(account)) {
             showToast("账号有误");
             finish();

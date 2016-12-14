@@ -120,8 +120,8 @@ public class SetInfoActivity extends BaseActivity implements IBaseView {
         title.setText("资料设置");
         more.setVisibility(View.GONE);
 
-        if (getIntent().hasExtra(IntentStatic.EXTRA_ACCOUNT)) {
-            account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        if (getIntent().hasExtra(IntentStatic.ACCOUNT)) {
+            account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
             if (TextUtils.isEmpty(account)) {
                 showToast("账号有误");
                 finish();

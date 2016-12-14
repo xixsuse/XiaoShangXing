@@ -95,7 +95,7 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
         title.setText("聊天详情");
         more.setVisibility(View.GONE);
 
-        account = getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+        account = getIntent().getStringExtra(IntentStatic.ACCOUNT);
         String headPath = NimUserInfoCache.getInstance().getHeadImage(account);
         String name = NimUserInfoCache.getInstance().getUserDisplayName(account);
         for (int i = 0; i < 1; i++) {
@@ -249,7 +249,7 @@ public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
 
     public void SetChatBackGround(View view) {
         Intent intent = new Intent(this, ChatBackgroundActivity.class);
-        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, account);
+        intent.putExtra(IntentStatic.ACCOUNT, account);
         startActivity(intent);
     }
 

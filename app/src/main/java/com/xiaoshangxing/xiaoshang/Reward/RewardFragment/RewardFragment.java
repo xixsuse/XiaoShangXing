@@ -172,7 +172,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             this.title.setText("他的悬赏");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
-            account = getActivity().getIntent().getStringExtra(IntentStatic.EXTRA_ACCOUNT);
+            account = getActivity().getIntent().getStringExtra(IntentStatic.ACCOUNT);
             isOthers = true;
             anounce.setVisibility(View.GONE);
         }

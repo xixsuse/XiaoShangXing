@@ -12,9 +12,13 @@ public class AppContracts {
 
     public static final String NO_USER = "账号有误";
 
-    //    toast
     public static final String REFRESH_FAIL = "加载失败";
 
     public static final String MIME_JPEG = "image/jpeg";
 
+    public static final String RMB = "¥";
+
+    public interface Encoding {
+        String UTF8 = "UTF-8";
+    }
 }

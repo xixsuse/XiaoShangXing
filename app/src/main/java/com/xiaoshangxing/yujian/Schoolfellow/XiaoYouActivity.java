@@ -127,7 +127,7 @@ public class XiaoYouActivity extends BaseActivity implements IBaseView {
                         break;
                     case BaseItemBean.PERSON:
                         Intent intent = new Intent(XiaoYouActivity.this, PersonInfoActivity.class);
-                        intent.putExtra(IntentStatic.EXTRA_ACCOUNT, itemBean.getId());
+                        intent.putExtra(IntentStatic.ACCOUNT, itemBean.getId());
                         startActivity(intent);
                         break;
                 }
