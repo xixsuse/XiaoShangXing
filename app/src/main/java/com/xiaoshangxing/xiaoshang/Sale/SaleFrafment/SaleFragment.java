@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
@@ -23,17 +22,18 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.network.netUtil.LoadUtils;
 import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.network.netUtil.OperateUtils;
 import com.xiaoshangxing.network.netUtil.SimpleCallBack;
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.bean.Published;
-import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.publicActivity.album.AlbumActivity;
+import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.RuleUtil;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
@@ -41,6 +41,7 @@ import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.normalUtils.FileUtils;
 import com.xiaoshangxing.utils.normalUtils.KeyBoardUtils;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.xiaoshang.Sale.PersonalSale.PersonalSaleFragment;
 import com.xiaoshangxing.xiaoshang.Sale.SaleActivity;
 import com.xiaoshangxing.xiaoshang.Sale.SaleCollect.SaleCollectFragment;
@@ -60,6 +61,22 @@ import io.realm.Sort;
  */
 public class SaleFragment extends BaseFragment implements SaleContract.View {
     public static final String TAG = BaseFragment.TAG + "-SaleFragment";
+    @Bind(R.id.listview)
+    ListView listview;
+    @Bind(R.id.reflesh_layout)
+    PtrFrameLayout ptrFrameLayout;
+    @Bind(R.id.no_content)
+    TextView noContent;
+    @Bind(R.id.mengban)
+    View mengban;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
+    @Bind(R.id.rule_button)
+    ImageView ruleButton;
+    @Bind(R.id.wrap_view)
+    RelativeLayout wrapView;
+    @Bind(R.id.rules)
+    RelativeLayout rules;
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -70,26 +87,11 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     TextView title;
     @Bind(R.id.more)
     ImageView more;
-    @Bind(R.id.title_lay)
-    RelativeLayout titleLay;
-    @Bind(R.id.anounce)
-    ImageView anounce;
-    @Bind(R.id.listview)
-    ListView listview;
-    @Bind(R.id.reflesh_layout)
-    PtrFrameLayout ptrFrameLayout;
-    @Bind(R.id.mengban)
-    View mengban;
-    @Bind(R.id.rule_image)
-    ImageView ruleImage;
-    @Bind(R.id.collasp)
-    LinearLayout collasp;
-    @Bind(R.id.rules)
-    RelativeLayout rules;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
-    @Bind(R.id.no_content)
-    TextView noContent;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+
 
     private View mview;
     private View headview, footview;
@@ -105,6 +107,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
     private List<String> select_image_urls = new ArrayList<String>();//选择的图片
     private String account;
     private boolean isOthers;
+    private RuleUtil ruleUtil;
 
     public static SaleFragment newInstance() {
         return new SaleFragment();
@@ -156,12 +159,6 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
-        anounce.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnRule(true);
-            }
-        });
         imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -187,7 +184,11 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
             headview.setVisibility(View.GONE);
             account = getActivity().getIntent().getStringExtra(IntentStatic.ACCOUNT);
             isOthers = true;
-            anounce.setVisibility(View.GONE);
+            listview.setPadding(0, 0, 0, 0);
+            rules.setVisibility(View.GONE);
+        } else {
+            listview.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, getContext()), 0, 0);
+            ruleUtil = new RuleUtil(mview, getActivity());
         }
         initFresh();
         refreshPager();
@@ -426,19 +427,22 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
 
     @Override
     public void clickOnRule(boolean is) {
-        if (is) {
-            rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
-        } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
-            rules.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    rules.setVisibility(View.GONE);
-                }
-            }, 500);
-        }
+//        if (is) {
+//            rules.setVisibility(View.VISIBLE);
+//            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
+//        } else {
+//            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
+//            rules.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    rules.setVisibility(View.GONE);
+//                }
+//            }, 500);
+//        }
+    }
 
+    public boolean needCollespRule() {
+        return ruleUtil.needhideRules();
     }
 
     @Override
@@ -524,7 +528,7 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
         gotoPublish();
     }
 
-    @OnClick({R.id.back, R.id.more, R.id.collasp, R.id.mengban})
+    @OnClick({R.id.back, R.id.more})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -537,12 +541,6 @@ public class SaleFragment extends BaseFragment implements SaleContract.View {
                         showPublishMenu(view);
                     }
                 });
-                break;
-            case R.id.collasp:
-                clickOnRule(false);
-                break;
-            case R.id.mengban:
-                clickOnRule(false);
                 break;
         }
     }

@@ -4,27 +4,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:visibility="gone">
+    android:visibility="visible">
     <!--蒙版-->
     <View
         android:id="@+id/mengban"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.5"
+        android:alpha="0"
+        android:visibility="gone"
         android:background="@color/b0">
 
     </View>
 
     <RelativeLayout
+        android:id="@+id/wrap_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/y102"
+        android:layout_marginEnd="@dimen/width_48"
+        android:layout_marginStart="@dimen/width_48">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/collasp"
-            android:layout_marginEnd="@dimen/width_48"
-            android:layout_marginStart="@dimen/width_48"
+            android:layout_above="@+id/rule_button"
             android:background="@color/w1"
             android:overScrollMode="never"
             android:scrollbars="none">
@@ -39,33 +42,16 @@
 
         </ScrollView>
 
-        <LinearLayout
-            android:id="@+id/collasp"
+        <ImageView
+            android:id="@+id/rule_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/y102"
-            android:layout_marginEnd="@dimen/width_48"
-            android:layout_marginStart="@dimen/width_48"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/y102"
-                android:alpha="0.95"
-                android:background="@color/w1"
-                android:visibility="gone">
-
-            </View>
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:scaleType="fitXY"
-                android:src="@mipmap/rules_up" />
-
-        </LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:scaleType="fitXY"
+            android:src="@mipmap/rules_up" />
 
     </RelativeLayout>
+
 </RelativeLayout>

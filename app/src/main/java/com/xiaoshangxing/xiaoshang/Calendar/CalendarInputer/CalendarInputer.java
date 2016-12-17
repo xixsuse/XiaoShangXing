@@ -1,22 +1,22 @@
 package com.xiaoshangxing.xiaoshang.Calendar.CalendarInputer;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.network.netUtil.LoadUtils;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.data.bean.User;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.RuleUtil;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -30,6 +30,23 @@ import butterknife.OnClick;
 
 public class CalendarInputer extends BaseActivity {
 
+
+    @Bind(R.id.listview)
+    ListView listview;
+    @Bind(R.id.reflesh_layout)
+    PtrFrameLayout refleshLayout;
+    @Bind(R.id.no_content)
+    TextView noContent;
+    @Bind(R.id.mengban)
+    View mengban;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
+    @Bind(R.id.rule_button)
+    ImageView ruleButton;
+    @Bind(R.id.wrap_view)
+    RelativeLayout wrapView;
+    @Bind(R.id.rules)
+    RelativeLayout rules;
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -40,33 +57,21 @@ public class CalendarInputer extends BaseActivity {
     TextView title;
     @Bind(R.id.more)
     ImageView more;
-    @Bind(R.id.title_lay)
-    RelativeLayout titleLay;
-    @Bind(R.id.anounce)
-    ImageView anounce;
-    @Bind(R.id.listview)
-    ListView listview;
-    @Bind(R.id.reflesh_layout)
-    PtrFrameLayout refleshLayout;
-    @Bind(R.id.mengban)
-    View mengban;
-    @Bind(R.id.rule_image)
-    ImageView ruleImage;
-    @Bind(R.id.collasp)
-    LinearLayout collasp;
-    @Bind(R.id.rules)
-    RelativeLayout rules;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     private View headview;
+    private View rootView;
+    private RuleUtil ruleUtil;
 
     private CalendarInputer_Adpter adpter;
-    private List<Published> publisheds = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.title_anounce_refresh_listview);
+        rootView = View.inflate(this, R.layout.title_anounce_refresh_listview, null);
+        setContentView(rootView);
         ButterKnife.bind(this);
         initView();
     }
@@ -75,17 +80,11 @@ public class CalendarInputer extends BaseActivity {
         headview = new View(this);
         listview.addHeaderView(headview);
         listview.setDividerHeight(1);
-        anounce.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnRule(true);
-            }
-        });
-//        anounceContent.setText(getString(R.string.calender));
-        ruleImage.setImageResource(R.mipmap.gonggao_zx);
+        ruleImage.setImageResource(R.mipmap.gonggao_xl);
         title.setText("添加入口");
         more.setVisibility(View.GONE);
-
+        ruleUtil = new RuleUtil(rootView, this);
+        listview.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, this), 0, 0);
         LoadUtils.getCalendarInputer(this, realm, new LoadUtils.AroundLoading() {
             @Override
             public void before() {
@@ -111,36 +110,25 @@ public class CalendarInputer extends BaseActivity {
 
             }
         });
-
     }
 
-    public void clickOnRule(boolean is) {
-        if (is) {
-            rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.translate_move_in));
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (ruleUtil.needhideRules()) {
+                return true;
+            }
+            return super.onKeyDown(keyCode, event);
         } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(this, R.anim.translate_move_out));
-            rules.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    rules.setVisibility(View.GONE);
-                }
-            }, 500);
+            return super.onKeyDown(keyCode, event);
         }
-
     }
 
-    @OnClick({R.id.back, R.id.mengban, R.id.collasp})
+    @OnClick({R.id.back})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
                 finish();
-                break;
-            case R.id.mengban:
-                clickOnRule(false);
-                break;
-            case R.id.collasp:
-                clickOnRule(false);
                 break;
         }
     }

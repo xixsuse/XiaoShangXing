@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,17 +14,19 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.network.netUtil.LoadUtils;
-import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.RuleUtil;
 import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.xiaoshang.Plan.PlanActivity;
 
 import butterknife.Bind;
@@ -41,6 +42,22 @@ import io.realm.Sort;
 public class PlanFragment extends BaseFragment implements PlanContract.View {
 
     public static final String TAG = BaseFragment.TAG + "-PlanFragment";
+    @Bind(R.id.listview)
+    ListView listview;
+    @Bind(R.id.reflesh_layout)
+    PtrFrameLayout ptrFrameLayout;
+    @Bind(R.id.no_content)
+    TextView noContent;
+    @Bind(R.id.mengban)
+    View mengban;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
+    @Bind(R.id.rule_button)
+    ImageView ruleButton;
+    @Bind(R.id.wrap_view)
+    RelativeLayout wrapView;
+    @Bind(R.id.rules)
+    RelativeLayout rules;
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -51,26 +68,12 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     TextView title;
     @Bind(R.id.more)
     ImageView more;
-    @Bind(R.id.title_lay)
-    RelativeLayout titleLay;
-    @Bind(R.id.anounce)
-    ImageView anounce;
-    @Bind(R.id.listview)
-    ListView listview;
-    @Bind(R.id.reflesh_layout)
-    PtrFrameLayout ptrFrameLayout;
-    @Bind(R.id.mengban)
-    View mengban;
-    @Bind(R.id.rule_image)
-    ImageView ruleImage;
-    @Bind(R.id.collasp)
-    LinearLayout collasp;
-    @Bind(R.id.rules)
-    RelativeLayout rules;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
-    @Bind(R.id.no_content)
-    TextView noContent;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+
+
     private View mview;
     private View headview, footview;
     private DotsTextView dotsTextView;
@@ -81,6 +84,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
     private Plan_Adpter_realm adpter_realm;
     private boolean isOthers;
     private String account;
+    private RuleUtil ruleUtil;
 
     public static PlanFragment newInstance() {
         return new PlanFragment();
@@ -130,12 +134,6 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
-        anounce.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnRule(true);
-            }
-        });
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -159,7 +157,11 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
             headview.setVisibility(View.GONE);
             isOthers = true;
             account = getActivity().getIntent().getStringExtra(IntentStatic.ACCOUNT);
-            anounce.setVisibility(View.GONE);
+            listview.setPadding(0, 0, 0, 0);
+            rules.setVisibility(View.GONE);
+        } else {
+            listview.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, getContext()), 0, 0);
+            ruleUtil = new RuleUtil(mview, getActivity());
         }
         initFresh();
         refreshPager();
@@ -207,7 +209,7 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
 
     }
 
-    @OnClick({R.id.back, R.id.more, R.id.mengban, R.id.collasp})
+    @OnClick({R.id.back, R.id.more})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -220,12 +222,6 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
                         showPublishMenu(view);
                     }
                 });
-                break;
-            case R.id.mengban:
-                clickOnRule(false);
-                break;
-            case R.id.collasp:
-                clickOnRule(false);
                 break;
         }
     }
@@ -294,7 +290,6 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .hide(this)
-//                .hide(activity.getJoinedPlanFragment())
                 .show(activity.getPersonalPlanFragment())
                 .addToBackStack(null)
                 .commit();
@@ -307,7 +302,6 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .hide(this)
-//                .hide(activity.getPersonalPlanFragment())
                 .show(activity.getJoinedPlanFragment())
                 .addToBackStack(null)
                 .commit();
@@ -370,18 +364,22 @@ public class PlanFragment extends BaseFragment implements PlanContract.View {
 
     @Override
     public void clickOnRule(boolean is) {
-        if (is) {
-            rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
-        } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
-            rules.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    rules.setVisibility(View.GONE);
-                }
-            }, 500);
-        }
+//        if (is) {
+//            rules.setVisibility(View.VISIBLE);
+//            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
+//        } else {
+//            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
+//            rules.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    rules.setVisibility(View.GONE);
+//                }
+//            }, 500);
+//        }
+    }
+
+    public boolean needCollespRule() {
+        return ruleUtil.needhideRules();
     }
 
     @Override

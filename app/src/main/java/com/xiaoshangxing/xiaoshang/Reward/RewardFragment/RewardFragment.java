@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,25 +16,24 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.network.netUtil.LoadUtils;
 import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.network.netUtil.OperateUtils;
 import com.xiaoshangxing.network.netUtil.SimpleCallBack;
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.RuleUtil;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.xiaoshang.Reward.RewardActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,36 +48,37 @@ import io.realm.Sort;
 public class RewardFragment extends BaseFragment implements RewardContract.View {
 
     public static final String TAG = BaseFragment.TAG + "-ShoolRewardFragment";
+    @Bind(R.id.listview)
+    ListView listview;
+    @Bind(R.id.reflesh_layout)
+    PtrFrameLayout ptrFrameLayout;
+    @Bind(R.id.no_content)
+    TextView noContent;
+    @Bind(R.id.mengban)
+    View mengban;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
+    @Bind(R.id.rule_button)
+    ImageView ruleButton;
+    @Bind(R.id.wrap_view)
+    RelativeLayout wrapView;
+    @Bind(R.id.rules)
+    RelativeLayout rules;
+    @Bind(R.id.left_image)
+    ImageView leftImage;
+    @Bind(R.id.left_text)
+    TextView leftText;
     @Bind(R.id.back)
     LinearLayout back;
     @Bind(R.id.title)
     TextView title;
     @Bind(R.id.more)
     ImageView more;
-    @Bind(R.id.listview)
-    ListView listview;
-    @Bind(R.id.reflesh_layout)
-    PtrFrameLayout ptrFrameLayout;
-    @Bind(R.id.collasp)
-    LinearLayout collasp;
-    @Bind(R.id.rules)
-    RelativeLayout rules;
-    @Bind(R.id.mengban)
-    View mengban;
-    @Bind(R.id.anounce)
-    ImageView anounce;
-    @Bind(R.id.left_image)
-    ImageView leftImage;
-    @Bind(R.id.left_text)
-    TextView leftText;
-    @Bind(R.id.title_lay)
-    RelativeLayout titleLay;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
-    @Bind(R.id.no_content)
-    TextView noContent;
-    @Bind(R.id.rule_image)
-    ImageView ruleImage;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
+
 
     private View mview;
     private Reward_adpter_realm adpter1;
@@ -89,14 +88,10 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
     private TextView loadingText;
     private boolean isRefreshing;
     private boolean isLoading;
-    private List<Published> publisheds = new ArrayList<>();
     private RealmResults<Published> realmResults;
     private String account;
     private boolean isOthers;
-
-    public static RewardFragment newInstance() {
-        return new RewardFragment();
-    }
+    private RuleUtil ruleUtil;
 
     @Nullable
     @Override
@@ -122,6 +117,10 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         ButterKnife.unbind(this);
     }
 
+    public static RewardFragment newInstance() {
+        return new RewardFragment();
+    }
+
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
@@ -134,7 +133,6 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         title.setText(R.string.shoolreward);
         leftText.setText(R.string.xiaoshang);
         more.setImageResource(R.mipmap.add);
-//        anounceContent.setText(R.string.reward_rules);
         ruleImage.setImageResource(R.mipmap.gonggao_xs);
         noContent.setText("还没有人发布悬赏");
         headview = new View(getContext());
@@ -144,12 +142,6 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         loadingText = (TextView) footview.findViewById(R.id.text);
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
-        anounce.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnRule(true);
-            }
-        });
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -174,10 +166,13 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             headview.setVisibility(View.GONE);
             account = getActivity().getIntent().getStringExtra(IntentStatic.ACCOUNT);
             isOthers = true;
-            anounce.setVisibility(View.GONE);
+            listview.setPadding(0, 0, 0, 0);
+            rules.setVisibility(View.GONE);
+        } else {
+            listview.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, getContext()), 0, 0);
+            ruleUtil = new RuleUtil(mview, getActivity());
         }
     }
-
 
     private void initFresh() {
         final LoadUtils.AroundLoading aroundLoading = new LoadUtils.AroundLoading() {
@@ -220,7 +215,7 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
         }
     }
 
-    @OnClick({R.id.back, R.id.more, R.id.collasp, R.id.mengban})
+    @OnClick({R.id.back, R.id.more})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -234,12 +229,6 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
                     }
                 });
 
-                break;
-            case R.id.collasp:
-                clickOnRule(false);
-                break;
-            case R.id.mengban:
-                clickOnRule(false);
                 break;
         }
     }
@@ -388,18 +377,10 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
 
     @Override
     public void clickOnRule(boolean is) {
-        if (is) {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
-            rules.setVisibility(View.VISIBLE);
-        } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
-            rules.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    rules.setVisibility(View.GONE);
-                }
-            }, 500);
-        }
+    }
+
+    public boolean needCollespRule() {
+        return ruleUtil.needhideRules();
     }
 
     @Override
@@ -464,5 +445,6 @@ public class RewardFragment extends BaseFragment implements RewardContract.View 
             }
         }
     }
+
 
 }

@@ -11,13 +11,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.UserInfoCache;
+import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.network.netUtil.OperateUtils;
 import com.xiaoshangxing.network.netUtil.SimpleCallBack;
-import com.xiaoshangxing.R;
 import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
-import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
@@ -147,9 +147,10 @@ public class RewardActivity extends BaseActivity implements RewardContract.View 
             } else if (isCollect) {
                 rewardCollectFragment.showHideMenu(false);
                 return true;
-            } else {
-                return super.onKeyDown(keyCode, event);
+            } else if (rewardFragment.isVisible() && rewardFragment.needCollespRule()) {
+                return true;
             }
+            return super.onKeyDown(keyCode, event);
         } else {
             return super.onKeyDown(keyCode, event);
         }

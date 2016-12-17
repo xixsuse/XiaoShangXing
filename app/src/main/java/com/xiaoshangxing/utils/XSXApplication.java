@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
+import com.antfortune.freeline.FreelineCore;
 import com.baidu.mapapi.SDKInitializer;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.SDKOptions;

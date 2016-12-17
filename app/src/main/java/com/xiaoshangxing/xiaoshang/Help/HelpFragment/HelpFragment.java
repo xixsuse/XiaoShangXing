@@ -15,17 +15,19 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.network.netUtil.LoadUtils;
-import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.utils.customView.LayoutHelp;
+import com.xiaoshangxing.utils.customView.RuleUtil;
 import com.xiaoshangxing.utils.customView.loadingview.DotsTextView;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
+import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 import com.xiaoshangxing.xiaoshang.Help.HelpActivity;
 
 import butterknife.Bind;
@@ -41,6 +43,24 @@ import io.realm.Sort;
 public class HelpFragment extends BaseFragment implements HelpContract.View {
 
     public static final String TAG = BaseFragment.TAG + "-ShoolfellowHelpFragment";
+
+    RealmResults<Published> publisheds;
+    @Bind(R.id.listview)
+    ListView listview;
+    @Bind(R.id.reflesh_layout)
+    PtrFrameLayout ptrFrameLayout;
+    @Bind(R.id.no_content)
+    TextView noContent;
+    @Bind(R.id.mengban)
+    View mengban;
+    @Bind(R.id.rule_image)
+    ImageView ruleImage;
+    @Bind(R.id.rule_button)
+    ImageView ruleButton;
+    @Bind(R.id.wrap_view)
+    RelativeLayout wrapView;
+    @Bind(R.id.rules)
+    RelativeLayout rules;
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -51,27 +71,10 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     TextView title;
     @Bind(R.id.more)
     ImageView more;
-    @Bind(R.id.title_lay)
-    RelativeLayout titleLay;
-    @Bind(R.id.anounce)
-    ImageView anounce;
-    @Bind(R.id.listview)
-    ListView listview;
-    @Bind(R.id.reflesh_layout)
-    PtrFrameLayout ptrFrameLayout;
-    @Bind(R.id.mengban)
-    View mengban;
-    @Bind(R.id.rule_image)
-    ImageView ruleImage;
-    @Bind(R.id.collasp)
-    LinearLayout collasp;
-    @Bind(R.id.rules)
-    RelativeLayout rules;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
-    @Bind(R.id.no_content)
-    TextView noContent;
-    RealmResults<Published> publisheds;
+    @Bind(R.id.title_lay)
+    RelativeLayout titleLay;
     private View mview;
     private Help_Adpter_realm adpter_realm;
     private View headview, footview;
@@ -81,6 +84,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
     private boolean isLoading;
     private String account;
     private boolean isOthers;
+    private RuleUtil ruleUtil;
 
     private HelpContract.Presenter mPresenter;
 
@@ -128,7 +132,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
         title.setText(R.string.shoolfellowhelp);
         leftText.setText(R.string.xiaoshang);
         more.setImageResource(R.mipmap.add);
-//        anounceContent.setText(R.string.help_rules);
         ruleImage.setImageResource(R.mipmap.gonggao_hb);
         headview = new View(getContext());
         footview = View.inflate(getContext(), R.layout.footer, null);
@@ -138,19 +141,17 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
         listview.addHeaderView(headview);
         listview.addFooterView(footview);
 
-        anounce.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickOnRule(true);
-            }
-        });
         if (getActivity().getIntent().getIntExtra(IntentStatic.TYPE, 0) == IntentStatic.OTHERS) {
             title.setText("他的互帮");
             this.more.setVisibility(View.GONE);
             headview.setVisibility(View.GONE);
             account = getActivity().getIntent().getStringExtra(IntentStatic.ACCOUNT);
             isOthers = true;
-            anounce.setVisibility(View.GONE);
+            listview.setPadding(0, 0, 0, 0);
+            rules.setVisibility(View.GONE);
+        } else {
+            listview.setPadding(0, ScreenUtils.getAdapterPx(R.dimen.y96, getContext()), 0, 0);
+            ruleUtil = new RuleUtil(mview, getActivity());
         }
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -333,18 +334,10 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
 
     @Override
     public void clickOnRule(boolean is) {
-        if (is) {
-            rules.setVisibility(View.VISIBLE);
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_in));
-        } else {
-            rules.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.translate_move_out));
-            rules.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    rules.setVisibility(View.GONE);
-                }
-            }, 500);
-        }
+    }
+
+    public boolean needCollespRule() {
+        return ruleUtil.needhideRules();
     }
 
     @Override
@@ -356,7 +349,7 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
         return isRefreshing;
     }
 
-    @OnClick({R.id.back, R.id.more, R.id.collasp, R.id.mengban})
+    @OnClick({R.id.back, R.id.more})
     public void onClick(final View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -369,12 +362,6 @@ public class HelpFragment extends BaseFragment implements HelpContract.View {
                         showPublishMenu(view);
                     }
                 });
-                break;
-            case R.id.collasp:
-                clickOnRule(false);
-                break;
-            case R.id.mengban:
-                clickOnRule(false);
                 break;
         }
     }
