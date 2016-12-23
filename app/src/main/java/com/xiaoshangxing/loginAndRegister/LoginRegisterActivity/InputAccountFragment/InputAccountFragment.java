@@ -18,6 +18,7 @@ import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.NoEmailFragment.
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.SendEmailFragment.SendEmailFragment;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 
@@ -32,7 +33,7 @@ public class InputAccountFragment extends BaseFragment implements InputAccountCo
     private InputAccountContract.Presenter mPresenter;
 
     private View back;
-    private EditText account;
+    private ClearableEditTextWithIcon account;
     private Button makeSure;
 
     public static InputAccountFragment newInstance() {
@@ -55,7 +56,7 @@ public class InputAccountFragment extends BaseFragment implements InputAccountCo
         back.setOnClickListener(this);
         makeSure = (Button) mView.findViewById(R.id.btn_makesure);
         makeSure.setOnClickListener(this);
-        account = (EditText) mView.findViewById(R.id.et_account);
+        account = (ClearableEditTextWithIcon) mView.findViewById(R.id.et_account);
         account.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

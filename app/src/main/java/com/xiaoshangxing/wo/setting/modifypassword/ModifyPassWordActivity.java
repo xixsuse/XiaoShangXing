@@ -6,18 +6,18 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.google.gson.JsonObject;
+import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.network.InfoNetwork;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.network.netUtil.NS;
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,9 +30,8 @@ import okhttp3.ResponseBody;
  * Created by 15828 on 2016/7/15.
  */
 public class ModifyPassWordActivity extends BaseActivity implements IBaseView {
-    private EditText editText1, editText2, editText3;
+    private ClearableEditTextWithIcon editText2, editText3;
     private Button confirm;
-    private boolean flag1 = false, flag2 = false, flag3 = false;
     private String oldPassword;
     private IBaseView iBaseView = this;
 
@@ -45,42 +44,14 @@ public class ModifyPassWordActivity extends BaseActivity implements IBaseView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_modifypasswd);
-        editText1 = (EditText) findViewById(R.id.modify_editText1);
-        editText2 = (EditText) findViewById(R.id.modify_editText2);
-        editText3 = (EditText) findViewById(R.id.modify_editText3);
+        editText2 = (ClearableEditTextWithIcon) findViewById(R.id.modify_editText2);
+        editText3 = (ClearableEditTextWithIcon) findViewById(R.id.modify_editText3);
         confirm = (Button) findViewById(R.id.confirm_modify);
         addListener();
         oldPassword = getIntent().getStringExtra(IntentStatic.DATA);
     }
 
     private void addListener() {
-//        editText1.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (s.toString().length() > 0) {
-//                    flag1 = true;
-//                    if (flag2 && flag3) {
-//                        confirm.setAlpha(1);
-//                        confirm.setClickable(true);
-//                    }
-//                } else {
-//                    flag1 = false;
-//                    confirm.setAlpha((float) 0.5);
-//                    confirm.setClickable(false);
-//                }
-//            }
-//        });
-
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,68 +77,9 @@ public class ModifyPassWordActivity extends BaseActivity implements IBaseView {
 
         editText2.addTextChangedListener(textWatcher);
         editText3.addTextChangedListener(textWatcher);
-//        editText2.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (s.toString().length() > 0) {
-//                    flag2 = true;
-//                    if (flag1 && flag3) {
-//                        confirm.setAlpha(1);
-//                        confirm.setClickable(true);
-//                    }
-//                } else {
-//                    flag2 = false;
-//                    confirm.setAlpha((float) 0.5);
-//                    confirm.setClickable(false);
-//                }
-//            }
-//        });
-//        editText3.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                if (s.toString().length() > 0) {
-//                    flag3 = true;
-//                    if (flag1 && flag2) {
-//                        confirm.setAlpha(1);
-//                        confirm.setClickable(true);
-//                    }
-//                } else {
-//                    flag3 = false;
-//                    confirm.setAlpha((float) 0.5);
-//                    confirm.setClickable(false);
-//                }
-//            }
-//        });
-
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!editText1.getText().toString().equals((String)SPUtils.get(ModifyPassWordActivity.this,
-//                        SPUtils.PHONENUMNBER,SPUtils.DEFAULT_STRING))){
-//                    showToast("手机号码错误");
-//                    return;
-//                }
-
                 if (!editText2.getText().toString().equals(editText3.getText().toString())) {
                     showToast("两次密码不一致");
                     return;

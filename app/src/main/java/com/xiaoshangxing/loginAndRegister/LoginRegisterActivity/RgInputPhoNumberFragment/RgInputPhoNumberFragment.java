@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
@@ -19,6 +18,7 @@ import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.LoginRegisterAct
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.RgInputVertifyCodeFragment.RgInputVertifyCodeFragment;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.customView.TextBoard;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
@@ -33,7 +33,7 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
     private RgInputPhoNumContract.Presenter mPresenter;
     private View mView;
     private TextView tv_cancer;
-    private EditText et_phoneNumber;
+    private ClearableEditTextWithIcon et_phoneNumber;
     private Button btn_register;
     private View protocol;
 
@@ -58,7 +58,7 @@ public class RgInputPhoNumberFragment extends BaseFragment implements RgInputPho
         btn_register.setOnClickListener(this);
         protocol = mView.findViewById(R.id.protocol);
         protocol.setOnClickListener(this);
-        et_phoneNumber = (EditText) mView.findViewById(R.id.et_account);
+        et_phoneNumber = (ClearableEditTextWithIcon) mView.findViewById(R.id.et_account);
         et_phoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

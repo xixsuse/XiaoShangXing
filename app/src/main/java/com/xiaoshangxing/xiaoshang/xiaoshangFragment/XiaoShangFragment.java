@@ -141,7 +141,6 @@ public class XiaoShangFragment extends BaseFragment {
         leftImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                showToast(NS.ON_DEVELOPING);
                 Intent notice_intent = new Intent(getContext(), MessageNoticeActivity.class);
                 startActivity(notice_intent);
             }
@@ -153,7 +152,7 @@ public class XiaoShangFragment extends BaseFragment {
         transformer = new Transformer(viewPager, viewAdapter);
         viewPager.setAdapter(viewAdapter);
         viewPager.setPageTransformer(false, transformer);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(5);
         transformer.enableScaling(true);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -238,7 +237,6 @@ public class XiaoShangFragment extends BaseFragment {
                 Intent idleSale = new Intent(getContext(), SaleActivity.class);
                 getActivity().startActivity(idleSale);
                 break;
-
         }
     }
 

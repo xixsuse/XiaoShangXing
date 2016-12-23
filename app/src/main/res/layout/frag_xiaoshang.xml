@@ -30,6 +30,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/y66"
         android:layout_marginTop="20dp"
-        android:src="@mipmap/xiaoshang_select1"></ImageView>
+        android:src="@mipmap/xiaoshang_select1">
+
+    </ImageView>
 
 </RelativeLayout>

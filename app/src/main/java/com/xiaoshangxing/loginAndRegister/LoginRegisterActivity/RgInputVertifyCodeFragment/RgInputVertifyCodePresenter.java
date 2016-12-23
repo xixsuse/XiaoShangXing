@@ -123,7 +123,7 @@ public class RgInputVertifyCodePresenter implements RgInputVertifyCodeContract.P
 
     @Override
     public void isContentOK() {
-        if (mView.getVertifyCode().length() == 4) {
+        if (mView.getVertifyCode().length() >= 4) {
             mView.setButtonEnable(true);
         } else {
             mView.setButtonEnable(false);

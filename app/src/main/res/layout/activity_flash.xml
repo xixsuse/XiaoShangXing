@@ -6,27 +6,59 @@
     android:orientation="vertical">
 
     <ImageView
+        android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/y480"
         android:src="@mipmap/splash_screen_letter" />
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/invite_code_lay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/y156"
-        android:src="@mipmap/splashscreen_logo"
-        android:visibility="gone" />
+        android:layout_below="@+id/image"
+        android:layout_marginTop="@dimen/y311"
+        android:visibility="gone">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/y204"
-        android:src="@mipmap/splashscreen_letter"
-        android:visibility="gone" />
+        <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+            android:id="@+id/edittext"
+            android:layout_width="@dimen/x636"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@null"
+            android:gravity="center_horizontal"
+            android:hint="请输入邀请码"
+            android:inputType="textWebPassword"
+            android:maxLength="10"
+            android:paddingBottom="@dimen/y24"
+            android:paddingEnd="@dimen/x4"
+            android:textColorHint="@color/gray_login"
+            android:textCursorDrawable="@drawable/cursor_blue4"
+            android:textSize="@dimen/x45" />
+
+        <ImageView
+            android:layout_width="@dimen/x636"
+            android:layout_height="1px"
+            android:layout_below="@+id/edittext"
+            android:layout_centerHorizontal="true"
+            android:background="@color/g1" />
+
+        <TextView
+            android:id="@+id/enter_button"
+            android:layout_width="@dimen/x958"
+            android:layout_height="@dimen/y120"
+            android:layout_below="@id/edittext"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y180"
+            android:alpha="0.5"
+            android:background="@drawable/circular_60"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="进入校上行"
+            android:textColor="#6fba2c"
+            android:textSize="@dimen/x51" />
+    </RelativeLayout>
+
 
 </RelativeLayout>

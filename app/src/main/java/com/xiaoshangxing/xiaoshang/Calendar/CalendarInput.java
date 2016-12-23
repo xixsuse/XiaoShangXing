@@ -92,6 +92,7 @@ public class CalendarInput extends BaseActivity implements OnDateSelectedListene
         setContentView(R.layout.activity_calendar_input);
         ButterKnife.bind(this);
         showMsgHandler = new ShowMsgHandler(this);
+        setEnableRightSlide(false);
         initView();
     }
 

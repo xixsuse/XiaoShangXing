@@ -26,6 +26,7 @@ import com.xiaoshangxing.loginAndRegister.StartActivity.StartActivity;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.utils.customView.dialog.LoadingDialog;
@@ -45,12 +46,11 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
     private LoginFragmentContract.Presenter mPresenter;
     private View mview;
     private CirecleImage headPortrait;
-    private EditText et_phoneNumber;
-    private EditText et_passWord;
+    private ClearableEditTextWithIcon et_phoneNumber;
+    private ClearableEditTextWithIcon et_passWord;
     private Button btn_login;
     private TextView tv_retrieve_password;
     private TextView tv_register;
-    private LoadingDialog mLoadingDialog;
     private String getNumber;
     private DialogUtils.Dialog_Center mDialogUtils;
 
@@ -78,11 +78,10 @@ public class LoginFragment extends BaseFragment implements LoginFragmentContract
     }
 
     private void initView() {
-        mLoadingDialog = new LoadingDialog(getActivity());
 
         headPortrait = (CirecleImage) mview.findViewById(R.id.ci_headPortrait);
-        et_phoneNumber = (EditText) mview.findViewById(R.id.et_account);
-        et_passWord = (EditText) mview.findViewById(R.id.et_password);
+        et_phoneNumber = (ClearableEditTextWithIcon) mview.findViewById(R.id.et_account);
+        et_passWord = (ClearableEditTextWithIcon) mview.findViewById(R.id.et_password);
 
         btn_login = (Button) mview.findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);

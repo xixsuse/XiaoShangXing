@@ -3,6 +3,15 @@ package com.xiaoshangxing.loginAndRegister.StartActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.netease.nimlib.sdk.NimIntent;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -11,9 +20,13 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by FengChaoQun
@@ -21,12 +34,23 @@ import java.util.ArrayList;
  */
 public class FlashActivity extends BaseActivity {
     public static final String MESSAGE = "MESSAGE";
+    @Bind(R.id.image)
+    ImageView image;
+    @Bind(R.id.edittext)
+    ClearableEditTextWithIcon edittext;
+    @Bind(R.id.enter_button)
+    TextView enterButton;
+    @Bind(R.id.invite_code_lay)
+    RelativeLayout inviteCodeLay;
+
     private Handler handler;
+    private boolean isNeedInviteCode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flash);
+        ButterKnife.bind(this);
         setEnableRightSlide(false);
         if (getIntent().hasExtra(NimIntent.EXTRA_NOTIFY_CONTENT)) {
             handler = new Handler();
@@ -41,12 +65,62 @@ public class FlashActivity extends BaseActivity {
         }
     }
 
+    private void initInviteCodeLay() {
+        if (isNeedInviteCode) {
+            inviteCodeLay.setVisibility(View.VISIBLE);
+            edittext.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if (!TextUtils.isEmpty(edittext.getText().toString())) {
+                        enterButton.setAlpha(1);
+                        enterButton.setEnabled(true);
+                    } else {
+                        enterButton.setAlpha(0.5f);
+                        enterButton.setEnabled(false);
+                    }
+                }
+            });
+            enterButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(FlashActivity.this, IndicatorActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            edittext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_DONE) {
+                        enterButton.performClick();
+                        return false;
+                    }
+                    return false;
+                }
+            });
+        } else {
+            inviteCodeLay.setVisibility(View.GONE);
+        }
+    }
+
     private void normalStart() {
         handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (isNeedGuide()) {
+                if (isFirstCome()) {
+                    initInviteCodeLay();
+                } else if (isNeedGuide()) {
                     Intent intent = new Intent(FlashActivity.this, IndicatorActivity.class);
                     startActivity(intent);
                     finish();

@@ -7,20 +7,20 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
+import com.xiaoshangxing.R;
 import com.xiaoshangxing.network.InfoNetwork;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.network.netUtil.NS;
-import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
@@ -39,6 +39,7 @@ import okhttp3.ResponseBody;
  * Created by 15828 on 2016/7/13.
  */
 public class MailBoxBindActivity extends BaseActivity implements IBaseView {
+
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)
@@ -53,20 +54,14 @@ public class MailBoxBindActivity extends BaseActivity implements IBaseView {
     RelativeLayout titleLay;
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
-    @Bind(R.id.bindmailbox_edittext)
-    EditText bindmailboxEdittext;
-    @Bind(R.id.mailbox_clear)
-    ImageView mailboxClear;
-    @Bind(R.id.bindmailbox_linear1)
-    LinearLayout bindmailboxLinear1;
+    @Bind(R.id.edittext)
+    ClearableEditTextWithIcon edittext;
     @Bind(R.id.bindmailbox_text1)
     TextView bindmailboxText1;
     @Bind(R.id.bindmailbox_resendmail)
     Button bindmailboxResendmail;
     @Bind(R.id.bindmailbox_breakmaibox)
     Button bindmailboxBreakmaibox;
-    private EditText editText;
-    private ImageView clear;
 
     @Override
     public void setmPresenter(@Nullable Object presenter) {
@@ -83,15 +78,7 @@ public class MailBoxBindActivity extends BaseActivity implements IBaseView {
         rightText.setTextColor(getResources().getColor(R.color.green1));
         rightText.setAlpha(0.5f);
 
-        editText = (EditText) findViewById(R.id.bindmailbox_edittext);
-        clear = (ImageView) findViewById(R.id.mailbox_clear);
-        if (clear != null) clear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editText.setText("");
-            }
-        });
-        editText.addTextChangedListener(new TextWatcher() {
+        edittext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -107,11 +94,9 @@ public class MailBoxBindActivity extends BaseActivity implements IBaseView {
                 if (s.toString().length() > 0) {
                     rightText.setAlpha(1);
                     rightText.setClickable(true);
-                    clear.setVisibility(View.VISIBLE);
                 } else {
                     rightText.setAlpha((float) 0.5);
                     rightText.setClickable(false);
-                    clear.setVisibility(View.GONE);
                 }
             }
         });
@@ -119,7 +104,7 @@ public class MailBoxBindActivity extends BaseActivity implements IBaseView {
     }
 
     private void SendEmail_OK() {
-        String text = editText.getText().toString();
+        String text = edittext.getText().toString();
         String text2 = "一封验证邮件已发送至：\n" + text + "，请登录\n你的邮箱查收邮件并验证。";
         final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
         final Dialog alertDialog = dialogUtils.Message(text2)
@@ -186,7 +171,7 @@ public class MailBoxBindActivity extends BaseActivity implements IBaseView {
                 ProgressSubsciber<ResponseBody> progressSubsciber = new ProgressSubsciber<>(next, this);
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("userId", (Integer) SPUtils.get(this, SPUtils.ID, SPUtils.DEFAULT_int));
-                jsonObject.addProperty("email", editText.getText().toString());
+                jsonObject.addProperty("email", edittext.getText().toString());
                 jsonObject.addProperty(NS.TIMESTAMP, System.currentTimeMillis());
 
                 InfoNetwork.getInstance().bindEmail(progressSubsciber, jsonObject, this);

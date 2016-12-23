@@ -55,7 +55,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/phoneNumber" />
 
-            <EditText
+            <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+                android:paddingRight="@dimen/width_48"
                 android:id="@+id/modify_editText1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -78,7 +79,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/password" />
 
-            <EditText
+            <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+                android:paddingRight="@dimen/width_48"
                 android:id="@+id/modify_editText2"
                 style="@style/black_16sp"
                 android:layout_width="match_parent"
@@ -102,7 +104,8 @@
                 android:gravity="center_vertical"
                 android:text="@string/comfirm_code" />
 
-            <EditText
+            <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+                android:paddingRight="@dimen/width_48"
                 android:id="@+id/modify_editText3"
                 style="@style/black_16sp"
                 android:layout_width="match_parent"

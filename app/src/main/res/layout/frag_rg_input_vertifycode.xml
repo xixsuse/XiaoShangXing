@@ -67,7 +67,8 @@
                 android:text="@string/vertify_code" />
 
             <!--输入验证码-->
-            <EditText
+            <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+                android:paddingRight="@dimen/width_48"
                 android:id="@+id/et_vertify_code"
                 style="@style/input_vertify_code"
                 android:layout_width="match_parent"

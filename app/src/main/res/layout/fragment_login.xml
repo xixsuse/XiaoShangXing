@@ -36,7 +36,8 @@
                 android:layout_gravity="center"
                 android:text="@string/account" />
 
-            <EditText
+            <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+                android:paddingRight="@dimen/width_48"
                 android:id="@+id/et_account"
                 style="@style/input_phoneNumber"
                 android:layout_width="match_parent"
@@ -67,7 +68,8 @@
                 android:layout_gravity="center"
                 android:text="@string/password" />
 
-            <EditText
+            <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+                android:paddingRight="@dimen/width_48"
                 android:id="@+id/et_password"
                 style="@style/input_passworder"
                 android:layout_width="match_parent"

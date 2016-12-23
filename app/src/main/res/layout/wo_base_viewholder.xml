@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:expandableTextView="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:paddingBottom="@dimen/x24"
     android:paddingStart="@dimen/width_48"
@@ -66,15 +67,29 @@
             </LinearLayout>
 
             <!--说说文字内容-->
-            <com.xiaoshangxing.utils.customView.MoreTextView
+            <com.xiaoshangxing.utils.customView.ExpandableTextView
                 android:id="@+id/text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/y36"
                 android:paddingEnd="@dimen/width_48"
-                android:textColor="@color/b1"
-                android:textSize="13sp"
-                app:trimLines="6" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                expandableTextView:maxCollapsedLines="6">
+
+                <com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText
+                    android:id="@+id/expandable_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/b1"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/expand_collapse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|bottom"
+                    android:textColor="@color/blue1"
+                    android:textSize="14sp" />
+            </com.xiaoshangxing.utils.customView.ExpandableTextView>
 
             <FrameLayout
                 android:id="@+id/content"

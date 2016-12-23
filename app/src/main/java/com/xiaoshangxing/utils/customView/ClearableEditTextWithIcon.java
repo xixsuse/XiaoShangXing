@@ -21,9 +21,8 @@ import com.xiaoshangxing.R;
 public class ClearableEditTextWithIcon extends EditText implements OnTouchListener, TextWatcher {
 
     // 删除符号
-    Drawable deleteImage = getResources().getDrawable(R.mipmap.delete_icon);
+    Drawable deleteImage = getResources().getDrawable(R.mipmap.delete);
 
-    Drawable icon;
 
     public ClearableEditTextWithIcon(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -48,17 +47,6 @@ public class ClearableEditTextWithIcon extends EditText implements OnTouchListen
     }
 
     /**
-     * 传入显示的图标资源id
-     *
-     * @param id
-     */
-    public void setIconResource(int id) {
-        icon = getResources().getDrawable(id);
-        icon.setBounds(0, 0, icon.getIntrinsicWidth(), icon.getIntrinsicHeight());
-        manageClearButton();
-    }
-
-    /**
      * 传入删除图标资源id
      *
      * @param id
@@ -77,11 +65,11 @@ public class ClearableEditTextWithIcon extends EditText implements OnTouchListen
     }
 
     void removeClearButton() {
-        this.setCompoundDrawables(this.icon, this.getCompoundDrawables()[1], null, this.getCompoundDrawables()[3]);
+        this.setCompoundDrawables(this.getCompoundDrawables()[0], this.getCompoundDrawables()[1], null, this.getCompoundDrawables()[3]);
     }
 
     void addClearButton() {
-        this.setCompoundDrawables(this.icon, this.getCompoundDrawables()[1], deleteImage,
+        this.setCompoundDrawables(this.getCompoundDrawables()[0], this.getCompoundDrawables()[1], deleteImage,
                 this.getCompoundDrawables()[3]);
     }
 

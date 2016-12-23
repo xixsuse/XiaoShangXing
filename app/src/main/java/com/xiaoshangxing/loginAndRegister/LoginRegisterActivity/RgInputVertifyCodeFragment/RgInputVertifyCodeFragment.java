@@ -17,6 +17,7 @@ import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.AlterPasswordFra
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.SetPasswordFragment.SetPasswordFragment;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 
@@ -30,7 +31,7 @@ public class RgInputVertifyCodeFragment extends BaseFragment implements RgInputV
     private View mView;
     private View back;
     private TextView tv_phoneNumber;
-    private EditText et_vertify_code;
+    private ClearableEditTextWithIcon et_vertify_code;
     private Button submit;
     private TextView remain_time;
 
@@ -55,7 +56,7 @@ public class RgInputVertifyCodeFragment extends BaseFragment implements RgInputV
         back = mView.findViewById(R.id.back);
         back.setOnClickListener(this);
         tv_phoneNumber = (TextView) mView.findViewById(R.id.phone_number);
-        et_vertify_code = (EditText) mView.findViewById(R.id.et_vertify_code);
+        et_vertify_code = (ClearableEditTextWithIcon) mView.findViewById(R.id.et_vertify_code);
         et_vertify_code.setText("");
         submit = (Button) mView.findViewById(R.id.btn_submit);
         submit.setOnClickListener(this);

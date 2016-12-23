@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.customView.EmotionEdittext.EmotinText;
 
+import java.util.HashMap;
+
 
 /**
  * 有全文和收起的TextView
@@ -68,6 +70,14 @@ public class MoreTextView extends LinearLayout {
      * 是否是收起状态，默认收起
      */
     private boolean collapsed = true;
+
+    /**
+     * 2016/12/23 18:41
+     * description:记录收放状态
+     */
+    private HashMap<String, Boolean> statuArray;
+    private String position;
+
     private OnClickListener mycollapseListener = new OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -77,6 +87,9 @@ public class MoreTextView extends LinearLayout {
                 showTextView.setMaxLines(trimLines);
             }
             collapsed = !collapsed;
+            if (statuArray != null) {
+                statuArray.put(position, collapsed);
+            }
             collapseTextView.setText(collapsed ? expandedText : collapsedText);
         }
     };
@@ -162,16 +175,33 @@ public class MoreTextView extends LinearLayout {
         showTextView.setTextColor(textColor);
         addView(showTextView);
 
+        collapseTextView = new TextView(getContext());
+        collapseTextView.setTextSize(textSize);
+        collapseTextView.setTextColor(getResources().getColor(R.color.blue1));
+        collapseTextView.setText(expandedText);
+        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,
+                LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM);
+        collapseTextView.setLayoutParams(lp);
+        collapseTextView.setOnClickListener(mycollapseListener);
+        addView(collapseTextView);
 
+        globalLayout();
     }
 
     public void setText(CharSequence text) {
-        globalLayout();
-//        SpannableString spannableString= MoonUtil.makeSpannableStringTags(getContext(),
-//                text.toString(),0.6f, ImageSpan.ALIGN_BOTTOM,MoonUtil.getFontHeight(showTextView));
         showTextView.setText(TextUtils.isEmpty(text) ? "" : text);
+    }
 
-//        EmotTextUtil.spannableEmoticonFilter(showTextView, text.toString());
+    public void setText(CharSequence text, String position, HashMap<String, Boolean> array) {
+        this.position = position;
+        statuArray = array;
+        if (array.containsKey(position)) {
+            collapsed = array.get(position);
+        } else {
+            collapsed = true;
+        }
+        showTextView.setText(TextUtils.isEmpty(text) ? "" : text);
+        requestLayout();
     }
 
     /**
@@ -193,6 +223,7 @@ public class MoreTextView extends LinearLayout {
                 textViewHeight = showTextView.getLineHeight() * allLine;
 
                 if (trimLines > 0 && trimLines < allLine) {
+                    collapseTextView.setVisibility(VISIBLE);
                     //需要全文和收起
                     if (collapsed) {
 //                        showTextView.setHeight(showTextView.getLineHeight() * trimLines + 2);
@@ -200,20 +231,22 @@ public class MoreTextView extends LinearLayout {
                         showTextView.setEllipsize(TextUtils.TruncateAt.END);
                     }
 
-                    if (collapseTextView == null) {
-                        //全文和收起的textView
-                        collapseTextView = new TextView(getContext());
-                        collapseTextView.setTextSize(textSize);
-                        collapseTextView.setTextColor(getResources().getColor(R.color.blue1));
-                        collapseTextView.setText(expandedText);
-                        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,
-                                LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM);
-                        collapseTextView.setLayoutParams(lp);
-                        collapseTextView.setOnClickListener(mycollapseListener);
-                        addView(collapseTextView);
+//                    if (collapseTextView == null) {
+//                        //全文和收起的textView
+//                        collapseTextView = new TextView(getContext());
+//                        collapseTextView.setTextSize(textSize);
+//                        collapseTextView.setTextColor(getResources().getColor(R.color.blue1));
+//                        collapseTextView.setText(expandedText);
+//                        LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,
+//                                LayoutParams.WRAP_CONTENT, Gravity.RIGHT | Gravity.BOTTOM);
+//                        collapseTextView.setLayoutParams(lp);
+//                        collapseTextView.setOnClickListener(mycollapseListener);
+//                        addView(collapseTextView);
+//
+//                    }
 
-                    }
-
+                } else {
+                    collapseTextView.setVisibility(GONE);
                 }
             }
         });

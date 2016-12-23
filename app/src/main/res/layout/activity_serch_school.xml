@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/y48"
         android:background="@color/w0">
 
-        <EditText
+        <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
             android:id="@+id/edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

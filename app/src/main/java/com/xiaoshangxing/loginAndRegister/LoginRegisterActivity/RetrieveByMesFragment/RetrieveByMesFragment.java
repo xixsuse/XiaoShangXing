@@ -16,6 +16,7 @@ import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.LoginRegisterAct
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.RgInputPhoNumberFragment.RgInputPhoNumberFragment;
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.RgInputVertifyCodeFragment.RgInputVertifyCodeFragment;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 
@@ -30,7 +31,7 @@ public class RetrieveByMesFragment extends BaseFragment implements RetrieveByMes
     private RetrieveByMesContract.Presenter mPresenter;
 
     private View back;
-    private EditText et_phoneNumber;
+    private ClearableEditTextWithIcon et_phoneNumber;
     private Button btn_next;
 
 
@@ -51,7 +52,7 @@ public class RetrieveByMesFragment extends BaseFragment implements RetrieveByMes
     private void initView() {
         back = mview.findViewById(R.id.back);
         back.setOnClickListener(this);
-        et_phoneNumber = (EditText) mview.findViewById(R.id.et_phoneNumber);
+        et_phoneNumber = (ClearableEditTextWithIcon) mview.findViewById(R.id.et_phoneNumber);
         btn_next = (Button) mview.findViewById(R.id.btn_next);
         btn_next.setOnClickListener(this);
 

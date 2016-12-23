@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.xiaoshangxing.network.netUtil.AppNetUtil;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.LoginRegisterActivity;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.wo.setting.shiming.vertify.XueXiaoActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
@@ -37,7 +38,7 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordCont
 
     private View mView;
     private TextView cancel;
-    private EditText et_password;
+    private ClearableEditTextWithIcon et_password;
     private CheckBox cb_show_password;
     private Button comlplete;
 
@@ -58,7 +59,7 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordCont
     private void initView() {
         cancel = (TextView) mView.findViewById(R.id.cancel);
         cancel.setOnClickListener(this);
-        et_password = (EditText) mView.findViewById(R.id.et_password);
+        et_password = (ClearableEditTextWithIcon) mView.findViewById(R.id.et_password);
         cb_show_password = (CheckBox) mView.findViewById(R.id.cb_show_password);
         comlplete = (Button) mView.findViewById(R.id.btn_complete_register);
         comlplete.setOnClickListener(this);

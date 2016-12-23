@@ -34,7 +34,9 @@
         android:textColor="@color/b0"
         android:textSize="13sp" />
 
-    <LinearLayout
+
+    <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+        android:id="@+id/dialog_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/y36"
@@ -42,32 +44,13 @@
         android:layout_marginStart="@dimen/x44"
         android:layout_marginTop="@dimen/y32"
         android:background="@drawable/stroke_g1"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/dialog_edittext"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/x18"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:digits="@string/digits_password"
-            android:hint="@string/password"
-            android:textColor="@color/b0"
-            android:textColorHint="#aaaaaa"
-            android:textCursorDrawable="@drawable/cursor_blue4"
-            android:textSize="13sp" />
-
-        <ImageView
-            android:id="@+id/dialog_clear"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/x24"
-            android:clickable="true"
-            android:src="@mipmap/delete"
-            android:visibility="gone" />
-    </LinearLayout>
+        android:digits="@string/digits_password"
+        android:hint="@string/password"
+        android:padding="@dimen/x18"
+        android:textColor="@color/b0"
+        android:textColorHint="#aaaaaa"
+        android:textCursorDrawable="@drawable/cursor_blue4"
+        android:textSize="13sp" />
 
     <!--分割线-->
     <View

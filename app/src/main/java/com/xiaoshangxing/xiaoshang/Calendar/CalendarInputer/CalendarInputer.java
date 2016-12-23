@@ -29,8 +29,6 @@ import butterknife.OnClick;
  */
 
 public class CalendarInputer extends BaseActivity {
-
-
     @Bind(R.id.listview)
     ListView listview;
     @Bind(R.id.reflesh_layout)
@@ -99,7 +97,7 @@ public class CalendarInputer extends BaseActivity {
             @Override
             public void onSuccess() {
                 List<User> users = realm.where(User.class).equalTo("isVip", "1").findAll();
-                if (users.size() > 1) {
+                if (!users.isEmpty()) {
                     adpter = new CalendarInputer_Adpter(CalendarInputer.this, 1, users);
                     listview.setAdapter(adpter);
                 }

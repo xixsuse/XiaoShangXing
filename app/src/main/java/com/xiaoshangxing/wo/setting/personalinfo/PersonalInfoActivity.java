@@ -112,7 +112,6 @@ public class PersonalInfoActivity extends BaseActivity {
         }
     }
 
-
     public int getImagCoverWidth() {
         return imagCoverWidth;
     }
@@ -144,24 +143,4 @@ public class PersonalInfoActivity extends BaseActivity {
         Fragment fragment = mFragmentManager.findFragmentByTag(ShowHeadimgFragment.TAG);
         fragment.onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        TagViewFragment fragment = (TagViewFragment) mFragmentManager.findFragmentByTag(TagViewFragment.TAG);
-//        if (isbacked) {
-//            fragment.onKeyDown(keyCode, event);
-//            isbacked = false;
-//            return true;
-//        }
-
-/*        VertifySucessFragment fragment1 = (VertifySucessFragment) mFragmentManager.findFragmentByTag(VertifySucessFragment.TAG);
-        if (isVertified) {
-            fragment1.onKeyDown(keyCode, event);
-            isVertified = false;
-            return true;
-        }*/
-        return super.onKeyDown(keyCode, event);
-    }
-
-
 }

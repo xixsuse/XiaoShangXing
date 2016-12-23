@@ -11,44 +11,27 @@
 
     </include>
 
-    <LinearLayout
-        android:id="@+id/bindmailbox_linear1"
+
+    <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+        android:id="@+id/edittext"
+        style="@style/black_16sp"
         android:layout_width="match_parent"
         android:layout_height="@dimen/y144"
         android:layout_below="@id/title_lay"
         android:layout_marginTop="@dimen/y48"
-        android:background="@color/w1">
-
-        <EditText
-            android:id="@+id/bindmailbox_edittext"
-            style="@style/black_16sp"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:digits="@string/digits_password"
-            android:hint="@string/yourmaibox"
-            android:inputType="textEmailAddress"
-            android:paddingEnd="@dimen/x48"
-            android:paddingStart="@dimen/x48"
-            android:textCursorDrawable="@drawable/cursor_blue4" />
-
-        <ImageView
-            android:id="@+id/mailbox_clear"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/x48"
-            android:clickable="true"
-            android:src="@mipmap/delete"
-            android:visibility="gone" />
-    </LinearLayout>
+        android:background="@color/w1"
+        android:digits="@string/digits_password"
+        android:hint="@string/yourmaibox"
+        android:inputType="textEmailAddress"
+        android:paddingEnd="@dimen/x48"
+        android:paddingStart="@dimen/x48"
+        android:textCursorDrawable="@drawable/cursor_blue4" />
 
     <TextView
         android:id="@+id/bindmailbox_text1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/bindmailbox_linear1"
+        android:layout_below="@id/edittext"
         android:paddingStart="@dimen/x48"
         android:paddingTop="@dimen/y12"
         android:text="@string/bindmailtext1"

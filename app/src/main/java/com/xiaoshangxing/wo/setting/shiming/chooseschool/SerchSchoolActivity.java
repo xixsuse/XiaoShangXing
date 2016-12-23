@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,6 +23,7 @@ import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.wo.setting.shiming.vertify.VertifyActivity;
 import com.xiaoshangxing.wo.setting.shiming.vertify.XueYuanActivity;
 import com.xiaoshangxing.utils.IntentStatic;
@@ -62,7 +62,7 @@ public class SerchSchoolActivity extends BaseActivity implements IBaseView {
     @Bind(R.id.title_bottom_line)
     View titleBottomLine;
     @Bind(R.id.edittext)
-    EditText editText;
+    ClearableEditTextWithIcon editText;
     @Bind(R.id.list)
     ListView list;
     @Bind(R.id.notice)
@@ -74,7 +74,7 @@ public class SerchSchoolActivity extends BaseActivity implements IBaseView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vertify_xueyuan);
+        setContentView(R.layout.activity_serch_school);
         ButterKnife.bind(this);
 
         title.setText("学校");

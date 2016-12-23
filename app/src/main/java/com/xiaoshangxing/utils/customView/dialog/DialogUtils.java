@@ -5,11 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -21,13 +19,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.normalUtils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -729,8 +727,7 @@ public class DialogUtils {
         private String button1 = "确定";
         private String button2;
         private Dialog dialog;
-        private EditText editText;
-        private ImageView clear;
+        private ClearableEditTextWithIcon editText;
 
         private buttonOnClick mbuttonOnClick;
 
@@ -815,32 +812,7 @@ public class DialogUtils {
             LinearLayout twoButton = (LinearLayout) linearLayout.findViewById(R.id.dialog_twoButton);
             Button btn1 = (Button) linearLayout.findViewById(R.id.dialog_button1);
             Button btn2 = (Button) linearLayout.findViewById(R.id.dialog_button2);
-            editText = (EditText) linearLayout.findViewById(R.id.dialog_edittext);
-            clear = (ImageView) linearLayout.findViewById(R.id.dialog_clear);
-            editText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (s.toString().length() > 0) clear.setVisibility(View.VISIBLE);
-                    else clear.setVisibility(View.GONE);
-                }
-            });
-            clear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    editText.setText("");
-                }
-            });
-
+            editText = (ClearableEditTextWithIcon) linearLayout.findViewById(R.id.dialog_edittext);
             if (!TextUtils.isEmpty(getTitle())) {
                 title.setText(getTitle());
                 title.setVisibility(View.VISIBLE);
@@ -879,7 +851,6 @@ public class DialogUtils {
             }
 
             dialog.setContentView(linearLayout);
-            //        alertDialog.setCancelable(false);
             return dialog;
         }
 

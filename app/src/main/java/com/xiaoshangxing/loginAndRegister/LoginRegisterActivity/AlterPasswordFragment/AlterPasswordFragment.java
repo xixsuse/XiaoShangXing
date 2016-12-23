@@ -17,6 +17,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.LoginFragment.LoginFragment;
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 
@@ -31,7 +32,7 @@ public class AlterPasswordFragment extends BaseFragment implements AlterPassword
     private AlterPasswordContract.Presenter mPresenter;
     private TextView cancel;
     private TextView complete;
-    private EditText password1, password2;
+    private ClearableEditTextWithIcon password1, password2;
     private TextView notice, tv_phonenumber;
 
     public static AlterPasswordFragment newInstance() {
@@ -53,8 +54,8 @@ public class AlterPasswordFragment extends BaseFragment implements AlterPassword
         cancel.setOnClickListener(this);
         complete = (TextView) mView.findViewById(R.id.complete);
         complete.setOnClickListener(this);
-        password1 = (EditText) mView.findViewById(R.id.et_password);
-        password2 = (EditText) mView.findViewById(R.id.et_password2);
+        password1 = (ClearableEditTextWithIcon) mView.findViewById(R.id.et_password);
+        password2 = (ClearableEditTextWithIcon) mView.findViewById(R.id.et_password2);
         notice = (TextView) mView.findViewById(R.id.notice);
         tv_phonenumber = (TextView) mView.findViewById(R.id.tv_phoneNumber);
 

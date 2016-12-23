@@ -28,7 +28,8 @@
         android:layout_marginTop="@dimen/y126"
         android:orientation="vertical">
 
-        <EditText
+        <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+            android:paddingRight="@dimen/width_48"
             android:id="@+id/input_school"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

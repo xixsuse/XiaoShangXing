@@ -200,6 +200,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
     WheelView selectLocation;
     @Bind(R.id.emot_picture)
     LinearLayout emotPicture;
+    @Bind(R.id.up_lay)
+    LinearLayout upLay;
     private List<View> viewlist = new ArrayList<View>();
     private List<String> iamgeurls = new ArrayList<String>();
     private PictureAdapter adapter;
@@ -415,6 +417,8 @@ public class InputActivity extends BaseActivity implements IBaseView {
         adapter.notifyDataSetChanged();
     }
 
+    private int edittextHeight = 0;
+
     private void initKeyboard() {
 
         //监听键盘高度  让输入框保持在键盘上面
@@ -427,6 +431,33 @@ public class InputActivity extends BaseActivity implements IBaseView {
                     selectLay.layout(0, screenHeight - softKeybardHeight - selectLay.getHeight(),
                             selectLay.getWidth(),
                             screenHeight - softKeybardHeight);
+
+                    // 调整输入框的高度
+                    if (edittextHeight == 0) {
+
+                        edittextHeight = softKeybardHeight;
+
+                        switch (current_state) {
+                            case PUBLISH_STATE:
+                                edittextHeight = edittextHeight - ScreenUtils.getAdapterPx(R.dimen.y120, InputActivity.this);
+                                break;
+                            case XIANZHI:
+                                edittextHeight = edittextHeight - ScreenUtils.getAdapterPx(R.dimen.y120, InputActivity.this);
+                                break;
+                            case SHOOLFELLOW_HELP:
+                                break;
+                            case SHOOL_REWARD:
+                                edittextHeight = edittextHeight - ScreenUtils.getAdapterPx(R.dimen.y120, InputActivity.this);
+                                break;
+                            case LANCH_PLAN:
+                                edittextHeight = edittextHeight - ScreenUtils.getAdapterPx(R.dimen.y120, InputActivity.this)
+                                        - ScreenUtils.getAdapterPx(R.dimen.y144, InputActivity.this);
+                                break;
+                            case TRANSMIT:
+                                edittextHeight = edittextHeight - ScreenUtils.getAdapterPx(R.dimen.y130, InputActivity.this);
+                        }
+                        emotionEdittext.getLayoutParams().height = edittextHeight;
+                    }
                 }
             }
         });

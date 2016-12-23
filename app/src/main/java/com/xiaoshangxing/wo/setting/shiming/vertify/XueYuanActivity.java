@@ -70,7 +70,7 @@ public class XueYuanActivity extends BaseActivity implements IBaseView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vertify_xueyuan);
+        setContentView(R.layout.activity_serch_school);
         ButterKnife.bind(this);
 
         title.setText("学院");

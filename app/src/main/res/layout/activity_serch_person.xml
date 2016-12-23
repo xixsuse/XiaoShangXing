@@ -11,7 +11,7 @@
         android:background="@color/w0"
         android:orientation="horizontal">
 
-        <EditText
+        <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
             android:id="@+id/input"
             style="@style/black_16sp"
             android:layout_width="0dp"
@@ -20,8 +20,12 @@
             android:layout_weight="1"
             android:background="@drawable/et_circular_4_white"
             android:drawableLeft="@mipmap/serch"
+            android:gravity="center_vertical"
             android:hint="输入手机号/名字"
-            android:padding="@dimen/x10"
+            android:paddingBottom="@dimen/y10"
+            android:paddingRight="@dimen/x24"
+            android:paddingStart="@dimen/x10"
+            android:paddingTop="@dimen/y10"
             android:textCursorDrawable="@drawable/cursor_blue4" />
 
         <TextView

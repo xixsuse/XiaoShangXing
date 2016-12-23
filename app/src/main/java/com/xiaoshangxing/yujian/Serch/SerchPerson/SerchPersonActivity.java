@@ -23,6 +23,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.bean.User;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 
@@ -45,7 +46,7 @@ import okhttp3.ResponseBody;
 
 public class SerchPersonActivity extends BaseActivity implements IBaseView {
     @Bind(R.id.input)
-    EditText input;
+    ClearableEditTextWithIcon input;
     @Bind(R.id.cancel)
     TextView cancel;
     @Bind(R.id.serch_param)

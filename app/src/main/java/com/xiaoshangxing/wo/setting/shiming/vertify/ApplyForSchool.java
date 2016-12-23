@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 
@@ -29,7 +30,7 @@ public class ApplyForSchool extends BaseActivity {
     @Bind(R.id.cancel)
     TextView cancel;
     @Bind(R.id.input_school)
-    EditText inputSchool;
+    ClearableEditTextWithIcon inputSchool;
     @Bind(R.id.appeal_open)
     Button appealOpen;
 

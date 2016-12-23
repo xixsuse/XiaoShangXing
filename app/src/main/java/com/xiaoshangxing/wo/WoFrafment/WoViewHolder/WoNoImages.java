@@ -7,11 +7,6 @@ import com.xiaoshangxing.data.bean.Published;
  * on 2016/9/10
  */
 public class WoNoImages extends WoBaseHolder {
-
-//    public WoNoImages(Context context, Published published, BaseActivity activity, Realm realm, WoFragment woFragment) {
-//        super(context, published, activity, realm, woFragment);
-//    }
-
     @Override
     public void inflate() {
     }

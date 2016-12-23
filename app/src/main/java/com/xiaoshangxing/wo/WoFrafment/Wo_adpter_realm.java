@@ -3,13 +3,14 @@ package com.xiaoshangxing.wo.WoFrafment;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoBaseHolder;
 import com.xiaoshangxing.wo.WoFrafment.WoViewHolder.WoJustOneImage;
@@ -38,6 +39,7 @@ public class Wo_adpter_realm extends RealmBaseAdapter<Published> {
     private Context context;
     private BaseActivity activity;
     private ListView listView;
+    private SparseBooleanArray array = new SparseBooleanArray();
 
     public Wo_adpter_realm(Context context, RealmResults<Published> objects, WoFragment woFragment,
                            BaseActivity activity, Realm realm, ListView listView) {
@@ -152,5 +154,9 @@ public class Wo_adpter_realm extends RealmBaseAdapter<Published> {
                 }
             }
         }
+    }
+
+    public SparseBooleanArray getArray() {
+        return array;
     }
 }

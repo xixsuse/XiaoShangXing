@@ -13,20 +13,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.xiaoshangxing.network.netUtil.NS;
-import com.xiaoshangxing.network.netUtil.OperateUtils;
-import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.data.bean.CommentsBean;
 import com.xiaoshangxing.data.bean.Published;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.network.netUtil.OperateUtils;
+import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.utils.customView.ExpandableTextView;
 import com.xiaoshangxing.utils.customView.LayoutHelp;
-import com.xiaoshangxing.utils.customView.MoreTextView;
 import com.xiaoshangxing.utils.customView.Name;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
@@ -72,7 +72,7 @@ public abstract class WoBaseHolder {
     protected CirecleImage headImage;
     protected Name name;
     protected TextView college;
-    protected MoreTextView text;
+    protected ExpandableTextView text;
     protected FrameLayout content;
     protected TextView location;
     protected TextView time;
@@ -167,7 +167,7 @@ public abstract class WoBaseHolder {
         headImage = (CirecleImage) view.findViewById(R.id.head_image);
         name = (Name) view.findViewById(R.id.name);
         college = (TextView) view.findViewById(R.id.college);
-        text = (MoreTextView) view.findViewById(R.id.text);
+        text = (ExpandableTextView) view.findViewById(R.id.text);
         content = (FrameLayout) view.findViewById(R.id.content);
         location = (TextView) view.findViewById(R.id.location);
         time = (TextView) view.findViewById(R.id.time);
@@ -204,7 +204,8 @@ public abstract class WoBaseHolder {
         headline.setVisibility(published.getIsHeadline() == 1 ? View.VISIBLE : View.INVISIBLE);
 
 //      文字内容
-        text.setText(published.getText());
+//        text.setText(published.getText());
+        text.setText(published.getText(), adpter.getArray(), position);
 
 //      地点
         location.setText(published.getLocation());

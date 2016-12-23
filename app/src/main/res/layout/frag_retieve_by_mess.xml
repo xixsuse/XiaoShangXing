@@ -64,10 +64,11 @@
                 android:layout_gravity="center_vertical"
                 android:text="@string/phone_head" />
 
-            <EditText
+            <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+                android:paddingRight="@dimen/width_48"
                 android:id="@+id/et_phoneNumber"
                 style="@style/input_phoneNumber"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="@dimen/x100"

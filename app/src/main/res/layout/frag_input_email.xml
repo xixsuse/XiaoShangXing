@@ -35,7 +35,8 @@
             android:text="@string/account" />
 
         <!--账号输入框-->
-        <EditText
+        <com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon
+            android:paddingRight="@dimen/width_48"
             android:id="@+id/et_account"
             style="@style/input_phoneNumber"
             android:layout_width="match_parent"
