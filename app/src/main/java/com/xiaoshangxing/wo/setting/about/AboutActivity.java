@@ -72,10 +72,6 @@ public class AboutActivity extends BaseActivity {
         versionText.setText("校上行内测版:" + version);
     }
 
-//    public void Back(View view) {
-//        finish();
-//    }
-
     public void FunctionIntroduction(View view) {
 
     }

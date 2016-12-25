@@ -56,14 +56,14 @@
         android:orientation="horizontal">
 
         <com.xiaoshangxing.utils.customView.CirecleImage
-            android:id="@+id/QunzhuHeadImg"
+            android:id="@+id/head_image"
             android:layout_width="@dimen/x126"
             android:layout_height="@dimen/x126"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/x24"
             android:layout_marginStart="@dimen/x48"
             android:scaleType="centerCrop"
-            android:src="@mipmap/cirecleimage_default" />
+            android:src="@mipmap/default_head" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,7 +72,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/QunzhuName"
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
@@ -81,7 +81,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/Time"
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2016.7.21  19：30"
@@ -99,16 +99,21 @@
         android:layout_marginTop="@dimen/y36"
         android:background="@color/g1" />
 
-    <TextView
-        android:id="@+id/NoticeContent"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y1234"
-        android:layout_marginEnd="@dimen/x48"
-        android:layout_marginStart="@dimen/x48"
-        android:layout_marginTop="@dimen/y36"
+        android:layout_height="@dimen/y1234">
 
-        android:textColor="@color/b0"
-        android:textSize="13sp" />
+        <TextView
+            android:id="@+id/NoticeContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/x48"
+            android:layout_marginStart="@dimen/x48"
+            android:layout_marginTop="@dimen/y36"
+            android:textColor="@color/b0"
+            android:textSize="13sp" />
+    </ScrollView>
+
 
     <RelativeLayout
         android:layout_width="match_parent"

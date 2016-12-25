@@ -14,14 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.xiaoshangxing.network.netUtil.AppNetUtil;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.loginAndRegister.LoginRegisterActivity.LoginRegisterActivity;
 import com.xiaoshangxing.utils.customView.ClearableEditTextWithIcon;
-import com.xiaoshangxing.wo.setting.shiming.vertify.XueXiaoActivity;
+import com.xiaoshangxing.wo.setting.realName.vertify.SchoolActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
@@ -164,7 +163,7 @@ public class SetPasswordFragment extends BaseFragment implements SetPasswordCont
         AppNetUtil.LoginXSX(getPhone(), getPassword(), mContext, this, new AppNetUtil.LoginXSXback() {
             @Override
             public void onSuccess() {
-                Intent intent = new Intent(getContext(), XueXiaoActivity.class);
+                Intent intent = new Intent(getContext(), SchoolActivity.class);
                 intent.putExtra(IntentStatic.TYPE, IntentStatic.REGISTER);
                 startActivity(intent);
                 getActivity().finish();

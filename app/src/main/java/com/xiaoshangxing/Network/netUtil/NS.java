@@ -112,6 +112,8 @@ public class NS {
      * description:遇见有关
      */
     public static final String MARK = "MARK";//留心
+    public static final String CREATOR = "creator";//公告发布者
+    public static final String TIME = "time";//公告发布时间
 
 
     /**

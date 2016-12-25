@@ -8,7 +8,7 @@ import android.view.animation.AnimationUtils;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.wo.setting.shiming.shenhe.XueShengZhenActivity;
+import com.xiaoshangxing.wo.setting.realName.shenhe.StudentIdentityCardActivity;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
@@ -65,7 +65,7 @@ public class LayoutHelp {
 
                         @Override
                         public void onButton2() {
-                            Intent intent = new Intent(activity, XueShengZhenActivity.class);
+                            Intent intent = new Intent(activity, StudentIdentityCardActivity.class);
                             activity.startActivity(intent);
                             dialogUtils.close();
                         }

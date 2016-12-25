@@ -12,6 +12,7 @@ import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
+import com.xiaoshangxing.yujian.IM.uinfo.SelfInfoObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -296,6 +297,7 @@ public class NimUserInfoCache {
         // 通知变更
         if (notify && accounts != null && !accounts.isEmpty()) {
             NimUIKit.notifyUserInfoChanged(accounts); // 通知到UI组件
+            SelfInfoObserver.getInstance().notifyObservers(users);//通知到个人信息
         }
     }
 

@@ -575,7 +575,7 @@
         </LinearLayout>
 
         <!--选择园区-->
-        <com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView
+        <com.xiaoshangxing.utils.customView.wheelView.WheelView
             android:id="@+id/select_location"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -23,7 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by tianyang on 2016/7/1.
+ *modified by FengChaoQun on 2016/12/25 13:49
+ * description:优化代码
  */
 public class ReportReasonFragment extends BaseFragment implements AdapterView.OnItemClickListener {
     public static final String TAG = BaseFragment.TAG + "-ReportReasonFragment";

@@ -75,17 +75,17 @@
             android:layout_marginTop="@dimen/y50"
             android:orientation="horizontal">
 
-            <com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView
+            <com.xiaoshangxing.utils.customView.wheelView.WheelView
                 android:id="@+id/id_province"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"></com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView>
+                android:layout_weight="1"></com.xiaoshangxing.utils.customView.wheelView.WheelView>
 
-            <com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView
+            <com.xiaoshangxing.utils.customView.wheelView.WheelView
                 android:id="@+id/id_city"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"></com.xiaoshangxing.wo.setting.utils.city_choosing.WheelView>
+                android:layout_weight="1"></com.xiaoshangxing.utils.customView.wheelView.WheelView>
         </LinearLayout>
 
     </LinearLayout>

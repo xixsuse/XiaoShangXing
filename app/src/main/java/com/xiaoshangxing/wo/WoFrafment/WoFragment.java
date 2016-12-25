@@ -18,16 +18,15 @@ import android.widget.TextView;
 
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.MainActivity;
-import com.xiaoshangxing.network.netUtil.LoadUtils;
-import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.data.bean.Published;
 import com.xiaoshangxing.data.bean.PushMsg;
+import com.xiaoshangxing.network.netUtil.LoadUtils;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.publicActivity.inputActivity.InputActivity;
 import com.xiaoshangxing.publicActivity.inputActivity.InputBoxLayout;
-import com.xiaoshangxing.wo.setting.SettingActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.NotifycationUtil;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
@@ -39,6 +38,8 @@ import com.xiaoshangxing.utils.customView.pull_refresh.PtrDefaultHandler;
 import com.xiaoshangxing.utils.customView.pull_refresh.PtrFrameLayout;
 import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.wo.NewsActivity.NewsActivity;
+import com.xiaoshangxing.wo.setting.SettingActivity;
+import com.xiaoshangxing.yujian.IM.uinfo.SelfInfoObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,11 +58,6 @@ import static com.xiaoshangxing.utils.NotifycationUtil.NT_SCHOOLMATE_NOTICE_YOU;
 public class WoFragment extends BaseFragment implements WoContract.View, View.OnClickListener {
 
     public static final String TAG = BaseFragment.TAG + "-WoFragment";
-    //  记录listview点击位置
-    float x1 = 0;
-    float x2 = 0;
-    float y1 = 0;
-    float y2 = 0;
     //    记录title点击时间  实现双击
     long firstClick;
     private WoContract.Presenter mPresenter;
@@ -92,12 +88,10 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     private RealmResults<Published> publisheds;
     private Wo_adpter_realm adpter_realm;
-    private int current_anchor = 10;
-    private int selection;//记录listview的位置
-    private NimUserInfo nimUserInfo;
 
     private List<PushMsg> pushMsgs = new ArrayList<>();
     private NotifycationUtil.OnNotifyChange onNotifyChange;
+    private SelfInfoObserver.SelfInfoCallback selfInfoCallback;
 
     public static WoFragment newInstance() {
         return new WoFragment();
@@ -117,13 +111,13 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
     @Override
     public void onResume() {
         super.onResume();
-        initHead();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         NotifycationUtil.unRegisterObserver(onNotifyChange);
+        registerSlefInfoObserver(false);
     }
 
     private void initView() {
@@ -182,21 +176,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                    x1 = event.getX();
-//                    y1 = event.getY();
-//
-//                }
-//                if (event.getAction() == MotionEvent.ACTION_MOVE) {
-//                    x2 = event.getX();
-//                    y2 = event.getY();
-//                    if (y1 - y2 > 15 && !is_titleMove) {
-//                        hideTitle();
-//                    } else if (y2 - y1 > 5 & !is_titleMove) {
-//                        showTitle();
-//                    }
-//                }
-//               隐藏评论框
                 hideEdittext();
                 return false;
             }
@@ -224,6 +203,20 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             }
         };
         NotifycationUtil.registerObserver(onNotifyChange);
+        registerSlefInfoObserver(true);
+    }
+
+    private void registerSlefInfoObserver(boolean is) {
+        if (selfInfoCallback == null) {
+            selfInfoCallback = new SelfInfoObserver.SelfInfoCallback() {
+                @Override
+                public void onCallback(NimUserInfo userInfo) {
+                    UserInfoCache.getInstance().getHeadIntoImage(TempUser.getId(), headImage);
+                    UserInfoCache.getInstance().getExIntoTextview(TempUser.getId(), NS.USER_NAME, name);
+                }
+            };
+        }
+        SelfInfoObserver.getInstance().registerObserver(selfInfoCallback, is);
     }
 
     @Override
@@ -296,41 +289,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
         adpter_realm = new Wo_adpter_realm(getContext(),
                 publisheds, this, (BaseActivity) getActivity(), realm, listView);
         listView.setAdapter(adpter_realm);
-
-//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                if (totalItemCount - (firstVisibleItem + visibleItemCount - 1) == 3) {
-////                    if (!is_loadMore) {
-//////                        mPresenter.LoadMore();
-////                        is_loadMore = true;
-////                        if (publisheds.size() > current_anchor) {
-////                            Log.d("current_anchor", "" + current_anchor);
-////                            pager_publisheds.clear();
-////                            pager_publisheds.addAll(0, publisheds.subList(0, current_anchor));
-////                            current_anchor += 10;
-////                            wo_listview_adpter.notifyDataSetChanged();
-////
-////                            Log.d("load", "publishedsCount:" + publisheds.size() +
-////                                    "--pager_publisheds:" + pager_publisheds.size());
-////                        }
-////
-////                        is_loadMore = false;
-////                    }
-//                }
-//                if (firstVisibleItem + visibleItemCount == totalItemCount) {
-//                    showFooter();
-//                } else if (firstVisibleItem == 0) {
-//                    showTitle();
-//                }
-//            }
-//        });
-
     }
 
     private void initFresh() {
@@ -506,12 +464,6 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
 
     @Override
     public void refreshPager() {
-//        selection = listView.getSelectedItemPosition();
-//        pager_publisheds.clear();
-//        pager_publisheds.addAll(publisheds.subList(current_anchor,
-//                current_anchor + 10 > publisheds.size() ? publisheds.size() : current_anchor + 10));
-//        listView.setSelection(selection);
-
     }
 
     public void deleteOne(int position) {
@@ -543,6 +495,4 @@ public class WoFragment extends BaseFragment implements WoContract.View, View.On
             }
         }
     }
-
-
 }

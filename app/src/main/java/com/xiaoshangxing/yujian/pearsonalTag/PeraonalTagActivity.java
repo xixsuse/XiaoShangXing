@@ -6,8 +6,8 @@ import android.view.View;
 
 import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.wo.setting.utils.TagView.Tag;
-import com.xiaoshangxing.wo.setting.utils.TagView.TagListView;
+import com.xiaoshangxing.utils.customView.TagView.Tag;
+import com.xiaoshangxing.utils.customView.TagView.TagListView;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 
@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tianyang on 2016/8/22.
+ *modified by FengChaoQun on 2016/12/24 19:21
+ * description:优化代码
  */
 public class PeraonalTagActivity extends BaseActivity {
     private final List<Tag> mTags = new ArrayList<Tag>();

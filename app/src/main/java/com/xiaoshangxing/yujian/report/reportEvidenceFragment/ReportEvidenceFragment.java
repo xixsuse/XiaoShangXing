@@ -51,7 +51,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by tianyang on 2016/7/2.
+ *modified by FengChaoQun on 2016/12/25 13:49
+ * description:优化代码
  */
 public class ReportEvidenceFragment extends BaseFragment implements IBaseView {
     public static final String TAG = BaseFragment.TAG + "-ReportEvidenceFragment";
@@ -107,11 +108,9 @@ public class ReportEvidenceFragment extends BaseFragment implements IBaseView {
         reportText = (EditText) mView.findViewById(R.id.report_evidence_edittext);
         reportText.setText(reportActivity.getReportText());
         showMsgHandler = new ShowMsgHandler(getContext());
-//        Res.init(getActivity());
         bimap = BitmapFactory.decodeResource(
                 getResources(),
                 R.mipmap.icon_addpic_unfocused);
-//        PublicWay.activityList.add(getActivity());
         Init();
 
         return mView;
@@ -121,7 +120,6 @@ public class ReportEvidenceFragment extends BaseFragment implements IBaseView {
         noScrollgridview = (GridView) mView.findViewById(R.id.report_evidence_gridview);
         noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
         adapter = new GridAdapter(getActivity());
-        //   adapter.update();
         adapter.notifyDataSetChanged();
         noScrollgridview.setAdapter(adapter);
         noScrollgridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {//查看某个照片
@@ -167,10 +165,6 @@ public class ReportEvidenceFragment extends BaseFragment implements IBaseView {
     }
 
     private void upload() {
-        Log.d("reportId", reportActivity.getAccount());
-        Log.d("reportType", reportActivity.getReportType());
-        Log.d("reportText", reportText.getText().toString());
-        Log.d("reportImages", select_image_urls.toString());
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -272,15 +266,7 @@ public class ReportEvidenceFragment extends BaseFragment implements IBaseView {
             this.shape = shape;
         }
 
-//        public void update() {
-//            loading();
-//        }
-
         public int getCount() {
-//            if (Bimp.tempSelectBitmap.size() == 9) {
-//                return 9;
-//            }
-//            return (Bimp.tempSelectBitmap.size() + 1);
             int count = select_image_urls.size() + 1;
             return count > 9 ? 9 : count;
         }

@@ -29,8 +29,6 @@ public class PermissionAdapter extends BaseAdapter {
 
     private List<String> accounts = new ArrayList<>();
     private Context context;
-    private String add = "add";
-    private String reduce = "reduce";
     private boolean isDelete;
     private Fragment fragment;
 

@@ -31,7 +31,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by 15828 on 2016/8/13.
+ *modified by FengChaoQun on 2016/12/24 19:13
+ * description:优化代码
  */
 public class ChooseNewGroupMasterActivity extends BaseActivity {
     private ListView sortListView;
@@ -39,7 +40,6 @@ public class ChooseNewGroupMasterActivity extends BaseActivity {
     private ChooseNewMasterAdapter adapter;
     private TextView dialog;
     private CharacterParser characterParser;
-    private List<Member> dataList = new ArrayList<>();  //传过来的数据
     private List<SortModel> SourceDateList = new ArrayList<>();
     private PinyinComparator pinyinComparator;
     private String account;
@@ -135,8 +135,6 @@ public class ChooseNewGroupMasterActivity extends BaseActivity {
                             }
                         }).create();
                 alertDialog.show();
-//                LocationUtil.setWidth(ChooseNewGroupMasterActivity.this, alertDialog,
-//                        getResources().getDimensionPixelSize(R.dimen.x780));
             }
         });
         SourceDateList = filledData(members);

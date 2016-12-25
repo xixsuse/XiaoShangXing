@@ -29,15 +29,16 @@ import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.bean.TopChat;
-import com.xiaoshangxing.wo.setting.currency.chatBackground.ChatBackgroundActivity;
-import com.xiaoshangxing.wo.setting.utils.ActionSheet;
+import com.xiaoshangxing.network.netUtil.NS;
+import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.customView.SwitchView;
+import com.xiaoshangxing.utils.customView.dialog.ActionSheet;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
+import com.xiaoshangxing.wo.setting.currency.chatBackground.ChatBackgroundActivity;
 import com.xiaoshangxing.yujian.IM.NimUIKit;
 import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
@@ -49,6 +50,10 @@ import com.xiaoshangxing.yujian.groupchatInfo.groupCode.GroupCodeActivity;
 import com.xiaoshangxing.yujian.groupchatInfo.groupMembers.GroupMembersActivity;
 import com.xiaoshangxing.yujian.groupchatInfo.groupName.GroupNameActivity;
 import com.xiaoshangxing.yujian.groupchatInfo.groupNotice.GroupNoticeEditActivity;
+import com.xiaoshangxing.yujian.groupchatInfo.groupNotice.GroupNoticeShowActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,16 +162,11 @@ public class ChatInfoActivity extends BaseActivity {
         public void onUpdateTeams(List<Team> teams) {
             for (Team team1 : teams) {
                 if (team1.getId().equals(account)) {
-                    team = TeamDataCache.getInstance().getTeamById(account);
-                    if (team == null) {
-                        showToast("更新群信息失败");
-                    }
-                    Log.d("team_data_change", "announce" + team1.getAnnouncement());
+                    team = team1;
                     refresh();
                     break;
                 }
             }
-            Log.d("team_data_change", "ok");
         }
 
         @Override
@@ -249,6 +249,7 @@ public class ChatInfoActivity extends BaseActivity {
     private void refresh() {
         requestMembers();
         setGroupChatName();
+        setGroupNoticeContent();
         refreshNotice();
     }
 
@@ -362,7 +363,14 @@ public class ChatInfoActivity extends BaseActivity {
     }
 
     private void setGroupNoticeContent() {
-        groupNoticeContent = team.getAnnouncement();
+        if (!TextUtils.isEmpty(team.getAnnouncement())) {
+            try {
+                JSONObject jsonObject = new JSONObject(team.getAnnouncement());
+                groupNoticeContent = jsonObject.getString(NS.CONTENT);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
         if (!TextUtils.isEmpty(groupNoticeContent)) {
             GroupNoticeView1.setVisibility(View.GONE);
             GroupNoticeView2.setVisibility(View.VISIBLE);
@@ -372,14 +380,11 @@ public class ChatInfoActivity extends BaseActivity {
             GroupNoticeView2.setVisibility(View.GONE);
             if (isMyteam) {
                 IsGroupNoticeSetted.setText("未填写");
-                Log.d("notice", "isMyTeam");
             } else {
                 IsGroupNoticeSetted.setText("");
-                Log.d("notice", "notMyTeam");
             }
         }
     }
-
 
     private void ZhiDing() {
         TopChat mytopChat = realm.where(TopChat.class).equalTo("account", account).findFirst();
@@ -482,29 +487,56 @@ public class ChatInfoActivity extends BaseActivity {
 
     public void GroupNotice(View view) {
         boolean isQunzhu = isMyteam;
-        if (isQunzhu) {
-            Intent intent = new Intent(this, GroupNoticeEditActivity.class);
+//        if (isQunzhu) {
+//            Intent intent = new Intent(this, GroupNoticeEditActivity.class);
+//            intent.putExtra(IntentStatic.ACCOUNT, account);
+//            startActivity(intent);
+//        } else {
+//            final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+//            final Dialog alertDialog = dialogUtils.Message("只有群主才能修改群公告")
+//                    .Button("我知道了").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+//                        @Override
+//                        public void onButton1() {
+//                            dialogUtils.close();
+//                        }
+//
+//                        @Override
+//                        public void onButton2() {
+//
+//                        }
+//
+//                    }).create();
+//            alertDialog.show();
+//            DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
+//        }
+        if (TextUtils.isEmpty(groupNoticeContent)) {
+            if (isQunzhu) {
+                Intent intent = new Intent(this, GroupNoticeEditActivity.class);
+                intent.putExtra(IntentStatic.ACCOUNT, account);
+                startActivity(intent);
+            } else {
+                final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
+                final Dialog alertDialog = dialogUtils.Message("只有群主才能修改群公告")
+                        .Button("我知道了").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
+                            @Override
+                            public void onButton1() {
+                                dialogUtils.close();
+                            }
+
+                            @Override
+                            public void onButton2() {
+
+                            }
+
+                        }).create();
+                alertDialog.show();
+                DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
+            }
+        } else {
+            Intent intent = new Intent(this, GroupNoticeShowActivity.class);
             intent.putExtra(IntentStatic.ACCOUNT, account);
             startActivity(intent);
-        } else {
-            final DialogUtils.Dialog_Center2 dialogUtils = new DialogUtils.Dialog_Center2(this);
-            final Dialog alertDialog = dialogUtils.Message("只有群主才能修改群公告")
-                    .Button("我知道了").MbuttonOnClick(new DialogUtils.Dialog_Center2.buttonOnClick() {
-                        @Override
-                        public void onButton1() {
-                            dialogUtils.close();
-                        }
-
-                        @Override
-                        public void onButton2() {
-
-                        }
-
-                    }).create();
-            alertDialog.show();
-            DialogLocationAndSize.setWidth(alertDialog, R.dimen.x780);
         }
-
     }
 
     public void SetChatBackGround(View view) {

@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.setting.personalinfo.MyCode;
+package com.xiaoshangxing.wo.setting.personalinfo.myCode;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.wo.setting.utils.ActionSheet;
+import com.xiaoshangxing.utils.customView.dialog.ActionSheet;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 
 /**

@@ -21,7 +21,7 @@ import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.wo.setting.utils.ActionSheet;
+import com.xiaoshangxing.utils.customView.dialog.ActionSheet;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.customView.CirecleImage;
@@ -42,18 +42,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by 15828 on 2016/8/13.
+ *modified by FengChaoQun on 2016/12/24 19:15
+ * description:优化代码
  */
 public class DeleteMemberActivity extends BaseActivity {
-    private static int count = 0;
     @Bind(R.id.deleteMember_listView)
     ListView listView;
     @Bind(R.id.deleteMember_Delete)
     TextView delete;
     private String account;
     private BaseAdapter baseAdapter;
-    //    private static List<DeleteMember> data = new ArrayList<>();
-    private ActionSheet mActionSheet;
     private List<TeamMember> teamMembers;
     TeamDataCache.TeamMemberDataChangedObserver teamMemberObserver = new TeamDataCache.TeamMemberDataChangedObserver() {
 
@@ -240,10 +238,6 @@ public class DeleteMemberActivity extends BaseActivity {
                     public void onButton1() {
                         removePeople();
                         baseAdapter.notifyDataSetChanged();
-//                        count = 0;
-//                        delete.setText("删除");
-//                        delete.setAlpha((float) 0.5);
-//                        delete.setEnabled(false);
                         dialogUtils.close();
                     }
 

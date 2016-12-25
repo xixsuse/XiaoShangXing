@@ -16,10 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tianyang on 2016/7/1.
+ *modified by FengChaoQun on 2016/12/25 13:49
+ * description:优化代码
  */
 public class ReportActivity extends BaseActivity {
-    public static final String TAG = BaseActivity.TAG + "-LoginRegisterActivity";
+    public static final String TAG = BaseActivity.TAG + "-ReportActivity";
     private String reportText;
     private String reportType;
     private ReportEvidenceFragment reportEvidenceFragment;

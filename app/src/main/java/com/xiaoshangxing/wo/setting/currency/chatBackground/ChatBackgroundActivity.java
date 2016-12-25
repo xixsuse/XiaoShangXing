@@ -11,19 +11,18 @@ import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.LocalDataUtils;
-import com.xiaoshangxing.wo.setting.currency.chooseBackgroundFragment.ChooseBackgroundFragment;
-import com.xiaoshangxing.wo.setting.utils.headimg_set.CommonUtils;
-import com.xiaoshangxing.wo.setting.utils.headimg_set.FileUtil;
-import com.xiaoshangxing.wo.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
+import com.xiaoshangxing.utils.imageUtils.ImageFactory;
 import com.xiaoshangxing.utils.normalUtils.FileUtils;
+import com.xiaoshangxing.wo.setting.currency.chooseBackgroundFragment.ChooseBackgroundFragment;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by tianyang on 2016/8/20.
+ * modified by FengChaoQun on 2016/12/24 16:54
+ * description:优化代码
  */
 public class ChatBackgroundActivity extends BaseActivity {
     public static final int ACTIVITY_ALBUM_REQUESTCODE = 1000;
@@ -56,7 +55,7 @@ public class ChatBackgroundActivity extends BaseActivity {
     }
 
     public void ChooseFromPhone(View view) {
-        IntentStatic.openCamera(this, Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), ACTIVITY_CAMERA_REQUESTCODE);
+        IntentStatic.openCamera(this, Uri.fromFile(FileUtils.getTempImageFile()), ACTIVITY_CAMERA_REQUESTCODE);
     }
 
     public void ChooseFromAlbum(View view) {
@@ -76,13 +75,13 @@ public class ChatBackgroundActivity extends BaseActivity {
             case ACTIVITY_ALBUM_REQUESTCODE:
                 if (resultCode == Activity.RESULT_OK) {
                     if (data.getData() == null) {
-                        ToastUtils.toast(this, getString(R.string.pic_not_valid));
+                        showToast(getString(R.string.pic_not_valid));
                         return;
                     }
                     WindowManager wm = this.getWindowManager();
                     int width = wm.getDefaultDisplay().getWidth();
                     int height = wm.getDefaultDisplay().getHeight();
-                    CommonUtils.cutPhoto(this, data.getData(), false, width, height);
+                    ImageFactory.cutPhoto(this, data.getData(), false, width, height);
                 }
 
                 break;
@@ -91,11 +90,11 @@ public class ChatBackgroundActivity extends BaseActivity {
                     WindowManager wm = this.getWindowManager();
                     int width = wm.getDefaultDisplay().getWidth();
                     int height = wm.getDefaultDisplay().getHeight();
-                    CommonUtils.cutPhoto(this, Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), false, width, height);
+                    ImageFactory.cutPhoto(this, Uri.fromFile(FileUtils.getTempImageFile()), false, width, height);
                 }
                 break;
             case ACTIVITY_MODIFY_PHOTO_REQUESTCODE:
-                String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
+                String coverPath = FileUtils.getTempImage2();
                 final File file = FileUtils.newImageFile();
                 try {
                     FileUtils.copyFileTo(new File(coverPath), file);

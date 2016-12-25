@@ -26,7 +26,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.publicActivity.SelectPerson.SelectPersonActivity;
 import com.xiaoshangxing.data.bean.TopChat;
 import com.xiaoshangxing.wo.setting.currency.chatBackground.ChatBackgroundActivity;
-import com.xiaoshangxing.wo.setting.utils.ActionSheet;
+import com.xiaoshangxing.utils.customView.dialog.ActionSheet;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.baseClass.IBaseView;
@@ -46,11 +46,10 @@ import butterknife.OnClick;
 import io.realm.Realm;
 
 /**
- * Created by tianyang on 2016/8/22.
+ *modified by FengChaoQun on 2016/12/24 19:21
+ * description:优化代码
  */
 public class PersonChatInfoActivity extends BaseActivity implements IBaseView {
-
-
     @Bind(R.id.left_image)
     ImageView leftImage;
     @Bind(R.id.left_text)

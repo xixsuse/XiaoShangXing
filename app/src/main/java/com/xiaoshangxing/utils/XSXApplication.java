@@ -295,6 +295,8 @@ public class XSXApplication extends Application {
                         for (Map.Entry<TeamFieldEnum, Object> field : attachment.getUpdatedFields().entrySet()) {
                             if (field.getKey() == TeamFieldEnum.ICON) {
                                 return true;
+                            } else if (field.getKey() == TeamFieldEnum.Extension) {
+                                return true;
                             }
                         }
                     }

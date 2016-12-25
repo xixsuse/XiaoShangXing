@@ -26,7 +26,8 @@ public class FileUtils {
     //  保存的图片
     public static String XSX_SAVE_IAMGE = XSX_PATH + "SAVED_IMAGE" + File.separator;
     //  临时图片
-    public static String TEMP_IMAGE = XSX_PATH + "SAVED_IMAGE" + File.separator + "temp.jpg";
+    public static String TEMP_IMAGE = XSX_SAVE_IAMGE + "temp.jpg";
+    public static String TEMP_IMAGE2 = XSX_SAVE_IAMGE + "temp2.jpg";
     //  Glide缓存目录
     public static String GLIDE_CACHE = XSX_PATH + "IMAGE_CACHE" + File.separator;
     //  IM缓存目录
@@ -217,8 +218,26 @@ public class FileUtils {
         return TEMP_IMAGE;
     }
 
+    public static String getTempImage2() {
+        File file = new File(getXsxSaveIamge(), "temp2.jpg");
+        Log.d("path", XSX_SAVE_IAMGE + "temp2.jpg");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return TEMP_IMAGE2;
+    }
+
     public static File getTempImageFile() {
         File file = new File(getTempImage());
+        return file;
+    }
+
+    public static File getTempImageFile2() {
+        File file = new File(getTempImage2());
         return file;
     }
 

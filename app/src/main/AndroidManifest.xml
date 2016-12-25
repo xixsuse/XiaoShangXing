@@ -206,7 +206,7 @@
         <activity android:name=".yujian.groupchatInfo.deleteMember.DeleteMemberActivity" />
         <activity android:name=".yujian.groupchatInfo.chooseNewGroupMaster.ChooseNewGroupMasterActivity" />
         <activity android:name=".wo.setting.currency.chatBackground.ChatBackgroundActivity" />
-        <activity android:name=".wo.setting.personalinfo.TagView.TagViewActivity" />
+        <activity android:name=".wo.setting.personalinfo.tagView.TagViewActivity" />
         <activity android:name=".yujian.pearsonalTag.PeraonalTagActivity" />
         <activity android:name=".yujian.personChatInfo.PersonChatInfoActivity" />
         <activity android:name=".yujian.Schoolfellow.XiaoYouActivity" />
@@ -256,30 +256,30 @@
             android:screenOrientation="portrait"
             android:theme="@style/global_search_bg"
             android:windowSoftInputMode="stateUnspecified" />
-        <activity android:name=".wo.setting.shiming.ShenheActivity" />
-        <activity android:name=".wo.setting.shiming.shenhe.XueShengZhenActivity" />
-        <activity android:name=".wo.setting.shiming.shenhe.XueShengKaActivity" />
-        <activity android:name=".wo.setting.shiming.shenhe.TongZhiShuActivity" />
-        <activity android:name=".wo.setting.shiming.vertify.XingBieActivity" />
+        <activity android:name=".wo.setting.realName.SelectVertifyModelActivity" />
+        <activity android:name=".wo.setting.realName.shenhe.StudentIdentityCardActivity" />
+        <activity android:name=".wo.setting.realName.shenhe.StudentCardActivity" />
+        <activity android:name=".wo.setting.realName.shenhe.AdviceNoteActivity" />
+        <activity android:name=".wo.setting.realName.vertify.GenderActivity" />
         <activity
-            android:name=".wo.setting.shiming.shenhe.PreviewActivity"
+            android:name=".wo.setting.realName.shenhe.PreviewActivity"
             android:screenOrientation="landscape"></activity>
-        <activity android:name=".wo.setting.shiming.result.VertifySucessActivity" />
-        <activity android:name=".wo.setting.shiming.result.VertifyingActivity" />
+        <activity android:name=".wo.setting.realName.result.VertifySucessActivity" />
+        <activity android:name=".wo.setting.realName.result.VertifyingActivity" />
         <activity
-            android:name=".wo.setting.shiming.vertify.VertifyActivity"
+            android:name=".wo.setting.realName.vertify.VertifyActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".wo.setting.shiming.vertify.NameActivity" />
-        <activity android:name=".wo.setting.shiming.vertify.XueHaoActivity" />
-        <activity android:name=".wo.setting.shiming.vertify.YearActivity" />
-        <activity android:name=".wo.setting.shiming.vertify.XueLiActivity" />
-        <activity android:name=".wo.setting.shiming.result.VertifyFailedActivity" />
-        <activity android:name=".wo.setting.shiming.vertify.XueXiaoActivity" />
+        <activity android:name=".wo.setting.realName.vertify.NameActivity" />
+        <activity android:name=".wo.setting.realName.vertify.StudentNumActivity" />
+        <activity android:name=".wo.setting.realName.vertify.GradeActivity" />
+        <activity android:name=".wo.setting.realName.vertify.EducationBackgroundActivity" />
+        <activity android:name=".wo.setting.realName.result.VertifyFailedActivity" />
+        <activity android:name=".wo.setting.realName.vertify.SchoolActivity" />
         <activity
-            android:name=".wo.setting.shiming.vertify.XueYuanActivity"
+            android:name=".wo.setting.realName.vertify.CollegeActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
-            android:name=".wo.setting.shiming.vertify.ZhuanYeActivity"
+            android:name=".wo.setting.realName.vertify.MajorActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity
             android:name=".xiaoshang.Sale.SaleActivity"
@@ -293,11 +293,11 @@
         <activity android:name=".xiaoshang.Calendar.CalendarDetail"></activity>
         <activity android:name=".xiaoshang.Calendar.CalendarInputer.CalendarInputer"></activity>
         <activity android:name=".xiaoshang.Calendar.CalendarInput"></activity>
-        <activity android:name=".wo.setting.shiming.vertify.ApplyForSchool"></activity>
+        <activity android:name=".wo.setting.realName.chooseschool.ApplyForSchool"></activity>
         <activity android:name=".yujian.Serch.SerchPerson.SerchPersonActivity"></activity>
         <activity android:name=".wo.setting.personalinfo.showheadimg.HeadImageActivity"></activity>
         <activity android:name=".loginAndRegister.StartActivity.IndicatorActivity"></activity>
-        <activity android:name=".wo.setting.shiming.chooseschool.SerchSchoolActivity"></activity>
+        <activity android:name=".wo.setting.realName.chooseschool.SerchSchoolActivity"></activity>
     </application>
 
 </manifest>

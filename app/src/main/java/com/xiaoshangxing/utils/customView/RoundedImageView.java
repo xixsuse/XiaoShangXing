@@ -13,7 +13,6 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.xiaoshangxing.R;
-import com.xiaoshangxing.wo.setting.utils.headimg_set.RoundedDrawable;
 
 /**
  * 2016/12/14 19:10

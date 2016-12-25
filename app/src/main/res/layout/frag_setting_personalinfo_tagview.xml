@@ -65,7 +65,7 @@
         android:textColor="@color/g0"
         android:textSize="13.0sp" />
 
-    <com.xiaoshangxing.wo.setting.utils.TagView.TagListView xmlns:f="http://schemas.android.com/apk/res-auto"
+    <com.xiaoshangxing.utils.customView.TagView.TagListView xmlns:f="http://schemas.android.com/apk/res-auto"
         android:id="@+id/tagview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

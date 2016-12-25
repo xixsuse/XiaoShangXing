@@ -36,7 +36,7 @@ import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.data.bean.User;
-import com.xiaoshangxing.wo.setting.personalinfo.TagView.TagViewActivity;
+import com.xiaoshangxing.wo.setting.personalinfo.tagView.TagViewActivity;
 import com.xiaoshangxing.wo.setting.personalinfo.showheadimg.HeadImageActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
@@ -68,7 +68,8 @@ import okhttp3.ResponseBody;
 import rx.Subscriber;
 
 /**
- * Created by 15828 on 2016/7/25.
+ *modified by FengChaoQun on 2016/12/24 19:22
+ * description:优化代码
  */
 public class PersonInfoActivity extends BaseActivity implements IBaseView, ImageButtonText.OnImageButtonTextClickListener {
 

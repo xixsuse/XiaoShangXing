@@ -2,13 +2,16 @@ package com.xiaoshangxing.yujian.groupchatInfo.groupNotice;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.ResponseCode;
@@ -16,18 +19,23 @@ import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
-import com.xiaoshangxing.yujian.IM.cache.SimpleCallback;
 import com.xiaoshangxing.yujian.IM.cache.TeamDataCache;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by 15828 on 2016/8/12.
+ * modified by FengChaoQun on 2016/12/24 19:16
+ * description:优化代码
  */
 public class GroupNoticeEditActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.groupNoticeEdit_back)
@@ -40,7 +48,6 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
     private String account;
     private Team team;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +56,7 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
         finish.setEnabled(false);
         back.setOnClickListener(this);
         finish.setOnClickListener(this);
-
         parseData();
-
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -65,17 +70,15 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.toString().length() > 0) {
-                    finish.setAlpha(1);
-                    finish.setEnabled(true);
-                } else {
+                if (editText.getText().toString().equals(team.getAnnouncement())) {
                     finish.setAlpha((float) 0.5);
                     finish.setEnabled(false);
+                } else {
+                    finish.setAlpha(1);
+                    finish.setEnabled(true);
                 }
             }
         });
-
-
     }
 
     private void parseData() {
@@ -85,17 +88,20 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
             finish();
         }
 
-        TeamDataCache.getInstance().fetchTeamById(account, new SimpleCallback<Team>() {
-            @Override
-            public void onResult(boolean success, Team result) {
-                if (success) {
-                    team = result;
-                    editText.setText(result.getAnnouncement());
-                } else {
-                    showToast("获取公告失败");
-                }
+        team = TeamDataCache.getInstance().getTeamById(account);
+        if (team == null) {
+            Toast.makeText(GroupNoticeEditActivity.this, "群数据异常", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        if (!TextUtils.isEmpty(team.getAnnouncement())) {
+            try {
+                JSONObject jsonObject = new JSONObject(team.getAnnouncement());
+                editText.setText(jsonObject.getString(NS.CONTENT));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        }
     }
 
 
@@ -135,6 +141,7 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
                             @Override
                             public void onButton2() {
                                 save();
+                                dialogUtils.close();
                             }
                         }).create();
                 alertDialog.show();
@@ -144,11 +151,16 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
     }
 
     private void save() {
-        NIMClient.getService(TeamService.class).updateTeam(account, TeamFieldEnum.Announcement, editText.getText().toString()).setCallback(new RequestCallback<Void>() {
+        showLoadingDialog("正在保存");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(NS.CONTENT, editText.getText().toString());
+        jsonObject.addProperty(NS.CREATOR, TempUser.getId());
+        jsonObject.addProperty(NS.TIME, NS.currentTime());
+        NIMClient.getService(TeamService.class).updateTeam(account, TeamFieldEnum.Announcement, jsonObject.toString()).setCallback(new RequestCallback<Void>() {
             @Override
             public void onSuccess(Void param) {
-                Toast.makeText(GroupNoticeEditActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
-                finish();
+                hideLoadingDialog();
+                noticeDialog("已保存");
             }
 
             @Override
@@ -159,13 +171,28 @@ public class GroupNoticeEditActivity extends BaseActivity implements View.OnClic
                     Toast.makeText(GroupNoticeEditActivity.this, "保存失败:" + code,
                             Toast.LENGTH_SHORT).show();
                 }
+                hideLoadingDialog();
             }
 
             @Override
             public void onException(Throwable exception) {
+                hideLoadingDialog();
             }
         });
     }
 
+    public void noticeDialog(String message) {
+        DialogUtils.Dialog_No_Button dialog_no_button = new DialogUtils.Dialog_No_Button(this, message);
+        final Dialog alertDialog = dialog_no_button.create();
+        alertDialog.show();
+        DialogLocationAndSize.setWidth(alertDialog, R.dimen.x420);
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                alertDialog.dismiss();
+                finish();
+            }
+        }, 1000);
+    }
 
 }

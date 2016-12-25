@@ -12,13 +12,12 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.network.InfoNetwork;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.network.netUtil.NS;
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.bean.User;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.baseClass.IBaseView;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
@@ -34,7 +33,6 @@ import java.io.IOException;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 import okhttp3.ResponseBody;
 
 /**
@@ -124,17 +122,6 @@ public class ModifyMailBoxActivity extends BaseActivity implements IBaseView {
                                     switch (Integer.valueOf(jsonObject.getString(NS.CODE))) {
                                         case 201:
                                             showToast("邮箱解绑成功");
-                                            realm.executeTransaction(new Realm.Transaction() {
-                                                @Override
-                                                public void execute(Realm realm) {
-                                                    User user = realm.where(User.class).equalTo("id",
-                                                            (Integer) SPUtils.get(ModifyMailBoxActivity.this,
-                                                                    SPUtils.ID, SPUtils.DEFAULT_int)).findFirst();
-                                                    if (user != null) {
-                                                        user.setActiveStatus(0);
-                                                    }
-                                                }
-                                            });
                                             dialogUtils.close();
                                             finish();
                                             break;

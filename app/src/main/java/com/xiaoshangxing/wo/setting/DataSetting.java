@@ -6,7 +6,8 @@ import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
 
 /**
- * Created by 15828 on 2016/7/16.
+ *modified by FengChaoQun on 2016/12/24 18:44
+ * description:删除部分无用方法
  */
 public class DataSetting {
     /**

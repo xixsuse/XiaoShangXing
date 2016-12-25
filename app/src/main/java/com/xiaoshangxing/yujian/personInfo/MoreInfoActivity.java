@@ -26,7 +26,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by 15828 on 2016/7/25.
+ *modified by FengChaoQun on 2016/12/24 19:22
+ * description:优化代码
  */
 public class MoreInfoActivity extends BaseActivity {
     @Bind(R.id.left_image)

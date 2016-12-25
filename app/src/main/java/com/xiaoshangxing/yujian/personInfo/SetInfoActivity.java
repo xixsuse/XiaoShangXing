@@ -30,7 +30,7 @@ import com.xiaoshangxing.network.netUtil.OperateUtils;
 import com.xiaoshangxing.network.netUtil.SimpleCallBack;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.wo.setting.utils.ActionSheet;
+import com.xiaoshangxing.utils.customView.dialog.ActionSheet;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.XSXApplication;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
@@ -58,7 +58,8 @@ import okhttp3.ResponseBody;
 import rx.Subscriber;
 
 /**
- * Created by 15828 on 2016/7/25.
+ *modified by FengChaoQun on 2016/12/24 19:22
+ * description:优化代码
  */
 public class SetInfoActivity extends BaseActivity implements IBaseView {
 

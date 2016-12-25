@@ -6,9 +6,9 @@ import android.view.View;
 
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.wo.setting.privacy.blackListFragment.BlackListFragment;
-import com.xiaoshangxing.wo.setting.privacy.privacyFistFragment.PrivacyFistFragment;
+import com.xiaoshangxing.wo.setting.privacy.forbiddenListFragment.ForbiddenListFragment;
 import com.xiaoshangxing.wo.setting.privacy.privacyFragment.PrivacyFragment;
-import com.xiaoshangxing.wo.setting.privacy.privacySecondFragment.PrivacySecondFragment;
+import com.xiaoshangxing.wo.setting.privacy.shieldListFragment.ShieldListFragment;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 
 /**
@@ -39,7 +39,7 @@ public class PrivacyActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.main_fragment, new PrivacyFistFragment())
+                .replace(R.id.main_fragment, new ForbiddenListFragment())
                 .commit();
     }
 
@@ -49,7 +49,7 @@ public class PrivacyActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.main_fragment, new PrivacySecondFragment())
+                .replace(R.id.main_fragment, new ShieldListFragment())
                 .commit();
     }
 

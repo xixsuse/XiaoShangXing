@@ -3,6 +3,7 @@ package com.xiaoshangxing.wo.setting.personalinfo.personalinfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
 import com.netease.nimlib.sdk.uinfo.constant.GenderEnum;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
-import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.wo.setting.personalinfo.PersonalInfoActivity;
+import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.utils.customView.CirecleImage;
+import com.xiaoshangxing.wo.setting.personalinfo.PersonalInfoActivity;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
-
-import java.util.List;
+import com.xiaoshangxing.yujian.IM.uinfo.SelfInfoObserver;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,7 +78,7 @@ public class PersonalInfoFragment extends BaseFragment {
     private PersonalInfoActivity mActivity;
     private NimUserInfo nimUserInfo;
     private String id;
-    private Observer<List<NimUserInfo>> observer;
+    private SelfInfoObserver.SelfInfoCallback observer;
 
     @Nullable
     @Override
@@ -108,18 +105,14 @@ public class PersonalInfoFragment extends BaseFragment {
 
     private void oberverUserInfo(boolean is) {
         if (observer == null) {
-            observer = new Observer<List<NimUserInfo>>() {
+            observer = new SelfInfoObserver.SelfInfoCallback() {
                 @Override
-                public void onEvent(List<NimUserInfo> nimUserInfos) {
-                    for (NimUserInfo userInfo : nimUserInfos) {
-                        if (userInfo.getAccount().equals(String.valueOf(TempUser.id))) {
-                            initInfo();
-                        }
-                    }
+                public void onCallback(NimUserInfo userInfo) {
+                    initInfo();
                 }
             };
         }
-        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(observer, is);
+        SelfInfoObserver.getInstance().registerObserver(observer, is);
     }
 
     private void initInfo() {
@@ -139,15 +132,17 @@ public class PersonalInfoFragment extends BaseFragment {
 
         UserInfoCache.getInstance().getExIntoTextview(id, NS.HOMETOWN, personinfoHometown, "未填写");
         UserInfoCache.getInstance().getHeadIntoImage(id, settingPersoninfoHeadView);
-
-        if (nimUserInfo.getExtensionMap() == null) {
-            personinfoHometown.setText("未填写");
-        } else {
-            String homeString = String.valueOf(nimUserInfo.getExtensionMap().get(NS.HOMETOWN));
-            if (TextUtils.isEmpty(homeString) || homeString.equals("null")) {
-                personinfoHometown.setText("未填写");
-            }
-        }
+//        Log.d("homeString", "" + nimUserInfo.getExtensionMap());
+//        if (nimUserInfo.getExtensionMap() == null) {
+//            Log.d("homeString", "null");
+//            personinfoHometown.setText("未填写");
+//        } else {
+//            String homeString = String.valueOf(nimUserInfo.getExtensionMap().get(NS.HOMETOWN));
+//            Log.d("homeString", "" + homeString);
+//            if (TextUtils.isEmpty(homeString) || homeString.equals("null")) {
+//                personinfoHometown.setText("未填写");
+//            }
+//        }
 
         if (!TextUtils.isEmpty(nimUserInfo.getSignature()) && !nimUserInfo.getSignature().equals("null")) {
             signature.setVisibility(View.GONE);

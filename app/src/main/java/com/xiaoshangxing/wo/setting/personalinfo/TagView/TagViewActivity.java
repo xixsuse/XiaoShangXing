@@ -1,4 +1,4 @@
-package com.xiaoshangxing.wo.setting.personalinfo.TagView;
+package com.xiaoshangxing.wo.setting.personalinfo.tagView;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -17,9 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.network.InfoNetwork;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
@@ -27,13 +24,14 @@ import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.network.netUtil.NS;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.wo.setting.utils.TagView.Tag;
-import com.xiaoshangxing.wo.setting.utils.TagView.TagListView;
+import com.xiaoshangxing.utils.customView.TagView.Tag;
+import com.xiaoshangxing.utils.customView.TagView.TagListView;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.baseClass.IBaseView;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
+import com.xiaoshangxing.yujian.IM.uinfo.SelfInfoObserver;
 
 import org.json.JSONObject;
 
@@ -78,7 +76,7 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
     private boolean flag = false;
     private boolean isbacked = false;
     private NimUserInfo user;
-    private Observer<List<NimUserInfo>> observer;
+    private SelfInfoObserver.SelfInfoCallback observer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,19 +162,15 @@ public class TagViewActivity extends BaseActivity implements View.OnClickListene
 
     private void oberverUserInfo(boolean is) {
         if (observer == null) {
-            observer = new Observer<List<NimUserInfo>>() {
+            observer = new SelfInfoObserver.SelfInfoCallback() {
                 @Override
-                public void onEvent(List<NimUserInfo> nimUserInfos) {
-                    for (NimUserInfo userInfo : nimUserInfos) {
-                        if (userInfo.getAccount().equals(String.valueOf(TempUser.id))) {
-                            user = userInfo;
-                            refreshList();
-                        }
-                    }
+                public void onCallback(NimUserInfo userInfo) {
+                    user = userInfo;
+                    refreshList();
                 }
             };
         }
-        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(observer, is);
+        SelfInfoObserver.getInstance().registerObserver(observer, is);
     }
 
 

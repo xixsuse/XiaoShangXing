@@ -5,11 +5,14 @@ package com.xiaoshangxing.utils.imageUtils;
  * on 2016/7/15
  */
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -18,8 +21,8 @@ import com.netease.nimlib.sdk.msg.attachment.ImageAttachment;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.xiaoshangxing.utils.AppContracts;
 import com.xiaoshangxing.utils.normalUtils.FileUtils;
+import com.xiaoshangxing.wo.setting.personalinfo.showheadimg.ShowHeadimgFragment;
 import com.xiaoshangxing.yujian.IM.kit.file.AttachmentStore;
-import com.xiaoshangxing.yujian.IM.kit.storage.StorageUtil;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -112,13 +115,7 @@ public class ImageFactory {
             return;
         }
 
-        String srcFilename = attachment.getFileName();
-        //默认jpg
-        String extension = TextUtils.isEmpty(attachment.getExtension()) ? "jpg" : attachment.getExtension();
-        srcFilename += ("." + extension);
-
-        String picPath = StorageUtil.getSystemImagePath();
-        String dstPath =/* picPath + srcFilename*/FileUtils.newImageFile().getAbsolutePath();
+        String dstPath = FileUtils.newImageFile().getAbsolutePath();
         if (AttachmentStore.copy(path, dstPath) != -1) {
             try {
                 ContentValues values = new ContentValues(2);
@@ -127,7 +124,6 @@ public class ImageFactory {
                 context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                 Toast.makeText(context, "图片已保存到手机" + FileUtils.getXsxSaveIamge() + "文件夹下", Toast.LENGTH_LONG).show();
             } catch (Exception e) {
-                // may be java.lang.UnsupportedOperationException
                 Toast.makeText(context, "图片保存失败", Toast.LENGTH_LONG).show();
             }
         } else {
@@ -265,5 +261,53 @@ public class ImageFactory {
                 file.delete();
             }
         }
+    }
+
+    /**
+     * 裁剪图片
+     */
+    public static void cutPhoto(Activity activity, Uri uri, boolean isHeadPic, int width, int height) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        // 下面这个crop=true是设置在开启的Intent中设置显示的VIEW可裁剪
+        intent.putExtra("crop", "true");
+        if (isHeadPic) {
+            // aspectX aspectY 是宽高的比例
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            // outputX outputY 是裁剪图片宽高
+            intent.putExtra("outputX", 500);
+            intent.putExtra("outputY", 500);
+
+            intent.putExtra("scale", true);
+            //只能设置成false，k920无法返回
+            intent.putExtra("return-data", false);
+            intent.putExtra("circleCrop", true);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtil.getHeadPhotoFileTemp()));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtils.getTempImageFile2()));
+            intent.putExtra("*+---", Bitmap.CompressFormat.PNG.toString());
+//            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+            intent.putExtra("noFaceDetection", true);
+        } else {
+            // 是否保留比例
+//            intent.putExtra("scale", "true");
+//            intent.putExtra("output", Uri.fromFile(FileUtil.getWallPaperFile()));
+            intent.putExtra("aspectX", width / 10);
+            intent.putExtra("aspectY", height / 10);
+            // outputX outputY 是裁剪图片宽高
+            intent.putExtra("outputX", width);
+            intent.putExtra("outputY", height);
+
+            intent.putExtra("scale", true);
+            //只能设置成false，k920无法返回
+            intent.putExtra("return-data", false);
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtil.getHeadPhotoFileTemp()));
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(FileUtils.getTempImageFile2()));
+            intent.putExtra("*+---", Bitmap.CompressFormat.PNG.toString());
+            intent.putExtra("noFaceDetection", true);
+
+
+        }
+        activity.startActivityForResult(intent, ShowHeadimgFragment.ACTIVITY_MODIFY_PHOTO_REQUESTCODE);
     }
 }

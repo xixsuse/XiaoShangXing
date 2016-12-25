@@ -15,22 +15,13 @@ import android.widget.TextView;
 
 import com.google.gson.JsonObject;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
 import com.xiaoshangxing.network.InfoNetwork;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.network.netUtil.AppNetUtil;
 import com.xiaoshangxing.network.netUtil.NS;
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.wo.setting.about.AboutActivity;
-import com.xiaoshangxing.wo.setting.currency.CurrencyActivity;
-import com.xiaoshangxing.wo.setting.mailboxbind.MailBoxBindActivity;
-import com.xiaoshangxing.wo.setting.mailboxbind.ModifyMailBoxActivity;
-import com.xiaoshangxing.wo.setting.modifypassword.ModifyPassWordActivity;
-import com.xiaoshangxing.wo.setting.newNotice.NewNoticeActivity;
-import com.xiaoshangxing.wo.setting.personalinfo.PersonalInfoActivity;
-import com.xiaoshangxing.wo.setting.privacy.PrivacyActivity;
-import com.xiaoshangxing.wo.setting.utils.ActionSheet;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.utils.baseClass.IBaseView;
@@ -39,7 +30,17 @@ import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
 import com.xiaoshangxing.utils.imageUtils.MyGlide;
 import com.xiaoshangxing.utils.normalUtils.SPUtils;
+import com.xiaoshangxing.wo.setting.about.AboutActivity;
+import com.xiaoshangxing.wo.setting.currency.CurrencyActivity;
+import com.xiaoshangxing.wo.setting.mailboxbind.MailBoxBindActivity;
+import com.xiaoshangxing.wo.setting.mailboxbind.ModifyMailBoxActivity;
+import com.xiaoshangxing.wo.setting.modifypassword.ModifyPassWordActivity;
+import com.xiaoshangxing.wo.setting.newNotice.NewNoticeActivity;
+import com.xiaoshangxing.wo.setting.personalinfo.PersonalInfoActivity;
+import com.xiaoshangxing.wo.setting.privacy.PrivacyActivity;
+import com.xiaoshangxing.utils.customView.dialog.ActionSheet;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
+import com.xiaoshangxing.yujian.IM.uinfo.SelfInfoObserver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,6 +87,7 @@ public class SettingActivity extends BaseActivity implements IBaseView {
     private boolean bindEmail;
     private NimUserInfo nimUserInfo;
     private String id;
+    private SelfInfoObserver.SelfInfoCallback selfInfoCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,28 +95,7 @@ public class SettingActivity extends BaseActivity implements IBaseView {
         setContentView(R.layout.activity_setting_setmain);
         ButterKnife.bind(this);
         initView();
-    }
-
-    private void initView() {
-        imgCover = (CirecleImage) findViewById(R.id.setting_main_imag);
-        iBaseView = this;
-        id = String.valueOf(TempUser.id);
-        nimUserInfo = NimUserInfoCache.getInstance().getUserInfo(id);
-        if (nimUserInfo == null) {
-            showToast("账号异常");
-            return;
-        }
-        MyGlide.with_default_head(this, nimUserInfo.getAvatar(), imgCover);
-        if (nimUserInfo.getExtension() != null && nimUserInfo.getExtension().contains("activeStatus")) {
-            bindEmail = (int) nimUserInfo.getExtensionMap().get("activeStatus") == 1;
-            Log.d("activeStatus", "" + bindEmail);
-        }
-
-        bindEmailStaet.setText(bindEmail ? "已绑定" : "未绑定");
-        name.setText(nimUserInfo.getName());
-
-        title.setText("设置");
-        more.setVisibility(View.GONE);
+        registerSelfInfoCallback(true);
     }
 
     @Override
@@ -126,6 +107,46 @@ public class SettingActivity extends BaseActivity implements IBaseView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        registerSelfInfoCallback(false);
+    }
+
+    private void initView() {
+        imgCover = (CirecleImage) findViewById(R.id.setting_main_imag);
+        iBaseView = this;
+        id = String.valueOf(TempUser.id);
+        nimUserInfo = NimUserInfoCache.getInstance().getUserInfo(id);
+        if (nimUserInfo == null) {
+            showToast("账号异常");
+            return;
+        }
+        title.setText("设置");
+        more.setVisibility(View.GONE);
+        refreshView();
+    }
+
+
+    private void refreshView() {
+        MyGlide.with_default_head(this, nimUserInfo.getAvatar(), imgCover);
+        if (nimUserInfo.getExtension() != null && nimUserInfo.getExtension().contains("activeStatus")) {
+            bindEmail = (int) nimUserInfo.getExtensionMap().get("activeStatus") == 1;
+            Log.d("activeStatus", "" + bindEmail);
+        }
+
+        bindEmailStaet.setText(bindEmail ? "已绑定" : "未绑定");
+        name.setText(nimUserInfo.getName());
+    }
+
+    private void registerSelfInfoCallback(boolean is) {
+        if (selfInfoCallback == null) {
+            selfInfoCallback = new SelfInfoObserver.SelfInfoCallback() {
+                @Override
+                public void onCallback(NimUserInfo userInfo) {
+                    nimUserInfo = userInfo;
+                    refreshView();
+                }
+            };
+        }
+        SelfInfoObserver.getInstance().registerObserver(selfInfoCallback, is);
     }
 
     @Override

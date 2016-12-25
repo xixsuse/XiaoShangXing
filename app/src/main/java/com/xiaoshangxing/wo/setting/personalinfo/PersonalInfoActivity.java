@@ -3,21 +3,20 @@ package com.xiaoshangxing.wo.setting.personalinfo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.View;
 
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.wo.setting.personalinfo.MyCode.MyCodeFragment;
-import com.xiaoshangxing.wo.setting.personalinfo.QianMing.QianMingFragment;
-import com.xiaoshangxing.wo.setting.personalinfo.TagView.TagViewActivity;
+import com.xiaoshangxing.wo.setting.personalinfo.myCode.MyCodeFragment;
+import com.xiaoshangxing.wo.setting.personalinfo.signature.signatureFragment;
+import com.xiaoshangxing.wo.setting.personalinfo.tagView.TagViewActivity;
 import com.xiaoshangxing.wo.setting.personalinfo.hometown.HometownFragment;
 import com.xiaoshangxing.wo.setting.personalinfo.personalinfo.PersonalInfoFragment;
 import com.xiaoshangxing.wo.setting.personalinfo.showheadimg.ShowHeadimgFragment;
-import com.xiaoshangxing.wo.setting.shiming.result.VertifySucessActivity;
-import com.xiaoshangxing.wo.setting.shiming.result.VertifyingActivity;
-import com.xiaoshangxing.wo.setting.shiming.shenhe.XueShengZhenActivity;
+import com.xiaoshangxing.wo.setting.realName.result.VertifySucessActivity;
+import com.xiaoshangxing.wo.setting.realName.result.VertifyingActivity;
+import com.xiaoshangxing.wo.setting.realName.shenhe.StudentIdentityCardActivity;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseActivity;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
@@ -78,7 +77,7 @@ public class PersonalInfoActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right,
                         R.anim.slide_in_left, R.anim.slide_out_left)
                 .addToBackStack(null)
-                .replace(R.id.main_fragment, new QianMingFragment())
+                .replace(R.id.main_fragment, new signatureFragment())
                 .commit();
     }
 
@@ -93,7 +92,7 @@ public class PersonalInfoActivity extends BaseActivity {
         if (nimUserInfo.getExtensionMap().get("isActive") != null) {
             switch ((int) nimUserInfo.getExtensionMap().get("isActive")) {
                 case 0:
-                    startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
+                    startActivity(new Intent(PersonalInfoActivity.this, StudentIdentityCardActivity.class));
                     break;
                 case 1:
                     startActivity(new Intent(PersonalInfoActivity.this, VertifySucessActivity.class));
@@ -104,7 +103,7 @@ public class PersonalInfoActivity extends BaseActivity {
 //                    startActivity(new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class));
                     break;
                 case 3:
-                    Intent intent = new Intent(PersonalInfoActivity.this, XueShengZhenActivity.class);
+                    Intent intent = new Intent(PersonalInfoActivity.this, StudentIdentityCardActivity.class);
                     intent.putExtra(IntentStatic.TYPE, true);
                     startActivity(intent);
                     break;

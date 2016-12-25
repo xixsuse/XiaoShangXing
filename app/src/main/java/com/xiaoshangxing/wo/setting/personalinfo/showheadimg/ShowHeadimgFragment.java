@@ -16,35 +16,30 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.uinfo.UserServiceObserve;
 import com.netease.nimlib.sdk.uinfo.model.NimUserInfo;
+import com.xiaoshangxing.R;
+import com.xiaoshangxing.data.TempUser;
+import com.xiaoshangxing.data.UserInfoCache;
 import com.xiaoshangxing.network.InfoNetwork;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubsciber;
 import com.xiaoshangxing.network.ProgressSubscriber.ProgressSubscriberOnNext;
 import com.xiaoshangxing.network.netUtil.NS;
-import com.xiaoshangxing.R;
-import com.xiaoshangxing.data.TempUser;
-import com.xiaoshangxing.data.UserInfoCache;
-import com.xiaoshangxing.wo.setting.personalinfo.PersonalInfoActivity;
-import com.xiaoshangxing.wo.setting.utils.ActionSheet;
-import com.xiaoshangxing.wo.setting.utils.headimg_set.CommonUtils;
-import com.xiaoshangxing.wo.setting.utils.headimg_set.FileUtil;
-import com.xiaoshangxing.wo.setting.utils.headimg_set.ToastUtils;
 import com.xiaoshangxing.utils.IntentStatic;
 import com.xiaoshangxing.utils.baseClass.BaseFragment;
 import com.xiaoshangxing.utils.baseClass.IBaseView;
+import com.xiaoshangxing.utils.imageUtils.ImageFactory;
 import com.xiaoshangxing.utils.imageUtils.SaveImageTask;
 import com.xiaoshangxing.utils.normalUtils.FileUtils;
+import com.xiaoshangxing.wo.setting.personalinfo.PersonalInfoActivity;
+import com.xiaoshangxing.utils.customView.dialog.ActionSheet;
 import com.xiaoshangxing.yujian.IM.cache.NimUserInfoCache;
+import com.xiaoshangxing.yujian.IM.uinfo.SelfInfoObserver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 import butterknife.Bind;
@@ -83,7 +78,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     private ActionSheet mActionSheet;
     private PersonalInfoActivity mActivity;
     private IBaseView iBaseView = this;
-    private Observer<List<NimUserInfo>> observer;
+    private SelfInfoObserver.SelfInfoCallback observer;
 
     @Override
     public void setmPresenter(@Nullable Object presenter) {
@@ -108,18 +103,14 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
 
     private void oberverUserInfo(boolean is) {
         if (observer == null) {
-            observer = new Observer<List<NimUserInfo>>() {
+            observer = new SelfInfoObserver.SelfInfoCallback() {
                 @Override
-                public void onEvent(List<NimUserInfo> nimUserInfos) {
-                    for (NimUserInfo userInfo : nimUserInfos) {
-                        if (userInfo.getAccount().equals(String.valueOf(TempUser.id))) {
-                            initHead();
-                        }
-                    }
+                public void onCallback(NimUserInfo userInfo) {
+                    initHead();
                 }
             };
         }
-        NIMClient.getService(UserServiceObserve.class).observeUserInfoUpdate(observer, is);
+        SelfInfoObserver.getInstance().registerObserver(observer, is);
     }
 
     private void showMenu() {
@@ -156,7 +147,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void photo() {
-        IntentStatic.openCamera(getActivity(), Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), ACTIVITY_CAMERA_REQUESTCODE);
+        IntentStatic.openCamera(getActivity(), Uri.fromFile(FileUtils.getTempImageFile()), ACTIVITY_CAMERA_REQUESTCODE);
     }
 
     private void album() {
@@ -171,16 +162,16 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
             case ACTIVITY_ALBUM_REQUESTCODE:
                 if (resultCode == Activity.RESULT_OK) {
                     if (data.getData() == null) {
-                        ToastUtils.toast(getActivity(), getString(R.string.pic_not_valid));
+                        showToast(getString(R.string.pic_not_valid));
                         return;
                     }
-                    CommonUtils.cutPhoto(getActivity(), data.getData(), true,
+                    ImageFactory.cutPhoto(getActivity(), data.getData(), true,
                             mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
                 }
                 break;
             case ACTIVITY_CAMERA_REQUESTCODE:
                 if (resultCode == Activity.RESULT_OK) {
-                    CommonUtils.cutPhoto(getActivity(), Uri.fromFile(FileUtil.getHeadPhotoFileRaw()), true,
+                    ImageFactory.cutPhoto(getActivity(), Uri.fromFile(FileUtils.getTempImageFile()), true,
                             mActivity.getImagCoverWidth(), mActivity.getImagCoverHeight());
                 }
                 break;
@@ -190,7 +181,7 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
-                String coverPath = FileUtil.getHeadPhotoDir() + FileUtil.HEADPHOTO_NAME_TEMP;
+                String coverPath = FileUtils.getTempImage2();
 
                 ProgressSubscriberOnNext<ResponseBody> onNext = new ProgressSubscriberOnNext<ResponseBody>() {
                     @Override
@@ -199,7 +190,6 @@ public class ShowHeadimgFragment extends BaseFragment implements View.OnClickLis
                             JSONObject jsonObject = new JSONObject(e.string());
                             if (jsonObject.getString(NS.CODE).equals("200")) {
                                 showToast("头像修改成功");
-                                FileUtil.deleteTempAndRaw();
                                 initHead();
                                 File file = new File(FileUtils.getTempImage());
                                 file.delete();

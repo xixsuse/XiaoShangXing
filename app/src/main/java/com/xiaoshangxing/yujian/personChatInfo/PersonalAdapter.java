@@ -22,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tianyang on 2016/8/22.
+ *modified by FengChaoQun on 2016/12/24 19:21
+ * description:优化代码
  */
 public class PersonalAdapter extends BaseAdapter {
     List<Member> data;

@@ -3,6 +3,7 @@ package com.xiaoshangxing.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 import com.xiaoshangxing.R;
 import com.xiaoshangxing.utils.customView.dialog.DialogLocationAndSize;
 import com.xiaoshangxing.utils.customView.dialog.DialogUtils;
-import com.xiaoshangxing.wo.setting.utils.headimg_set.CommonUtils;
 
 /**
  * Created by FengChaoQun
@@ -52,7 +52,7 @@ public class IntentStatic {
      */
 
     public static void openCamera(Activity activity, Uri came_photo_path, int requestCode) {
-        if (CommonUtils.isExistCamera(activity)) {
+        if (isExistCamera(activity)) {
             if (Build.VERSION.SDK_INT >= 23) {
                 int checkCallPhonePermission = ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
                 if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED) {
@@ -72,6 +72,17 @@ public class IntentStatic {
                     "卧槽,没找到你手机上的相机你敢信?!",
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * 检测相机是否存在 s
+     */
+    public static boolean isExistCamera(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        if (packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+            return true;
+        }
+        return false;
     }
 
     /**

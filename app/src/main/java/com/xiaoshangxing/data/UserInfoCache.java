@@ -251,7 +251,7 @@ public class UserInfoCache {
                 public void onEvent(List<NimUserInfo> nimUserInfos) {
                     for (NimUserInfo userInfo : nimUserInfos) {
                         if (userInfo.getAccount().equals(String.valueOf(TempUser.id))) {
-                            if (((Integer) userInfo.getExtensionMap().get("isActive")).equals(1)) {
+                            if ((userInfo.getExtensionMap().get("isActive")).equals(1)) {
                                 TempUser.isRealName = true;
                                 SPUtils.put(XSXApplication.getInstance(), SPUtils.IS_REAL_NAME, true);
                             } else {
